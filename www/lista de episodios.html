@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Lista de Episodios - Dragon Ball Daima</title>
+
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* Fondo negro */
+            color: white; /* Texto blanco */
+            margin: 0;
+            padding: 20px;
+        }
+        .season {
+            margin-bottom: 40px;
+        }
+        .season-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #FFDD00; /* Color dorado para el título de temporada */
+        }
+        .episode-list {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .episode-item {
+            background-color: #333; /* Fondo gris oscuro para cada episodio */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin: 10px 0;
+            padding: 10px;
+            width: 320px;
+            text-align: center;
+        }
+        .episode-item img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .episode-item a {
+            text-decoration: none;
+            color: #1a73e8;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .episode-item a:hover {
+            text-decoration: underline;
+        }
+        /* Contenedor del video ajustado para dispositivos móviles */
+        #video-container {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    background-color: #000 !important; /* Fondo oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+        /* Botón de transmitir */
+        .cast-button {
+            background-color: #FFDD00;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .cast-button:hover {
+            background-color: #FFB900;
+        }
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <h1>Lista de Episodios - Dragon Ball Daima</h1>
+
+    <!-- Contenedor para Video.js -->
+    <div id="video-container">
+        <video id="my-video" class="video-js vjs-default-skin" controls preload="auto">
+            <source id="videoSource" src="https://od.lk/s/M18zMDk3NjQ5NTlf/Dragon%20Ball%20Daima%20Episodio%201.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+
+    <div id="season-list"></div>
+
+    <a href="#" 
+       class="cast-button"
+       onclick="window.location.href='wvc-x-callback://open?url=https://tupagina.com/episodios.html'">
+       Transmitir a Web Video Caster
+    </a>
+
+    <!-- Video.js JS -->
+    <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
+
+    <script>
+         const playlist = {
+    "seasons": [
+        {
+            "season_title": "T1: Dragon Ball Daima",
+            "episodes": [
+        
+            {
+        "title": "E1 - La conspiración",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/c750799082deb6a87ded21b117684ca6.jpg",
+        "video_url": "https://od.lk/s/M18zMDk3NjQ5NTlf/Dragon%20Ball%20Daima%20Episodio%201.mp4",
+        "download_link": "https://od.lk/d/M18zMDk3NjQ5NTlf/Dragon%20Ball%20Daima%20Episodio%201.mp4",
+        "duration": "32m"
+    },
+    {
+        "title": "E2 - Glorio",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/5c008ad722a08ff67a03da61c763e0ce.jpg",
+        "video_url": "https://od.lk/s/M18zMDk3NjQ5NTBf/Dragon%20Ball%20Daima%20Episodio%202.mp4",
+        "download_link": "https://od.lk/d/M18zMDk3NjQ5NTBf/Dragon%20Ball%20Daima%20Episodio%202.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E3 - Daima",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/cd3e5a3d0b1576a58bbaa263fc58dc1e.jpg",
+        "video_url": "https://od.lk/s/M18zMDk3OTkyOTdf/Dragon%20Ball%20Daima%20Episodio%203.mp4",
+        "download_link": "https://od.lk/d/M18zMDk3OTkyOTdf/Dragon%20Ball%20Daima%20Episodio%203.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E4 - Conversadores",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/e93df1712febd0ea52d1e0b41b46dd80.jpg",
+        "video_url": "https://od.lk/s/M18zMTAxMTgyODRf/Dragon%20Ball%20Daima%20Episodio%204.mp4",
+        "download_link": "https://od.lk/d/M18zMTAxMTgyODRf/Dragon%20Ball%20Daima%20Episodio%204.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E5 - Panzy",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/e8cea564d06dfb3068b59ee81bfa2e4f.jpg",
+        "video_url": "https://od.lk/s/M18zMTAzMDY1MzNf/Dragon%20Ball%20Daima%20Episodio%205.mp4",
+        "download_link": "https://od.lk/d/M18zMTAzMDY1MzNf/Dragon%20Ball%20Daima%20Episodio%205.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E6 - Relámpago",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/d4f3b7d1dde8e6dc661f87e3622ebb6f.jpg",
+        "video_url": "https://od.lk/s/M18zMTA0MzI0Nzlf/Dragon%20Ball%20Daima%20Episodio%206.mp4",
+        "download_link": "https://od.lk/d/M18zMTA0MzI0Nzlf/Dragon%20Ball%20Daima%20Episodio%206.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E7 - Collar",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/31e33e4b6d3d2c585ef478d40ac1001e.jpg",
+        "video_url": "https://od.lk/s/M18zMTA3OTgwMzNf/Dragon%20Ball%20Daima%20Episodio%207.mp4",
+        "download_link": "https://od.lk/d/M18zMTA3OTgwMzNf/Dragon%20Ball%20Daima%20Episodio%207.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E8 - Tamagami",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/10c92080767edcbe212570e2a801fd50.jpg",
+        "video_url": "https://od.lk/s/M18zMTA3OTc2ODJf/Dragon%20Ball%20Daima%20Episodio%208.mp4",
+        "download_link": "https://od.lk/d/M18zMTA3OTc2ODJf/Dragon%20Ball%20Daima%20Episodio%208.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E9 - Ladrones",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/5b828e9c26be6db3a8ca4121d2a522f7.jpg",
+        "video_url": "https://od.lk/s/M18zMTE3NDkzMjJf/Dragon%20Ball%20Daima%20Episodio%209.mp4",
+        "download_link": "https://od.lk/d/M18zMTE3NDkzMjJf/Dragon%20Ball%20Daima%20Episodio%209.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E10 - Océano",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/c5993c044460a69bc63176113609962b.jpg",
+        "video_url": "https://od.lk/s/M18zMTE5MzI2MDlf/Dragon%20Ball%20Daima%20Episodio%2010.mp4",
+        "download_link": "https://od.lk/d/M18zMTE5MzI2MDlf/Dragon%20Ball%20Daima%20Episodio%2010.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E11 - Leyenda",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/f3f4fe392296c4fc23c6f5bfd731c6c8.jpg",
+        "video_url": "https://od.lk/s/M18zMTIwMDg3NDdf/Dragon%20Ball%20Daima%20Episodio%2011.mp4",
+        "download_link": "https://od.lk/d/M18zMTIwMDg3NDdf/Dragon%20Ball%20Daima%20Episodio%2011.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E12 - Verdadera fuerza",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/9b70eec9c296d5f79724880cb6ebf851.jpg",
+        "video_url": "https://od.lk/s/M18zMTIxMTgzODVf/Dragon%20Ball%20Daima%20episodio%2012.mp4",
+        "download_link": "https://od.lk/d/M18zMTIxMTgzODVf/Dragon%20Ball%20Daima%20episodio%2012.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E13 - Sorpresa",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/4f9fd5186ea16febf5eb0a9a8117838e.jpg",
+        "video_url": "https://od.lk/s/M18zMTIzMTc1MjFf/Dragon%20Ball%20Daima%20Episodio%2013.mp4",
+        "download_link": "https://od.lk/d/M18zMTIzMTc1MjFf/Dragon%20Ball%20Daima%20Episodio%2013.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E14 - Tabú",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/4dc065e33bff32c1f7a95b3849452fe2.jpg",
+        "video_url": "https://od.lk/s/M18zMTI0MTUzMDlf/Dragon%20Ball%20Daima%20Episodio%2014.mp4",
+        "download_link": "https://od.lk/d/M18zMTI0MTUzMDlf/Dragon%20Ball%20Daima%20Episodio%2014.mp4",
+        "duration": "23m"
+    }
+           
+            ]
+        }
+    ]
+};
+        // Inicializar Video.js
+        var player = videojs('my-video');
+
+        function mostrarEpisodios() {
+            var seasonList = document.getElementById('season-list');
+            playlist.seasons.forEach(function(season) {
+                var seasonElement = document.createElement('div');
+                seasonElement.classList.add('season');
+                
+                var seasonTitle = document.createElement('h2');
+                seasonTitle.classList.add('season-title');
+                seasonTitle.textContent = season.season_title;
+                seasonElement.appendChild(seasonTitle);
+                
+                var episodeList = document.createElement('div');
+                episodeList.classList.add('episode-list');
+                
+                season.episodes.forEach(function(episode) {
+                    var episodeItem = document.createElement('div');
+                    episodeItem.classList.add('episode-item');
+                    
+                    var episodeImage = document.createElement('img');
+                    episodeImage.src = episode.image;
+                    episodeItem.appendChild(episodeImage);
+                    
+                    var episodeTitle = document.createElement('h3');
+                    episodeTitle.textContent = episode.title;
+                    episodeItem.appendChild(episodeTitle);
+                    
+                    var episodeLink = document.createElement('a');
+                    episodeLink.href = '#'; // Previene abrir el enlace directamente
+                    episodeLink.textContent = "Ver episodio";
+                    
+                    // Al hacer clic en el enlace, actualizar el reproductor Video.js
+                    episodeLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        player.src({ type: 'video/mp4', src: episode.video_url });
+                        player.play();
+                    });
+                    
+                    episodeItem.appendChild(episodeLink);
+                    episodeList.appendChild(episodeItem);
+                });
+                
+                seasonElement.appendChild(episodeList);
+                seasonList.appendChild(seasonElement);
+            });
+        }
+
+        mostrarEpisodios();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Mobile Suit Gundam Wing</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/bhUuQTkKaoyS1GjLu9hk6XHuS64.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/J3hnhYCDnFlWocuAo49Hm7UZ9u.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Mobile Suit Gundam Wing</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/fh9aeBfpZfx1gLDoqqkJf9XZUiE.png" alt="Mobile Suit Gundam Wing Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;1995&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Mobile Suit Gundam Wing" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/5YJ3zHZJsnTGtM5WXRVgkLq9rTE.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Mobile Suit Gundam Wing.html"></a>
+          <span id="nombre">Mobile Suit Gundam Wing (1995)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Cinco pilotos, cinco Gundams. En un futuro de guerra entre la Tierra y las colonias espaciales, jóvenes luchan por la
+        libertad en una batalla que definirá el destino del mundo.      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="evangelion.html">
+          <img src="https://image.tmdb.org/t/p/original/hAejqZt7ptBRkYuR1p1lmGGS3g8.jpg" alt="Neon Genesis Evangelion (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Neon Genesis Evangelion (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDI3ODY4MDNf/gundam-wing-01.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Mobile Suit Gundam Wing</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: El meteoro que vio la chica</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "gundam-wing";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: El meteoro que vio la chica",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//iYIgOGqFYUTS8LWweCtbfkQsY9U.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODY4MDNf/gundam-wing-01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODY4MDNf/gundam-wing-01.mp4",
+    "episodeCode": "T1 E1: El meteoro que vio la chica",
+    "hiddenCode": "T1 E1",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E2: El Gundam apodado Dios de la Muerte",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//rxEIQRXmDE6f8QHG6CTXHtoFc1K.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODY5MDlf/gundam-wing-02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODY5MDlf/gundam-wing-02.mp4",
+    "episodeCode": "T1 E2: El Gundam apodado Dios de la Muerte",
+    "hiddenCode": "T1 E2",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E3: Cinco Gundams confirmados",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//scj6FX3gIDN2k6xoCatVsGD1Bdc.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODY5NTBf/gundam-wing-03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODY5NTBf/gundam-wing-03.mp4",
+    "episodeCode": "T1 E3: Cinco Gundams confirmados",
+    "hiddenCode": "T1 E3",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E4: Pesadilla en el Victoria",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//x9Xz08yyLCTeziPNXtgrh4P2GOO.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODY5Njlf/gundam-wing-04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODY5Njlf/gundam-wing-04.mp4",
+    "episodeCode": "T1 E4: Pesadilla en el Victoria",
+    "hiddenCode": "T1 E4",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E5: El secreto de Relena",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//919D4Q4rtBHrEt2wfi9fqfBEREF.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODcwMTdf/gundam-wing-05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODcwMTdf/gundam-wing-05.mp4",
+    "episodeCode": "T1 E5: El secreto de Relena",
+    "hiddenCode": "T1 E5",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E6: Noche de fiesta",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//10nngSGHzd9W1iHbZopLPTl4Tod.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODcwNjhf/gundam-wing-06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODcwNjhf/gundam-wing-06.mp4",
+    "episodeCode": "T1 E6: Noche de fiesta",
+    "hiddenCode": "T1 E6",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E7: Guion para una matanza",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//uVa7JJgTJisDk8d1zYGIA5mGnYH.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODcxMjRf/gundam-wing-07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODcxMjRf/gundam-wing-07.mp4",
+    "episodeCode": "T1 E7: Guion para una matanza",
+    "hiddenCode": "T1 E7",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E8: El asesinato de Treize",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//2qyhCrA8EAAv2n9BWTSQEUYZUSH.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODcxNzBf/gundam-wing-08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODcxNzBf/gundam-wing-08.mp4",
+    "episodeCode": "T1 E8: El asesinato de Treize",
+    "hiddenCode": "T1 E8",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E9: El retrato de un país en ruinas",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//6LuDaYtbqlr1rb5LlsltxWmx2bI.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODcyMDRf/gundam-wing-09.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODcyMDRf/gundam-wing-09.mp4",
+    "episodeCode": "T1 E9: El retrato de un país en ruinas",
+    "hiddenCode": "T1 E9",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+    "title": "E10: El desplome cegador de Heero",
+    "meta": "13+ · 25m · 1995",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//u32SXIx1Lw9UNZmbo5t5cdzZTLX.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODcyMzFf/gundam-wing-10.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODcyMzFf/gundam-wing-10.mp4",
+    "episodeCode": "T1 E10: El desplome cegador de Heero",
+    "hiddenCode": "T1 E10",
+    "intro": {
+      "start": 5,
+      "end": 80
+    }
+  },
+  {
+  "title": "E11: Donde yace la felicidad",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//tW1vWAF0SzLKRQ1UB3W2OOCHiUn.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODcyNzRf/gundam-wing-11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODcyNzRf/gundam-wing-11.mp4",
+  "episodeCode": "T1 E11: Donde yace la felicidad",
+  "hiddenCode": "T1 E11",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E12: Guerreros descarriados",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//qBwn0DB7X1q9K8Okd6fPdhkl2yz.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODczMTRf/gundam-wing-12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODczMTRf/gundam-wing-12.mp4",
+  "episodeCode": "T1 E12: Guerreros descarriados",
+  "hiddenCode": "T1 E12",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E13: Las lágrimas de Catherine",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//hzXugNmjOL4RzfL320uQ02fs9tr.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODczNzVf/gundam-wing-13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODczNzVf/gundam-wing-13.mp4",
+  "episodeCode": "T1 E13: Las lágrimas de Catherine",
+  "hiddenCode": "T1 E13",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E14: Órdenes de destruir al 01",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//hKm2HiddJJbNxL1wvJ2I3VGtRcd.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc0MTBf/gundam-wing-14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc0MTBf/gundam-wing-14.mp4",
+  "episodeCode": "T1 E14: Órdenes de destruir al 01",
+  "hiddenCode": "T1 E14",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E15: Hacia el campo de batalla antártico",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//435mKEtGeOqy0FcBPRLz834CMX8.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc0NjBf/gundam-wing-15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc0NjBf/gundam-wing-15.mp4",
+  "episodeCode": "T1 E15: Hacia el campo de batalla antártico",
+  "hiddenCode": "T1 E15",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E16: Un doloroso encuentro",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//tsxqpFeulEfJJhMo5b5F2IBfmk2.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc1MDRf/gundam-wing-16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc1MDRf/gundam-wing-16.mp4",
+  "episodeCode": "T1 E16: Un doloroso encuentro",
+  "hiddenCode": "T1 E16",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E17: Traicionados por su lejano hogar",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//ic79lgTNTvgCSWOOLiZ3JB50zh8.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc1NzVf/gundam-wing-17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc1NzVf/gundam-wing-17.mp4",
+  "episodeCode": "T1 E17: Traicionados por su lejano hogar",
+  "hiddenCode": "T1 E17",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E18: La destrucción del Tallgeese",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//Aazkh2UPN7J69H5tYXtqvMPBqyI.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc2MTFf/gundam-wing-18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc2MTFf/gundam-wing-18.mp4",
+  "episodeCode": "T1 E18: La destrucción del Tallgeese",
+  "hiddenCode": "T1 E18",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E19: Asalto en Barge",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//1wZq3rX05gFScP2uFsFcq0u9hIM.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc2Njlf/gundam-wing-19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc2Njlf/gundam-wing-19.mp4",
+  "episodeCode": "T1 E19: Asalto en Barge",
+  "hiddenCode": "T1 E19",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E20: Infiltración en la base lunar",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//7S5X5lmjkoSA3ascQnzwPdGw1SO.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc3MTZf/gundam-wing-20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc3MTZf/gundam-wing-20.mp4",
+  "episodeCode": "T1 E20: Infiltración en la base lunar",
+  "hiddenCode": "T1 E20",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E21: El pesar de Quatre",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//ny9eIONKnJox29WWUOmKVG3lItl.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc3NTFf/gundam-wing-21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc3NTFf/gundam-wing-21.mp4",
+  "episodeCode": "T1 E21: El pesar de Quatre",
+  "hiddenCode": "T1 E21",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E22: Lucha por la independencia",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//hmm95n6ajGTC7I3v7xCyltvxKOR.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc3ODNf/gundam-wing-22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc3ODNf/gundam-wing-22.mp4",
+  "episodeCode": "T1 E22: Lucha por la independencia",
+  "hiddenCode": "T1 E22",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E23: Vuelve Duo, el Dios de la Muerte",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//YJ4m1RcXz7mgaQtE8U7vMQbf3m.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc4MTlf/gundam-wing-23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc4MTlf/gundam-wing-23.mp4",
+  "episodeCode": "T1 E23: Vuelve Duo, el Dios de la Muerte",
+  "hiddenCode": "T1 E23",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E24: El Gundam al que llamaron Zero",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2HQbfGe7RmorjBGp1alDtHxyUm.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc4Njdf/gundam-wing-24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc4Njdf/gundam-wing-24.mp4",
+  "episodeCode": "T1 E24: El Gundam al que llamaron Zero",
+  "hiddenCode": "T1 E24",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E25: El fuego eterno de las estrellas fugaces",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//l6sNSrHAKfIBKSfdph0gYvzbew0.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc5MTVf/gundam-wing-25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc5MTVf/gundam-wing-25.mp4",
+  "episodeCode": "T1 E25: El fuego eterno de las estrellas fugaces",
+  "hiddenCode": "T1 E25",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E26: La batalla de los cinco Gundams",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//qKkK8RiaiRUXCbWqifajJee6ggg.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc5NjFf/gundam-wing-26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc5NjFf/gundam-wing-26.mp4",
+  "episodeCode": "T1 E26: La batalla de los cinco Gundams",
+  "hiddenCode": "T1 E26",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E27: La decisión de la colonia",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//7t4w1trIrhgY0lIKMPBfKFakXDU.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgwNTJf/gundam-wing-27.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgwNTJf/gundam-wing-27.mp4",
+  "episodeCode": "T1 E27: La decisión de la colonia",
+  "hiddenCode": "T1 E27",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E28: El regreso de Zechs",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2syIHkvAL86XCme93F10s55fNgG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgwODhf/gundam-wing-28.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgwODhf/gundam-wing-28.mp4",
+  "episodeCode": "T1 E28: El regreso de Zechs",
+  "hiddenCode": "T1 E28",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E29: La batalla de los sentimientos",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//atm5EbDWIMiT8Xv1LjadzI1ecB1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgxMTVf/gundam-wing-29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgxMTVf/gundam-wing-29.mp4",
+  "episodeCode": "T1 E29: La batalla de los sentimientos",
+  "hiddenCode": "T1 E29",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E30: La tragedia de los cinco",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//zu6mCfdVouir4ulMoCvoKmrreX1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgxNjlf/gundam-wing-30.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgxNjlf/gundam-wing-30.mp4",
+  "episodeCode": "T1 E30: La tragedia de los cinco",
+  "hiddenCode": "T1 E30",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E31: El despertar de Wing Zero",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//f8AjCEvJwUzl9EXo5zdU79RvtoM.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgyNDVf/gundam-wing-31.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgyNDVf/gundam-wing-31.mp4",
+  "episodeCode": "T1 E31: El despertar de Wing Zero",
+  "hiddenCode": "T1 E31",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E32: El destino de los cinco",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//xMVxcahWAs8H94X72quPikBaCrX.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgzNDlf/gundam-wing-32.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgzNDlf/gundam-wing-32.mp4",
+  "episodeCode": "T1 E32: El destino de los cinco",
+  "hiddenCode": "T1 E32",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E33: La batalla de la luna",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//8A3bcDf8BN29xfld83ooi7FKjup.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgzODBf/gundam-wing-33.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgzODBf/gundam-wing-33.mp4",
+  "episodeCode": "T1 E33: La batalla de la luna",
+  "hiddenCode": "T1 E33",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E34: El sacrificio de los Gundams",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//daY3ym2IkkOLIzKNkMn2pvohwRu.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg0MjNf/gundam-wing-34.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg0MjNf/gundam-wing-34.mp4",
+  "episodeCode": "T1 E34: El sacrificio de los Gundams",
+  "hiddenCode": "T1 E34",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E35: La batalla final",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//39Xx0nSrczW4a7NlYqveNSVkx9R.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg0OTJf/gundam-wing-35.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg0OTJf/gundam-wing-35.mp4",
+  "episodeCode": "T1 E35: La batalla final",
+  "hiddenCode": "T1 E35",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E36: La caída de la colonia",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//l3d4S0ZZP2CckhZ5QnLQpe0fIY3.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg1MjFf/gundam-wing-36.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg1MjFf/gundam-wing-36.mp4",
+  "episodeCode": "T1 E36: La caída de la colonia",
+  "hiddenCode": "T1 E36",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E37: La decisión de Heero",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//vFEnX9HjmCVNGF4oRx5rmckA0iz.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg1NjFf/gundam-wing-37.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg1NjFf/gundam-wing-37.mp4",
+  "episodeCode": "T1 E37: La decisión de Heero",
+  "hiddenCode": "T1 E37",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E38: El último ataque",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2fChmXKD4W7dwGdZakOytFuiOXs.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg1OTRf/gundam-wing-38.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg1OTRf/gundam-wing-38.mp4",
+  "episodeCode": "T1 E38: El último ataque",
+  "hiddenCode": "T1 E38",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E39: La victoria de los Gundams",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//wKydS60iu0Lwzpm2kQjHf1bw5B3.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg2MzBf/gundam-wing-39.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg2MzBf/gundam-wing-39.mp4",
+  "episodeCode": "T1 E39: La victoria de los Gundams",
+  "hiddenCode": "T1 E39",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E40: El fin de la guerra",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//aMDowfNK8xoxHmT430JOBQI5eBJ.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg2NTdf/gundam-wing-40.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg2NTdf/gundam-wing-40.mp4",
+  "episodeCode": "T1 E40: El fin de la guerra",
+  "hiddenCode": "T1 E40",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E41: La nueva era",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//5DEChtgbDWeNUH5iEWFdFRWKqvG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkwMzJf/gundam-wing-41.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkwMzJf/gundam-wing-41.mp4",
+  "episodeCode": "T1 E41: La nueva era",
+  "hiddenCode": "T1 E41",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E42: El regreso de la paz",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//lGLRG4iaqWaR77s3pOcdTfLCenf.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkwNjNf/gundam-wing-42.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkwNjNf/gundam-wing-42.mp4",
+  "episodeCode": "T1 E42: El regreso de la paz",
+  "hiddenCode": "T1 E42",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E43: La reconstrucción",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//ba2Yvy0su3ZJv9MvaFBih1UHE1L.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkxMDJf/gundam-wing-43.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkxMDJf/gundam-wing-43.mp4",
+  "episodeCode": "T1 E43: La reconstrucción",
+  "hiddenCode": "T1 E43",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E44: El nuevo enemigo",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//66Q0vHtTHe1ksWwn1jeLWa6Tstz.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkxODRf/gundam-wing-44.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkxODRf/gundam-wing-44.mp4",
+  "episodeCode": "T1 E44: El nuevo enemigo",
+  "hiddenCode": "T1 E44",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E45: La batalla por la paz",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//uQLlPTBxhVHdSD3plyYKZ1JNcxh.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkyOTVf/gundam-wing-45.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkyOTVf/gundam-wing-45.mp4",
+  "episodeCode": "T1 E45: La batalla por la paz",
+  "hiddenCode": "T1 E45",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E46: El sacrificio final",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2LXdmt8bHvNz2Yo43lTev1Yq9nH.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkzNzNf/gundam-wing-46.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkzNzNf/gundam-wing-46.mp4",
+  "episodeCode": "T1 E46: El sacrificio final",
+  "hiddenCode": "T1 E46",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E47: La última batalla",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//5UNyQuQsjGmLyBYZk0kCBRK3MFs.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODk0MjNf/gundam-wing-47.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODk0MjNf/gundam-wing-47.mp4",
+  "episodeCode": "T1 E47: La última batalla",
+  "hiddenCode": "T1 E47",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E48: El futuro de la humanidad",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//eRyYsoipvcYeHu89ckgTujTvX8d.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODk0NTNf/gundam-wing-48.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODk0NTNf/gundam-wing-48.mp4",
+  "episodeCode": "T1 E48: El futuro de la humanidad",
+  "hiddenCode": "T1 E48",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+},
+{
+  "title": "E49: La última victoria",
+  "meta": "13+ · 25m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//pJ9MCXaN7gj2womK4bpMDEnWVs4.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODk0OTlf/gundam-wing-49.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODk0OTlf/gundam-wing-49.mp4",
+  "episodeCode": "T1 E49: La última victoria",
+  "hiddenCode": "T1 E49",
+  "intro": {
+    "start": 5,
+    "end": 80
+  }
+}
+
+
+
+      
+    ]
+  }
+];
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

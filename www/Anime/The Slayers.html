@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>The Slayers</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTgxNzU5MDBf/slayers%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/9M97xCfMuYAxRt4Yy3UTF3e7JGP.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">The Slayers</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/iTMzUqkm3eR9CMHrTJxHV9FBTfk.png" alt="The Slayers Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;5 temporadas&nbsp;&nbsp;1996&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="The Slayers" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/cRDpthbbgthW5y78dETzWvv4PWX.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="The Slayers.html"></a>
+          <span id="nombre">The Slayers</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Un día una banda de ladrones a la que había derrotado Reena vuelve para vengarse de ella, y cuando ven que no la pueden derrotar le piden que se una a ellos.      
+</div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="my-hero-academia.html">
+          <img src="https://image.tmdb.org/t/p/w300/phuYuzqWW9ru8EA3HVjE9W2Rr3M.jpg" alt="My Hero Academia" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">My Hero Academia</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Attack on Titan (2013).html">
+          <img src="https://image.tmdb.org/t/p/original/yNI1GpgU3BH4fljGNsTCWTcVuwS.jpg" alt="Attack on Titan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Attack on Titan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDI4MDUzNTNf/RK%2001.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">The Slayers</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "the-slayers";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "The Slayers",
+    "episodes": [
+    {
+  "title": "E1: ¿Enojado? yo soy la hermosa hechicera",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dCqN3Qgj58DfeeSNnlMdA0kEPM7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjMxOTZf/Slyrs%2001%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjMxOTZf/Slyrs%2001%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E1: ¿Enojado? yo soy la hermosa hechicera",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E2: Malo, no estoy de ánimos para momias",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pMCi4GiFU8bvZ286N8qzNSFbXqI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjM0Mzdf/Slyrs%2002%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjM0Mzdf/Slyrs%2002%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E2: Malo, no estoy de ánimos para momias",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E3: ¡Crash! el negro, el rojo y el extraño",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ehDQYOqUaaclNraIltPedwNk3Yo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjM2MDdf/Slyrs%2003%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjM2MDdf/Slyrs%2003%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E3: ¡Crash! el negro, el rojo y el extraño",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E4: ¡Dash! ella no puede utilizar la magia",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qwsGvD67cSVmVYoptijeFF6ZyTp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjM3NTFf/Slyrs%2004%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjM3NTFf/Slyrs%2004%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E4: ¡Dash! ella no puede utilizar la magia",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E5: ¡Escape! aparece Nunza el sireno",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yswj1GBW6vn6fL2iNt0vDzHsV8h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjM5MDdf/Slyrs%2005%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjM5MDdf/Slyrs%2005%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E5: ¡Escape! aparece Nunza el sireno",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E6: ¡Ojo! el verdadero enemigo es Rezo",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sUY3IRbqXK8RYduHU3sm0o81X07.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQwNjNf/Slyrs%2006%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQwNjNf/Slyrs%2006%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E6: ¡Ojo! el verdadero enemigo es Rezo",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E7: ¿Nos daremos por vencidos? la legendaria espada...",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2Ni1XFqv91ofa4p3vZrJPDSYAPV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQxNzFf/Slyrs%2007%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQxNzFf/Slyrs%2007%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E7: ¿Nos daremos por vencidos? la legendaria espada...",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E8: ¡Auxilio! la resurrección de Shabrani Budu",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lpGWlMUgHYVExXH4bXirfxZcLBa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQyNzlf/Slyrs%2008%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQyNzlf/Slyrs%2008%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E8: ¡Auxilio! la resurrección de Shabrani Budu",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E9: ¡Impacto! La noche antes de la pelea decisiva",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8ng9PdQxrgAQRsX7b7bKyUCprgA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQ0MzVf/Slyrs%2009%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQ0MzVf/Slyrs%2009%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E9: ¡Impacto! La noche antes de la pelea decisiva",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E10: ¡Lotería! hoy se libra la batalla decisiva",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bBlme9pFW2u4MNfRsUbB1leK8fU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQ2MTlf/Slyrs%2010%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQ2MTlf/Slyrs%2010%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E10: ¡Lotería! hoy se libra la batalla decisiva",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E11: ¡Knock out! problemas familiares en familia real",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fahGeJrykpNFZ2B4x97Qw9fgoXg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQ4MTlf/Slyrs%2011%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQ4MTlf/Slyrs%2011%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E11: ¡Knock out! problemas familiares en familia real",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E12: ¡Maravilloso! el entrenamiento especial de Amelia",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4mEOCzmZ2Ce0ebjLSrWq3Dc8IKb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjQ5Nzhf/Slyrs%2012%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjQ5Nzhf/Slyrs%2012%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E12: ¡Maravilloso! el entrenamiento especial de Amelia",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E13: ¡Dinero! justicia y recompensa",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/an1oGss6EhjPKceIW5yZdyxmnCo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjUxNTFf/Slyrs%2013%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjUxNTFf/Slyrs%2013%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E13: ¡Dinero! justicia y recompensa",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 93 }
+},
+{
+  "title": "E14: ¡Navegación! La invitación a Sairaag",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gds84MAbo9QG7CH8Hww4jqrTAMB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjUzMjJf/Slyrs%2014%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjUzMjJf/Slyrs%2014%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E14: ¡Navegación! La invitación a Sairaag",
+  "hiddenCode": "T1 E14",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E15: ¡Oh, no! La marcha nupcial de Lina",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7zElFLCTtn6IHoUP0jDE3e2798i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjU0NzJf/Slyrs%2015%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjU0NzJf/Slyrs%2015%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E15: ¡Oh, no! La marcha nupcial de Lina",
+  "hiddenCode": "T1 E15",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E16: ¡Pasión! ¿Se dedicarán los jóvenes al escenario?",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v29SXMf2wrC6StI9YXL5Gpgk2PG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjU2MTZf/Slyrs%2016%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjU2MTZf/Slyrs%2016%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E16: ¡Pasión! ¿Se dedicarán los jóvenes al escenario?",
+  "hiddenCode": "T1 E16",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E17: ¿Un hombre le hizo proposiciones a Gaudi?",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c5JUxwbKLGOeLAOUT1H7tshF94g.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjU3NTNf/Slyrs%2017%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjU3NTNf/Slyrs%2017%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E17: ¿Un hombre le hizo proposiciones a Gaudi?",
+  "hiddenCode": "T1 E17",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E18: ¡Regreso! Aquí viene Rezo, el monje rojo",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xwXYBG2r4zHujCoDGJUzNiXaf0O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjU4NzNf/Slyrs%2018%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjU4NzNf/Slyrs%2018%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E18: ¡Regreso! Aquí viene Rezo, el monje rojo",
+  "hiddenCode": "T1 E18",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E19: ¡Shock! ¡La destrucción de Sairaag!",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/myDBDw3gdHujQCCZIGcuxY6TFr4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjYwMjFf/Slyrs%2019%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjYwMjFf/Slyrs%2019%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E19: ¡Shock! ¡La destrucción de Sairaag!",
+  "hiddenCode": "T1 E19",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E20: ¡Problemas! Aparece Larning el tritón",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lanm0LMHIm9hrWTeBX7OpRtLEh4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjYxNTJf/Slyrs%2020%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjYxNTJf/Slyrs%2020%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E20: ¡Problemas! Aparece Larning el tritón",
+  "hiddenCode": "T1 E20",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E21: ¡Combate! Gaudi vs Zangless",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1ueEvUoBRufOaUxKiJ9Yh9w1PEO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjYyODJf/Slyrs%2021%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjYyODJf/Slyrs%2021%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E21: ¡Combate! Gaudi vs Zangless",
+  "hiddenCode": "T1 E21",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E22: ¡Maldad! El legado olvidado",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aRzCInmuTh7ZF1Wgkd3iXXfnJrQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjY0MDlf/Slyrs%2022%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjY0MDlf/Slyrs%2022%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E22: ¡Maldad! El legado olvidado",
+  "hiddenCode": "T1 E22",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E23: ¡Cuidado! Ellis es muy tenaz",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hEYPwIrwtQII70NZvAA1x75ZaSq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjY0NjJf/Slyrs%2023%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjY0NjJf/Slyrs%2023%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E23: ¡Cuidado! Ellis es muy tenaz",
+  "hiddenCode": "T1 E23",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E24: ¡El día X! El supermonstruo revive",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/85PEoA6rMNORgACMZ5FEe6lFUrD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjY1MTRf/Slyrs%2024%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjY1MTRf/Slyrs%2024%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E24: ¡El día X! El supermonstruo revive",
+  "hiddenCode": "T1 E24",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E25: ¡Sí! la última esperanza o la espada salvadora",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n3W3G0awVPC3pGwYu4Ez2JWLDCR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjY1NjJf/Slyrs%2025%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjY1NjJf/Slyrs%2025%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E25: ¡Sí! la última esperanza o la espada salvadora",
+  "hiddenCode": "T1 E25",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E26: ¡Hurra! ¡La victoria es mía!",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nrNnnvXupNWx1gOcIruL9wpEGlF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjY1OTFf/Slyrs%2026%20-%20Anime4mega.net.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjY1OTFf/Slyrs%2026%20-%20Anime4mega.net.mp4",
+  "episodeCode": "T1 E26: ¡Hurra! ¡La victoria es mía!",
+  "hiddenCode": "T1 E26",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+}
+
+    ]
+  },
+  {
+    "season": "The Slayers Next",
+    "episodes": [
+    {
+  "title": "E1: ¡La amenaza! El horror del monstruo Somelgaster",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/18CFMxgsM3hOMUPpPj0yweFxW25.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc3ODJf/SlayNex_001%5BAnimeMF.net%5D-angelord%20%281%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc3ODJf/SlayNex_001%5BAnimeMF.net%5D-angelord%20%281%29.mp4",
+  "episodeCode": "T2 E1: ¡La amenaza! El horror del monstruo Somelgaster",
+  "hiddenCode": "T2 E1",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E2: Un malvado sacerdote llamado Xeros",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rkbkiMIZMIJuK10RUo0OA7Jyjz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc3ODZf/SlayNex_002%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc3ODZf/SlayNex_002%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E2: Un malvado sacerdote llamado Xeros",
+  "hiddenCode": "T2 E2",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E3: Es bueno ser un guardaespaldas, pero no es fácil",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iqMMZy9j7dOucfhS44Ds1v2wdtP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc3OTFf/SlayNex_003%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc3OTFf/SlayNex_003%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E3: Es bueno ser un guardaespaldas, pero no es fácil",
+  "hiddenCode": "T2 E3",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E4: ¡Un antiguo pacto! El hombre que deseaba la inmortalidad",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i5Cio8al1GK7cCKhYXxhoKrEtDI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc3OTVf/SlayNex_004%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc3OTVf/SlayNex_004%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E4: ¡Un antiguo pacto! El hombre que deseaba la inmortalidad",
+  "hiddenCode": "T2 E4",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E5: Por amor a una muerta",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wvQedq7WhiwpqDa4k5jfi3Aqmlr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc3OTZf/SlayNex_005%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc3OTZf/SlayNex_005%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E5: Por amor a una muerta",
+  "hiddenCode": "T2 E5",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E6: El regreso de la tenaz Martina",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/byaBMhMDMt3HaXXwgKUvZT5BTVw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4MDNf/SlayNex_006%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4MDNf/SlayNex_006%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E6: El regreso de la tenaz Martina",
+  "hiddenCode": "T2 E6",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E7: ¡Un extraño plato! ¿O cómo pescar un dragón?",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p37dP7dI1kBi0IRksAjtpFISO96.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4MDdf/SlayNex_007%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4MDdf/SlayNex_007%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E7: ¡Un extraño plato! ¿O cómo pescar un dragón?",
+  "hiddenCode": "T2 E7",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E8: ¡Sorpresas! El día que murió Phil",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jqOl4xF0TYBUEu95RBRTiwCpYeC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4MTNf/SlayNex_008%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4MTNf/SlayNex_008%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E8: ¡Sorpresas! El día que murió Phil",
+  "hiddenCode": "T2 E8",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E9: Ambición destructora y confesión increíble",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sI8mubQgTrhGESm9uYyj9F6uPYd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4MjJf/SlayNex_009%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4MjJf/SlayNex_009%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E9: Ambición destructora y confesión increíble",
+  "hiddenCode": "T2 E9",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E10: Extraños compañeros de viaje, Lina intenta recuperar sus poderes mágicos",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/otnAgvtDbyDSExxEvEZ48nICWcO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4Mjlf/SlayNex_010%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4Mjlf/SlayNex_010%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E10: Extraños compañeros de viaje, Lina intenta recuperar sus poderes mágicos",
+  "hiddenCode": "T2 E10",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E11: Se acerca la oscuridad, y aumenta la amenaza",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/u935nvrD41v5vHu54InU8a6tePC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4NTZf/SlayNex_011%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4NTZf/SlayNex_011%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E11: Se acerca la oscuridad, y aumenta la amenaza",
+  "hiddenCode": "T2 E11",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E12: El final sorpresivo, y la increíble verdad",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lEzZRrKnKrtUPrsJjSwt1dgFJRK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4NjNf/SlayNex_012%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4NjNf/SlayNex_012%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E12: El final sorpresivo, y la increíble verdad",
+  "hiddenCode": "T2 E12",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E13: La caída y el fin de una ambición",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pBjRGoLl1mT3B1ZjErg8csH6Ldl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4Njlf/SlayNex_013%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4Njlf/SlayNex_013%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E13: La caída y el fin de una ambición",
+  "hiddenCode": "T2 E13",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E14: ¡La danza prohibida! Y el hechizo engañoso",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kmISBCUAUlgagN21zofavrCFQeY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4NzFf/SlayNex_014%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4NzFf/SlayNex_014%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E14: ¡La danza prohibida! Y el hechizo engañoso",
+  "hiddenCode": "T2 E14",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E15: Un nuevo campo de batalla en la torre encantada",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cbD6JLifPBjQTAkCoHxJo6byRxC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4NzVf/SlayNex_015%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4NzVf/SlayNex_015%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E15: Un nuevo campo de batalla en la torre encantada",
+  "hiddenCode": "T2 E15",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E16: El saque mágico, o cómo jugar con agallas",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c27Cf2GdwCtEhWugKGU0QvT2Nk6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4ODBf/SlayNex_016%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4ODBf/SlayNex_016%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E16: El saque mágico, o cómo jugar con agallas",
+  "hiddenCode": "T2 E16",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E17: ¡No es posible! ¿¡Una chica llamada Zelgadis!?",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9p9ECUaftdNkAQuFKXzEosJPrx4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4ODZf/SlayNex_017%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4ODZf/SlayNex_017%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E17: ¡No es posible! ¿¡Una chica llamada Zelgadis!?",
+  "hiddenCode": "T2 E17",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E18: ¡El templo de arena! Y el secreto del Giga Slave",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7YYTCGfTFeaUz0favIDuZJGqn7e.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc4OTRf/SlayNex_018%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc4OTRf/SlayNex_018%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E18: ¡El templo de arena! Y el secreto del Giga Slave",
+  "hiddenCode": "T2 E18",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E19: ¡Por fin! Xeros revela su verdadera naturaleza",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2dHepOCqTdBir2ZstdqBRqLbu7R.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc5MzVf/SlayNex_019%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc5MzVf/SlayNex_019%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E19: ¡Por fin! Xeros revela su verdadera naturaleza",
+  "hiddenCode": "T2 E19",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E20: En marcha hacia al Valle de los Dragones",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rimlmeeHFlbmLSGfEoJJHV4GWeQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc5NDhf/SlayNex_020%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc5NDhf/SlayNex_020%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E20: En marcha hacia al Valle de los Dragones",
+  "hiddenCode": "T2 E20",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E21: Una verdad oculta por mil años, Maryuuou Garv es un traidor",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yCwZ319deNibKSe1wXl3En8JUnD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc5NjNf/SlayNex_021%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc5NjNf/SlayNex_021%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E21: Una verdad oculta por mil años, Maryuuou Garv es un traidor",
+  "hiddenCode": "T2 E21",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E22: La muerte de Maryuuou Garv, el dragón malvado",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o0apNcAaXTKmCgnMhpnHkF6VzAV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njc5ODlf/SlayNex_022%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njc5ODlf/SlayNex_022%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E22: La muerte de Maryuuou Garv, el dragón malvado",
+  "hiddenCode": "T2 E22",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E23: La búsqueda de Gaudi y el terrible espadachín",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/h4y83adeIlsY0N3vskIFz6KVA8T.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgwMzJf/SlayNex_023%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgwMzJf/SlayNex_023%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E23: La búsqueda de Gaudi y el terrible espadachín",
+  "hiddenCode": "T2 E23",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E24: La trampa de la ciudad de los fantasmas",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5oT9RgdtOyGFNlWpYhVq3TKSo4l.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgwNzNf/SlayNex_024%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgwNzNf/SlayNex_024%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E24: La trampa de la ciudad de los fantasmas",
+  "hiddenCode": "T2 E24",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E25: ¡Las almas de los muertos! La decisión final de Lina",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sgmnNbLx6MbldSxgIidlWAtK1qH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgxMjhf/SlayNex_025%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgxMjhf/SlayNex_025%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E25: ¡Las almas de los muertos! La decisión final de Lina",
+  "hiddenCode": "T2 E25",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+},
+{
+  "title": "E26: Un final feliz, por ahora...",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1tQyPWRsdbbRH9Ut7igDYJuZMk0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgxMzhf/SlayNex_026%5BAnimeMF.net%5D-angelord.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgxMzhf/SlayNex_026%5BAnimeMF.net%5D-angelord.mp4",
+  "episodeCode": "T2 E26: Un final feliz, por ahora...",
+  "hiddenCode": "T2 E26",
+  "intro": {
+    "start": 5,
+    "end": 85
+  }
+}
+
+    ]
+  },
+  {
+    "season": "The Slayers Try",
+    "episodes": [
+    {
+  "title": "E1: La vela majestuosa",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xmZUauoTXDZYNP8w2WkEZAVB0Vm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgxNzlf/1370_1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgxNzlf/1370_1.mp4",
+  "episodeCode": "T3 E1: La vela majestuosa",
+  "hiddenCode": "T3 E1",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E2: Una carta desde casa",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jFIcEKPbxrzCIdGZIXHXxJGuqDa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgxODhf/1370_2.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgxODhf/1370_2.mp4",
+  "episodeCode": "T3 E2: Una carta desde casa",
+  "hiddenCode": "T3 E2",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E3: El hombre arrogante",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aZNq71Vc4oVXAyMpvzsVkkpKJje.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyMDFf/1370_3.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyMDFf/1370_3.mp4",
+  "episodeCode": "T3 E3: El hombre arrogante",
+  "hiddenCode": "T3 E3",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E4: La venganza",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kUaBjhAwSYy664Mrbo6z2wTNgXA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyMThf/1370_4.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyMThf/1370_4.mp4",
+  "episodeCode": "T3 E4: La venganza",
+  "hiddenCode": "T3 E4",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E5: Donde hay humo, hay fuego",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xwMXrjPPak02ptz6eBGXzzDFx6M.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyMzJf/1370_5.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyMzJf/1370_5.mp4",
+  "episodeCode": "T3 E5: Donde hay humo, hay fuego",
+  "hiddenCode": "T3 E5",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E6: Las ruinas abandonadas",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8LSAy69bWU7pDvmo7M0hdw0awSX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyNDdf/1370_6.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyNDdf/1370_6.mp4",
+  "episodeCode": "T3 E6: Las ruinas abandonadas",
+  "hiddenCode": "T3 E6",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E7: El altar de los dragones",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vlXDOaBwILz4s73LKRAZggZCgVx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyNjZf/1370_7.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyNjZf/1370_7.mp4",
+  "episodeCode": "T3 E7: El altar de los dragones",
+  "hiddenCode": "T3 E7",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E8: El inicio del plan",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hrxnK4kEh5NBWfzq4IkzQMp0C26.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyODNf/1370_8.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyODNf/1370_8.mp4",
+  "episodeCode": "T3 E8: El inicio del plan",
+  "hiddenCode": "T3 E8",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E9: La batalla de la costa",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3w5w74H2glledNuikXszK3lAlqt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgyOTZf/1370_9.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgyOTZf/1370_9.mp4",
+  "episodeCode": "T3 E9: La batalla de la costa",
+  "hiddenCode": "T3 E9",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E10: Un amor eterno",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xfKUKnZ0FPbu9YvBHHBOXXFv0HR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgzMTNf/1370_10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgzMTNf/1370_10.mp4",
+  "episodeCode": "T3 E10: Un amor eterno",
+  "hiddenCode": "T3 E10",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E11: El verdadero poder de Jiras",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lb2sAJy4UOyzqRhEBqCcb5e8Zm6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgzMzVf/1370_11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgzMzVf/1370_11.mp4",
+  "episodeCode": "T3 E11: El verdadero poder de Jiras",
+  "hiddenCode": "T3 E11",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E12: El laberinto",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/99NodkWWmndGVLpTjvsvNNkzylx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgzNDZf/1370_12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgzNDZf/1370_12.mp4",
+  "episodeCode": "T3 E12: El laberinto",
+  "hiddenCode": "T3 E12",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E13: La llave",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cQ7rpcxpmemrtL6UoU71GzOzhDt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgzNjVf/1370_13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgzNjVf/1370_13.mp4",
+  "episodeCode": "T3 E13: La llave",
+  "hiddenCode": "T3 E13",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E14: Un lamento eterno",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rui7MN5ugRTwk1sTA6gQDDPvELR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2NjgzODJf/1370_15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2NjgzODJf/1370_15.mp4",
+  "episodeCode": "T3 E14: Un lamento eterno",
+  "hiddenCode": "T3 E14",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E15: ¡Problemas y problemas! Este es el país de las maravillas",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/A6cRC07qQDsZlI7ufxPWnss9Kku.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg0MDJf/1370_16_Y2vS.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg0MDJf/1370_16_Y2vS.mp4",
+  "episodeCode": "T3 E15: ¡Problemas y problemas! Este es el país de las maravillas",
+  "hiddenCode": "T3 E15",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E16: El horror de la cacerola maldita",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sgr2ZDQ6Sco2APkY0FpkuRhtyBs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg0MTNf/1370_17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg0MTNf/1370_17.mp4",
+  "episodeCode": "T3 E16: El horror de la cacerola maldita",
+  "hiddenCode": "T3 E16",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E17: ¿Podría funcionar? Solo dios sabe que sucederá con su amor",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7BglMxfdzhb9itHZIRSkXObNJU3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg0MzBf/1370_18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg0MzBf/1370_18.mp4",
+  "episodeCode": "T3 E17: ¿Podría funcionar? Solo dios sabe que sucederá con su amor",
+  "hiddenCode": "T3 E17",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E18: ¡El hombre preciso en el lugar preciso! Amelia en una aldea de justicia",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qW1aQ3dpOfVnenzMzznYzdFYjL9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg0NThf/1370_19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg0NThf/1370_19.mp4",
+  "episodeCode": "T3 E18: ¡El hombre preciso en el lugar preciso! Amelia en una aldea de justicia",
+  "hiddenCode": "T3 E18",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E19: Tres hombres siguen el camino hacia donde señala la luz",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n7et1wFrCQmuoRvJNpmbuSaerQS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg0NzNf/1370_20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg0NzNf/1370_20.mp4",
+  "episodeCode": "T3 E19: Tres hombres siguen el camino hacia donde señala la luz",
+  "hiddenCode": "T3 E19",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E20: Defiende el héroe con quien sueña una chica",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r57CmaAI3PjLKOFT2XPi3qieJo0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg0NzNf/1370_20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg0NzNf/1370_20.mp4",
+  "episodeCode": "T3 E20: Defiende el héroe con quien sueña una chica",
+  "hiddenCode": "T3 E20",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E21: ¡En busca de la última arma! El templo trágico",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2hFam3nlcomAh64ibTIFQPiVXZH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg1MDRf/1370_21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg1MDRf/1370_21.mp4",
+  "episodeCode": "T3 E21: ¡En busca de la última arma! El templo trágico",
+  "hiddenCode": "T3 E21",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E22: Un lamento por el que cayó",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nTQ99kZyt7X7EfEAg6weyGga3Oc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg1MjRf/1370_22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg1MjRf/1370_22.mp4",
+  "episodeCode": "T3 E22: Un lamento por el que cayó",
+  "hiddenCode": "T3 E22",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E23: Por fin vamos al campo de la batalla final",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/64xWQmaAvTties0Lps85KNbKPm4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg1NDFf/1370_23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg1NDFf/1370_23.mp4",
+  "episodeCode": "T3 E23: Por fin vamos al campo de la batalla final",
+  "hiddenCode": "T3 E23",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E24: ¡Sucede lo imposible! Se abre la puerta prohibida",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xMSCGKHzG3BUpZtJdSduqgKRrzR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg1NjRf/1370_24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg1NjRf/1370_24.mp4",
+  "episodeCode": "T3 E24: ¡Sucede lo imposible! Se abre la puerta prohibida",
+  "hiddenCode": "T3 E24",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E25: Un ser surge de la estrella de la oscuridad",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xLRdE0rULOuqGnjQ1ihJ3xNnGJ5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg1ODFf/1370_25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg1ODFf/1370_25.mp4",
+  "episodeCode": "T3 E25: Un ser surge de la estrella de la oscuridad",
+  "hiddenCode": "T3 E25",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+},
+{
+  "title": "E26: ¡Volver a intentarlo! Al fin triunfa el bien",
+  "meta": "13+ · 22m · 1995",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kYbSx7wewWnr9WS506lcDISJM4E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI2Njg2MTRf/1370_26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI2Njg2MTRf/1370_26.mp4",
+  "episodeCode": "T3 E26: ¡Volver a intentarlo! Al fin triunfa el bien",
+  "hiddenCode": "T3 E26",
+  "intro": {
+    "start": 5,
+    "end": 93
+  }
+}
+    ]
+  },
+  {
+    "season": "The Slayers Revolution",
+    "episodes": [
+    {
+        "title": "E1: AMAZING: ¡El sorprendente Dragon Slave!",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/25523068e289dfd01_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM1MzRf/1371_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM1MzRf/1371_1.mp4",
+        "episodeCode": "T4 E1: AMAZING: ¡El sorprendente Dragon Slave!",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E2: BECAUSE: ¡Porque Lina Inverse es única!",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/25471606af920150b_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM1NTNf/1371_2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM1NTNf/1371_2.mp4",
+        "episodeCode": "T4 E2: BECAUSE: ¡Porque Lina Inverse es única!",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E3: CHASE: La persecución sin fin",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/25471641813657351_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM1ODJf/1371_3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM1ODJf/1371_3.mp4",
+        "episodeCode": "T4 E3: CHASE: La persecución sin fin",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E4: DRIFTER: Perseguida o perseguidor",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/2547166c863f97ed2_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM2MThf/1371_4_pM93.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM2MThf/1371_4_pM93.mp4",
+        "episodeCode": "T4 E4: DRIFTER: Perseguida o perseguidor",
+        "hiddenCode": "T4 E4",
+       "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E5: ETERNAL: El bosque eterno",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/254716831d3574367_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM2NDVf/1371_5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM2NDVf/1371_5.mp4",
+        "episodeCode": "T4 E5: ETERNAL: El bosque eterno",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E6: FALL ON: Festival peculiar",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/2547170cdc8dc268f_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM2NjBf/1371_6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM2NjBf/1371_6.mp4",
+        "episodeCode": "T4 E6: FALL ON: Festival peculiar",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E7: GORGEOUS: El lujoso yate bajo amenaza",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/25471723a13e07057_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM2Nzdf/1371_7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM2Nzdf/1371_7.mp4",
+        "episodeCode": "T4 E7: GORGEOUS: El lujoso yate bajo amenaza",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E8: HURRY UP: ¡Interfieren!» ¿No interfieras?",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/2547174356c3f8e9d_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM2OTZf/1371_8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM2OTZf/1371_8.mp4",
+        "episodeCode": "T4 E8: HURRY UP: ¡Interfieren!» ¿No interfieras?",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E9: INSIDER: Quien conoce la verdad",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/25523229ade2586a3_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM3NDhf/1371_9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM3NDhf/1371_9.mp4",
+        "episodeCode": "T4 E9: INSIDER: Quien conoce la verdad",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E10: JUDGEMENT: La plata renace",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/254715828e1ebf5d2_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM3NjBf/1371_10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM3NjBf/1371_10.mp4",
+        "episodeCode": "T4 E10: JUDGEMENT: La plata renace",
+        "hiddenCode": "T4 E10",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E11: KEEP OUT: ¡Cercanía peligrosa!",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/2547178e4f1e21ad0_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM3Nzhf/1371_11_yhOL.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM3Nzhf/1371_11_yhOL.mp4",
+        "episodeCode": "T4 E11: KEEP OUT: ¡Cercanía peligrosa!",
+        "hiddenCode": "T4 E11",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E12: LEGACY: La batalla decisiva en Seyruun",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/254718063ea40dada_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM3OTNf/1371_12_lNMx.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM3OTNf/1371_12_lNMx.mp4",
+        "episodeCode": "T4 E12: LEGACY: La batalla decisiva en Seyruun",
+        "hiddenCode": "T4 E12",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      },
+      {
+        "title": "E13: MISTY: La espada descendente",
+        "meta": "13+ · 22m · 1995",
+        "thumbnail": "https://simkl.in/episodes/25/2547162ece3dce054_w.webp",
+        "videoUrl": "https://od.lk/d/M18zMDI2NzM4NTNf/1371_13_BYK0.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI2NzM4NTNf/1371_13_BYK0.mp4",
+        "episodeCode": "T4 E13: MISTY: La espada descendente",
+        "hiddenCode": "T4 E13",
+        "intro": {
+          "start": 15,
+          "end": 114
+        }
+      }
+    ]
+  },
+  {
+    "season": "The Slayers Evolution R",
+    "episodes": [
+    {
+      "title": "E1: NEW COMER? ¡Un nuevo comienzo!",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5967831.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzM5MDNf/1372_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzM5MDNf/1372_1.mp4",
+      "episodeCode": "T5 E1: NEW COMER? ¡Un nuevo comienzo!",
+      "hiddenCode": "T5 E1",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E2: OH MY HEAD! ¿Dónde está mi cabeza?",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5968615.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzM5Mzhf/1372_2.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzM5Mzhf/1372_2.mp4",
+      "episodeCode": "T5 E2: OH MY HEAD! ¿Dónde está mi cabeza?",
+      "hiddenCode": "T5 E2",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E3: PARTNER! ¿Compartiendo un cuerpo?",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5969428.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzM5NDVf/1372_3.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzM5NDVf/1372_3.mp4",
+      "episodeCode": "T5 E3: PARTNER! ¿Compartiendo un cuerpo?",
+      "hiddenCode": "T5 E3",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E4: QUALITY TIME? ¿Una vida llena de amor?",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5970024.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzM5NjFf/1372_4.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzM5NjFf/1372_4.mp4",
+      "episodeCode": "T5 E4: QUALITY TIME? ¿Una vida llena de amor?",
+      "hiddenCode": "T5 E4",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E5: RAIDER! ¡Una voz desde la oscuridad!",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5970778.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQwMTNf/1372_5.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQwMTNf/1372_5.mp4",
+      "episodeCode": "T5 E5: RAIDER! ¡Una voz desde la oscuridad!",
+      "hiddenCode": "T5 E5",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E6: SEEK! ¿Quién es el objetivo?",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5971457.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQwMzVf/1372_6.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQwMzVf/1372_6.mp4",
+      "episodeCode": "T5 E6: SEEK! ¿Quién es el objetivo?",
+      "hiddenCode": "T5 E6",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E7: TOWN SCAPE: Porque es una creación humana",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5972193.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQwNzRf/1372_7.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQwNzRf/1372_7.mp4",
+      "episodeCode": "T5 E7: TOWN SCAPE: Porque es una creación humana",
+      "hiddenCode": "T5 E7",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E8: UNCOVER: ¡La oscuridad revelada!",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5972910.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQxMjBf/1372_8.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQxMjBf/1372_8.mp4",
+      "episodeCode": "T5 E8: UNCOVER: ¡La oscuridad revelada!",
+      "hiddenCode": "T5 E8",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E9: VOICE: ¿Qué hay dentro de la jarra?",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5973565.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQxOTVf/1372_9.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQxOTVf/1372_9.mp4",
+      "episodeCode": "T5 E9: VOICE: ¿Qué hay dentro de la jarra?",
+      "hiddenCode": "T5 E9",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E10: WISDOM: Buscando tiempos que no regresarán",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5974297.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQyMjhf/1372_10.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQyMjhf/1372_10.mp4",
+      "episodeCode": "T5 E10: WISDOM: Buscando tiempos que no regresarán",
+      "hiddenCode": "T5 E10",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E11: XENO: El precio de la resurrección",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5975130.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQyNjhf/1372_11.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQyNjhf/1372_11.mp4",
+      "episodeCode": "T5 E11: XENO: El precio de la resurrección",
+      "hiddenCode": "T5 E11",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E12: YESTERDAY'S MEMORY: Los días recuperados",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5975695.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQzMTRf/1372_12.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQzMTRf/1372_12.mp4",
+      "episodeCode": "T5 E12: YESTERDAY'S MEMORY: Los días recuperados",
+      "hiddenCode": "T5 E12",
+      "intro": {"start": 20, "end": 104}
+    },
+    {
+      "title": "E13: ZERO HOUR: ¡Aquellos que se dirigen a la destrucción!",
+      "meta": "13+ · 22m · 1995",
+      "thumbnail": "https://cdni.fancaps.net/file/fancaps-animeimages/5976584.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI2NzQzNDVf/1372_13.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzQzNDVf/1372_13.mp4",
+      "episodeCode": "T5 E13: ZERO HOUR: ¡Aquellos que se dirigen a la destrucción!",
+      "hiddenCode": "T5 E13",
+      "intro": {"start": 20, "end": 104}
+    }
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

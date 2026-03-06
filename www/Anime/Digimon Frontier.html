@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Digimon Frontier</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/yhG0eQ4Myq9DP3HdUSn0R3aZAk6.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/bm1pRYmji3aYVQ46oG9Orl3HhIM.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Digimon Frontier</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/wklmO9jqKaFS9CXbdRsFX9RnKxB.png" alt="Digimon Frontier Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;2002&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Digimon Frontier" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTc5NjE2NDBf/digimon%20frontier%20fondo.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Digimon Frontier.html"></a>
+          <span id="nombre">Digimon Frontier</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        La historia comienza cuando los niños elegidos reciben un mensaje en su teléfono móvil que les cita a las 5:00 p.m. en
+        la estación de tren. 
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Digimon.html">
+          <img src="https://image.tmdb.org/t/p/original/vFJAiBNUlzEVa54mXgHGumr1z1s.jpg" alt="Digimon" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Adventures</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Tamers.html">
+          <img src="https://image.tmdb.org/t/p/original/r8MYNECZkwprDATctOc8rDFQ8at.jpg" alt="Digimon Tamers" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Tamers</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon savers.html">
+          <img src="https://image.tmdb.org/t/p/w154/z89uzZ0b81zMt9E8qUXCRLa8uBc.jpg" alt="Digimon savers" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon savers</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Xros Wars.html">
+          <img src="https://image.tmdb.org/t/p/w154/4jX2k06hM9p489ML1byyBQHEKl5.jpg" alt="Digimon Xros Wars " oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Xros Wars </div>
+          <div class="meta-row">
+            <span class="meta">Sub | Jap</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDQ0MzYyNjBf/D_T_4%2001%20%5Bwww.animemf.net%5D%20Seba_767.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Digimon Frontier</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "digimon-frontier";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: El guerrero legendario",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mKgSY4qFVHgPnIfp3dOaqNtzYoF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNjBf/D_T_4%2001%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNjBf/D_T_4%2001%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E1: El guerrero legendario",
+    "hiddenCode": "T1 E1",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E2: La batalla en el laberinto subterráneo",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zzbXmdnsGKfG5COdOgmMf8FBXN9.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNzRf/D_T_4%2002%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNzRf/D_T_4%2002%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E2: La batalla en el laberinto subterráneo",
+    "hiddenCode": "T1 E2",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E3: Prohibido pelear",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/c4oaftYv3khWgXDJTIL4YD8zmkP.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYyODdf/D_T_4%2003%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyODdf/D_T_4%2003%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E3: Prohibido pelear",
+    "hiddenCode": "T1 E3",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E4: Una Mujer Guerrera",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qCZUMecIFgPS84KsVsKvSGyvOni.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYyOTdf/D_T_4%2004%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyOTdf/D_T_4%2004%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E4: Una Mujer Guerrera",
+    "hiddenCode": "T1 E4",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E5: El poder del trueno",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4glS3OtGD7ykK7Dd42RKg5PllnK.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMDNf/D_T_4%2005%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMDNf/D_T_4%2005%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E5: El poder del trueno",
+    "hiddenCode": "T1 E5",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E6: Otro guerrero",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tB5ATSExy5QcfEZoqNE2JykqCFr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMTFf/D_T_4%2006%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMTFf/D_T_4%2006%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E6: Otro guerrero",
+    "hiddenCode": "T1 E6",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E7: Juguetilandia",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/eytEh73M4C7V2bdJoUGKL3NHdRN.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMjJf/D_T_4%2007%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMjJf/D_T_4%2007%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E7: Juguetilandia",
+    "hiddenCode": "T1 E7",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E8: A salvar a los amigos",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/p4pPBvjQroQ01A0smGaIF6ULmIx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMjlf/D_T_4%2008%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMjlf/D_T_4%2008%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E8: A salvar a los amigos",
+    "hiddenCode": "T1 E8",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E9: Un misterioso bosque de televisores",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1TaY68D5a2OkZ3498NkKYA9jGoy.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMzZf/D_T_4%2009%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMzZf/D_T_4%2009%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E9: Un misterioso bosque de televisores",
+    "hiddenCode": "T1 E9",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+    "title": "E10: Kendogarurumon aparece",
+    "meta": "13+ · 23m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8y741TLHzvZU09YnTOspIJeUrDl.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNDJf/D_T_4%2010%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNDJf/D_T_4%2010%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+    "episodeCode": "T1 E10: Kendogarurumon aparece",
+    "hiddenCode": "T1 E10",
+    "intro": {
+      "start": 5,
+      "end": 100
+    }
+  },
+  {
+  "title": "E11: Desafiar a BurninGreymon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lyCdlSj20XrDFT2knMPrsqan1LX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNTFf/D_T_4%2011%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNTFf/D_T_4%2011%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E11: Desafiar a BurninGreymon",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E12: Vencer a Gigasmon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jTWH3iOH7DOipeZuzYgxRbsXCWJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNTRf/D_T_4%2012%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNTRf/D_T_4%2012%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E12: Vencer a Gigasmon",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E13: El Secreto de los 10 Guerreros",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8pqMhEzBTDD7km7DBuO8Kgoz6iu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNTlf/D_T_4%2013%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNTlf/D_T_4%2013%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E13: El Secreto de los 10 Guerreros",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E14: El desafío desesperado",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8x5NCPsI5ybB1rZoQl8jPcyebWV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNjRf/D_T_4%2014%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNjRf/D_T_4%2014%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E14: El desafío desesperado",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E15: ¿Cómo me veo?",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iX8PLTQx54K65N6gkMXqSdOFNhE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNzNf/D_T_4%2015%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNzNf/D_T_4%2015%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E15: ¿Cómo me veo?",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E16: La hermosa guerrera Zephyrmon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oIw9CmYiMHoSVCthSJIA1y7Zpgr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzODFf/D_T_4%2016%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzODFf/D_T_4%2016%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E16: La hermosa guerrera Zephyrmon",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E17: El guerrero de hielo Korikakumon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9meA7GM4d0qrVPghYSajHU6MYO6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzOTBf/D_T_4%2017%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzOTBf/D_T_4%2017%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E17: El guerrero de hielo Korikakumon",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E18: La carrera de los Trailmons",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/66u4rT59HpeqOg9meU0uQiIUCn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzOThf/D_T_4%2018%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzOThf/D_T_4%2018%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E18: La carrera de los Trailmons",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E19: ¡Salvemos a Hamburgermon!",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qvZg0PgOzPh0Ya2GIlwyttPTOpm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0MDRf/D_T_4%2019%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0MDRf/D_T_4%2019%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E19: ¡Salvemos a Hamburgermon!",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E20: Duskmon, el guerrero misterioso",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7G1QE7oGx2TZvjtUQbJdADb5wB6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0MTNf/D_T_4%2020%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0MTNf/D_T_4%2020%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E20: Duskmon, el guerrero misterioso",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E21: El terrible poder de la oscuridad",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zy9TJo3ci4jGNOkJTRcAjydnmlI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0MjVf/D_T_4%2021%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0MjVf/D_T_4%2021%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E21: El terrible poder de la oscuridad",
+  "hiddenCode": "T1 E21",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E22: El regreso de Takuya",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n3nDD33Q2318MxFfvnYiCLRdfjV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0Mzhf/D_T_4%2022%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0Mzhf/D_T_4%2022%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E22: El regreso de Takuya",
+  "hiddenCode": "T1 E22",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E23: El plan de Takuya",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vlYhjHaH21e0mjkRDpOjvNNbCZR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0NDZf/D_T_4%2023%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0NDZf/D_T_4%2023%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E23: El plan de Takuya",
+  "hiddenCode": "T1 E23",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E24: El triste pasado de J.P.",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ua3ThQXWLTNoPi361gywHVsGzsG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0NTJf/D_T_4%2024%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0NTJf/D_T_4%2024%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E24: El triste pasado de J.P.",
+  "hiddenCode": "T1 E24",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E25: La trampa de Ashuramon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/s8VYliIKdzceu55NyWjX7NrTkys.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0NjNf/D_T_4%2025%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0NjNf/D_T_4%2025%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E25: La trampa de Ashuramon",
+  "hiddenCode": "T1 E25",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E26: Un combate entre mujeres",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5OLqEyUsy3dHZCoQ1WuA6EoplMu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0NzNf/D_T_4%2026%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0NzNf/D_T_4%2026%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E26: Un combate entre mujeres",
+  "hiddenCode": "T1 E26",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E27: El nacimiento de Beowolfmon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ooGcvybDUNSDjATjnkfjjwyBF2C.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0ODRf/D_T_4%2027%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0ODRf/D_T_4%2027%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E27: El nacimiento de Beowolfmon",
+  "hiddenCode": "T1 E27",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E28: Las grandes técnicas de Aldamon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fNNY1TtkK1RpwFurwGostydpUyy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0OTNf/D_T_4%2028%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0OTNf/D_T_4%2028%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E28: Las grandes técnicas de Aldamon",
+  "hiddenCode": "T1 E28",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E29: La confusión causada por Sephirothmon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xAUAleHWMlbSdWqkklobhItRZKd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1MTFf/D_T_4%2029%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1MTFf/D_T_4%2029%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E29: La confusión causada por Sephirothmon",
+  "hiddenCode": "T1 E29",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E30: Velgmon, el guerrero de la oscuridad",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g0XrEUG6LsVuviYjKSz9ZC6QtC0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1MjNf/D_T_4%2030%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1MjNf/D_T_4%2030%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E30: Velgmon, el guerrero de la oscuridad",
+  "hiddenCode": "T1 E30",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E31: El cementerio de Trailmons",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/33fOXNCLc0afdOHMfPYJLPqu7sf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1NThf/D_T_4%2031%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1NThf/D_T_4%2031%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E31: El cementerio de Trailmons",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E32: El secreto de Duskmon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e6oyG9X2iUJEwJj37dK5vA3koMW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1NzFf/D_T_4%2032%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1NzFf/D_T_4%2032%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E32: El secreto de Duskmon",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E33: El Nuevo Guerrero de la Oscuridad, Loweemon y Kaiserleomon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sCQSWKDjd29pBKQQnt24jT6lZqV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1OTRf/D_T_4%2033%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1OTRf/D_T_4%2033%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E33: El Nuevo Guerrero de la Oscuridad, Loweemon y Kaiserleomon",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E34: Salvemos a Ophanimon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aPRI0AtplCNSPBZ3w6WXOaGixdq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2MTZf/D_T_4%2034%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2MTZf/D_T_4%2034%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E34: Salvemos a Ophanimon",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E35: La digievolución más poderosa de Takuya y Koji",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4xx7do78sIRY9QQbFzmnUObp24f.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2NThf/D_T_4%2035%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2NThf/D_T_4%2035%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E35: La digievolución más poderosa de Takuya y Koji",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E36: La pelea en el castillo de Kerpymon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hJJ1UDyguGc08AFjMvO1AiYnqHc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2Nzlf/D_T_4%2036%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2Nzlf/D_T_4%2036%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E36: La pelea en el castillo de Kerpymon",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E37: Recuperemos el digimundo",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mxxoqe3RpNhAWXvBRvpLBjIRRFu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2OTNf/D_T_4%2037%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2OTNf/D_T_4%2037%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E37: Recuperemos el digimundo",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E38: Una nueva época de caos - La resurrección de Lucemon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qG1eyZV8mKXMssV1xjmvGWhK1p0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3MDZf/D_T_4%2038%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3MDZf/D_T_4%2038%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E38: Una nueva época de caos - La resurrección de Lucemon",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E39: Escape de la luna",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6RcVC8k6i8dlrWugCGkSpziK9gI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3MjNf/D_T_4%2039%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3MjNf/D_T_4%2039%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E39: Escape de la luna",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E40: Los niños que manipulaban a Angemon",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tihXq22stUgZxEF6CwEq6I0ZpCg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3Mzlf/D_T_4%2040%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3Mzlf/D_T_4%2040%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E40: Los niños que manipulaban a Angemon",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E41: El tallo mágico que simboliza nuestra amistad",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5rsG0MMXHYJBIcyemIRx60eIsSL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3NTdf/D_T_4%2041%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3NTdf/D_T_4%2041%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E41: El tallo mágico que simboliza nuestra amistad",
+  "hiddenCode": "T1 E41",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E42: El milagro de la vida desaparece",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/duw56th5lWrJHIeIxbPzt5a8KoF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3NzJf/D_T_4%2042%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3NzJf/D_T_4%2042%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E42: El milagro de la vida desaparece",
+  "hiddenCode": "T1 E42",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E43: ¡Los mensajeros del infierno, los hermanos Skulsatamon!",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kIDgy30E0AIbDKAvcChuSTh2Bk8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3ODhf/D_T_4%2043%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3ODhf/D_T_4%2043%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E43: ¡Los mensajeros del infierno, los hermanos Skulsatamon!",
+  "hiddenCode": "T1 E43",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E44: La promesa de Gotsumon y Koji",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ySx4v6YRqa1VVnViOKV8IVfXPGK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3OThf/D_T_4%2044%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3OThf/D_T_4%2044%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E44: La promesa de Gotsumon y Koji",
+  "hiddenCode": "T1 E44",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E45: Protejamos el mercado de Akiba",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/61QgX5Klo3FUDWuVMQrkxP5h6Xt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4MTZf/D_T_4%2045%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4MTZf/D_T_4%2045%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E45: Protejamos el mercado de Akiba",
+  "hiddenCode": "T1 E45",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E46: Lucemon, el conquistador de la oscuridad",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7ZlfTXK58qs2hVZvhWMpAsJvItu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4MjZf/D_T_4%2046%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4MjZf/D_T_4%2046%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E46: Lucemon, el conquistador de la oscuridad",
+  "hiddenCode": "T1 E46",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E47: Los caballeros de la realeza se desintegran",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/74d8QTXmf200I2oPCvkquUSzGit.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4Mzdf/D_T_4%2047%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4Mzdf/D_T_4%2047%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E47: Los caballeros de la realeza se desintegran",
+  "hiddenCode": "T1 E47",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E48: El último deseo de Koichi",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4AQ2ovz6PRqXMdH3QJ8yHoerGld.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4NTJf/D_T_4%2048%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4NTJf/D_T_4%2048%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E48: El último deseo de Koichi",
+  "hiddenCode": "T1 E48",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E49: ¡Pelea Susanomon!",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fmE1ZDdMa8jdBtVdtKBkWNuHyPP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4NjVf/D_T_4%2049%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4NjVf/D_T_4%2049%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E49: ¡Pelea Susanomon!",
+  "hiddenCode": "T1 E49",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+},
+{
+  "title": "E50: El comienzo de una nueva leyenda",
+  "meta": "13+ · 23m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rtzHTnbbOf0tLWzfbxA0imHXFI8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4NzZf/D_T_4%2050%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4NzZf/D_T_4%2050%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E50: El comienzo de una nueva leyenda",
+  "hiddenCode": "T1 E50",
+  "intro": {
+    "start": 5,
+    "end": 100
+  }
+}
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

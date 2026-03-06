@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo">
+
+</head>
+
+<style>
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+    }
+    /* Fondo negro para toda la página */
+    body {
+      padding-top: env(safe-area-inset-top);
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        }
+
+    /* Contenedor de imagen de fondo */
+    .background-image-container {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+    }
+
+    /* Imagen de fondo */
+    .background-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    /* Degradado sobre la imagen de fondo */
+    .background-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, #00000000, #0000001a, #00000046, #0000008f, #000000);
+        z-index: 1;
+    }
+
+    /* Contenedor centrado para foto de perfil y nombre de usuario */
+    .profile-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        top: -250px;
+        z-index: 2;
+    }
+
+    /* Imagen de perfil centrada */
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+    }
+
+    /* Nombre de usuario debajo de la imagen de perfil */
+    .user-name {
+        margin-top: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Botón de edición de perfil */
+    .edit-profile-button {
+        display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #555;
+    padding: 15px;
+    font-size: 1em;
+    background: none;
+    cursor: pointer;
+    position: relative;
+    top: -200px; /* Ajusta el valor para colocarlo más arriba */
+    z-index: 2;
+    }
+
+    /* Sección editable (oculta por defecto) */
+    .edit-profile-section {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        max-width: 600px;
+        background-color: rgb(0, 0, 0);
+        color: white;
+        z-index: 5;
+        overflow: auto;
+    }
+
+    .edit-profile-section.visible {
+        display: block;
+    }
+
+    /* Imagen de fondo editable con lápiz */
+    .editable-background-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .editable-background {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        
+    }
+
+    .editable-background-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #00000000, #0000001a, #00000046, #0000008f, #000000);
+    z-index: 1;
+}
+
+.editable-profile-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #00000000, #0000001a, #00000046, #0000008f, #000000);
+    z-index: 1;
+}
+
+    /* Icono de lápiz en la esquina superior derecha de la imagen de fondo */
+    .edit-icon-background {
+        position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    background: #fff;  /* Fondo blanco */
+    border: 2px solid #00000000;  /* Borde negro */
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    color: #000000b6; /* Color negro para el ícono */
+    z-index: 2;
+    }
+
+   
+    /* Icono de lápiz en la esquina inferior derecha de la imagen de perfil */
+    .edit-icon-profile {
+        position: absolute;
+    bottom: 5px; /* Reduce el espacio entre el borde de la imagen y el icono */
+    right: 140px;  /* Reduce el espacio entre el borde derecho de la imagen y el icono */
+    font-size: 20px;
+    background: #ffffff;  /* Fondo blanco */
+    border: 2px solid #00000000;  /* Borde negro */
+    border-radius: 50%;
+    padding: 3px;
+    cursor: pointer;
+    color: #000000b6; /* Color negro para el ícono */
+    z-index: 3;
+    }
+
+    /* Modal para selección de imagen */
+    .selection-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(0, 0, 0);
+        color: white;
+        z-index: 10;
+        padding-top: 50px;
+        text-align: center;
+        align-items: center;
+        overflow-y: auto; /* Habilita el scroll vertical si el contenido es alto */
+        max-height: 100vh; /* Altura máxima para limitar el contenido */
+    }
+
+  
+
+    .selection-modal.visible {
+        display: block;
+    }
+
+    /* Opciones de imágenes circulares */
+    .image-options {
+        display: flex;
+         padding-left: 10px;
+        overflow-x: auto;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .image-option {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid white;
+    }
+
+    /* Botón cerrar modal */
+    .close-modal-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #f44336;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Estilo del botón Guardar */
+    .save-button {
+        display: block;
+        width: 80%;
+        padding: 15px;
+        background-color: #77777700;  /* Gris para inactivo */
+        color: #fff;
+        border: 1px solid #777;
+        font-size: 1.2em;
+        cursor: not-allowed;
+        margin: 20px auto;
+        border-radius: 5px;
+        opacity: 0.5;
+        position: fixed;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .save-button.active {
+        background-color: #fff;  /* Blanco cuando está activo */
+        color: #000;
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    .username-edit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 50px;
+    margin-left: 20px;
+    width: 90%; /* Limita el ancho dentro de la sección de edición */
+    max-width: 500px; /* Ajusta el ancho máximo */
+}
+
+.username-label {
+    font-size: 10px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.username-input {
+    background: transparent;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #777;
+    outline: none;
+    font-size: 1.2em;
+    width: 100%; /* Asegura que el campo de texto no se desborde */
+    transition: border-color 0.3s;
+}
+
+/* Línea roja cuando el usuario hace clic en el campo */
+.username-input:focus {
+    border-bottom: 1px solid red;
+}
+
+.modal-header {
+    position: sticky;
+    top: -60px;
+    background: #000000;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    margin-top: -60px; /* Compensa el espacio inicial */
+}
+
+    .modal-header .back-icon {
+        font-size: 24px;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .image-category {
+    overflow-x: auto; /* Habilita el desplazamiento horizontal */
+    padding-left: 10px; /* Espaciado a la izquierda */
+    box-sizing: border-box; /* Garantiza que el padding no afecte el tamaño del contenedor */
+    margin-bottom: 5px;
+    margin-top: 10px;
+    white-space: nowrap; /* Evita que las imágenes se envuelvan en otra línea */
+    position: relative; /* Para que el sticky funcione correctamente */
+   
+}
+
+.category-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0; /* Fija el título en la parte superior cuando se hace scroll */
+    left: 0;
+    background-color: #000000; /* Fondo blanco para que se vea bien sobre otros elementos */
+    z-index: 100; /* Asegura que el título se quede sobre otros elementos */
+    padding: 10px;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Agrega una sombra sutil para que se vea mejor */
+}
+
+
+.image-options {
+    display: flex; /* Organiza las imágenes en una línea horizontal */
+    gap: 10px; /* Espaciado uniforme entre las imágenes */
+    padding: 5px 0; /* Añade espaciado vertical */
+    overflow: visible; /* Asegura que el contenido se muestre correctamente */
+}
+
+.image-option {
+    width: 100px; /* Asegura un tamaño uniforme */
+    height: 100px; /* Asegura un tamaño uniforme */
+    border-radius: 50%;
+    object-fit: cover; /* Hace que las imágenes se recorten correctamente */
+    cursor: pointer;
+    border: 2px solid white;
+    z-index: 1;
+    margin-top: 0; /* Corrige cualquier desplazamiento innecesario */
+    transition: transform 0.2s, box-shadow 0.2s; /* Animación suave */
+}
+
+.image-option:hover {
+    transform: scale(1.1); /* Agranda ligeramente la imagen al pasar el ratón */
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5); /* Añade un efecto de sombra */
+}
+
+    .modal-header-title {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .ready-button {
+        background-color: #f4433600;
+        color: #fff;
+        padding: 10px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .editable-background-container-modal {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+    .editable-background-modal {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-image: url("https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp"); /* Replace with your placeholder image */
+  z-index: .1;
+}
+
+.image-options-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    
+ 
+   
+}
+
+
+    /* Aseguramos que las imágenes de fondo sean rectangulares y más pequeñas */
+.image-option-background {
+    width: 200px; /* Ajusta el ancho según tus necesidades */
+    height: 120px; /* Ajusta la altura según tus necesidades */
+    object-fit: cover; /* Asegura que la imagen se recorte para cubrir completamente el contenedor */
+    border-radius: 5px; /* Opcional: bordes redondeados */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+   
+}
+
+.image-option-background:hover {
+    
+    cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
+}
+
+/* Estilos para que el contenedor de las opciones de imagen sea centrado y en filas */
+.image-options {
+    display: inline-flex;
+    gap: 10px;
+    overflow-x: auto; /* Permite el desplazamiento horizontal solo en las imágenes */
+    padding-left: 20px;
+}
+#backgroundImageOption {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.selected-image-profile {
+    filter: brightness(0.8);
+    border: 3px solid #FF5722;
+    border-radius: 50%;
+}
+
+.selected-image-background {
+    filter: brightness(0.8);
+    border: 2px solid #FF5722;
+}
+
+
+/* Estilos para la página de Notificaciones */
+.notifications-page {
+    background-color: black;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    display: none; /* Oculta la página al inicio */
+}
+
+.notifications-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #111;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+}
+
+.notifications-header .back-icon {
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+.notifications-content {
+    padding: 16px;
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #333;
+    text-decoration: none;
+    color: #fff;
+}
+
+.notification-image {
+    width: 200px; /* Ajusta según tus necesidades */
+    height: 100px; /* Ajusta según tus necesidades */
+    margin-right: 12px;
+    border-radius: 8px;
+}
+
+.notification-text h3 {
+    margin: 0;
+    font-size: 13px;
+}
+
+.notification-text p {
+    margin: 4px 0 0;
+    font-size: 11px;
+    color: #aaa;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 15px;
+    right: 40px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.2em 0.5em;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.notifications-container {
+    padding: 20px;
+}
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+.privacy-policy-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.privacy-policy-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #2c2c2c;
+    border-bottom: 1px solid #000000;
+}
+
+.privacy-policy-header h2 {
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.privacy-policy-content {
+    padding: 20px;
+}
+
+.app-version {
+    text-align: center;
+    font-size: 15px;
+    color: #888;
+    margin-top: -180px;
+}
+
+
+/* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+/* Contenedor editable de la imagen de perfil */
+.editable-profile-container {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Alinea los elementos de manera vertical */
+    justify-content: center;
+    align-items: center; /* Centra la imagen horizontalmente */
+    margin-top: -170px; /* Ajusta el espacio desde el top según sea necesario */
+}
+
+/* Imagen de perfil editable */
+.editable-profile {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgb(255, 255, 255);
+    z-index: 2; /* Se asegura que la imagen esté por encima del gradiente */
+    margin-bottom: 20px; /* Espacio entre la imagen y el botón */
+}
+
+/* Gradiente sobre la imagen */
+.editable-profile-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #00000000, #0000001a, #00000046, #0000008f, #000000);
+    z-index: 1; /* Mantén el gradiente debajo de los otros elementos */
+}
+
+/* Contenedor para el botón de subida y el texto debajo */
+.upload-btn-container {
+    text-align: center; /* Centra el contenido */
+    position: relative; /* Asegura que el contenedor tenga un contexto de posicionamiento */
+    z-index: 3; /* Asegura que el botón esté por encima del gradiente */
+}
+
+/* Ocultar el input de tipo archivo */
+#fileInput {
+    display: none; /* Ocultamos el input real de archivo */
+}
+
+/* Estilos del botón de subida */
+.upload-btn {
+    background-color: #f44336; /* Fondo rojo */
+    color: white; /* Texto blanco */
+    padding: 10px 10px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de puntero */
+    font-size: 14px; /* Tamaño de la fuente */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+    z-index: 10; /* Asegura que el botón esté por encima de otros elementos */
+}
+
+/* Cambio de color del botón al pasar el mouse */
+.upload-btn:hover {
+    background-color: #d32f2f; /* Fondo más oscuro al pasar el mouse */
+}
+
+/* Estilos del texto debajo del botón */
+.select-image-text {
+    font-size: 14px; /* Tamaño de la fuente */
+    color: #b9b6b6; /* Color gris */
+    margin-top: 10px; /* Espacio encima del texto */
+}
+    
+    
+      footer-akira {
+          margin-top: 40px;
+          padding: 20px;
+          background-color: #1a1a1a;
+          text-align: center;
+          color: #888;
+          font-size: 0.9em;
+          display: block;
+        }
+
+.privacy-policy-page {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000000;
+z-index: 1000;
+overflow-y: auto;
+}
+
+.privacy-policy-header {
+display: flex;
+align-items: center;
+padding: 10px;
+background-color: #2c2c2c;
+border-bottom: 1px solid #000000;
+}
+
+.privacy-policy-header h2 {
+margin-left: 10px;
+font-size: 18px;
+}
+
+.privacy-policy-content {
+padding: 20px;
+}
+
+.app-version {
+text-align: center;
+font-size: 15px;
+color: #888;
+margin-top: -210px;
+}
+
+
+/* Overlay para oscurecer la página */
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+z-index: 9999; /* Asegura que esté encima de todos los elementos */
+opacity: 1;
+transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+opacity: 0; /* Se desvanece */
+pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+display: block; /* Visible al cargar */
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 50px;
+height: 50px;
+border-radius: 50%;
+background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+);
+mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+opacity: 1 !important;
+transition: opacity 3s ease-out;
+z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+0% { transform: translate(-50%, -50%) rotate(0deg); }
+100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+0%, 100% { filter: brightness(1); }
+50% { filter: brightness(1.8); }
+}
+
+/* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+/Edge */
+        user-select: none; /* estándar */
+    }
+
+    /* Deshabilitar resaltado en elementos interactivos */
+    a, button, select, textarea {
+        -webkit-tap-highlight-color: transparent; /* Safari */
+    
+    }
+
+   /* Estilo para el nuevo botón "Darme de baja" */
+.select-from-action-profile {
+display: flex;
+justify-content: flex-start; /* Alinea el texto a la izquierda */
+align-items: center;
+width: 100%;
+color: white;
+border: none;
+border-bottom: 1px solid #555;
+padding: 15px;
+font-size: 1em;
+background: none;
+cursor: pointer;
+position: relative;
+top: -225px; /* Ajusta el valor para colocarlo más arriba */
+z-index: 2;
+}
+
+.select-from-action-profile:hover {
+color: #0056b3; /* Azul más oscuro al pasar el cursor */
+}
+
+.action-profile-option {
+background-color: rgba(0, 0, 0, 0.1); /* Fondo rojo claro para depuración */
+}
+
+/* Contenedor editable de la imagen de perfil */
+.editable-profile-container {
+position: relative;
+display: flex;
+flex-direction: column; /* Alinea los elementos de manera vertical */
+justify-content: center;
+align-items: center; /* Centra la imagen horizontalmente */
+margin-top: -170px; /* Ajusta el espacio desde el top según sea necesario */
+}
+
+/* Imagen de perfil editable */
+.editable-profile {
+width: 120px;
+height: 120px;
+border-radius: 50%;
+object-fit: cover;
+border: 3px solid rgb(255, 255, 255);
+z-index: 2; /* Se asegura que la imagen esté por encima del gradiente */
+margin-bottom: 20px; /* Espacio entre la imagen y el botón */
+}
+
+/* Gradiente sobre la imagen */
+.editable-profile-gradient {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(to bottom, #00000000, #0000001a, #00000046, #0000008f, #000000);
+z-index: 1; /* Mantén el gradiente debajo de los otros elementos */
+}
+
+/* Contenedor para el botón de subida y el texto debajo */
+.upload-btn-container {
+text-align: center; /* Centra el contenido */
+position: relative; /* Asegura que el contenedor tenga un contexto de posicionamiento */
+z-index: 3; /* Asegura que el botón esté por encima del gradiente */
+}
+
+/* Ocultar el input de tipo archivo */
+#fileInput {
+display: none; /* Ocultamos el input real de archivo */
+}
+
+/* Estilos del botón de subida */
+.upload-btn {
+background-color: #f44336; /* Fondo rojo */
+color: white; /* Texto blanco */
+padding: 10px 10px; /* Espaciado interno */
+border: none; /* Sin borde */
+border-radius: 5px; /* Bordes redondeados */
+cursor: pointer; /* Cursor de puntero */
+font-size: 14px; /* Tamaño de la fuente */
+transition: background-color 0.3s; /* Transición suave para el fondo */
+z-index: 10; /* Asegura que el botón esté por encima de otros elementos */
+}
+
+/* Cambio de color del botón al pasar el mouse */
+.upload-btn:hover {
+background-color: #d32f2f; /* Fondo más oscuro al pasar el mouse */
+}
+
+/* Estilos del texto debajo del botón */
+.select-image-text {
+font-size: 14px; /* Tamaño de la fuente */
+color: #b9b6b6; /* Color gris */
+margin-top: 10px; /* Espacio encima del texto */
+}
+/* Página de Pro */
+.pro-page {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000000; /* Fondo negro */
+z-index: 1000;
+overflow-y: auto;
+display: none; /* Oculto inicialmente */
+flex-direction: column;
+color: #ffffff; /* Texto blanco */
+}
+
+/* Encabezado */
+.pro-header {
+display: flex;
+align-items: center;
+padding: 10px 20px;
+background-color: #1a1a1a; /* Fondo oscuro para el encabezado */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.pro-header .back-icon {
+cursor: pointer;
+font-size: 24px;
+margin-right: 10px;
+color: #ffffff; /* Ícono blanco */
+}
+
+.pro-header h2 {
+margin: 0;
+font-size: 18px;
+color: #ffffff; /* Título blanco */
+}
+
+/* Contenido */
+.pro-content {
+padding: 20px;
+font-size: 16px;
+line-height: 1.5;
+color: #ffffff; /* Texto blanco */
+}
+
+.pro-content a {
+display: inline-block;
+padding: 10px 20px;
+background-color: #0070ba; /* Azul para el botón de WhatsApp */
+color: white;
+text-decoration: none;
+border-radius: 5px;
+font-size: 16px;
+margin-bottom: 10px;
+text-align: center;
+}
+
+.pro-content a:hover {
+background-color: #005a9e; /* Azul más oscuro al pasar el mouse */
+}
+
+/* Texto de agradecimiento */
+.thank-you-text {
+margin-top: 20px;
+text-align: center;
+font-size: 18px;
+font-weight: bold;
+color: #ffffff; /* Blanco */
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-overlay.hidden {
+    display: none;
+  }
+  
+  .modal-box {
+    background: #1e1e1e;
+    color: white;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  
+  .modal-box h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .modal-box p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #ccc;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .modal-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .modal-btn.cancel {
+    background: #444;
+    color: #fff;
+  }
+  
+  .modal-btn.confirm {
+    background: #2256ff;
+    color: white;
+  }
+  
+  .notificacion-toast {
+    position: fixed;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: bottom 0.3s ease;
+  }
+
+  
+  
+</style>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+    <header>
+        <div class="background-image-container">
+            <img id="backgroundImage" src="https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp" alt="Imagen de Fondo" class="background-image">
+            <div class="background-gradient"></div>
+        </div>
+    </header>
+
+    
+
+    <section class="profile-container">
+        <img id="profileImage" src="https://od.lk/s/M18zMDk3Njk5OTdf/DRAGON%20BALL%20APP.png" alt="User Profile Picture" class="profile-image">
+        <p class="user-name" id="userNameDisplay">Nombre del Usuario</p>
+    </section>
+
+    <button class="edit-profile-button" onclick="toggleEditProfile()" loading="lazy">
+        <span>Editar Perfil</span>
+        <span class="material-icons">chevron_right</span>
+    </button>
+    
+    <!-- Botón de Notificaciones -->
+    <button class="edit-profile-button" onclick="openNotifications()" loading="lazy">
+        <span>Notificaciones</span>
+        <span id="notificationCounter" class="notification-badge" style="display: none;">0</span>
+        <span class="material-icons">chevron_right</span>
+    </button>
+    
+
+  <!-- Botón de "Cómo transmitir a TV" -->
+<button class="edit-profile-button" onclick="openCastToTvPage()" loading="lazy">
+    <span>Cómo transmitir a TV</span>
+    <span class="material-icons">chevron_right</span>
+</button>
+
+
+
+<!-- Página de "Cómo transmitir a TV" -->
+<div id="castToTvPage" class="privacy-policy-page" style="display: none;">
+    <!-- Encabezado -->
+    <div class="privacy-policy-header">
+        <span class="material-icons back-icon" onclick="closeCastToTvPage()" loading="lazy">arrow_back</span>
+        <h2>Cómo transmitir a TV</h2>
+    </div>
+    
+    <!-- Contenido -->
+    <div class="privacy-policy-content">
+        <p>Para transmitir a tu TV necesitas la aplicación <strong>Web Video Caster</strong>, sigue estos pasos:</p><br>
+        <ol>
+            <li>Descarga la aplicación <strong>Web Video Caster</strong> en tu móvil Android desde <a href="https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo" target="_blank">Google Play Store</a>.</li><br>
+            <li>Descarga la aplicación <strong>Web Video Caster Receiver</strong> en tu TV desde la tienda de aplicaciones correspondiente.</li><br>
+            <li>Abre ambas aplicaciones y sincronízalas siguiendo las instrucciones proporcionadas en la app.</li>
+        </ol>
+<br>
+         <!-- Enlace al tutorial en YouTube -->
+         <p>También puedes ver el video tutorial directamente en YouTube:</p>
+         <a href="https://www.youtube.com/watch?v=hjhJTU76V64" target="_blank" style="color: #1a73e8; text-decoration: none;">
+             <strong>Ver tutorial en YouTube</strong>
+         </a>
+        <br><br>
+        <p>A continuación, te mostramos un video tutorial que explica cómo transmitir el contenido de Digital Knight a la TV:</p><br>
+        
+        <!-- Reproductor de video -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <video id="castTutorialVideo" controls style="width: 100%; max-width: 600px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                <source id="videoSource" src="https://od.lk/s/M18zMTc4NDg0ODNf/video_2025-05-29_01-26-19.mp4" type="video/mp4">
+                Tu navegador no soporta el reproductor de video. <a href="ruta-del-video.mp4" target="_blank">Descargar video</a>.
+            </video>
+        </div>
+        
+       
+    </div>
+</div>
+
+<!-- Botón de "Sugerencias y soporte" -->
+<button class="edit-profile-button" onclick="openSuggestionsPage()" loading="lazy">
+    <span>Sugerencias y soporte</span>
+    <span class="material-icons">chevron_right</span>
+</button>
+
+<!-- Página de "Sugerencias y soporte" -->
+<div id="suggestionsPage" class="privacy-policy-page" style="display: none;">
+    <!-- Encabezado -->
+    <div class="privacy-policy-header">
+        <span class="material-icons back-icon" onclick="closeSuggestionsPage()" loading="lazy">arrow_back</span>
+        <h2>Sugerencias y soporte</h2>
+    </div>
+    
+    <!-- Contenido -->
+    <div class="privacy-policy-content">
+        <p>Si tienes sugerencias de contenido o necesitas soporte con el contenido, puedes hacerlo uniéndote a nuestro canal de Telegram:</p><br>
+        <a href="https://t.me/digital_knight_app" target="_blank" style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" style="width: 24px; height: 24px;">
+            <strong>Únete al canal de Telegram aquí</strong>
+        </a><br><br>
+        <p>En el canal, podrás:</p><br>
+        <ul>
+            <li>Compartir tus dudas o sugerencias.</li><br>
+            <li>Informar si parte del contenido no se está mostrando o no funciona correctamente.</li><br>
+            <li>Recibir ayuda con cualquier inconveniente que tengas.</li>
+            <li>Hacer un pedido de pelicula o serie</li><br>
+        </ul>
+        <p>¡Con gusto te ayudaremos a resolver tus problemas!</p><br><br>
+
+        <!-- Sección de contacto por correo -->
+        <p>También, si quieres escribirnos, puedes hacerlo mandando un correo a:</p><br>
+        <a href="mailto:dragonplusapp@gmail.com" style="color: #1a73e8; text-decoration: none;">
+            <strong>dragonplusapp@gmail.com</strong>
+        </a><br><br>
+        <p>Al hacer clic en el enlace, serás redirigido a Gmail para mandar el correo.</p>
+    </div>
+</div>
+
+<!-- Botón de "Obtener Versión Pro" -->
+<button class="edit-profile-button" onclick="openProPage()" loading="lazy">
+    <span>Obtén Versión Pro Sin Anuncios</span>
+    <span class="material-icons">chevron_right</span>
+</button>
+
+<!-- Página de "Obtén Versión Pro" -->
+<div id="proPage" class="pro-page" style="display: none;">
+    <!-- Encabezado -->
+    <div class="pro-header">
+        <span class="material-icons back-icon" onclick="closeProPage()" loading="lazy">arrow_back</span>
+        <h2>Obtén Versión Pro</h2>
+    </div>
+    
+    <!-- Contenido -->
+<div class="pro-content">
+  <p>¡Disfruta de Digital Knight sin interrupciones!</p><br>
+  <p>Con la versión Pro, puedes acceder a todas las funciones de la app sin anuncios, además de disfrutar de una experiencia premium y soporte prioritario.</p><br>
+  <p>La versión Pro tiene un costo de <strong>$150.00 pesos MXN</strong> y es un solo pago, no es una suscripción.</p><br>
+  <p>Para obtener la versión Pro, haz clic en el siguiente botón:</p><br>
+
+  <!-- Botón para obtener versión Pro -->
+  <a href="http://action_noads" 
+     style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center;">
+      Obtener versión Pro
+  </a><br><br>
+
+  <p>Si no quieres la versión Pro pero deseas apoyar el proyecto, puedes hacerlo dando clic en el siguiente botón:</p><br>
+
+  <!-- Botón para apoyar el proyecto -->
+<a href="https://www.paypal.me/velazquezlerma" 
+target="_blank" 
+style="display: inline-block; padding: 10px 20px; background-color: #0070ba; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center;">
+Apoya Digital Knight
+</a><br><br>
+
+
+  <p>¡Gracias por tu interés en la versión Pro! Estamos aquí para ayudarte.</p><br><br><br>
+</div>
+</div>
+
+
+<!-- Página de "Compartir Dragon Plus App" -->
+<div id="sharePage" class="privacy-policy-page" style="display: none;">
+    <!-- Encabezado -->
+    <div class="privacy-policy-header">
+        <span class="material-icons back-icon" onclick="closeSharePage()" loading="lazy">arrow_back</span>
+        <h2>Compartir Digital Knight</h2>
+    </div>
+    
+    <!-- Contenido -->
+    <div class="privacy-policy-content">
+        <p>Comparte Digital Knight App con tus amigos y familiares usando cualquiera de las siguientes opciones:</p><br>
+        
+        <!-- Opción de WhatsApp -->
+        <a href="https://wa.me/?text=¡Echa%20un%20vistazo%20a%20Digital%20Knight%20App!%20Es%20increíble:%20http://www.appcreator24.com/app3515594-dgsla4" 
+           target="_blank" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
+                 alt="WhatsApp" style="width: 24px; height: 24px;">
+            <strong>Compartir por WhatsApp</strong>
+        </a>
+        
+        <!-- Opción de Telegram -->
+        <a href="https://t.me/share/url?url=http://www.appcreator24.com/app3515594-dgsla4&text=¡Echa%20un%20vistazo%20a%20Dragon%20Plus%20App!%20Es%20increíble" 
+           target="_blank" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" 
+                 alt="Telegram" style="width: 24px; height: 24px;">
+            <strong>Compartir por Telegram</strong>
+        </a>
+        
+        <!-- Opción de Facebook -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.appcreator24.com/app3515594-dgsla4" 
+           target="_blank" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" 
+                 alt="Facebook" style="width: 24px; height: 24px;">
+            <strong>Compartir por Facebook</strong>
+        </a>
+    </div>
+</div>
+
+<!-- Página de "Compartir OpenDrive" -->
+<div id="openDrivePage" class="privacy-policy-page" style="display: none;">
+    <!-- Encabezado -->
+    <div class="privacy-policy-header">
+        <span class="material-icons back-icon" onclick="closeOpenDrivePage()" loading="lazy">arrow_back</span>
+        <h2>OpenDrive: Almacenamiento para Devs y Creadores</h2>
+    </div>
+    
+    <!-- Contenido -->
+    <div class="privacy-policy-content" style="text-align: center;">
+        <p style="margin-bottom: 1em;">¿Buscas una solución confiable para almacenar tus archivos, proyectos o aplicaciones?</p>
+
+        <div style="background-color: #2d2d2d; padding: 1.2em; border-radius: 8px; margin: 0 auto; max-width: 420px; text-align: center;">
+            <p style="margin-bottom: 1em; font-size: 0.95em; color: #ccc;">
+                <strong>OpenDrive</strong> es mucho más que una nube: es una herramienta potente para <strong>programadores, creadores de contenido</strong> y cualquier persona que necesite:
+            </p>
+            <ul style="list-style: disc; margin: 0 auto 1em auto; padding-left: 1.2em; text-align: left; font-size: 0.95em; color: #ccc;">
+                <li>Almacenar archivos personales (fotos, documentos, videos).</li>
+                <li>Subir y gestionar proyectos de desarrollo o apps completas.</li>
+                <li>Compartir enlaces directos a tus archivos (ideal para integrarlos en tus sitios o apps).</li>
+                <li>Reproducir multimedia directamente desde la nube.</li>
+                <li>Disfrutar de <strong>espacio ilimitado</strong> con planes premium.</li>
+            </ul>
+            <a href="https://www.opendrive.com/?od=65ee2c2be4049" target="_blank" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px;">Regístrate en OpenDrive</a>
+        </div>
+
+        <p style="margin-top: 1.5em; font-size: 0.9em; color: #aaa;">
+            Al registrarte mediante este enlace, estarás apoyando el desarrollo de nuestros proyectos y la creación de más herramientas para la comunidad.
+        </p>
+    </div>
+</div>
+
+
+
+
+<!-- Botón para abrir la página de "Compartir Dragon Plus App" -->
+<button class="edit-profile-button" onclick="openSharePage()" loading="lazy">
+    <span>Compartir Digital Knight</span>
+    <span class="material-icons">chevron_right</span>
+</button>
+
+
+<!-- Botón para abrir la página de "Conoce OpenDrive" -->
+<button class="edit-profile-button" onclick="openOpenDrivePage()" loading="lazy">
+    <span>Descubre OpenDrive</span>
+    <span class="material-icons">chevron_right</span>
+</button>
+
+
+
+
+
+<!-- Botón para borrar progreso -->
+<button class="edit-profile-button" onclick="openDeleteProgressModal()">
+    <span>Borrar progreso de reproducción</span>
+    <span class="material-icons">chevron_right</span>
+  </button>
+  
+  <!-- Overlay y Modal personalizado -->
+  <div id="deleteProgressOverlay" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>¿Borrar progreso?</h3>
+      <p>Se eliminará el historial de reproducción de todas las películas y series. ¿Estás seguro?</p>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeDeleteProgressModal()">Cancelar</button>
+        <button class="modal-btn confirm" onclick="confirmDeleteProgress()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notificación flotante -->
+<div id="notificacion" class="notificacion-toast">
+    <span id="notificacionTexto"></span>
+  </div>
+  
+
+
+
+
+ <!-- Nuevo botón de Email -->
+ <button class="edit-profile-button" onclick="openPrivacyPolicy()" loading="lazy">
+    <span>POLÍTICA DE PRIVACIDAD Y CONTENIDO</span>
+    <span class="material-icons">chevron_right</span>
+</button>
+
+<!-- Nuevo botón "Darme de baja" con el texto a la izquierda -->
+<div class="action-profile-option" style="margin-top: 20px; text-align: left;">
+    <a href="http://action_profile" class="select-from-action-profile" style="color: #007bff; text-decoration: none; font-size: 16px;">
+        <span class="material-icons" style="vertical-align: middle;">remove_circle</span>
+        Darme de baja
+    </a>
+</div>
+
+<p class="app-version">Versión App 10.1</p>
+
+<!-- Agregar Font Awesome (si no lo tienes ya en tu proyecto) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    
+    <!-- Página de Política de Privacidad y Contenido -->
+    <div id="privacyPolicyPage" class="privacy-policy-page" style="display: none;">
+        <!-- Encabezado de Política de Privacidad -->
+        <div class="privacy-policy-header">
+            <span class="material-icons back-icon" onclick="closePrivacyPolicy()" loading="lazy">arrow_back</span>
+            <h2>POLÍTICA DE PRIVACIDAD Y CONTENIDO</h2>
+        </div>
+        
+        <!-- Contenido de Política de Privacidad -->
+        <div class="privacy-policy-content">
+            <!-- Aquí puedes agregar tus políticas de privacidad -->
+            <p>Digital Knight</p><br><br>
+            
+            <p>POLÍTICA DE PRIVACIDAD Y CONTENIDO</p><br>
+            
+            <p>· La app no recoge ningún dato de caracter personal del usuario como, por ejemplo, nombre, fotografías o localización.</p>
+            <br>
+            <p>· En consecuencia la app no comparte ningún dato personal con ninguna otra entidad o terceras personas.</p>
+            <br>
+            <p>· Las imágenes y los videos introducidos por el usuario son enviados al servidor de la app con el fin de poder ser
+            recuperados posteriormente por el propio usuario, y con el fin de que la app pueda ofrecer las funcionalidades según su
+            descripción.</p>
+            <br>
+            <p>· Permitimos que terceras compañías publiquen anuncios y recopilen cierta información anónima cuando visite nuestra
+            aplicación. Estas empresas pueden utilizar información anónima, como su ID de publicidad de Google, el tipo y la versión
+            de su dispositivo, la actividad de navegación, la ubicación y otros datos técnicos relacionados con su dispositivo, a
+            fin de proporcionar anuncios.</p>
+            <!-- Agrega más secciones o detalles según sea necesario -->
+        </div>
+    </div>
+<!-- Íconos de redes sociales centrados -->
+<div class="social-icons" style="display: flex; justify-content: center; gap: 20px; margin-top: 15px; font-size: 30px; z-index: 9999;">
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/share/14rE5N4iaaB/" target="_blank" style="color: #1877F2;">
+        <i class="fa-brands fa-facebook"></i>
+    </a>
+
+    <!-- Telegram -->
+    <a href="https://t.me/digital_knight_app" target="_blank" style="color: #0088CC;">
+        <i class="fa-brands fa-telegram"></i>
+    </a>
+</div>
+
+    <div id="notificationsPage" class="notifications-page">
+        <!-- Header de Notificaciones -->
+        <div class="notifications-header">
+            <span class="material-icons back-icon" onclick="closeNotifications()" loading="lazy">arrow_back</span>
+            <h2>Notificaciones</h2>
+        </div>
+
+        
+
+        
+        <!-- Contenido de Notificaciones -->
+        <div id="notificationsContainer" class="notifications-container">
+          
+ <!-- Notificación de versión Premium -->
+ 
+
+            
+            <!-- Añadir más notificaciones si es necesario -->
+        </div>
+    </div>
+    
+
+    <section class="edit-profile-section" id="editProfileSection">
+        <div class="editable-background-container">
+            <img id="editableBackground" src="https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp" alt="Background Image" class="editable-background">
+            <div class="editable-background-gradient"></div>
+            <span class="material-icons-outlined edit-icon-background" onclick="toggleModal('backgroundModal')" loading="lazy">edit</span>
+        </div>
+
+        <div class="editable-profile-container">
+            <img id="editableProfile" src="../logo-2025.png" alt="Editable Profile Image" class="editable-profile">
+            <span class="material-icons-outlined edit-icon-profile" onclick="toggleModal('profileModal')" loading="lazy">edit</span>
+        </div>
+
+        <div class="username-edit-container">
+            <label for="usernameInput" class="username-label">Nombre de usuario</label>
+            <input type="text" id="usernameInput" class="username-input" placeholder="Nombre del Usuario" oninput="updateUserName()" loading="lazy">
+        </div>
+
+        <button class="save-button" id="saveButton" onclick="saveChanges()" loading="lazy">Guardar</button>
+    </section>
+
+    <!-- Modal para selección de imagen de fondo -->
+    <div class="selection-modal" id="backgroundModal">
+        <div class="modal-header">
+            <a href="#" onclick="closeModal()" loading="lazy">
+                <span class="material-icons back-icon">arrow_back</span>
+            </a>
+            <h3 class="modal-header-title">Editar imagen de fondo</h3>
+            <button class="ready-button" onclick="toggleModal('backgroundModal')" loading="lazy">Listo</button>
+        </div>
+       
+    
+       <!-- Opciones de imágenes de fondo dentro del modal -->
+<div class="editable-background-container-modal">
+    <img id="editableBackgroundInModal" src="https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp" alt="Editable Background Image" class="editable-background" loading="lazy">
+    <div class="editable-background-gradient"></div>
+</div>
+
+<br><br><br><br>
+<!-- Categorías de imágenes de fondo -->
+<div class="image-category">
+    <div class="category-title">Digital Knight</div>
+    <div class="image-options">
+        <img src="https://od.lk/s/M18zMTAzMjk4MDlf/340452.webp" alt="Opción 1" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MDlf/340452.webp', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MTZf/abstract-blurred-gradient-mesh-on-black-background-in-bright-colors-with-space-for-your-text-vector.jpg" alt="Opción 2" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MTZf/abstract-blurred-gradient-mesh-on-black-background-in-bright-colors-with-space-for-your-text-vector.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MDdf/colorful-gradient-digital-art-abstract-tn.jpg" alt="Opción 3" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MDdf/colorful-gradient-digital-art-abstract-tn.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp" alt="Opción 4" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MTJf/OIP%20%285%29.jpeg" alt="Opción 5" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MTJf/OIP%20%285%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MTVf/OIP%20%286%29.jpeg" alt="Opción 6" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MTVf/OIP%20%286%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MTRf/R%20%286%29.jpeg" alt="Opción 7" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MTRf/R%20%286%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MTFf/soft-gradient-solid-color-4k-yl-3840x2160.jpg" alt="Opción 8" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MTFf/soft-gradient-solid-color-4k-yl-3840x2160.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk4MDVf/VmZHnTO.webp" alt="Opción 8" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk4MDVf/VmZHnTO.webp', this)" loading="lazy">
+    </div>
+</div>
+
+<!-- Repite el bloque anterior para las demás categorías -->
+<div class="image-category">
+    <div class="category-title">DC</div>
+    <div class="image-options">
+        <img src="https://od.lk/s/M18zMTAzMjk2MjNf/155917.jpg" alt="Opción 9" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MjNf/155917.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MzNf/463476.jpg" alt="Opción 10" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MzNf/463476.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MTNf/8ae01662d94b48e17cab2b7c18140b7f.jpg" alt="Opción 11" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MTNf/8ae01662d94b48e17cab2b7c18140b7f.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2Mjlf/batman_gotham_skyline_artwork.jpg" alt="Opción 12" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2Mjlf/batman_gotham_skyline_artwork.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MTJf/HD-wallpaper-amazing-view-space-scenery-horizon-planet.jpg" alt="Opción 13" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MTJf/HD-wallpaper-amazing-view-space-scenery-horizon-planet.jpg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MjBf/OIP%20%281%29.jpeg" alt="Opción 14" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MjBf/OIP%20%281%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MjJf/OIP%20%283%29.jpeg" alt="Opción 15" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MjJf/OIP%20%283%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MjZf/OIP%20%284%29.jpeg" alt="Opción 16" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MjZf/OIP%20%284%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MTlf/OIP.jpeg" alt="Opción 17" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MTlf/OIP.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MTdf/R%20%281%29.jpeg" alt="Opción 18" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MTdf/R%20%281%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MThf/R%20%282%29.jpeg" alt="Opción 19" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MThf/R%20%282%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MjVf/R%20%283%29.jpeg" alt="Opción 20" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MjVf/R%20%283%29.jpeg', this)" loading="lazy">
+        <img src="https://od.lk/s/M18zMTAzMjk2MTVf/R.jpeg" alt="Opción 21" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMjk2MTVf/R.jpeg', this)" loading="lazy">
+    </div>
+</div>
+
+    
+
+    <div class="image-category">
+        <div class="category-title">Marvel</div>
+        <div class="image-options">
+            <img src="https://od.lk/s/M18zMTAzMzM4NzVf/1164342.webp" alt="Opción 24" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NzVf/1164342.webp', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4Njlf/A1331-Architecture-of-Marvel-Movies-Image-1.jpg" alt="Opción 25" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4Njlf/A1331-Architecture-of-Marvel-Movies-Image-1.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NjVf/black-panther2.jpg" alt="Opción 26" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NjVf/black-panther2.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NjNf/main-qimg-57d99982fa98ccf820abd398976d7942.jpg" alt="Opción 27" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NjNf/main-qimg-57d99982fa98ccf820abd398976d7942.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NzRf/OIP%20%281%29.jpeg" alt="Opción 28" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NzRf/OIP%20%281%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NjJf/OIP.jpeg" alt="Opción 29" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NjJf/OIP.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NzJf/tumblr_moi7roOAAv1rjavnlo5_1280.jpg" alt="Opción 30" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NzJf/tumblr_moi7roOAAv1rjavnlo5_1280.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NjFf/wp2436484.jpg" alt="Opción 31" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NjFf/wp2436484.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4NjZf/wp4884745.webp" alt="Opción 32" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4NjZf/wp4884745.webp', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzM4Njhf/wp4884757.jpg" alt="Opción 33" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzM4Njhf/wp4884757.jpg', this)" loading="lazy">
+            </div>
+    </div>
+
+    <div class="image-category">
+        <div class="category-title">Volver al Futuro</div>
+        <div class="image-options">
+            <img src="https://od.lk/s/M18zMTAzMzU4MjZf/R.jpeg" alt="Opción 34" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4MjZf/R.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4MjVf/Volver-al-futuro-720x273.jpg" alt="Opción 35" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4MjVf/Volver-al-futuro-720x273.jpg', this)" loading="lazy"> 
+            </div>
+    </div>
+
+    <div class="image-category">
+        <div class="category-title">Los Simpsons</div>
+        <div class="image-options">
+            <img src="https://od.lk/s/M18zMTAzMzU4Nzlf/22c106dfd7fb38a24db39492c1cb7f2c.jpg" alt="Opción 36" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4Nzlf/22c106dfd7fb38a24db39492c1cb7f2c.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4NzRf/591067.jpg" alt="Opción 37" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4NzRf/591067.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4NzZf/bcd48940348908f96e968a561011b5a3.jpg" alt="Opción 38" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4NzZf/bcd48940348908f96e968a561011b5a3.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4Nzhf/d313b427f3197255e816764177bda749.jpg" alt="Opción 39" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4Nzhf/d313b427f3197255e816764177bda749.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4Nzdf/OIP%20%281%29.jpeg" alt="Opción 40" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4Nzdf/OIP%20%281%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4NzNf/OIP.jpeg" alt="Opción 41" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4NzNf/OIP.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU4NzVf/R%20%281%29.jpeg" alt="Opción 42" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU4NzVf/R%20%281%29.jpeg', this)" loading="lazy">
+               
+            </div>
+    </div>
+
+    <div class="image-category">
+        <div class="category-title">Disney</div>
+        <div class="image-options">
+            <img src="https://od.lk/s/M18zMTAzMzU5MDhf/25ef34ab2e728e5035c1a61acd351624.jpg" alt="Opción 43" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MDhf/25ef34ab2e728e5035c1a61acd351624.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU5MDVf/4b572a4c5213364d2068da8a956ea3ab.jpg" alt="Opción 44" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MDVf/4b572a4c5213364d2068da8a956ea3ab.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU5MTNf/51rhZOyLcEL._AC_SS450_.jpg" alt="Opción 45" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MTNf/51rhZOyLcEL._AC_SS450_.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU5MDRf/76d0fad6227dbc5a0983d004a236d8ec.png" alt="Opción 46" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MDRf/76d0fad6227dbc5a0983d004a236d8ec.png', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU5MTFf/bfa456dc0119be38185a4ecf5e12ea79.jpg" alt="Opción 47" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MTFf/bfa456dc0119be38185a4ecf5e12ea79.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU5MDlf/c31d52848154a3812f0d09237236b6ab.jpg" alt="Opción 48" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MDlf/c31d52848154a3812f0d09237236b6ab.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzU5MDNf/HD-wallpaper-tangled-castle-tangled-disney-castle-painting-rapunzel.jpg" alt="Opción 49" class="image-option-background" onclick="selectBackgroundImage('https://od.lk/s/M18zMTAzMzU5MDNf/HD-wallpaper-tangled-castle-tangled-disney-castle-painting-rapunzel.jpg', this)" loading="lazy">
+               
+            </div>
+    </div>
+<br><br><br><br><br><br>
+</div>
+    
+
+    <!-- Modal para selección de imagen de perfil -->
+<div class="selection-modal" id="profileModal">
+    <div class="modal-header">
+        <a href="#" onclick="closeModal()" loading="lazy">
+            <span class="material-icons back-icon">arrow_back</span>
+        </a>
+        <h3 class="modal-header-title">Editar imagen de perfil</h3>
+        <button class="ready-button" onclick="toggleModal('profileModal')" loading="lazy">Listo</button>
+    </div>
+
+    <div class="editable-background-container-modal">
+        <img id="backgroundImageOption" src="https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp" alt="Imagen de Fondo" class="editable-background-modal">
+        <div class="editable-profile-gradient"></div>
+    </div>
+
+  <!-- Contenedor editable de la imagen de perfil -->
+<div class="editable-profile-container">
+    <img id="editableProfileInModal" src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Editable Profile Image" class="editable-profile">
+
+    <!-- Contenedor con el botón de carga de imagen y el texto debajo -->
+    <div class="upload-btn-container">
+        <!-- Botón real de archivo oculto -->
+        <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
+        
+        <!-- Botón personalizado que aparece en lugar del botón de archivo -->
+        <label for="fileInput" class="upload-btn">Sube tu imagen</label>
+        
+        <!-- Texto debajo del botón -->
+        <p class="select-image-text">O selecciona una imagen</p>
+    </div>
+</div>
+
+    
+    <br><br><br><br><br><br><br><br>
+        
+
+        <!-- Repite el bloque anterior para las demás categorías -->
+        <div class="image-category">
+            <div class="category-title">DC</div>
+            <div class="image-options">
+                <img src="https://od.lk/s/M18zMTAzMzYwMTNf/4902187.webp" alt="Opción 1" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMTNf/4902187.webp', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMTRf/batman-ben-affleck-justice-league.jpg" alt="Opción 2" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMTRf/batman-ben-affleck-justice-league.jpg', this)" loading="lazy">
+                <img src="https://1.bp.blogspot.com/-hXpbUGskWyE/XZ34t4ETZSI/AAAAAAABJfY/wB6jkhTbr_YiZKUfGqTWfcvHHso5ChnoQCLcBGAsYHQ/s1600/zXCHyfLVr8.png" alt="Opción 3" class="image-option" onclick="selectProfileImage('https://1.bp.blogspot.com/-hXpbUGskWyE/XZ34t4ETZSI/AAAAAAABJfY/wB6jkhTbr_YiZKUfGqTWfcvHHso5ChnoQCLcBGAsYHQ/s1600/zXCHyfLVr8.png', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMTJf/OIP%20%285%29.jpeg" alt="Opción 4" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMTJf/OIP%20%285%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMDJf/b320ef3a7c7adb39d5fbbda50bf10311.jpg" alt="Opción 5" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMDJf/b320ef3a7c7adb39d5fbbda50bf10311.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMTZf/OIP%20%286%29.jpeg" alt="Opción 6" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMTZf/OIP%20%286%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMDlf/cab6c0d3a1b6b71ed42556cf9dccc2cd.jpg" alt="Opción 7" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMDlf/cab6c0d3a1b6b71ed42556cf9dccc2cd.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMDVf/e772984b77943c6a9485ea38525a9d9f--heath-ledger-joker-makeup-heath-joker.jpg" alt="Opción 8" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMDVf/e772984b77943c6a9485ea38525a9d9f--heath-ledger-joker-makeup-heath-joker.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMDRf/maxresdefault.jpg" alt="Opción 3" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMDRf/maxresdefault.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMDdf/01d9c7f5c5ad0f82109e9a507196c0b9.jpg" alt="Opción 9" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMDdf/01d9c7f5c5ad0f82109e9a507196c0b9.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMTFf/wp5572704.webp" alt="Opción 10" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMTFf/wp5572704.webp', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMTBf/1c4595f7d33b20717231c4e31e3fc645.jpg" alt="Opción 11" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMTBf/1c4595f7d33b20717231c4e31e3fc645.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzMzYwMDZf/R%20%284%29.jpeg" alt="Opción 12" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzMzYwMDZf/R%20%284%29.jpeg', this)" loading="lazy">
+            </div>
+        </div>
+
+        <div class="image-category">
+            <div class="category-title">Marvel</div>
+            <div class="image-options">
+                <img src="https://od.lk/s/M18zMTE0NDcwODFf/descarga%20%283%29.jpg" alt="Opción 13" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDcwODFf/descarga%20%283%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDUzNjBf/iron%20man%20avatar.jpg" alt="Opción 14" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDUzNjBf/iron%20man%20avatar.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDUzNzBf/WINTER%20SOLDIER%28Bucky%29%20AVATAR%20%28icon%29.jpg" alt="Opción 15" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDUzNzBf/WINTER%20SOLDIER%28Bucky%29%20AVATAR%20%28icon%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDcwNzlf/falcon%20avatar.jpg" alt="Opción 16" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDcwNzlf/falcon%20avatar.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDUzODlf/Disney%2B%20_%20Ver%20Disney%2C%20Marvel%2C%20Pixar%2C%20Star%20Wars%2C%20National%20Geographic%20y%20mucho%20m%C3%A1s%20%281%29.jpg" alt="Opción 17" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDUzODlf/Disney%2B%20_%20Ver%20Disney%2C%20Marvel%2C%20Pixar%2C%20Star%20Wars%2C%20National%20Geographic%20y%20mucho%20m%C3%A1s%20%281%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDUzNzdf/Disney%2B%20_%20Pel%C3%ADculas%20y%20series%20%281%29.jpg" alt="Opción 18" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDUzNzdf/Disney%2B%20_%20Pel%C3%ADculas%20y%20series%20%281%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDUzNzJf/thanos%20avatar.jpg" alt="Opción 19" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDUzNzJf/thanos%20avatar.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDcwODlf/vision%20avatar.jpg" alt="Opción 20" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDcwODlf/vision%20avatar.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDUzODdf/rocket%20raccoon%20avatar.jpg" alt="Opción 21" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDUzODdf/rocket%20raccoon%20avatar.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDcwODZf/groot%20avatar.jpg" alt="Opción 22" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDcwODZf/groot%20avatar.jpg', this)" loading="lazy">
+            </div>
+        </div>
+
+        <div class="image-category">
+            <div class="category-title">Disney</div>
+            <div class="image-options">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODdf/1c00105d9dc5fd91e74c4ea08e59b798.jpg" alt="Opción 23" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODdf/1c00105d9dc5fd91e74c4ea08e59b798.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1NzVf/cb85859622e44d1d732bcc4ceb4967b2.jpg" alt="Opción 24" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1NzVf/cb85859622e44d1d732bcc4ceb4967b2.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODNf/OIP%20%287%29.jpeg" alt="Opción 25" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODNf/OIP%20%287%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODZf/R%20%285%29.jpeg" alt="Opción 26" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODZf/R%20%285%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODhf/6rIxaSE.jpg" alt="Opción 27" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODhf/6rIxaSE.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODVf/OIP%20%288%29.jpeg" alt="Opción 28" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODVf/OIP%20%288%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1NzNf/R%20%286%29.jpeg" alt="Opción 29" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1NzNf/R%20%286%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1NzBf/5c239685ecbea2c12fcb8ee661a04d0a9098e141.jpeg" alt="Opción 30" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1NzBf/5c239685ecbea2c12fcb8ee661a04d0a9098e141.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1NzRf/5e178a193ea3fe26066e94babd385d55.jpg" alt="Opción 31" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1NzRf/5e178a193ea3fe26066e94babd385d55.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDcwMTZf/00dfa5bb094e32e15bb332e904d6dfcf.jpg" alt="Opción 32" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDcwMTZf/00dfa5bb094e32e15bb332e904d6dfcf.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1Nzhf/R%20%287%29.jpeg" alt="Opción 33" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1Nzhf/R%20%287%29.jpeg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1NzZf/d501368a00f5c4dbdb97c808b8b727b3.jpg" alt="Opción 34" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1NzZf/d501368a00f5c4dbdb97c808b8b727b3.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODJf/fafa4da84d9fddb87eb3066282bc5526.jpg" alt="Opción 35" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODJf/fafa4da84d9fddb87eb3066282bc5526.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTAzNDY1ODFf/490b5c86bf01510e5af5b5ae3549fd7c.jpg" alt="Opción 36" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTAzNDY1ODFf/490b5c86bf01510e5af5b5ae3549fd7c.jpg', this)" loading="lazy">
+            </div>
+        </div>
+
+        <div class="image-category">
+            <div class="category-title">Los Simpson</div>
+            <div class="image-options">
+                <img src="https://od.lk/s/M18zMTE0NDI0NjNf/descarga%20%282%29.jpg" alt="Opción 3" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDI0NjNf/descarga%20%282%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDI0NzJf/descarga.jpg" alt="Opción 4" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDI0NzJf/descarga.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDI0Nzlf/Imprimible_docx%20%283%29.jpg" alt="Opción 3" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDI0Nzlf/Imprimible_docx%20%283%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDI0Njlf/Imprimible_docx.jpg" alt="Opción 4" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDI0Njlf/Imprimible_docx.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDI0NzRf/Imprimible_docx%20%281%29.jpg" alt="Opción 3" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDI0NzRf/Imprimible_docx%20%281%29.jpg', this)" loading="lazy">
+                <img src="https://od.lk/s/M18zMTE0NDI0NzVf/Imprimible_docx%20%282%29.jpg" alt="Opción 4" class="image-option" onclick="selectProfileImage('https://od.lk/s/M18zMTE0NDI0NzVf/Imprimible_docx%20%282%29.jpg', this)" loading="lazy">
+                
+                
+            </div>
+        </div>
+        <br><br><br><br><br><br>
+        <!-- Agrega más categorías según sea necesario -->
+    </div>
+
+    <footer-akira>
+    © 2025 Digital Knight. All Rights Reserved.
+  </footer-akira>
+
+  <br><br><br>
+
+  <footer class="footer">
+    <a href="main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="new favoritos 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="perfil2025.html" class="footer-icon active">
+        
+        <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+</footer>
+<script src="nav"></script>
+<script>
+function openOpenDrivePage() {
+    document.getElementById("openDrivePage").style.display = "block";
+}
+
+function closeOpenDrivePage() {
+    document.getElementById("openDrivePage").style.display = "none";
+}
+
+
+    // Función para abrir la página de Pro
+function openProPage() {
+    document.getElementById("proPage").style.display = "block";
+}
+
+// Función para cerrar la página de Pro
+function closeProPage() {
+    document.getElementById("proPage").style.display = "none";
+}
+
+
+
+// Función para manejar la selección de archivo de imagen
+function handleFileSelect(event) {
+var file = event.target.files[0]; // Obtiene el archivo seleccionado
+if (file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        // Obtener la URL de la imagen seleccionada
+        var newImageUrl = e.target.result;
+        
+        // Cambiar la imagen de perfil en todas las instancias correspondientes
+        document.getElementById('editableProfile').src = newImageUrl;
+        document.getElementById('editableProfileInModal').src = newImageUrl;
+        document.getElementById('profileImage').src = newImageUrl;
+        
+        // Guardar la nueva imagen de perfil en localStorage
+        localStorage.setItem('profileImage', newImageUrl);
+
+        // Actualizar también la imagen en el footer
+        updateProfileImage(newImageUrl);
+    };
+    reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+}
+}
+
+// Función para actualizar la imagen de perfil en el footer
+function updateProfileImage(imageUrl) {
+// Actualizar la imagen del perfil en el footer (suponiendo que el footer tiene una imagen con id 'footerProfileImage')
+document.getElementById('footerProfileImage').src = imageUrl;
+}
+
+    // Prevenir gestos táctiles no deseados
+document.addEventListener('touchmove', function (event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+// Función para abrir la página de compartir
+function openSharePage() {
+    document.getElementById('sharePage').style.display = 'block';
+}
+
+// Función para cerrar la página de compartir
+function closeSharePage() {
+    document.getElementById('sharePage').style.display = 'none';
+}
+
+    // Función para mostrar la página de "Sugerencias y soporte"
+function openSuggestionsPage() {
+    document.getElementById("suggestionsPage").style.display = "block";
+}
+
+// Función para cerrar la página de "Sugerencias y soporte"
+function closeSuggestionsPage() {
+    document.getElementById("suggestionsPage").style.display = "none";
+}
+
+// Función para mostrar la página de "Cómo transmitir a TV"
+function openCastToTvPage() {
+    document.getElementById("castToTvPage").style.display = "block";
+}
+
+// Función para cerrar la página de "Cómo transmitir a TV"
+function closeCastToTvPage() {
+    document.getElementById("castToTvPage").style.display = "none";
+}
+
+window.addEventListener('load', function () {
+const overlay = document.querySelector('.overlay');
+const loader = document.getElementById('loader');
+
+// Se mantiene el loader visible por 1 segundo
+setTimeout(() => {
+    // Hacer que el loader desaparezca rápidamente
+    loader.style.opacity = '0'; // Desvanecer loader
+    setTimeout(() => {
+        loader.style.display = 'none'; // Eliminarlo del flujo
+
+        // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+        overlay.classList.add('hidden');
+    }, 300); // Tiempo de transición de 300ms para el loader
+}, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+let initialProfileImage = document.getElementById('editableProfile').src;
+let initialBackgroundImage = document.getElementById('editableBackground').src;
+let notificationCount = 0;  // Inicializar contador de notificaciones
+
+// Función para alternar la visibilidad del perfil editable
+function toggleEditProfile() {
+document.getElementById('editProfileSection').classList.toggle('visible');
+}
+
+// Función para mostrar o esconder el modal
+function toggleModal(modalId) {
+document.getElementById(modalId).classList.toggle('visible');
+}
+
+// Función para seleccionar la imagen de fondo y resaltar la imagen seleccionada
+function selectBackgroundImage(imageUrl, imgElement) {
+// Cambiar la imagen de fondo en la sección de edición
+document.getElementById('editableBackground').src = imageUrl;
+document.getElementById('editableBackgroundInModal').src = imageUrl;
+document.getElementById('backgroundImage').src = imageUrl;
+
+// Guardar la imagen seleccionada en localStorage para que persista después de cerrar la página
+localStorage.setItem('backgroundImage', imageUrl);  
+
+// Resaltar la imagen seleccionada
+const allImages = document.querySelectorAll('.image-option-background');
+allImages.forEach(img => img.classList.remove('selected-image-background'));
+imgElement.classList.add('selected-image-background');
+
+checkForChanges();
+}
+
+// Función para seleccionar la imagen de perfil y resaltar la imagen seleccionada
+function selectProfileImage(imageUrl, imgElement) {
+// Create a new Image object to handle loading
+const profileImage = new Image();
+
+// Set the image source and handle loading events
+profileImage.src = imageUrl;
+profileImage.onload = function() {
+  document.getElementById('editableProfile').src = imageUrl;
+  document.getElementById('editableProfileInModal').src = imageUrl;
+  document.getElementById('profileImage').src = imageUrl;
+
+  localStorage.setItem('profileImage', imageUrl);
+
+  const allImages = document.querySelectorAll('.image-option-profile');
+  allImages.forEach(img => img.classList.remove('selected-image-profile'));
+  imgElement.classList.add('selected-image-profile');
+
+  updateProfileImage(imageUrl);
+  checkForChanges();
+
+  saveUserName(); // 🔁 Aquí sincroniza a Supabase
+};
+
+
+// Handle potential errors during image loading
+profileImage.onerror = function() {
+// Optional: Show an error message or a placeholder image
+console.error('Error loading profile image:', imageUrl);
+};
+}
+
+
+window.onload = function () {
+// Cargar imagen de perfil si existe
+const savedProfileImage = localStorage.getItem('profileImage');
+if (savedProfileImage) {
+    document.getElementById('editableProfile').src = savedProfileImage;
+    document.getElementById('editableProfileInModal').src = savedProfileImage;
+    document.getElementById('profileImage').src = savedProfileImage;
+
+    // Actualizar la imagen en el footer
+    updateProfileImage(savedProfileImage);
+}
+
+// Cargar imagen de fondo si existe
+const savedBackgroundImage = localStorage.getItem('backgroundImage');
+if (savedBackgroundImage) {
+    document.getElementById('backgroundImage').src = savedBackgroundImage;
+    document.getElementById('editableBackground').src = savedBackgroundImage;
+}
+
+// Cargar nombre de usuario si existe
+const savedUserName = localStorage.getItem('userName');
+if (savedUserName) {
+    document.getElementById('userNameDisplay').textContent = savedUserName;
+    document.getElementById('usernameInput').value = savedUserName;
+}
+// Llamar a la función para actualizar el contador de notificaciones
+updateNotificationCounter();
+
+// Verificar si hay cambios
+checkForChanges();
+};
+
+
+// Función para guardar los cambios y cerrar la sección de edición
+function saveChanges() {
+  document.getElementById('saveButton').classList.remove('active');
+  saveUserName(); // 🔄 Aquí agregamos la sincronización del nombre
+  toggleEditProfile();  // Cerrar la sección de edición de perfil
+}
+
+
+// Función para verificar y habilitar el botón de guardar si hay cambios
+function checkForChanges() {
+const userName = document.getElementById('usernameInput').value;
+const profileImage = document.getElementById('editableProfile').src;
+const backgroundImage = document.getElementById('editableBackground').src;
+
+const userNameChanged = userName !== localStorage.getItem('userName');
+const profileImageChanged = profileImage !== initialProfileImage;
+const backgroundImageChanged = backgroundImage !== initialBackgroundImage;
+
+if (userNameChanged || profileImageChanged || backgroundImageChanged) {
+    document.getElementById('saveButton').classList.add('active');
+} else {
+    document.getElementById('saveButton').classList.remove('active');
+}
+}
+
+// Cargar imágenes, fondo y nombre guardados si existen
+window.onload = function () {
+  // Cargar imagen de perfil si existe en localStorage
+  if (localStorage.getItem('profileImage')) {
+    let profileImageUrl = localStorage.getItem('profileImage');
+    document.getElementById('profileImage').src = profileImageUrl;
+    document.getElementById('editableProfile').src = profileImageUrl;
+    document.getElementById('editableProfileInModal').src = profileImageUrl;
+    updateProfileImage(profileImageUrl);
+  }
+
+  // Cargar imagen de fondo si existe en localStorage
+  if (localStorage.getItem('backgroundImage')) {
+    let backgroundImageUrl = localStorage.getItem('backgroundImage');
+    document.getElementById('backgroundImage').src = backgroundImageUrl;
+    document.getElementById('editableBackground').src = backgroundImageUrl;
+  }
+
+  // Cargar nombre de usuario si existe en localStorage
+  const savedUserName = localStorage.getItem('userName');
+  if (savedUserName) {
+    document.getElementById('userNameDisplay').textContent = savedUserName;
+    document.getElementById('usernameInput').value = savedUserName;
+  }
+
+  updateNotificationCounter();
+  checkForChanges();
+
+  // 🔄 Cargar también desde Supabase si hay sesión activa
+  (async () => {
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+      const supabase = createClient(
+        'https://eacgmqikpwzqdmgixtja.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhY2dtcWlrcHd6cWRtZ2l4dGphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1MjIwNzYsImV4cCI6MjA4MTA5ODA3Nn0.OUE0PYKVOUtIKQeMebxdy7ALWwHnjiVQPMEOlruPsXg'
+      );
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const userId = session.user.id;
+      const { data, error } = await supabase
+        .from("profiles")
+        .select('avatar, user_name, background')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (data) {
+        if (data.avatar) {
+          updateProfileImage(data.avatar);
+          document.getElementById('profileImage').src = data.avatar;
+          document.getElementById('editableProfile').src = data.avatar;
+          document.getElementById('editableProfileInModal').src = data.avatar;
+          localStorage.setItem('profileImage', data.avatar);
+        }
+
+        if (data.user_name) {
+          document.getElementById('userNameDisplay').textContent = data.user_name;
+          document.getElementById('usernameInput').value = data.user_name;
+          localStorage.setItem('userName', data.user_name);
+        }
+
+        if (data.background) {
+          document.getElementById('backgroundImage').src = data.background;
+          document.getElementById('editableBackground').src = data.background;
+          localStorage.setItem('backgroundImage', data.background);
+        }
+      }
+
+      if (error) {
+        console.warn('⚠️ Error al obtener datos del perfil:', error);
+      }
+    } catch (e) {
+      console.warn('⚠️ No se pudo cargar datos desde Supabase:', e);
+    }
+  })();
+};
+
+// Función para actualizar el nombre de usuario en tiempo real
+let syncNameTimeout;
+function updateUserName() {
+  const userNameInput = document.getElementById('usernameInput').value;
+  document.getElementById('userNameDisplay').textContent = userNameInput;
+  localStorage.setItem('userName', userNameInput);
+  checkForChanges();
+
+  clearTimeout(syncNameTimeout);
+  syncNameTimeout = setTimeout(() => {
+    saveUserName(); // 🔄 Auto sincronizar tras 1 segundo sin escribir
+  }, 1000);
+}
+
+
+// Guardar el nombre en localStorage y sincronizar con Supabase
+function saveUserName() {
+  const userName = document.getElementById('usernameInput').value;
+  localStorage.setItem('userName', userName);
+  document.getElementById('saveButton').classList.remove('active');
+
+  // También guardar en Supabase
+  (async () => {
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+      const supabase = createClient(
+        'https://eacgmqikpwzqdmgixtja.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhY2dtcWlrcHd6cWRtZ2l4dGphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1MjIwNzYsImV4cCI6MjA4MTA5ODA3Nn0.OUE0PYKVOUtIKQeMebxdy7ALWwHnjiVQPMEOlruPsXg'
+      );
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const userId = session.user.id;
+      const backgroundImage = localStorage.getItem('backgroundImage') || null;
+      const profileImage = localStorage.getItem('profileImage') || null;
+
+      const { error } = await supabase
+        .from("profiles")
+        .upsert({
+          id: userId,
+          user_name: userName,
+          avatar: profileImage,
+          background: backgroundImage
+        });
+
+      if (error) {
+        console.error('❌ Error al guardar perfil en Supabase:', error);
+      } else {
+        console.log('✅ Perfil sincronizado con Supabase');
+      }
+    } catch (e) {
+      console.warn('⚠️ No se pudo sincronizar el perfil con Supabase:', e);
+    }
+  })();
+}
+
+
+// Cerrar el modal
+function closeModal() {
+toggleModal('profileModal');
+}
+
+// Función para mostrar la página de Notificaciones
+function openNotifications() {
+updateNotificationCounter();  // Llamar para actualizar el contador cuando se abre la página de notificaciones
+document.getElementById("notificationsPage").style.display = "block";
+updateDeleteButton();
+}
+
+// Función para cerrar la página de Notificaciones
+function closeNotifications() {
+document.getElementById("notificationsPage").style.display = "none";
+}
+
+// Función para añadir una notificación y actualizar el contador
+function addNotification() {
+const newNotification = document.createElement('a');
+newNotification.classList.add('notification-item');
+newNotification.href = 'go:venom3';
+newNotification.innerHTML = `        
+    <img src="https://image.tmdb.org/t/p/original/jiWlhrR0jAQPy0zwfIYa2gqgMuA.jpg" alt="Nuevo Contenido" class="notification-image">
+    <div class="notification-text">
+        <h3>Nuevo Contenido</h3>
+        <p>Descripción de la nueva notificación.</p>
+    </div>
+`;
+document.getElementById('notificationsContainer').appendChild(newNotification);
+updateNotificationCounter();  // Actualizar contador después de agregar una notificación
+updateDeleteButton();  // Actualizar estado del botón
+}
+
+// Función para eliminar una notificación y actualizar el contador
+function removeNotification() {
+const notificationsContainer = document.getElementById("notificationsContainer");
+const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
+
+// Eliminar la última notificación
+if (notificationItems.length > 0) {
+    notificationItems[notificationItems.length - 1].remove();
+    updateNotificationCounter();  // Actualizar contador después de eliminar una notificación
+    updateDeleteButton();  // Actualizar estado del botón
+}
+}
+
+// Función para eliminar todas las notificaciones
+function deleteAllNotifications() {
+const notificationsContainer = document.getElementById("notificationsContainer");
+notificationsContainer.innerHTML = "";
+updateNotificationCounter();
+updateDeleteButton();
+}
+
+// Función para actualizar el contador de notificaciones
+function updateNotificationCounter() {
+const notificationsContainer = document.getElementById("notificationsContainer");
+const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
+const notificationCounter = document.getElementById("notificationCounter");
+
+// Si hay más de 0 notificaciones, mostrar el contador
+if (notificationItems.length > 0) {
+    notificationCounter.style.display = "inline";
+    notificationCounter.textContent = notificationItems.length;  // Actualizamos el número de notificaciones
+} else {
+    notificationCounter.style.display = "none";
+    // Mostrar mensaje de que no hay notificaciones
+    if (notificationsContainer.querySelectorAll('.notification-item').length === 0) {
+        const noNotificationsMessage = document.createElement('p');
+        noNotificationsMessage.textContent = 'No tienes ninguna notificación nueva. Te enviaremos una notificación cuando tengamos alguna novedad que compartir!';
+        notificationsContainer.appendChild(noNotificationsMessage);
+    }
+}
+}
+
+// Función para actualizar la imagen del perfil en el footer
+function updateProfileImage(imageUrl) {
+const footerIcon = document.getElementById("footerIconImg");
+footerIcon.src = imageUrl;
+}
+
+function openPrivacyPolicy() {
+document.getElementById("privacyPolicyPage").style.display = "block";
+}
+
+function closePrivacyPolicy() {
+document.getElementById("privacyPolicyPage").style.display = "none";
+}
+
+function openDeleteProgressModal() {
+    document.getElementById('deleteProgressOverlay').classList.remove('hidden');
+  }
+  
+  function closeDeleteProgressModal() {
+    document.getElementById('deleteProgressOverlay').classList.add('hidden');
+  }
+  
+  async function confirmDeleteProgress() {
+  // 1. Borrar datos del localStorage
+  Object.keys(localStorage).forEach(key => {
+    if (
+      key.startsWith('progress-') ||   // series
+      key.startsWith('progress_') ||   // películas
+      key.startsWith('duration_') ||   // películas
+      key.startsWith('movie_') ||      // películas
+      key.startsWith('hasStarted_') || // películas
+      key.startsWith('continue_') ||   // series
+      key.startsWith('last-episode-')  // series
+    ) {
+      localStorage.removeItem(key);
+    }
+  });
+
+  // 2. Borrar datos en Supabase si está logueado
+  try {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session) {
+      console.warn('⚠️ No hay sesión activa. Solo se borró localStorage');
+    } else {
+      const userId = session.user.id;
+
+      // Eliminar progreso de películas
+      await supabase.from('progresos').delete().eq('id', userId);
+
+      // Eliminar datos de continuar viendo
+      await supabase.from('continuar').delete().eq('id', userId);
+
+      // Opcional: eliminar favoritos también
+      // await supabase.from('favoritos').delete().eq('id', userId);
+
+      console.log('🗑️ Datos borrados en Supabase.');
+    }
+  } catch (e) {
+    console.error('❌ Error al borrar datos de Supabase:', e);
+  }
+
+  closeDeleteProgressModal();
+  mostrarNotificacion("Se borró todo el progreso de reproducción");
+}
+
+  
+  function mostrarNotificacion(mensaje) {
+    const notificacion = document.getElementById('notificacion');
+    const notificacionTexto = document.getElementById('notificacionTexto');
+  
+    if (!notificacion || !notificacionTexto) return;
+  
+    notificacionTexto.innerText = mensaje;
+    notificacion.style.bottom = "80px"; // ajusta si tienes footer
+  
+    setTimeout(() => {
+      notificacion.style.bottom = "-200px";
+    }, 3000);
+  }
+  
+  
+  
+</script>
+   
+</body>
+</html>

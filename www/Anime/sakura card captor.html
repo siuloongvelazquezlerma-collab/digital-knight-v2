@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Sakura Card Captor</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/stjlZcgw8jhwHx1hV3WzE9YTbfe.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTc5MTQ1OTlf/GON_Card_Captor_Sakura-166.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Sakura Card Captor</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/vT6BkbZBtsBzlAV9i9Qm5lLPmgF.png" alt="Sakura Card Captor Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;3 temporadas&nbsp;&nbsp;1998&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Sakura Card Captor" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTcyMTEzOTFf/hades%20wallpaper.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="sakura card captor.html"></a>
+          <span id="nombre">Sakura Card Captor (1998)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Sakura Kinomoto, una estudiante de primaria que descubre que posee poderes mágicos después de liberar accidentalmente un juego de cartas mágicas      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="evangelion.html">
+          <img src="https://image.tmdb.org/t/p/original/hAejqZt7ptBRkYuR1p1lmGGS3g8.jpg" alt="Neon Genesis Evangelion (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Neon Genesis Evangelion (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDI3MzM3MDVf/Sakura%20Card%20Captor%2001%20-%20Sakura%20y%20el%20Misterioso%20Libro%20M%C3%A1gico.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Sakura Card Captor</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: Sakura y el misterioso libro mágico"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "sakura-captor";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Las cartas Clow Parte 1",
+    "episodes": [
+    {
+  "title": "E1: Sakura y el misterioso libro mágico",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pZ0eFsHPia5sgebM0RZTVdqLwbc.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM3MDVf/Sakura%20Card%20Captor%2001%20-%20Sakura%20y%20el%20Misterioso%20Libro%20M%C3%A1gico.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM3MDVf/Sakura%20Card%20Captor%2001%20-%20Sakura%20y%20el%20Misterioso%20Libro%20M%C3%A1gico.mp4",
+  "episodeCode": "T1 E1: Sakura y el misterioso libro mágico",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E2: La maravillosa amiga de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rfEJLEVQQvazVXEh3yZ4Da0hkJ5.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM3ODlf/Sakura%20Card%20Captor%2002%20-%20La%20amiga%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM3ODlf/Sakura%20Card%20Captor%2002%20-%20La%20amiga%20de%20Sakura.mp4",
+  "episodeCode": "T1 E2: La maravillosa amiga de Sakura",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E3: La emocionante primera cita de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uDTxZcFm5S5DZYSrC2RkjK1W3Zx.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM4Mjhf/Sakura%20Card%20Captor%2003%20-%20La%20primera%20cita%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM4Mjhf/Sakura%20Card%20Captor%2003%20-%20La%20primera%20cita%20de%20Sakura.mp4",
+  "episodeCode": "T1 E3: La emocionante primera cita de Sakura",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E4: El agotador domingo de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5bpAUUJvdt8qCoDK4nbuPtPwx6r.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM4NTlf/Sakura%20Card%20Captor%2004%20-%20Un%20domingo%20muy%20agitado.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM4NTlf/Sakura%20Card%20Captor%2004%20-%20Un%20domingo%20muy%20agitado.mp4",
+  "episodeCode": "T1 E4: El agotador domingo de Sakura",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E5: Sakura, el panda y la tienda maravillosa",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jBnSOxolJTuGehVvlsQiSD9S9h3.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM4Nzhf/Sakura%20Card%20Captor%2005%20-%20Sakura%2C%20un%20panda%20y%20una%20hermosa%20tienda.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM4Nzhf/Sakura%20Card%20Captor%2005%20-%20Sakura%2C%20un%20panda%20y%20una%20hermosa%20tienda.mp4",
+  "episodeCode": "T1 E5: Sakura, el panda y la tienda maravillosa",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E6: Sakura y los recuerdos de su madre",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rqS1bRSngLhuHTjeNpFsfGKMpQy.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM5MTZf/Sakura%20Card%20Captor%2006%20-%20Los%20recuerdos%20de%20Sakura%20y%20su%20mama.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM5MTZf/Sakura%20Card%20Captor%2006%20-%20Los%20recuerdos%20de%20Sakura%20y%20su%20mama.mp4",
+  "episodeCode": "T1 E6: Sakura y los recuerdos de su madre",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E7: La primera batalla de Sakura contra un misterioso ladrón",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uXBSXxZcQ8RnAM69jUEQwEG6sbY.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzM5NzZf/Sakura%20Card%20Captor%2007%20-%20El%20primer%20desaf%C3%ADo%20de%20Sakura%20como%20ladr%C3%B3n.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzM5NzZf/Sakura%20Card%20Captor%2007%20-%20El%20primer%20desaf%C3%ADo%20de%20Sakura%20como%20ladr%C3%B3n.mp4",
+  "episodeCode": "T1 E7: La primera batalla de Sakura contra un misterioso ladrón",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E8: El rival de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6h8T5vzwR1cW3mZa4LlNLVizwRX.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQwMTNf/Sakura%20Card%20Captor%2008%20-%20El%20rival%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQwMTNf/Sakura%20Card%20Captor%2008%20-%20El%20rival%20de%20Sakura.mp4",
+  "episodeCode": "T1 E8: El rival de Sakura",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E9: Sakura y el broche misterioso",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/Abt8I24yI6kExS7b8lZZch5TwTU.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQwNTlf/Sakura%20Card%20Captor%2009%20-%20Sakura%20y%20el%20broche%20misterioso.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQwNTlf/Sakura%20Card%20Captor%2009%20-%20Sakura%20y%20el%20broche%20misterioso.mp4",
+  "episodeCode": "T1 E9: Sakura y el broche misterioso",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E10: El campeonato y las flores",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tSvIpePOf1qp68kWcGf9gG7ESOl.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQxMjdf/Sakura%20Card%20Captor%2010%20-%20Sakura%20y%20un%20evento%20deportivo%20lleno%20de%20flores.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQxMjdf/Sakura%20Card%20Captor%2010%20-%20Sakura%20y%20un%20evento%20deportivo%20lleno%20de%20flores.mp4",
+  "episodeCode": "T1 E10: El campeonato y las flores",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E11: Sakura, Tomoyo y la gran mansión",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nQezFfSKPDAdydClgZ6YPBgZPDZ.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQxNzdf/Sakura%20Card%20Captor%2011%20-%20Sakura%20visita%20la%20mansion%20de%20Tomoyo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQxNzdf/Sakura%20Card%20Captor%2011%20-%20Sakura%20visita%20la%20mansion%20de%20Tomoyo.mp4",
+  "episodeCode": "T1 E11: Sakura, Tomoyo y la gran mansión",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E12: El día interminable de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ApA5UvA2QfrWrMPkU2UaNRCLMbd.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQxOTRf/Sakura%20Card%20Captor%2012%20-%20El%20d%C3%ADa%20interminable%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQxOTRf/Sakura%20Card%20Captor%2012%20-%20El%20d%C3%ADa%20interminable%20de%20Sakura.mp4",
+  "episodeCode": "T1 E12: El día interminable de Sakura",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E13: Sakura y el elefante en la competición de fuerza",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1qxHHHxnkBLTfRmsq8JWE3RmFHU.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQyNTNf/Sakura%20Card%20Captor%2013%20-%20Sakura%20pone%20a%20prueba%20su%20fuerza.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQyNTNf/Sakura%20Card%20Captor%2013%20-%20Sakura%20pone%20a%20prueba%20su%20fuerza.mp4",
+  "episodeCode": "T1 E13: Sakura y el elefante en la competición de fuerza",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E14: Sakura, Toya y la Cenicienta",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ltrFAV20ySHHi6HO5ZDr0DeBvp6.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQzMTVf/Sakura%20Card%20Captor%2014%20-%20Touya%20es%20cenicienta.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQzMTVf/Sakura%20Card%20Captor%2014%20-%20Touya%20es%20cenicienta.mp4",
+  "episodeCode": "T1 E14: Sakura, Toya y la Cenicienta",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E15: La gran pelea de Sakura y Kero",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9zVk4yDhCowWMK1iSkHfjLPypB1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQzMzhf/Sakura%20Card%20Captor%2015%20-%20Sakura%20y%20Kero%20se%20pelean.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQzMzhf/Sakura%20Card%20Captor%2015%20-%20Sakura%20y%20Kero%20se%20pelean.mp4",
+  "episodeCode": "T1 E15: La gran pelea de Sakura y Kero",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E16: Sakura y el arcoiris del recuerdo",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pJLO33rCyhruOkNpao2vdwwPVTG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQzNTVf/Sakura%20Card%20Captor%2016%20-%20Sakura%20y%20el%20arcoiris%20de%20los%20recuerdos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQzNTVf/Sakura%20Card%20Captor%2016%20-%20Sakura%20y%20el%20arcoiris%20de%20los%20recuerdos.mp4",
+  "episodeCode": "T1 E16: Sakura y el arcoiris del recuerdo",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E17: La terrorífica prueba de valor de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wvfQBt9mBnym7KyQUHBJkaGUICp.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQzODlf/Sakura%20Card%20Captor%2017%20-%20La%20prueba%20de%20valent%C3%ADa%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQzODlf/Sakura%20Card%20Captor%2017%20-%20La%20prueba%20de%20valent%C3%ADa%20de%20Sakura.mp4",
+  "episodeCode": "T1 E17: La terrorífica prueba de valor de Sakura",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E18: Sakura, Yukito y la feria de verano",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zrwnTIlxlsLFo6bXKOihdWO3gbZ.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQ0MjVf/Sakura%20Card%20Captor%2018%20-%20Sakura%20pasa%20un%20festival%20de%20verano%20con%20Yukito.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ0MjVf/Sakura%20Card%20Captor%2018%20-%20Sakura%20pasa%20un%20festival%20de%20verano%20con%20Yukito.mp4",
+  "episodeCode": "T1 E18: Sakura, Yukito y la feria de verano",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E19: Sakura y los deberes de verano",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g78254wJSslBzTCROqORmeMD0gB.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQ0MzNf/Sakura%20Card%20Captor%2019%20-%20La%20tarea%20de%20verano%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ0MzNf/Sakura%20Card%20Captor%2019%20-%20La%20tarea%20de%20verano%20de%20Sakura.mp4",
+  "episodeCode": "T1 E19: Sakura y los deberes de verano",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E20: La nueva enemiga de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6wTTNqnReZ1OC5ssk8yoZxb0k38.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzQ0Njlf/Sakura%20Card%20Captor%2020%20-%20Sakura%20pelea%20con%20la%20nueva%20alumna.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ0Njlf/Sakura%20Card%20Captor%2020%20-%20Sakura%20pelea%20con%20la%20nueva%20alumna.mp4",
+  "episodeCode": "T1 E20: La nueva enemiga de Sakura",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E21: La larga carrera de maratón de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cH5Uli3OF05q50eavC0FoSp44D0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ0OTJf/Sakura%20Card%20Captor%2021%20-%20Sakura%20participa%20en%20un%20maraton.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ0OTJf/Sakura%20Card%20Captor%2021%20-%20Sakura%20participa%20en%20un%20maraton.mp4",
+  "episodeCode": "T1 E21: La larga carrera de maratón de Sakura",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E22: Sakura y su amable padre",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bFV5iCnItHJoBX95pf9Ix2o4Bih.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1MDZf/Sakura%20Card%20Captor%2022%20-%20El%20pap%C3%A1%20generoso%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1MDZf/Sakura%20Card%20Captor%2022%20-%20El%20pap%C3%A1%20generoso%20de%20Sakura.mp4",
+  "episodeCode": "T1 E22: Sakura y su amable padre",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E23: Sakura, Tomoyo y una hermosa canción",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q4Q0UASxHGBDfgYEJZVtLmtbuES.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1MjVf/Sakura%20Card%20Captor%2023%20-%20La%20hermosa%20canci%C3%B3n%20de%20Tomoyo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1MjVf/Sakura%20Card%20Captor%2023%20-%20La%20hermosa%20canci%C3%B3n%20de%20Tomoyo.mp4",
+  "episodeCode": "T1 E23: Sakura, Tomoyo y una hermosa canción",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E24: La pequeña gran aventura de Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7vJx2vkgzSoQvuoskwc7TOJlwpj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1NDdf/Sakura%20Card%20Captor%2024%20-%20La%20gran%20aventura%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1NDdf/Sakura%20Card%20Captor%2024%20-%20La%20gran%20aventura%20de%20Sakura.mp4",
+  "episodeCode": "T1 E24: La pequeña gran aventura de Sakura",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E25: Sakura y otra Sakura",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/l2bjKCSFeS7hXhVxBn3vHhqMwpD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1NThf/Sakura%20Card%20Captor%2025%20-%20La%20copia%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1NThf/Sakura%20Card%20Captor%2025%20-%20La%20copia%20de%20Sakura.mp4",
+  "episodeCode": "T1 E25: Sakura y otra Sakura",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E26: Sakura y la bellísima profesora",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5YMr5jzMdCE8I0csBHNQBXuG6Pq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1Nzdf/Sakura%20Card%20Captor%2026%20-%20Sakura%20y%20una%20linda%20profesora.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1Nzdf/Sakura%20Card%20Captor%2026%20-%20Sakura%20y%20una%20linda%20profesora.mp4",
+  "episodeCode": "T1 E26: Sakura y la bellísima profesora",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E27: Sakura y el templo de los recuerdos",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vdF1YfcT0kmK2EtWGPscRo6guEa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1OTNf/Sakura%20Card%20Captor%2027%20-%20Los%20recuerdos%20del%20templo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1OTNf/Sakura%20Card%20Captor%2027%20-%20Los%20recuerdos%20del%20templo.mp4",
+  "episodeCode": "T1 E27: Sakura y el templo de los recuerdos",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E28: Sakura y sus cartas mágicas",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5CNO3vcmawEcEFfFIhaHGuNmJ2n.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ1OThf/Sakura%20Card%20Captor%2028%20-%20Las%20cartas%20m%C3%A1gicas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ1OThf/Sakura%20Card%20Captor%2028%20-%20Las%20cartas%20m%C3%A1gicas.mp4",
+  "episodeCode": "T1 E28: Sakura y sus cartas mágicas",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E29: Sakura y la repostería",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/j0RIZpcij3d1j1i0lme0HrEUWYt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ2MjNf/Sakura%20Card%20Captor%2029%20-%20Una%20dulce%20clase%20de%20cocina.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ2MjNf/Sakura%20Card%20Captor%2029%20-%20Una%20dulce%20clase%20de%20cocina.mp4",
+  "episodeCode": "T1 E29: Sakura y la repostería",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E30: Sakura y la carta herida",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7x3wiFZ9faC1LplqRlVpAHuem29.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ2NDNf/Sakura%20Card%20Captor%2030%20-%20Una%20carta%20lastimada.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ2NDNf/Sakura%20Card%20Captor%2030%20-%20Una%20carta%20lastimada.mp4",
+  "episodeCode": "T1 E30: Sakura y la carta herida",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E31: Sakura y el libro sin nombre",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8RlE4GWJtIeQnVUxJr4KGSP1BRx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ2Nzdf/Sakura%20Card%20Captor%2031%20-%20Sakura%20y%20el%20libro%20sin%20nombre.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ2Nzdf/Sakura%20Card%20Captor%2031%20-%20Sakura%20y%20el%20libro%20sin%20nombre.mp4",
+  "episodeCode": "T1 E31: Sakura y el libro sin nombre",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E32: Sakura, Kero y Syaoran",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uJBEkSlCwQ9ApWGByt5OGh9dN0Q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ3MTFf/Sakura%20Card%20Captor%2032%20-%20Sakura%2C%20Shaoran%20y%20Kero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ3MTFf/Sakura%20Card%20Captor%2032%20-%20Sakura%2C%20Shaoran%20y%20Kero.mp4",
+  "episodeCode": "T1 E32: Sakura, Kero y Syaoran",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E33: Sakura y la carta de hielo",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hUJb58xiHyPBtPWVcspJxRYujpp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ3NjFf/Sakura%20Card%20Captor%2033%20-%20El%20frio%20patinaje%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ3NjFf/Sakura%20Card%20Captor%2033%20-%20El%20frio%20patinaje%20de%20Sakura.mp4",
+  "episodeCode": "T1 E33: Sakura y la carta de hielo",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E34: Sakura, Yukito y la luna llena",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e5q8gX4MnPEGNgbTXOHHsMSlTql.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ3OTlf/Sakura%20Card%20Captor%2034%20-%20La%20luna%20llena%20de%20mediodia.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ3OTlf/Sakura%20Card%20Captor%2034%20-%20La%20luna%20llena%20de%20mediodia.mp4",
+  "episodeCode": "T1 E34: Sakura, Yukito y la luna llena",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E35: Que maravilla de Navidad",
+  "meta": "13+ · 25m · 1998",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kHTWh0dYxtjtjiQCtkC69UANzjy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzQ4MDVf/Sakura%20Card%20Captor%2035%20-%20Una%20hermosa%20navidad.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzQ4MDVf/Sakura%20Card%20Captor%2035%20-%20Una%20hermosa%20navidad.mp4",
+  "episodeCode": "T1 E35: Que maravilla de Navidad",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 80 }
+}
+
+    ]
+  },
+  {
+    "season": "Las cartas Clow Parte 2",
+    "episodes": [
+    {
+      "title": "E1: Sakura, Yukito y el nuevo curso escolar",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/tv9P5KL0A1UlRj82Jp8Ht29Vnzp.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ4MTNf/Sakura%20Card%20Captor%2036%20-%20El%20nuevo%20curso%20escolar%20de%20Sakura%20inicia.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ4MTNf/Sakura%20Card%20Captor%2036%20-%20El%20nuevo%20curso%20escolar%20de%20Sakura%20inicia.mp4",
+      "episodeCode": "T2 E1: Sakura, Yukito y el nuevo curso escolar",
+      "hiddenCode": "T2 E1",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E2: Sakura y la pérdida de voz de Tomoyo",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/oE5axERjHC9mYJwzrrs8ophuu9D.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ4Mjlf/Sakura%20Card%20Captor%2037%20-%20Tomoyo%20pierde%20su%20voz.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ4Mjlf/Sakura%20Card%20Captor%2037%20-%20Tomoyo%20pierde%20su%20voz.mp4",
+      "episodeCode": "T2 E2: Sakura y la pérdida de voz de Tomoyo",
+      "hiddenCode": "T2 E2",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E3: Sakura y la aventura de recoger fresas",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/rayrbyAssfAzh1sWmWxe8cHqPpU.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ4MzNf/Sakura%20Card%20Captor%2038%20-%20La%20divertida%20recolecci%C3%B3n%20de%20fresas%20de%20Sakura.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ4MzNf/Sakura%20Card%20Captor%2038%20-%20La%20divertida%20recolecci%C3%B3n%20de%20fresas%20de%20Sakura.mp4",
+      "episodeCode": "T2 E3: Sakura y la aventura de recoger fresas",
+      "hiddenCode": "T2 E3",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E4: Día de fiebre y mareos",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/gSm6NvqqbrKMlpWINyjL6b7W5PT.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ4NDBf/Sakura%20Card%20Captor%2039%20-%20Un%20d%C3%ADa%20de%20fiebre.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ4NDBf/Sakura%20Card%20Captor%2039%20-%20Un%20d%C3%ADa%20de%20fiebre.mp4",
+      "episodeCode": "T2 E4: Día de fiebre y mareos",
+      "hiddenCode": "T2 E4",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E5: Sakura y el sueño",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/AruVpVO2Q8oWv3fl50GH82lB0UF.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ4NjBf/Sakura%20Card%20Captor%2040%20-%20Los%20sue%C3%B1os%20de%20Sakura.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ4NjBf/Sakura%20Card%20Captor%2040%20-%20Los%20sue%C3%B1os%20de%20Sakura.mp4",
+      "episodeCode": "T2 E5: Sakura y el sueño",
+      "hiddenCode": "T2 E5",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E6: Sakura, Syoran y el mar de arena",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/opV7uCjO0bX54ZrRlhAQ8rKA3T5.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ5MDBf/Sakura%20Card%20Captor%2041%20-%20Una%20tormenta%20de%20arena.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ5MDBf/Sakura%20Card%20Captor%2041%20-%20Una%20tormenta%20de%20arena.mp4",
+      "episodeCode": "T2 E6: Sakura, Syoran y el mar de arena",
+      "hiddenCode": "T2 E6",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E7: Sakura y el festival de las artes",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/s62t7fIXk0ooBcNp7Vf7wxiuCb6.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ5MjNf/Sakura%20Card%20Captor%2042%20-%20Una%20obra%20oscura.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ5MjNf/Sakura%20Card%20Captor%2042%20-%20Una%20obra%20oscura.mp4",
+      "episodeCode": "T2 E7: Sakura y el festival de las artes",
+      "hiddenCode": "T2 E7",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E8: Sakura y la despedida de Meiling",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/hlq9179liAyYAdR0vfZCV81qv2O.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ5NDdf/Sakura%20Card%20Captor%2043%20-%20Adi%C3%B3s%20Meilin.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ5NDdf/Sakura%20Card%20Captor%2043%20-%20Adi%C3%B3s%20Meilin.mp4",
+      "episodeCode": "T2 E8: Sakura y la despedida de Meiling",
+      "hiddenCode": "T2 E8",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E9: Sakura, Kero y la misteriosa profesora",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/rHK7wBy4FoNomkW8w2o1ZWg2j6c.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzQ5NjZf/Sakura%20Card%20Captor%2044%20-%20Sakura%2C%20Kero%20y%20la%20profesora%20con%20poderes%20misteriosos.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzQ5NjZf/Sakura%20Card%20Captor%2044%20-%20Sakura%2C%20Kero%20y%20la%20profesora%20con%20poderes%20misteriosos.mp4",
+      "episodeCode": "T2 E9: Sakura, Kero y la misteriosa profesora",
+      "hiddenCode": "T2 E9",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E10: Sakura y la última carta de Clow",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/4YvjyoOGF8iKC7obD3u2arsX9ob.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzUwMDFf/Sakura%20Card%20Captor%2045%20-%20Sakura%20y%20la%20%C3%9Altima%20Carta%20Clow.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzUwMDFf/Sakura%20Card%20Captor%2045%20-%20Sakura%20y%20la%20%C3%9Altima%20Carta%20Clow.mp4",
+      "episodeCode": "T2 E10: Sakura y la última carta de Clow",
+      "hiddenCode": "T2 E10",
+      "intro": { "start": 5, "end": 80 }
+    },
+    {
+      "title": "E11: Sakura y el juicio final",
+      "meta": "13+ · 25m · 1999",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/eW5fJ1lGu3frNQNCqHRBu15pyjC.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI3MzUwMjJf/Sakura%20Card%20Captor%2046%20-%20Sakura%20y%20el%20juicio%20final.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzUwMjJf/Sakura%20Card%20Captor%2046%20-%20Sakura%20y%20el%20juicio%20final.mp4",
+      "episodeCode": "T2 E11: Sakura y el juicio final",
+      "hiddenCode": "T2 E11",
+      "intro": { "start": 5, "end": 80 }
+    }
+    ]
+  },
+  {
+    "season": "Las cartas Sakura",
+    "episodes": [
+    {
+  "title": "E1: Sakura y el misterioso estudiante nuevo",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/y86btfWs0gupZAmU4pDuupI0eeb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUwNzNf/Sakura%20Card%20Captor%2047%20-%20Un%20alumno%20nuevo%20llega%20a%20la%20escuela.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUwNzNf/Sakura%20Card%20Captor%2047%20-%20Un%20alumno%20nuevo%20llega%20a%20la%20escuela.mp4",
+  "episodeCode": "T3 E1: Sakura y el misterioso estudiante nuevo",
+  "hiddenCode": "T3 E1",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E2: Sakura y el despertar de la llave estrella",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b7gL4XAXlRt7PbZ9BT3Wos9Tsct.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUxMjNf/Sakura%20Card%20Captor%2048%20-%20La%20llave%20en%20forma%20de%20estrella.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUxMjNf/Sakura%20Card%20Captor%2048%20-%20La%20llave%20en%20forma%20de%20estrella.mp4",
+  "episodeCode": "T3 E2: Sakura y el despertar de la llave estrella",
+  "hiddenCode": "T3 E2",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E3: Sakura y el piano misterioso",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hUErCcz8gYwRm2Idpw9q3bq1bze.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUxNjBf/Sakura%20Card%20Captor%2049%20-%20Un%20piano%20peligroso.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUxNjBf/Sakura%20Card%20Captor%2049%20-%20Un%20piano%20peligroso.mp4",
+  "episodeCode": "T3 E3: Sakura y el piano misterioso",
+  "hiddenCode": "T3 E3",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E4: Sakura, Syoran y el hilo invisible",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/u8BdBH7Qm7JipAs3lc0P7ahBDIz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUxODhf/Sakura%20Card%20Captor%2050%20-%20Los%20hilos%20invisibles.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUxODhf/Sakura%20Card%20Captor%2050%20-%20Los%20hilos%20invisibles.mp4",
+  "episodeCode": "T3 E4: Sakura, Syoran y el hilo invisible",
+  "hiddenCode": "T3 E4",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E5: Sakura y el gran osito de peluche",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oyUE3vljmt6t93G3zLBNTo3kzfa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUyNTNf/Sakura%20Card%20Captor%2051%20-%20Un%20oso%20de%20felpa%20gigantesco.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUyNTNf/Sakura%20Card%20Captor%2051%20-%20Un%20oso%20de%20felpa%20gigantesco.mp4",
+  "episodeCode": "T3 E5: Sakura y el gran osito de peluche",
+  "hiddenCode": "T3 E5",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E6: Sakura y el aviso de las ovejas",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lL1gZMiDy3mMMKJ0C5OiXpKPjJY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUyNTdf/Sakura%20Card%20Captor%2052%20-%20Una%20lluvia%20de%20ovejitas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUyNTdf/Sakura%20Card%20Captor%2052%20-%20Una%20lluvia%20de%20ovejitas.mp4",
+  "episodeCode": "T3 E6: Sakura y el aviso de las ovejas",
+  "hiddenCode": "T3 E6",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E7: Sakura y la bicicleta asustada",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jl4dl45ZOpYigOdug52b0gSUc2K.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUyNzBf/Sakura%20Card%20Captor%2053%20-%20La%20bicicleta%20espantada.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUyNzBf/Sakura%20Card%20Captor%2053%20-%20La%20bicicleta%20espantada.mp4",
+  "episodeCode": "T3 E7: Sakura y la bicicleta asustada",
+  "hiddenCode": "T3 E7",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E8: Sakura y el calendario de los recuerdos",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yXhAEwCfuhPo72CyFlS10OjZDIy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUzMTBf/Sakura%20Card%20Captor%2054%20-%20El%20calendario%20de%20recuerdos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUzMTBf/Sakura%20Card%20Captor%2054%20-%20El%20calendario%20de%20recuerdos.mp4",
+  "episodeCode": "T3 E8: Sakura y el calendario de los recuerdos",
+  "hiddenCode": "T3 E8",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E9: Sakura en el país de las maravillas",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f9cas7L41MfvOwwNPobIkZ2lUEv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzUzODBf/Sakura%20Card%20Captor%2055%20-%20Sakura%20en%20el%20pa%C3%ADs%20de%20las%20maravillas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzUzODBf/Sakura%20Card%20Captor%2055%20-%20Sakura%20en%20el%20pa%C3%ADs%20de%20las%20maravillas.mp4",
+  "episodeCode": "T3 E9: Sakura en el país de las maravillas",
+  "hiddenCode": "T3 E9",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E10: Sakura, Kero y la merienda",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dZbYiU9uYtcA1s4jnAJEuFX8o5b.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU0MzJf/Sakura%20Card%20Captor%2056%20-%20Un%20encuentro%20con%20los%20dulces.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU0MzJf/Sakura%20Card%20Captor%2056%20-%20Un%20encuentro%20con%20los%20dulces.mp4",
+  "episodeCode": "T3 E10: Sakura, Kero y la merienda",
+  "hiddenCode": "T3 E10",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E11: Sakura, Syaoran y el ascensor",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/j22sIxMUi3xMFYdJnKly4H98xGP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU0NjNf/Sakura%20Card%20Captor%2057%20-%20El%20ascensor%20descompuesto.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU0NjNf/Sakura%20Card%20Captor%2057%20-%20El%20ascensor%20descompuesto.mp4",
+  "episodeCode": "T3 E11: Sakura, Syaoran y el ascensor",
+  "hiddenCode": "T3 E11",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E12: Sakura y el doble problema",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iLyqYGf0DUDysgHjMTCAm74ROx3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU0OTdf/Sakura%20Card%20Captor%2058%20-%20Sakura%20y%20los%20dos%20guardianes%20en%20aprietos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU0OTdf/Sakura%20Card%20Captor%2058%20-%20Sakura%20y%20los%20dos%20guardianes%20en%20aprietos.mp4",
+  "episodeCode": "T3 E12: Sakura y el doble problema",
+  "hiddenCode": "T3 E12",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E13: Sakura, Tomoyo y la trampa de la pelota",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dTLeHPsh6BXqmS20ed2lRbZjA35.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU1MjBf/Sakura%20Card%20Captor%2059%20-%20La%20desaparici%C3%B3n%20de%20Tomoyo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU1MjBf/Sakura%20Card%20Captor%2059%20-%20La%20desaparici%C3%B3n%20de%20Tomoyo.mp4",
+  "episodeCode": "T3 E13: Sakura, Tomoyo y la trampa de la pelota",
+  "hiddenCode": "T3 E13",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E14: Sakura y una querida amiga",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qnZKCC6tJPxkjjHLKV7thngIx5M.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU1NDJf/Sakura%20Card%20Captor%2060%20-%20La%20amiga%20valiosa%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU1NDJf/Sakura%20Card%20Captor%2060%20-%20La%20amiga%20valiosa%20de%20Sakura.mp4",
+  "episodeCode": "T3 E14: Sakura y una querida amiga",
+  "hiddenCode": "T3 E14",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E15: Sakura, la carta y los regalos",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hgW6QwJhl3z5tVH9usaGXOwFCME.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU1ODlf/Sakura%20Card%20Captor%2061%20-%20Un%20regalo%20para%20las%20cartas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU1ODlf/Sakura%20Card%20Captor%2061%20-%20Un%20regalo%20para%20las%20cartas.mp4",
+  "episodeCode": "T3 E15: Sakura, la carta y los regalos",
+  "hiddenCode": "T3 E15",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E16: Sakura y la extraña predicción",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kDrUftwZCvTs5e54bybSraW7zWp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU2MTFf/Sakura%20Card%20Captor%2062%20-%20Una%20suerte%20misteriosa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU2MTFf/Sakura%20Card%20Captor%2062%20-%20Una%20suerte%20misteriosa.mp4",
+  "episodeCode": "T3 E16: Sakura y la extraña predicción",
+  "hiddenCode": "T3 E16",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E17: Sakura, la piscina y la ola gigante",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6c3ZnZuXcXQEZYQGcLauMqrY7VL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU2Mjdf/Sakura%20Card%20Captor%2063%20-%20Una%20ola%20gigantesca.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU2Mjdf/Sakura%20Card%20Captor%2063%20-%20Una%20ola%20gigantesca.mp4",
+  "episodeCode": "T3 E17: Sakura, la piscina y la ola gigante",
+  "hiddenCode": "T3 E17",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E18: Sakura y la clase de esquí",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2jWEst6QJQXk52zlCLO0mXsEbWi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU2NTBf/Sakura%20Card%20Captor%2064%20-%20La%20primera%20lecci%C3%B3n%20de%20esqu%C3%AD.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU2NTBf/Sakura%20Card%20Captor%2064%20-%20La%20primera%20lecci%C3%B3n%20de%20esqu%C3%AD.mp4",
+  "episodeCode": "T3 E18: Sakura y la clase de esquí",
+  "hiddenCode": "T3 E18",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E19: Sakura, Yukito y el poder de la desaparición",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sRa3EHVBHLQmSBWNCqhRjYQoqde.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU2ODBf/Sakura%20Card%20Captor%2065%20-%20Yukito%20pierde%20sus%20poderes.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU2ODBf/Sakura%20Card%20Captor%2065%20-%20Yukito%20pierde%20sus%20poderes.mp4",
+  "episodeCode": "T3 E19: Sakura, Yukito y el poder de la desaparición",
+  "hiddenCode": "T3 E19",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E20: La persona que más le gusta a Sakura",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nUptrzdYsbWRmnHxBR2SJFyeHx3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU2OTdf/Sakura%20Card%20Captor%2066%20-%20La%20persona%20m%C3%A1s%20especial%20para%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU2OTdf/Sakura%20Card%20Captor%2066%20-%20La%20persona%20m%C3%A1s%20especial%20para%20Sakura.mp4",
+  "episodeCode": "T3 E20: La persona que más le gusta a Sakura",
+  "hiddenCode": "T3 E20",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E21: Sakura, Syaoran y el templo de Tsukimine",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qys0I9725FrVVtKkL7dr7d65nkp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU3MzFf/Sakura%20Card%20Captor%2067%20-%20Sakura%20y%20Shaoran%20en%20el%20templo%20Tsukimine.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU3MzFf/Sakura%20Card%20Captor%2067%20-%20Sakura%20y%20Shaoran%20en%20el%20templo%20Tsukimine.mp4",
+  "episodeCode": "T3 E21: Sakura, Syaoran y el templo de Tsukimine",
+  "hiddenCode": "T3 E21",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E22: Sakura, el pasado y el amo Clow",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wAan4bdvtv9zRRpQMSGii2qe2Ao.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU3NjNf/Sakura%20Card%20Captor%2068%20-%20Sakura%20y%20el%20antiguo%20mago%20Clow.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU3NjNf/Sakura%20Card%20Captor%2068%20-%20Sakura%20y%20el%20antiguo%20mago%20Clow.mp4",
+  "episodeCode": "T3 E22: Sakura, el pasado y el amo Clow",
+  "hiddenCode": "T3 E22",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E23: Sakura se encuentra con el amo Clow",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nBGpHHREvmA86sSkSAXsUvDvzJ8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU4MThf/Sakura%20Card%20Captor%2069%20-%20La%20aparici%C3%B3n%20del%20mago%20Clow.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU4MThf/Sakura%20Card%20Captor%2069%20-%20La%20aparici%C3%B3n%20del%20mago%20Clow.mp4",
+  "episodeCode": "T3 E23: Sakura se encuentra con el amo Clow",
+  "hiddenCode": "T3 E23",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E24: Sakura y sus verdaderos sentimientos",
+  "meta": "13+ · 25m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rjcLEa6dwpCQFF36BJfdIktlAp0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzU4NDlf/Sakura%20Card%20Captor%2070%20-%20El%20verdadero%20sentimiento%20de%20Sakura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzU4NDlf/Sakura%20Card%20Captor%2070%20-%20El%20verdadero%20sentimiento%20de%20Sakura.mp4",
+  "episodeCode": "T3 E24: Sakura y sus verdaderos sentimientos",
+  "hiddenCode": "T3 E24",
+  "intro": { "start": 5, "end": 80 }
+}
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Dr. Stone</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/6poYY1wKYOB12GpzaHQFKPExSVH.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/1Ep6YHL5QcrNC1JN6RYalWRPopi.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Dr. Stone</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/uPIdLiZ1al9Shok0NmNeIWnBKzW.png" alt="Dr. Stone Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">14+&nbsp;&nbsp;4 temporadas&nbsp;&nbsp;2019&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Dr. Stone" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/9QpmvQtIbDWtO1roZSPga9Wa3xh.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="dr stone.html"></a>
+          <span id="nombre">Dr. Stone (2019)</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn" onclick="window.location.href='http://action_share';" tabindex="5">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+      </div>
+  
+      <div class="description">
+        Senku es un genio de la ciencia que despierta en un mundo donde la humanidad quedó petrificada. Junto a su amigo Taiju, debe reconstruir la civilización.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="go:demons">
+          <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Demon Slayer" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Demon Slayer</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="go:titan">
+          <img src="https://image.tmdb.org/t/p/original/yNI1GpgU3BH4fljGNsTCWTcVuwS.jpg" alt="Attack on Titan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Attack on Titan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="go:gundam">
+          <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Mobile Suit Gundam" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Mobile Suit Gundam</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="go:dbz">
+          <img src="https://image.tmdb.org/t/p/original/6VKOfL6ihwTiB5Vibq6QTfzhxA6.jpg" alt="Dragon Ball Z" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Z</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="go:kenshin">
+          <img src="https://image.tmdb.org/t/p/original/o8sbKRJgu26zNgfzPVW1OU03Jgu.jpg" alt="Rurouni Kenshin" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Rurouni Kenshin</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+  </div>
+  
+  
+  
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTUyNjg4OTdf/S1%20E01%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Dr. Stone</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: Aparece un mini Gokū, su nombre es Gohan</div>
+      </div>
+
+      <div class="progress-container">
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+<script>
+
+const seriesId = "dr-stone";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "T1: Dr. STONE",
+    "episodes": [
+    {
+      "title": "E1: Mundo de piedra",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/jNdIdz4cKsAvxJRh0QWocGaKN66.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzU0Nzhf/1%20Dr.%20stone%20_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzU0Nzhf/1%20Dr.%20stone%20_1.mp4",
+      "episodeCode": "T1 E1: Mundo de piedra",
+      "hiddenCode": "T1 E1",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E2: Rey del mundo de piedra",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/l7BW5GPY9EcnoxBZKHXWZfEKeOA.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzU1ODlf/2%20Dr.%20stone_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzU1ODlf/2%20Dr.%20stone_1.mp4",
+      "episodeCode": "T1 E2: Rey del mundo de piedra",
+      "hiddenCode": "T1 E2",
+      "intro": { "start": 135, "end": 225 }
+    },
+    {
+      "title": "E3: Armas de la ciencia",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/n5lpLE1e4njZIn0d6jmb55OWwKH.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzU3NjZf/3%20Dr.%20stone_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzU3NjZf/3%20Dr.%20stone_1.mp4",
+      "episodeCode": "T1 E3: Armas de la ciencia",
+      "hiddenCode": "T1 E3",
+      "intro": { "start": 115, "end": 205 }
+    },
+    {
+      "title": "E4: Dispara la señal de humo",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/30pMZkqgpxvpxysB1nlOuKWWTgA.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzU4ODhf/4%20Dr.%20stone%20_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzU4ODhf/4%20Dr.%20stone%20_1.mp4",
+      "episodeCode": "T1 E4: Dispara la señal de humo",
+      "hiddenCode": "T1 E4",
+      "intro": { "start": 135, "end": 225 }
+    },
+    {
+      "title": "E5: El principio del mundo de piedra",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/mM4UPEQJhUcFp3oTAYgQW90nQDz.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzYwMzVf/5%20Dr.stone%20_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzYwMzVf/5%20Dr.stone%20_1.mp4",
+      "episodeCode": "T1 E5: El principio del mundo de piedra",
+      "hiddenCode": "T1 E5",
+      "intro": { "start": 135, "end": 225 }
+    },
+    {
+      "title": "E6: Dos países del mundo de piedra",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/71MPjVE59eUssTmByfFBYC5p8ad.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzYxNTNf/6%20Dr.stone%20%20_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzYxNTNf/6%20Dr.stone%20%20_1.mp4",
+      "episodeCode": "T1 E6: Dos países del mundo de piedra",
+      "hiddenCode": "T1 E6",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E7: El paradero de dos millones de años",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/w3Ybj8vPIEViNhvCjqmyGCj67ZT.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI2NzYzNzhf/7%20Dr.stone%20_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI2NzYzNzhf/7%20Dr.stone%20_1.mp4",
+      "episodeCode": "T1 E7: El paradero de dos millones de años",
+      "hiddenCode": "T1 E7",
+      "intro": { "start": 130, "end": 225 }
+    },
+    {
+      "title": "E8: Camino de piedra",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vgeIE6xvK8wTDH345bBsz6eMIOO.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MDc3NzZf/8%20Dr.stone_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MDc7NzZf/8%20Dr.stone_1.mp4",
+      "episodeCode": "T1 E8: Camino de piedra",
+      "hiddenCode": "T1 E8",
+      "intro": { "start": 215, "end": 305 }
+    },
+    {
+      "title": "E9: Que se haga la luz de la ciencia",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/kVRz1t86UbFH6ILg9Lw9z1sqxL1.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MDc4Mzhf/9%20Dr.stone_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MDc4Mzhf/9%20Dr.stone_1.mp4",
+      "episodeCode": "T1 E9: Que se haga la luz de la ciencia",
+      "hiddenCode": "T1 E9",
+      "intro": { "start": 195, "end": 285 }
+    },
+    {
+      "title": "E10: Una tenue alianza",
+      "meta": "13+ · 24m · 2019",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/sxqp8JCFDumCKbyQvX9hgGHqxsN.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MDc5MTlf/10%20Dr.stone%20_1.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MDc5MTlf/10%20Dr.stone%20_1.mp4",
+      "episodeCode": "T1 E10: Una tenue alianza",
+      "hiddenCode": "T1 E10",
+      "intro": { "start": 110, "end": 200 }
+    },
+    {
+    "title": "E11: Mundo claro",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bTpVChtIatCqNywNRdKMo1q612Z.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDgwMTNf/11%20Dr.stone%20_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDgwMTNf/11%20Dr.stone%20_1.mp4",
+    "episodeCode": "T1 E11: Mundo claro",
+    "hiddenCode": "T1 E11",
+    "intro": {
+      "start": 105,
+      "end": 195
+    }
+  },
+  {
+    "title": "E12: Compañeros espalda con espalda",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yRZzEHHNfA9ZrxzgcxD0TS6ANJ6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDgwODlf/12%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDgwODlf/12%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E12: Compañeros espalda con espalda",
+    "hiddenCode": "T1 E12",
+    "intro": {
+      "start": 135,
+      "end": 225
+    }
+  },
+  {
+    "title": "E13: Guerrero enmascarado",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9gbwAqikwaXPcOUoe9Xbr4WjlJE.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDgxOTRf/13%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDgxOTRf/13%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E13: Guerrero enmascarado",
+    "hiddenCode": "T1 E13",
+    "intro": {
+      "start": 53,
+      "end": 143
+    }
+  },
+  {
+    "title": "E14: Amo de la llama",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mtoDxCqcZJGk2tDZZlMQrOLpwaI.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDgyODhf/14%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDgyODhf/14%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E14: Amo de la llama",
+    "hiddenCode": "T1 E14",
+    "intro": {
+      "start": 130,
+      "end": 220
+    }
+  },
+  {
+    "title": "E15: La culminación de dos millones de años",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/b4JdwngG7o59Pp3fOXO0oC1vZD3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDgzNjhf/15%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDgzNjhf/15%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E15: La culminación de dos millones de años",
+    "hiddenCode": "T1 E15",
+    "intro": {
+      "start": 265,
+      "end": 355
+    }
+  },
+  {
+    "title": "E16: Una historia para la eternidad",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/28Yz2QuiXD0Y9QmwnumXx82Xa2t.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDg0NjNf/16%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDg0NjNf/16%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E16: Una historia para la eternidad",
+    "hiddenCode": "T1 E16",
+    "intro": {
+      "start": 135,
+      "end": 225
+    }
+  },
+  {
+    "title": "E17: Cien noches y mil cielos",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qBxFPTtuh1jIBR9SXHuKeA4Lgxq.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDg1NTlf/17%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDg1NTlf/17%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E17: Cien noches y mil cielos",
+    "hiddenCode": "T1 E17",
+    "intro": {
+      "start": 90,
+      "end": 180
+    }
+  },
+  {
+    "title": "E18: Guerra de piedra",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ojACONcUoDGtDTAGdjeRhyNM38g.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDg2NzNf/18%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDg2NzNf/18%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E18: Guerra de piedra",
+    "hiddenCode": "T1 E18",
+    "intro": {
+      "start": 153,
+      "end": 243
+    }
+  },
+  {
+    "title": "E19: A la modernidad",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pflOejXjo7Sv6M30ONwpnR9hAzd.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDg3ODRf/19%20Dr.stone%20_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDg3ODRf/19%20Dr.stone%20_1.mp4",
+    "episodeCode": "T1 E19: A la modernidad",
+    "hiddenCode": "T1 E19",
+    "intro": {
+      "start": 365,
+      "end": 455
+    }
+  },
+  {
+    "title": "E20: La era de la energía",
+    "meta": "13+ · 24m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/r4CvVy6gVY7WBPbZic2IPrV8Wcs.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MDg4OTBf/20%20Dr.stone_1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MDg4OTBf/20%20Dr.stone_1.mp4",
+    "episodeCode": "T1 E20: La era de la energía",
+    "hiddenCode": "T1 E20",
+    "intro": {
+      "start": 200,
+      "end": 290
+    }
+  },
+  {
+  "title": "E21: Club de manualidades pesadas",
+  "meta": "13+ · 24m · 2019",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vKq2lSipWkHjwz6dtzAKIiZYTya.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MDg5NThf/21%20Dr.stone%20_1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MDg5NThf/21%20Dr.stone%20_1.mp4",
+  "episodeCode": "T1 E21: Club de manualidades pesadas",
+  "hiddenCode": "T1 E21",
+  "intro": {
+    "start": 95,
+    "end": 185
+  }
+},
+{
+  "title": "E22: El tesoro",
+  "meta": "13+ · 24m · 2019",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pzYT1Dynwqp99Md54mch3l9HLzE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MDkwMjJf/22%20Dr.stone%20_1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MDkwMjJf/22%20Dr.stone%20_1.mp4",
+  "episodeCode": "T1 E22: El tesoro",
+  "hiddenCode": "T1 E22",
+  "intro": {
+    "start": 115,
+    "end": 205
+  }
+},
+{
+  "title": "E23: Ola de ciencia",
+  "meta": "13+ · 24m · 2019",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fmsDl2bBSCy6g2WyQ6ecTjkIeOY.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MTI4Njlf/23%20Dr.stone%20_1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MTI4Njlf/23%20Dr.stone%20_1.mp4",
+  "episodeCode": "T1 E23: Ola de ciencia",
+  "hiddenCode": "T1 E23",
+  "intro": {
+    "start": 110,
+    "end": 200
+  }
+},
+{
+  "title": "E24: Oído a distancias infinitas",
+  "meta": "13+ · 24m · 2019",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/asefdjjj0dJC5M2CpEPFLEhcCA3.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MTI5Mzlf/24%20Dr.stone%20_1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MTI5Mzlf/24%20Dr.stone%20_1.mp4",
+  "episodeCode": "T1 E24: Oído a distancias infinitas",
+  "hiddenCode": "T1 E24",
+  "intro": {
+    "start": 15,
+    "end": 105
+  }
+}
+
+    ]
+  },
+  {
+    "season": "T2: Dr. STONE",
+    "episodes": [
+    {
+    "title": "E1: Comienza la Stone Wars",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cW1XaeCWJya4PIgoDjijM2Qk3Vc.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+    "episodeCode": "T2 E1: Comienza la Stone Wars",
+    "hiddenCode": "T2 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Línea directa",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/kyRkW4ICLl1AZwvWk5lo9IAJwQj.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+    "episodeCode": "T2 E2: Línea directa",
+    "hiddenCode": "T2 E2",
+    "intro": { "start": 40, "end": 130 }
+  },
+  {
+    "title": "E3: Los muertos llaman",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fOM5gNKdSaFAOtetiZpUUP2ZZaW.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+    "episodeCode": "T2 E3: Los muertos llaman",
+    "hiddenCode": "T2 E3",
+    "intro": { "start": 190, "end": 280 }
+  },
+  {
+    "title": "E4: Marcha de todas las unidades",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7W3gH6WhfPED2iCimeI5zOI7yZQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+    "episodeCode": "T2 E4: Marcha de todas las unidades",
+    "hiddenCode": "T2 E4",
+    "intro": { "start": 180, "end": 270 }
+  },
+  {
+    "title": "E5: Gorila de vapor",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xdDdZDajj5l0o7sOnovnGEi7Sov.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+    "episodeCode": "T2 E5: Gorila de vapor",
+    "hiddenCode": "T2 E5",
+    "intro": { "start": 130, "end": 220 }
+  },
+  {
+    "title": "E6: Escapar de prisión",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5wtdap5BlXlgmIIseNTSFFFhgEo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+    "episodeCode": "T2 E6: Escapar de prisión",
+    "hiddenCode": "T2 E6",
+    "intro": { "start": 120, "end": 210 }
+  },
+  {
+    "title": "E7: Misión secreta",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dLDk4u9n6aXCmP2TDgS4BodHYRo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+    "episodeCode": "T2 E7: Misión secreta",
+    "hiddenCode": "T2 E7",
+    "intro": { "start": 225, "end": 315 }
+  },
+  {
+    "title": "E8: Batalla final",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oZusPVxwvyvnbwfPXQAlWUox8OB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+    "episodeCode": "T2 E8: Batalla final",
+    "hiddenCode": "T2 E8",
+    "intro": { "start": 275, "end": 365 }
+  },
+  {
+    "title": "E9: El que destruye, el que salva",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1pMkShY92cz8P4nrWAd3MlkKo9V.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+    "episodeCode": "T2 E9: El que destruye, el que salva",
+    "hiddenCode": "T2 E9",
+    "intro": { "start": 60, "end": 150 }
+  },
+  {
+    "title": "E10: El dúo más fuerte de la humanidad",
+    "meta": "13+ · 24m · 2021",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8Na2zGSLtavAygx3MuAeOj651QS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+    "episodeCode": "T2 E10: El dúo más fuerte de la humanidad",
+    "hiddenCode": "T2 E10",
+    "intro": { "start": 260, "end": 350 }
+  },
+      {
+        "title": "E11: Prólogo de Dr. Stone",
+        "meta": "13+ · 24m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1ZAvZGt0teLnh4R0W9yhS3EjwK3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+        "episodeCode": "T2 E11: Prólogo de Dr. Stone",
+        "hiddenCode": "T2 E11",
+        "intro": {
+          "start": 110,
+          "end": 200
+        }
+      }
+    ]
+  },
+  {
+    "season": "T3: Dr. STONE NEW WORLD",
+    "episodes": [
+    {
+    "title": "E1: Un nuevo mapamundi",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/x3hrsz8A6WX1crKV5WLiMkvUuvo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDYzNzJf/drstonesitoseasonss3-01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDYzNzJf/drstonesitoseasonss3-01.mp4",
+    "episodeCode": "T3 E1: Un nuevo mapamundi",
+    "hiddenCode": "T3 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Lo quiero = Virtud",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/o15nnT0jmjhMfxLPn00PgkSisR7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDYzNTRf/drrsstonsitosseasonss3-02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDYzNTRf/drrsstonsitosseasonss3-02.mp4",
+    "episodeCode": "T3 E2: Lo quiero = Virtud",
+    "hiddenCode": "T3 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Primer contacto",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7uRDjro0Z42MHQFT5AyFaUxvY6M.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDYzNjRf/drssstonsitoseasons3-03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDYzNjRf/drssstonsitoseasons3-03.mp4",
+    "episodeCode": "T3 E3: Primer contacto",
+    "hiddenCode": "T3 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Los ojos de la ciencia",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/aVA397LlFUhOTIrEt9k3F7OKk6M.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDYzOTlf/drstonsitossseason333-04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDYzOTlf/drstonsitossseason333-04.mp4",
+    "episodeCode": "T3 E4: Los ojos de la ciencia",
+    "hiddenCode": "T3 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: El barco científico Perseo",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3IjMInLbkq1mygdPzWSmj6Mrdp8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDYzODJf/drstonsitosoooseasonsss3-05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDYzODJf/drstonsitosoooseasonsss3-05.mp4",
+    "episodeCode": "T3 E5: El barco científico Perseo",
+    "hiddenCode": "T3 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Cofre del tesoro",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/v8hh3pmeXKH4MtPFajLqOQ3Hvqr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDY0Mjlf/stonsitonodrstonseasons3-06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDY0Mjlf/stonsitonodrstonseasons3-06.mp4",
+    "episodeCode": "T3 E6: Cofre del tesoro",
+    "hiddenCode": "T3 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: La luz de la esperanza y la desesperación",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4fgL5cLY8SqjUOyO3KC1ycPSBaB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg5MjFf/stoneeedrseasonsss3-07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg5MjFf/stoneeedrseasonsss3-07.mp4",
+    "episodeCode": "T3 E7: La luz de la esperanza y la desesperación",
+    "hiddenCode": "T3 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: El as está en el barco científico",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/n1yumf39DunOziTGMZWcCkgkS4b.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg5MjRf/stonesitosdrseasons3-08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg5MjRf/stonesitosdrseasons3-08.mp4",
+    "episodeCode": "T3 E8: El as está en el barco científico",
+    "hiddenCode": "T3 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Ciencia hermosa",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7LhbWIVc3mJf0cjshNwpVWJDLAQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDY0NDJf/stonsitosdrseasonss3-09.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDY0NDJf/stonsitosdrseasonss3-09.mp4",
+    "episodeCode": "T3 E9: Ciencia hermosa",
+    "hiddenCode": "T3 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: Guerras científicas",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7OeCecH8SqkaKXDV9aS9vyMyKQz.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg5MjZf/stoneeesdrsitoseasons3-10.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg5MjZf/stoneeesdrsitoseasons3-10.mp4",
+    "episodeCode": "T3 E10: Guerras científicas",
+    "hiddenCode": "T3 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Haremos un milagro",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/b577K4Y15J2zop96edjtQRjeG5S.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDY0MTVf/stonsitodrtositoeason3-11.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDY0MTVf/stonsitodrtositoeason3-11.mp4",
+    "episodeCode": "T3 E11: Haremos un milagro",
+    "hiddenCode": "T3 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: El reino científico contraataca",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wK4bbwqbPk1PbLljcazH6KzWVvx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4NzVf/drstunsitosss23partss2-01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NzVf/drstunsitosss23partss2-01.mp4",
+    "episodeCode": "T3 E12: El reino científico contraataca",
+    "hiddenCode": "T3 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: El verdadero rostro de Medusa",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/gTfHFLH8RNvq2KirV7aPemhzXW8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4NTZf/drrstunsitosseason22part22-02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NTZf/drrstunsitosseason22part22-02.mp4",
+    "episodeCode": "T3 E13: El verdadero rostro de Medusa",
+    "hiddenCode": "T3 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Maniobras intelectuales",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mHFWnsigkolhX6GyhV8Z4wb9rtp.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4ODZf/stonesssdrstosqsss3nse-03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4ODZf/stonesssdrstosqsss3nse-03.mp4",
+    "episodeCode": "T3 E14: Maniobras intelectuales",
+    "hiddenCode": "T3 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: Batalla decisiva tridimensional",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/i5WrLPDOESOxntDuoJ1AqVgYR9I.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4Nzlf/drsutisosstunsitoss3seausnss-04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4Nzlf/drsutisosstunsitoss3seausnss-04.mp4",
+    "episodeCode": "T3 E15: Batalla decisiva tridimensional",
+    "hiddenCode": "T3 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: Refriega por todo el territorio",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uJGNLytepCwHWmUXl7MjPfOtZAa.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4NDZf/stunsitoodrass3seasunsss-05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NDZf/stunsitoodrass3seasunsss-05.mp4",
+    "episodeCode": "T3 E16: Refriega por todo el territorio",
+    "hiddenCode": "T3 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E17: Joker",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6v7V8kljFknyT2NhVRsHK9tESC1.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4ODRf/druustonsitos3seas-06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4ODRf/druustonsitos3seas-06.mp4",
+    "episodeCode": "T3 E17: Joker",
+    "hiddenCode": "T3 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E18: El resplandor de la ruina",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/93wkryYnttiGIYLbBpfK1ZsRtWV.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4NDFf/stuneecurouseseasunss2-07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NDFf/stuneecurouseseasunss2-07.mp4",
+    "episodeCode": "T3 E18: El resplandor de la ruina",
+    "hiddenCode": "T3 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E19: The last man standing",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4PlCnfRS4V6Ij8RR7qLtK2akqKW.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4NzNf/drstunsitonewrowlcours2-08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NzNf/drstunsitonewrowlcours2-08.mp4",
+    "episodeCode": "T3 E19: The last man standing",
+    "hiddenCode": "T3 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E20: Primer sueño",
+    "meta": "13+ · 24m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8nhV9hoZ1k6qcUVHMZ5MV8jc0TJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDk3NDg4NTNf/drrrstunsitoseasuns3-09.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NTNf/drrrstunsitoseasuns3-09.mp4",
+    "episodeCode": "T3 E20: Primer sueño",
+    "hiddenCode": "T3 E20",
+    "intro": { "start": 0, "end": 0 }
+  },
+      {
+        "title": "E21: La isla del tesoro",
+        "meta": "13+ · 24m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r2YtNnc9wgcbC6pZTrFhi5LBHpm.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDk3NDg4NTBf/stunsitossdrsseasunpartsss2-10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NTBf/stunsitossdrsseasunpartsss2-10.mp4",
+        "episodeCode": "T3 E21: La isla del tesoro",
+        "hiddenCode": "T3 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Más allá del nuevo mundo",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2GB1NNoz7KsQC6yaMOpQs8xvVZO.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDk3NDg4NTJf/stunnneepartwordlseasunss3-1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDk3NDg4NTJf/stunnneepartwordlseasunss3-1.mp4",
+        "episodeCode": "T3 E22: Más allá del nuevo mundo",
+        "hiddenCode": "T3 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "T4: Dr. STONE SCIENCE FUTURE",
+    "episodes": [
+      {
+        "title": "E1: Ryusui contra Senku",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nEe13H2dzeMLZsKgxoZWtMLsN5y.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E1: Ryusui contra Senku",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Science Journey",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9g0A6XVGIkXNXz56w9xjCp3zVOq.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E2: Science Journey",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Trampa de luz en la oscuridad",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jroZEcETT7etBtv03Kf1SsydZ4.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E3: Trampa de luz en la oscuridad",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Dr. X",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ttjeTBt1ZLIUjhaOu1PO6S74Zw0.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E4: Dr. X",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Doctor VS. Doctor",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/w0Cf0omdaTfnxKikdLOHTLCeKtB.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E5: Doctor VS. Doctor",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Science is elegant",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lLFi5q8mRqS48TXOQdxc8VG9Tpl.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E6: Science is elegant",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Dos científicos",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/53oHxXkmiPselcrT9A74SGItjt4.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E7: Dos científicos",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Lock on",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8QuD8JwRQKVutOVNCQi6cP0wHrV.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E8: Lock on",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: La luz de la ciencia",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hG4fOlbgdt7EmD54N3AxjLmkouI.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E9: La luz de la ciencia",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Un camino de tierra",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/m8JSOafuanBZHm5AvYc5qzKZ7hO.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E10: Un camino de tierra",
+        "hiddenCode": "T4 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Quien conoce y quien hace las reglas",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/m41G97oBvIzc6eTfH8vXZdKo8Vh.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E11: Quien conoce y quien hace las reglas",
+        "hiddenCode": "T4 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Reencuentro",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4f8yWqwIz2nu0XTaH8wPzjP8KCz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E12: Reencuentro",
+        "hiddenCode": "T4 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E13: Episodio 13",
+        "hiddenCode": "T4 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+      ]
+  },
+  {
+    "season": "Dr. Stone Special Episode - RYUSUI",
+    "episodes": [
+      {
+        "title": "Dr. Stone Special Episode - RYUSUI",
+        "meta": "13+ · 55m · 2019",
+        "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iYLB5J6Z5g4NyHQ9cwmR07B2PtQ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+        "episodeCode": "Dr. Stone Special Episode - RYUSUI",
+        "hiddenCode": "RYUSUI",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+    ]
+  }
+];
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
+
+  // cuando cierres el player
+  WakeLockManager.disable();
+</script>
+
+
+</script>
+
+</body>
+</html>

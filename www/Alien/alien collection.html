@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Página de Colecciones</title>
+    <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+     <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="../collections.css">
+    <style>
+        
+ 
+
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Ocupa toda la altura de la ventana */
+            background: linear-gradient(
+                to bottom,
+                #000000cb,
+                #00000000,
+                #00000000,
+                #000000f5,
+                #000000,
+                #000000
+            ),
+            url('https://image.tmdb.org/t/p/original/oaJPitIvKdxltwyldXoRptO76Cs.jpg') no-repeat top center;
+            background-size: contain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: -1;
+            background-attachment: fixed;
+            transition: background-color 0.3s ease; /* Transición suave para oscurecer */
+            transition: filter 0.3s ease; /* Para aplicar el filtro de oscurecimiento */
+        }
+
+        
+        /* Nueva imagen solo visible en modo horizontal */
+.hero-horizontal {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(
+        to bottom,
+        #000000cb,
+        #00000000,
+        #00000000,
+        #000000a4,
+        #000000ab,
+        #000000
+    ),
+    url('https://image.tmdb.org/t/p/original/dx7ckQcaccZQrHCgUb12texhHpW.jpg') no-repeat top center;
+    background-size: contain;
+    display: none; /* Se oculta por defecto */
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background-attachment: fixed;
+    transition: background-color 0.3s ease; /* Transición suave para oscurecer */
+}
+
+/* Mostrar la segunda imagen solo en modo horizontal */
+@media (orientation: landscape) {
+    .hero-horizontal {
+        display: flex; /* Muestra la segunda imagen solo en horizontal */
+    }
+}
+
+        .hero-logo {
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        .hero-logo img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        /* Media query para orientación horizontal */
+@media (orientation: landscape) {
+    .hero-logo {
+        left: 10%; /* Mueve el logo a la izquierda */
+        transform: translateX(0); /* Ajusta la transformación para no centrarlo */
+    }
+}
+
+.movie-sections {
+    margin-top: -300px; /* Reduce la separación superior */
+}
+
+.movie-section {
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+.movie-section h2 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    text-align: center; /* Centra el título */
+}
+
+.scroll-container {
+    display: flex;
+    justify-content: center; /* Centra las imágenes horizontalmente */
+    padding-top: 0;
+    padding-bottom: 10px;
+    gap: 10px;
+}
+
+.scroll-container img {
+    width: 180px; /* Ancho más grande */
+    height: 280px; /* Altura más grande */
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.scroll-container img:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .movie-section h2 {
+        font-size: 16px;
+    }
+
+    .scroll-container img {
+        width: 150px; /* Ajusta el tamaño para pantallas más pequeñas */
+        height: 230px;
+    }
+}
+
+
+
+        .footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+.nav__icon {
+  font-size: 20px; /* Ajusta el tamaño del icono aquí */
+}
+
+.horizontal-scroll-container {
+    display: flex;
+    overflow-x: auto; /* Scroll horizontal */
+    white-space: nowrap; /* Evitar que los elementos se rompan en varias líneas */
+    padding: 5px;
+    border: 2px solid #66666600;
+    background-color: #00000000;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #666 #333; /* Firefox */
+}
+
+/* Estilos para escritorio */
+@media (min-width: 768px) {
+    .horizontal-scroll-container::-webkit-scrollbar {
+        height: 8px; /* Altura del scrollbar */
+        background-color: #333;
+    }
+
+    .horizontal-scroll-container::-webkit-scrollbar-thumb {
+        background-color: #666;
+    }
+}
+
+/* Estilos para móvil (opcional: ocultar completamente el scrollbar) */
+@media (max-width: 767px) {
+    .horizontal-scroll-container::-webkit-scrollbar {
+        display: none; /* Ocultar scrollbar en dispositivos móviles */
+    }
+}
+
+.horizontal-scroll-container a {
+    display: inline-block; /* Elementos en línea */
+    margin-right: 10px; /* Espaciado entre imágenes */
+}
+
+.horizontal-scroll-container img {
+    width: 250px; /* Tamaño fijo para las imágenes */
+    height: auto;
+    border-radius: 7px; /* Bordes redondeados */
+    transition: transform 0.3s ease-in-out;
+}
+
+.horizontal-scroll-container img:hover {
+    transform: scale(1.1); /* Efecto de zoom */
+    cursor: pointer;
+}
+
+   /* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+
+
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+    <header class="header">
+        <a class="chevron-link" href="javascript:history.back();">
+            <i class="material-icons chevron-icon">chevron_left</i>
+          </a>
+          
+    <!-- Logo que aparecerá cuando el header se oscurezca -->
+    <div class="header-logo">
+      <img src="https://image.tmdb.org/t/p/original/riI33EA1vYQ1szTtMe0NR7TwV1p.png" alt="Logo">
+  </div>
+</header>
+
+    <div class="hero">
+      <div class="hero-horizontal"></div>
+        <div class="hero-logo">
+            <img src="https://image.tmdb.org/t/p/original/riI33EA1vYQ1szTtMe0NR7TwV1p.png" alt="Logo">
+        </div>
+    </div>
+
+    <div class="movie-sections">
+        <div class="movie-section">
+          <h2></h2>
+          <div class="scroll-container">
+            <a href="Alien 1.html"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/pZ9cAe5FxexJjpCaeiETbXzz3Fs.jpg"></div>
+          <a href="Alien 2.html"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/3QU9EP8BFLnTh6w9ycDSCvhqbRU.jpg"></div>
+        
+            
+          </div>
+        </div>
+     
+        <div class="movie-section">
+          <h2></h2>
+          <div class="scroll-container">
+            <a href="Alien 3.html"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/xh5wI0UoW7DfS1IyLy3d2CgrCEP.jpg"></div>
+            <a href="Alien 4.html"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/2xACLUMSMdDsilCDsnfAkPBGFIv.jpg"></div>
+           
+          </div>
+        </div>
+
+        <div class="movie-section">
+            <h2></h2>
+            <div class="scroll-container">
+                <a href="Alien 5.html"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/sRITPlHYjHiOLQXr0sFxVz5TPmj.jpg"></div>
+                    <a href="Alien vs predator.html"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/2DKoPom57PVtJWcJlq7bS7JpahU.jpg"></div>
+             
+            </div>
+          </div>
+
+          <div class="movie-section">
+            <h2></h2>
+            <div class="scroll-container">
+                <a href="Alien vs predator 2.html"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/jCyJN1vj8jqJJ0vNw4hDH2KlySO.jpg"></div>
+                    <a href="alien romulus.html"><div class="card">
+                        <img class="imgcard" src="https://image.tmdb.org/t/p/original/oLhv7XlId7exRkJrWLDyr4gVu6W.jpg"></div>  
+             
+            </div>
+          </div>
+
+        
+   
+  
+                     
+                      
+       
+<br><br><br>
+    
+    <footer class="footer">
+      <a href="../main.html" class="footer-icon">
+          <span class="material-icons-outlined">home</span>
+          <span class="material-icons">home</span>
+      </a>
+      <a href="go:favoritos" class="footer-icon">
+          <span class="material-icons-outlined">bookmark_border</span>
+          <span class="material-icons">bookmark</span>
+      </a>
+      <a href="go:search" class="footer-icon">
+          <span class="material-icons-outlined">search</span>
+          <span class="material-icons">search</span>
+      </a>
+      <a href="go:perfil" class="footer-icon">
+          
+          <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+      </a>
+    </footer>
+
+    <script>
+
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    const hero = document.querySelector('.hero');
+    const heroHorizontal = document.querySelector('.hero-horizontal');
+    const headerLogo = document.querySelector('.header-logo');
+    
+    // Obtener la cantidad de desplazamiento
+    const scrollPosition = window.scrollY;
+
+    // Ajustar el color de fondo del header según el desplazamiento
+    const opacity = Math.min(scrollPosition / 200, 1); // Aumenta la opacidad según el desplazamiento
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+
+    // Mostrar el logo en el header cuando el fondo se oscurezca
+    if (opacity > 0.5) {
+        headerLogo.style.opacity = '1'; // Mostrar el logo con transición suave
+    } else {
+        headerLogo.style.opacity = '0'; // Ocultar el logo con transición suave
+    }
+
+    // Oscurecer la imagen principal (hero) completamente según el desplazamiento
+    const filterIntensity = Math.min(scrollPosition / 400, 1); // Oscurecer completamente la imagen
+    hero.style.filter = `brightness(${1 - filterIntensity})`;
+
+    // Si estamos en modo horizontal, oscurecer más la imagen
+    if (window.innerHeight < window.innerWidth) { // Detectar si la pantalla está en modo horizontal
+        heroHorizontal.style.filter = `brightness(${1 - filterIntensity})`;
+    }
+});
+
+window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+      // Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+    </script>
+</body>
+</html>

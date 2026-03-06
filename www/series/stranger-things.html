@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Stranger Things</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/uhFL71Ki2YIrhEq5Gsg2tTLa9eW.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/4elBKnhafYyUzMfRwd6CM05mfae.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 220px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Stranger Things</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/g4YZGDepyUuT0e3twAcMqSOyypw.png" alt="Stranger Things Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   5 temporadas   2016   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Stranger Things" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/b8uYlvdqidUgc7GpgdUQZcSYLEO.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="stranger-things.html"></a>
+          <span id="nombre">Stranger Things</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Después de la extraña desaparición de un niño, un pueblo se encuentra ante un misterio que revela experimentos secretos, fuerzas sobrenaturales y a una niña muy especial.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="it-bienvenidos-a-derry.html">
+          <img src="https://image.tmdb.org/t/p/original/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg" alt="IT: Bienvenidos a Derry" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">IT: Bienvenidos a Derry</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="merlina.html">
+          <img src="https://image.tmdb.org/t/p/original/5DlNYe4e8aVHoKH4XrUuREWMY8s.jpg" alt="Merlina" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Merlina</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="diarios-de-vampiros.html">
+          <img src="https://od.lk/s/M18zMTkxNTYzOTZf/vampiore%20diaries%20poster.jpeg" alt="Diarios de Vampiros" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Diarios de Vampiros</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="the boys.html">
+          <img src="https://image.tmdb.org/t/p/w300/5kgY14oisiHcJ4zq0Xgq1e97PHm.jpg" alt="The Boys" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">The Boys</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Stranger Things</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "stranger-things-66732";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+window.playlist = [
+  {
+    season: "Temporada 1",
+    episodes: [
+      {
+  "title": "E1: Capítulo uno: La desaparición de Will Byers",
+  "meta": "13+ · 48m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uLES7sRpy7Ih6Kr6XCaYj1GyfTw.jpg",
+  "videoUrl": "https://od.lk/s/M18zMjA1Mzc4MjBf/Stranger%20Things%201x01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc4MjBf/Stranger%20Things%201x01.mp4",
+  "episodeCode": "T1 E1: Capítulo uno: La desaparición de Will Byers",
+  "hiddenCode": "T1 E1",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E2: Capítulo dos: La loca de la calle Maple",
+  "meta": "13+ · 55m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/icjMb4yVK7dh5GDXxGhnq2s9pk4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc4NDVf/Stranger%20Things%201x02.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc4NDVf/Stranger%20Things%201x02.mp4",
+  "episodeCode": "T1 E2: Capítulo dos: La loca de la calle Maple",
+  "hiddenCode": "T1 E2",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E3: Capítulo tres: Todo está bien",
+  "meta": "13+ · 51m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5snULpWQWp7aqFto7UbRcEkEyyS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc3ODVf/Stranger%20Things%201x03.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc3ODVf/Stranger%20Things%201x03.mp4",
+  "episodeCode": "T1 E3: Capítulo tres: Todo está bien",
+  "hiddenCode": "T1 E3",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E4: Capítulo cuatro: El cuerpo",
+  "meta": "13+ · 50m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/60wmC1e20HV8gu688GAhsWxqxPx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc3OTBf/Stranger%20Things%201x04.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc3OTBf/Stranger%20Things%201x04.mp4",
+  "episodeCode": "T1 E4: Capítulo cuatro: El cuerpo",
+  "hiddenCode": "T1 E4",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E5: Capítulo cinco: La pulga y el acróbata",
+  "meta": "13+ · 52m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/exT4NW9EdXG1qLZHKJnRpq3gh1H.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc3OTRf/Stranger%20Things%201x05.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc3OTRf/Stranger%20Things%201x05.mp4",
+  "episodeCode": "T1 E5: Capítulo cinco: La pulga y el acróbata",
+  "hiddenCode": "T1 E5",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E6: Capítulo seis: El monstruo",
+  "meta": "13+ · 46m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lNS6qycyucewz3duTr1tf1LU688.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc3OTdf/Stranger%20Things%201x06.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc3OTdf/Stranger%20Things%201x06.mp4",
+  "episodeCode": "T1 E6: Capítulo seis: El monstruo",
+  "hiddenCode": "T1 E6",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E7: Capítulo siete: La bañera",
+  "meta": "13+ · 42m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fjsTVEnqTKUO0GJSpiWKBZRUBcx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc4MDhf/Stranger%20Things%201x07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc4MDhf/Stranger%20Things%201x07.mp4",
+  "episodeCode": "T1 E7: Capítulo siete: La bañera",
+  "hiddenCode": "T1 E7",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E8: Capítulo ocho: El otro lado",
+  "meta": "13+ · 54m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1teJ5dbuepfqOOs9uYhYTUjr2qs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1Mzc4MTdf/Stranger%20Things%201x08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1Mzc4MTdf/Stranger%20Things%201x08.mp4",
+  "episodeCode": "T1 E8: Capítulo ocho: El otro lado",
+  "hiddenCode": "T1 E8",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+    "title": "E1: Capítulo uno: MADMAX",
+    "meta": "13+ · 48m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/efz0MgPAxPw11PIeAJNgKKg3Paa.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1Mzg4NDZf/Stranger%20Things%202x01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1Mzg4NDZf/Stranger%20Things%202x01.mp4",
+    "episodeCode": "T2 E1: Capítulo uno: MADMAX",
+    "hiddenCode": "T2 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Capítulo dos: Dulce o truco, bicho raro",
+    "meta": "13+ · 56m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3gzPnRilyASmcoSyUKXhaD5ofhr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1Mzg4NjFf/Stranger%20Things%202x02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1Mzg4NjFf/Stranger%20Things%202x02.mp4",
+    "episodeCode": "T2 E2: Capítulo dos: Dulce o truco, bicho raro",
+    "hiddenCode": "T2 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Capítulo tres: El renacuajo",
+    "meta": "13+ · 51m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/792NQjFydcr5ucb1sga55LS6Vt3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1Mzg5MDhf/Stranger%20Things%202x03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1Mzg5MDhf/Stranger%20Things%202x03.mp4",
+    "episodeCode": "T2 E3: Capítulo tres: El renacuajo",
+    "hiddenCode": "T2 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Capítulo cuatro: Will, el Sabio",
+    "meta": "13+ · 46m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wZXeV5cWC1RuaCls2mm6imzchnN.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1Mzg5ODBf/Stranger%20Things%202x04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1Mzg5ODBf/Stranger%20Things%202x04.mp4",
+    "episodeCode": "T2 E4: Capítulo cuatro: Will, el Sabio",
+    "hiddenCode": "T2 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Capítulo cinco: Dig Dug",
+    "meta": "13+ · 58m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oshY3LAwQRzhcjmEEr7EbOnypuU.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1MzkwNzFf/Stranger%20Things%202x05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1MzkwNzFf/Stranger%20Things%202x05.mp4",
+    "episodeCode": "T2 E5: Capítulo cinco: Dig Dug",
+    "hiddenCode": "T2 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Capítulo seis: El espía",
+    "meta": "13+ · 52m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/d90nCiTEACFEUd3fcX8DrLBi5DL.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1MzkxMzVf/Stranger%20Things%202x06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1MzkxMzVf/Stranger%20Things%202x06.mp4",
+    "episodeCode": "T2 E6: Capítulo seis: El espía",
+    "hiddenCode": "T2 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Capítulo siete: La hermana perdida",
+    "meta": "13+ · 46m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/kgOaaTbAutwAoA7tkVzYCfTjPXn.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1MzkyMDFf/Stranger%20Things%202x07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1MzkyMDFf/Stranger%20Things%202x07.mp4",
+    "episodeCode": "T2 E7: Capítulo siete: La hermana perdida",
+    "hiddenCode": "T2 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Capítulo ocho: El azotamentes",
+    "meta": "13+ · 48m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/vuLea0DA9rYc9Y4M2Ic28CXL4Al.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1MzkyNjlf/Stranger%20Things%202x08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1MzkyNjlf/Stranger%20Things%202x08.mp4",
+    "episodeCode": "T2 E8: Capítulo ocho: El azotamentes",
+    "hiddenCode": "T2 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Capítulo nueve: El portal",
+    "meta": "13+ · 62m · 2017",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cxCf7O5WPHfyXb7PLSJCG6EvXc3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1MzkzNjNf/Stranger%20Things%202x09.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1MzkzNjNf/Stranger%20Things%202x09.mp4",
+    "episodeCode": "T2 E9: Capítulo nueve: El portal",
+    "hiddenCode": "T2 E9",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+    "title": "E1: Capítulo uno: ¿Me copias, Suzie?",
+    "meta": "13+ · 51m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/g1iZmyn42qSFkXhw6gjoNE0diKb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDAxOTJf/Stranger%20Things%203x01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDAxOTJf/Stranger%20Things%203x01.mp4",
+    "episodeCode": "T3 E1: Capítulo uno: ¿Me copias, Suzie?",
+    "hiddenCode": "T3 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Capítulo dos: Ratas de centro comercial",
+    "meta": "13+ · 51m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qDlMvdlRGzIGtKYdV9lktEUM4vj.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDAyNjJf/Stranger%20Things%203x02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDAyNjJf/Stranger%20Things%203x02.mp4",
+    "episodeCode": "T3 E2: Capítulo dos: Ratas de centro comercial",
+    "hiddenCode": "T3 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Capítulo tres: El caso de la socorrista desaparecida",
+    "meta": "13+ · 50m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oaYdVvYwnvoQ7SLelKUcaAt0HKJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDAzMjNf/Stranger%20Things%203x03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDAzMjNf/Stranger%20Things%203x03.mp4",
+    "episodeCode": "T3 E3: Capítulo tres: El caso de la socorrista desaparecida",
+    "hiddenCode": "T3 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Capítulo cuatro: La prueba de la sauna",
+    "meta": "13+ · 53m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tEgd6fXKngAG8eC92dH7ey6Y4eA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDAzOThf/Stranger%20Things%203x04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDAzOThf/Stranger%20Things%203x04.mp4",
+    "episodeCode": "T3 E4: Capítulo cuatro: La prueba de la sauna",
+    "hiddenCode": "T3 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Capítulo cinco: El ejército del Azotamentes",
+    "meta": "13+ · 52m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cxIZ4btU6h9GQM1Fn0kotuaXlwo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDA0Nzdf/Stranger%20Things%203x05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDA0Nzdf/Stranger%20Things%203x05.mp4",
+    "episodeCode": "T3 E5: Capítulo cinco: El ejército del Azotamentes",
+    "hiddenCode": "T3 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Capítulo seis: E pluribus unum",
+    "meta": "13+ · 60m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ypc1zPyeUsnXYSgzspIidpjaXKo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDA1ODlf/Stranger%20Things%203x06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDA1ODlf/Stranger%20Things%203x06.mp4",
+    "episodeCode": "T3 E6: Capítulo seis: E pluribus unum",
+    "hiddenCode": "T3 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Capítulo siete: La mordedura",
+    "meta": "13+ · 56m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6QA91GJK2ze1EaGPEKhil9MJIXx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDA2NzRf/Stranger%20Things%203x07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDA2NzRf/Stranger%20Things%203x07.mp4",
+    "episodeCode": "T3 E7: Capítulo siete: La mordedura",
+    "hiddenCode": "T3 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Capítulo ocho: La batalla de Starcourt",
+    "meta": "13+ · 78m · 2019",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5YcjTWas07RteM9lssOzL9UhmJh.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA1NDAxMTBf/Stranger%20Things%203x08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1NDAxMTBf/Stranger%20Things%203x08.mp4",
+    "episodeCode": "T3 E8: Capítulo ocho: La batalla de Starcourt",
+    "hiddenCode": "T3 E8",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+        "title": "E1: El club Fuego Infernal",
+        "meta": "13+ · 79m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xeNKubDmPiMraW4hXqzEBrN6f4A.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NDY3NzBf/st%20t4%20e01.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NDY3NzBf/st%20t4%20e01.mp4",
+        "episodeCode": "T4 E1: El club Fuego Infernal",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: La maldición de Vecna",
+        "meta": "13+ · 78m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lSSWqv7XrO51uY2uc4lql9Hub3f.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NDY5Mzhf/st%20t4%20e02.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NDY5Mzhf/st%20t4%20e02.mp4",
+        "episodeCode": "T4 E2: La maldición de Vecna",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: El monstruo y la superheroína",
+        "meta": "13+ · 64m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6q1UM63T5tiQcWrbsJvY3bunkyZ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NTA3Mzlf/Strang3r.Th1ngs.S04e03.2023.1080P-Dual-Lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NTA3Mzlf/Strang3r.Th1ngs.S04e03.2023.1080P-Dual-Lat.mp4",
+        "episodeCode": "T4 E3: El monstruo y la superheroína",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Querido Billy",
+        "meta": "13+ · 79m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/u3LeFRR7AhyPp4y0Ii7hpkD488b.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NTI3NTdf/Strang3r.Th1ngs.S04e04.2023.1080P-Dual-Lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NTI3NTdf/Strang3r.Th1ngs.S04e04.2023.1080P-Dual-Lat.mp4",
+        "episodeCode": "T4 E4: Querido Billy",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: El proyecto Nina",
+        "meta": "13+ · 75m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yvXXeBv4zfDgwcZyxqH5LJAe4oV.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NDc1NjFf/st%20t4%20e05.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NDc1NjFf/st%20t4%20e05.mp4",
+        "episodeCode": "T4 E5: El proyecto Nina",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: La inmersión",
+        "meta": "13+ · 74m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kvfmI9kzwpjpohLI1DSRomcYF66.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NTMxMDJf/Strang3r.Th1ngs.S04e06.2023.1080P-Dual-Lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NTMxMDJf/Strang3r.Th1ngs.S04e06.2023.1080P-Dual-Lat.mp4",
+        "episodeCode": "T4 E6: La inmersión",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: La masacre en el Laboratorio de Hawkins",
+        "meta": "13+ · 100m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lhN2dahlME7xWcM7fU1rOKJmyco.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NTQwNDZf/Strang3r.Th1ngs.S04e07.2023.1080P-Dual-Lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NTQwNDZf/Strang3r.Th1ngs.S04e07.2023.1080P-Dual-Lat.mp4",
+        "episodeCode": "T4 E7: La masacre en el Laboratorio de Hawkins",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Papá",
+        "meta": "13+ · 86m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/XhpquP7GFEDzKIHTAPX6vI8Phd.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NTQ2NDZf/Strang3r.Th1ngs.S04e08.2023.1080P-Dual-Lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NTQ2NDZf/Strang3r.Th1ngs.S04e08.2023.1080P-Dual-Lat.mp4",
+        "episodeCode": "T4 E8: Papá",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: El huésped",
+        "meta": "13+ · 143m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jQeh2GYSQ4QxHkkBJ1LC2hPzfNm.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjA1NDgwNzBf/st%20t4%20e09.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjA1NDgwNzBf/st%20t4%20e09.mp4",
+        "episodeCode": "T4 E9: El huésped",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+     }
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+        "title": "E1: Capítulo uno: La misión",
+        "meta": "13+ · 72m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jnpSxSMdFAj4dtF59agzgmKM9fg.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjEyMjE2NjJf/st%20t5%20e1_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjEyMjE2NjJf/st%20t5%20e1_1.mp4",
+        "episodeCode": "T5 E1: Capítulo uno: La misión",
+        "hiddenCode": "T5 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Capítulo dos: La desaparición de...",
+        "meta": "13+ · 58m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dI8N4IQpZNKloK4Dw6MugpSrwMS.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjEyMjE0NzFf/1920x1080-seg-1-f3-v1-a1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjEyMjE0NzFf/1920x1080-seg-1-f3-v1-a1.mp4",
+        "episodeCode": "T5 E2: Capítulo dos: La desaparición de...",
+        "hiddenCode": "T5 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Capítulo tres: La trampa de Turnbow",
+        "meta": "13+ · 70m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vBLzxoyZTbT0ImHXKWG2fe7j2om.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjEyMjE3OThf/st%20t5%20e3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjEyMjE3OThf/st%20t5%20e3.mp4",
+        "episodeCode": "T5 E3: Capítulo tres: La trampa de Turnbow",
+        "hiddenCode": "T5 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Capítulo cuatro: Hechicero",
+        "meta": "13+ · 87m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mp6nFiganZCbieJ0wSjIHz7bS8r.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjEyMjIxMjBf/st%20t5%20e4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjEyMjIxMjBf/st%20t5%20e4.mp4",
+        "episodeCode": "T5 E4: Capítulo cuatro: Hechicero",
+        "hiddenCode": "T5 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      
+      },
+      {
+        "title": "E5: Capítulo cinco: Electrochoque",
+        "meta": "13+ · 69m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4dnRX3S1II3NGkrnwCFZkYpgK83.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjE3NDcyNTZf/Stranger%20things%20t5%20e5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjE3NDcyNTZf/Stranger%20things%20t5%20e5.mp4",
+        "episodeCode": "T5 E5: Capítulo cinco: Electrochoque",
+        "hiddenCode": "T5 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Capítulo seis: La huida de Camazotz",
+        "meta": "13+ · 76m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4joGuE1zoHIyGta2tlcSBI5XiV8.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjE3NDcyNjBf/Stranger%20things%20t5%20e6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjE3NDcyNjBf/Stranger%20things%20t5%20e6.mp4",
+        "episodeCode": "T5 E6: Capítulo seis: La huida de Camazotz",
+        "hiddenCode": "T5 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Capítulo siete: El puente",
+        "meta": "13+ · 67m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/WHdrgCxqNDuOIf65cW9It3XSZW.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjE3NDcyNTdf/stranger%20things%20t5%20e7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjE3NDcyNTdf/stranger%20things%20t5%20e7.mp4",
+        "episodeCode": "T5 E7: Capítulo siete: El puente",
+        "hiddenCode": "T5 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Capítulo ocho: Este Lado",
+        "meta": "13+ · 129m · 2016",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kP23RWbUWM6vGhT9PxFyP5VT3y4.jpg",
+        "videoUrl": "https://od.lk/s/M18zMjE4NzQwNzRf/stranger%20t5%20e8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjE4NzQwNzRf/stranger%20t5%20e8.mp4",
+        "episodeCode": "T5 E8: Capítulo ocho: Este Lado",
+        "hiddenCode": "T5 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        },
+        isNew: true
+      }
+    ]
+  }
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

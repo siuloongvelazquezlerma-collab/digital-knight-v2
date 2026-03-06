@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+
+  <title>Dragon Ball GT</title>
+  <script src="loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTE4NTk1NzVf/dragon%20ball%20gt%20poster.png") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTE4NTk2MDhf/dragon%20ball%20gt%20fondo.png") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content img.logo {
+    width: 300px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 220px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 420px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Dragon Ball Z</span> <!-- Título oculto por defecto -->
+    </header>
+
+     <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="new dragon ball plus page.html">
+    <img src="https://od.lk/s/M18zMTc2Njc5NjBf/notification%20logo.png" width="450px" class="logo" />
+  </a>
+
+  
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="Favoritos dragon ball 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="buscador dragon ball 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="perfil dragon ball 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTI1Njc0OThf/dragonballapp.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/drHB3PsMGTUtjPLhvR9Zj5MzGsG.png" alt="Dragon Ball GT Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+    1 temporada    1996    Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Dragon Ball GT" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=1200,height=675/catalog/crunchyroll/5de444edf50cfe5dc4b8b9c93546c150.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="dragon-ball-gt.html"></a>
+          <span id="nombre">Dragon Ball GT (1996)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Han pasado diez años desde que Goku dejó a sus amigos y familiares para perfeccionar sus habilidades. Pero Goku pronto se encuentra desamparado contra el poder místico de las esferas de Dragón y un de...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="dragon-ball-z.html">
+          <img src="https://od.lk/s/M18zMDc3ODEzOTBf/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg" alt="Dragon Ball Z" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Z</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball-gt.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/3eb79333155a8e87b2f7be64f064c694.jpg" alt="Dragon Ball GT" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball GT</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball-super.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/98ea4207e23a2ea3e3af39ad641d8800.jpg" alt="Dragon Ball Super" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Super</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/257cdb6a1fdd566600a01eb0f9f73b22.jpg" alt="Dragon Ball" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTgwMzI0MTZf/E1%20Zapatero%20a%20Tus%20Zapatos.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Dragon Ball GT</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="new dragon ball plus page.html" class="footer-icon">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+      <p>Inicio</p>
+  </a>
+  <a href="Favoritos dragon ball 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+      <p>Favoritos</p>
+  </a>
+  <a href="mangas dragon ball.html" class="footer-icon">
+      <span class="material-icons-outlined">auto_stories</span>
+      <span class="material-icons">auto_stories</span>
+      <p>Mangas</p>
+  </a>
+  <a href="buscador dragon ball 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+      <p>Buscar</p>
+  </a>
+  <a href="perfil dragon ball 2025.html" class="footer-icon">
+      <img src="https://od.lk/s/M18zMTI1Njc0OThf/dragonballapp.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+      <p>Perfil</p>
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+<script>
+
+const seriesId = "dragon-ball-gt-12697";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+// --- PLAYLIST ---
+const playlist = [
+  {
+    season: "Temporada 1",
+    episodes: [
+    {
+    "title": "E1: Unas misteriosas esferas del dragón aparecen",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//fX9eQR90j3j4ln9E2jyfItq4od0.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDE0MTk1Nzdf/01%20DBGT%2001%20-%20Unas%20misteriosas%20esferas%20del%20drag%C3%B3n%20aparecen.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MTk1Nzdf/01%20DBGT%2001%20-%20Unas%20misteriosas%20esferas%20del%20drag%C3%B3n%20aparecen.mp4",
+    "episodeCode": "T1 E1: Unas misteriosas esferas del dragón aparecen",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E2: Pan viaja en la nave espacial",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//9Cy9TSeMQorCa1PG5RFx5Z5L8Jp.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MTk4MDJf/DBGT2%20-%20Pan%20viaja%20en%20la%20nave%20espacial.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MTk4MDJf/DBGT2%20-%20Pan%20viaja%20en%20la%20nave%20espacial.mp4",
+    "episodeCode": "T1 E2: Pan viaja en la nave espacial",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E3: Los comerciantes del planeta Imega",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//7wVXmT0p6xT0JSNNW6pLFFcJkNO.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjAxNTBf/DBGT3%20-%20Los%20comerciantes%20del%20planeta%20Imega.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjAxNTBf/DBGT3%20-%20Los%20comerciantes%20del%20planeta%20Imega.mp4",
+    "episodeCode": "T1 E3: Los comerciantes del planeta Imega",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E4: Goku y los demás se convierten en criminales",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//Ode6b29u41q6FUcjimLpXNHF6Q.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjAzODNf/DBGT4%20-%20Goku%20y%20los%20demas%20se%20convierten%20criminales.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjAzODNf/DBGT4%20-%20Goku%20y%20los%20demas%20se%20convierten%20criminales.mp4",
+    "episodeCode": "T1 E4: Goku y los demás se convierten en criminales",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E5: El poderoso Lezick",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//eUNYvQ2Oj9z6DOyEIBc2RizcRYT.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjA2NzFf/DBGT5%20-%20El%20poderoso%20Lezick.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjA2NzFf/DBGT5%20-%20El%20poderoso%20Lezick.mp4",
+    "episodeCode": "T1 E5: El poderoso Lezick",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E6: El dentista Goku",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//hSVNGmvBQtnI5KxOyIBWjw7XD4L.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjEwMjBf/DBGT6%20-%20El%20dentista%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjEwMjBf/DBGT6%20-%20El%20dentista%20Goku.mp4",
+    "episodeCode": "T1 E6: El dentista Goku",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E7: Trunks se viste de novia",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//f7oZZTox62d0em5jLBFkHiJRK6y.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjEzNzJf/DBGT7%20-%20Trunks%20se%20viste%20de%20novia.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjEzNzJf/DBGT7%20-%20Trunks%20se%20viste%20de%20novia.mp4",
+    "episodeCode": "T1 E7: Trunks se viste de novia",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E8: Los bigotes de Zunama",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//xnORcR5p8w0LeaglSNv3R3V9Nfo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjE3NzZf/DBGT8%20-%20Los%20bigotes%20de%20Zunama.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjE3NzZf/DBGT8%20-%20Los%20bigotes%20de%20Zunama.mp4",
+    "episodeCode": "T1 E8: Los bigotes de Zunama",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E9: El planeta peligroso",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//sV4ubpHYawLKqXkKYu6nBxNZKjK.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjIyNjVf/DBGT9%20-%20El%20planeta%20peligroso.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjIyNjVf/DBGT9%20-%20El%20planeta%20peligroso.mp4",
+    "episodeCode": "T1 E9: El planeta peligroso",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+    "title": "E10: El baile Bon-Pa-Ppa",
+    "meta": "13+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300//laaC2XARJCrKS1362E34eTUquM8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDE0MjI2NThf/DBGT10%20-%20El%20baile%20Bon-Pa-PPa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDE0MjI2NThf/DBGT10%20-%20El%20baile%20Bon-Pa-PPa.mp4",
+    "episodeCode": "T1 E10: El baile Bon-Pa-Ppa",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 5, "end": 105 }
+  },
+  {
+  "title": "E11: Pan es convertida en muñeca",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//1OmP96mvZfwUBVlPx9ui8XZUzg9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjMwODVf/DBGT11%20-%20Pan%20es%20convertida%20en%20mu%C3%B1eca.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjMwODVf/DBGT11%20-%20Pan%20es%20convertida%20en%20mu%C3%B1eca.mp4",
+  "episodeCode": "T1 E11: Pan es convertida en muñeca",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E12: El despertar de Rudo",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//twr0I73DF6FFtBXiGNEaVWbjnRd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjM1Njdf/DBGT12%20-%20El%20despertar%20de%20Rudo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjM1Njdf/DBGT12%20-%20El%20despertar%20de%20Rudo.mp4",
+  "episodeCode": "T1 E12: El despertar de Rudo",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E13: El misterioso científico llamado Myuu",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//6RRzwEag0XrUscLkp8qFfMuNczA.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE0MjM5NzVf/DBGT13%20-%20El%20misterioso%20cientifico%20llamado%20Myu.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjM5NzVf/DBGT13%20-%20El%20misterioso%20cientifico%20llamado%20Myu.mp4",
+  "episodeCode": "T1 E13: El misterioso científico llamado Myuu",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E14: Trunks muere en el planeta de las máquinas",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2ecWsI74C5MZk68F8KKKwkCC747.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE0MjQyNzlf/DBGT14%20-%20La%20destruccion%20de%20Rudo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjQyNzlf/DBGT14%20-%20La%20destruccion%20de%20Rudo.mp4",
+  "episodeCode": "T1 E14: Trunks muere en el planeta de las máquinas",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E15: Un nuevo enemigo... ¡El Súper Mutante Rudo!",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//5UUu86WhuybqIc2ggc1xJqFIqwv.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE0MjQ2ODNf/DBGT15%20-%20Pan%20se%20escapa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjQ2ODNf/DBGT15%20-%20Pan%20se%20escapa.mp4",
+  "episodeCode": "T1 E15: Un nuevo enemigo... ¡El Súper Mutante Rudo!",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E16: El planeta de las máquinas M2",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//k1w9k9t7MgdwJIuKtNpEWyoU9mJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjUwMzdf/DBGT16%20-%20El%20planeta%20de%20las%20maquinas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjUwMzdf/DBGT16%20-%20El%20planeta%20de%20las%20maquinas.mp4",
+  "episodeCode": "T1 E16: El planeta de las máquinas M2",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E17: El plan de Pan",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//k4WJhQuhwu3UJziKkEkQRAGGyGi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjU0MjJf/DBGT17%20-%20El%20plan%20de%20Pan.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjU0MjJf/DBGT17%20-%20El%20plan%20de%20Pan.mp4",
+  "episodeCode": "T1 E17: El plan de Pan",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E18: La furia de Goku",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//u1PkBJ6BUvtElyUHER2L54WOqab.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjU3OTBf/DBGT18%20-%20La%20furia%20de%20Goku.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjU3OTBf/DBGT18%20-%20La%20furia%20de%20Goku.mp4",
+  "episodeCode": "T1 E18: La furia de Goku",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E19: El poderoso mutante Rildo",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//lFEeUOVOlw5soeNKrLdPu8DZfkC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjYyMjZf/DBGT19%20-%20El%20poderoso%20mutante%20Rildo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjYyMjZf/DBGT19%20-%20El%20poderoso%20mutante%20Rildo.mp4",
+  "episodeCode": "T1 E19: El poderoso mutante Rildo",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E20: Goku es atacado por una tsunami hecha de metal",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//G0mF2oxx4H2URclUlandyu3A1L.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjY2MDhf/DBGT20%20-%20Goku%20es%20atacado%20por%20una%20tsunami%20hecha%20de%20metal.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjY2MDhf/DBGT20%20-%20Goku%20es%20atacado%20por%20una%20tsunami%20hecha%20de%20metal.mp4",
+  "episodeCode": "T1 E20: Goku es atacado por una tsunami hecha de metal",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E21: Goku es atrapado en una placa de metal",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//tiP8yrPmdKs1SW7eFyJBscDuo6q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MjcwMDlf/DBGT21%20-%20Goku%20queda%20atrapado%20en%20un%20placa%20de%20metal.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MjcwMDlf/DBGT21%20-%20Goku%20queda%20atrapado%20en%20un%20placa%20de%20metal.mp4",
+  "episodeCode": "T1 E21: Goku es atrapado en una placa de metal",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E22: El maligno Baby",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//e50mhun6lu0CHN9MshhcteZhzA4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0MTkzOTJf/DBGT22%20-%20El%20maligno%20Baby.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0MTkzOTJf/DBGT22%20-%20El%20maligno%20Baby.mp4",
+  "episodeCode": "T1 E22: El maligno Baby",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E23: El joven misterioso de la nave naufragada",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2OAHkNN68JuYYdSnvJMO2Lsk9LG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0NTkyMTFf/DBGT23%20-%20El%20joven%20misterioso%20de%20la%20nave%20naufragada.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0NTkyMTFf/DBGT23%20-%20El%20joven%20misterioso%20de%20la%20nave%20naufragada.mp4",
+  "episodeCode": "T1 E23: El joven misterioso de la nave naufragada",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E24: El ataque de Baby",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//8GbphzEs8QjbWcbhs3eLaxl27nz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0NTk1NTZf/DBGT24%20-%20El%20ataque%20de%20Baby.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0NTk1NTZf/DBGT24%20-%20El%20ataque%20de%20Baby.mp4",
+  "episodeCode": "T1 E24: El ataque de Baby",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E25: Baby llega a la Tierra",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//xJ37RWTLnP5C4E2uvxgXegmX5ED.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE0NTg5NDBf/DBGT25%20-%20Baby%20llega%20a%20la%20tierra.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE0NTg5NDBf/DBGT25%20-%20Baby%20llega%20a%20la%20tierra.mp4",
+  "episodeCode": "T1 E25: Baby llega a la Tierra",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E26: Una pelea entre hermanos",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//9W9B3s5AcKjkvzSQtwK2kj3zrH1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE1NDQ2Mzdf/DBGT26%20-%20Una%20pelea%20entre%20hermanos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE1NDQ2Mzdf/DBGT26%20-%20Una%20pelea%20entre%20hermanos.mp4",
+  "episodeCode": "T1 E26: Una pelea entre hermanos",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E27: Vegeta es poseído por Baby",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//l8vAJJ8sB2rBiW0KK3fMGMxPJSr.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE1NDQ2NDBf/DBGT27%20-%20Vegeta%20es%20poseido%20por%20Baby.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE1NDQ2NDBf/DBGT27%20-%20Vegeta%20es%20poseido%20por%20Baby.mp4",
+  "episodeCode": "T1 E27: Vegeta es poseído por Baby",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E28: ¿Todos son mis enemigos?",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//cVMli1O1cZzPUmIMasJ7tNGF2DY.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE1NDQ2NTBf/DBGT28%20-%20Todos%20son%20mis%20enemigos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE1NDQ2NTBf/DBGT28%20-%20Todos%20son%20mis%20enemigos.mp4",
+  "episodeCode": "T1 E28: ¿Todos son mis enemigos?",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E29: La Tierra invade el espacio",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//jjGsVESTCwvm8RmyyngekB4I8Nw.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE1NDQ2NTRf/DBGT29%20-%20El%20poder%20del%20Super%20Saiyajin%203%20es%20derrotado.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE1NDQ2NTRf/DBGT29%20-%20El%20poder%20del%20Super%20Saiyajin%203%20es%20derrotado.mp4",
+  "episodeCode": "T1 E29: La Tierra invade el espacio",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E30: La gran decisión de Goku",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//8SDVj2F8dg7eEp4DMFl1u6SLMXR.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDE1NDQ2NTVf/DBGT30%20-%20Goku%20es%20eliminado.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE1NDQ2NTVf/DBGT30%20-%20Goku%20es%20eliminado.mp4",
+  "episodeCode": "T1 E30: La gran decisión de Goku",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E31: La destrucción de la dimensión de la oca",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//eWiLLNRXC7jOtxu7hOGNH7L79kW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDE1NDQ2NTZf/DBGT31%20-%20La%20destruccion%20de%20la%20dimension%20de%20la%20Oca.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDE1NDQ2NTZf/DBGT31%20-%20La%20destruccion%20de%20la%20dimension%20de%20la%20Oca.mp4",
+  "episodeCode": "T1 E31: La destrucción de la dimensión de la oca",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E32: La furia del guerrero Ub",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//iajcgP7VHZrDhhgY6f8ZETdfRkO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3Njg5NzBf/DBGT32%20-%20La%20furia%20del%20guerrero%20Oob.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3Njg5NzBf/DBGT32%20-%20La%20furia%20del%20guerrero%20Oob.mp4",
+  "episodeCode": "T1 E32: La furia del guerrero Ub",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E33: El poder del nuevo Ub",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//gOgpyxxENRoGz1lKNteD8yMDcBB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3NjkwNjZf/DBGT33%20-%20El%20poder%20del%20nuevo%20Oob.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3NjkwNjZf/DBGT33%20-%20El%20poder%20del%20nuevo%20Oob.mp4",
+  "episodeCode": "T1 E33: El poder del nuevo Ub",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E34: Goku fracasa en su transformación",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//xjstmNjZsD9H4LxciXtVdwA1Kg8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3Njk3ODhf/DBGT34%20-%20Goku%20fracasa%20en%20su%20transformaci%C3%B3n.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3Njk3ODhf/DBGT34%20-%20Goku%20fracasa%20en%20su%20transformaci%C3%B3n.mp4",
+  "episodeCode": "T1 E34: Goku fracasa en su transformación",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E35: Goku se convierte en super saiyajin 4",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//strdW5y315hMpSAznUgY50afZHX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODM5OTVf/Dragon%20Ball%20GT%20Episodio%2035.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODM5OTVf/Dragon%20Ball%20GT%20Episodio%2035.mp4",
+  "episodeCode": "T1 E35: Goku se convierte en super saiyajin 4",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E36: El gigantesco mono Baby",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//eplOnCtFAvLhTKiQ8a89PLwiQXX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODM5OThf/Dragon%20Ball%20GT%20Episodio%2036.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODM5OThf/Dragon%20Ball%20GT%20Episodio%2036.mp4",
+  "episodeCode": "T1 E36: El gigantesco mono Baby",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E37: Doble K.O",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//uIjWSy9d2Xeo5KFQRRmX6cozvaA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwMDNf/Dragon%20Ball%20GT%20Episodio%2037.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwMDNf/Dragon%20Ball%20GT%20Episodio%2037.mp4",
+  "episodeCode": "T1 E37: Doble K.O",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E38: Goku recupera sus poderes",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//6BBi4BpRrc5kary6kIS1r8hIsiB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwMDdf/Dragon%20Ball%20GT%20Episodio%2038.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwMDdf/Dragon%20Ball%20GT%20Episodio%2038.mp4",
+  "episodeCode": "T1 E38: Goku recupera sus poderes",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E39: Baby muere",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2dCLOmeB5rYylpl6XeTKMxU57X6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwNTJf/video.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwNTJf/video.mp4",
+  "episodeCode": "T1 E39: Baby muere",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E40: La importante decisión de Pikoro",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//buuS1BrUHh9Lv7b5aIrmftDNu8x.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwMjdf/Dragon%20Ball%20GT%20Episodio%2040.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwMjdf/Dragon%20Ball%20GT%20Episodio%2040.mp4",
+  "episodeCode": "T1 E40: La importante decisión de Pikoro",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E41: ¿Quién será el sucesor de Mr Satán?",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//5xLWgvUttlKZCt83YHdE5sChug9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwMzhf/Dragon%20Ball%20GT%20Episodio%2041.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwMzhf/Dragon%20Ball%20GT%20Episodio%2041.mp4",
+  "episodeCode": "T1 E41: ¿Quién será el sucesor de Mr Satán?",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E42: Goku se enfrenta con enemigos poderosos del infierno",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//pKGWRPw36aUe4eZn7YHVrnW3PYB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwNDFf/Dragon%20Ball%20GT%20Episodio%2042.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwNDFf/Dragon%20Ball%20GT%20Episodio%2042.mp4",
+  "episodeCode": "T1 E42: Goku se enfrenta con enemigos poderosos del infierno",
+  "hiddenCode": "T1 E42",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E43: Cell y Freezer regresan",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//nGRfhCePHGu0YELsH4cTKzycXEC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwNDVf/Dragon%20Ball%20GT%20Episodio%2043.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwNDVf/Dragon%20Ball%20GT%20Episodio%2043.mp4",
+  "episodeCode": "T1 E43: Cell y Freezer regresan",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E44: Goku se enfrenta a su mayor desafío",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//iSpU7khyE2Bcgb06jc3a9iHJgBO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwNDhf/Dragon%20Ball%20GT%20Episodio%2044.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwNDhf/Dragon%20Ball%20GT%20Episodio%2044.mp4",
+  "episodeCode": "T1 E44: Goku se enfrenta a su mayor desafío",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E45: Goku escapa del infierno",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//hq3dpyDFxtdmpQj7lBuMeu7bok1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDk3ODQwNDZf/Dragon%20Ball%20GT%20Episodio%2045.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDk3ODQwNDZf/Dragon%20Ball%20GT%20Episodio%2045.mp4",
+  "episodeCode": "T1 E45: Goku escapa del infierno",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E46: El Super Saiyajin N°4 VS Super N°17",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//yH2Xs7bQT3Rc9834H2G6WvA0o5X.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA5MTJf/Dragon%20Ball%20GT%20Episodio%2046.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA5MTJf/Dragon%20Ball%20GT%20Episodio%2046.mp4",
+  "episodeCode": "T1 E46: El Super Saiyajin N°4 VS Super N°17",
+  "hiddenCode": "T1 E46",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E47: Goku y número 18 pelean juntos",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//bR0fdJ7B7oxpZkpQ6JBHoGufPn9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA4NjVf/Dragon%20Ball%20GT%20Episodio%2047.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA4NjVf/Dragon%20Ball%20GT%20Episodio%2047.mp4",
+  "episodeCode": "T1 E47: Goku y número 18 pelean juntos",
+  "hiddenCode": "T1 E47",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E48: ¿Shen-long es nuestro enemigo?",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//5O1w6qVKK9M3i3eGn6FYdFQkUMQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA5NDhf/Dragon%20Ball%20GT%20Episodio%2048.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA5NDhf/Dragon%20Ball%20GT%20Episodio%2048.mp4",
+  "episodeCode": "T1 E48: ¿Shen-long es nuestro enemigo?",
+  "hiddenCode": "T1 E48",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E49: El dragón que pelea de una manera diferente",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//vX7Tr14HZWuVBGQvD3eIGin3qr3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA5NjBf/Dragon%20Ball%20GT%20Episodio%2049.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA5NjBf/Dragon%20Ball%20GT%20Episodio%2049.mp4",
+  "episodeCode": "T1 E49: El dragón que pelea de una manera diferente",
+  "hiddenCode": "T1 E49",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E50: El dragón eléctrico",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//p1cx12wpGddpnu8cQ6ARSUaaPP8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA5NzBf/Dragon%20Ball%20GT%20Episodio%2050.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA5NzBf/Dragon%20Ball%20GT%20Episodio%2050.mp4",
+  "episodeCode": "T1 E50: El dragón eléctrico",
+  "hiddenCode": "T1 E50",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E51: El ataque del torbellino",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//l4vfqRwv2aUFfCCeBaih1rPdtWN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA4Nzhf/Dragon%20Ball%20GT%20Episodio%2051.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA4Nzhf/Dragon%20Ball%20GT%20Episodio%2051.mp4",
+  "episodeCode": "T1 E51: El ataque del torbellino",
+  "hiddenCode": "T1 E51",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E52: La técnica secreta del dragón de siete estrellas",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//xyGvIAJJnVUXG76mYelR5DseHIG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA5OTFf/Dragon%20Ball%20GT%20Episodio%2052.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA5OTFf/Dragon%20Ball%20GT%20Episodio%2052.mp4",
+  "episodeCode": "T1 E52: La técnica secreta del dragón de siete estrellas",
+  "hiddenCode": "T1 E52",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E53: ¿Pan desaparece?",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//uCOypafyiCEL3wDqfyYhKmwxaVL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA5MDJf/Dragon%20Ball%20GT%20Episodio%2053.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA5MDJf/Dragon%20Ball%20GT%20Episodio%2053.mp4",
+  "episodeCode": "T1 E53: ¿Pan desaparece?",
+  "hiddenCode": "T1 E53",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E54: El guerrero del sol",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//19ciuvWXkUoUbVFdEJLxImrqz1n.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTAxMzA4OTJf/Dragon%20Ball%20GT%20Episodio%2054.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzA4OTJf/Dragon%20Ball%20GT%20Episodio%2054.mp4",
+  "episodeCode": "T1 E54: El guerrero del sol",
+  "hiddenCode": "T1 E54",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E55: El plan de Vegeta y Bulma",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//y2aDYOd58XoXaklHHlc0X2fIRsY.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTczMzIyMzlf/DBGT_MAXXX86_REMASTER_1x55_%C2%A1Bulma_se_pone_las_pilas%21_El_plan_de.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzEwMjBf/640x464-Dragon%20Ball%20GT%20Episodio%2055.mp4",
+  "episodeCode": "T1 E55: El plan de Vegeta y Bulma",
+  "hiddenCode": "T1 E55",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E56: Los hermanos de fuego y del hielo",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//57xqWH8nUgG0iljI8vxbpFPKCLo.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTczMzIyNDBf/DBGT_MAXXX86_REMASTER_1x56_%C2%A1Tras_el_sol%2C_viene_el_hielo%21_Los_dragones.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzEwMjRf/496x360-Dragon%20Ball%20GT%20Episodio%2056.mp4",
+  "episodeCode": "T1 E56: Los hermanos de fuego y del hielo",
+  "hiddenCode": "T1 E56",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E57: El dragón más poderoso",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//9yIL1SR6SktlnbhTj5WNnAOSTA2.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTczMzIyNDRf/DBGT_MAXXX86_REMASTER_1x57_%C2%A1El_enemigo_abrumadoramente_poderoso%21.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzEwMzVf/640x464-Dragon%20Ball%20GT%20Episodio%2057.mp4",
+  "episodeCode": "T1 E57: El dragón más poderoso",
+  "hiddenCode": "T1 E57",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E58: Goku supera los poderes del super Saiyajin 4",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//kTwwvi0ciMSIJSkE27dzFsXpVKf.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTczMzIyNDdf/DBGT_MAXXX86_REMASTER_1x58_%C2%A1Arranca_el_contraataque%21_El_Super_Saiyan.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzEwNDFf/Dragon%20Ball%20GT%20Episodio%2058.mp4",
+  "episodeCode": "T1 E58: Goku supera los poderes del super Saiyajin 4",
+  "hiddenCode": "T1 E58",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E59: ¿Amigo o enemigo? Vegeta Oozaru se vuelve loco",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//55E9zrDSBiqZs2jLAA9ng2yR5wx.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTczMzIyNTlf/DBGT_MAXXX86_REMASTER_1x59_%C2%A1%C2%BFAmigo_o_enemigo%21_La_furia_desenfrenada.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMTAxMzEwNDdf/496x360-Dragon%20Ball%20GT%20Episodio%2059.mp4",
+  "episodeCode": "T1 E59: ¿Amigo o enemigo? Vegeta Oozaru se vuelve loco",
+  "hiddenCode": "T1 E59",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E60: Un final en el que no se puede renunciar",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//nl4IhSIxXqhVbivKJD2Wgr3aF1a.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTAxMzEwNjBf/640x464-Dragon%20Ball%20GT%20Episodio%2060.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTAxMzEwNjBf/640x464-Dragon%20Ball%20GT%20Episodio%2060.mp4",
+  "episodeCode": "T1 E60: Un final en el que no se puede renunciar",
+  "hiddenCode": "T1 E60",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E61: Goku se come la esfera de 4 estrellas",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//jAsA83tD2z5Ij4Ei7bhXaEPiAOK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3Njc5OTVf/DBGT61%20-%20Goku%20engulle%20la%20Shu%20Shin%20Chu.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3Njc5OTVf/DBGT61%20-%20Goku%20engulle%20la%20Shu%20Shin%20Chu.mp4",
+  "episodeCode": "T1 E61: Goku se come la esfera de 4 estrellas",
+  "hiddenCode": "T1 E61",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E62: Cuatro estrellas salva a Goku",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//4hXX8YjHAnyftfrL9NRXW3DCpIu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3Njg2MjZf/DBGT62%20-%20Aparece%20el%20ultimo%20aliado.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3Njg2MjZf/DBGT62%20-%20Aparece%20el%20ultimo%20aliado.mp4",
+  "episodeCode": "T1 E62: Cuatro estrellas salva a Goku",
+  "hiddenCode": "T1 E62",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E63: Goku salva el universo",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//55nD1H2UvGkxJX51o2qqtfocq97.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3ODQ0MDBf/DBGT63%20-%20Goku%20pide%20ayuda%20al%20universo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3ODQ0MDBf/DBGT63%20-%20Goku%20pide%20ayuda%20al%20universo.mp4",
+  "episodeCode": "T1 E63: Goku salva el universo",
+  "hiddenCode": "T1 E63",
+  "intro": { "start": 5, "end": 105 }
+},
+{
+  "title": "E64: ¡Adiós Goku!",
+  "meta": "13+ · 24m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300//kl2CyTQjbC1ohRRZN85wMRcCw4W.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ3ODQ0MDVf/DBGT64%20-%20Adios%20Goku.%20Hasta%20que%20nos%20volvamos%20a%20encontrar.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ3ODQ0MDVf/DBGT64%20-%20Adios%20Goku.%20Hasta%20que%20nos%20volvamos%20a%20encontrar.mp4",
+  "episodeCode": "T1 E64: ¡Adiós Goku!",
+  "hiddenCode": "T1 E64",
+  "intro": { "start": 5, "end": 105 }
+}
+
+    ]
+  },
+ 
+];
+
+</script>
+<script src="player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Dragon Ball Super</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTc1OTIzNjZf/sbs%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=cover,format=auto,quality=85,width=1350/keyart/GR19V7816-backdrop_wide") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Dragon Ball Super</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/yIFhpPFkhhnM7nT5v79opMWzTq1.png" alt="Dragon Ball Super Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   1 temporada   2015   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Dragon Ball Super" onclick="toggleFavorito()" tabindex="4">
+            <span id="favoritoIcon" class="material-icons-outlined">add</span>
+            <p id="favoritoText">Favoritos</p>
+          </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/qA2UwUQbj05aeBMCuC0mHSQ4loE.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="dragon-ball-super.html"></a>
+          <span id="nombre">Dragon Ball Super</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+      </div>
+  
+      <div class="description">
+        La trama de la serie tiene lugar después de la batalla contra Pequeño Buu en medio del período de 10 años hacia el Torneo Mundial de las Artes Marciales 28. Está enlazada con las películas Dragon Ball...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="dragon-ball-z.html">
+          <img src="https://od.lk/s/M18zMDc3ODEzOTBf/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg" alt="Dragon Ball Z" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Z</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball-gt.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/3eb79333155a8e87b2f7be64f064c694.jpg" alt="Dragon Ball GT" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball GT</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball-daima.html">
+          <img src="https://image.tmdb.org/t/p/original/lMULbSFZNXUC87MqOZQ4SSV9DXI.jpg" alt="Dragon Ball Daima" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Daima</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/257cdb6a1fdd566600a01eb0f9f73b22.jpg" alt="Dragon Ball" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDIyNTM4MjZf/001%20El%20Premio%20de%20la%20Paz%20mundial%20%C2%BFQui%C3%A9n%20recibir%C3%A1%20los%20100%20millones%20de%20Zeni_.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Dragon Ball Super</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+  
+
+  <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "dragon-ball-super-62715";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+  {
+    season: "Temporada 1",
+    episodes: [
+    {
+    "title": "E1: El Premio Mundial de la Paz! ¿Quién se quedará con los 100 millones de Zenis?",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/i3NTkwKoHD6Ua1x7gIhyXeY0aiK.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTM4MjZf/001%20El%20Premio%20de%20la%20Paz%20mundial%20%C2%BFQui%C3%A9n%20recibir%C3%A1%20los%20100%20millones%20de%20Zeni_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTM4MjZf/001%20El%20Premio%20de%20la%20Paz%20mundial%20%C2%BFQui%C3%A9n%20recibir%C3%A1%20los%20100%20millones%20de%20Zeni_.mp4",
+    "episodeCode": "T1 E1: El Premio Mundial de la Paz!",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E2: ¡Al Prometido Día de Vacaciones! ¿¡Vegeta va de excursión familiar!?",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/6D19DLwM0PG1ECTnWvItyYu1DVV.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTM5OTVf/002%20%C2%A1Al%20Prometido%20D%C3%ADa%20de%20Vacaciones%21%20%C2%BF%C2%A1Vegeta%20va%20de%20excursi%C3%B3n%20familiar%21_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTM5OTVf/002%20%C2%A1Al%20Prometido%20D%C3%ADa%20de%20Vacaciones%21%20%C2%BF%C2%A1Vegeta%20va%20de%20excursi%C3%B3n%20familiar%21_.mp4",
+    "episodeCode": "T1 E2: ¡Al Prometido Día de Vacaciones!",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E3: ¿Y la continuación del sueño? ¡La Búsqueda del Super Saiyajin Dios!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/i2XklGnEBERZ3JPV3219vCPhjRT.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTQxMjlf/003%20%C2%BFY%20la%20continuaci%C3%B3n%20del%20sue%C3%B1o_%20%C2%A1La%20B%C3%BAsqueda%20del%20Super%20Saiyajin%20Dios%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTQxMjlf/003%20%C2%BFY%20la%20continuaci%C3%B3n%20del%20sue%C3%B1o_%20%C2%A1La%20B%C3%BAsqueda%20del%20Super%20Saiyajin%20Dios%21.mp4",
+    "episodeCode": "T1 E3: ¿Y la continuación del sueño?",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E4: ¡Vayamos por las Dragon Balls! ¡La gran estrategia de la banda de Pilaf!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/4wdZEIzYmQKMkN9zjU3VLPMaBmY.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTQzMTBf/004%20%C2%A1Vayamos%20por%20las%20Dragon%20Balls%21%20%C2%A1La%20gran%20estrategia%20de%20la%20banda%20de%20Pilaf%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTQzMTBf/004%20%C2%A1Vayamos%20por%20las%20Dragon%20Balls%21%20%C2%A1La%20gran%20estrategia%20de%20la%20banda%20de%20Pilaf%21.mp4",
+    "episodeCode": "T1 E4: ¡Vayamos por las Dragon Balls!",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E5: ¡Batalla decisiva en el planeta Kaio! Gokú vs Bills, el Dios de la Destrucción!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/x7zkqoFkEs4llfNW6iturv2b7kv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTQ0ODJf/005%20%C2%A1Batalla%20decisiva%20en%20el%20planeta%20Kaio%21%20Gok%C3%BA%20vs%20Bills%2C%20el%20Dios%20de%20la%20Destrucci%C3%B3n%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTQ0ODJf/005%20%C2%A1Batalla%20decisiva%20en%20el%20planeta%20Kaio%21%20Gok%C3%BA%20vs%20Bills%2C%20el%20Dios%20de%20la%20Destrucci%C3%B3n%21.mp4",
+    "episodeCode": "T1 E5: ¡Batalla decisiva en el planeta Kaio!",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E6: No hagan enojar al Dios de la destrucción! La emocionante fiesta de cumpleaños",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/nVyscQsYV5mfTfiFhzkZeT5ewmz.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTQ2NDVf/006%20No%20hagan%20enojar%20al%20Dios%20de%20la%20destrucci%C3%B3n%21%20La%20emocionante%20fiesta%20de%20cumplea%C3%B1os.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTQ2NDVf/006%20No%20hagan%20enojar%20al%20Dios%20de%20la%20destrucci%C3%B3n%21%20La%20emocionante%20fiesta%20de%20cumplea%C3%B1os.mp4",
+    "episodeCode": "T1 E6: No hagan enojar al Dios de la destrucción!",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E7: ¡Nadie toca a mi Bulma! ¡La ira de Vegeta estalla!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/6BFIhumOY0SGhyHLFOiiowSKrAZ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTQ8MzJf/007%20%C2%A1Nadie%20toca%20a%20mi%20Bulma%21%20%C2%A1La%20ira%20de%20Vegeta%20estalla%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTQ8MzJf/007%20%C2%A1Nadie%20toca%20a%20mi%20Bulma%21%20%C2%A1La%20ira%20de%20Vegeta%20estalla%21.mp4",
+    "episodeCode": "T1 E7: ¡Nadie toca a mi Bulma!",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E8: ¡Gokú aparece! ¿La última oportunidad que dará Bills?",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/yjNrQ5SuNrrlIBQZ1ZG0qsOrFX5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTUwNzlf/008%20%C2%A1Gok%C3%BA%20aparece%21%20%C2%BFLa%20%C3%BAltima%20oportunidad%20que%20dar%C3%A1%20Bills_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTUwNzlf/008%20%C2%A1Gok%C3%BA%20aparece%21%20%C2%BFLa%20%C3%BAltima%20oportunidad%20que%20dar%C3%A1%20Bills_.mp4",
+    "episodeCode": "T1 E8: ¡Gokú aparece!",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E9: ¡Lo siento por la espera, Señor Beerus! ¡El Súper Saiyajin Dios ha aparecido!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/boZNbyltSdun3R1LQJ3fGLPdnn6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTUyNzJf/009%20%C2%A1Al%20fin%20llegu%C3%A9%2C%20Bills%21%20%C2%A1Al%20fin%20el%20S%C3%BAper%20Saiyajin%20Dios%20nace%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTUyNzJf/009%20%C2%A1Al%20fin%20llegu%C3%A9%2C%20Bills%21%20%C2%A1Al%20fin%20el%20S%C3%BAper%20Saiyajin%20Dios%20nace%21.mp4",
+    "episodeCode": "T1 E9: ¡Lo siento por la espera, Señor Beerus!",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E10: ¡Desata tu poder Goku! ¡El poder del Super Saiyajin Dios!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/cyAEMV5X4N6cp5PTlqvAI8CBBrW.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTU0MjFf/010%20%C2%A1Mu%C3%A9stralo%2C%20Gok%C3%BA%21%20El%20poder%20del%20S%C3%BAper%20Saiyajin%20Dios%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTU0MjFf/010%20%C2%A1Mu%C3%A9stralo%2C%20Gok%C3%BA%21%20El%20poder%20del%20S%C3%BAper%20Saiyajin%20Dios%21.mp4",
+    "episodeCode": "T1 E10: ¡Desata tu poder Goku!",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E11: ¡Continúe Señor Beerus! ¡La Batalla de los Dioses!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/gjtBhoYkBDJdNEOW9AUIBaJ6Nxx.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNTU1NTZf/011%20%C2%A1Contin%C3%BAe%20Se%C3%B1or%20Bills%21%20La%20Batalla%20de%20los%20Dioses.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNTU1NTZf/011%20%C2%A1Contin%C3%BAe%20Se%C3%B1or%20Bills%21%20La%20Batalla%20de%20los%20Dioses.mp4",
+    "episodeCode": "T1 E11: ¡Continúe Señor Beerus!",
+    "hiddenCode": "T1 E11",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E12: ¡El Universo se derrumba! ¡Colisión entre el Dios de la Destrucción y el Súper Saiyajin Dios!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/fhR1S7BcnWXcd5geCDhD9kLf2MD.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjI3NDZf/012%20%C2%BF%C2%A1El%20Mundo%20se%20destruir%C3%A1%21_%20%C2%A1El%20Choque%20entre%20el%20Dios%20de%20la%20Destrucci%C3%B3n%20contra%20el%20Dios%20S%C3%BAper%20Saiyajin%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjI3NDZf/012%20%C2%BF%C2%A1El%20Mundo%20se%20destruir%C3%A1%21_%20%C2%A1El%20Choque%20entre%20el%20Dios%20de%20la%20Destrucci%C3%B3n%20contra%20el%20Dios%20S%C3%BAper%20Saiyajin%21.mp4",
+    "episodeCode": "T1 E12: ¡El Universo se derrumba!",
+    "hiddenCode": "T1 E12",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E13: ¡Gokú, sobrepasa al Súper Saiyajin Dios!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/fm8QV94N0JZajClb6AFli6N43vZ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzg5MDJf/013%20%C2%A1Gok%C3%BA%2C%20sobrepasa%20al%20S%C3%BAper%20Saiyajin%20Dios%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzg5MDJf/013%20%C2%A1Gok%C3%BA%2C%20sobrepasa%20al%20S%C3%BAper%20Saiyajin%20Dios%21.mp4",
+    "episodeCode": "T1 E13: ¡Gokú sobrepasa al Súper Saiyajin Dios!",
+    "hiddenCode": "T1 E13",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E14: ¡Esta es nuestra fuerza! ¡El final de la batalla de los dioses!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/fWwDa8YcvehlyFT9LtUgJ8MsBnU.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIzNjc5OTlf/014%20%C2%A1Esta%20es%20nuestra%20fuerza%21%20%C2%A1El%20final%20de%20la%20batalla%20de%20los%20dioses%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzNjc5OTlf/014%20%C2%A1Esta%20es%20nuestra%20fuerza%21%20%C2%A1El%20final%20de%20la%20batalla%20de%20los%20dioses%21.mp4",
+    "episodeCode": "T1 E14: ¡El final de la batalla de los dioses!",
+    "hiddenCode": "T1 E14",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E15: ¡Héroe Satán! ¡Haz el milagro! ¡Un desafío desde el espacio exterior!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/aKvmBzCMpwei00NpsgzznpC12H5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzg2NDdf/015%20%C2%A1H%C3%A9roe%20Sat%C3%A1n%21%20%C2%A1Haz%20el%20milagro%21%20%C2%A1Un%20desaf%C3%ADo%20desde%20el%20espacio%20exterior%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzg2NDdf/015%20%C2%A1H%C3%A9roe%20Sat%C3%A1n%21%20%C2%A1Haz%20el%20milagro%21%20%C2%A1Un%20desaf%C3%ADo%20desde%20el%20espacio%20exterior%21.mp4",
+    "episodeCode": "T1 E15: ¡Héroe Satán!",
+    "hiddenCode": "T1 E15",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E16: ¿¡Vegeta se convierte en un discípulo!? Conquista a Wiss",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/jG0XK9qhxfcRG7KZJimPECAiAnb.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjM1ODFf/016%20%C2%BF%C2%A1Vegeta%20se%20convierte%20en%20un%20disc%C3%ADpulo%21_%20Conquista%20a%20Wiss.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjM1ODFf/016%20%C2%BF%C2%A1Vegeta%20se%20convierte%20en%20un%20disc%C3%ADpulo%21_%20Conquista%20a%20Wiss.mp4",
+    "episodeCode": "T1 E16: ¿Vegeta se convierte en discípulo?",
+    "hiddenCode": "T1 E16",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E17: ¡Pan ha nacido! ¿Goku se va a entrenar?",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/j0AiHMI5lho5RocKXVcWbXQEqOc.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjQxMjNf/017%20%C2%A1El%20nacimiento%20de%20Pan%21%20%C2%BF%C2%A1Y%20el%20viaje%20de%20entrenamiento%20de%20Gok%C3%BA%21_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjQxMjNf/017%20%C2%A1El%20nacimiento%20de%20Pan%21%20%C2%BF%C2%A1Y%20el%20viaje%20de%20entrenamiento%20de%20Gok%C3%BA%21_.mp4",
+    "episodeCode": "T1 E17: ¡Pan ha nacido!",
+    "hiddenCode": "T1 E17",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E18: ¡Yo también llegué! Comienza el entrenamiento en el planeta de Beerus",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/6b6kdJ3BpJ29ofUtjAgTwzBzP31.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjQ5Mzhf/018%20%C2%A1Yo%20tambi%C3%A9n%20llegu%C3%A9%21%20Comienza%20el%20entrenamiento%20en%20el%20planeta%20de%20Beerus.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjQ5Mzhf/018%20%C2%A1Yo%20tambi%C3%A9n%20llegu%C3%A9%21%20Comienza%20el%20entrenamiento%20en%20el%20planeta%20de%20Beerus.mp4",
+    "episodeCode": "T1 E18: ¡Entrenamiento en el planeta de Beerus!",
+    "hiddenCode": "T1 E18",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E19: ¡¡Despierta el terror!! El ejército resucitado de Freezer",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/9453f1ac59082acac3bbd62b48aa2d41.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjU3NDRf/019%20%C2%A1Se%20repite%20la%20desesperaci%C3%B3n%21%20%C2%A1La%20resurrecci%C3%B3n%20del%20emperador%20del%20mal%2C%20Freezer%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjU3NDRf/019%20%C2%A1Se%20repite%20la%20desesperaci%C3%B3n%21%20%C2%A1La%20resurrecci%C3%B3n%20del%20emperador%20del%20mal%2C%20Freezer%21.mp4",
+    "episodeCode": "T1 E19: ¡Despierta el terror!",
+    "hiddenCode": "T1 E19",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E20: ¡¡La advertencia de Jaco!! Freezer y 1000 soldados al ataque",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://image.tmdb.org/t/p/original/Ac1ZvKgK7b4JDoDNO4F9pAWGEMf.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjYyNjlf/020%20%C2%A1La%20advertencia%20de%20Jaco%21%20Freezer%20y%20su%20ej%C3%A9rcito%20de%20mil%20hombres%20se%20aproximan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjYyNjlf/020%20%C2%A1La%20advertencia%20de%20Jaco%21%20Freezer%20y%20su%20ej%C3%A9rcito%20de%20mil%20hombres%20se%20aproximan.mp4",
+    "episodeCode": "T1 E20: ¡La advertencia de Jaco!",
+    "hiddenCode": "T1 E20",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E21: ¡Empieza la venganza! El ejército de Frieza ataca a Gohan",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/7e5e7ee650e55b2c5e93dc073aad923c.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjY5NDVf/021%20%C2%A1El%20comienzo%20de%20la%20venganza%21%20La%20maldad%20del%20ej%C3%A9rcito%20de%20Freezer%20llega%20a%20Gohan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjY5NDVf/021%20%C2%A1El%20comienzo%20de%20la%20venganza%21%20La%20maldad%20del%20ej%C3%A9rcito%20de%20Freezer%20llega%20a%20Gohan.mp4",
+    "episodeCode": "T1 E21: ¡Empieza la venganza!",
+    "hiddenCode": "T1 E21",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E22: ¡Cambio inesperado! Su nombre es Ginyu",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/6f60c9a4e4897692d899ca67209e307b.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjc3OTlf/022%20%C2%A1Cambio%21%20%C2%A1La%20resurrecci%C3%B3n%20inesperada%21%20%C2%A1Su%20nombre%20es%20Ginyu%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjc3OTlf/022%20%C2%A1Cambio%21%20%C2%A1La%20resurrecci%C3%B3n%20inesperada%21%20%C2%A1Su%20nombre%20es%20Ginyu%21.mp4",
+    "episodeCode": "T1 E22: ¡Cambio inesperado!",
+    "hiddenCode": "T1 E22",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E23: ¡Tierra en crisis! Gohan en peligro",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/578e34ee89b15fd9b58f0e1bae1734ef.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjg1NzVf/023%20%C2%A1La%20Tierra%21%20%C2%A1Y%20Gohan%21%20En%20una%20situaci%C3%B3n%20desesperada.%20%C2%A1Vuelve%20pronto%20Son%20Gok%C3%BA%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjg1NzVf/023%20%C2%A1La%20Tierra%21%20%C2%A1Y%20Gohan%21%20En%20una%20situaci%C3%B3n%20desesperada.%20%C2%A1Vuelve%20pronto%20Son%20Gok%C3%BA%21.mp4",
+    "episodeCode": "T1 E23: ¡Tierra en crisis!",
+    "hiddenCode": "T1 E23",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E24: ¡Choque decisivo! Goku vs Frieza",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/2572326b4573c8b699c33634b1ebf6bf.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjkyMDJf/024%20%C2%A1Colisi%C3%B3n%21%20%C2%A1Freezer%20vs%20Son%20Gok%C3%BA%21%20%C2%A1Este%20es%20el%20resultado%20de%20mi%20entrenamiento%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjkyMDJf/024%20%C2%A1Colisi%C3%B3n%21%20%C2%A1Freezer%20vs%20Son%20Gok%C3%BA%21%20%C2%A1Este%20es%20el%20resultado%20de%20mi%20entrenamiento%21.mp4",
+    "episodeCode": "T1 E24: ¡Choque decisivo!",
+    "hiddenCode": "T1 E24",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E25: ¡Golden Frieza ataca!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/532def071b4a1a31327cb2370b307e35.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjk2OTZf/025%20%C2%A1La%20m%C3%A1xima%20batalla%21%20La%20venganza%20de%20Golden%20Freezer.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjk2OTZf/025%20%C2%A1La%20m%C3%A1xima%20batalla%21%20La%20venganza%20de%20Golden%20Freezer.mp4",
+    "episodeCode": "T1 E25: ¡Golden Frieza ataca!",
+    "hiddenCode": "T1 E25",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E26: ¡Contraataque de Goku!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/a6591f4d119c131891e3a0ad3a41832a.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzAzMzRf/026%20%C2%A1La%20esperanza%20de%20la%20victoria%21%20%C2%A1Comienza%20el%20contraataque%20de%20Gok%C3%BA%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzAzMzRf/026%20%C2%A1La%20esperanza%20de%20la%20victoria%21%20%C2%A1Comienza%20el%20contraataque%20de%20Gok%C3%BA%21.mp4",
+    "episodeCode": "T1 E26: ¡Contraataque de Goku!",
+    "hiddenCode": "T1 E26",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E27: ¡La Tierra explota! El último Kame Hame Ha",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/24e4c617e8b3d9ba202a18447ba5bf33.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzA5Mjdf/027%20%C2%BF%C2%A1La%20Tierra%20explota%21_%20El%20decisivo%20Kame%20Hame%20Ha.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzA5Mjdf/027%20%C2%BF%C2%A1La%20Tierra%20explota%21_%20El%20decisivo%20Kame%20Hame%20Ha.mp4",
+    "episodeCode": "T1 E27: ¡La Tierra explota!",
+    "hiddenCode": "T1 E27",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E28: ¡Champa aparece!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/10d73cbd1625f46f9e931b87f385a638.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzE1MDJf/028%20El%20Dios%20de%20la%20destrucci%C3%B3n%20del%20sexto%20universo%2C%20su%20nombre%20es%20Champa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzE1MDJf/028%20El%20Dios%20de%20la%20destrucci%C3%B3n%20del%20sexto%20universo%2C%20su%20nombre%20es%20Champa.mp4",
+    "episodeCode": "T1 E28: ¡Champa aparece!",
+    "hiddenCode": "T1 E28",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E29: ¡Competencia interdimensional!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/72fe57fcaf40bd171341d67afd47ee03.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzE2MTdf/029%20%C2%A1Se%20establece%20la%20competencia%20de%20artes%20marciales%21%20El%20l%C3%ADder%20es%20m%C3%A1s%20fuerte%20que%20Gok%C3%BA.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzE2MTdf/029%20%C2%A1Se%20establece%20la%20competencia%20de%20artes%20marciales%21%20El%20l%C3%ADder%20es%20m%C3%A1s%20fuerte%20que%20Gok%C3%BA.mp4",
+    "episodeCode": "T1 E29: ¡Competencia interdimensional!",
+    "hiddenCode": "T1 E29",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E30: ¡Reclutando a los últimos!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/fdadf4a565fa65529d5fd14ac8b6592e.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNzE4MTJf/030%20%C2%A1La%20recolecci%C3%B3n%20para%20las%20peleas%21%20%C2%BF%C2%A1Qui%C3%A9nes%20ser%C3%A1n%20los%20dos%20%C3%BAltimos%20miembros%21_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNzE4MTJf/030%20%C2%A1La%20recolecci%C3%B3n%20para%20las%20peleas%21%20%C2%BF%C2%A1Qui%C3%A9nes%20ser%C3%A1n%20los%20dos%20%C3%BAltimos%20miembros%21_.mp4",
+    "episodeCode": "T1 E30: ¡Reclutando a los últimos!",
+    "hiddenCode": "T1 E30",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E31: ¡Vamos con Zuno-sama! ¡Pregunten la ubicación de las Super Dragon Balls!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/bf69b92e53ce22d80ca074e5dabdf2e2.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIyNjI3MzNf/031%C2%A1Hacia%20donde%20esta%20Zuno%21%20%C2%A1Que%20les%20diga%20donde%20estan%20las%20esferas%20del%20drag%C3%B3n%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIyNjI3MzNf/031%C2%A1Hacia%20donde%20esta%20Zuno%21%20%C2%A1Que%20les%20diga%20donde%20estan%20las%20esferas%20del%20drag%C3%B3n%21.mp4",
+    "episodeCode": "T1 E31: ¡Vamos con Zuno-sama!",
+    "hiddenCode": "T1 E31",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E32: ¡Empiezan los combates! ¡Todos van al planeta Sin Nombre!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/4d17348c472f4f1b409d043ff67eb250.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMjk1NDBf/032%20%C2%A1Comienza%20la%20batalla%21%20%C2%A1Vamos%20todos%20juntos%20a%20la%20estrella%20sin%20nombre%21%20%282%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMjk1NDBf/032%20%C2%A1Comienza%20la%20batalla%21%20%C2%A1Vamos%20todos%20juntos%20a%20la%20estrella%20sin%20nombre%21%20%282%29.mp4",
+    "episodeCode": "T1 E32: ¡Combate en el planeta sin nombre!",
+    "hiddenCode": "T1 E32",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E33: ¡Sorpréndete, Universo 6! ¡Ese es el Super Saiyan Son Goku!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/cf692c10b71063b3024ba86a8074e70c.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMjk4NTBf/033%20%C2%A1Sorpr%C3%A9ndete%20sexto%20universo%21%20%C2%A1Este%20es%20el%20S%C3%BAper%20Saiyajin%20Gok%C3%BA%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMjk4NTBf/033%20%C2%A1Sorpr%C3%A9ndete%20sexto%20universo%21%20%C2%A1Este%20es%20el%20S%C3%BAper%20Saiyajin%20Gok%C3%BA%21.mp4",
+    "episodeCode": "T1 E33: ¡Super Saiyan Goku impresiona!",
+    "hiddenCode": "T1 E33",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E34: ¡Piccolo contra Frost! ¡Apuesta todo al Makankosappo!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/xTbkjUTvuua2yBLGvKQyFMq3qtJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMTAzNDhf/034%20%C2%A1P%C3%ADcoro%20contra%20Frost%21%20%C2%A1El%20m%C3%A1ximo%20poder%20del%20Makankosappo%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMTAzNDhf/034%20%C2%A1P%C3%ADcoro%20contra%20Frost%21%20%C2%A1El%20m%C3%A1ximo%20poder%20del%20Makankosappo%21.mp4",
+    "episodeCode": "T1 E34: ¡Piccolo contra Frost!",
+    "hiddenCode": "T1 E34",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E35: ¡Transforma tu ira en fuerza! ¡Vegeta utiliza su máximo poder en la pelea!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/wJFCeuyRRfQjg4P3Sgmzktv3rG.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMTA2MDVf/035%20%C2%A1Vuelve%20tu%20ira%20en%20fuerza%21%20%C2%A1La%20batalla%20a%20todo%20poder%20de%20Vegeta%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMTA2MDVf/035%20%C2%A1Vuelve%20tu%20ira%20en%20fuerza%21%20%C2%A1La%20batalla%20a%20todo%20poder%20de%20Vegeta%21.mp4",
+    "episodeCode": "T1 E35: ¡Vegeta al máximo!",
+    "hiddenCode": "T1 E35",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E36: ¡Una batalla imposible de ganar! ¡El estallido de furia de Vegeta!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/c8KvSSkpuanzVWe9w0bFScx1oLE.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMTA3OTBf/036%20%C2%A1Un%20rival%20inesperadamente%20duro%21%20%C2%A1Vegeta%20explota%20de%20ira%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMTA3OTBf/036%20%C2%A1Un%20rival%20inesperadamente%20duro%21%20%C2%A1Vegeta%20explota%20de%20ira%21.mp4",
+    "episodeCode": "T1 E36: ¡Vegeta furioso!",
+    "hiddenCode": "T1 E36",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E37: ¡No olvides tu orgullo como Saiyajin! ¡Vegeta contra el Saiyajin del Universo 6!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/zpu363ebIbturxOH2B4s88cuVou.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMzAxMDRf/037%20%C2%A1No%20olviden%20el%20honor%20de%20los%20Saiyajin%21%20%C2%A1Vegeta%20contra%20el%20saiyajin%20del%20sexto%20universo%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMzAxMDRf/037%20%C2%A1No%20olviden%20el%20honor%20de%20los%20Saiyajin%21%20%C2%A1Vegeta%20contra%20el%20saiyajin%20del%20sexto%20universo%21.mp4",
+    "episodeCode": "T1 E37: ¡Vegeta vs Saiyajin del U6!",
+    "hiddenCode": "T1 E37",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E38: ¡El mejor guerrero del Universo 6! ¡El asesino Hit aparece!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/2Vxn8cySk6bfQUKc6w6iO0em6mc.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDIzMzAzNDZf/038%20%C2%A1El%20guerrero%20m%C3%A1s%20fuerte%20del%20sexto%20universo%21%20%C2%A1El%20asesino%20Hit%2C%20aparece%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMzAzNDZf/038%20%C2%A1El%20guerrero%20m%C3%A1s%20fuerte%20del%20sexto%20universo%21%20%C2%A1El%20asesino%20Hit%2C%20aparece%21.mp4",
+    "episodeCode": "T1 E38: ¡Hit aparece!",
+    "hiddenCode": "T1 E38",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E39: ¡El salto en el tiempo mejorado y la nueva técnica de Gokú!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/jYKm51Fy6XMEIL3x6JhZX0qYysf.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIzMzA1OTRf/039%20%C2%BFEl%20contra-ataque%20del%20salto%20en%20el%20tiempo_%20%C2%BFGok%C3%BA%20har%C3%A1%20su%20nueva%20t%C3%A9cnica_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMzA5OTRf/039%20%C2%BFEl%20contra-ataque%20del%20salto%20en%20el%20tiempo_%20%C2%BFGok%C3%BA%20har%C3%A1%20su%20nueva%20t%C3%A9cnica_.mp4",
+    "episodeCode": "T1 E39: ¡Gokú contraataca!",
+    "hiddenCode": "T1 E39",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+    "title": "E40: ¡El Torneo se termina! ¿El ganador será Bills o Champa?",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/euuQ78mxzJPg1GrldmgdHvJUmWt.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDIzMzA3Mzlf/040%20%C2%A1Acaba%20Por%20Fin%21%20%C2%BFGana%20Bills%20o%20Champa_.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDIzMzA7Mzlf/040%20%C2%A1Acaba%20Por%20Fin%21%20%C2%BFGana%20Bills%20o%20Champa_.mp4",
+    "episodeCode": "T1 E40: ¡Final del torneo!",
+    "hiddenCode": "T1 E40",
+    "intro": { "start": 5, "end": 80 }
+  },
+  {
+  "title": "E41: ¡Ven, Dragón Divino, y concede mi deseo, por favor!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/yRNQWj9r9onDDmvGCSawMqVRA4Q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzA4NjBf/041%C2%A1Sal%20Dios%20de%20los%20dragones%2C%20y%20haz%20realidad%20nuestros%20deseos%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzA4NjBf/041%C2%A1Sal%20Dios%20de%20los%20dragones%2C%20y%20haz%20realidad%20nuestros%20deseos%21.mp4",
+  "episodeCode": "T1 E41: ¡Ven, Dragón Divino!",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E42: ¡Una turbulenta celebración! ¡¿Por fin pelean?! Monaka contra Son Goku",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/vHOEgVjfxHUpL507FXnAuItKZ3e.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzEwODJf/042%20%C2%AALa%20problem%C3%A1tica%20celebraci%C3%B3n%20por%20la%20victoria%21%20%C2%AAMonaka%20contra%20Gok%C3%BA%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzEwODJf/042%20%C2%AALa%20problem%C3%A1tica%20celebraci%C3%B3n%20por%20la%20victoria%21%20%C2%AAMonaka%20contra%20Gok%C3%BA%21.mp4",
+  "episodeCode": "T1 E42: ¡Monaka vs Gokú!",
+  "hiddenCode": "T1 E42",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E43: ¡¿Goku no puede controlar su ki?! Problemas para cuidar a Pan",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/AolzwKsxt9QEWszPXOab8BRYJyh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMTE5NzVf/043%20%C2%BFEl%20Ki%20de%20Gok%C3%BA%20no%20puede%20ser%20controlado_%20%C2%AAProblemas%20para%20cuidar%20a%20Pan%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMTE5NzVf/043%20%C2%BFEl%20Ki%20de%20Gok%C3%BA%20no%20puede%20ser%20controlado_%20%C2%AAProblemas%20para%20cuidar%20a%20Pan%21.mp4",
+  "episodeCode": "T1 E43: ¡Problemas con Pan!",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E44: El sello del planeta Pot-au-feu. ¡El secreto del agua sobrenatural!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/qUojyq7KQ8eLNTRcu7JEvSFwyAA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMTIwNjJf/044%20%C2%AAEl%20sello%20del%20planeta%20Potof%21%20%C2%AAEl%20secreto%20de%20las%20Superpersonas%20acu%C3%A1ticas%20al%20descubierto%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMTIwNjJf/044%20%C2%AAEl%20sello%20del%20planeta%20Potof%21%20%C2%AAEl%20secreto%20de%20las%20Superpersonas%20acu%C3%A1ticas%20al%20descubierto%21.mp4",
+  "episodeCode": "T1 E44: El secreto de Pot-au-feu",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E45: ¡¿Vegeta desaparece?! ¡El terror del clon de Vegeta!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/64bwNZQ2bGy0FUPam80YJmto9yV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMTIxMzJf/045%20%C2%BF%C2%AAVegeta%20desaparece%21_%20%C2%AALa%20fuerza%20de%20la%20r%C3%A9plica%20de%20Vegeta%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMTIxMzJf/045%20%C2%BF%C2%AAVegeta%20desaparece%21_%20%C2%AALa%20fuerza%20de%20la%20r%C3%A9plica%20de%20Vegeta%21.mp4",
+  "episodeCode": "T1 E45: ¡El clon de Vegeta!",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E46: ¡Goku contra la copia de Vegeta! ¿Quién de los dos ganará?",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/1BJsw5HLiuFDB2DIVvSEAYalne3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMTIzNjJf/046%20%C2%AAGok%C3%BA%20vs%20la%20copia%20de%20Vegeta%21%20%C2%BF%C2%AAQui%C3%A9n%20ganar%C3%A1%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMTIzNjJf/046%20%C2%AAGok%C3%BA%20vs%20la%20copia%20de%20Vegeta%21%20%C2%BF%C2%AAQui%C3%A9n%20ganar%C3%A1%21_.mp4",
+  "episodeCode": "T1 E46: Gokú vs el clon de Vegeta",
+  "hiddenCode": "T1 E46",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E47: ¡Un SOS del futuro! ¡Aparece un nuevo enemigo oscuro!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/uwZwOHsnGvF7pcWaOLVfEK9vWEJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMTI2MTFf/047%20%C2%AAUn%20S.O.S%20desde%20el%20futuro%21%20%C2%AAUn%20nuevo%20y%20oscuro%20enemigo%20aparece%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMTI2MTFf/047%20%C2%AAUn%20S.O.S%20desde%20el%20futuro%21%20%C2%AAUn%20nuevo%20y%20oscuro%20enemigo%20aparece%21.mp4",
+  "episodeCode": "T1 E47: ¡SOS del futuro!",
+  "hiddenCode": "T1 E47",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E48: ¡Esperanza de nuevo! Despierta en el presente, Trunks",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/4Bql4sIf6cPjHm7hDHiIHJmsgpq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMTMwMjVf/048%20%C2%AARenueva%20las%20esperanzas%21%20%C2%AADespierta%20ahora%20Trunks%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMTMwMjVf/048%20%C2%AARenueva%20las%20esperanzas%21%20%C2%AADespierta%20ahora%20Trunks%21.mp4",
+  "episodeCode": "T1 E48: ¡Trunks despierta!",
+  "hiddenCode": "T1 E48",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E49: Un mensaje del futuro. ¡Goku Black nos invade!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/a3MOckWRrbjVVPbGBgcBjUtTG5R.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzEzMjFf/049%20Un%20mensaje%20del%20futuro%2C%20%C2%AAGok%C3%BA%20Black%20invade%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzEzMjFf/049%20Un%20mensaje%20del%20futuro%2C%20%C2%AAGok%C3%BA%20Black%20invade%21.mp4",
+  "episodeCode": "T1 E49: ¡Gokú Black aparece!",
+  "hiddenCode": "T1 E49",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E50: ¡Goku contra Black! El camino al futuro se cierra",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/quMxZwTIfT1JG0OJ3FONJjFoHgx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzE1Mzlf/050%20%C2%AAGok%C3%BA%20vs%20Black%21%20El%20camino%20que%20nos%20conducir%C3%A1%20al%20futuro.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzE1Mzlf/050%20%C2%AAGok%C3%BA%20vs%20Black%21%20El%20camino%20que%20nos%20conducir%C3%A1%20al%20futuro.mp4",
+  "episodeCode": "T1 E50: ¡Gokú vs Black!",
+  "hiddenCode": "T1 E50",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E51: Sentimientos más allá del tiempo. Trunks y Mai",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/rLYvVzEvuRkW2hTVW8CxC0QpyLd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzE2ODhf/051%20Sentimientos%20m%C3%A1s%20all%C3%A1%20del%20tiempo%2C%20Trunks%20y%20Mai.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzE2ODhf/051%20Sentimientos%20m%C3%A1s%20all%C3%A1%20del%20tiempo%2C%20Trunks%20y%20Mai.mp4",
+  "episodeCode": "T1 E51: Trunks y Mai",
+  "hiddenCode": "T1 E51",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E52: Reunión de maestro y alumno. Son Gohan y el Trunks del futuro",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/mH9DKGGZCfgHiEZ9sxPqc5NsO1L.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzE4NjJf/052%20%C2%A1El%20reencuentro%21%20%C2%A1Gohan%20y%20Trunks%20del%20futuro%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzE4NjJf/052%20%C2%A1El%20reencuentro%21%20%C2%A1Gohan%20y%20Trunks%20del%20futuro%21.mp4",
+  "episodeCode": "T1 E52: Gohan y Trunks",
+  "hiddenCode": "T1 E52",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E53: ¡Descubre la identidad de Black! ¡Ve al reino del Kaioshin del Universo 10!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/pgQW1zSIKciE71YFLXnMGtqYmul.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzIwMTJf/053%20%C2%A1Descubriendo%20la%20identidad%20de%20Black%21%20%C2%A1Vamos%20al%20mundo%20Kaioshin%20del%20Universo%2010%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzIwMTJf/053%20%C2%A1Descubriendo%20la%20identidad%20de%20Black%21%20%C2%A1Vamos%20al%20mundo%20Kaioshin%20del%20Universo%2010%21.mp4",
+  "episodeCode": "T1 E53: Identidad de Black",
+  "hiddenCode": "T1 E53",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E54: El heredero de la sangre Saiyan. La determinación de Trunks",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/lHscb4pLtgV2aVczdqFgZeGOJ4y.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzIxOThf/054%20Aquel%20que%20posee%20la%20sangre%20Saiyajin%2C%20la%20decisi%C3%B3n%20de%20Trunks.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzIxOThf/054%20Aquel%20que%20posee%20la%20sangre%20Saiyajin%2C%20la%20decisi%C3%B3n%20de%20Trunks.mp4",
+  "episodeCode": "T1 E54: La decisión de Trunks",
+  "hiddenCode": "T1 E54",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E55: Quiero ver a Son Goku. ¡Un llamado del Rey de Todo!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/eeSBWMqPIud5z2eed4zZEaWRgQs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzIzMzVf/055%20Quiero%20ver%20a%20Gok%C3%BA%2C%20%C2%A1La%20llamada%20de%20Zeno%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzIzMzVf/055%20Quiero%20ver%20a%20Gok%C3%BA%2C%20%C2%A1La%20llamada%20de%20Zeno%21.mp4",
+  "episodeCode": "T1 E55: El llamado de Zeno",
+  "hiddenCode": "T1 E55",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E56: ¡Revancha contra Goku Black! Aparece el Super Saiyan Rosé",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/emcQ2oX4sjYCkVuztSZykym79vH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzI0NzNf/056%20Otra%20batalla%20con%20Gok%C3%BA%20Black%2C%20%C2%A1El%20S%C3%BAper%20Saiyajin%20Rose%20aparece%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzI0NzNf/056%20Otra%20batalla%20con%20Gok%C3%BA%20Black%2C%20%C2%A1El%20S%C3%BAper%20Saiyajin%20Rose%20aparece%21.mp4",
+  "episodeCode": "T1 E56: Super Saiyan Rosé",
+  "hiddenCode": "T1 E56",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E57: El dios invulnerable. Zamasu desciende",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/axMneVWzdKg7VxAHaJsB7V36RHw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzI2ODlf/057%20El%20dios%20que%20posee%20un%20cuerpo%20inmortal%2C%20la%20llegada%20de%20Zamasu.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzI2ODlf/057%20El%20dios%20que%20posee%20un%20cuerpo%20inmortal%2C%20la%20llegada%20de%20Zamasu.mp4",
+  "episodeCode": "T1 E57: Llega Zamasu",
+  "hiddenCode": "T1 E57",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E58: Zamasu y Black. El misterio de ambos crece",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/tu3MOamiU5v6QGrp6uB52SK51nn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzI4NzRf/058%20%C2%A1Zamasu%20y%20Black%21%20%C2%A1El%20misterio%20de%20ambos%20se%20profundiza%20a%C3%BAn%20m%C3%A1s%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzI4NzRf/058%20%C2%A1Zamasu%20y%20Black%21%20%C2%A1El%20misterio%20de%20ambos%20se%20profundiza%20a%C3%BAn%20m%C3%A1s%21.mp4",
+  "episodeCode": "T1 E58: Misterio de Zamasu y Black",
+  "hiddenCode": "T1 E58",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E59: Protejan al Kaioshin Gowasu. ¡Destruyan a Zamasu!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/Av5BdUkgp6SWxv8fuy72YqxALA3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzMwMjFf/059%20%C2%A1Protejan%20al%20Kaioshin%20Gowasu%21%20%C2%A1Zamasu%20lo%20destruir%C3%A1%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzMwMjFf/059%20%C2%A1Protejan%20al%20Kaioshin%20Gowasu%21%20%C2%A1Zamasu%20lo%20destruir%C3%A1%21.mp4",
+  "episodeCode": "T1 E59: ¡Destruyan a Zamasu!",
+  "hiddenCode": "T1 E59",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E60: De vuelta al futuro. ¡Se revela la verdadera identidad de Goku Black!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/5mVxEPOPzHDJpcgNt2PiLV58ybD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzMxNjlf/060%20Retornemos%20al%20Futuro%20%C2%A1La%20identidad%20de%20Black%20es%20revelada%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzMxNjlf/060%20Retornemos%20al%20Futuro%20%C2%A1La%20identidad%20de%20Black%20es%20revelada%21.mp4",
+  "episodeCode": "T1 E60: Identidad de Goku Black",
+  "hiddenCode": "T1 E60",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E61: La ambición de Zamasu. Se revela el terror del Plan Cero Humanos",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/xWzmlvcuS9ThMjjnPzmLf1TjDhv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzMzNjRf/061%20La%20ambici%C3%B3n%20de%20Zamasu%2C%20presentando%20el%20temible%20_Plan%20Cero%20Humanos_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzMzNjRf/061%20La%20ambici%C3%B3n%20de%20Zamasu%2C%20presentando%20el%20temible%20_Plan%20Cero%20Humanos_.mp4",
+  "episodeCode": "T1 E61: Plan Cero Humanos",
+  "hiddenCode": "T1 E61",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E62: ¡Yo protegeré el mundo! ¡El furioso superpoder de Trunks explota!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/72we90g6fQZJTCvnZ7vNRgc6Kjt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMjkyNzhf/062%20%C2%A1Yo%20proteger%C3%A9%20el%20mundo%21%20%C2%A1La%20explosi%C3%B3n%20de%20ira%20de%20Trunks%20comienza%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMjkyNzhf/062%20%C2%A1Yo%20proteger%C3%A9%20el%20mundo%21%20%C2%A1La%20explosi%C3%B3n%20de%20ira%20de%20Trunks%20comienza%21.mp4",
+  "episodeCode": "T1 E62: Superpoder de Trunks",
+  "hiddenCode": "T1 E62",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E63: ¡No manches las células de los saiyans! ¡Sube el telón de la dura batalla de Vegeta!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/nXlGtmGGFlvbuTW65d6H8ea8a57.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzM4ODNf/063%20%C2%A1Jam%C3%A1s%20le%20faltes%20al%20respeto%20a%20las%20c%C3%A9lulas%20de%20los%20saiyajins%21%20%C2%A1Sube%20el%20tel%C3%B3n%20de%20la%20dura%20batalla%20de%20Vegeta%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzM4ODNf/063%20%C2%A1Jam%C3%A1s%20le%20faltes%20al%20respeto%20a%20las%20c%C3%A9lulas%20de%20los%20saiyajins%21%20%C2%A1Sube%20el%20tel%C3%B3n%20de%20la%20dura%20batalla%20de%20Vegeta%21.mp4",
+  "episodeCode": "T1 E63: Batalla de Vegeta",
+  "hiddenCode": "T1 E63",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E64: ¡Venérenlo! ¡Alábenlo! ¡El nacimiento de la fusión de Zamasu!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/xjHN21nQ8Ryu4Y3Bc2TrVa95iAr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQwNzBf/064%20%C2%A1Rever%C3%A9ncienlo%21%20%C2%A1Al%C3%A1benlo%21%20%C2%A1La%20Fusi%C3%B3n%20de%20Zamasu%20nace%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQwNzBf/064%20%C2%A1Rever%C3%A9ncienlo%21%20%C2%A1Al%C3%A1benlo%21%20%C2%A1La%20Fusi%C3%B3n%20de%20Zamasu%20nace%21.mp4",
+  "episodeCode": "T1 E64: Fusión de Zamasu",
+  "hiddenCode": "T1 E64",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E65: ¡¿Es el juicio final?! El máximo poder del dios absoluto",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/eASKXzLkUArLS36FMkxWozIBHBu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQyMzFf/065%20%C2%BF%C2%A1Este%20es%20el%20Jucio%20Final%21_%20El%20poder%20Definitivo%20del%20Dios%20Absoluto.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQyMzFf/065%20%C2%BF%C2%A1Este%20es%20el%20Jucio%20Final%21_%20El%20poder%20Definitivo%20del%20Dios%20Absoluto.mp4",
+  "episodeCode": "T1 E65: Juicio final del dios absoluto",
+  "hiddenCode": "T1 E65",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E66: La batalla final! El milagroso poder de los guerreros implacables",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/oShiyZ5wPFgxKlxq2ASqsbBPmjH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQzNjJf/066%20%C2%A1La%20Batalla%20Culminante%21%20%C2%A1El%20Poder%20Milagroso%20de%20un%20guerrero%20implacable%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQzNjJf/066%20%C2%A1La%20Batalla%20Culminante%21%20%C2%A1El%20Poder%20Milagroso%20de%20un%20guerrero%20implacable%21.mp4",
+  "episodeCode": "T1 E66: Batalla final milagrosa",
+  "hiddenCode": "T1 E66",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E67: ¡Con nueva esperanza en nuestros corazones! Adiós, Trunks",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/qM8oxQBpd5vbd5SewDLY7PHSY2p.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQ0NzRf/067%20%C2%A1Una%20nueva%20ESPERANZA%21%20Nace%20en%20el%20pecho%20-%20%C2%A1Adi%C3%B3s%20Trunks%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQ0NzRf/067%20%C2%A1Una%20nueva%20ESPERANZA%21%20Nace%20en%20el%20pecho%20-%20%C2%A1Adi%C3%B3s%20Trunks%21.mp4",
+  "episodeCode": "T1 E67: Adiós, Trunks",
+  "hiddenCode": "T1 E67",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E68: ¡Ven, Shenlong! ¡¿Cuál deseo se concederá?!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/xt90JqLL1r3bx7aiOXQttfbkHsU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQ1NzZf/068%20%C2%A1Sal%20de%20ah%C3%AD%2C%20Shenron%21%20%C2%BF%C2%A1Cu%C3%A1l%20es%20tu%20Deseo%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQ1NzZf/068%20%C2%A1Sal%20de%20ah%C3%AD%2C%20Shenron%21%20%C2%BF%C2%A1Cu%C3%A1l%20es%20tu%20Deseo%21_.mp4",
+  "episodeCode": "T1 E68: ¿Cuál deseo se concederá?",
+  "hiddenCode": "T1 E68",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E69: ¡Goku contra Arale! ¡¿Una ridícula batalla que acabará con la Tierra?!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/bnGgyBiC0Sbgq3Gh1JlvtSNzC68.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQ3MjNf/069%20%C2%A1Gok%C3%BA%20contra%20Arale%21%20%C2%BF%C2%A1La%20Tierra%20al%20borde%20de%20la%20destrucci%C3%B3n%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQ3MjNf/069%20%C2%A1Gok%C3%BA%20contra%20Arale%21%20%C2%BF%C2%A1La%20Tierra%20al%20borde%20de%20la%20destrucci%C3%B3n%21_.mp4",
+  "episodeCode": "T1 E69: Goku vs Arale",
+  "hiddenCode": "T1 E69",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E70: ¡El reto de Champa! ¡Esta vez pelearemos con béisbol!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/cNaqeypPrXqx3z08Qht3P3jgML9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzQ3ODFf/070%20%C2%A1El%20Reto%20de%20Champa%21%20%C2%A1Juguemos%20un%20Partido%20de%20Baseball%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzQ3ODFf/070%20%C2%A1El%20Reto%20de%20Champa%21%20%C2%A1Juguemos%20un%20Partido%20de%20Baseball%21.mp4",
+  "episodeCode": "T1 E70: Reto de béisbol de Champa",
+  "hiddenCode": "T1 E70",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E71: ¡La muerte de Goku! Una petición de asesinato que se llevará a cabo",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/original/7OPpa9widO9AfI0sIFrszrFlx8P.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzUwMDRf/071%C2%A1Gok%C3%BA%2C%20Muere%21%20%C2%A1La%20misi%C3%B3n%20de%20asesinato%20garantizado%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzUwMDRf/071%C2%A1Gok%C3%BA%2C%20Muere%21%20%C2%A1La%20misi%C3%B3n%20de%20asesinato%20garantizado%21.mp4",
+  "episodeCode": "T1 E71: La muerte de Goku",
+  "hiddenCode": "T1 E71",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E72: ¡¿Habrá un contraataque?! ¡La técnica invisible del sicario!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/7dRyJ8ecCgwutJ3TfJIJaanXmB0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzM1Njdf/072%20%C2%BF%C2%A1Contraataque%21_%20%C2%A1La%20t%C3%A9cnica%20asesina%20invisible%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzM1Njdf/072%20%C2%BF%C2%A1Contraataque%21_%20%C2%A1La%20t%C3%A9cnica%20asesina%20invisible%21.mp4",
+  "episodeCode": "T1 E72: Técnica invisible del sicario",
+  "hiddenCode": "T1 E72",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E73: ¡La desgracia de Gohan! Una inesperada gran película de Saiyaman?",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/3bXI7KMhg2GM0HBVnKiZDpplgXO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzM2NzNf/073%20%C2%A1Gohan%20en%20problemas%21%20%C2%BF%C2%A1La%20pel%C3%ADcula%20del%20Gran%20Saiyaman%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzM2NzNf/073%20%C2%A1Gohan%20en%20problemas%21%20%C2%BF%C2%A1La%20pel%C3%ADcula%20del%20Gran%20Saiyaman%21_.mp4",
+  "episodeCode": "T1 E73: Desgracia de Gohan",
+  "hiddenCode": "T1 E73",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E74: ¡Por tus seres queridos! ¡La fortaleza de Great Saiyaman!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/md4r1B7BrxOomUXWOptDk5KCeV9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzM3NTJf/074%20%C2%A1Por%20tu%20seres%20queridos%21%20%C2%A1El%20Inquebrantable%20Gran%20Saiyaman%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzM3NTJf/074%20%C2%A1Por%20tu%20seres%20queridos%21%20%C2%A1El%20Inquebrantable%20Gran%20Saiyaman%21.mp4",
+  "episodeCode": "T1 E74: Fortaleza de Great Saiyaman",
+  "hiddenCode": "T1 E74",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E75: Goku y Krilin de vuelta al viejo entrenamiento",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/i5L5bR8l6CsCwImtiyZqVyDI4EL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzU5OTFf/075%20Gok%C3%BA%20y%20Krilin.%20Al%20nost%C3%A1lgico%20lugar%20de%20entrenamiento.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzU5OTFf/075%20Gok%C3%BA%20y%20Krilin.%20Al%20nost%C3%A1lgico%20lugar%20de%20entrenamiento.mp4",
+  "episodeCode": "T1 E75: Goku y Krilin entrenan",
+  "hiddenCode": "T1 E75",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E76: ¡Acaba con los enemigos! ¡Vuelve el espíritu de lucha de Krilin!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/5GuTqpG7tBbHbPXV8l1lnrvzegd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzMzU3MjJf/076%20%C2%A1Derrota%20a%20todos%20los%20enemigos%20terror%C3%ADficos%21%20%C2%A1El%20Esp%C3%ADritu%20de%20pelea%20de%20Krilin%20regresa%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzMzU3MjJf/076%20%C2%A1Derrota%20a%20todos%20los%20enemigos%20terror%C3%ADficos%21%20%C2%A1El%20Esp%C3%ADritu%20de%20pelea%20de%20Krilin%20regresa%21.mp4",
+  "episodeCode": "T1 E76: Espíritu de lucha de Krilin",
+  "hiddenCode": "T1 E76",
+  "intro": { "start": 5, "end": 80 }
+},
+{
+  "title": "E77: ¡Celebremos el mejor torneo del universo, Rey de Todo!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/w1qJLaGGOIdTKKjeAoXgvvWJXCb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA3OTJf/077%20%C2%A1Hag%C3%A1moslo%2C%20Se%C3%B1or%20Zeno%21%20%C2%A1El%20Torneo%20Multiversal%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA3OTJf/077%20%C2%A1Hag%C3%A1moslo%2C%20Se%C3%B1or%20Zeno%21%20%C2%A1El%20Torneo%20Multiversal%21.mp4",
+  "episodeCode": "T1 E77: ¡Torneo del universo!",
+  "hiddenCode": "T1 E77",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E78: ¿Todos los dioses abatidos? ¡Pierde el torneo y habrá destrucción!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/9BCjHqvlujJAUOeq64P9dwgxfuW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA4ODJf/078%20%C2%BFLos%20Dioses%20de%20cada%20Universo%20aterrados_%20Los%20que%20pierdan%20el%20_Torneo%20del%20Poder_%20desaparecer%C3%A1n.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA4ODJf/078%20%C2%BFLos%20Dioses%20de%20cada%20Universo%20aterrados_%20Los%20que%20pierdan%20el%20_Torneo%20del%20Poder_%20desaparecer%C3%A1n.mp4",
+  "episodeCode": "T1 E78: ¡Destrucción para el perdedor!",
+  "hiddenCode": "T1 E78",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E79: ¡Las patadas de Basil contra Majin Boo!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/iL8YKGhVXcJLiblflz0bYnNsRgl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA5MjBf/079%20%C2%A1Basil%20el%20pateador%20del%20Universo%209%2C%20contra%20Majin%20Buu%20del%20Universo%207%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA5MjBf/079%20%C2%A1Basil%20el%20pateador%20del%20Universo%209%2C%20contra%20Majin%20Buu%20del%20Universo%207%21.mp4",
+  "episodeCode": "T1 E79: Basil vs Majin Boo",
+  "hiddenCode": "T1 E79",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E80: ¡Despierta el espíritu de lucha de Gohan!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/xJAdLqsS6EGeyNUJf6htx4EULCa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA5NDBf/080%20%C2%A1Despierta%20tu%20esp%C3%ADritu%20combativo%20dormido%21%20%C2%A1La%20pelea%20de%20Son%20Gohan%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA5NDBf/080%20%C2%A1Despierta%20tu%20esp%C3%ADritu%20combativo%20dormido%21%20%C2%A1La%20pelea%20de%20Son%20Gohan%21.mp4",
+  "episodeCode": "T1 E80: ¡Gohan en batalla!",
+  "hiddenCode": "T1 E80",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E81: ¡Bergamo el Aplastador contra Son Goku!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/3kc8vONRAjna47TDqWKiGQ2L5hv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA5NTRf/081%20%C2%A1Bergamo%20el%20aplastador%2C%20contra%20Son%20Goku%21%20%C2%A1%C2%BFQui%C3%A9n%20tiene%20el%20poder%20ilimitado_%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA5NTRf/081%20%C2%A1Bergamo%20el%20aplastador%2C%20contra%20Son%20Goku%21%20%C2%A1%C2%BFQui%C3%A9n%20tiene%20el%20poder%20ilimitado_%21.mp4",
+  "episodeCode": "T1 E81: Bergamo vs Goku",
+  "hiddenCode": "T1 E81",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E82: ¡No te perdonaré, Son Goku!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/uzq7KJmFi1YdenK5RLsxhRVo9fb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA5Njdf/082%20%C2%A1No%20te%20perdonar%C3%A9%2C%20Son%20Goku%21%20%C2%A1La%20acometida%20del%20guerrero%20justiciero%20Toppo%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA5Njdf/082%20%C2%A1No%20te%20perdonar%C3%A9%2C%20Son%20Goku%21%20%C2%A1La%20acometida%20del%20guerrero%20justiciero%20Toppo%21.mp4",
+  "episodeCode": "T1 E82: Toppo ataca a Goku",
+  "hiddenCode": "T1 E82",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E83: ¡Formen el equipo del Universo 7!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/kA0TLxx39HIsspG1JBcuQGyXLz1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjA5ODFf/083%20%C2%A1Formen%20el%20equipo%20del%20Universo%207%21%20%C2%BF%C2%A1Qui%C3%A9nes%20ser%C3%A1n%20los%2010%20m%C3%A1s%20fuertes%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjA5ODFf/083%20%C2%A1Formen%20el%20equipo%20del%20Universo%207%21%20%C2%BF%C2%A1Qui%C3%A9nes%20ser%C3%A1n%20los%2010%20m%C3%A1s%20fuertes%21_.mp4",
+  "episodeCode": "T1 E83: El equipo del Universo 7",
+  "hiddenCode": "T1 E83",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E84: Goku recluta a Krillin y Número 18",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/fwhZ2hFWTtSQG3YyywukqiAFOS1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEwNDFf/084%20Goku%20el%20reclutador_%20Invitaci%C3%B3n%20para%20Krillin%20y%20N%C3%BAmero%2018.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEwNDFf/084%20Goku%20el%20reclutador_%20Invitaci%C3%B3n%20para%20Krillin%20y%20N%C3%BAmero%2018.mp4",
+  "episodeCode": "T1 E84: Goku recluta aliados",
+  "hiddenCode": "T1 E84",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E85: Los universos se movilizan",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/uLcSDEpMXqyPaOzvtgX8dvMvvVJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEwNThf/085%20Los%20Universos%20act%C3%BAan_%20Los%20planes%20de%20cada%20uno.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEwNThf/085%20Los%20Universos%20act%C3%BAan_%20Los%20planes%20de%20cada%20uno.mp4",
+  "episodeCode": "T1 E85: Los planes universales",
+  "hiddenCode": "T1 E85",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E86: Número 17 contra Son Goku",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/hJWz4LD3BpHlt4prFSPTL7gCBWZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjExOTVf/086%20%C2%A1El%20primer%20cruce%20de%20pu%C3%B1os%21%20%C2%A1Androide%2017%20contra%20Son%20Goku%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjExOTVf/086%20%C2%A1El%20primer%20cruce%20de%20pu%C3%B1os%21%20%C2%A1Androide%2017%20contra%20Son%20Goku%21.mp4",
+  "episodeCode": "T1 E86: Goku vs Número 17",
+  "hiddenCode": "T1 E86",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E87: Goku y Número 17 combaten juntos",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/qq1ubz2mgSXZPOLbXGLPl8XL9k8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEyMjBf/087%20%C2%A1A%20la%20caza%20de%20los%20cazadores%21%20%C2%A1Goku%20y%20N%C3%BAmero%2017%20unidos%20en%20combate%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEyMjBf/087%20%C2%A1A%20la%20caza%20de%20los%20cazadores%21%20%C2%A1Goku%20y%20N%C3%BAmero%2017%20unidos%20en%20combate%21.mp4",
+  "episodeCode": "T1 E87: ¡Cazando a los cazadores!",
+  "hiddenCode": "T1 E87",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E88: ¡Gohan y Piccolo entrenan al máximo!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/rmGzR6On6CtlMKlkiZCLxASLmmT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEyNTNf/088%20Gohan%20y%20P%C3%ADcoro%20%C2%A1Maestro%20y%20alumno%20en%20un%20entrenamiento%20al%20m%C3%A1ximo%20nivel%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEyNTNf/088%20Gohan%20y%20P%C3%ADcoro%20%C2%A1Maestro%20y%20alumno%20en%20un%20entrenamiento%20al%20m%C3%A1ximo%20nivel%21.mp4",
+  "episodeCode": "T1 E88: Gohan y Piccolo entrenan",
+  "hiddenCode": "T1 E88",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E89: ¡El misterio del dojo Tien Shin!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/3Rome8Nbv1YoaYCUUp9KzF1M6K8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEzMjdf/089%20%C2%A1Una%20belleza%20misteriosa%20aparece%21%20%C2%BFEl%20misterio%20del%20Dojo%20Ten%20Shin_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEzMjdf/089%20%C2%A1Una%20belleza%20misteriosa%20aparece%21%20%C2%BFEl%20misterio%20del%20Dojo%20Ten%20Shin_.mp4",
+  "episodeCode": "T1 E89: Dojo Tien Shin revelado",
+  "hiddenCode": "T1 E89",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E90: ¡Goku contra Gohan! El muro a superar",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/iVFlLs1H32Tkbnn0yrE9v5sroOq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzNjgwMDVf/090%20%C2%A1Fija%20la%20pared%20a%20superar%21%20%C2%A1Goku%20contra%20Gohan%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzNjgwMDVf/090%20%C2%A1Fija%20la%20pared%20a%20superar%21%20%C2%A1Goku%20contra%20Gohan%21.mp4",
+  "episodeCode": "T1 E90: Goku vs Gohan",
+  "hiddenCode": "T1 E90",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E91: ¿Qué Universo ganará? ¡Se congregan los guerreros más fuertes!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/8ya0FGIsjoDXdxQMPID8Q5FUBOw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzNjgwMDdf/091%20%C2%BFQu%C3%A9%20Universo%20sobrevivir%C3%A1%20%20%C2%A1La%20Reuni%C3%B3n%20de%20los%20guerreros%20m%C3%A1s%20fuertes%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzNjgwMDdf/091%20%C2%BFQu%C3%A9%20Universo%20sobrevivir%C3%A1%20%20%C2%A1La%20Reuni%C3%B3n%20de%20los%20guerreros%20m%C3%A1s%20fuertes%21.mp4",
+  "episodeCode": "T1 E91: Guerreros más fuertes reunidos",
+  "hiddenCode": "T1 E91",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E92: ¡Situación de emergencia! ¡Los diez miembros incompletos!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/pIX6S5TMwV9gndf1Yct84B8Gdl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEzMzhf/092%20%C2%A1Sucede%20una%20Emergencia%21%20%C2%A1%C2%A1Reunir%20a%20los%2010%20miembros%20incompletos%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEzMzhf/092%20%C2%A1Sucede%20una%20Emergencia%21%20%C2%A1%C2%A1Reunir%20a%20los%2010%20miembros%20incompletos%21.mp4",
+  "episodeCode": "T1 E92: Los diez miembros incompletos",
+  "hiddenCode": "T1 E92",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E93: ¡Tú eres el décimo guerrero! ¡Goku va a visitar a Frieza!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/s3WWHHygNxyyvWu0IUjlkfeJiSi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjEzNjVf/093%20%C2%A1T%C3%BA%20eres%20el%20d%C3%A9cimo%20guerrero%21%20%C2%A1Goku%20visita%20a%20Freezer%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjEzNjVf/093%20%C2%A1T%C3%BA%20eres%20el%20d%C3%A9cimo%20guerrero%21%20%C2%A1Goku%20visita%20a%20Freezer%21.mp4",
+  "episodeCode": "T1 E93: Goku visita a Freezer",
+  "hiddenCode": "T1 E93",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E94: El Emperador del Mal revive! ¡El recibimiento de unos misteriosos asesinos!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/oyYMG6NIwtVOS5oDWXWqHU5DCFC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE0MDVf/094%20%C2%A1El%20emperador%20del%20mal%20ha%20resucitado%21%20%C2%BFLa%20recepci%C3%B3n%20de%20unos%20Misteriosos%20Asesinos_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE0MDVf/094%20%C2%A1El%20emperador%20del%20mal%20ha%20resucitado%21%20%C2%BFLa%20recepci%C3%B3n%20de%20unos%20Misteriosos%20Asesinos_.mp4",
+  "episodeCode": "T1 E94: Freezer revive y lo atacan",
+  "hiddenCode": "T1 E94",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E95: ¡El más malvado! ¡El ataque de Frieza!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/2hRvwNWwkFHqInIZAvgtMQ8n3XE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzNjgwMDlf/095%20%C2%A1El%20Peor%21%20%C2%A1El%20m%C3%A1s%20malvado%21%20%C2%A1Freezer%20desbocado%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzNjgwMDlf/095%20%C2%A1El%20Peor%21%20%C2%A1El%20m%C3%A1s%20malvado%21%20%C2%A1Freezer%20desbocado%21.mp4",
+  "episodeCode": "T1 E95: El ataque de Freezer",
+  "hiddenCode": "T1 E95",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E96: ¡Llegó el momento! ¡El destino del universo se decidirá en el Reino de la Nada!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/ebY34YteL3ziMxqKyRaLRYnX6Gz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzNjgwMTBf/096%20%C2%A1Lleg%C3%B3%20la%20hora%21%20%C2%A1Al%20Reino%20de%20la%20Nada%20por%20el%20destino%20del%20universo%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzNjgwMTBf/096%20%C2%A1Lleg%C3%B3%20la%20hora%21%20%C2%A1Al%20Reino%20de%20la%20Nada%20por%20el%20destino%20del%20universo%21.mp4",
+  "episodeCode": "T1 E96: El destino se decide",
+  "hiddenCode": "T1 E96",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E97: ¡Sobrevive! ¡Se alza el telón del Torneo de Fuerza!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/jIQsAM5nkbNmI5OnvGlB3lY4r3w.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE0NDNf/097%20%C2%A1Sobrevive%21%20%C2%A1El%20Torneo%20del%20Poder%20por%20fin%20empieza%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE0NDNf/097%20%C2%A1Sobrevive%21%20%C2%A1El%20Torneo%20del%20Poder%20por%20fin%20empieza%21.mp4",
+  "episodeCode": "T1 E97: Comienza el Torneo de Fuerza",
+  "hiddenCode": "T1 E97",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E98: ¡La incertidumbre! ¡La desesperación de un universo!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/6lep2tZlqKsF7Yt7hOU7uTAnvWK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE0NjZf/098%20%C2%A1Oh%2C%20Incertidumbre%21%20%C2%A1Un%20Universo%20Desesperado%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE0NjZf/098%20%C2%A1Oh%2C%20Incertidumbre%21%20%C2%A1Un%20Universo%20Desesperado%21.mp4",
+  "episodeCode": "T1 E98: Un universo desesperado",
+  "hiddenCode": "T1 E98",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E99: ¡Muéstrales! ¡El verdadero poder de Krilin!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/xPFWOxv43Mj5WfVRT1UHPAm28jz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE1NDZf/099%20%C2%A1Ens%C3%A9%C3%B1ales%21%20%C2%A1El%20verdadero%20poder%20de%20Krillin%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE1NDZf/099%20%C2%A1Ens%C3%A9%C3%B1ales%21%20%C2%A1El%20verdadero%20poder%20de%20Krillin%21.mp4",
+  "episodeCode": "T1 E99: El poder de Krilin",
+  "hiddenCode": "T1 E99",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E100: ¡Descontrol! ¡Despierta un guerrero alocado!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/5WOXfmR6JjtTnLsrQH98MBoqYgQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE1NzVf/100%20%C2%A1Descontrol%21%20%21%21El%20Despertar%20de%20un%20Guerrero%20Salvaje%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE1NzVf/100%20%C2%A1Descontrol%21%20%21%21El%20Despertar%20de%20un%20Guerrero%20Salvaje%21.mp4",
+  "episodeCode": "T1 E100: Despierta un guerrero salvaje",
+  "hiddenCode": "T1 E100",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E101: ¡Aparecen los guerreros de la justicia! ¡Las Tropas del Orgullo!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/ry76L4RkyeOtMAveIVNRtON91Ve.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE1OTBf/101%20%C2%81La%20aparici%C3%B3n%20de%20los%20Guerreros%20Justicieros%21%20%C2%81Las%20Tropas%20de%20Orgullo%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE1OTBf/101%20%C2%81La%20aparici%C3%B3n%20de%20los%20Guerreros%20Justicieros%21%20%C2%81Las%20Tropas%20de%20Orgullo%21.mp4",
+  "episodeCode": "T1 E101: Las Tropas del Orgullo",
+  "hiddenCode": "T1 E101",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E102: ¿El poder del amor se descontrola? ¡Las brujas guerreras del Universo 2!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/ptp2bxOhupl2rzbkpYEVqP985PQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2MDhf/102%20%C2%BF%C2%81El%20Poder%20del%20Amor%20estalla%21_%20%C2%81Las%20Brujas%20guerreras%20del%20Universo%202%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2MDhf/102%20%C2%BF%C2%81El%20Poder%20del%20Amor%20estalla%21_%20%C2%81Las%20Brujas%20guerreras%20del%20Universo%202%21.mp4",
+  "episodeCode": "T1 E102: El poder del amor se descontrola",
+  "hiddenCode": "T1 E102",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E103: ¡Sé despiadado, Gohan! ¡Duelo contra el Universo 10!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/kQapkPUZhxWA8qC2vHPg3jzGx0R.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2MzBf/103%20%C2%81No%20muestres%20piedad%2C%20Gohan%21%20%C2%81Enfrentamiento%20contra%20el%20Universo%2010%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2MzBf/103%20%C2%81No%20muestres%20piedad%2C%20Gohan%21%20%C2%81Enfrentamiento%20contra%20el%20Universo%2010%21.mp4",
+  "episodeCode": "T1 E103: Duelo contra el Universo 10",
+  "hiddenCode": "T1 E103",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E104: ¡Estalla una batalla a altas velocidades! ¡El frente unido de Goku y Hit!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/eX0Cn224hyJZtMzBQJKvFupQYUg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2NTJf/104%20%C2%81Estalla%20una%20batalla%20a%20gran%20velocidad%21%20%C2%81El%20frente%20unido%20de%20Goku%20y%20Hit%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2NTJf/104%20%C2%81Estalla%20una%20batalla%20a%20gran%20velocidad%21%20%C2%81El%20frente%20unido%20de%20Goku%20y%20Hit%21.mp4",
+  "episodeCode": "T1 E104: El frente unido de Goku y Hit",
+  "hiddenCode": "T1 E104",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E105: ¡Un combate desesperado! ¡El sacrificio del Maestro Mutenroshi!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/oj8xDQgxUob9HZ5d4rG6lnW0USc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2NjZf/105%20%C2%81Un%20Combate%20Desesperado%21%20%C2%81El%20Sacrificio%20del%20maestro%20Mutenroshi%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2NjZf/105%20%C2%81Un%20Combate%20Desesperado%21%20%C2%81El%20Sacrificio%20del%20maestro%20Mutenroshi%21.mp4",
+  "episodeCode": "T1 E105: El sacrificio del Maestro Mutenroshi",
+  "hiddenCode": "T1 E105",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E106: ¡Averígüenlo! ¡Duelo a muerte contra un atacante invisible!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/gF69NcRGo7PGj36FXWtVhftkj1b.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2Njlf/106%20%C2%81Encu%C3%A9ntralo%21%20%C2%81Duelo%20a%20muerte%20contra%20un%20oponente%20invisible%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2Njlf/106%20%C2%81Encu%C3%A9ntralo%21%20%C2%81Duelo%20a%20muerte%20contra%20un%20oponente%20invisible%21.mp4",
+  "episodeCode": "T1 E106: Duelo contra un atacante invisible",
+  "hiddenCode": "T1 E106",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E107: ¡La venganza de F! ¿Tendió una astuta trampa?",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/5Gc7Ood1kqq0eyGy4tPLziTTOAp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2ODFf/107%20%C2%81La%20venganza%20de%20_F_%21%20%C2%BFUna%20trampa%20ingeniosa_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2ODFf/107%20%C2%81La%20venganza%20de%20_F_%21%20%C2%BFUna%20trampa%20ingeniosa_.mp4",
+  "episodeCode": "T1 E107: ¿Una astuta trampa?",
+  "hiddenCode": "T1 E107",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E108: ¡Frieza y Frost! ¡Malicias que se cruzan!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/4REl0pg5fGBsoCEna70dWPxh6Ob.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2ODhf/108%20%C2%81Freezer%20y%20Frost%21%20%C2%BF%C2%81Malicias%20conjuntas%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2ODhf/108%20%C2%81Freezer%20y%20Frost%21%20%C2%BF%C2%81Malicias%20conjuntas%21_.mp4",
+  "episodeCode": "T1 E108: Frieza y Frost",
+  "hiddenCode": "T1 E108",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E109: ¡Goku se enfrenta al enemigo más poderoso! ¡Es hora de liberar una Genkidama mortal!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/jAxuDsiQ2ORT0a10XseqP5zcLIb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE2OTlf/109%20%C2%81El%20enemigo%20m%C3%A1s%20poderoso%20enfrenta%20a%20Goku%21%20%C2%81L%C3%A1nzala%20ya%21%20%C2%81La%20mortal%20Genki-Dama%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE2OTlf/109%20%C2%81El%20enemigo%20m%C3%A1s%20poderoso%20enfrenta%20a%20Goku%21%20%C2%81L%C3%A1nzala%20ya%21%20%C2%81La%20mortal%20Genki-Dama%21.mp4",
+  "episodeCode": "T1 E109: Goku vs el enemigo más poderoso",
+  "hiddenCode": "T1 E109",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E110: ¡El despertar de Son Goku! ¡Le esperan nuevos secretos!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/tps3ffG0VuGJ7bABscg0ZB7O3Ue.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzNjgwMTFf/110%20%C2%81Descontrol%21%20%21El%20Despertar%20de%20un%20Guerrero%20Salvaje%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzNjgwMTFf/110%20%C2%81Descontrol%21%20%21El%20Despertar%20de%20un%20Guerrero%20Salvaje%21.mp4",
+  "episodeCode": "T1 E110: El despertar de Goku",
+  "hiddenCode": "T1 E110",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E111: ¡Batalla culminante de otra dimensión! ¡Hit contra Jiren!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/dNHs7L1tjpchqzg5k9scd45BDM4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3MDZf/111%20%C2%A1La%20batalla%20suprema%20de%20otra%20dimensi%C3%B3n%21%20%C2%A1Hit%20vs%20Jiren%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3MDZf/111%20%C2%A1La%20batalla%20suprema%20de%20otra%20dimensi%C3%B3n%21%20%C2%A1Hit%20vs%20Jiren%21.mp4",
+  "episodeCode": "T1 E111: Hit vs Jiren",
+  "hiddenCode": "T1 E111",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E112: ¡La promesa de un saiyan! ¡La determinación de Vegeta!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/4Zt1BcEqZyVuy9ygBCHJYR2Z72i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3MTNf/112%20%C2%A1La%20promesa%20del%20Saiyajin%21%20%C2%A1La%20determinaci%C3%B3n%20de%20Vegeta%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3MTNf/112%20%C2%A1La%20promesa%20del%20Saiyajin%21%20%C2%A1La%20determinaci%C3%B3n%20de%20Vegeta%21.mp4",
+  "episodeCode": "T1 E112: Vegeta y la promesa saiyan",
+  "hiddenCode": "T1 E112",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E113: ¡Con alegría! ¡Un nuevo combate de la raza guerrera de los saiyans!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/uUHMCt0zYCR6fvEWD9gtVX69cxc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDIzNjgwMDJf/113%20%C2%A1Que%20felicidad%21%20%C2%A1De%20nuevo%20la%20batalla%20frenes%C3%AD%20Saiyajin%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDIzNjgwMDJf/113%20%C2%A1Que%20felicidad%21%20%C2%A1De%20nuevo%20la%20batalla%20frenes%C3%AD%20Saiyajin%21.mp4",
+  "episodeCode": "T1 E113: Nueva batalla saiyan",
+  "hiddenCode": "T1 E113",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E114: ¡Peligro! ¡Nace una nueva superguerrera!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/dRapGRLPhmYbRngHVwjFKe9h6Bj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3MjJf/114%20%C2%A1Pasi%C3%B3n%20intimidante%21%20%C2%A1El%20nacimiento%20de%20una%20nueva%20Super%20Guerrera%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3MjJf/114%20%C2%A1Pasi%C3%B3n%20intimidante%21%20%C2%A1El%20nacimiento%20de%20una%20nueva%20Super%20Guerrera%21.mp4",
+  "episodeCode": "T1 E114: Nace una superguerrera",
+  "hiddenCode": "T1 E114",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E115: ¡Goku contra Kefla! ¡¿Derrotan al Super Saiyan Blue?!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/3vIF3koAMyJ6kr8mCvQzw4KpgDw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3Mjlf/115%20%C2%A1Goku%20vs%20Kefla%21%20%C2%BF%C2%A1El%20S%C3%BAper%20Saiyajin%20Blue%20pierde%21_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3Mjlf/115%20%C2%A1Goku%20vs%20Kefla%21%20%C2%BF%C2%A1El%20S%C3%BAper%20Saiyajin%20Blue%20pierde%21_.mp4",
+  "episodeCode": "T1 E115: Goku vs Kefla",
+  "hiddenCode": "T1 E115",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E116: ¡Señal de un cambio de tornas! ¡Explosión de la doctrina egoísta!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/jpafjoFXrtrxnhQcWBfN0pzSnTe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3Mzdf/116%20%C2%A1Los%20signos%20de%20un%20regreso%21%20%C2%A1La%20explosi%C3%B3n%20del%20Instinto%20Supremo%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3Mzdf/116%20%C2%A1Los%20signos%20de%20un%20regreso%21%20%C2%A1La%20explosi%C3%B3n%20del%20Instinto%20Supremo%21.mp4",
+  "episodeCode": "T1 E116: Doctrina egoísta explota",
+  "hiddenCode": "T1 E116",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E117: ¡La gran batalla del amor! ¡Los androides contra el Universo 2!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/zj13OO0upX8M8kQh34Ssq5hVEBz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3NDZf/117%20%C2%A1La%20Batalla%20del%20amor%21%20%C2%A1Los%20Androides%20contra%20El%20Universo%202%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3NDZf/117%20%C2%A1La%20Batalla%20del%20amor%21%20%C2%A1Los%20Androides%20contra%20El%20Universo%202%21.mp4",
+  "episodeCode": "T1 E117: Androides vs U2",
+  "hiddenCode": "T1 E117",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E118: La tragedia acelera. Universos que desaparecen",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/tM1K3G1zgv7aR1oW0dax68uxqUs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3NTVf/118%20Acelerando%20la%20tragedia.%20Los%20Universos%20que%20desaparecen....mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3NTVf/118%20Acelerando%20la%20tragedia.%20Los%20Universos%20que%20desaparecen....mp4",
+  "episodeCode": "T1 E118: Universos desaparecen",
+  "hiddenCode": "T1 E118",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E119: ¡¿Imposible de esquivar?! ¡Amenaza sigilosa!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/cOdVxSI7spAKfROo89w7sru9Twq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE3ODVf/119%20%C2%BFImposible%20de%20esquivar_%20%C2%A1Amenaza%20Sigilosa%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE3ODVf/119%20%C2%BFImposible%20de%20esquivar_%20%C2%A1Amenaza%20Sigilosa%21.mp4",
+  "episodeCode": "T1 E119: Amenaza sigilosa",
+  "hiddenCode": "T1 E119",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E120: ¡La táctica de supervivencia perfecta! ¡El amenazador asesino del Universo 3!",
+  "meta": "13+ · 23m · 2015",
+  "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/ucQOHxMVheMrfbL5eYYZNU52kam.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDExMjE4MjRf/120%20%C2%A1Estrategia%20perfecta%20de%20supervivencia%21%20%C2%A1Los%20asesinos%20amenazantes%20de%20Universo%203%21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDExMjE4MjRf/120%20%C2%A1Estrategia%20perfecta%20de%20supervivencia%21%20%C2%A1Los%20asesinos%20amenazantes%20de%20Universo%203%21.mp4",
+  "episodeCode": "T1 E120: Asesinos del Universo 3",
+  "hiddenCode": "T1 E120",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+    "title": "E121: ¡Guerra abierta! ¡La gran fusión cuádruple contra el ataque del Universo 7!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/wyc3iF3arzhBYPWzIG1riEunMGS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDExMjE4MzVf/121%20%C2%A1Guerra%20abierta%21%20%C2%A1La%20gran%20fusi%C3%B3n%20cu%C3%A1druple%20contra%20el%20ataque%20del%20Universo%207%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDExMjE4MzVf/121%20%C2%A1Guerra%20abierta%21%20%C2%A1La%20gran%20fusi%C3%B3n%20cu%C3%A1druple%20contra%20el%20ataque%20del%20Universo%207%21.mp4",
+    "episodeCode": "T1 E121: El ataque del Universo 7",
+    "hiddenCode": "T1 E121",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E122: ¡Por mi orgullo! ¡El desafío de Vegeta para ser el más fuerte!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/3HtBTkwmILmDToH4kssctMB4ZjC.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDExMjE4NDVf/122%20%C2%A1Por%20su%20propio%20orgullo%21%20%C2%A1El%20desaf%C3%ADo%20de%20Vegeta%20para%20ser%20el%20m%C3%A1s%20fuerte%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDExMjE4NDVf/122%20%C2%A1Por%20su%20propio%20orgullo%21%20%C2%A1El%20desaf%C3%ADo%20de%20Vegeta%20para%20ser%20el%20m%C3%A1s%20fuerte%21.mp4",
+    "episodeCode": "T1 E122: El desafío de Vegeta",
+    "hiddenCode": "T1 E122",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E123: ¡Liberando todo el poder en cuerpo y alma! ¡Goku y Vegeta!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/iFavGtDQfvEAcqAabZvcI45EJga.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDExMjE4NTZf/123%20%C2%A1Cuerpo%20y%20alma%2C%20m%C3%A1ximo%20poder%20liberado%21%20%C2%A1%C2%A1Goku%20y%20Vegeta%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDExMjE4NTZf/123%20%C2%A1Cuerpo%20y%20alma%2C%20m%C3%A1ximo%20poder%20liberado%21%20%C2%A1%C2%A1Goku%20y%20Vegeta%21.mp4",
+    "episodeCode": "T1 E123: Goku y Vegeta",
+    "hiddenCode": "T1 E123",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E124: ¡El violento y abrumador ataque! ¡La última resistencia de Gohan!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/m3ia1tXZVa0pWBzphdHI0bBljeq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDExMjE4NjVf/124%20%C2%A1El%20feroz%20asalto%20abrumador%21%20%C2%A1El%20%C3%BAltimo%20acto%20de%20Gohan%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDExMjE4NjVf/124%20%C2%A1El%20feroz%20asalto%20abrumador%21%20%C2%A1El%20%C3%BAltimo%20acto%20de%20Gohan%21.mp4",
+    "episodeCode": "T1 E124: Última resistencia de Gohan",
+    "hiddenCode": "T1 E124",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E125: ¡Imponente presencia! ¡El Dios de la Destrucción Toppo!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/oDozprtR37alSI7iSgoNKBgPXSq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDExMjE4NzRf/125%20%C2%A1Una%20presencia%20imponente%21%20%C2%A1El%20advenimiento%20del%20Dios%20de%20la%20Destrucci%C3%B3n%20Toppo%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDExMjE4NzRf/125%20%C2%A1Una%20presencia%20imponente%21%20%C2%A1El%20advenimiento%20del%20Dios%20de%20la%20Destrucci%C3%B3n%20Toppo%21.mp4",
+    "episodeCode": "T1 E125: El Dios Toppo",
+    "hiddenCode": "T1 E125",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E126: ¡Supera a los dioses! ¡El sacrificio de Vegeta!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/lpvlKU3R63NOu4n3qf5RkdoA2N5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMTQyMjI0NzFf/Dragon%20Ball%20Super%20-%20126.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQyMjI0NzFf/Dragon%20Ball%20Super%20-%20126.mp4",
+    "episodeCode": "T1 E126: El sacrificio de Vegeta",
+    "hiddenCode": "T1 E126",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E127: ¡El muro se acerca! ¡La última barrera de la esperanza!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/1KdBdOoWc2vPRpSiklgHktFtJMp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMTQyMjI1MjRf/Dragon%20Ball%20Super%20-%20127.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQyMjI1MjRf/Dragon%20Ball%20Super%20-%20127.mp4",
+    "episodeCode": "T1 E127: Barrera de esperanza",
+    "hiddenCode": "T1 E127",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E128: ¡Mantén el orgullo hasta el final! ¡La caída de Vegeta!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/h31kX3q0gguusHacmLgdEZESbsu.jpg",
+    "videoUrl": "https://od.lk/s/M18zMTQyMjI1NDlf/Dragon%20Ball%20Super%20-%20128.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQyMjI1NDlf/Dragon%20Ball%20Super%20-%20128.mp4",
+    "episodeCode": "T1 E128: La caída de Vegeta",
+    "hiddenCode": "T1 E128",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E129: ¡Ruptura absoluta de los límites! ¡Domina la doctrina egoísta!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/3pKowZkQBolsVnWJ8qSGrIuwZ11.jpg",
+    "videoUrl": "https://od.lk/s/M18zMTQyMjI1NTRf/Dragon%20Ball%20Super%20-%20129.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQyMjI1NTRf/Dragon%20Ball%20Super%20-%20129.mp4",
+    "episodeCode": "T1 E129: Doctrina egoísta",
+    "hiddenCode": "T1 E129",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E130: ¡Un final único! ¡La batalla de supervivencia definitiva!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/uqq5mYfTFhnpHgWYYKj9dc9n9fp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMTQyMjI1NTZf/Dragon%20Ball%20Super%20-%20130.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQyMjI1NTZf/Dragon%20Ball%20Super%20-%20130.mp4",
+    "episodeCode": "T1 E130: Supervivencia definitiva",
+    "hiddenCode": "T1 E130",
+    "intro": { "start": 5, "end": 85 }
+  },
+  {
+    "title": "E131: ¡Un final milagroso! ¡Adiós, Goku! ¡Hasta la próxima!",
+    "meta": "13+ · 23m · 2015",
+    "thumbnail": "https://media.themoviedb.org/t/p/w500_and_h282_face/mtyMLDoFwnCURfGLZ3WMDk9Seur.jpg",
+    "videoUrl": "https://od.lk/s/M18zMTQyMjI1NThf/Dragon%20Ball%20Super%20-%20131.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQyMjI1NThf/Dragon%20Ball%20Super%20-%20131.mp4",
+    "episodeCode": "T1 E131: Adiós, Goku",
+    "hiddenCode": "T1 E131",
+    "intro": { "start": 0, "end": 0 }
+  }
+
+    ]
+  },
+ 
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

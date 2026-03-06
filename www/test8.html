@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSkt+PpBVx5hbBOss0l7zUUbzjgK6UIIV9W0rGIiXcR" crossorigin="anonymous">
+     <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMDQzMjUzMDlf/ANIME.png">
+  <title>Clon Anime Carrusel</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+   body {
+      padding-top: env(safe-area-inset-top);
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: black;
+  color: white;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0); /* transparente */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+
+
+.logo {
+  height: 15px; /* ajuste fino si es necesario */
+  width: auto;
+}
+
+.icons {
+  display: flex;
+  gap: 15px;
+}
+
+.icons span {
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Ocultar la sección de notificaciones al inicio */
+.hidden {
+  display: none;
+}
+
+/* Estilos generales */
+.notifications-page {
+  background-color: black;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mantén el encabezado fijo */
+.notifications-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: #111;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
+/* Contenedor de las notificaciones */
+.notifications-container {
+  flex: 1; /* Se expandirá para ocupar el espacio restante */
+  padding: 20px;
+}
+
+/* Estilo para los elementos de notificación */
+.notification-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
+  text-decoration: none;
+  color: #fff;
+}
+
+.notification-image {
+  width: 200px; /* Ajusta según tus necesidades */
+  height: 100px; /* Ajusta según tus necesidades */
+  margin-right: 12px;
+  border-radius: 8px;
+}
+
+.notification-text h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.notification-text p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* Opcional: estilo para ocultar inicialmente */
+.hidden {
+  display: none;
+}
+
+
+.notifications-container {
+  padding: 20px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px; /* Ajusta la posición vertical */
+  right: -5px; /* Ajusta la posición horizontal */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 18px; /* Tamaño del badge */
+  height: 18px;
+  font-size: 14px !important; /* Usa !important para sobrescribir otros estilos */
+  line-height: 18px; /* Centra el número verticalmente */
+  display: flex; /* Asegura la alineación del texto */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+/* Contenedor del ícono con badge */
+.notification-icon {
+  position: relative; /* Permite posicionar el badge dentro del contenedor */
+  display: inline-block;
+}
+
+
+.carousel {
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center top;
+}
+
+.carousel-slide.active {
+  display: block;
+  animation: fade 1s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Overlay superior siempre visible */
+.top-overlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  z-index: 1;
+}
+
+/* Overlay lateral para modo horizontal */
+@media screen and (orientation: landscape) {
+  .side-overlay {
+    background: linear-gradient(to right, rgba(2, 2, 2, 0.897), transparent);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 30%;
+    z-index: 1;
+  }
+}
+
+.overlay {
+  background: linear-gradient(to top, black, transparent);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+    .hero-content {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
+    }
+    .logo-img {
+  max-width: 250px;
+  margin-bottom: 10px;
+}
+
+.meta {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Modo horizontal: mover logo y meta a la esquina superior izquierda */
+@media screen and (orientation: landscape) {
+  .hero-content {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .logo-img {
+    margin-bottom: 5px;
+    max-width: 200px;
+  }
+
+  .meta {
+    font-size: 13px;
+  }
+}
+
+    .dots {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0px; /* posición más elevada, puedes ajustar */
+  width: 100%;
+  z-index: 2;
+}
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgb(206, 194, 127);
+      border-radius: 50%;
+      margin: 0 5px;
+      transition: background 0.3s;
+    }
+    .dot.active {
+      background: rgb(255, 0, 0);
+    }
+    .section {
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.subtext {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 150px;
+}
+
+.card img {
+  width: 150px;
+  height: 225px; /* Alto fijo para todas */
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* En modo landscape, limitar altura para que no se agranden */
+@media screen and (orientation: landscape) {
+  .card img {
+    height: 250px; /* Más bajo en horizontal */
+  }
+}
+
+
+    .landscape-bg {
+  display: none;
+}
+
+@media screen and (orientation: landscape) {
+  .carousel-slide {
+    background-image: none !important;
+  }
+  .landscape-bg {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  background-position: center top;
+    z-index: 0;
+  }
+}
+
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#"><img src="https://od.lk/s/M18zMDQzMjUzMTdf/animeknightlogo.png" width="150px" "class="logo" /></a>
+        <div class="icons">
+          <a href="#" onclick="showNotifications()" class="notification-icon">
+            <span class="material-icons-outlined">notifications</span>
+            <span id="notificationBadge" class="notification-badge">1</span>
+          </a>
+        </div>
+      </header>
+    
+      
+      <div id="notificationsPage" class="notifications-page hidden slide-up">
+        <!-- Header de Notificaciones -->
+        <div class="notifications-header">
+            <span class="material-icons back-icon" onclick="closeNotifications()">arrow_back</span>
+            <h2>Notificaciones</h2>
+        </div>
+
+        <!-- Tabs -->
+  <div class="tabs-container" id="tabsContainer">
+    <div class="tab active" onclick="selectTab(0)">Inicio</div>
+    <div class="tab" onclick="selectTab(1)">Series</div>
+    <div class="tab" onclick="selectTab(2)">Películas</div>
+    <div class="tab" onclick="selectTab(3)">Anime</div>
+    <div class="tab" onclick="selectTab(4)">Familia</div>
+    <div class="tab" onclick="selectTab(5)">Doramas</div>
+  </div>
+    
+        <!-- Contenedor de Notificaciones -->
+    <div id="notificationsContainer" class="notifications-container">
+        <!-- Aquí se agregarán dinámicamente las notificaciones -->
+    </div>
+    </div>
+
+    <div class="carousel">
+
+       <!-- Slide 1 -->
+<div class="carousel-slide active"
+style="background-image: url('https://image.tmdb.org/t/p/original/nvpc6O6BOtJhdVSIHCJA6KlHbf3.jpg');"
+onclick="window.location.href='https://ejemplo.com/1'">
+
+<!-- Imagen de fondo en modo horizontal -->
+<div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/83k45puHEKC6KJ2vXj7s3losDYg.jpg');"></div>
+
+<!-- Overlays -->
+<div class="side-overlay"></div>
+<div class="top-overlay"></div>
+<div class="overlay"></div>
+
+<!-- Contenido del carrusel -->
+<div class="overlay-content hero-content">
+<img src="https://image.tmdb.org/t/p/original/sgAUBXAhed4r8MpBRShLDtTnlFA.png" alt="Logo" class="logo-img" onclick="event.stopPropagation()">
+<div class="meta" onclick="event.stopPropagation()">14+ · Sub | Dob</div>
+</div>
+</div>
+
+      
+        <!-- Slide 2 -->
+        <div class="carousel-slide"
+             style="background-image: url('https://image.tmdb.org/t/p/original/bhUuQTkKaoyS1GjLu9hk6XHuS64.jpg');"
+             onclick="window.location.href='https://ejemplo.com/2'">
+          <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/J3hnhYCDnFlWocuAo49Hm7UZ9u.jpg');"></div>
+          <!-- Overlays -->
+<div class="side-overlay"></div>
+<div class="top-overlay"></div>
+<div class="overlay"></div>
+
+<!-- Contenido del carrusel -->
+<div class="overlay-content hero-content">
+            <img src="https://image.tmdb.org/t/p/original/fh9aeBfpZfx1gLDoqqkJf9XZUiE.png" alt="Gundam Wing Logo" class="logo-img" onclick="event.stopPropagation()">
+            <div class="meta" onclick="event.stopPropagation()">13+ · Sub | Dob</div>
+          </div>
+        </div>
+      
+        <!-- Slide 3 -->
+        <div class="carousel-slide"
+             style="background-image: url('https://od.lk/s/M18zMTcxNjczMTJf/saint%20%20seiya%20poster.jpg');"
+             onclick="window.location.href='https://ejemplo.com/3'">
+          <div class="landscape-bg" style="background-image: url('https://od.lk/s/M18zMTcxNjczMTNf/saint%20seiya%20fondo.jpg');"></div>
+           <!-- Overlays -->
+<div class="side-overlay"></div>
+<div class="top-overlay"></div>
+<div class="overlay"></div>
+
+<!-- Contenido del carrusel -->
+<div class="overlay-content hero-content">
+            <img src="https://image.tmdb.org/t/p/original/jsD8i9wfUB8xn0SZSgWHF148lIC.png" alt="Saint Seiya Logo" class="logo-img" onclick="event.stopPropagation()">
+            <div class="meta" onclick="event.stopPropagation()">17+ · Sub | Dob</div>
+          </div>
+        </div>
+      
+        <!-- Slide 4 -->
+        <div class="carousel-slide"
+             style="background-image: url('https://image.tmdb.org/t/p/original/7yUHkmooOk7HnAvh3PHI6inlGzS.jpg');"
+             onclick="window.location.href='https://ejemplo.com/4'">
+          <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/6lJROHhUSRcNLqAKIPmIsbYW2Vl.jpg');"></div>
+          <!-- Overlays -->
+<div class="side-overlay"></div>
+<div class="top-overlay"></div>
+<div class="overlay"></div>
+
+<!-- Contenido del carrusel -->
+<div class="overlay-content hero-content">
+            <img src="https://vignette.wikia.nocookie.net/btx/images/f/f6/B't_X_Logo.png/revision/latest?cb=20171116221310&path-prefix=es" alt="B't X Logo" class="logo-img" onclick="event.stopPropagation()">
+            <div class="meta" onclick="event.stopPropagation()">14+ · Sub | Dob</div>
+          </div>
+        </div>
+      
+        <!-- Slide 5 -->
+        <div class="carousel-slide"
+             style="background-image: url('https://od.lk/s/M18zMTE4NjY1NTVf/new%20dragon%20ball%20z%20poster.png');"
+             onclick="window.location.href='https://ejemplo.com/5'">
+          <div class="landscape-bg" style="background-image: url('https://od.lk/s/M18zMTE4NjYyODBf/dragon%20ball%20z%20fondo.png');"></div>
+          <!-- Overlays -->
+<div class="side-overlay"></div>
+<div class="top-overlay"></div>
+<div class="overlay"></div>
+
+<!-- Contenido del carrusel -->
+<div class="overlay-content hero-content">
+            <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt="Dragon Ball Z Logo" class="logo-img" onclick="event.stopPropagation()">
+            <div class="meta" onclick="event.stopPropagation()">13+ · Sub | Dob</div>
+          </div>
+        </div>
+      
+        <!-- Slide 6 -->
+        <div class="carousel-slide"
+             style="background-image: url('https://image.tmdb.org/t/p/original/cOemgMBvf1WuTnjcihfSmasRzrh.jpg');"
+             onclick="window.location.href='https://ejemplo.com/6'">
+          <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/lTDtH9YnFWJdwOgNuB4dUAzGOQl.jpg');"></div>
+           <!-- Overlays -->
+<div class="side-overlay"></div>
+<div class="top-overlay"></div>
+<div class="overlay"></div>
+
+<!-- Contenido del carrusel -->
+<div class="overlay-content hero-content">
+            <img src="https://image.tmdb.org/t/p/original/eHMfVTIwen9anB4HuvQlFRGZFms.png" alt="SNK Logo" class="logo-img" onclick="event.stopPropagation()">
+            <div class="meta" onclick="event.stopPropagation()">12+ · Sub | Dob</div>
+          </div>
+        </div>
+      
+        <!-- Dots -->
+        <div class="dots" id="dots"></div>
+      
+      </div>
+      
+      
+
+      <div class="section">
+        <div class="section-title">¡Anime gratis en México!</div>
+        <div class="subtext">Tú pones las palomitas, nosotros ponemos el anime</div>
+        <div class="row">
+          <div class="card">
+            <a href="#dr-stone">
+              <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/ff3c9c19712caeef0698068b0ae6f5e2.jpe" alt="Dr. Stone">
+            </a>
+          </div>
+          <div class="card">
+            <a href="#fullmetal-alchemist">
+              <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/98ea4207e23a2ea3e3af39ad641d8800.jpg" alt="Fullmetal Alchemist">
+            </a>
+          </div>
+          <div class="card">
+            <a href="#black-clover">
+              <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Black Clover">
+            </a>
+          </div>
+        </div>
+      
+        <div class="section-title">¡Anime gratis en México!</div>
+        <div class="subtext">Tú pones las palomitas, nosotros ponemos el anime</div>
+        <div class="row">
+          <div class="card">
+            <a href="#dr-stone">
+              <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/ff3c9c19712caeef0698068b0ae6f5e2.jpe" alt="Dr. Stone">
+            </a>
+          </div>
+          <div class="card">
+            <a href="#fullmetal-alchemist">
+              <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/98ea4207e23a2ea3e3af39ad641d8800.jpg" alt="Fullmetal Alchemist">
+            </a>
+          </div>
+          <div class="card">
+            <a href="#black-clover">
+              <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Black Clover">
+            </a>
+          </div>
+        </div>
+      </div>
+      
+
+<script>
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('dots');
+  let currentIndex = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+  }
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }, 7000); // cambia cada 7 segundos
+
+ 
+  let startX = 0;
+  let endX = 0;
+
+  const carousel = document.querySelector('.carousel');
+
+  carousel.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  });
+
+  carousel.addEventListener('touchend', e => {
+    endX = e.changedTouches[0].clientX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    const diff = endX - startX;
+    if (Math.abs(diff) > 50) { // Desliza si el movimiento fue suficiente
+      if (diff > 0) {
+        // Swipe a la derecha (slide anterior)
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      } else {
+        // Swipe a la izquierda (siguiente slide)
+        currentIndex = (currentIndex + 1) % slides.length;
+      }
+      showSlide(currentIndex);
+    }
+  }
+
+// Simula datos de notificaciones
+const mockNotifications = [
+  
+  
+  
+  ];
+  
+  // Simula la llamada a un servidor con setTimeout
+  function fetchNotifications() {
+  return new Promise((resolve) => {
+  setTimeout(() => {
+      resolve(mockNotifications); // Simula la respuesta del servidor
+  }, 1000); // Simula un retraso de 1 segundo
+  });
+  }
+  
+  // Función para cargar notificaciones
+  async function loadNotifications() {
+  try {
+  const notifications = await fetchNotifications();
+  
+  const notificationsContainer = document.getElementById("notificationsContainer");
+  notificationsContainer.innerHTML = ""; // Limpia las notificaciones actuales
+  
+  if (notifications.length === 0) {
+      notificationsContainer.innerHTML = "<p>No hay notificaciones nuevas.</p>";
+      return;
+  }
+  
+  notifications.forEach(notification => {
+      const notificationElement = createNotificationElement(notification);
+      notificationsContainer.appendChild(notificationElement);
+  });
+  
+  updateNotificationBadge(); // Actualiza el badge
+  } catch (error) {
+  console.error("Error al cargar notificaciones:", error);
+  }
+  }
+  
+  // Crear el elemento HTML de la notificación
+  function createNotificationElement(notification) {
+  const notificationItem = document.createElement("a");
+  notificationItem.href = notification.link || "#"; // Enlace por defecto
+  notificationItem.className = "notification-item";
+  
+  notificationItem.innerHTML = `
+  <img src="${notification.image}" alt="${notification.title}" class="notification-image">
+  <div class="notification-text">
+      <h2>${notification.header || "Notificación"}</h2>
+      <h3>${notification.title}</h3>
+      <p>${notification.body}</p>
+  </div>
+  `;
+  return notificationItem;
+  }
+  
+  // Función para mostrar la sección de notificaciones
+  function showNotifications() {
+  const notificationsPage = document.getElementById("notificationsPage");
+  notificationsPage.classList.remove("hidden");
+  updateNotificationBadge(); // Actualiza el badge al abrir la página
+  }
+  
+  // Función para cerrar las notificaciones
+  function closeNotifications() {
+  const notificationsPage = document.getElementById("notificationsPage");
+  notificationsPage.classList.add("hidden");
+  updateNotificationBadge(); // Actualiza el badge al cerrar la página
+  }
+  
+  // Función para actualizar el punto rojo en el ícono de notificaciones
+  function updateNotificationBadge() {
+  const notificationsContainer = document.getElementById("notificationsContainer");
+  const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
+  const notificationBadge = document.getElementById("notificationBadge");
+  
+  if (notificationItems.length > 0) {
+  notificationBadge.style.display = "flex"; // Muestra el badge
+  notificationBadge.textContent = notificationItems.length; // Muestra el número de notificaciones
+  } else {
+  notificationBadge.style.display = "none"; // Oculta el badge si no hay notificaciones
+  }
+  }
+  
+  // Inicializa las notificaciones al cargar la página
+  window.addEventListener('DOMContentLoaded', () => {
+  loadNotifications();
+  updateNotificationBadge();
+  });
+</script>
+
+</body>
+</html>

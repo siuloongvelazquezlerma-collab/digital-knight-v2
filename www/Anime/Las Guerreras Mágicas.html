@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Las Guerreras Mágicas</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/w500/xHponEu74lB5nDbELzAGHBqSN6N.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/mVya8Yf5BV8wBLXXAremnzHumAK.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Las Guerreras Mágicas</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/45eAKEca4z7v01Z1tqG0gKNIrxM.png" alt="Las Guerreras Mágicas Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;2 temporadas&nbsp;&nbsp;1994&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Las Guerreras Mágicas" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/1khZ5ifWbjF6MvJGJM8kYiEH2ZX.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Las Guerreras Mágicas.html"></a>
+          <span id="nombre">Las Guerreras Mágicas</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        A pesar de los mejores esfuerzos de la heroína, Lucy, el castillo del malvado Cephiro ha dominado el mundo y se erige en
+        el centro de Tokio.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="slam-dunk.html">
+          <img src="https://image.tmdb.org/t/p/w300/gpkM8VeiYyQuEg9qkAoNplktwe4.jpg" alt="Slam Dunk" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Slam Dunk</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="sakura card captor.html">
+          <img src="https://image.tmdb.org/t/p/w300/dj0uI34MOkZMTE233tfRebs0YYx.jpg" alt="Sakura Card Captor" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Sakura Card Captor</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="shaman-king.html">
+          <img src="https://image.tmdb.org/t/p/w300/bDJLF92frEmKSr1OlCZN5P1kx6W.jpg" alt="Shaman King" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Shaman King</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDU2ODEzOTRf/HDI-01%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Las Guerreras Mágicas</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: El momento de decisión"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "las-guerreras-mágicas";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: El momento de decisión",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wA4bYj28zmKyi2xhCfwczg35JGC.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MTU4MzRf/1.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU4MzRf/1.mkv",
+        "episodeCode": "T1 E1: El momento de decisión",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E2: La llegada de Presea",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/myw7RJyR6aFgxnKYJLrKq2FINid.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU4ODBf/2.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU4ODBf/2.mkv",
+        "episodeCode": "T1 E2: La llegada de Presea",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E3: El bosque del Silencio",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sRphMQxViX5Cbm2oU2YnnV0t1Es.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5MjRf/3.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5MjRf/3.mkv",
+        "episodeCode": "T1 E3: El bosque del Silencio",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E4: Alanis, la hechicera vengativa",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nOh6ngIgqABEUU1vNNLQ55uDof5.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5MzFf/4.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5MzFf/4.mkv",
+        "episodeCode": "T1 E4: Alanis, la hechicera vengativa",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E5: El legendario Escudo",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rEtKk4Twrw3ADiWq9wzzybG8B58.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5NDJf/5.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5NDJf/5.mkv",
+        "episodeCode": "T1 E5: El legendario Escudo",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E6: El sacrificio de Presea",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vwvCClriKcnA0XbctExapVqXcKX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5NTNf/6.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5NTNf/6.mkv",
+        "episodeCode": "T1 E6: El sacrificio de Presea",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E7: El amor florece en el desierto",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/icgARULDKMBInnxkL51wqpTZn9E.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5NjJf/7.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5NjJf/7.mkv",
+        "episodeCode": "T1 E7: El amor florece en el desierto",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E8: El impredecible Hikaru",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7DpqeJ7cnz2UgtQHKKKirge5q3o.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5NzNf/8.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5NzNf/8.mkv",
+        "episodeCode": "T1 E8: El impredecible Hikaru",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E9: La pesadilla de Marina",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1oWH5BaiMR80VLNdPGJGPOTwc4N.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTU5Nzdf/9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTU5Nzdf/9.mp4",
+        "episodeCode": "T1 E9: La pesadilla de Marina",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E10: El genio Ceres despierta",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/swhLO5zAbxAcVJD3VzZmb7oTARv.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYwMDBf/10.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMDBf/10.mkv",
+        "episodeCode": "T1 E10: El genio Ceres despierta",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E11: La leyenda de los genios de Céfiro",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8z0zCHx4tuCfWVX6ebpLHCmh2pT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYwMjhf/11.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMjhf/11.mkv",
+        "episodeCode": "T1 E11: La leyenda de los genios de Céfiro",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E12: El temor de Caldina",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vlfU1Yoc2dL6nfnGaNWrBJifbQi.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYxMTNf/12.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYxMTNf/12.mkv",
+        "episodeCode": "T1 E12: El temor de Caldina",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E13: Una lección de amor",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cvi0NR5cW9FnrOYdz7kaYyGVjm0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYxODRf/13.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYxODRf/13.mkv",
+        "episodeCode": "T1 E13: Una lección de amor",
+        "hiddenCode": "T1 E13",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E14: La promesa de Las Guerreras Mágicas",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7JGIx4go2XgBhhbjGytNbwYiV9Z.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYyMzRf/14.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYyMzRf/14.mkv",
+        "episodeCode": "T1 E14: La promesa de Las Guerreras Mágicas",
+        "hiddenCode": "T1 E14",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E15: La aparición de Windom",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rrsqOstAK5sgfpSalSgLlLTgfcn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYyODhf/15.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYyODhf/15.mkv",
+        "episodeCode": "T1 E15: La aparición de Windom",
+        "hiddenCode": "T1 E15",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E16: El esgrimista Ráfaga",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/z5TA1O8xxmAQkmMdYcJETu0DWxI.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYzNDNf/16.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYzNDNf/16.mkv",
+        "episodeCode": "T1 E16: El esgrimista Ráfaga",
+        "hiddenCode": "T1 E16",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E17: La identidad de Nova",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ayTSecNfFHRB0XCqE6kCbdY67SW.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTYzODJf/17.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTYzODJf/17.mkv",
+        "episodeCode": "T1 E17: La identidad de Nova",
+        "hiddenCode": "T1 E17",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E18: El último genio",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cmVaZj2Jc7v8tPGfOYpm64Zg5rG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTY0MzVf/18.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTY0MzVf/18.mkv",
+        "episodeCode": "T1 E18: El último genio",
+        "hiddenCode": "T1 E18",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E19: La batalla contra Zagato",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xIzXvxVyUmX1veVCzHYa2VvpRlZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTY0NzRf/19.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTY0NzRf/19.mkv",
+        "episodeCode": "T1 E19: La batalla contra Zagato",
+        "hiddenCode": "T1 E19",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E20: Una verdad maravillosa",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7ZPoZrgE1qakpZJ5gRuwvgkJyYF.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MTY0OTlf/20.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MTY0OTlf/20.mkv",
+        "episodeCode": "T1 E20: Una verdad maravillosa",
+        "hiddenCode": "T1 E20",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: Un nuevo desafío",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4ITMYGCoBW8dR8EibZdYPnhzDGZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQwNzlf/21.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQwNzlf/21.mkv",
+        "episodeCode": "T2 E1: Un nuevo desafío",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E2: El encuentro con Águila",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cGZPoJhGloGoC1ltzufyxIxd8JX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQxNTdf/22.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQxNTdf/22.mkv",
+        "episodeCode": "T2 E2: El encuentro con Águila",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E3: La gran invasión",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4yCDkBwI7GOLbIYR98kqJWXv29J.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQyNDVf/23.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQyNDVf/23.mkv",
+        "episodeCode": "T2 E3: La gran invasión",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E4: La nave espacial NSX",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3wBRbWwzqYIsqbvCGYKrd3Z2Ubi.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQzMzRf/24.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQzMzRf/24.mkv",
+        "episodeCode": "T2 E4: La nave espacial NSX",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E5: El encuentro con Luz",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/s3WVI5IjwK83X9apbDF2yxbWk3w.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQzOTdf/25.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQzOTdf/25.mkv",
+        "episodeCode": "T2 E5: El encuentro con Luz",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E6: Aska de Fahren",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hvH35i7ItoBZZoKYF3M88tuojBN.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ0NDdf/26.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0NDdf/26.mkv",
+        "episodeCode": "T2 E6: Aska de Fahren",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E7: El secreto de Céfiro",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vtXTSyCwJwzogSs78cl1XDf9zMs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ0OTVf/27.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0OTVf/27.mkv",
+        "episodeCode": "T2 E7: El secreto de Céfiro",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E8: El viaje peligroso",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mk4AtkkHWYeu5j5SPfFIllsn7to.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ1Mjhf/28.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ1Mjhf/28.mkv",
+        "episodeCode": "T2 E8: El viaje peligroso",
+        "hiddenCode": "T2 E8",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E9: Lucy, la prisionera",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/21fCSQW4C9GXFFmRf9q68El0hsP.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ1NzRf/29.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ1NzRf/29.mkv",
+        "episodeCode": "T2 E9: Lucy, la prisionera",
+        "hiddenCode": "T2 E9",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E10: Luz y su malvado Lopetego",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eijejaphYbrWxmk6kAMqDvmC3eo.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ2MTZf/30.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ2MTZf/30.mkv",
+        "episodeCode": "T2 E10: Luz y su malvado Lopetego",
+        "hiddenCode": "T2 E10",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E11: El fuerte de Chizeta",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/n0nYfs47Y0xnpeWkV0JKIYa7YZ5.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ2NDdf/31.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ2NDdf/31.mkv",
+        "episodeCode": "T2 E11: El fuerte de Chizeta",
+        "hiddenCode": "T2 E11",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E12: Los guardianes gigantes",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mj28eWBcoJDdwt41bzhRxPfpnYn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ2Nzlf/32.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ2Nzlf/32.mkv",
+        "episodeCode": "T2 E12: Los guardianes gigantes",
+        "hiddenCode": "T2 E12",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E13: El deseo de Lucy y el secreto de Presea",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/b7yaJo4dHNmwkguPRWC3Iqw4Lp3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3MDFf/33.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3MDFf/33.mkv",
+        "episodeCode": "T2 E13: El deseo de Lucy y el secreto de Presea",
+        "hiddenCode": "T2 E13",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E14: Una amistad desecha",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nKFddAVzRZbXsybK7CSBrP5zoxU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3MjJf/34.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3MjJf/34.mkv",
+        "episodeCode": "T2 E14: Una amistad desecha",
+        "hiddenCode": "T2 E14",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E15: El plan de Marina, Tata y Tatra.",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7xcOjCNm8VFrlVsjJyqKWaW2r1j.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3MzZf/35.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3MzZf/35.mkv",
+        "episodeCode": "T2 E15: El plan de Marina, Tata y Tatra.",
+        "hiddenCode": "T2 E15",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E16: Competencia mortal de flechas",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hUpwHWRUayeQfe2F3o2YjRc6kZh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3NTNf/36.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3NTNf/36.mkv",
+        "episodeCode": "T2 E16: Competencia mortal de flechas",
+        "hiddenCode": "T2 E16",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E17: El regreso de la espada de Lucy",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/twLitzdpATrNzMNC84qYa9VPDhl.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3Njhf/37.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3Njhf/37.mkv",
+        "episodeCode": "T2 E17: El regreso de la espada de Lucy",
+        "hiddenCode": "T2 E17",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E18: Águila ataca a Cephiro",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1c6nX3VmnzVx0DRWIpXMQOjjLpy.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3ODBf/38.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3ODBf/38.mkv",
+        "episodeCode": "T2 E18: Águila ataca a Cephiro",
+        "hiddenCode": "T2 E18",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E19: El castillo sitiado",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tswMI6QACaq3CGsTagKFAwY2Yc6.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ3OTRf/39.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ3OTRf/39.mkv",
+        "episodeCode": "T2 E19: El castillo sitiado",
+        "hiddenCode": "T2 E19",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E20: Un breve retraso",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eHw4ahZQ28znq7zwZybPav4XC8N.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ4NDZf/40.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ4NDZf/40.mkv",
+        "episodeCode": "T2 E20: Un breve retraso",
+        "hiddenCode": "T2 E20",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E21: Los monstruos del temor",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pfFzRcnJBCVmFRyb3aZbXSQtaIX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ4NjJf/41.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ4NjJf/41.mp4",
+        "episodeCode": "T2 E21: Los monstruos del temor",
+        "hiddenCode": "T2 E21",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E22: El encuentro",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bAJNPczVreFZmqTmmtwGZmLOJet.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ4ODFf/42.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ4ODFf/42.mkv",
+        "episodeCode": "T2 E22: El encuentro",
+        "hiddenCode": "T2 E22",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E23: En busca de la corona",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hvPz3X91VmwAx1LDimfRAXGNQzT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ5MDJf/43.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ5MDJf/43.mkv",
+        "episodeCode": "T2 E23: En busca de la corona",
+        "hiddenCode": "T2 E23",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E24: La batalla continúa",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y6nNUvln57jfco1gFqcFqVIBQc0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ5MjVf/44.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ5MjVf/44.mkv",
+        "episodeCode": "T2 E24: La batalla continúa",
+        "hiddenCode": "T2 E24",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E25: La eliminación de Lantis",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5NFh1RoBlu1qUAUijCXIN4vJ0os.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ5NTBf/45.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ5NTBf/45.mkv",
+        "episodeCode": "T2 E25: La eliminación de Lantis",
+        "hiddenCode": "T2 E25",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E26: La verdad sobre Luz",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6GlRtOw5WYqEZKYmZ16DaqIfgTh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ5NzNf/46.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ5NzNf/46.mkv",
+        "episodeCode": "T2 E26: La verdad sobre Luz",
+        "hiddenCode": "T2 E26",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E27: ¿Lucy o Águila?",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lABYEMcVkvF2l333M3GAmmZRjV.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjQ5OTZf/47.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjQ5OTZf/47.mkv",
+        "episodeCode": "T2 E27: ¿Lucy o Águila?",
+        "hiddenCode": "T2 E27",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E28: La hora final",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eDHVd2WMU6hbDSnMhrUwdbLaFJf.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjUwMjVf/48.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjUwMjVf/48.mkv",
+        "episodeCode": "T2 E28: La hora final",
+        "hiddenCode": "T2 E28",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E29: La fe en un corazón",
+        "meta": "13+ · 25m · 1994",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zBaPUCkvM7dMlhiMroGlUA1I0fB.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDI4MjUwNjBf/49.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MjUwNjBf/49.mkv",
+        "episodeCode": "T2 E29: La fe en un corazón",
+        "hiddenCode": "T2 E29",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      }
+
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

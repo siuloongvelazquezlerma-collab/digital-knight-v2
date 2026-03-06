@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Ranma ½ - Tomo 38</title>
+  <script src="../../../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../logo-2025.png">
+    <link rel="manifest" href="../../../manifest.json">
+  
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .manga-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 0 80px; /* deja espacio al fondo */
+    }
+
+    .manga-container img {
+      width: 95%;
+      max-width: 900px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* 🔹 Botón fijo en esquina inferior derecha */
+    .download-btn {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: #e50914;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+      transition: background 0.3s ease, transform 0.2s ease;
+      z-index: 9999;
+    }
+
+    .download-btn:hover {
+      background: #f40612;
+      transform: scale(1.05);
+    }
+
+    /* 🔹 En móviles */
+    @media (max-width: 600px) {
+      .download-btn {
+        bottom: 12px;
+        right: 12px;
+        padding: 6px 18px;
+        font-size: 14px;
+      }
+    }
+
+    /* Deshabilitar selección de texto e interacciones */
+  body, img, a, button, select, textarea {
+              -webkit-user-select: none; /* Safari */
+              -moz-user-select: none; /* Firefox */
+              -ms-user-select: none; /* IE10+/Edge */
+              user-select: none; /* estándar */
+          }
+  
+          /* Deshabilitar resaltado en elementos interactivos */
+          a, button, select, textarea {
+              -webkit-tap-highlight-color: transparent; /* Safari */
+          
+          }
+  
+          /* Deshabilitar el arrastre de imágenes */
+          img {
+              pointer-events: none; /* Desactiva interacciones del puntero en imágenes */
+          }
+
+          /* Overlay para oscurecer la página */
+  .overlay-loader-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #01011d; /* Oscurecimiento semitransparente */
+      z-index: 9999; /* Asegura que sté encima de todos los elementos */
+      opacity: 1;
+      transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+      display: block; /* Asegura que el overlay esté visible inicialmente */
+  }
+  
+  /* Cuando se ocultará */
+  .overlay-loader.hidden {
+      opacity: 0; /* Se desvanece */
+      pointer-events: none; /* Evita interacciones mientras está oculto */
+  }
+  
+  /* Loader */
+  /* Loader de página */
+  #loader {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 90deg,
+          #0066ff21 0%,
+          #0066ff 60%,
+          #ffffff 80%,
+          #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: page-spin 1.2s linear infinite, page-shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000;
+  }
+  
+  /* Animaciones únicas para loader de página */
+  @keyframes page-spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  
+  @keyframes page-shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+  }
+  </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  
+  <div class="manga-container" id="mangaPages"></div>
+
+  <!-- 🔹 Botón de descarga -->
+  <button id="downloadPdfBtn" class="download-btn">Descargar manga</button>
+
+  <script>
+    // Prevenir gestos táctiles no deseados
+    document.addEventListener('touchmove', function (event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+    
+    window.addEventListener('load', function () {
+      const overlay = document.querySelector('.overlay-loader-page');
+      const loader = document.getElementById('loader');
+    
+      setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+          overlay.classList.add('hidden');
+        }, 300);
+      }, 1000);
+    });
+    
+    // 🛡️ Respaldo si el 'load' nunca se dispara
+    setTimeout(() => {
+      const overlay = document.querySelector('.overlay-loader-page');
+      const loader = document.getElementById('loader');
+      if (loader && overlay && !overlay.classList.contains('hidden')) {
+        loader.style.display = 'none';
+        overlay.classList.add('hidden');
+        console.warn("Loader forzado a ocultarse después de 8 segundos.");
+      }
+    }, 8000);
+    
+    
+    // 📘 Configuración del manga
+    const carpeta = "./Ranma tomo 38/"; 
+    const totalPaginas = 179; 
+    const numeroInicial = 1; 
+    const pdfLink = "https://od.lk/d/M18zMjA2OTI5ODBf/Ranma_1-2_Tomo_38.pdf"; 
+    const mangaContainer = document.getElementById("mangaPages");
+    
+    // Extensiones posibles
+    const extensiones = ["jpg", "jpeg", "png", "webp", "avif", "gif", "GIF"];
+
+    
+    async function cargarManga() {
+      for (let i = 0; i < totalPaginas; i++) {
+        const num = String(numeroInicial + i).padStart(3, "0");
+        const img = document.createElement("img");
+        img.alt = `Página ${i + 1}`;
+        let encontrada = false;
+    
+        // Probar cada extensión hasta encontrar una válida
+        for (const ext of extensiones) {
+          const url = `${carpeta}RM38-${num}.${ext}`;
+          const res = await fetch(url, { method: "HEAD" }); // solo consulta si existe
+          if (res.ok) {
+            img.src = url;
+            encontrada = true;
+            break;
+          }
+        }
+    
+        if (!encontrada) {
+          console.warn("❌ No se encontró imagen para:", num);
+          continue;
+        }
+    
+        mangaContainer.appendChild(img);
+      }
+    }
+    
+    cargarManga();
+    
+    // 🔹 Descargar PDF directamente sin abrir nueva pestaña
+    document.getElementById("downloadPdfBtn").addEventListener("click", () => {
+      const a = document.createElement("a");
+      a.href = pdfLink;
+      a.download = "Ranma_1-2_Tomo_38.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+    </script>
+    
+</body>
+</html>

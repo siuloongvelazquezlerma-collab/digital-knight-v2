@@ -1,0 +1,995 @@
+
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #01011d;
+    color: white;
+  }
+  
+  .view {
+    display: none;
+    min-height: 100vh;
+   
+  }
+  
+  .view.active {
+    display: block;
+  }
+  
+  /* HEADER PERFIL + FONDOS (CON OVERLAY INFERIOR) */
+  .profile-header,
+  .edit-cover {
+    position: relative;
+    background-color: #01011d;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+
+  height: 200px;   /* 👈 altura fija igual para todos */
+  padding: 30px 20px;
+  text-align: center;
+  overflow: visible;
+  }
+  
+  .fixed-view .edit-cover {
+    z-index: 15;
+  }
+  
+  .cover-content {
+    position: relative;
+    z-index: 30;
+  }
+  
+
+
+
+/* Overlay degradado SOLO abajo */
+.profile-header::after,
+.edit-cover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 45%; /* ajusta qué tanto sube el degradado */
+  pointer-events: none;
+
+  background: linear-gradient(
+    to top,
+    #01011d,
+    #01011d77,
+    #01011d00
+  );
+}
+
+/* ===== FIX OVERLAY: CONTENIDO ARRIBA ===== */
+
+/* Overlay abajo */
+.profile-header::after,
+.edit-cover::after {
+  z-index: 1;
+}
+
+/* Todo el contenido del header arriba */
+.profile-header > *,
+.edit-cover > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Refuerzo específico para el nombre */
+#profileName,
+#editName,
+#editNameCover {
+  position: relative;
+  z-index: 50;
+}
+
+
+  
+  .profile-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid white;
+  }
+  
+  .edit-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .option-item {
+    background: #121229;
+    color: white;
+    padding: 14px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .option-item:hover {
+    background: #18183b;
+  }
+  
+  .option-item span:first-child {
+    font-size: 16px;
+  }
+  
+  .option-item .material-icons-outlined {
+    font-size: 24px;
+    opacity: 0.7;
+  }
+  
+  .right-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .notification-badge {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #e50914;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  /* ===== NOTIFICATIONS LIST ===== */
+#notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ITEM */
+.notification-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: #01011d;
+  border-radius: 14px;
+  text-decoration: none;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.notification-item:hover {
+  background: #01011d;
+}
+
+
+/* IMAGE – formato paisaje */
+.notification-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* 👈 CLAVE */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+/* TEXT */
+.notification-text h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.notification-text p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* COUNTER */
+#notificationCounter {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* NUEVA */
+.notification-item.new {
+  background: linear-gradient(90deg, #01013d, #01013d);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* YA VISTA */
+.notification-item.seen {
+  background: #01011d;
+  opacity: 0.6;
+}
+
+.icon-btn.danger {
+  color: #ff4d4d;
+}
+
+.icon-btn.danger:hover {
+  background: rgba(255, 77, 77, 0.15);
+}
+
+
+  
+
+  
+  /* EDITAR PERFIL */
+  /* HEADER */
+  .edit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #01011d;
+  }
+  
+  .edit-header h2 {
+    font-size: 16px;
+  }
+  
+  /* ================= BOTONES HEADER ================= */
+
+.edit-header button {
+  background: rgba(255, 255, 255, 0);
+  border: none;
+  color: white;
+  padding: 5px 5px;
+  border-radius: 999px;
+  font-size: 13px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.edit-header button:active {
+  transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.404);
+}
+
+  
+  
+  
+  .edit-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid white;
+  }
+  
+  .edit-cover h3 {
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  
+  /* SECCIONES */
+  .avatar-section {
+    padding: 15px;
+  }
+  
+  .avatar-section h4 {
+    margin: 15px 0 10px;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  
+  /* ================= SCROLL HORIZONTAL AVATARES / FONDOS ================= */
+
+  .avatar-grid {
+    display: flex;
+    gap: 14px;
+  
+    overflow-x: auto;
+    overflow-y: hidden;
+  
+    /* 🔥 CLAVE */
+    padding: 12px 16px;
+    scroll-padding-left: 16px;
+    scroll-padding-right: 16px;
+  
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .profile-preview {
+    position: relative;
+    z-index: 10;
+}
+
+
+
+.scroll-content {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-grid,
+.cover-grid {
+    position: relative;
+    z-index: 1;
+}
+
+.profile-preview {
+  
+  top: 0;
+  z-index: 20;
+  background: #01011d; /* mismo fondo de tu app */
+}
+
+.fixed-view .edit-cover {
+  z-index: 5;
+}
+
+.scroll-content {
+  z-index: 1;
+}
+
+.fixed-view .edit-cover {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+
+
+/* Scroll suave */
+.avatar-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.avatar-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 10px;
+}
+
+
+/* Separación superior en edición de fondo */
+#edit-avatar-view .scroll-content,
+#edit-cover-view .scroll-content {
+  padding-top: 10px; /* o 0 si lo quieres más pegado */
+}
+
+
+
+/* ================= AVATARES (CIRCULARES) ================= */
+
+#edit-avatar-view .avatar-grid img {
+  width: 90px;
+  height: 90px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease;
+}
+
+#edit-avatar-view .avatar-grid img:hover {
+  transform: scale(1.08);
+}
+
+/* ================= FONDOS (RECTANGULARES) ================= */
+
+#edit-cover-view .avatar-grid img {
+  width: 160px;
+  height: 90px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease;
+}
+
+#edit-cover-view .avatar-grid img:hover {
+  transform: scale(1.05);
+}
+
+  
+.avatar-grid img.selected {
+  outline: 3px solid #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+  
+  .scroll-view {
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .editable {
+    position: relative;
+  }
+  
+  .edit-cover-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    padding: 8px;
+  }
+  
+  .form-section {
+    padding: 20px;
+  }
+  
+  .form-section label {
+    display: block;
+    opacity: 0.7;
+    margin-top: 20px;
+  }
+  
+  .form-section input {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #444;
+    color: white;
+    padding: 10px 0;
+  }
+  
+  .avatar-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .edit-avatar-btn,
+.edit-cover-btn {
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.15s ease;
+}
+
+.edit-avatar-btn:active,
+.edit-cover-btn:active {
+  transform: scale(0.9);
+}
+
+  
+  #manage-profile-view .avatar-wrapper {
+    margin-top: 20px;
+  }
+  
+  /* ================= ICONOS LAPIZ ================= */
+
+.editable {
+  position: relative;
+}
+
+/* ================= ICONOS EDIT (MATERIAL OUTLINED) ================= */
+
+.edit-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.edit-icon span {
+  font-size: 18px;
+  color: rgb(54, 54, 54);
+}
+
+/* Feedback táctil */
+.edit-icon:active {
+  transform: scale(0.9);
+  background: rgba(255,255,255,0.15);
+}
+
+/* Posiciones */
+.avatar-wrapper .edit-icon {
+  bottom: 4px;
+  right: 2px;
+}
+
+.cover-icon {
+  top: 16px;
+  right: 16px;
+}
+
+
+
+
+
+/* Fondo */
+.cover-icon {
+  top: 15px;
+  right: 15px;
+}
+
+/* Nombre */
+.name-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-name-icon {
+  position: static;
+}
+
+/* ================= ADMINISTRAR PERFIL – SOLO LAPIZ ================= */
+
+/* Ocultar botones de texto en administrar perfil */
+#manage-profile-view .edit-cover-btn,
+#manage-profile-view .edit-avatar-btn {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (min-width: 768px) {
+  .profile-header,
+  .edit-cover {
+  height: 280px;
+  }
+
+  .profile-avatar,
+  .edit-avatar {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-md {
+    max-width: 480px; /* tipo app Netflix / Disney */
+  }
+}
+
+
+/* ===== FONDOS: IMÁGENES RECTANGULARES ===== */
+
+/* Solo en la vista de editar fondo */
+#edit-cover-view .avatar-grid img {
+  aspect-ratio: 16 / 9;     /* horizontal */
+  border-radius: 10px;      /* esquinas suaves, no circular */
+  object-fit: cover;
+}
+
+/* Ajuste visual del grid para fondos */
+#edit-cover-view .avatar-grid {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+/* ===== BOTÓN GUARDAR PERFIL ===== */
+
+#saveProfileBtn {
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+#saveProfileBtn:disabled {
+  background: #2a2a2a;
+  color: #888;
+  border: none;
+}
+
+#saveProfileBtn.active {
+  background: white;
+  color: black;
+}
+
+#saveProfileBtn.active:active {
+  transform: scale(0.97);
+}
+
+
+#manageProfileName {
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.icon-btn:active {
+  opacity: 0.6;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 14px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+
+.modal-box h3 {
+  margin-bottom: 10px;
+}
+
+.modal-box p {
+  font-size: .9rem;
+  color: #ccc;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+}
+
+.modal-btn.cancel {
+  background: #444;
+  color: white;
+}
+
+.modal-btn.confirm {
+  background: #e53935;
+  color: white;
+}
+
+/* ===== TOAST ===== */
+.notificacion-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #323232;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: .9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+  z-index: 10000;
+}
+
+.notificacion-toast.show {
+  opacity: 1;
+}
+
+/* ===== VISTA CON CABECERA FIJA ===== */
+.fixed-view {
+  position: relative;
+  height: 100vh;
+ 
+}
+
+/* Header fijo */
+.fixed-view .edit-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #0b0b0b;
+}
+
+/* Fondo + avatar fijos */
+/* ALTURA REAL DEL COVER EN VISTAS FIXED */
+.fixed-view .edit-cover {
+  position: sticky;
+  top: 0px;
+ 
+  padding: 35px 20px;
+}
+
+
+
+
+.edit-cover {
+  padding-bottom: 10px;
+}
+
+.edit-cover h3 {
+  margin: 8px 0 0 0;
+}
+
+.avatar-section {
+  margin-top: 10px;
+}
+
+/* CONTENIDO QUE SÍ HACE SCROLL */
+.scroll-content {
+  height: calc(100vh - 56px - 200px);
+  overflow-y: auto;
+  padding-bottom: 40px;
+  position: relative;
+  overflow-y: auto;
+  padding-bottom: 40px;
+  z-index: 1;
+}
+
+
+/* Para móviles suaves */
+.scroll-content {
+  -webkit-overflow-scrolling: touch;
+}
+
+
+
+/* CONTENIDO DEL COVER (AVATAR + NOMBRE) */
+.cover-content {
+  position: relative;
+  margin-top: 6px; /* separa del avatar */             /* 👈 siempre visible */
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 4;
+  pointer-events: none;      /* el scroll no lo toca */
+}
+
+/* Ajuste fino del nombre */
+.cover-content h3 {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+/* ===== NOMBRE DE USUARIO – UNIFICADO ===== */
+#profileName,
+#manageProfileName,
+#editName,
+#editNameCover {
+  font-size: 20px;      /* mismo tamaño en todas */
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: #01011dcb;
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+.nav__icon {
+  font-size: 20px; /* Ajusta el tamaño del icono aquí */
+}
+
+/* Ocultar footer en pantallas grandes (PC, tablet, TV) */
+@media screen and (min-width: 1024px) {
+.footer {
+  display: none !important;
+}
+}
+
+/* Ocultar footer en móviles landscape */
+@media screen and (max-width: 1023px) and (orientation: landscape) {
+.footer {
+  display: none !important;
+}
+}
+
+/* Loader */
+#loader {
+  display: block; /* Visible al cargar */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(
+  from 90deg,
+      #0066ff21 0%,
+      #0066ff 60%,
+      #ffffff 80%,
+      #afafaf00 30%
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+  opacity: 1 !important;
+  transition: opacity 3s ease-out;
+  z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.8); }
+}
+
+.logout-item {
+  color: #ff4d4d;
+}
+
+.logout-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.logout-modal {
+  background: #111;
+  padding: 25px;
+  border-radius: 14px;
+  width: 85%;
+  max-width: 350px;
+  text-align: center;
+  color: white;
+}
+
+.logout-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.btn-cancel {
+  flex: 1;
+  background: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.btn-confirm {
+  flex: 1;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 🔥 FORZAR QUE EL PREVIEW Y EL NOMBRE ESTÉN SIEMPRE ARRIBA */
+.profile-preview,
+.cover-content,
+#editName,
+#editNameCover {
+  position: relative;
+  z-index: 50;
+}
+
+/* El contenido scrolleable siempre por debajo */
+.scroll-content {
+  z-index: 1;
+}

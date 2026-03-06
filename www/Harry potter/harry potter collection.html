@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Colección Disney</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../collections.css">
+  <style>
+  
+
+
+.fondo-principal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('https://image.tmdb.org/t/p/original/ckrT93BIIYOLbnL0ZnSMisv5EVD.jpg') top center / contain no-repeat;
+  z-index: 0;
+
+  filter: brightness(1.4); /* 👈 Aumenta el brillo (1 es normal, 1.2 es +20%) */
+}
+
+
+
+@media (orientation: landscape) {
+  .fondo-principal {
+    background: url('https://od.lk/s/M18zMTgyMzQxODNf/potter%20fondo.jpg') top center / cover no-repeat;
+    filter: brightness(1.6); /* También para landscape si quieres */
+  }
+  .fondo-principal::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.822)),
+                linear-gradient(to bottom, rgba(0,0,0,0),rgba(0,0,0,0),#01011d96, #01010f),
+                linear-gradient(to left, rgba(0, 0, 0, 0.13),rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.877));
+  }
+}
+
+.logo-dc {
+  display: block;
+  position: relative;     /* O asegurarte que no sea static */
+  z-index: 1;             /* z-index mayor al fondo */
+  width: 300px;
+  max-width: 65vw;
+  margin: 0 auto;
+  margin-top: -450px;
+  transition: all 0.4s ease;
+}
+
+@media (orientation: landscape) {
+  .logo-dc {
+    margin-top: -500px;          /* Ajusta según necesites en landscape */
+    margin-left: 2%;
+    transform: translateY(0);
+    width: 380px;
+    max-width: 28vw;
+  }
+}
+
+.contenido-principal {
+  position: relative;
+  z-index: 2;
+  margin-top: 1px;       /* Ajuste si quieres separarlo más del logo */
+  padding: 1rem;
+}
+
+@media (orientation: landscape) {
+  .contenido-principal {
+    margin-top: 5vh;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link">
+        <span class="material-icons">chevron_left</span>
+    </a>
+    
+</header>
+
+<!-- Tabs para pantallas grandes -->
+<!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+  <div class="fondo-principal"></div>
+  <img src="https://od.lk/s/M18zMDYyMTQ2Mzlf/Harry-Potter-Logo-PNG-Image.png" alt="DC Logo" class="logo-dc" />
+  <div class="contenido-principal">
+    
+
+    <div class="contenedor-categorias">
+      <div class="categoria">
+        <div class="titulo"></div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+    
+          <div class="scroll-poster">
+    
+            <a href="Harry Potter y la piedra filosofal (2001).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/7xXJ15VEf7G9GdAuV1dO769yC73.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y la cámara secreta (2002).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/bhCfAzeMMg7GyLDT11yVM2i1NPh.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y el prisionero de Azkaban (2004).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/wF9aoo4YZmpKP4bZPSy4Zwwek6G.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y el cáliz de fuego (2005).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6Cn5Lx9kqhXzTNV5QXwZ3RW5pBg.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y la orden del Fénix (2007).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/zN5DWGV6IO30asXrHzGju9mo20P.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y el misterio del príncipe (2009).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/vvb9r7ZH4Zn35sXIwFTb08lMGaU.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y las reliquias de la muerte (1ª parte) (2010).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fYyoJ4Yadk0MCBHZPFrgvMDl50o.jpg');"></div>
+            </a>
+    
+            <a href="Harry Potter y las reliquias de la muerte Parte 2 (2011).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/aM1TuUiPtV8OAZyu61CTdy9Ymtk.jpg');"></div>
+            </a>
+    
+          </div>
+    
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+   
+    
+      
+
+
+      <div class="categoria">
+        <div class="titulo"></div>
+        <div class="scroll-container-horizontal">
+      
+          <button class="arrow left">&#10094;</button> <!-- Flecha izquierda -->
+      
+          <div class="scroll-poster-horizontal">
+      
+            <a href="Harry Potter 20 Aniversario Regreso a Hogwarts (2022).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/f1iHSlEfK4L2an4klYnt35qXM2Y.jpg');"></div>
+            </a>
+      
+            
+      
+          </div>
+      
+          <button class="arrow right">&#10095;</button> <!-- Flecha derecha -->
+      
+        </div>
+      </div>
+      
+
+     
+      
+      
+    </div>
+  </div>
+
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="https://od.lk/d/M18zMTIxODI5MjJf/logo%202025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script>
+     window.addEventListener('load', function () {
+  const overlay = document.querySelector('.overlay-loader-page');
+  const loader = document.getElementById('loader');
+
+  // Se mantiene el loader visible por 1 segundo
+  setTimeout(() => {
+    loader.style.opacity = '0'; // Corrige esto: '2' no tiene efecto visual
+    setTimeout(() => {
+      loader.style.display = 'none';
+      overlay.classList.add('hidden');
+    }, 300);
+  }, 1000);
+});
+
+
+
+   // Funciona para contenedores verticales
+document.querySelectorAll('.scroll-container').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+// Funciona para contenedores horizontales
+document.querySelectorAll('.scroll-container-horizontal').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster-horizontal');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageLogo = document.getElementById('page-logo');
+
+  if (!header || !pageLogo) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const logoOpacity = scrollY > 150 ? opacity : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageLogo.style.opacity = logoOpacity;
+  });
+});
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+  </script>
+</body>
+
+</html>

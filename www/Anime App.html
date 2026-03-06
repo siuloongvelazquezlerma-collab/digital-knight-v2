@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KAGEN | ANIME — Inicio</title>
+
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+  <style>
+    /* ===== COLOR SYSTEM (ANIME • FUERTE • NO NEÓN) ===== */
+    :root {
+  --red: #b11226;          /* sangre / acción */
+  --orange: #ff8f00;       /* energía */
+  --blue: #0a2cff;         /* anime sci-fi */
+  --steel: #1f2937;        /* metal oscuro */
+  --purple: #4c1d95;       /* poder / misterio */
+  --bg: #05060a;
+  --bg-soft: #0b0f1a;
+}
+
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(180deg, #050608 0%, #060709 60%, #040406 100%);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(5,6,8,.9), rgba(5,6,8,.4));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    .brand img {
+      height: 38px;
+    }
+
+    .brand span {
+      font-size: 16px;
+    }
+
+    header .material-icons-outlined {
+      font-size: 28px;
+      color: #e5e7eb;
+      cursor: pointer;
+    }
+
+    /* ===== HERO ===== */
+    .hero { height: 100vh; }
+
+    .hero .swiper-slide { position: relative; }
+
+    .hero img.bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.05) saturate(1.05);
+    }
+
+    .overlay-top {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 32%;
+      background: linear-gradient(to bottom, rgba(6,7,9,.95), transparent);
+      z-index: 2;
+    }
+
+    .overlay-bottom {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 48%;
+      background: linear-gradient(to top, rgba(6,7,9,.98), transparent);
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: 110px;
+      left: 32px;
+      max-width: 520px;
+      z-index: 3;
+    }
+
+    .hero-content img {
+      width: 210px;
+      margin-bottom: 14px;
+    }
+
+    .hero-meta {
+      font-size: 14px;
+      opacity: .85;
+      margin-bottom: 10px;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #e5e7eb;
+    }
+
+    /* ===== ACTION BUTTONS ===== */
+    .actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+    }
+
+    .btn.alt {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    /* ===== ROWS ===== */
+    .rows {
+      position: relative;
+      margin-top: -130px;
+      padding-bottom: 110px;
+      z-index: 5;
+    }
+
+    .row { margin: 30px 0; }
+
+    .row h3 {
+      margin-left: 24px;
+      margin-bottom: 14px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .row .swiper { padding-left: 24px; }
+
+    .row .swiper-slide {
+      width: 160px;
+      transition: transform .25s ease;
+    }
+
+    .row .swiper-slide:hover {
+      transform: scale(1.06);
+    }
+
+    .row img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.7);
+    }
+
+    /* ===== BOTTOM TABS ===== */
+    .bottom-tabs {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      display: flex;
+      justify-content: space-around;
+      background: rgba(8, 9, 12, 0.94);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255,255,255,.08);
+      z-index: 300;
+    }
+
+    .tab {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #9ca3af;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .tab .material-icons-outlined {
+      font-size: 24px;
+    }
+
+    .tab.active {
+      color: #fff;
+    }
+
+    .tab.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 26px;
+      height: 3px;
+      background: var(--red);
+      border-radius: 0 0 6px 6px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        left: 20px;
+        right: 20px;
+      }
+      .hero-content img { width: 180px; }
+    }
+
+    /* ===== CARD ACTIONS (ROWS) ===== */
+.card {
+  position: relative;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(5,6,10,.85),
+    rgba(5,6,10,.15),
+    transparent
+  );
+  opacity: 0;
+  transition: .25s;
+  border-radius: 8px;
+}
+
+.card-actions {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: .25s;
+  z-index: 2;
+}
+
+.card:hover::after,
+.card:hover .card-actions {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.card .btn {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <img src="logo-anime-app.png" alt="KAGEN | ANIME">
+    <span>KAGEN | ANIME</span>
+  </div>
+  <span class="material-icons-outlined">notifications</span>
+</header>
+
+<!-- HERO -->
+<div class="swiper hero">
+  <div class="swiper-wrapper">
+
+    <div class="swiper-slide">
+      <img class="bg" src="hero1.jpg">
+      <div class="overlay-top"></div>
+      <div class="overlay-bottom"></div>
+      <div class="hero-content">
+        <img src="logo-anime1.png">
+        <div class="hero-meta">16+ · 2025 · Acción / Fantasía</div>
+        <div class="hero-desc">Un mundo fragmentado donde el poder nace del caos y los recuerdos.</div>
+        <div class="actions">
+          <button class="btn">▶ Ver ahora</button>
+          <button class="btn alt">＋ Mi lista</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+        <img class="bg" src="hero1.jpg">
+        <div class="overlay-top"></div>
+        <div class="overlay-bottom"></div>
+        <div class="hero-content">
+          <img src="logo-anime1.png">
+          <div class="hero-meta">16+ · 2025 · Acción / Fantasía</div>
+          <div class="hero-desc">Un mundo fragmentado donde el poder nace del caos y los recuerdos.</div>
+          <div class="actions">
+            <button class="btn">▶ Ver ahora</button>
+            <button class="btn alt">＋ Mi lista</button>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<!-- ROWS -->
+<div class="rows">
+
+  <div class="row">
+    <h3>Tendencias</h3>
+    <div class="swiper row-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="p1.jpg"></div>
+        <div class="swiper-slide"><img src="p2.jpg"></div>
+        <div class="swiper-slide"><img src="p3.jpg"></div>
+        <div class="swiper-slide"><img src="p4.jpg"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <h3>Nuevos episodios</h3>
+    <div class="swiper row-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="p5.jpg"></div>
+        <div class="swiper-slide"><img src="p6.jpg"></div>
+        <div class="swiper-slide"><img src="p7.jpg"></div>
+        <div class="swiper-slide"><img src="p8.jpg"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM TABS -->
+<nav class="bottom-tabs">
+  <button class="tab active">
+    <span class="material-icons-outlined">home</span>
+    <small>Inicio</small>
+  </button>
+  <button class="tab">
+    <span class="material-icons-outlined">search</span>
+    <small>Explorar</small>
+  </button>
+  <button class="tab">
+    <span class="material-icons-outlined">whatshot</span>
+    <small>Estrenos</small>
+  </button>
+  <button class="tab">
+    <span class="material-icons-outlined">bookmark_border</span>
+    <small>Mi lista</small>
+  </button>
+  <button class="tab">
+    <span class="material-icons-outlined">person_outline</span>
+    <small>Perfil</small>
+  </button>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  new Swiper('.hero', {
+    loop: true,
+    autoplay: { delay: 5000, disableOnInteraction: false }
+  });
+
+  document.querySelectorAll('.row-swiper').forEach(sw => {
+    new Swiper(sw, {
+      slidesPerView: 'auto',
+      spaceBetween: 14
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Digimon</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTc5NjE1NDZf/digimon%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/miyvCeJLTg3iLl2yZxfmrtNxhcP.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+    
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Digimon</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/gAQbTMDrlWT95mLnUzCWRVRvbRZ.png" alt="Digimon Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;2 temporadas&nbsp;&nbsp;1999&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Digimon" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/4rDngDXMCJiOzcfQIw4GetY3wpN.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Digimon.html"></a>
+          <span id="nombre">Digimon</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        La historia se centra en 7 niños de Japón, que son transportados al Mundo digital después de encontrar unos Digivice y
+        ser arrastrados por una "gran ola", llegando así a la Isla File </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Digimon Tamers.html">
+          <img src="https://image.tmdb.org/t/p/w154/uEs5GRuibXsSnAH2Hr0DiWupyzb.jpg" alt="Digimon Tamers" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Tamers</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Frontier.html">
+          <img src="https://image.tmdb.org/t/p/w154/tunJi5ABO1fYJp9J4FZkrTpqQd3.jpg" alt="Digimon Frontier" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Frontier</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon savers.html">
+          <img src="https://image.tmdb.org/t/p/w154/z89uzZ0b81zMt9E8qUXCRLa8uBc.jpg" alt="Digimon savers" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon savers</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Xros Wars.html">
+          <img src="https://image.tmdb.org/t/p/w154/4jX2k06hM9p489ML1byyBQHEKl5.jpg" alt="Digimon Xros Wars " oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Xros Wars </div>
+          <div class="meta-row">
+            <span class="meta">Sub | Jap</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDEwNDI4MTRf/01.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Digimon</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "digimon-adventure";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+  "title": "E1: La isla de las aventuras",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fYCDgkGMroaukOlfiPJIEXRaFam.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MTRf/01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MTRf/01.mp4",
+  "episodeCode": "T1 E1: La isla de las aventuras",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E2: Greymon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qaB6sWNWVnpORc08MVOuQUwKpji.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MTVf/02.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MTVf/02.mp4",
+  "episodeCode": "T1 E2: Greymon",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E3: Garurumon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/avo4GjEeyEtJcDpn7CkW1x63Ojq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MTZf/03.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MTZf/03.mp4",
+  "episodeCode": "T1 E3: Garurumon",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E4: Birdramon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kEmeDs6Nn1dgkGlkfp5sWskZQKa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MTdf/04.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MTdf/04.mp4",
+  "episodeCode": "T1 E4: Birdramon",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E5: Kabuterimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sfsIemViX9Yn0Q1kCdNuOQkhtVo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MThf/05.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MThf/05.mp4",
+  "episodeCode": "T1 E5: Kabuterimon",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E6: La furia de Palmon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dTJJg6wCOfxKCeOfmxtcWO18kWO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjBf/06.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjBf/06.mp4",
+  "episodeCode": "T1 E6: La furia de Palmon",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E7: Ikkakumon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/t1paGSIi8ZVSbh9oDslDS5ZN5Ma.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjFf/07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjFf/07.mp4",
+  "episodeCode": "T1 E7: Ikkakumon",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E8: El guerrero de la oscuridad, Devimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uZd8OhEBkjFxPRIgJrPhc1zeC8Z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjJf/08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjJf/08.mp4",
+  "episodeCode": "T1 E8: El guerrero de la oscuridad, Devimon",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E9: Los Digimon de hielo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sHKqbeBMY7fkXaQNoaaHn1vQlBV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjNf/09.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjNf/09.mp4",
+  "episodeCode": "T1 E9: Los Digimon de hielo",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E10: El guardián Centarumon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/At3sGTO67TMAgFJqZsgobtcfn3A.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjRf/10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjRf/10.mp4",
+  "episodeCode": "T1 E10: El guardián Centarumon",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+    "title": "E11: Bakemon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tFrddgS2cck8JnQSgQrCNpD8N8I.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjVf/11.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjVf/11.mp4",
+    "episodeCode": "T1 E11: Bakemon",
+    "hiddenCode": "T1 E11",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E12: La aventura de Patamon y la mía",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cAjyslcjKMtZkFPjpLgRslX2vId.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MjZf/12.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MjZf/12.mp4",
+    "episodeCode": "T1 E12: La aventura de Patamon y la mía",
+    "hiddenCode": "T1 E12",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E13: El despertar de Angemon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bUuZFPfPu6hmdXnNo9ycnUoWev2.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4Mjdf/13.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Mjdf/13.mp4",
+    "episodeCode": "T1 E13: El despertar de Angemon",
+    "hiddenCode": "T1 E13",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E14: Un nuevo continente",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/sbyvKAssX57U5x7J4wheUDN965w.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4Mjhf/14.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Mjhf/14.mp4",
+    "episodeCode": "T1 E14: Un nuevo continente",
+    "hiddenCode": "T1 E14",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E15: El terrible Etemon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7NQFoizUP0zboiGQPfdb9RUjkuY.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4Mjlf/15.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Mjlf/15.mp4",
+    "episodeCode": "T1 E15: El terrible Etemon",
+    "hiddenCode": "T1 E15",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E16: SkullGreymon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zKEaV0ksPBxdOdeDoJp5LXHobYS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzBf/16.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzBf/16.mp4",
+    "episodeCode": "T1 E16: SkullGreymon",
+    "hiddenCode": "T1 E16",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E17: Kokatorimon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9eCjbdIWkeHQq9zJhcxvRyPAy4j.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzFf/17.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzFf/17.mp4",
+    "episodeCode": "T1 E17: Kokatorimon",
+    "hiddenCode": "T1 E17",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E18: Piximon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/k2H1fcdxgtxeCnFWwghfop8CNOo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzJf/18.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzJf/18.mp4",
+    "episodeCode": "T1 E18: Piximon",
+    "hiddenCode": "T1 E18",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E19: Datamon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cAgqwqZKtjY7VxKsp8YKxN7ZoQR.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzNf/19.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzNf/19.mp4",
+    "episodeCode": "T1 E19: Datamon",
+    "hiddenCode": "T1 E19",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E20: MetalGreymon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xUPqSLJ0WWkjz77tP1pTRFzsYvS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzRf/20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzRf/20.mp4",
+    "episodeCode": "T1 E20: MetalGreymon",
+    "hiddenCode": "T1 E20",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+  "title": "E21: Koromon llega a Tokyo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oBy4CNQXzBRKArcb1Auy0wLOnVf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzVf/21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzVf/21.mp4",
+  "episodeCode": "T1 E21: Koromon llega a Tokyo",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E22: El maligno DemiDevimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bkVI2774zb6Hpp3ZnvBxo9Cg1Av.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4MzZf/22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4MzZf/22.mp4",
+  "episodeCode": "T1 E22: El maligno DemiDevimon",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E23: WereGarurumon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8IM9oZgFqcWNFPNWOKRvoTO3fB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4Mzdf/23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Mzdf/23.mp4",
+  "episodeCode": "T1 E23: WereGarurumon",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E24: MegaKabuterimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iUwww37V9c990sOD3Lmc5xwlWN2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4Mzhf/24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Mzhf/24.mp4",
+  "episodeCode": "T1 E24: MegaKabuterimon",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E25: ShogunGekomon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qFydzIHXeNyvGI60a0lH6dUaZvD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4NDBf/25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NDBf/25.mp4",
+  "episodeCode": "T1 E25: ShogunGekomon",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E26: Las alas resplandecientes de Garudamon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vPtajjrZ0dz0wHoMlmT5qho5P5A.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4NDFf/26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NDFf/26.mp4",
+  "episodeCode": "T1 E26: Las alas resplandecientes de Garudamon",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E27: El castillo de Myotismon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pRRRlKZOIE2CvWcJuGbPnAvqHET.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4NDJf/27.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NDJf/27.mp4",
+  "episodeCode": "T1 E27: El castillo de Myotismon",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E28: Vamos a Japón",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cNac8wPyWfigUeLSXi0gsgmXc5h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4NDNf/28.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NDNf/28.mp4",
+  "episodeCode": "T1 E28: Vamos a Japón",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E29: Mammothmon ataca en Hikarigaoka",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lKwwFS6LfDsF4e1pGqn9I1lknEB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4NDRf/29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NDRf/29.mp4",
+  "episodeCode": "T1 E29: Mammothmon ataca en Hikarigaoka",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E30: Los Digimons atacan Tokyo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jjfuHoGNgPuwzwe7duVvGaGzJjm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4NDVf/30.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NDVf/30.mp4",
+  "episodeCode": "T1 E30: Los Digimons atacan Tokyo",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+    "title": "E31: Raremon ataca",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1WQq1QQIg58eSijpnmZtpsE4prP.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NThf/31.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NThf/31.mp4",
+    "episodeCode": "T1 E31: Raremon ataca",
+    "hiddenCode": "T1 E31",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E32: SkullMeramon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/vQg5hZv7cONCH7nkzKj72q4HuFs.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NjFf/32.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NjFf/32.mp4",
+    "episodeCode": "T1 E32: SkullMeramon",
+    "hiddenCode": "T1 E32",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E33: Pumpkinmon y Gotsumon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/aIZMEtofAwYUS61biIGyJvNiTAn.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NjNf/33.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NjNf/33.mp4",
+    "episodeCode": "T1 E33: Pumpkinmon y Gotsumon",
+    "hiddenCode": "T1 E33",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E34: El destino de Gatomon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1t0GeLMMaRoaePK2Pp3R7XC39ko.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NjRf/34.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NjRf/34.mp4",
+    "episodeCode": "T1 E34: El destino de Gatomon",
+    "hiddenCode": "T1 E34",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E35: El hada de Odaiba, Lillymon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jTVUHEpfDWxJj1f3Sy8Y0nTlA4V.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NjVf/35.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NjVf/35.mp4",
+    "episodeCode": "T1 E35: El hada de Odaiba, Lillymon",
+    "hiddenCode": "T1 E35",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E36: Zudomon ataca",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cOXDSYsONTfzRKKxZbMrfwRteoU.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NjZf/36.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NjZf/36.mp4",
+    "episodeCode": "T1 E36: Zudomon ataca",
+    "hiddenCode": "T1 E36",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E37: Angewomon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/AkKlUUR4kSPKme6LtpYkybi8PCC.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NzFf/37.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NzFf/37.mp4",
+    "episodeCode": "T1 E37: Angewomon",
+    "hiddenCode": "T1 E37",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E38: El rey maligno, VenomMyotismon",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cm7pTbHiPR90TKPYohv7iBuabSu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4NzJf/38.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4NzJf/38.mp4",
+    "episodeCode": "T1 E38: El rey maligno, VenomMyotismon",
+    "hiddenCode": "T1 E38",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E39: Las Digievoluciones más Poderosas",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/58pyeIXAekuBZ8RJs6nNShA1rf.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4Nzdf/39.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Nzdf/39.mp4",
+    "episodeCode": "T1 E39: Las Digievoluciones más Poderosas",
+    "hiddenCode": "T1 E39",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E40: Los Dark Masters",
+    "meta": "13+ · 20m · 1999",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oXT1mcyUo0lvVV3IYuJSNNFPNYQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDEwNDI4Nzhf/40.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Nzhf/40.mp4",
+    "episodeCode": "T1 E40: Los Dark Masters",
+    "hiddenCode": "T1 E40",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+  "title": "E41: MetalSeadramon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hQTDw3pCAzNRkltzANyaYZhyQlD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4Nzlf/41.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4Nzlf/41.mp4",
+  "episodeCode": "T1 E41: MetalSeadramon",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E42: Whamon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sC6wyktc6lx08sQbZevEqnSgylP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4ODBf/42.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4ODBf/42.mp4",
+  "episodeCode": "T1 E42: Whamon",
+  "hiddenCode": "T1 E42",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E43: Puppetmon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nTNb72wMmwbFoDq2UxAqdf7pzn9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4ODJf/43.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4ODJf/43.mp4",
+  "episodeCode": "T1 E43: Puppetmon",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E44: Cherrymon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7PEuByc0hlFH7GyNthtOSeJIWAd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4ODlf/44.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4ODlf/44.mp4",
+  "episodeCode": "T1 E44: Cherrymon",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E45: WarGreymon vs. MetalGarurumon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/Ai2svAoB4M9wziXq6jiIXvkaZ1v.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4OTBf/45.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4OTBf/45.mp4",
+  "episodeCode": "T1 E45: WarGreymon vs. MetalGarurumon",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E46: El ataque de MetalEtemon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7ZAxEg7JLXD6pBBzMWJvVBP6EJm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4OTFf/46.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4OTFf/46.mp4",
+  "episodeCode": "T1 E46: El ataque de MetalEtemon",
+  "hiddenCode": "T1 E46",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E47: SaberLeomon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mDzfS301GAyvFM5uLXIVWkCSShP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4OTJf/47.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4OTJf/47.mp4",
+  "episodeCode": "T1 E47: SaberLeomon",
+  "hiddenCode": "T1 E47",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E48: Las ordenes de Machinedramon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eFjGvd138mkjE83XmEQEpj8vmfC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4OTdf/48.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4OTdf/48.mp4",
+  "episodeCode": "T1 E48: Las ordenes de Machinedramon",
+  "hiddenCode": "T1 E48",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E49: Adiós, Numemon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/l6F7r1puDadPjfbHcbrTEEP8BUE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI4OTlf/49.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI4OTlf/49.mp4",
+  "episodeCode": "T1 E49: Adiós, Numemon",
+  "hiddenCode": "T1 E49",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E50: LadyDevimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dESQ3CiaLWt9e1c6cUkjjSYvl1w.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI5MDBf/50.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI5MDBf/50.mp4",
+  "episodeCode": "T1 E50: LadyDevimon",
+  "hiddenCode": "T1 E50",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E51: El terrible Piedmon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7ZfSeutTb8SajruQDNcM97EskDF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI5MDFf/51.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI5MDFf/51.mp4",
+  "episodeCode": "T1 E51: El terrible Piedmon",
+  "hiddenCode": "T1 E51",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E52: MagnaAngemon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2PRFEiLhZSqCyKSlQyGTsuBSnOx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI5MDJf/52.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI5MDJf/52.mp4",
+  "episodeCode": "T1 E52: MagnaAngemon",
+  "hiddenCode": "T1 E52",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E53: El último Digimon de la oscuridad",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/roRCF3HQiuM2Y1KE6BDbFcWjKNq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI5MDNf/53.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI5MDNf/53.mp4",
+  "episodeCode": "T1 E53: El último Digimon de la oscuridad",
+  "hiddenCode": "T1 E53",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E54: Un nuevo Digimundo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1p8Knbc01WLq4fGjbcdRvnO4s4h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDEwNDI5MDhf/54.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDEwNDI5MDhf/54.mp4",
+  "episodeCode": "T1 E54: Un nuevo Digimundo",
+  "hiddenCode": "T1 E54",
+  "intro": { "start": 5, "end": 95 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E1: El DigiEgg del Valor",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tnSsIKnjok7tysYrOhRieZ1JS9D.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzU5NzRf/DZT%20-%2001%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzU5NzRf/DZT%20-%2001%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E1: El DigiEgg del Valor",
+  "hiddenCode": "T2 E1",
+  "intro": {
+    "start": 30,
+    "end": 110
+  }
+},
+{
+  "title": "E2: La Puerta al Digimundo se Abre",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4sWTjBKuclnl50jiDLtxHQFr47c.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzU5ODFf/DZT%20-%2002%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzU5ODFf/DZT%20-%2002%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E2: La Puerta al Digimundo se Abre",
+  "hiddenCode": "T2 E2",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E3: Los Nuevos Elegidos",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zKq0O0L0PjfkIKONyjmX2EmVWrB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzU5OTFf/DZT%20-%2003%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzU5OTFf/DZT%20-%2003%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E3: Los Nuevos Elegidos",
+  "hiddenCode": "T2 E3",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E4: El Emperador de los Digimon, Rey de las Tinieblas",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/h3HGy6kGJCPej8ke1UaQTKpxr7w.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYwMDBf/DZT%20-%2004%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYwMDBf/DZT%20-%2004%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E4: El Emperador de los Digimon, Rey de las Tinieblas",
+  "hiddenCode": "T2 E4",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E5: Destruyan las Agujas de Control",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vP5KzX5IxLUk2mqbRVBIgIeQFIM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYwMDlf/DZT%20-%2005%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYwMDlf/DZT%20-%2005%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E5: Destruyan las Agujas de Control",
+  "hiddenCode": "T2 E5",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E6: Un Día de Campo Peligroso",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kmoxyEE6Rivy8KkpgxLUnckIZ7E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYwMjBf/DZT%20-%2006%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYwMjBf/DZT%20-%2006%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E6: Un Día de Campo Peligroso",
+  "hiddenCode": "T2 E6",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E7: El Recuerdo de Kari",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wsjB39kBB5TzXweZLFggg5KK02Z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYwMzBf/DZT%20-%2007%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYwMzBf/DZT%20-%2007%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E7: El Recuerdo de Kari",
+  "hiddenCode": "T2 E7",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E8: La Soledad del Emperador de los Digimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gEQb23Ucg1O7vH35ZbgxuP343GP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYwMzlf/DZT%20-%2008%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYwMzlf/DZT%20-%2008%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E8: La Soledad del Emperador de los Digimon",
+  "hiddenCode": "T2 E8",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E9: El Poder Mágico de los Aros Maligno",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xpMquXRZNHTuLZQMd9cQpa5L9D4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYxMjZf/DZT%20-%2009%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxMjZf/DZT%20-%2009%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E9: El Poder Mágico de los Aros Maligno",
+  "hiddenCode": "T2 E9",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E10: MetalGreymon Ataca",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/stzKY7g3F0sLJyX6ozuE0wgX9bS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYxNTVf/DZT%20-%2010%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxNTVf/DZT%20-%2010%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E10: MetalGreymon Ataca",
+  "hiddenCode": "T2 E10",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E11: Raidramon, el Relámpago Azul",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wYFoc2LBvzVxdnLdEQSsPYnm0yY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYxOTJf/DZT%20-%2011%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxOTJf/DZT%20-%2011%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E11: Raidramon, el Relámpago Azul",
+  "hiddenCode": "T2 E11",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E12: Un Duelo en el Digimundo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dU8C4fs05MZyMlvGoQONnVMpxFF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMDRf/DZT%20-%2012%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMDRf/DZT%20-%2012%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E12: Un Duelo en el Digimundo",
+  "hiddenCode": "T2 E12",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E13: Kari en Otro Mundo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f41IRZusvq1MknvfcCsQVDrxU6d.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMjRf/DZT%20-%2013%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMjRf/DZT%20-%2013%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E13: Kari en Otro Mundo",
+  "hiddenCode": "T2 E13",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E14: Shurimon, el Guerrero Veloz",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ce0JgwQuvQyyGgZlFqkbgh92cho.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNDZf/DZT%20-%2014%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNDZf/DZT%20-%2014%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E14: Shurimon, el Guerrero Veloz",
+  "hiddenCode": "T2 E14",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E15: El Arte Marcial de Shurimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yHdKlCHrlXa9t2q8a3gy0A2T6CO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNjlf/DZT%20-%2015%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNjlf/DZT%20-%2015%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E15: El Arte Marcial de Shurimon",
+  "hiddenCode": "T2 E15",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E16: Submarimon. Escape Desde el Fondo del Mar",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/umQHbYImzJK5Whm3Ti5cCX3Q2vd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMDBf/DZT%20-%2016%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMDBf/DZT%20-%2016%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E16: Submarimon. Escape Desde el Fondo del Mar",
+  "hiddenCode": "T2 E16",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E17: Un Mensaje Doloroso",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jR6Egu5Om6crZ5YwG0yje7pPKcV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzMjFf/DZT%20-%2017%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzMjFf/DZT%20-%2017%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E17: Un Mensaje Doloroso",
+  "hiddenCode": "T2 E17",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E18: La Base del Emperador de los Digimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kBRJvZLW6vfn7x5OLsDO5OTiJdX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNDBf/DZT%20-%2018%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNDBf/DZT%20-%2018%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E18: La Base del Emperador de los Digimon",
+  "hiddenCode": "T2 E18",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E19: Kimeramon, el Digimon Original",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7j93E9Sed9FDko0ZarIazPUWotj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNTNf/DZT%20-%2019%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNTNf/DZT%20-%2019%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E19: Kimeramon, el Digimon Original",
+  "hiddenCode": "T2 E19",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E20: La Digievolución Maravillosa, Magnamon Dorado",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/62kICripikLKV9VFiMdOt4d2LQ1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzNjhf/DZT%20-%2020%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzNjhf/DZT%20-%2020%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E20: La Digievolución Maravillosa, Magnamon Dorado",
+  "hiddenCode": "T2 E20",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E21: Adiós, Ken",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q7QUmmSYXeBMOJoFfsp30FlhNtk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYzOTFf/DZT%20-%2021%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYzOTFf/DZT%20-%2021%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E21: Adiós, Ken",
+  "hiddenCode": "T2 E21",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E22: La Valerosa Digievolución, XV-mon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rMQjXBD7rNNDPC9nm39xnNIFoe3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0MTBf/DZT%20-%2022%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0MTBf/DZT%20-%2022%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E22: La Valerosa Digievolución, XV-mon",
+  "hiddenCode": "T2 E22",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E23: Cuando la Maldad Corrompió el Digivice",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yN3xd3a4c9sevYtIkctMKSScREG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0Mzdf/DZT%20-%2023%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0Mzdf/DZT%20-%2023%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E23: Cuando la Maldad Corrompió el Digivice",
+  "hiddenCode": "T2 E23",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E24: Ankylomon, el Guerrero de la Tierra",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sxhjuYY5VaPilXPML89LXA2MxMS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0NThf/DZT%20-%2024%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0NThf/DZT%20-%2024%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E24: Ankylomon, el Guerrero de la Tierra",
+  "hiddenCode": "T2 E24",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E25: Aquilamon, el Caballero del Cielo",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tFXPpxXdnUnPrUAEBFmkTZPuofw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY0ODFf/DZT%20-%2025%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY0ODFf/DZT%20-%2025%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E25: Aquilamon, el Caballero del Cielo",
+  "hiddenCode": "T2 E25",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E26: Digievolución DNA",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lPhj0VrcJ7UH2uKyjRH2lp1hWWL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1MThf/DZT%20-%2026%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1MThf/DZT%20-%2026%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E26: Digievolución DNA",
+  "hiddenCode": "T2 E26",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E27: El Nacimiento de Paildramon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/67uRNT2VdXpXJzA1KCpO18Fswib.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY1NjNf/DZT%20-%2027%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY1NjNf/DZT%20-%2027%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E27: El Nacimiento de Paildramon",
+  "hiddenCode": "T2 E27",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E28: El Hechizo de Arukenimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rbxAhbTGHbYPm3aXwuxgmp3Ogqs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2MTBf/DZT%20-%2028%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2MTBf/DZT%20-%2028%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E28: El Hechizo de Arukenimon",
+  "hiddenCode": "T2 E28",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E29: El fracaso de la mujer araña",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AnOFIabNSALJt3Htp8g5T3Aavaj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2ODBf/DZT%20-%2029%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2ODBf/DZT%20-%2029%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E29: El fracaso de la mujer araña",
+  "hiddenCode": "T2 E29",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E30: El Nacimiento de BlackWarGreymon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mllAvXtZUqTNTiYZz5CdQlSRQ0Z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3MTBf/DZT%20-%2030%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3MTBf/DZT%20-%2030%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E30: El Nacimiento de BlackWarGreymon",
+  "hiddenCode": "T2 E30",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E31: Silphymon, la Tormenta del Amor",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bfFoZfBuxyj7UxZTd95e499eqHk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3NDVf/DZT%20-%2031%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3NDVf/DZT%20-%2031%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E31: Silphymon, la Tormenta del Amor",
+  "hiddenCode": "T2 E31",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E32: La Piedra Sagrada, Una Ruina Misteriosa",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/41eqGwPEUFBltF66hFXth3HTxgH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3ODJf/DZT%20-%2032%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3ODJf/DZT%20-%2032%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E32: La Piedra Sagrada, Una Ruina Misteriosa",
+  "hiddenCode": "T2 E32",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E33: Yolei Viaja a Kyoto",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b0FA4FSBNWSpIgPW1xD8oqoONzN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4MTFf/DZT%20-%2033%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4MTFf/DZT%20-%2033%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E33: Yolei Viaja a Kyoto",
+  "hiddenCode": "T2 E33",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E34: Protección de los Puntos Sagrados",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jBJZjqnDRU4niuDu28hIUSW4siZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4Mzhf/DZT%20-%2034%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4Mzhf/DZT%20-%2034%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E34: Protección de los Puntos Sagrados",
+  "hiddenCode": "T2 E34",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E35: El Ataque de BlackWarGreymon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/swHk4wYdJfC4Or0nOvKplKAKgCD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4Njdf/DZT%20-%2035%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4Njdf/DZT%20-%2035%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E35: El Ataque de BlackWarGreymon",
+  "hiddenCode": "T2 E35",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E36: Shakkoumon, el Ángel de Hierro",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9bESQvxXSKkqQvreUQqitDQg4TU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4ODlf/DZT%20-%2036%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4ODlf/DZT%20-%2036%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E36: Shakkoumon, el Ángel de Hierro",
+  "hiddenCode": "T2 E36",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E37: Chinlonmon, un Gigantesco Mega-Digimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5Z7xZvQdNe2s0AnqON1gkDOj7w4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5MjFf/DZT%20-%2037%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5MjFf/DZT%20-%2037%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E37: Chinlonmon, un Gigantesco Mega-Digimon",
+  "hiddenCode": "T2 E37",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E38: La Reunión Navideña de los Digimon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/A5ApeQZtfEa1l9qEmSes9KzGgJr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5NDZf/DZT%20-%2038%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5NDZf/DZT%20-%2038%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E38: La Reunión Navideña de los Digimon",
+  "hiddenCode": "T2 E38",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E39: Imperialdramon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n5djNuXzePqdgchoFm8v77HEF3p.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzcwNTRf/DZT%20-%2039%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzcwNTRf/DZT%20-%2039%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E39: Imperialdramon",
+  "hiddenCode": "T2 E39",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E40: Nueva York, Hong Kong y Peleas",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gHhRgaBljoWeARHHC4gtyygvQn4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzcyOTRf/DZT%20-%2040%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzcyOTRf/DZT%20-%2040%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E40: Nueva York, Hong Kong y Peleas",
+  "hiddenCode": "T2 E40",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E41: Coral, Versalles y Peleas",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nvL9JpMLf9sZU19GPcw0dyv9oJl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMTdf/DZT%20-%2041%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMTdf/DZT%20-%2041%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E41: Coral, Versalles y Peleas",
+  "hiddenCode": "T2 E41",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E42: Amor, Borsch y Peleas",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dLdKu8hhTJkkUvVC7PyeJCc0Nh2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMzJf/DZT%20-%2042%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMzJf/DZT%20-%2042%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E42: Amor, Borsch y Peleas",
+  "hiddenCode": "T2 E42",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E43: El Ataque De Deemon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3E7YEUZVyDrNfPW5CaJBnmSrSyc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczNjJf/DZT%20-%2043%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczNjJf/DZT%20-%2043%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E43: El Ataque De Deemon",
+  "hiddenCode": "T2 E43",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E44: Ataque a Muerte Contra el Digimon de la Oscuridad",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kkbYl01Xk6iiypZ8BthG7dq3JxY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczODZf/DZT%20-%2044%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczODZf/DZT%20-%2044%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E44: Ataque a Muerte Contra el Digimon de la Oscuridad",
+  "hiddenCode": "T2 E44",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E45: La Puerta de la Oscuridad",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2SlzApg60RiVR1XvCBie6evUKt6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0MTBf/DZT%20-%2045%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0MTBf/DZT%20-%2045%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E45: La Puerta de la Oscuridad",
+  "hiddenCode": "T2 E45",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E46: BlackWarGreymon contra WarGreymon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5a23lYDaEFoGJcXM6LZdvtNuskk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0NDBf/DZT%20-%2046%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0NDBf/DZT%20-%2046%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E46: BlackWarGreymon contra WarGreymon",
+  "hiddenCode": "T2 E46",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E47: La Muerte de BlackWarGreymon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1G6v4bg377yxDBGAQVLVxTAgQan.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0Njhf/DZT%20-%2047%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0Njhf/DZT%20-%2047%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E47: La Muerte de BlackWarGreymon",
+  "hiddenCode": "T2 E47",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E48: El Horror que Causó MaloMyotismon",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bsc0zI5HGDDdCWpFalCDDjpI3cX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0OTNf/DZT%20-%2048%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0OTNf/DZT%20-%2048%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E48: El Horror que Causó MaloMyotismon",
+  "hiddenCode": "T2 E48",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E49: La Última Digievolución",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2jKixxLsZE6vwLGW98IgQ2VWuxT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1MTZf/DZT%20-%2049%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1MTZf/DZT%20-%2049%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E49: La Última Digievolución",
+  "hiddenCode": "T2 E49",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E50: ¡Nuestro Digimundo!",
+  "meta": "13+ · 20m · 1999",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hahAzeuE7XgWcoWL0srnI9jMPL1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1MzRf/DZT%20-%2050%20by%20www.animeblazin.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1MzRf/DZT%20-%2050%20by%20www.animeblazin.com.mp4",
+  "episodeCode": "T2 E50: ¡Nuestro Digimundo!",
+  "hiddenCode": "T2 E50",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+}
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

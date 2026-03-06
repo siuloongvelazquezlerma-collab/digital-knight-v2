@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Los Caballeros del Zodiaco</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTcxNjczMTJf/saint%20%20seiya%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTcxNjczMTNf/saint%20seiya%20fondo.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Los Caballeros del Zodiaco</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/jsD8i9wfUB8xn0SZSgWHF148lIC.png" alt="Los Caballeros del Zodiaco Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;1986&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Los Caballeros del Zodiaco" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTcxNjczMTZf/saint%20seiya%20wallpaper.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Los Caballeros del Zodiaco.html"></a>
+          <span id="nombre">Los Caballeros del Zodiaco (1986)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Hace eras, los Caballeros protegían a Atenea con el poder del Cosmos. Hoy, Seiya se convierte en el Caballero de Pegaso
+        y luchará para Atenea acompañado por otros Caballeros.      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Saint Seiya Saga de Hades.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/ff3c9c19712caeef0698068b0ae6f5e2.jpe" alt="Los Caballeros del Zodiaco: Saga de Hades (2002)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco: Saga de Hades (2002)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Omega (2012).html">
+          <img src="https://image.tmdb.org/t/p/original/iHXOtxXcDarUOe2wZvouCl6WmTa.jpg" alt="Saint Seiya Ω Omega (2012)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya Ω Omega (2012)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Guerreros del Zodiaco El Lienzo Perdido (2009).html">
+          <img src="https://image.tmdb.org/t/p/original/eJNAxUHVXXUSbuc6D1ojSYH6S1r.jpg" alt="Los Guerreros del Zodiaco: El Lienzo Perdido (2009)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Guerreros del Zodiaco: El Lienzo Perdido (2009)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco Alma de Oro (2015).html">
+          <img src="https://image.tmdb.org/t/p/original/yheIUZdnLEkCuzB4cHF6SCJBQiw.jpg" alt="Los Caballeros del Zodiaco: Alma de Oro (2015)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco: Alma de Oro (2015)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Los Caballeros del Zodiaco (2019).html">
+          <img src="https://image.tmdb.org/t/p/original/tuxfCX9IX70GJBV2JNn8gXlUJlj.jpg" alt="Saint Seiya: Los Caballeros del Zodiaco (2019)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya: Los Caballeros del Zodiaco (2019)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Saintia Shō (2018).html">
+          <img src="https://image.tmdb.org/t/p/original/k0lbN5i4USbSEdbEhjc0l0JwOs6.jpg" alt="Saint Seiya Saintia Shō (2018)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya Saintia Shō (2018)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDI4NDgxMDhf/01.El%20Ataque%20del%20%C3%81ngel.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Los Caballeros del Zodiaco</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: El ataque del ángel</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "saint-seiya";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+      "title": "E1: Cuando Seiya viste la armadura de Pegaso",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/18MBf7PiYgAoFUGL8hw0WlIYJDQ.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzEyMjlf/01%20Las%20leyendas%20de%20una%20nueva%20Era%20%5BBD1080p%5D.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzEyMjlf/01%20Las%20leyendas%20de%20una%20nueva%20Era%20%5BBD1080p%5D.mkv",
+      "episodeCode": "T1 E1: Cuando Seiya viste la armadura de Pegaso",
+      "hiddenCode": "T1 E1",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E2: Los Meteoros de Pegaso",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vXOIrpp3RwHzJ6bacU1P4RGfRgM.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzE0MTZf/02%20Cuando%20Seiya%20viste%20la%20armadura%20de%20Pegaso%20%5BBD1080p%5D.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzE0MTZf/02%20Cuando%20Seiya%20viste%20la%20armadura%20de%20Pegaso%20%5BBD1080p%5D.mkv",
+      "episodeCode": "T1 E2: Los Meteoros de Pegaso",
+      "hiddenCode": "T1 E2",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E3: El caballero de los hielos",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/r7DshArUAVSG6xfVk31fomMucqC.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzE2Mzdf/03%20El%20guerrero%20de%20los%20hielos%20%5BBD1080p%5D.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzE2Mzdf/03%20El%20guerrero%20de%20los%20hielos%20%5BBD1080p%5D.mkv",
+      "episodeCode": "T1 E3: El caballero de los hielos",
+      "hiddenCode": "T1 E3",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E4: El caballero del Dragón",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qrGY0SpN5811Iuv16JnbKLSrmYd.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzE5ODdf/04%20El%20caballero%20Drag%C3%B3n%20%5BBD1080p%5D.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzE5ODdf/04%20El%20caballero%20Drag%C3%B3n%20%5BBD1080p%5D.mkv",
+      "episodeCode": "T1 E4: El caballero del Dragón",
+      "hiddenCode": "T1 E4",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E5: La resurrección del Dragón",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/2BYhhk9VZGQhiMvx9Kr1oTMVYrE.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzIxNTRf/05%20La%20resurrecci%C3%B3n%20del%20Drag%C3%B3n%20%5BBD1080p%5D.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzIxNTRf/05%20La%20resurrecci%C3%B3n%20del%20Drag%C3%B3n%20%5BBD1080p%5D.mkv",
+      "episodeCode": "T1 E5: La resurrección del Dragón",
+      "hiddenCode": "T1 E5",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E6: El guerrero que venía del infierno",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/kfXi868C4TN0n9hMSsEe4O2DS14.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzIyNzVf/06%20El%20guerrero%20que%20viene%20del%20infierno%20%5BBD1080p%5D.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzIyNzVf/06%20El%20guerrero%20que%20viene%20del%20infierno%20%5BBD1080p%5D.mkv",
+      "episodeCode": "T1 E6: El guerrero que venía del infierno",
+      "hiddenCode": "T1 E6",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E7: El robo de la armadura de oro",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/3k9i4L0PyLYksTLhQdrgSJQ0wCI.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzIzOThf/07%20La%20Venganza%20del%20Caballero%20F%C3%A9nix%20BD1080P.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzIzOThf/07%20La%20Venganza%20del%20Caballero%20F%C3%A9nix%20BD1080P.mkv",
+      "episodeCode": "T1 E7: El robo de la armadura de oro",
+      "hiddenCode": "T1 E7",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E8: La búsqueda de la armadura",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/fMd9mWkQM7wWIsBmYS1tE9MmIaO.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzI1MDFf/08%20En%20busca%20de%20la%20Armadura%20de%20Oro%20BD1080P.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzI1MDFf/08%20En%20busca%20de%20la%20Armadura%20de%20Oro%20BD1080P.mkv",
+      "episodeCode": "T1 E8: La búsqueda de la armadura",
+      "hiddenCode": "T1 E8",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E9: Los Caballeros del apocalipsis",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qzBflOSikdv3fbuxvAiv2CL1eWX.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzI2MTBf/09%20Los%20caballeros%20del%20apocalipsis%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzI2MTBf/09%20Los%20caballeros%20del%20apocalipsis%20BD1080p.mkv",
+      "episodeCode": "T1 E9: Los Caballeros del apocalipsis",
+      "hiddenCode": "T1 E9",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E10: La tumba de la armadura sagrada",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/8ZIplIPYRcJpifIqopjKkkT8QKT.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzI3MzJf/10%20La%20tumba%20de%20la%20armadura%20sagrada%20BD1080P.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzI3MzJf/10%20La%20tumba%20de%20la%20armadura%20sagrada%20BD1080P.mkv",
+      "episodeCode": "T1 E10: La tumba de la armadura sagrada",
+      "hiddenCode": "T1 E10",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E11: Seiya se enfrenta con su doble",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/mi0Ccf1Lv6xm4CX08lWcHrQTX4G.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzI4NjVf/11%20Seiya%20se%20enfrenta%20con%20su%20doble%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzI4NjVf/11%20Seiya%20se%20enfrenta%20con%20su%20doble%20BD1080p.mkv",
+      "episodeCode": "T1 E11: Seiya se enfrenta con su doble",
+      "hiddenCode": "T1 E11",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E12: Las cadenas de la amistad",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/tcrYWuLJIx2bbLRFQDCePcUHrqW.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzI5OTFf/12%20Las%20cadenas%20de%20la%20amistad%20BD1080P.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzI5OTFf/12%20Las%20cadenas%20de%20la%20amistad%20BD1080P.mkv",
+      "episodeCode": "T1 E12: Las cadenas de la amistad",
+      "hiddenCode": "T1 E12",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E13: Hazañas explosivas",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1PDPBxgxpYzoB745dUAe5w1QIiV.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzMxMjRf/13%20Haza%C3%B1as%20explosivas%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzMxMjRf/13%20Haza%C3%B1as%20explosivas%20BD1080p.mkv",
+      "episodeCode": "T1 E13: Hazañas explosivas",
+      "hiddenCode": "T1 E13",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E14: La derrota del fantasma del diablo",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/usEwbAsvb3CHZw5bIPeJmXmIMgK.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzM2NzJf/14%20La%20derrota%20del%20fantasma%20del%20diablo%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzM2NzJf/14%20La%20derrota%20del%20fantasma%20del%20diablo%20BD1080p.mkv",
+      "episodeCode": "T1 E14: La derrota del fantasma del diablo",
+      "hiddenCode": "T1 E14",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E15: El secreto del Fénix",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cv9M4xHVgXAREkhQLXtN1RmpoPP.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzM4OThf/15%20El%20secreto%20del%20F%C3%A9nix%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzM4OThf/15%20El%20secreto%20del%20F%C3%A9nix%20BD1080p.mkv",
+      "episodeCode": "T1 E15: El secreto del Fénix",
+      "hiddenCode": "T1 E15",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E16: El ataque a la fundación",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1Tz5foIR8lR3XCZaZynyLq9wJZJ.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzQxMzBf/16%20El%20ataque%20a%20la%20fundaci%C3%B3n%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzQxMzBf/16%20El%20ataque%20a%20la%20fundaci%C3%B3n%20BD1080p.mkv",
+      "episodeCode": "T1 E16: El ataque a la fundación",
+      "hiddenCode": "T1 E16",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E17: Hay que salvar a Saori",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/lsQTbwtrmHOqMFLLX93rgvR4ZeM.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzQyNzZf/17%20El%20rescate%20de%20Saori%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzQyNzZf/17%20El%20rescate%20de%20Saori%20BD1080p.mkv",
+      "episodeCode": "T1 E17: Hay que salvar a Saori",
+      "hiddenCode": "T1 E17",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E18: Los Caballeros de los abismos",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/yUi5g26nIpn389lrm9BU2EjwMVa.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzQ0MjJf/18%20Los%20caballeros%20de%20los%20abismos%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzQ0MjJf/18%20Los%20caballeros%20de%20los%20abismos%20BD1080p.mkv",
+      "episodeCode": "T1 E18: Los Caballeros de los abismos",
+      "hiddenCode": "T1 E18",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E19: La isla del espectro",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/2lE13Pu0unavtccmsGokbivOrE1.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzQ1OTBf/19%20La%20isla%20del%20espectro%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzQ1OTBf/19%20La%20isla%20del%20espectro%20BD1080p.mkv",
+      "episodeCode": "T1 E19: La isla del espectro",
+      "hiddenCode": "T1 E19",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E20: La traición del señor de los hielos",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1gw0LngkpDTvZZlpNA4fyWMiF1S.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzQ3NTVf/20%20La%20traici%C3%B3n%20del%20Se%C3%B1or%20de%20los%20hielos%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzQ3NTVf/20%20La%20traici%C3%B3n%20del%20Se%C3%B1or%20de%20los%20hielos%20BD1080p.mkv",
+      "episodeCode": "T1 E20: La traición del señor de los hielos",
+      "hiddenCode": "T1 E20",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+        "title": "E21: La pirámide de hielo",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pbtdBlIL4OWMpW9zSZ8JhPqm3Iy.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzQ5NjRf/21%20La%20pir%C3%A1mide%20de%20hielo%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzQ5NjRf/21%20La%20pir%C3%A1mide%20de%20hielo%20BD1080p.mkv",
+        "episodeCode": "T1 E21: La pirámide de hielo",
+        "hiddenCode": "T1 E21",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E22: El Caballero de la Llama",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qIFLaeIoHfLgAvu2MN7TcOAJ04X.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzUxMDhf/22%20El%20caballero%20de%20la%20Llama%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzUxMDhf/22%20El%20caballero%20de%20la%20Llama%20BD1080p.mkv",
+        "episodeCode": "T1 E22: El Caballero de la Llama",
+        "hiddenCode": "T1 E22",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E23: El caballero de Plata",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/b6xEbiGzVqoNfkwklXeze13i1r3.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzUyNThf/23%20El%20angel%20de%20la%20muerte%20BD1080P.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzUyNThf/23%20El%20angel%20de%20la%20muerte%20BD1080P.mkv",
+        "episodeCode": "T1 E23: El caballero de Plata",
+        "hiddenCode": "T1 E23",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E24: El vuelo de Pegaso",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sOE3NEWT5dvOyVYKvjCQXeRgsxn.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzU0MDlf/24%20El%20vuelo%20de%20Pegaso%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzU0MDlf/24%20El%20vuelo%20de%20Pegaso%20BD1080p.mkv",
+        "episodeCode": "T1 E24: El vuelo de Pegaso",
+        "hiddenCode": "T1 E24",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E25: La revelación",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/23xuap10gYeCDYEDPToDZvI7Qzm.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzY2MjRf/25%20La%20revelaci%C3%B3n%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzY2MjRf/25%20La%20revelaci%C3%B3n%20BD1080p.mkv",
+        "episodeCode": "T1 E25: La revelación",
+        "hiddenCode": "T1 E25",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E26: La venganza de Shina",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/x2nAFdua8MfzdE2AkxcVhIYoorY.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzY4Nzlf/26%20Amigos%20o%20enemigos%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzY4Nzlf/26%20Amigos%20o%20enemigos%20BD1080p.mkv",
+        "episodeCode": "T1 E26: La venganza de Shina",
+        "hiddenCode": "T1 E26",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E27: El escudo de la Medusa",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kPDbnPkFJ4gqOj4dCr9H2hCLRQo.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzcwNTdf/27%20Seiya%20se%20convierte%20en%20piedra%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzcwNTdf/27%20Seiya%20se%20convierte%20en%20piedra%20BD1080p.mkv",
+        "episodeCode": "T1 E27: El escudo de la Medusa",
+        "hiddenCode": "T1 E27",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E28: El sacrificio de Shiryu",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ldspGvY3WXCy6I2mciCswmUuCD1.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzcxODhf/28%20El%20sacrificio%20del%20Drag%C3%B3n%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzcxODhf/28%20El%20sacrificio%20del%20Drag%C3%B3n%20BD1080p.mkv",
+        "episodeCode": "T1 E28: El sacrificio de Shiryu",
+        "hiddenCode": "T1 E28",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E29: El secuestro de una diosa",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4PVJALQ3zJBsRAGvYGnahXGo9EJ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzczNjZf/29%20El%20secuestro%20de%20Saori%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzczNjZf/29%20El%20secuestro%20de%20Saori%20BD1080p.mkv",
+        "episodeCode": "T1 E29: El secuestro de una diosa",
+        "hiddenCode": "T1 E29",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E30: El rescate de Saori",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/alO4sKRKtzMTz5VN6t94V2EN93A.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3Nzc1MjJf/30%20El%20ardiente%20cosmos%20del%20amor%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3Nzc1MjJf/30%20El%20ardiente%20cosmos%20del%20amor%20BD1080p.mkv",
+        "episodeCode": "T1 E30: El rescate de Saori",
+        "hiddenCode": "T1 E30",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+      "title": "E31: La frontera entre la vida y la muerte",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/PZJqdhjslpCUbyccxFeOlbKcr4.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3Nzc2NDhf/31%20La%20linea%20entre%20la%20vida%20y%20la%20muerte%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3Nzc2NDhf/31%20La%20linea%20entre%20la%20vida%20y%20la%20muerte%20BD1080p.mkv",
+      "episodeCode": "T1 E31: La frontera entre la vida y la muerte",
+      "hiddenCode": "T1 E31",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E32: El desafío de Ikki",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/7pra5r0bhBtR5z3vZ0YAacVSzTn.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3Nzc3NzVf/32%20La%20isla%20de%20la%20reina%20muerte%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3Nzc3NzVf/32%20La%20isla%20de%20la%20reina%20muerte%20BD1080p.mkv",
+      "episodeCode": "T1 E32: El desafío de Ikki",
+      "hiddenCode": "T1 E32",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E33: Las lágrimas del Dragón ciego",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/gTYfBD1a8plC2gJN0pbtE4jDOWt.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3Nzc4Njlf/33%20El%20llanto%20del%20drag%C3%B3n%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3Nzc4Njlf/33%20El%20llanto%20del%20drag%C3%B3n%20BD1080p.mkv",
+      "episodeCode": "T1 E33: Las lágrimas del Dragón ciego",
+      "hiddenCode": "T1 E33",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E34: El desafío final",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/kQs7zsgZYycM7NvlDEnL33DTQXj.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3Nzc5Mzlf/34%20Adi%C3%B3s%20camarada%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3Nzc5Mzlf/34%20Adi%C3%B3s%20camarada%20BD1080p.mkv",
+      "episodeCode": "T1 E34: El desafío final",
+      "hiddenCode": "T1 E34",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E35: La fuente mágica",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/55nj1D24CgJpV4LlWBUI9DrZnRn.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzgwNDRf/35%20La%20esperanza%20de%20Seiya%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzgwNDRf/35%20La%20esperanza%20de%20Seiya%20BD1080p.mkv",
+      "episodeCode": "T1 E35: La fuente mágica",
+      "hiddenCode": "T1 E35",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E36: Las doce armaduras de Oro",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/mNSuOh7HpSC1pd3TyTV9RTSC1vZ.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzgxMzZf/36%20Doce%20juegos%20de%20ropa%20dorada%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzgxMzZf/36%20Doce%20juegos%20de%20ropa%20dorada%20BD1080p.mkv",
+      "episodeCode": "T1 E36: Las doce armaduras de Oro",
+      "hiddenCode": "T1 E36",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E37: La vergüenza de Aioras",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/nMSup9hxdsQT4KfkPyEufVR7hm3.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3NzgyNDRf/37%20La%20decisi%C3%B3n%20del%20casco%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3NzgyNDRf/37%20La%20decisi%C3%B3n%20del%20casco%20BD1080p.mkv",
+      "episodeCode": "T1 E37: La vergüenza de Aioras",
+      "hiddenCode": "T1 E37",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E38: La revelación de Saori",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/w72tLPUHWtqdS319MMvZyEujfnB.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3ODA4NTVf/38%20Ataquen%20Santos%20Dorados%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3ODA4NTVf/38%20Ataquen%20Santos%20Dorados%20BD1080p.mkv",
+      "episodeCode": "T1 E38: La revelación de Saori",
+      "hiddenCode": "T1 E38",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E39: Shiryū y la Máscara de Muerte",
+      "meta": "13+ · 24m · 1986",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/fYGwwt5GpwMzgdzclGACFZRyq1V.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3ODEwMzFf/39%20Shiryu%20contra%20M%C3%A1scara%20Mortal%20BD1080p.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3ODEwMzFf/39%20Shiryu%20contra%20M%C3%A1scara%20Mortal%20BD1080p.mkv",
+      "episodeCode": "T1 E39: Shiryū y la Máscara de Muerte",
+      "hiddenCode": "T1 E39",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+    "title": "E40: El camino hacia el Santuario",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/rCmE0AyFKoju2akJbYlegAsHFRV.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODI5NDlf/40%20La%20partida%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODI5NDlf/40%20La%20partida%20BD1080p.mkv",
+    "episodeCode": "T1 E40: El camino hacia el Santuario",
+    "hiddenCode": "T1 E40",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E41: La gran batalla del Santuario",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yoABuFAL2xW2imSQnktdJk9idIp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODMwODlf/41%20La%20crisis%20de%20Atenea%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODMwODlf/41%20La%20crisis%20de%20Atenea%20BD1080p.mkv",
+    "episodeCode": "T1 E41: La gran batalla del Santuario",
+    "hiddenCode": "T1 E41",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E42: El séptimo sentido",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/a88SxmdLzX8x7N0cyZD9VDbZqll.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODMyOTdf/42%20Cosmos%20final%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODMyOTdf/42%20Cosmos%20final%20BD1080p.mkv",
+    "episodeCode": "T1 E42: El séptimo sentido",
+    "hiddenCode": "T1 E42",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E43: La batalla de la casa de Tauro",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xVDWzdAyhkAQpSHYLfaTTcXvKWH.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODM0NTVf/43%20Batalla%20en%20la%20casa%20de%20Tauro%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODM0NTVf/43%20Batalla%20en%20la%20casa%20de%20Tauro%20BD1080p.mkv",
+    "episodeCode": "T1 E43: La batalla de la casa de Tauro",
+    "hiddenCode": "T1 E43",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E44: El laberinto de luces y tinieblas",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dLCj9qr9fmbG3VnQ7M5QZIPC6Xf.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODM2MTFf/44%20Geminis%2C%20el%20laberinto%20de%20luz%20y%20sombra%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODM2MTFf/44%20Geminis%2C%20el%20laberinto%20de%20luz%20y%20sombra%20BD1080p.mkv",
+    "episodeCode": "T1 E44: El laberinto de luces y tinieblas",
+    "hiddenCode": "T1 E44",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E45: A la deriva en otra dimensión",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/q1YFTVLxCyXbWJFkqhELV9jlnfP.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODM2NjJf/45%20Enviados%20a%20otra%20dimensi%C3%B3n%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODM2NjJf/45%20Enviados%20a%20otra%20dimensi%C3%B3n%20BD1080p.mkv",
+    "episodeCode": "T1 E45: A la deriva en otra dimensión",
+    "hiddenCode": "T1 E45",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E46: La cadena nebular que combina defensa y ataque",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hQGwTzsxyKluwOmBEcq06PJ4bC4.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODM3NjFf/46%20La%20cadena%20de%20la%20nebulosa%20de%20Andr%C3%B3meda%20ataca%20esta%20vez%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODM3NjFf/46%20La%20cadena%20de%20la%20nebulosa%20de%20Andr%C3%B3meda%20ataca%20esta%20vez%20BD1080p.mkv",
+    "episodeCode": "T1 E46: La cadena nebular que combina defensa y ataque",
+    "hiddenCode": "T1 E46",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E47: Hasta siempre Hyōga",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qwS8mg2s6yib5lL2jPx4tXMKOpX.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODM5ODJf/47%20El%20valeroso%20Hyoga%20ahora%20dormir%C3%A1%20pasiblemente%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODM5ODJf/47%20El%20valeroso%20Hyoga%20ahora%20dormir%C3%A1%20pasiblemente%20BD1080p.mkv",
+    "episodeCode": "T1 E47: Hasta siempre Hyōga",
+    "hiddenCode": "T1 E47",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E48: Shiryū revive desde el país de los muertos",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/syM6l7de3ExVwYi0bSMb62d7uf7.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODQwODlf/48%20Shiryu%20vuelve%20del%20pais%20de%20los%20muertos%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODQwODlf/48%20Shiryu%20vuelve%20del%20pais%20de%20los%20muertos%20BD1080p.mkv",
+    "episodeCode": "T1 E48: Shiryū revive desde el país de los muertos",
+    "hiddenCode": "T1 E48",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E49: La oración de Shunrei",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/moOfPizyV9OaVq8YsJjLypWVXO6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODQxNDdf/49%20Shunrei%20reza%20por%20Shiryu%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODQxNDdf/49%20Shunrei%20reza%20por%20Shiryu%20BD1080p.mkv",
+    "episodeCode": "T1 E49: La oración de Shunrei",
+    "hiddenCode": "T1 E49",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+    "title": "E50: El cosmos de la cólera de Shiryū",
+    "meta": "13+ · 24m · 1986",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8ZWbyQWxPWx223ghuP87614WUYD.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3ODQxOTVf/50%20Levanta%20Drag%C3%B3n%2C%20tu%20cosmos%20puede%20vencer%20a%20los%20caballeros%20de%20oro%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI3ODQxOTVf/50%20Levanta%20Drag%C3%B3n%2C%20tu%20cosmos%20puede%20vencer%20a%20los%20caballeros%20de%20oro%20BD1080p.mkv",
+    "episodeCode": "T1 E50: El cosmos de la cólera de Shiryū",
+    "hiddenCode": "T1 E50",
+    "intro": { "start": 5, "end": 90 }
+  },
+  {
+  "title": "E51: Los afilados colmillos del león de oro",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xiFTekF3MlgUAfkitWuF9Yt4NnY.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQzMDdf/51%20El%20regreso%20de%20Marin%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQzMDdf/51%20El%20regreso%20de%20Marin%20BD1080p.mkv",
+  "episodeCode": "T1 E51: Los afilados colmillos del león de oro",
+  "hiddenCode": "T1 E51",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E52: El golpe diabólico legendario",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r4rOLIAnW8KImfVLuDJEYw2yKH9.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQ1MThf/52%20La%20locura%20de%20Aiora%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQ1MThf/52%20La%20locura%20de%20Aiora%20BD1080p.mkv",
+  "episodeCode": "T1 E52: El golpe diabólico legendario",
+  "hiddenCode": "T1 E52",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E53: Cassios muere por amor",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gE9blofUxDNzdGU5lIUlzkWJemp.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQ2MTRf/53%20El%20sacrificio%20de%20Casios%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQ2MTRf/53%20El%20sacrificio%20de%20Casios%20BD1080p.mkv",
+  "episodeCode": "T1 E53: Cassios muere por amor",
+  "hiddenCode": "T1 E53",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E54: El fénix privado de sus alas",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dpcIqv7TfEyCJsvJ3qwr83JYG9b.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQ2NTVf/54%20El%20resurgir%20de%20Ikki%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQ2NTVf/54%20El%20resurgir%20de%20Ikki%20BD1080p.mkv",
+  "episodeCode": "T1 E54: El fénix privado de sus alas",
+  "hiddenCode": "T1 E54",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E55: El grito de Atenea",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kA9VKMRliiPdSEZzM6IRZYIu1Ne.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQ3Mjdf/55%20Atenea%20al%20rescate%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQ3Mjdf/55%20Atenea%20al%20rescate%20BD1080p.mkv",
+  "episodeCode": "T1 E55: El grito de Atenea",
+  "hiddenCode": "T1 E55",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E56: Shaka, el hombre más próximo a Dios",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hGsdeLDPtG9KBfApMPbnechlOBk.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQ4MTNf/56%20Bajada%20a%20los%20infiernos%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQ4MTNf/56%20Bajada%20a%20los%20infiernos%20BD1080p.mkv",
+  "episodeCode": "T1 E56: Shaka, el hombre más próximo a Dios",
+  "hiddenCode": "T1 E56",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E57: ¡El terror de la nada! Shaka abre los ojos",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bEbqREm6BL2sEsG3lIt6EhMa7ss.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODQ5NTFf/57%20La%20tortura%20de%20F%C3%A9nix%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODQ5NTFf/57%20La%20tortura%20de%20F%C3%A9nix%20BD1080p.mkv",
+  "episodeCode": "T1 E57: ¡El terror de la nada! Shaka abre los ojos",
+  "hiddenCode": "T1 E57",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E58: ¡Heroico! Ikki se sacrifica por amistad",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f1yfHvg5Xe9OReVzWQfEZTsshnG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODUwMTdf/58%20Ikki%20muere%20valerosamente%20por%20sus%20amigos%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODUwMTdf/58%20Ikki%20muere%20valerosamente%20por%20sus%20amigos%20BD1080p.mkv",
+  "episodeCode": "T1 E58: ¡Heroico! Ikki se sacrifica por amistad",
+  "hiddenCode": "T1 E58",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E59: La vida, el amor y la muerte",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sTfdlmSxJQWZtp1aHZY4TNn1rFu.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODUwODNf/59%20La%20c%C3%A1rcel%20de%20cristal%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODUwODNf/59%20La%20c%C3%A1rcel%20de%20cristal%20BD1080p.mkv",
+  "episodeCode": "T1 E59: La vida, el amor y la muerte",
+  "hiddenCode": "T1 E59",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E60: ¡Hyōga renacido! Una vida en peligro",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2izP1HIwSwVfhj0dtifbbuc9nh2.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODUxMzhf/60%20El%20rescate%20Hyoga%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODUxMzhf/60%20El%20rescate%20Hyoga%20BD1080p.mkv",
+  "episodeCode": "T1 E60: ¡Hyōga renacido! Una vida en peligro",
+  "hiddenCode": "T1 E60",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E61: ¡¿La redención o la muerte?!",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7sC96rje1RT9oHt6xBGZlp3tBfx.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODUxNzdf/61%20En%20defensa%20de%20Saori%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODUxNzdf/61%20En%20defensa%20de%20Saori%20BD1080p.mkv",
+        "episodeCode": "T1 E61: ¡¿La redención o la muerte?!",
+        "hiddenCode": "T1 E61",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E62: ¡Adelante! Hyōga, el bravo guerrero",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jut7BZaENudSBmsccEjnzRMoIgn.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODUyNDRf/62%20La%20prueba%20de%20Hyoga%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODUyNDRf/62%20La%20prueba%20de%20Hyoga%20BD1080p.mkv",
+        "episodeCode": "T1 E62: ¡Adelante! Hyōga, el bravo guerrero",
+        "hiddenCode": "T1 E62",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E63: ¡Resonancia! Las armaduras de oro del Santuario",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iH21wASBoACkenRgPq5d2LnWLYw.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODUzNTZf/63%20El%20cetro%20de%20Atenea%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODUzNTZf/63%20El%20cetro%20de%20Atenea%20BD1080p.mkv",
+        "episodeCode": "T1 E63: ¡Resonancia! Las armaduras de oro del Santuario",
+        "hiddenCode": "T1 E63",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E64: ¡Jóvenes! Os confío la protección de Atenea",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xPO4VJdAvNFhNunSnMR2sYnr4Tu.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODU0Njhf/64%20El%20testamento%20de%20Aioros%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODU0Njhf/64%20El%20testamento%20de%20Aioros%20BD1080p.mkv",
+        "episodeCode": "T1 E64: ¡Jóvenes! Os confío la protección de Atenea",
+        "hiddenCode": "T1 E64",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E65: ¡La espada sagrada! Shura contra Dragón",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cMTnyjrQKgsppmLyTKGmZDbAQlA.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODU2NTBf/65%20El%20filo%20de%20la%20espada%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODU2NTBf/65%20El%20filo%20de%20la%20espada%20BD1080p.mkv",
+        "episodeCode": "T1 E65: ¡La espada sagrada! Shura contra Dragón",
+        "hiddenCode": "T1 E65",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E66: Shiryū, te transformas en una estrella",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h5ZVLDWnza9ZWMrOf2KW5xx54sl.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODU3NDNf/66%20El%20sacrificio%20de%20Shiryu%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODU3NDNf/66%20El%20sacrificio%20de%20Shiryu%20BD1080p.mkv",
+        "episodeCode": "T1 E66: Shiryū, te transformas en una estrella",
+        "hiddenCode": "T1 E66",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E67: ¡Hasta siempre! Mi maestro, mi amigo",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/91tfIKp2cuWEa408RXeOnZDsiCM.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODU4MjRf/67%20El%20cero%20absoluto%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODU4MjRf/67%20El%20cero%20absoluto%20BD1080p.mkv",
+        "episodeCode": "T1 E67: ¡Hasta siempre! Mi maestro, mi amigo",
+        "hiddenCode": "T1 E67",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E68: ¡El guerrero de la belleza! Afrodita",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qz9vWftK6JG09ihZRzTPOKgh1GZ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODU4OTNf/68%20La%20%C3%BAltima%20defensa%20de%20Arles%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODU4OTNf/68%20La%20%C3%BAltima%20defensa%20de%20Arles%20BD1080p.mkv",
+        "episodeCode": "T1 E68: ¡El guerrero de la belleza! Afrodita",
+        "hiddenCode": "T1 E68",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E69: ¡Rosas Diabólicas! El perfume de la muerte dulce",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1EDRbQ7pJ5c8uEslpmq3fVOExea.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODYwMTdf/69%20Las%20Rosas%20Diab%C3%B3licas%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODYwMTdf/69%20Las%20Rosas%20Diab%C3%B3licas%20BD1080p.mkv",
+        "episodeCode": "T1 E69: ¡Rosas Diabólicas! El perfume de la muerte dulce",
+        "hiddenCode": "T1 E69",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E70: ¡Descansa en paz! La última sonrisa de Shun",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/maQEnMYmJVXerfzvyvAdPX3xuKt.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODYxNDdf/70%20El%20poder%20de%20las%20rosas%20negras%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODYxNDdf/70%20El%20poder%20de%20las%20rosas%20negras%20BD1080p.mkv",
+        "episodeCode": "T1 E70: ¡Descansa en paz! La última sonrisa de Shun",
+        "hiddenCode": "T1 E70",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+  "title": "E71: ¡El tiempo se agota! La verdadera naturaleza del Patriarca",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ncizPu3IUCffbZntd0eeEkxwvHB.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODYyMzVf/71%20La%20revelaci%C3%B3n%20de%20Arles%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODYyMzVf/71%20La%20revelaci%C3%B3n%20de%20Arles%20BD1080p.mkv",
+  "episodeCode": "T1 E71: ¡El tiempo se agota! La verdadera naturaleza del Patriarca",
+  "hiddenCode": "T1 E71",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E72: ¡Vamos Seiya! No te detengas por la muerte de un amigo",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bSgbDUCVGP0bcCqIKGaW390uK4k.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODY0MDlf/72%20El%20renacer%20del%20F%C3%A9nix%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODY0MDlf/72%20El%20renacer%20del%20F%C3%A9nix%20BD1080p.mkv",
+  "episodeCode": "T1 E72: ¡Vamos Seiya! No te detengas por la muerte de un amigo",
+  "hiddenCode": "T1 E72",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E73: ¡Ánimo compañeros! Salvemos a Atenea",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6FBFMfYuiJmCinC4Wsa4lOpbAmK.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODY0NjNf/73%20La%20princesa%20salvada%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODY0NjNf/73%20La%20princesa%20salvada%20BD1080p.mkv",
+  "episodeCode": "T1 E73: ¡Ánimo compañeros! Salvemos a Atenea",
+  "hiddenCode": "T1 E73",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E74: ¡Enemigos del Norte! La leyenda de los dioses guerreros",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/txXneBB1JHbqY74DzXFvW5FFyuD.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODY2NjZf/74%20Los%20enemigos%20del%20gran%20Norte%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODY2NjZf/74%20Los%20enemigos%20del%20gran%20Norte%20BD1080p.mkv",
+  "episodeCode": "T1 E74: ¡Enemigos del Norte! La leyenda de los dioses guerreros",
+  "hiddenCode": "T1 E74",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E75: La diosa cautiva de un demonio",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dxgwLJFVM0A38TxCdoXdGN2Dt3H.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODY3ODVf/75%20%20La%20sacerdotisa%20de%20Od%C3%ADn%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODY3ODVf/75%20%20La%20sacerdotisa%20de%20Od%C3%ADn%20BD1080p.mkv",
+  "episodeCode": "T1 E75: La diosa cautiva de un demonio",
+  "hiddenCode": "T1 E75",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E76: ¡El gigante Thor! El cosmos del odio",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e7qB038AGUNrwPQ85X04rcOsOA3.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODY5NTNf/76%20En%20el%20reino%20de%20Asgard%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODY9NTNf/76%20En%20el%20reino%20de%20Asgard%20BD1080p.mkv",
+  "episodeCode": "T1 E76: ¡El gigante Thor! El cosmos del odio",
+  "hiddenCode": "T1 E76",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E77: Las lágrimas de un gigante",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dCqPSSSkajvqmOa4XZcOJbpnamb.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODcxMDBf/77%20La%20derrota%20de%20Thor%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODcxMDBf/77%20La%20derrota%20de%20Thor%20BD1080p.mkv",
+  "episodeCode": "T1 E77: Las lágrimas de un gigante",
+  "hiddenCode": "T1 E77",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E78: ¡Colmillos al descubierto! Phenril, el lobo del Norte",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o3ixw7XR8pfn3WAmEvsLc9u2fUK.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODcyMDNf/78%20El%20caballero%20de%20los%20lobos%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODcyMDNf/78%20El%20caballero%20de%20los%20lobos%20BD1080p.mkv",
+  "episodeCode": "T1 E78: ¡Colmillos al descubierto! Phenril, el lobo del Norte",
+  "hiddenCode": "T1 E78",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E79: El destino de la manada de lobos del Norte",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5fmIlTdAYve43PVMpiS7edPTxEo.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODcyOTBf/79%20El%20guerrero%20de%20%C3%89psilon%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODcyOTBf/79%20El%20guerrero%20de%20%C3%89psilon%20BD1080p.mkv",
+  "episodeCode": "T1 E79: El destino de la manada de lobos del Norte",
+  "hiddenCode": "T1 E79",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E80: ¡Desaparición en el campo de hielo! Aullidos de dolor",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/35Rd1A2JtO5b7jJ6tsIRIimoR7n.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc0MTJf/80%20Hagen%20de%20Merak%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc0MTJf/80%20Hagen%20de%20Merak%20BD1080p.mkv",
+  "episodeCode": "T1 E80: ¡Desaparición en el campo de hielo! Aullidos de dolor",
+  "hiddenCode": "T1 E80",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E81: Batalla a vida o muerte por amor",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qY1BL3jYRfQupapd9HguvDm7b7p.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc1NTJf/81%20El%20infierno%20de%20Hagen%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc1NTJf/81%20El%20infierno%20de%20Hagen%20BD1080p.mkv",
+  "episodeCode": "T1 E81: Batalla a vida o muerte por amor",
+  "hiddenCode": "T1 E81",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E82: ¡Elévate Cisne! El infierno que arde en el interior del hielo",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7ilENkMQjCifpLY1mAniU0eeEhF.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc2OTVf/82%20Una%20amarga%20victoria%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc2OTVf/82%20Una%20amarga%20victoria%20BD1080p.mkv",
+  "episodeCode": "T1 E82: ¡Elévate Cisne! El infierno que arde en el interior del hielo",
+  "hiddenCode": "T1 E82",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E83: ¡Arpa encantada! El preludio de la muerte tienta a Shun",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/DXDoALqegjmucnUXQKMjKjyj2M.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc4MTJf/83%20La%20gran%20duda%20de%20Shun%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc4MTJf/83%20La%20gran%20duda%20de%20Shun%20BD1080p.mkv",
+  "episodeCode": "T1 E83: ¡Arpa encantada! El preludio de la muerte tienta a Shun",
+  "hiddenCode": "T1 E83",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E84: ¡Sentencia de muerte! El réquiem de las cuerdas",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dA5wfTLueUwp1qI6DhoLy3CdZhY.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODc5NTFf/84%20La%20m%C3%BAsica%20de%20la%20muerte%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODc5NTFf/84%20La%20m%C3%BAsica%20de%20la%20muerte%20BD1080p.mkv",
+  "episodeCode": "T1 E84: ¡Sentencia de muerte! El réquiem de las cuerdas",
+  "hiddenCode": "T1 E84",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E85: ¡El lamento del héroe! Odio congelado",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mSzLYBXcgUhyom0t81T5RhNYtK2.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgwOThf/85%20La%20tragedia%20de%20Mime%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgwOThf/85%20La%20tragedia%20de%20Mime%20BD1080p.mkv",
+  "episodeCode": "T1 E85: ¡El lamento del héroe! Odio congelado",
+  "hiddenCode": "T1 E85",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E86: ¡Fénix! El brillo de las alas escarlatas",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/biZbJlXwJdSUDsX6wiaY6OyQq9L.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODgyODFf/86%20El%20enfrentamiento%20final%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODgyODFf/86%20El%20enfrentamiento%20final%20BD1080p.mkv",
+  "episodeCode": "T1 E86: ¡Fénix! El brillo de las alas escarlatas",
+  "hiddenCode": "T1 E86",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E87: El cementerio de caballeros",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dx6JbYQ8TBvkzH0lH2hklXCgpJd.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg0MjVf/87%20El%20Ata%C3%BAd%20de%20Amatista%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg0MjVf/87%20El%20Ata%C3%BAd%20de%20Amatista%20BD1080p.mkv",
+  "episodeCode": "T1 E87: El cementerio de caballeros",
+  "hiddenCode": "T1 E87",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E88: ¡Espada de fuego! Ambición terrorífica",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rbZnfxh25vvKWQ7gBSRrukEOihy.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg1NTBf/88%20Alberich%20de%20Megrez%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg1NTBf/88%20Alberich%20de%20Megrez%20BD1080p.mkv",
+  "episodeCode": "T1 E88: ¡Espada de fuego! Ambición terrorífica",
+  "hiddenCode": "T1 E88",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E89: ¡Sacrificio depravado! El bosque de los espíritus",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2fF0goAVjuL44UxCtUinhmB4oJR.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODg2NDhf/89%20El%20secreto%20de%20Alberich%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODg2NDhf/89%20El%20secreto%20de%20Alberich%20BD1080p.mkv",
+  "episodeCode": "T1 E89: ¡Sacrificio depravado! El bosque de los espíritus",
+  "hiddenCode": "T1 E89",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E90: ¡No mires atrás Seiya! El cosmos del Dragón Ascendente",
+  "meta": "13+ · 24m · 1986",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kxZSnfNfUvBcv06RwLTPSvqjXB8.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3ODkxMDlf/90%20La%20derrota%20de%20Alberich%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI3ODkxMDlf/90%20La%20derrota%20de%20Alberich%20BD1080p.mkv",
+  "episodeCode": "T1 E90: ¡No mires atrás Seiya! El cosmos del Dragón Ascendente",
+  "hiddenCode": "T1 E90",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E91: ¡Brilla Shun! El misterio de los colmillos negros",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ojEQFm7v0PGJscTrdqepPsFeBAN.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODkzODJf/91%20El%20misterio%20de%20Syd%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODkzODJf/91%20El%20misterio%20de%20Syd%20BD1080p.mkv",
+        "episodeCode": "T1 E91: ¡Brilla Shun! El misterio de los colmillos negros",
+        "hiddenCode": "T1 E91",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E92: ¡Remolino! La última Tormenta Nebular de Shun",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6LbpZimsOpm6jOhDy7yOkXYaZas.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODk1MDBf/92%20El%20Syd%20derrotado%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODk1MDBf/92%20El%20Syd%20derrotado%20BD1080p.mkv",
+        "episodeCode": "T1 E92: ¡Remolino! La última Tormenta Nebular de Shun",
+        "hiddenCode": "T1 E92",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E93: ¡Bud! El destino de la estrella doble",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1AQrNaTaf8DEnJxuqBXcje7ut2C.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODk1NDBf/93%20El%20hijo%20maldito%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODk1NDBf/93%20El%20hijo%20maldito%20BD1080p.mkv",
+        "episodeCode": "T1 E93: ¡Bud! El destino de la estrella doble",
+        "hiddenCode": "T1 E93",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E94: ¡Vínculos fraternales! Syd, descansa en paz con tus antepasados",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uUhoE7OPmZ3EXzzPdKaDy9hudSr.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODk2MDRf/94%20Reencuentro%20de%20dos%20hermanos%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODk2MDRf/94%20Reencuentro%20de%20dos%20hermanos%20BD1080p.mkv",
+        "episodeCode": "T1 E94: ¡Vínculos fraternales! Syd, descansa en paz con tus antepasados",
+        "hiddenCode": "T1 E94",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E95: ¡Héroes nobles! El renacimiento del caballero legendario",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/slXMlOvfbuqEJ2IrL3fmzziYRyr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E95: ¡Héroes nobles! El renacimiento del caballero legendario",
+        "hiddenCode": "T1 E95",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E96: Dragón contra Dragón",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/o6SyDzbpMoBox7cHMw0GeVW1xck.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E96: Dragón contra Dragón",
+        "hiddenCode": "T1 E96",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E97: La bella melodía de la muerte",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dx6JbYQ8TBvkzH0lH2hklXCgpJd.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODk2NjFf/97%20Un%20general%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODk2NjFf/97%20Un%20general%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "episodeCode": "T1 E97: La bella melodía de la muerte",
+        "hiddenCode": "T1 E97",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E98: ¡Aparición milagrosa! La armadura de Odín",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6bpLLzzh3uIBNuOMBmTmvBEmkdd.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODk3MjFf/98%20El%20cosmos%20de%20Od%C3%ADn%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODk3MjFf/98%20El%20cosmos%20de%20Od%C3%ADn%20BD1080p.mkv",
+        "episodeCode": "T1 E98: ¡Aparición milagrosa! La armadura de Odín",
+        "hiddenCode": "T1 E98",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E99: ¡Atenea! La oración eterna de los espíritus nobles",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xP16bBouhe5gT8ysTmJbXkz6RPz.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3ODk3NzFf/99%20La%20salvaci%C3%B3n%20del%20planeta%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI3ODk3NzFf/99%20La%20salvaci%C3%B3n%20del%20planeta%20BD1080p.mkv",
+        "episodeCode": "T1 E99: ¡Atenea! La oración eterna de los espíritus nobles",
+        "hiddenCode": "T1 E99",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E100: El reino de Poseidón",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2X6fuvlfOX48JFSRktEOMY06RRJ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDM4Mjdf/100%20El%20reino%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDM4Mjdf/100%20El%20reino%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "episodeCode": "T1 E100: El reino de Poseidón",
+        "hiddenCode": "T1 E100",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E101: Los gigantescos pilares de los siete océanos",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4eQTo4ycabW2rmsHdgSrOp9jCqz.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDM4NjFf/101%20El%20altar%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDM4NjFf/101%20El%20altar%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "episodeCode": "T1 E101: Los gigantescos pilares de los siete océanos",
+        "hiddenCode": "T1 E101",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E102: ¡El resplandor misterioso! Las armaduras de bronce doradas",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2Q7p32R5D4iBzoNmUpVhMfeobQp.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDM5MTJf/102%20El%20guardi%C3%A1n%20del%20Pac%C3%ADfico%20Sur%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDM5MTJf/102%20El%20guardi%C3%A1n%20del%20Pac%C3%ADfico%20Sur%20BD1080p.mkv",
+        "episodeCode": "T1 E102: ¡El resplandor misterioso! Las armaduras de bronce doradas",
+        "hiddenCode": "T1 E102",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E103: ¡Cuidado Shun! Los colmillos de la bestias diabólicas",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5vODDFhzSrzqgkXapLBCoXpfASD.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDM5ODJf/103%20La%20tela%20de%20Andr%C3%B3meda%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDM5ODJf/103%20La%20tela%20de%20Andr%C3%B3meda%20BD1080p.mkv",
+        "episodeCode": "T1 E103: ¡Cuidado Shun! Los colmillos de la bestias diabólicas",
+        "hiddenCode": "T1 E103",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E104: La cadena de oro indestructible",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6tA1xbEsAfQJB2vyGSroEWoAvpX.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQwMTFf/104%20El%20renacimiento%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQwMTFf/104%20El%20renacimiento%20de%20Poseid%C3%B3n%20BD1080p.mkv",
+        "episodeCode": "T1 E104: La cadena de oro indestructible",
+        "hiddenCode": "T1 E104",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E105: ¡Excálibur! El espíritu de Shura vive en su brazo derecho",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zdbvVaVjG0jtWwDXXqKcU3KyXh7.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQwNjFf/105%20La%20lanza%20de%20oro%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQwNjFf/105%20La%20lanza%20de%20oro%20BD1080p.mkv",
+        "episodeCode": "T1 E105: ¡Excálibur! El espíritu de Shura vive en su brazo derecho",
+        "hiddenCode": "T1 E105",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E106: ¡Sueño cruel! El encuentro con olor a muerte",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cpr96e7XctRaRHwPvVFcLx5AHaH.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQxMDBf/106%20La%20derrota%20de%20Krishna%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQxMDBf/106%20La%20derrota%20de%20Krishna%20BD1080p.mkv",
+        "episodeCode": "T1 E106: ¡Sueño cruel! El encuentro con olor a muerte",
+        "hiddenCode": "T1 E106",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E107: ¡Cazador de corazones! El cruel Lymnades",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fAre0TvBvohMTEcMQnXhlmwOuDo.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQxMjZf/107%20El%20demonio%20de%20las%20aguas%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQxMjZf/107%20El%20demonio%20de%20las%20aguas%20BD1080p.mkv",
+        "episodeCode": "T1 E107: ¡Cazador de corazones! El cruel Lymnades",
+        "hiddenCode": "T1 E107",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E108: ¡Isaac! El hombre del corazón de hielo",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6Zbq7N99yChXK7GK1NDw86nrs4G.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQxNDNf/108%20Isaac%2C%20el%20traidor%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQxNDNf/108%20Isaac%2C%20el%20traidor%20BD1080p.mkv",
+        "episodeCode": "T1 E108: ¡Isaac! El hombre del corazón de hielo",
+        "hiddenCode": "T1 E108",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E109: ¡Aguanta Kiki! Un doloroso combate a muerte",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y5v8nFQteb1hZC1aJjcaWBYjAgi.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQxNjBf/109%20La%20triste%20victoria%20de%20Hyoga%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQxNjBf/109%20La%20triste%20victoria%20de%20Hyoga%20BD1080p.mkv",
+        "episodeCode": "T1 E109: ¡Aguanta Kiki! Un doloroso combate a muerte",
+        "hiddenCode": "T1 E109",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E110: El bello canto de Atenea",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lfDyAeCKMAYRI5KJS6BhaOw8SKH.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQyMDRf/110%20El%20canto%20de%20Atenea%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQyMDRf/110%20El%20canto%20de%20Atenea%20BD1080p.mkv",
+        "episodeCode": "T1 E110: El bello canto de Atenea",
+        "hiddenCode": "T1 E110",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E111: ¡Amigos! Juntos en el momento de la muerte",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cwexOxUOix270h2poSschYvAo8u.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQyNDFf/111%20Un%20combate%20desesperado%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQyNDFf/111%20Un%20combate%20desesperado%20BD1080p.mkv",
+        "episodeCode": "T1 E111: ¡Amigos! Juntos en el momento de la muerte",
+        "hiddenCode": "T1 E111",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E112: ¡Dos almas! El misterio de la resurrección de Poseidón",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xNyt7gxex6Tb0u05un38MY8jNBh.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQyNzVf/112%20La%20ambici%C3%B3n%20de%20Kanon%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQyNzVf/112%20La%20ambici%C3%B3n%20de%20Kanon%20BD1080p.mkv",
+        "episodeCode": "T1 E112: ¡Dos almas! El misterio de la resurrección de Poseidón",
+        "hiddenCode": "T1 E112",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E113: ¡Apunta a Poseidón! La flecha de oro",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/v6xQKhApjwYoWWszLgooM6zDN6c.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQzMDJf/113%20La%20flecha%20ensangrentada%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQzMDJf/113%20La%20flecha%20ensangrentada%20BD1080p.mkv",
+        "episodeCode": "T1 E113: ¡Apunta a Poseidón! La flecha de oro",
+        "hiddenCode": "T1 E113",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E114: ¡Brillad estrellas de la amistad! La leyenda eterna de los jóvenes",
+        "meta": "13+ · 24m · 1986",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/twXR5htF9n8Z8eskIJlK9xsR7Wx.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDQzMzVf/114%20El%20combate%20de%20los%20dioses%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDQzMzVf/114%20El%20combate%20de%20los%20dioses%20BD1080p.mkv",
+        "episodeCode": "T1 E114: ¡Brillad estrellas de la amistad! La leyenda eterna de los jóvenes",
+        "hiddenCode": "T1 E114",
+        "intro": { "start": 5, "end": 90 }
+      }
+      
+    ]
+  }
+];
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

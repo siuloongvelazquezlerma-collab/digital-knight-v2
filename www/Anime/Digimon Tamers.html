@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Digimon Tamers</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/3Eqp4LjvscJ3CyWVE6izB7MvAWn.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/miyvCeJLTg3iLl2yZxfmrtNxhcP.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Digimon Tamers</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/1bTTgamCCXdfGxTrV1eXAaq3B0v.png" alt="Digimon Tamers Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;2001&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Digimon Tamers" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTc5NjE1OTZf/5613241.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Digimon Tamers.html"></a>
+          <span id="nombre">Digimon Tamers</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Digimon Tamers toma lugar en una continuidad diferente a la de su predecesora, un mundo parecido al nuestro donde los
+        digimon son una franquicia de juguetes y una serie de TV </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Digimon.html">
+          <img src="https://image.tmdb.org/t/p/original/vFJAiBNUlzEVa54mXgHGumr1z1s.jpg" alt="Digimon" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Adventures</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Frontier.html">
+          <img src="https://image.tmdb.org/t/p/w154/tunJi5ABO1fYJp9J4FZkrTpqQd3.jpg" alt="Digimon Frontier" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Frontier</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon savers.html">
+          <img src="https://image.tmdb.org/t/p/w154/z89uzZ0b81zMt9E8qUXCRLa8uBc.jpg" alt="Digimon savers" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon savers</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Xros Wars.html">
+          <img src="https://image.tmdb.org/t/p/w154/4jX2k06hM9p489ML1byyBQHEKl5.jpg" alt="Digimon Xros Wars " oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Xros Wars </div>
+          <div class="meta-row">
+            <span class="meta">Sub | Jap</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDQ0NDAxMzZf/01.El_nacimiento_de_Guilmon.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Digimon Tamers</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "digimon-tamers";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+      "title": "E1: El nacimiento de Guilmon",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xWumk83JxsDfzoyf3s0nKGxRBCl.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0NDAxMzZf/01.El_nacimiento_de_Guilmon.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0NDAxMzZf/01.El_nacimiento_de_Guilmon.mp4",
+      "episodeCode": "T1 E1: El nacimiento de Guilmon",
+      "hiddenCode": "T1 E1",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E2: Terriermon aparece",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qvKdk1GZGtkjS0t0cScXPnef5zV.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYwNTBf/02.Terriermon_Aparece.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYwNTBf/02.Terriermon_Aparece.mp4",
+      "episodeCode": "T1 E2: Terriermon aparece",
+      "hiddenCode": "T1 E2",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E3: Renamon contra Guilmon",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/b0RTXxY4ivjIommdJxpZxPuqRHj.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxMjVf/03.Renamon_Contra_Guilmon.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxMjVf/03.Renamon_Contra_Guilmon.mp4",
+      "episodeCode": "T1 E3: Renamon contra Guilmon",
+      "hiddenCode": "T1 E3",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E4: ¡Derrotemos a Gorillamon!",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/5tKA3FcyFpq9nqMyeDY0OLOQe5y.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxMzZf/04.Derrotemos_a_Gorimon.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxMzZf/04.Derrotemos_a_Gorimon.mp4",
+      "episodeCode": "T1 E4: ¡Derrotemos a Gorillamon!",
+      "hiddenCode": "T1 E4",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E5: Juguemos con Calumon",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/sN5av2QFuqxsYTfs1TP93BxgsET.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxNDJf/05.Juguemos_con_Calumon.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxNDJf/05.Juguemos_con_Calumon.mp4",
+      "episodeCode": "T1 E5: Juguemos con Calumon",
+      "hiddenCode": "T1 E5",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E6: Renamon digievoluciona",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vwOTv2P2VPMCbp6FoGRWKavywEn.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxNjBf/06.Renamon_Digievoluciona.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxNjBf/06.Renamon_Digievoluciona.mp4",
+      "episodeCode": "T1 E6: Renamon digievoluciona",
+      "hiddenCode": "T1 E6",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E7: Guilmon corre peligro",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/8ePfAA9kAi2ccUriVJhifHAQnnt.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxODBf/07.Guilmon_Corre_Peligro.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxODBf/07.Guilmon_Corre_Peligro.mp4",
+      "episodeCode": "T1 E7: Guilmon corre peligro",
+      "hiddenCode": "T1 E7",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E8: Guilmon digievoluciona",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/c1ztrsH19XziQ0Jx1FI4hHcuYC5.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxODZf/08.Guilmon_Digievoluciona.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxODZf/08.Guilmon_Digievoluciona.mp4",
+      "episodeCode": "T1 E8: Guilmon digievoluciona",
+      "hiddenCode": "T1 E8",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E9: ¡Growlmon, regresa a la normalidad!",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/5rvchbPmzPNNKWSYcN74Uw2WkTM.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYxOTZf/09.Growlmon_Regresa_a_la_Normalidad.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYxOTZf/09.Growlmon_Regresa_a_la_Normalidad.mp4",
+      "episodeCode": "T1 E9: ¡Growlmon, regresa a la normalidad!",
+      "hiddenCode": "T1 E9",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+      "title": "E10: La confusión de Rika",
+      "meta": "13+ · 25m · 2001",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/j149lEjTjXNRz7cvVrRzIYSoNM6.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMDJf/10.La_confusion_de_Rika.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMDJf/10.La_confusion_de_Rika.mp4",
+      "episodeCode": "T1 E10: La confusión de Rika",
+      "hiddenCode": "T1 E10",
+      "intro": { "start": 5, "end": 90 }
+    },
+    {
+  "title": "E11: La pelea de un minuto con treinta",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iP64o8nJObSQoBO55LAEsJmg9OO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMTFf/11.La_Pelea_de_Un_Minuto_con_Treinta.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMTFf/11.La_Pelea_de_Un_Minuto_con_Treinta.mp4",
+  "episodeCode": "T1 E11: La pelea de un minuto con treinta",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E12: La amistad entre Rika y Renamon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3ylZh9Lx4CMTP8TrxeV1Z1IBeDB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMTdf/12.La_amistad_de_Rika_y_Renamon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMTdf/12.La_amistad_de_Rika_y_Renamon.mp4",
+  "episodeCode": "T1 E12: La amistad entre Rika y Renamon",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E13: Un mal presentimiento",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1XMJm0N5J359Oj4w328gcaIYY7q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMjZf/13.Un_mal_Presentimiento.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMjZf/13.Un_mal_Presentimiento.mp4",
+  "episodeCode": "T1 E13: Un mal presentimiento",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E14: La evolución especial de WarGrowlmon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/97wbX7e3nzJNx51KNaNTU03D4t0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyMzRf/14.La_evolucion_Especial_de_Wargrowlmon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyMzRf/14.La_evolucion_Especial_de_Wargrowlmon.mp4",
+  "episodeCode": "T1 E14: La evolución especial de WarGrowlmon",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E15: Pánico en el subterraneo Edo",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rZkciERbh86l1PHQLitaxPknurg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNDNf/15.Panico_en_el_Subterraneo_Edo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNDNf/15.Panico_en_el_Subterraneo_Edo.mp4",
+  "episodeCode": "T1 E15: Pánico en el subterraneo Edo",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E16: ¡Los Digimon corren peligro en su primer campamento!",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9zbhqTQc7OU51s3DsRKoKjqSyyQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNTBf/16.Los_digimon_corren_Peligro_en_su_Primer_Campamento.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNTBf/16.Los_digimon_corren_Peligro_en_su_Primer_Campamento.mp4",
+  "episodeCode": "T1 E16: ¡Los Digimon corren peligro en su primer campamento!",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E17: Rapidmon, más veloz que un rayo",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/daCowQkFSs5A5MJe5B6wfkkyTls.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNThf/17.Rapidmon%2C_mas_Veloz_que_un_rayo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNThf/17.Rapidmon%2C_mas_Veloz_que_un_rayo.mp4",
+  "episodeCode": "T1 E17: Rapidmon, más veloz que un rayo",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E18: Taomon, el resplandor de la luna",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sANNufs7Kftiu4elcwSP8bpsAaL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyNzBf/18.Taomon%2C_al_Resplandor_de_la_luna.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyNzBf/18.Taomon%2C_al_Resplandor_de_la_luna.mp4",
+  "episodeCode": "T1 E18: Taomon, el resplandor de la luna",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E19: Impmon quiere volverse más fuerte",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hlzp7BOimp87XMPP3gwCmKqLyQ8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyODFf/19.Impmon_quiere_volverse_mas_fuerte.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyODFf/19.Impmon_quiere_volverse_mas_fuerte.mp4",
+  "episodeCode": "T1 E19: Impmon quiere volverse más fuerte",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E20: La carta azul de la amistad",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jU05HjJzw5ZIG32YslRco6i7Hgd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzYyOTNf/20.La_carta_Azul_de_la_Amistad.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzYyOTNf/20.La_carta_Azul_de_la_Amistad.mp4",
+  "episodeCode": "T1 E20: La carta azul de la amistad",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E21: Mi príncipe Leomon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4SRywlq0XsmOqrHoMdBDwglYxXr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDAzMDNf/21_Mi_principe_leomon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDAzMDNf/21_Mi_principe_leomon.mp4",
+  "episodeCode": "T1 E21: Mi príncipe Leomon",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E22: La aparición de Vikaralmon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pVgdDjAVPlP3cqVhwrUFBglHzE0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDAzOTJf/22_La_aparicion_de_Vikaralmon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDAzOTJf/22_La_aparicion_de_Vikaralmon.mp4",
+  "episodeCode": "T1 E22: La aparición de Vikaralmon",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E23: El contrataque de los digimons",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/h89T6x1r9kAR3PHriNEYTaTZAql.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDA1MzJf/23_El_contraataque_de_los_digimons.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDA1MzJf/23_El_contraataque_de_los_digimons.mp4",
+  "episodeCode": "T1 E23: El contrataque de los digimons",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E24: El viaje rumbo al digimundo",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/grd581vQsB5o04ME5echDTanHUM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDA1NTFf/24_El_viaje_rumbo%20al_digimundo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDA1NTFf/24_El_viaje_rumbo%20al_digimundo.mp4",
+  "episodeCode": "T1 E24: El viaje rumbo al digimundo",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E25: La llegada al Digimundo",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tj6Q4D2A4bM0QzfaRk1K2ozHMH7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDA1ODhf/25_La_llegada_al_digimundo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDA1ODhf/25_La_llegada_al_digimundo.mp4",
+  "episodeCode": "T1 E25: La llegada al Digimundo",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E26: Yiyimon y Babamon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/khBA4GshKgE1E0it8cPl7UXLoap.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDA3MTNf/26_Gigimon_y_Babamon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDA3MTNf/26_Gigimon_y_Babamon.mp4",
+  "episodeCode": "T1 E26: Yiyimon y Babamon",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E27: La Digievolución de Impmon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/71IvAS7FaigkZfgnsCMOi1uSiIq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDA4NTZf/27_La_digievolucion_de_impmon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDA4NTZf/27_La_digievolucion_de_impmon.mp4",
+  "episodeCode": "T1 E27: La Digievolución de Impmon",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E28: Ryo Akiyama, el tamer legendario",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hKgC5zxt5Z75GH8nSykNm4a0RQV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDA5NzJf/28_Ryo_Akiyama_el_tamer_legendario.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDA5NzJf/28_Ryo_Akiyama_el_tamer_legendario.mp4",
+  "episodeCode": "T1 E28: Ryo Akiyama, el tamer legendario",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E29: La mansión de los fantasmas",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/htjfIWqXpAjOzmVD4WLp1ssBePb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDExMDBf/29_La_mansion_de_los_fantasmas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDExMDBf/29_La_mansion_de_los_fantasmas.mp4",
+  "episodeCode": "T1 E29: La mansión de los fantasmas",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E30: Un aviso de emergencia desde el digimundo",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tuGxesmufbqFxduBjJV6tCOmoEA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDE1MjFf/30_Un_aviso_de_emergencia_desde_el_digimundo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDE1MjFf/30_Un_aviso_de_emergencia_desde_el_digimundo.mp4",
+  "episodeCode": "T1 E30: Un aviso de emergencia desde el digimundo",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E31: Hiro Kazu se convierte en un tamer",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kRy8ssjcw5Dh8PrVKuRyhuHezPH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDE2MjFf/31_Hirokazu_se_convierte_en_tamer.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDE2MjFf/31_Hirokazu_se_convierte_en_tamer.mp4",
+  "episodeCode": "T1 E31: Hiro Kazu se convierte en un tamer",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E32: El espacio acuático",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uu7fYHjQCcPTdQNHof3IjSfa9hW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDE2NzRf/32_El_espacio_acuatico.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDE2NzRf/32_El_espacio_acuatico.mp4",
+  "episodeCode": "T1 E32: El espacio acuático",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E33: Suzi va al Digimundo",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r3ZPWzjwYDKVQbAfJYKi9ruE8Ne.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDE5ODJf/33_Sussi_va_al_digimundo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDE5ODJf/33_Sussi_va_al_digimundo.mp4",
+  "episodeCode": "T1 E33: Suzi va al Digimundo",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E34: La muerte de Leomon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pnY8EOROrwPjs6dS53wA3YRyrj0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDIyMDVf/34_La_muerte_de_leomon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDIyMDVf/34_La_muerte_de_leomon.mp4",
+  "episodeCode": "T1 E34: La muerte de Leomon",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E35: Gallantmon, la etapa mega de Guilmon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/epsPa0utU2bnodeHGQUqlJ4qOId.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDI1Mzlf/35_Gallantmon_La_etapa_mega_de_guilmon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDI1Mzlf/35_Gallantmon_La_etapa_mega_de_guilmon.mp4",
+  "episodeCode": "T1 E35: Gallantmon, la etapa mega de Guilmon",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E36: Gallantmon contra Beelzemon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8amY4V0JQfrnH8iZva86kusx2K7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDI2OTJf/36_Gallantmon_vs_Beelzemon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDI2OTJf/36_Gallantmon_vs_Beelzemon.mp4",
+  "episodeCode": "T1 E36: Gallantmon contra Beelzemon",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E37: La digievolución de Gargomon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kGkpwaBCyinoWr0ECORTipEZoue.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDI4MDZf/37_La_digievolucion_de_MegaGargomon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDI4MDZf/37_La_digievolucion_de_MegaGargomon.mp4",
+  "episodeCode": "T1 E37: La digievolución de Gargomon",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E38: La pelea entre las bestias sagradas",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xVIg7rFsK21JRnmhmDC2TpIHLNz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDI5MzBf/38_La_pelea_entre%20las_bestias_sagradas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDI5MzBf/38_La_pelea_entre%20las_bestias_sagradas.mp4",
+  "episodeCode": "T1 E38: La pelea entre las bestias sagradas",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E39: La digievolución de Sakuyamon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sYNeBJ7aZyOEA4IjeulvRPkykeE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDMxMzJf/39_La_Digievolucion_de_Sakuyamon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDMxMzJf/39_La_Digievolucion_de_Sakuyamon.mp4",
+  "episodeCode": "T1 E39: La digievolución de Sakuyamon",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E40: La evolución resplandeciente",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/u6dOT9OVoB3OtI025JerEEau1fv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDMyODZf/40_La_evolucion_resplandecente.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDMyODZf/40_La_evolucion_resplandecente.mp4",
+  "episodeCode": "T1 E40: La evolución resplandeciente",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E41: El regreso al mundo real",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9HNUidzgXHkYsRAjmQYtKSL5EQB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDMzOTFf/41_El_regreso_al_Mundo_real.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDMzOTFf/41_El_regreso_al_Mundo_real.mp4",
+  "episodeCode": "T1 E41: El regreso al mundo real",
+  "hiddenCode": "T1 E41",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E42: La ciudad es invadida",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/BiCPw9IsjRiGTBe7xMsyG9JsAX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDM0OTFf/42_La_ciudad_es_invadida.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDM0OTFf/42_La_ciudad_es_invadida.mp4",
+  "episodeCode": "T1 E42: La ciudad es invadida",
+  "hiddenCode": "T1 E42",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E43: El regreso de Beelzemon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p1i41oTiNrSROSJ2YJDaTibZ9z2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDM3OTNf/43_El_regreso_de_belzemon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDM3OTNf/43_El_regreso_de_belzemon.mp4",
+  "episodeCode": "T1 E43: El regreso de Beelzemon",
+  "hiddenCode": "T1 E43",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E44: La niña misteriosa",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i19CUgxLw6oSPTJc9TWzyErfa1F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDQwNTlf/44_La_ni%C3%B1a_misteriosa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDQwNTlf/44_La_ni%C3%B1a_misteriosa.mp4",
+  "episodeCode": "T1 E44: La niña misteriosa",
+  "hiddenCode": "T1 E44",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E45: Acceso a la zona de peligro",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dPnfWw00KHIKih6ccbLVIr4gRTL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDQyODlf/45_Acceso_a_la_zona_de_peligro.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDQyODlf/45_Acceso_a_la_zona_de_peligro.mp4",
+  "episodeCode": "T1 E45: Acceso a la zona de peligro",
+  "hiddenCode": "T1 E45",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E46: El vigorizante guerrero Ultimate ¡Justimon Aparece!",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/19843ljMclkQl78pSoCJ5Kb7yob.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDQ2NTVf/46_La_aparici%C3%B3n_de_Justimon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDQ2NTVf/46_La_aparici%C3%B3n_de_Justimon.mp4",
+  "episodeCode": "T1 E46: El vigorizante guerrero Ultimate ¡Justimon Aparece!",
+  "hiddenCode": "T1 E46",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E47: La aparición de Grani",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e7f36CjkVhSyQAaywTR5MMuuoCz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDQ3NzZf/47_La_aparicion_de_grany.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDQ3NzZf/47_La_aparicion_de_grany.mp4",
+  "episodeCode": "T1 E47: La aparición de Grani",
+  "hiddenCode": "T1 E47",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E48: El puño de Beelzemon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4ROmLCquji7MaFBf0ITD0n8yrLa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDUwMzdf/48_El_pu%C3%B1o_de_belzemon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDUwMzdf/48_El_pu%C3%B1o_de_belzemon.mp4",
+  "episodeCode": "T1 E48: El puño de Beelzemon",
+  "hiddenCode": "T1 E48",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E49: El deseo de Calumon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9IKtPvji1mbztj48isfR5hhWuGz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDU3MzNf/49_El_deseo_de_calumon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDU3MzNf/49_El_deseo_de_calumon.mp4",
+  "episodeCode": "T1 E49: El deseo de Calumon",
+  "hiddenCode": "T1 E49",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E50: El verdadero caballero Gallantmon",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hGpMO40msYsRx3Dz8C2QOZI0BDD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NDU5NjZf/50_El_verdadero_caballero__Gallantmon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NDU5NjZf/50_El_verdadero_caballero__Gallantmon.mp4",
+  "episodeCode": "T1 E50: El verdadero caballero Gallantmon",
+  "hiddenCode": "T1 E50",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E51: El poder de nuestros sueños",
+  "meta": "13+ · 25m · 2001",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/usYgx2BaCfgIc0QyhihBPU57XcF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzk5NjNf/51_El_poder_de_los_sue%C3%B1os.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzk5NjNf/51_El_poder_de_los_sue%C3%B1os.mp4",
+  "episodeCode": "T1 E51: El poder de nuestros sueños",
+  "hiddenCode": "T1 E51",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+}
+
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

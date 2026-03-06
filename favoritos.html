@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Favoritos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2 style="padding:15px; color:white;">⭐ Mis Favoritos</h2>
+  <div id="favoritos" class="favoritos"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("favoritos");
+      let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+      if (favoritos.length === 0) {
+        container.innerHTML = "<p style='color:white; padding:15px;'>No tienes favoritos aún.</p>";
+        return;
+      }
+
+      favoritos.forEach(fav => {
+        const card = document.createElement("a");
+        card.href = fav.link;
+        card.className = "fav-card";
+        card.innerHTML = `
+          <img src="${fav.img}" alt="poster favorito">
+        `;
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

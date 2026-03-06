@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <title>Favoritos</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <style>
+    /* ... (estilos anteriores) ... */
+
+    body {
+      padding-top: env(safe-area-inset-top);
+  font-family: sans-serif;
+  margin: 10px;
+  background-color: #000000; /* Fondo negro */
+  color: white;
+}
+
+header {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  background-image: linear-gradient(to bottom, #f78e2b00, #f4752100); /* Degradado naranja */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* ... (otros estilos) ... */
+
+.favorito-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #242424; /* Fondo gris oscuro para los items */
+  padding: 10px;
+  border-radius: 5px;
+}
+/* ... otros estilos ... */
+
+.favorito-item a {  /* Estilos para el enlace del favorito */
+  display: block;     /* Convertir el enlace en un elemento de bloque */
+  color: white;      /* Color blanco para el enlace (elimina la línea azul) */
+}
+
+.favorito-item a span {  /* Estilos para el nombre del favorito */
+  text-decoration: none; /* Quitar subrayado */
+  margin-top: -15px;     /* Mover el nombre hacia arriba (ajusta este valor) */
+}
+
+.favorito-item img {
+  width: 80px;   /* Reducir el tamaño de la imagen */
+  height: auto;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.eliminar-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.5em;
+  margin-left: auto;
+}
+
+.eliminar-btn:hover {
+  color: #f47521; /* Color naranja al pasar el mouse */
+}
+
+#eliminarTodosBtn {
+  background-color: #f47521; /* Color naranja para el botón */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+#eliminarTodosBtn:hover {
+  background-color: #f78c2b; /* Color naranja más claro al pasar el mouse */
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #202127;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1px 0;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease-in-out;
+}
+
+.footer-btn:hover,
+.footer-btn.active { 
+  color: #F78C2B; 
+  span.material-icons-outlined { /* Estilo para el icono cuando el botón está activo */
+    color: #F78C2B; 
+  }
+}
+
+.footer-btn {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 0 0; 
+  font-size: 0.6em;
+  transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+  font-size: 30px;
+  margin-bottom: 1px;
+}
+
+.footer-btn p {
+  margin: 1px 6px 9px; 
+}
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+
+  <header>
+    </header>
+
+    <div class="container">
+        <h4>Favoritos <button id="eliminarTodosBtn">Eliminar todos</button> </h4> 
+        <div class="scrollmenu" id="favoritosContainer">
+          </div>
+      </div>
+
+  <a href="go:favoritos" class="footer-btn active" id="favoritosBtn"> 
+</a>
+
+  <footer class="footer">
+    <a href="go:Inicio" class="footer-btn" id="homeBtn">
+        <span class="material-icons-outlined">home</span>
+        <p>Inicio</p>
+    </a>
+    <a href="go:favoritos" class="footer-btn active" id="favoritosBtn">
+        <span class="material-icons-outlined">bookmark_outline</span>
+        <p>Favoritos</p>
+    </a>
+    <a href="go:explorar" class="footer-btn" id="explorarBtn">
+        <span class="material-icons-outlined">grid_view</span>
+        <p>Explorar</p>
+    </a>
+    <a href="#" class="footer-btn" id="cuentaBtn">
+        <span class="material-icons-outlined">account_circle</span>
+        <p>Cuenta</p>
+    </a>
+</footer>
+
+
+
+  <script>
+    // ... (código anterior) ...
+
+    document.addEventListener("DOMContentLoaded", function() {
+    mostrarFavoritos();
+});
+
+// Función para guardar un favorito
+function guardarFavorito(elemento) {
+    // Obtener favoritos guardados del localStorage
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    // Verificar si ya está guardado
+    if (!favoritos.includes(elemento)) {
+        favoritos.push(elemento); // Agregar nuevo favorito
+        localStorage.setItem("favoritos", JSON.stringify(favoritos)); // Guardar en localStorage
+    }
+    
+    mostrarFavoritos(); // Actualizar la lista visible de favoritos
+}
+
+// Función para mostrar los favoritos
+function mostrarFavoritos() {
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const listaFavoritos = document.getElementById("favoritos");
+    listaFavoritos.innerHTML = ''; // Limpiar la lista
+
+    // Mostrar cada favorito
+    favoritos.forEach(function(favorito) {
+        const li = document.createElement("li");
+        li.textContent = favorito;
+        listaFavoritos.appendChild(li);
+    });
+}
+
+    function cargarFavoritos() {
+      const favoritos = JSON.parse(localStorage.getItem('favoritosDBZ')) || []; // Cambia a 'favoritosDBZ'
+      const favoritosContainer = document.getElementById('favoritosContainer');
+      const divCard = document.createElement('div');
+  divCard.classList.add('card');
+  divCard.innerHTML = favorito.imagen; // Insertar el HTML de la imagen
+
+      favoritosContainer.innerHTML = ''; // Limpiar el contenedor antes de cargar
+      const img = document.createElement('img');
+img.src = favorito.imagen; // Asignar la URL de la imagen al atributo src
+img.alt = favorito.nombre;
+a.appendChild(img);
+
+      favoritos.forEach(favorito => {
+
+const serieSpan = document.createElement('span');
+serieSpan.textContent = favorito.serie; // Mostrar el nombre de la serie
+serieSpan.classList.add('serie-span'); // Agregar una clase para darle estilo
+favoritoItem.appendChild(serieSpan);
+
+        const favoritoItem = document.createElement('div');
+        favoritoItem.classList.add('favorito-item');
+
+        const a = document.createElement('a');
+        a.href = favorito.enlace;
+
+        const img = document.createElement('img');
+        img.src = favorito.imagen;
+        img.alt = favorito.nombre;
+        a.appendChild(img);
+
+        const span = document.createElement('span');
+        span.textContent = favorito.nombre;
+        a.appendChild(span);
+
+        favoritoItem.appendChild(a);
+
+        // Botón para eliminar el favorito
+        const eliminarBtn = document.createElement('button');
+        eliminarBtn.classList.add('eliminar-btn');
+        eliminarBtn.innerHTML = '<span class="material-icons">delete</span>';
+        eliminarBtn.addEventListener('click', () => {
+          eliminarFavorito(favorito.identificador);
+          cargarFavoritos(); // Recargar la lista de favoritos
+        });
+        favoritoItem.appendChild(eliminarBtn);
+
+        favoritosContainer.appendChild(favoritoItem);
+      });
+    }
+
+    function eliminarFavorito(identificador) {
+      const favoritos = JSON.parse(localStorage.getItem('favoritosDBZ')) || []; // Cambia a 'favoritosDBZ'
+      const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+      localStorage.setItem('favoritosDBZ', JSON.stringify(nuevosFavoritos)); // Cambia a 'favoritosDBZ'
+    }
+
+    // Eliminar todos los favoritos
+    const eliminarTodosBtn = document.getElementById('eliminarTodosBtn');
+    eliminarTodosBtn.addEventListener('click', () => {
+      localStorage.removeItem('favoritosDBZ');
+      cargarFavoritos(); // Recargar la lista de favoritos
+    });
+
+    cargarFavoritos();
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reproductor Dragon Plus (Video.js)</title>
+  <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <style>
+    body {
+      padding-top: env(safe-area-inset-top); margin: 0; background: black; font-family: sans-serif; color: white; }
+    .player { position: relative; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
+    .controls { position: absolute; bottom: 20px; width: 100%; text-align: center; }
+    .skip-intro, .next-episode { position: absolute; bottom: 90px; right: 20px; z-index: 9999; background: white; color: black; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    .skip-intro.hidden, .next-episode.hidden { display: none; }
+    .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); opacity: 0; pointer-events: none; transition: 0.3s; }
+    .overlay.visible { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+
+<div id="cover" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <button onclick="showPlayer()">Iniciar Reproducción</button>
+</div>
+
+<div class="player" id="player" style="display: none;">
+  <video id="video" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" poster="https://wallpapercave.com/wp/wp5415042.jpg" data-setup='{}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTUyNjg4OTdf/S1%20E01%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4" type="video/mp4" />
+  </video>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">Omitir Intro</div>
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="alert('Ir al siguiente episodio')">Siguiente Episodio</div>
+</div>
+
+<script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+<script>
+  const video = videojs('video');
+  const controls = document.getElementById('controls');
+  const overlay = document.getElementById('overlay');
+  const player = document.getElementById('player');
+  const playPauseBtn = null;
+  const cover = document.getElementById('cover');
+  let hideControlsTimeout;
+  let skipIntroStart = 5;
+  let skipIntroEnd = 30;
+
+  function togglePlay() {
+    if (video.paused()) {
+      video.play();
+      overlay.classList.remove('visible');
+    } else {
+      video.pause();
+      overlay.classList.add('visible');
+    }
+  }
+
+  function skip(seconds) {
+    video.currentTime(video.currentTime() + seconds);
+  }
+
+  function goBack() {
+    player.style.display = 'none';
+    cover.style.display = 'flex';
+    video.pause();
+  }
+
+  function updateProgress() {
+    // Aquí puedes agregar actualizaciones de barra de progreso personalizada si la tienes
+  }
+
+  function showControls() {
+    overlay.classList.add('visible');
+    clearTimeout(hideControlsTimeout);
+    hideControlsTimeout = setTimeout(() => overlay.classList.remove('visible'), 7000);
+  }
+
+  function showPlayer() {
+    cover.style.display = 'none';
+    player.style.display = 'flex';
+    video.play();
+    showControls();
+    enterFullscreen();
+  }
+
+  function enterFullscreen() {
+    if (player.requestFullscreen) player.requestFullscreen();
+    else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+    else if (player.msRequestFullscreen) player.msRequestFullscreen();
+  }
+
+  function skipIntro() {
+    video.currentTime(skipIntroEnd);
+    document.getElementById('skipIntroBtn').classList.add('hidden');
+  }
+
+  video.on('timeupdate', () => {
+    const current = video.currentTime();
+    const skipBtn = document.getElementById('skipIntroBtn');
+    if (current >= skipIntroStart && current <= skipIntroEnd) {
+      skipBtn.classList.remove('hidden');
+    } else {
+      skipBtn.classList.add('hidden');
+    }
+  });
+</script>
+</body>
+</html>

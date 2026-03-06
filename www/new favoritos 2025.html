@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <title>Favoritos</title>
+  <script src="loader.min.js"></script>
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+<meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+
+  <style>
+
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: #01011d00; /* Fondo completamente transparente */
+    }
+    
+    html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+  overscroll-behavior-y: contain; /* bloquea el "pull-to-refresh" */
+}
+
+
+
+    body {
+      padding-top: env(safe-area-inset-top);
+      margin: 0;
+      padding: 0;
+      background-color: #01011d;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      padding: 10px;
+      overflow-y: scroll;
+        }
+
+    #favoritoInfo a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .favorito-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.favorito-item .nombre-container {
+  flex-grow: 1;
+  white-space: normal;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.favorito-item img {
+  width: 135px; /* Tamaño fijo */
+  height: 75px;
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 5px;
+  flex-shrink: 0;
+
+}
+
+
+.favorito-item span {
+  color: white;
+  font-weight: bold;
+  display: block;
+  font-size: 12px;
+}
+
+.favorito-item .tres-puntos {
+  margin-left: 15px;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+#favoritoInfo {
+  display: block;
+  margin-top: 20px;
+  text-align: left;
+  padding-left: 20px;
+  max-height: 80vh; /* Limitar la altura máxima al 80% de la ventana */
+  overflow-y: auto; /* Habilitar el scroll si el contenido se desborda */
+  padding-right: 10px; /* Espacio extra para evitar que el scroll tape el contenido */
+  box-sizing: border-box; /* Incluir padding en las dimensiones totales */
+}
+
+
+#favoritoInfo img {
+  width: 135px; /* Asegura que se aplique el tamaño fijo */
+  height: 75px;
+  object-fit: cover; /* Mantiene la proporción sin deformar */
+  border-radius: 5px; /* Bordes redondeados consistentes */
+  box-shadow: 0px 0px 25px rgba(66, 66, 90, 0.4); /* Mantén el estilo decorativo */
+}
+
+.tres-puntos {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 8px; /* Espaciado reducido para alinearlos verticalmente */
+  text-align: center;
+  transform: rotate(90deg); /* Girar el texto para que aparezca en vertical */
+}
+
+/* Nuevo overlay para la ventana flotante */
+.overlay-opciones {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Oscurecimiento */
+  z-index: 1000; /* Asegura que esté debajo de la ventana flotante */
+}
+
+/* Ventana flotante con animación */
+.ventana-flotante {
+  display: block;
+  position: fixed;
+  bottom: -100%; /* Comienza fuera de la pantalla */
+  left: 0;
+  width: 100%;
+  background-color: rgb(29, 29, 34);
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 10px 10px 0 0;
+  transition: bottom 0.3s ease-in-out; /* Animación de deslizamiento */
+  z-index: 2010; /* Asegura que esté encima del overlay */
+}
+
+.ventana-flotante.show {
+  bottom: 60px; /* Se posiciona justo encima del footer */
+}
+
+.ventana-titulo {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.btn-quitar-container {
+  display: flex;
+  align-items: center;
+  margin-top: 25px; /* Espaciado entre el título y el botón */
+}
+
+.btn-quitar {
+  display: inline;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px; /* Espaciado del texto respecto al ícono */
+}
+
+.cerrar-icono {
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(99, 98, 98, 0);
+      padding: 10px 0px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .chevron-link {
+      color: white;
+      font-size: 40px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.288);
+      padding: 10px;
+    }
+
+    .chevron-link i {
+      font-size: 30px;
+    }
+
+    .title {
+      color: white;
+      font-size: 20px;
+      margin: 0;
+      font-weight: bold;
+      text-align: left;
+      position: absolute;
+      top: 50%;
+      left: 40px;
+      transform: translateY(-50%);
+    }
+
+    @media screen and (min-width: 1024px), screen and (orientation: landscape) {
+  #favoritoInfo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    gap: 20px;
+    margin-top: 100px;
+    padding-right: 20px;
+  }
+
+  .favorito-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px;
+  }
+
+  .favorito-item img {
+    width: 100%;
+    height: 260px; /* 👈 Más alto que antes */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .favorito-item span {
+    font-size: 14px;
+  }
+
+  .favorito-item .tres-puntos {
+    align-self: flex-end;
+    margin-top: -10px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header {
+    padding-top: 50px; /* Aumenta el espacio arriba */
+  }
+
+  .title {
+    top: 150%; /* Baja más el título */
+    transform: translateY(-50%); /* Mantiene centrado verticalmente según su altura */
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .chevron-link {
+    display: none !important;
+  }
+}
+
+
+.footer {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #01011dcb;
+  padding: 10px 0;
+  height: 60px;
+  z-index: 1000;
+  justify-content: space-around;
+  transition: transform 0.3s ease-in-out;
+  }
+  
+  .footer.hidden {
+    transform: translateY(100%);
+  }
+  
+  .footer.hidden {
+    transform: translateY(100%);
+  }
+  
+  .footer-icon {
+    color: #bbb; /* Icono gris cuando está inactivo */
+    text-align: center;
+    text-decoration: none;
+    font-size: 35px; /* Tamaño aumentado para los iconos */
+    flex: 1; /* Ocupa el mismo espacio cada icono */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+  }
+  
+  /* Para asegurarnos de que los iconos aumenten correctamente */
+  .footer-icon .material-icons, .footer-icon .material-icons-outlined {
+    font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+    transition: font-size 0.3s ease;
+  }
+  
+  .footer-icon:hover {
+    color: #fff; /* Cambia a blanco al pasar el cursor */
+  }
+  
+  .footer-icon.active {
+    color: #fff; /* Cambiar a blanco cuando está activo */
+  }
+  
+  .footer-icon.active .material-icons-outlined {
+    display: none; /* Oculta el icono outline cuando está activo */
+  }
+  
+  .footer-icon.active .material-icons {
+    display: inline-block; /* Muestra el icono normal cuando está activo */
+  }
+  
+  /* Oculta los iconos normales por defecto */
+  .footer-icon .material-icons {
+    display: none;
+  }
+  
+  /* Iconos outline por defecto */
+  .footer-icon .material-icons-outlined {
+    display: inline-block;
+  }
+  
+  /* Estilos para el icono de perfil */
+  .profile-icon-footer {
+    width: 35px; /* Tamaño de la imagen de perfil */
+    height: 35px; /* Tamaño de la imagen de perfil */
+    border-radius: 50%; /* Hacer la imagen circular */
+    border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+    object-fit: cover; /* Asegura que la imagen se recorte bien */
+  }
+  
+  /* Cambiar color de iconos inactivos */
+  .footer-icon.inactive .material-icons-outlined,
+  .footer-icon.inactive .material-icons {
+    color: #bbb; /* Gris para iconos inactivos */
+  }
+  
+  .nav__icon {
+    font-size: 20px; /* Ajusta el tamaño del icono aquí */
+  }
+  /* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #01011d; /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+/* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea, .tab, .tabs {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea, .tab, .tabs {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 3005;
+    background-color: rgba(0, 0, 0, 0); /* Transparente */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    transition: background-color 0.4s ease;
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Se oscurece al subir */
+  }
+  
+  
+  .tabs-secondary .logo {
+    height: 20px;
+    width: auto;
+  }
+  
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  
+  .tabs-secondary .tab {
+    color: rgba(255, 255, 255, 0.856);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 14px 8px;
+    transition: background 0.3s ease;
+    border-radius: 8px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+  .tabs-secondary .tab:hover {
+    background-color: #81818179;
+  }
+  
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+  
+  .tabs-secondary .icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .tabs-secondary .icons span,
+  .header-only span {
+    font-size: 36px !important;
+    color: white;
+  }
+  
+  #headerProfileIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+  }
+  
+  /* Mostrar solo en pantallas grandes */
+  @media screen and (min-width: 1024px) {
+    .tabs-secondary {
+      display: flex;
+    }
+  }
+  
+  
+  
+  @media screen and (min-width: 1024px) {
+    #header {
+      display: none;
+    }
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro al subir */
+    transition: background-color 0.4s ease;
+  }
+
+.custom-top-bar {
+    background-color: #000;
+    color: white;
+    padding: 6px 20px;
+    display: flex;
+    justify-content: flex-start; /* <- Cambio aquí */
+    align-items: center;
+    gap: 12px; /* <- Espacio entre los botones */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  
+  .custom-top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-top-bar .material-icons {
+    font-size: 25px;
+  }
+  
+  /* Ocultar en pantallas pequeñas */
+  @media screen and (max-width: 1024px) {
+    .custom-top-bar {
+      display: none;
+    }
+  }
+
+  
+  /* Ocultar footer en pantallas grandes (PC, tablet, TV) */
+@media screen and (min-width: 1024px) {
+  .footer {
+    display: none !important;
+  }
+}
+
+/* Ocultar footer en móviles landscape */
+@media screen and (max-width: 1023px) and (orientation: landscape) {
+  .footer {
+    display: none !important;
+  }
+}
+
+.footer {
+  transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="overlayOpciones" class="overlay-opciones" onclick="cerrarVentanaOpciones()"></div>
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+
+  <div class="header">
+    <a href="javascript:history.back()" class="chevron-link">
+      <i class="material-icons">chevron_left</i>
+    </a>
+    
+    <h1 class="title">Mis favoritos</h1>
+  </div>
+
+  <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="main.html#inicio" class="tab">Inicio</a>
+    <a href="main.html#series" class="tab">Películas</a>
+    <a href="main.html#peliculas" class="tab">Series</a>
+    <a href="main.html#hbo" class="tab">Anime</a>
+    <a href="main.html#documentales" class="tab">Familia</a>
+    <a href="main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="perfil digital Knight 2025.html" class="header-only">
+      <img src="logo-2025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+  <div id="favoritoInfo"></div>
+
+  <!-- Ventana flotante -->
+<div id="ventanaOpciones" class="ventana-flotante">
+  <div class="ventana-contenido">
+    <span class="ventana-titulo">Título del elemento</span>
+    <div class="btn-quitar-container">
+      <i class="material-icons cerrar-icono" onclick="cerrarVentanaOpciones()">close</i>
+      <button class="btn-quitar">Quitar</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  <footer class="footer">
+    <a href="main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="new favoritos 2025.html" class="footer-icon active">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="perfil2025.html" class="footer-icon">
+        
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+</footer>
+
+  <script>
+
+
+
+
+    // Prevenir gestos táctiles no deseados
+document.addEventListener('touchmove', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+    mostrarFavoritos(); // Llamar a la función de mostrar los favoritos
+
+    // Escuchar cambios en los favoritos
+    window.addEventListener("favoritosActualizados", function () {
+        mostrarFavoritos();
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const openingScreen = document.getElementById('opening-screen');
+
+    // Verifica si el usuario ya vio el opening
+    if (window.location.pathname.includes("home") && !sessionStorage.getItem('appOpened')) {
+        // Muestra el opening si es la página de inicio y no se ha mostrado antes
+        if (openingScreen) {
+            openingScreen.style.display = 'flex';
+            setTimeout(() => {
+                openingScreen.style.opacity = '0'; // Fade-out
+                setTimeout(() => {
+                    openingScreen.style.display = 'none'; // Oculta el opening
+                    sessionStorage.setItem('appOpened', 'true'); // Marca como visto
+                }, 1500); // Tiempo sincronizado con el fade-out
+            }, 4000); // Duración del opening
+        }
+    } else {
+        // Oculta el opening inmediatamente si ya fue visto o no es la página Home
+        if (openingScreen) {
+            openingScreen.style.display = 'none';
+        }
+    }
+
+    // Manejo del footer para navegación
+    const footerLinks = document.querySelectorAll('.footer-icon a');
+    footerLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const href = event.target.closest('a').getAttribute('href');
+            if (href.startsWith("go:")) {
+                event.preventDefault(); // Evita el comportamiento predeterminado
+                const page = href.split(':')[1]; // Extrae la página del href (e.g., "home", "favoritos")
+                window.location.href = `${page}.html`; // Navega a la página correspondiente
+            }
+        });
+    });
+});
+
+function mostrarFavoritos() {
+  const favoritoInfo = document.getElementById("favoritoInfo");
+  const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  favoritoInfo.innerHTML = ""; // Limpiar contenido existente
+
+  favoritos.forEach(function (favorito, index) {
+    const favoritoEnlace = document.createElement("a");
+    favoritoEnlace.href = favorito.enlace;
+
+    const contenedorFavorito = document.createElement("div");
+    contenedorFavorito.classList.add("favorito-item");
+
+    const imagen = document.createElement("img");
+    imagen.src = favorito.imagen.match(/src="([^"]+)"/)[1];
+
+    const nombreContainer = document.createElement("div");
+    nombreContainer.classList.add("nombre-container");
+    const nombre = document.createElement("span");
+    nombre.textContent = favorito.nombre;
+    nombreContainer.appendChild(nombre);
+
+    const tresPuntos = document.createElement("span");
+    tresPuntos.classList.add("tres-puntos");
+    tresPuntos.textContent = "...";
+    tresPuntos.onclick = function (event) {
+      event.preventDefault();
+      mostrarVentanaOpciones(favorito.nombre, index);
+    };
+
+    contenedorFavorito.appendChild(imagen);
+    contenedorFavorito.appendChild(nombreContainer);
+    contenedorFavorito.appendChild(tresPuntos);
+
+    favoritoEnlace.appendChild(contenedorFavorito);
+    favoritoInfo.appendChild(favoritoEnlace);
+  });
+}
+
+
+function mostrarVentanaOpciones(titulo, index) {
+  // Obtener la ventana flotante
+  const ventana = document.getElementById("ventanaOpciones");
+  const overlay = document.getElementById("overlayOpciones");
+
+  // Configurar el título en la ventana flotante
+  ventana.querySelector(".ventana-titulo").textContent = titulo;
+
+  // Mostrar overlay
+  overlay.style.display = 'block'; // Activar el overlay
+
+  // Agregar la clase 'show' para que se deslice hacia arriba
+  ventana.classList.add("show");
+
+  // Establecer la acción del botón Quitar
+  ventana.querySelector(".btn-quitar").onclick = function () {
+    eliminarFavorito(index);
+  };
+}
+
+async function eliminarFavorito(index) {
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+  const favorito = favoritos[index];
+
+  // Eliminar localmente primero
+  favoritos.splice(index, 1);
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  mostrarFavoritos(); // refrescar ya mismo
+  cerrarVentanaOpciones();
+
+  // Ahora sí, sincronizar con Supabase (en background)
+  const { data: { session }, error } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+
+  if (userId && favorito) {
+    await supabase.from("favoritos")
+      .delete()
+      .eq("id", userId)
+      .eq("identificador", favorito.identificador);
+  }
+}
+
+
+
+
+
+
+function cerrarVentanaOpciones() {
+  const ventana = document.getElementById("ventanaOpciones");
+  const overlay = document.getElementById("overlayOpciones");
+
+  ventana.classList.remove("show"); // Quitar la clase para ocultar la ventana flotante
+  overlay.style.display = 'none'; // Ocultar el overlay
+}
+
+// ================================
+// 👤 PERFIL – sincronizar imágenes
+// ================================
+function updateProfileImage(src) {
+  if (!src) return;
+
+  const ids = [
+    "footerIconImg",
+    "profileImage",
+    "profilePageImage",
+    "headerProfileIcon",
+    "editableProfile",
+    "editableProfileInModal"
+  ];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.tagName === "IMG") {
+      el.src = src;
+    }
+  });
+
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar imagen
+  localStorage.setItem("profileImage", src);
+}
+
+// Restaurar al cargar página
+document.addEventListener("DOMContentLoaded", () => {
+  const savedProfileImage = localStorage.getItem("profileImage");
+  if (savedProfileImage) {
+    updateProfileImage(savedProfileImage);
+  }
+});
+// Función para cambiar todas las imágenes de perfil
+// Función para actualizar la imagen del perfil en el footer
+function updateProfileImage(imageUrl) {
+  const ids = [
+    "footerIconImg",
+    "footerProfileImage",
+    "profileImage",
+    "editableProfile",
+    "editableProfileInModal",
+    "headerProfileIcon",
+  ];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.src = imageUrl;
+  });
+
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar en localStorage
+  localStorage.setItem("profileImage", imageUrl);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener("load", () => {
+  const storedProfileImage = localStorage.getItem("profileImage");
+  if (storedProfileImage) {
+    updateProfileImage(storedProfileImage); // Reutilizamos la función
+  }
+});
+
+// Ocultar/mostrar footer al hacer scroll
+let lastScrollTop = 0;
+const footer = document.querySelector(".footer");
+const favoritoInfo = document.getElementById("favoritoInfo");
+
+if (favoritoInfo && footer) {
+  favoritoInfo.addEventListener("scroll", function () {
+    const currentScroll = favoritoInfo.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+      // Bajando → ocultar footer
+      footer.classList.add("hidden");
+    } else {
+      // Subiendo → mostrar footer
+      footer.classList.remove("hidden");
+    }
+
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // evitar negativos
+  });
+}
+
+
+
+
+
+
+  </script>
+</body>
+</html>

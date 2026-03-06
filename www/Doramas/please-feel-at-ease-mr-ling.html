@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Please Feel At Ease Mr. Ling</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/4ny9RlQQVnqOMshsqZOWTgDhVWI.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/4LGucZZ9Z8F8gBB87WcOTE8wIJt.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content img.logo {
+    width: 230px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 190px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 390px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Please Feel At Ease Mr. Ling</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://od.lk/s/M18zMTk0NzI4OThf/Please%20Feel%20At%20Ease%20Mr.%20Ling.png" alt="Please Feel At Ease Mr. Ling Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   1 temporada   2021   Sub</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Please Feel At Ease Mr. Ling" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTk0NzI5MDZf/f28cfb30-7f45-11ed-9392-1b74ecb2c36d_webp_original.webp" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="please-feel-at-ease-mr-ling.html"></a>
+          <span id="nombre">Please Feel At Ease Mr. Ling</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Gu An Xin acoge a Ling Yue, un heredero brillante atrapado en una peligrosa disputa, dando inicio a un inesperado romance.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="su-vida-privada.html">
+          <img src="https://image.tmdb.org/t/p/w300/3JEyBL6nPzgwRpKv7KGrbovHI7A.jpg" alt="Su vida privada" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Su vida privada</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="a-river-runs-through-it.html">
+          <img src="https://image.tmdb.org/t/p/w300/nhbemePry3yWHBr1q0QGMPAvhPi.jpg" alt="A River Runs Through It" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">A River Runs Through It</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="un-caso-incurable-de-amor.html">
+          <img src="https://image.tmdb.org/t/p/w300/ggn32nGCGpdweIJ363Ji0JoZbUK.jpg" alt="Un caso incurable de amor" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Un caso incurable de amor</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="perfect-and-casual.html">
+          <img src="https://image.tmdb.org/t/p/w300/4JQT1wPARowikcU2mtN2XB03HEh.jpg" alt="Perfect and Casual" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Perfect and Casual</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+      </div>           
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Please Feel At Ease Mr. Ling</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "please-feel-at-ease-mr-ling-117549";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "13+ · 45m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sgG1rZtaSPefiEtBDw4szJfBTZN.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM5MTVf/ling%20e1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM5MTVf/ling%20e1.mp4",
+        "episodeCode": "T1 E1: Episodio 1",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "13+ · 44m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2vVBxdpNhJW3uTLbnH2tjLC95NN.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM4OTFf/ling%20e2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM4OTFf/ling%20e2.mp4",
+        "episodeCode": "T1 E2: Episodio 2",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "13+ · 45m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rO3eNTIresVdeKDeOFfuNh90FYs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM4ODNf/ling%20e3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM4ODNf/ling%20e3.mp4",
+        "episodeCode": "T1 E3: Episodio 3",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "13+ · 46m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4qb26B7QP1UoRacLpaSV4I05lnY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM3NzNf/ling%20e4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM3NzNf/ling%20e4.mp4",
+        "episodeCode": "T1 E4: Episodio 4",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "13+ · 45m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cxtmxCmVyc3JYUn4MrnyMVCuB0q.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM4NDhf/ling%20e5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM4NDhf/ling%20e5.mp4",
+        "episodeCode": "T1 E5: Episodio 5",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "13+ · 48m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mXqEmWR5FZIEcR5cXu26xkE1ObU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM4NjRf/ling%20e6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM4NjRf/ling%20e6.mp4",
+        "episodeCode": "T1 E6: Episodio 6",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "13+ · 47m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8rxeTZcHo9Sg8TylRM9p5Wxujem.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM4MTlf/ling%20e7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM4MTlf/ling%20e7.mp4",
+        "episodeCode": "T1 E7: Episodio 7",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "13+ · 46m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AhBqg0HvPzCtg9xRbLqV46h5V19.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM3Mzlf/ling%20e8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM3Mzlf/ling%20e8.mp4",
+        "episodeCode": "T1 E8: Episodio 8",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "13+ · 46m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ukfaWq2MoGmc5baOtVhcGXqkY1n.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM3MDdf/ling%20e9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM3MDdf/ling%20e9.mp4",
+        "episodeCode": "T1 E9: Episodio 9",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "13+ · 48m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gDxDdDI69kQ1uI1oaCj26KFAoP4.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM2NzFf/ling%20e10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM2NzFf/ling%20e10.mp4",
+        "episodeCode": "T1 E10: Episodio 10",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "13+ · 46m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/g8SQB63D42IaLX3UvcL9gwL1omY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM2NDhf/ling%20e11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM2NDhf/ling%20e11.mp4",
+        "episodeCode": "T1 E11: Episodio 11",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "13+ · 53m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/51Khrxcl1pM0Ji6FRerEmgMTdmY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM2MzFf/ling%20e12.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM2MzFf/ling%20e12.mp4",
+        "episodeCode": "T1 E12: Episodio 12",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "13+ · 44m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zr1O6zVFMsoqanBXiCDx8SmjZCx.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM2NTdf/ling%20e13.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM2NTdf/ling%20e13.mp4",
+        "episodeCode": "T1 E13: Episodio 13",
+        "hiddenCode": "T1 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "13+ · 46m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9GOpUKITbUpjMCXxOVqQ787Ezuq.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk0NzM1ODBf/ling%20e14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM1ODBf/ling%20e14.mp4",
+        "episodeCode": "T1 E14: Episodio 14",
+        "hiddenCode": "T1 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "13+ · 46m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/511gz923OQNbTrR6L0Cbbwy5ain.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzM1NTlf/ling%20e15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM1NTlf/ling%20e15.mp4",
+        "episodeCode": "T1 E15: Episodio 15",
+        "hiddenCode": "T1 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "13+ · 49m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/63NvrrZ6zEKg8E8HPyzM2BeHEEk.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzM1MTVf/ling%20e16.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM1MTVf/ling%20e16.mp4",
+        "episodeCode": "T1 E16: Episodio 16",
+        "hiddenCode": "T1 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "13+ · 57m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yFJotT4hy3ABV3lXfGeQSATUBJW.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzM0Mjlf/ling%20e17.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM0Mjlf/ling%20e17.mp4",
+        "episodeCode": "T1 E17: Episodio 17",
+        "hiddenCode": "T1 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "13+ · 49m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vKppf52kkUyCac2ilvnEdPEU2bi.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzM0Nzdf/ling%20e18.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzM0Nzdf/ling%20e18.mp4",
+        "episodeCode": "T1 E18: Episodio 18",
+        "hiddenCode": "T1 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "13+ · 50m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hdRi1jo74VLL2gyrcey21kzP2ju.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzMyODRf/ling%20e19.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzMyODRf/ling%20e19.mp4",
+        "episodeCode": "T1 E19: Episodio 19",
+        "hiddenCode": "T1 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Episodio 20",
+        "meta": "13+ · 50m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rdEY3jebL7It8avuMPMCUGpwkds.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzI5NTNf/ling%20e20.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzI5NTNf/ling%20e20.mp4",
+        "episodeCode": "T1 E20: Episodio 20",
+        "hiddenCode": "T1 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Episodio 21",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kqtqmLAEjTouCz9DxCV8wA9neLn.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzI5NzZf/ling%20e21.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzI5NzZf/ling%20e21.mp4",
+        "episodeCode": "T1 E21: Episodio 21",
+        "hiddenCode": "T1 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Episodio 22",
+        "meta": "13+ · 45m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eUIdXQdnHlq2LlNnfziw6gRBm8k.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzI5MzRf/ling%20e22.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzI5MzRf/ling%20e22.mp4",
+        "episodeCode": "T1 E22: Episodio 22",
+        "hiddenCode": "T1 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: Episodio 23",
+        "meta": "13+ · 47m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wFiCzzqD3P1dWPqk3iqvMRLgy9b.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzI5MjJf/ling%20e23.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzI5MjJf/ling%20e23.mp4",
+        "episodeCode": "T1 E23: Episodio 23",
+        "hiddenCode": "T1 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: Episodio 24",
+        "meta": "13+ · 52m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/otmKFgq5jIFE9AIaw1aguq2tI3O.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTk0NzI5MTFf/ling%20e24.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk0NzI5MTFf/ling%20e24.mp4",
+        "episodeCode": "T1 E24: Episodio 24",
+        "hiddenCode": "T1 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

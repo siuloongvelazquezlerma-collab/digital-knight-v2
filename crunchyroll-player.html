@@ -1,0 +1,3715 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Crunchyroll Clone Player</title>
+
+<!-- Fuente Roboto + Material Icons -->
+ <!-- Material Symbols Outlined -->
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+<link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+<link rel="icon" type="image/png" sizes="32x32" href="crunchy roll logo.png">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+:root {
+  --crunchy-orange: #ff7300;
+  --crunchy-muted: #a0a0a0;
+  --crunchy-white: #fff;
+}
+
+
+.container { max-width:900px; margin:0 auto; }
+
+/* VIDEO */
+/* CONTENEDOR PRINCIPAL */
+.player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  /* 👇 Fallback + proporción universal */
+  height: calc(100vw * 9 / 16);
+  aspect-ratio: 16 / 9;
+  background: var(--crunchy-bg, #000000);
+  z-index: 10;
+  overflow: visible; /* 👈 deja que los controles salgan sin recorte */
+}
+
+.player .video-js,
+.player video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  background: #000;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  font-family: "Roboto", sans-serif;
+  color: #fff;
+  padding-top: calc(100vw * 9 / 16);
+}
+
+/* Botón saltar intro */
+.skip-intro-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 0px;
+  background: #262629;
+  color: white;
+  font-weight: 550;
+  border: none;
+  border-radius: 0px;
+  padding: 5px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.skip-intro-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.skip-intro-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* CONTROLES PERSONALIZADOS */
+.controls {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* FULLSCREEN VIDEO.JS */
+.player:fullscreen,
+.player:-webkit-full-screen,
+.player:-moz-full-screen,
+.player:-ms-fullscreen,
+.player:fullscreen .video-js,
+.player:-webkit-full-screen .video-js,
+.player:-moz-full-screen .video-js,
+.player:-ms-fullscreen .video-js {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+/* TOP CONTROLS */
+.top-controls {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+  pointer-events:auto;
+}
+
+.top-controls-right {
+  display:flex;
+  gap:16px;
+  align-items:center;
+}
+
+.top-controls .material-symbols-outlined,
+.top-controls .material-icons,
+#fullscreenBtn svg,
+#settingsBtn svg,
+#nextBtn svg {
+  font-size:26px;
+  cursor:pointer;
+  color: var(--crunchy-white);
+}
+
+/* CENTER CONTROLS */
+.center-controls {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  pointer-events: none;
+}
+
+/* Loader estilo Crunchyroll */
+@keyframes crunchy-spin {
+  0% {
+    transform: rotate(0deg);
+    border-top-color: var(--crunchy-orange);
+    border-right-color: transparent;
+  }
+  50% {
+    border-top-color: var(--crunchy-orange);
+    border-right-color: var(--crunchy-orange);
+  }
+  100% {
+    transform: rotate(360deg);
+    border-top-color: var(--crunchy-orange);
+    border-right-color: transparent;
+  }
+}
+
+#playPause {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+#playPause.loading .material-icons {
+  display: none;
+}
+
+#playPause.loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--crunchy-orange);
+  animation: crunchy-spin 1.1s linear infinite;
+  mask: radial-gradient(circle at center, transparent 58%, black 60%);
+  -webkit-mask: radial-gradient(circle at center, transparent 58%, black 60%);
+}
+
+.center-controls button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-controls #playPause .material-icons {
+  font-size: 64px;
+}
+
+/* SKIP BUTTONS */
+.skip-btn {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skip-btn svg {
+  width: 64px;
+  height: 64px;
+  fill: white;
+}
+
+.skip-btn small {
+  position: absolute;
+  bottom: 14px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* BOTTOM CONTROLS */
+.bottom-controls {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  padding: 0;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ffffff;
+  margin-bottom: 6px;
+  padding: 0 12px;
+}
+
+.progress {
+  position: relative;
+  height: 2px;
+  background: #2e3746;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.progress-buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  width: 0%;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.progress-filled {
+  position: relative;
+  width: 0%;
+  height: 100%;
+  background: var(--crunchy-orange);
+  border-radius: 3px;
+}
+
+.progress-thumb {
+  display: none;
+  position: absolute;
+  top: 70%;
+  left: 0%;
+  width: 7px;
+  height: 7px;
+  background: var(--crunchy-orange);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+
+.player.controls-visible::before,
+.player.controls-visible::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 20%; /* ajusta según necesites */
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 0.3s ease;
+}
+
+.player.controls-visible::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.658), transparent);
+}
+
+.player.controls-visible::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.774), transparent);
+}
+
+/* ⚫ Oscurecimiento general */
+.overlay-dark {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.137); /* transparente por defecto */
+  pointer-events: none;
+  z-index: 8; /* detrás de controles, pero encima del video */
+  transition: background-color 0.3s ease;
+}
+
+/* Cuando se muestran los controles */
+.player.controls-visible .overlay-dark {
+  background-color: rgba(0, 0, 0, 0.459); /* ajusta la opacidad como quieras */
+}
+
+
+@media (max-width: 768px) and (orientation: landscape) {
+
+  /* CONTROLES PERSONALIZADOS */
+  .controls {
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* TOP CONTROLS */
+  .top-controls {
+    padding: 16px; /* un poco más grande */
+    
+  }
+
+  .top-controls .material-symbols-outlined,
+  .top-controls .material-icons,
+  #fullscreenBtn svg,
+  #settingsBtn svg,
+  #nextBtn svg {
+    font-size: 30px; /* controles más grandes */
+  }
+
+  /* CENTER CONTROLS */
+  .center-controls {
+    gap: 50px; /* más separación entre botones */
+  }
+
+  #playPause {
+    width: 48px !important;
+    height: 48px!important;
+  }
+
+  .center-controls #playPause .material-icons {
+    font-size: 72px !important; /* play más grande */
+  }
+
+  /* SKIP BUTTONS */
+  .skip-btn {
+    width: 80px;
+    height: 80px;
+    border-width: 2.5px;
+  }
+
+  .skip-btn svg {
+    width: 72px;
+    height: 72px;
+  }
+
+  .skip-btn small {
+    font-size: 15px;
+  }
+
+/* Ajustar controles inferiores */
+.bottom-controls {
+  bottom: 12px; /* sube la barra un poco desde el borde */
+  left: 8px;
+  right: 8px;
+  padding: 0;
+}
+
+.time {
+  margin-bottom: 8px; /* espacio entre tiempo y barra */
+  font-size: 15px;    /* un poquito más pequeño para móviles */
+  padding: 0 4px;
+}
+
+.progress {
+  height: 3px; /* más visible en landscape */
+}
+
+.progress-thumb {
+  width: 6px;
+  height: 6px;
+  top: 60%; /* un poco más arriba que el default */
+}
+}
+
+/* 💻 Modo cine tipo Crunchyroll */
+@media (min-width: 1024px) {
+
+html, body {
+  background: #000;
+  justify-content: center;
+  align-items: center;
+}
+
+.player {
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 65px auto;
+  border-radius: 0;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+  height: 80% !important;
+}
+
+.player .video-js,
+.player .video-js .vjs-tech {
+  object-fit: contain !important;
+  background: #000;
+}
+.top-controls {
+  
+  display: none !important;
+}
+
+/* 🔸 Oculta botones de retroceso/avance */
+.skip-btn {
+  display: none !important;
+}
+
+/* 🔸 Botón de saltar intro */
+.skip-intro-btn {
+  display: inline-flex !important;
+  bottom: 70px;
+  right: 30px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.skip-intro-btn.visible {
+  opacity: 1;
+}
+
+/* 🎯 Controles centrales */
+.center-controls {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 42px;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s;
+  display: none !important;
+}
+
+.center-controls button {
+  pointer-events: auto;
+}
+
+#playPause .material-icons {
+  font-size: 58px;
+}
+
+/* 🔸 Barra inferior */
+.bottom-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 20;
+  pointer-events: auto;
+  transition: opacity 0.4s;
+}
+
+/* Barra de progreso */
+.progress {
+  position: relative;
+  height: 3px;
+  background: #2e3746;
+  border-radius: 0;
+  margin: 0 100px 6px;
+  bottom: 8px;
+  cursor: pointer;
+  transition: height 0.2s ease;
+  overflow: visible;
+}
+
+.progress-filled {
+  background: var(--crunchy-orange, #ff7300);
+  height: 100%;
+  width: 0%; /* importante */
+  transition: width 0.1s linear;
+}
+
+.progress-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 8px;
+  height: 8px;
+  background: var(--crunchy-orange, #ff7300);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto; /* ✅ antes era none */
+  transition: all 0.2s ease;
+  z-index: 5;
+  opacity: 1;
+}
+
+
+.progress:hover {
+  height: 6px;
+}
+
+.progress:hover .progress-thumb {
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.progress:active .progress-thumb {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+
+/* Tiempo */
+.time {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 16px;
+  padding: 0 25px;
+  opacity: 0.9;
+  align-items: center;
+  position: relative;
+  top: 10px;
+}
+
+/* 💻 Controles alternativos */
+.alt-controls {
+  position: absolute;
+  bottom: 35px;
+  left: 45px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.4s;
+  z-index: 50;
+}
+
+.alt-controls button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alt-controls .material-icons {
+  font-size: 25px;
+  transition: transform 0.2s, color 0.2s;
+}
+
+
+
+/* 🔸 Contenedor de fullscreen + settings (alineados a la derecha) */
+.fullscreen-control {
+  position: absolute;
+  bottom: 35px;
+  right: 45px;
+  display: flex;
+  align-items: center;
+  gap: 18px; /* separación entre settings y fullscreen */
+  z-index: 50;
+  transition: opacity 0.4s;
+}
+
+/* 🔧 Botón de settings */
+#settingsBtnAlt svg {
+  width: 22px;
+  height: 22px;
+  color: #fff;
+  opacity: 0.85;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+
+
+/* 🖥️ Botón de fullscreen */
+#fullscreenBtnAlt svg {
+  width: 25px;
+  height: 25px;
+  transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+
+
+
+
+/* 🔥 Ocultar controles tras 5 segundos sin movimiento */
+body.hide-controls .alt-controls,
+body.hide-controls .bottom-controls,
+body.hide-controls .center-controls,
+body.hide-controls #fullscreenBtn {
+  opacity: 0;
+  pointer-events: none;
+}
+}
+
+/* 🔒 Ocultar controles alternativos y fullscreen en modo portrait (vertical) */
+@media screen and (orientation: portrait) {
+  .alt-controls,
+  #fullscreenBtnAlt {
+    display: none !important;
+  }
+}
+/* 🔒 Oculta #settingsBtnAlt en pantallas pequeñas y en landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #settingsBtnAlt {
+    display: none !important;
+  }
+}
+
+
+/* Ocultar por defecto */
+#settingsBtnAlt,
+#fullscreenBtnAlt {
+  display: none;
+}
+
+/* Solo mostrar en landscape o desktop */
+@media (min-width: 1024px) and (orientation: landscape) {
+  #settingsBtnAlt,
+  #fullscreenBtnAlt {
+    display: inline-flex; /* o flex según lo necesites */
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .alt-controls,
+  .fullscreen-control {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+
+/* CONTENEDOR PRINCIPAL */
+.player {
+  width: 100vw;
+  height: calc(100vw * 9 / 16 + 20px); /* un poco más alto que portrait */
+  top: 0;
+  left: 0;
+}
+
+body {
+  padding-top: calc(100vw * 9 / 16 + 20px); /* ajusta espacio para el player */
+}
+
+.player .video-js,
+.player video {
+  object-fit: contain;
+}
+
+/* SKIP INTRO */
+.skip-intro-btn {
+  bottom: 20px;
+  right: 10px;
+  padding: 4px 12px;
+  font-size: 11px;
+}
+
+/* CONTROLES */
+.controls {
+  pointer-events: auto;
+}
+
+.top-controls {
+  padding: 8px;
+}
+
+.top-controls .material-symbols-outlined,
+.top-controls .material-icons,
+#fullscreenBtn svg,
+#settingsBtn svg,
+#nextBtn svg {
+  font-size: 22px; /* un poquito más pequeño en móviles */
+}
+
+.center-controls {
+  gap: 30px;
+}
+
+#playPause .material-icons {
+  font-size: 56px; /* más pequeño que desktop */
+}
+
+/* BOTTOM CONTROLS */
+.bottom-controls {
+  padding: 0 8px;
+}
+
+.time {
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.progress {
+  height: 3px;
+}
+
+.progress-filled {
+  border-radius: 3px;
+}
+
+.progress-thumb {
+  width: 6px;
+  height: 6px;
+  top: 70%;
+}
+
+.alt-controls,
+  #fullscreenBtnAlt {
+    display: none !important;
+  }
+}
+
+
+
+/* opcional: transición suave al hacer scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* INFO debajo del player */
+.meta {
+  margin-top: calc(0vw * 9 / 16 + 16px + env(safe-area-inset-top, 0px));
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+  background: var(--crunchy-bg, #000000);
+}
+
+.series {
+  font-size:12px;
+  font-weight:500;
+  color:var(--crunchy-orange);
+  margin-bottom:6px;
+}
+h1 {
+  font-size:17px;
+  font-weight:100;
+  margin:0 0 6px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.badges {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom: 20px;
+}
+.badge {
+  font-size:10px;
+  background:#000000;
+  padding:3px 6px;
+  border-radius:4px;
+}
+.likes-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.likes {
+  display: flex;
+  gap: 20px;
+}
+
+.like-btn,
+.dislike-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff; /* blanco */
+  cursor: pointer;
+}
+
+.like-btn .count,
+.dislike-btn .count {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.likes-actions {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* --- Menú desplegable --- */
+.more-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #3d415a;
+  border-radius: 0px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+}
+
+.more-menu .menu-item {
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.more-menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+/* Mostrar menú activo */
+.more-menu.show {
+  display: flex;
+}
+
+
+.likes-actions .material-symbols-outlined:first-child {
+  position: relative;
+}
+
+.likes-actions .material-symbols-outlined:first-child::after {
+  content: "";
+  display: block;
+  width: 20px; /* mismo tamaño aprox que el ícono */
+  height: 2px;
+  background: #fff;
+  margin: 2px auto 0; /* espacio entre flecha y línea */
+  border-radius: 1px;
+}
+
+.like-btn.active span,
+.dislike-btn.active span {
+  color: #ff6a00; /* color naranja al activar */
+}
+
+.like-btn span,
+.dislike-btn span {
+  color: #fff; /* color por defecto */
+  cursor: pointer;
+}
+
+
+.desc {
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.4;
+  margin: 12px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Estado expandido */
+.description-wrapper.expanded .desc {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+/* Warnings ocultos por defecto */
+.extra-info {
+  display: none;
+}
+
+/* Mostrar warnings cuando está expandido */
+.description-wrapper.expanded .extra-info {
+  display: block;
+}
+
+/* Botón “Leer más” */
+.toggle-desc {
+  background: none;
+  border: none;
+  color: var(--crunchy-orange, #ff7b00);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 6px;
+  transition: opacity 0.3s;
+}
+
+/* Ocultar botón si no hace falta */
+.toggle-desc.hidden {
+  display: none;
+}
+
+/* Estilo de los avisos */
+.content-warning {
+  font-weight: 700;
+  margin-top: 14px;
+  font-size: 15px;
+}
+
+.warning-list {
+  color: var(--crunchy-muted, #bbb);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+
+.next-label {
+  font-size: 13px;
+  font-weight: 100;
+  margin-top: 20px;
+  color:#fff;
+}
+
+.next-ep {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  align-items: flex-start;
+  position: relative; /* ✅ contenedor relativo para la flecha */
+}
+
+
+.thumb {
+  width:160px;
+  height:90px;
+  background:#000000;
+  position:relative;
+  overflow:hidden;
+  border-radius:4px;
+  flex-shrink:0;
+}
+
+.thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.thumb .duration {
+  position:absolute;
+  right:6px;
+  bottom:6px;
+  font-size:11px;
+  background:rgba(0,0,0,0.7);
+  padding:2px 5px;
+  border-radius:3px;
+  color:#fff;
+}
+
+.play-overlay {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.play-overlay .material-icons {
+  font-size:26px;
+  color:#fff;
+}
+
+.next-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* título arriba de la flecha */
+  justify-content: space-between;
+  color: #fff;
+  font-size: 15px;
+  position: relative; /* para posicionar la flecha dentro */
+  padding-bottom: 24px; /* espacio extra para la flecha */
+}
+
+.next-info .number-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.next-info .next-title {
+  word-break: break-word; /* permite que el texto se baje si es largo */
+}
+
+.next-download {
+  position: absolute;
+  bottom: 5px;   /* siempre al fondo de .next-ep */
+  right: 0;    /* siempre a la derecha de .next-ep */
+  color: #fff;
+  cursor: pointer;
+}
+
+
+.next-download .material-icons::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  margin: 2px auto 0;
+  border-radius: 1px;
+}
+
+.number-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  word-break: break-word; /* permite que el título baje si es largo */
+}
+
+
+.all-btn {
+  display:block;
+  margin:18px auto;
+  background:none;
+  border:none;
+  color:var(--crunchy-orange);
+  font-weight:600;
+  font-size:12px;
+  letter-spacing:0.5px;
+  cursor:pointer;
+  margin-top: 40px;
+}
+
+/* Ajustes para móviles en vertical, sin cambiar estilo */
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+
+/* Aseguramos espacio debajo del player fixed */
+body {
+  padding-top: calc(0vw * 9 / 16);
+}
+
+/* Meta y todo su contenido */
+.meta {
+  margin-top: calc(100vw * 9 / 16 + 16px + env(safe-area-inset-top, 0px));
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+  background: var(--crunchy-bg, #000000);
+}
+
+
+
+
+/* Opcional: asegurarse que botones y badges no se desborden */
+.badges {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+}
+
+
+/* Quita el loader nativo de Video.js */
+.vjs-loading-spinner {
+  display: none !important;
+}
+
+/* Ajustes para landscape */
+@media (orientation: landscape) {
+  .meta {
+    margin-top: calc(-20vw * 9 / 16 + 8px + env(safe-area-inset-top, 0px)); /* un poco más arriba */
+    padding: 12px 24px; /* más ancho horizontalmente */
+    max-width: 900px; /* ancho máximo razonable */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h1 {
+    font-size: 18px; /* ligeramente más grande */
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  .desc {
+    font-size: 15px; /* un poco más legible */
+    -webkit-line-clamp: 4; /* mostrar 4 líneas en lugar de 3 */
+  }
+
+  .badges {
+    margin-bottom: 16px;
+  }
+
+  .likes-row {
+    margin: 10px 0;
+  }
+}
+
+/* Evitar selección de texto y resaltado azul */
+body, img, a, button, select, textarea {
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Safari/Chrome móvil */
+    outline: none; /* Desactiva outline al tocar */
+}
+
+img {
+    pointer-events: none; /* tu ya lo tienes */
+}
+
+button, a, span {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+button:active, a:active, span:active {
+    background: transparent;
+    color: inherit;
+}
+
+/* --- Miniatura flotante solo visible en pantallas grandes --- */
+@media screen and (min-width: 1024px) and (orientation: landscape) {
+  #previewThumbnail {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    transform: translateY(-6px);
+    display: none;
+    pointer-events: none;
+    z-index: 50;
+    width: 266px;
+    height: 150px;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  #previewThumbnail canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 0px;
+    background-color: #000;
+  }
+
+  /* --- Cuadro del tiempo (ajustado como Crunchyroll) --- */
+  #previewThumbnail .preview-time {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 2px 6px;
+    border-radius: 0px;
+    line-height: 1.1;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* --- En pantallas pequeñas o en modo portrait, se oculta completamente --- */
+@media screen and (max-width: 1023px), screen and (orientation: portrait) {
+  #previewThumbnail {
+    display: none !important;
+  }
+}
+
+
+/* HEADER LANDSCAPE */
+.landscape-header {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 12px 20px;
+  background: #292929;
+  color: rgb(221, 218, 218);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 201;
+}
+.landscape-header .logo { height: 32px; }
+.landscape-header .land-nav { display: flex; gap: 20px; }
+.landscape-header .land-nav a {
+  color: #d8d5d5;
+  text-decoration: none;
+  font-weight: 500;
+}
+.landscape-header .land-right {
+  display: flex;
+  gap: 15px;
+}
+.landscape-header .material-icons-outlined {
+  color: rgb(219, 219, 219);
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* MEDIA QUERY: portrait vs landscape */
+@media (orientation: portrait) {
+  .site-header { display: flex; }
+  .landscape-header { display: none; }
+}
+
+@media (orientation: landscape) {
+  .site-header { display: none; }
+  .landscape-header { display: flex; }
+}
+
+:root {
+  --accent: #ff7a18; /* naranja tipo Crunchyroll */
+}
+
+/* Container derecho (buscar - bookmark - avatar) */
+.landscape-header .land-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* estilo base para cada botón/icono del header */
+.landscape-header .nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background .18s, transform .08s;
+}
+
+/* iconos material */
+.landscape-header .nav-item .material-icons-outlined {
+  font-size: 26px;
+  color: #d6d6d6;
+  line-height: 1;
+}
+
+/* avatar */
+.landscape-header .icon-perfil img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid transparent;
+}
+
+/* hover / foco / active: naranja */
+.landscape-header .nav-item:hover,
+.landscape-header .nav-item:focus {
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-1px);
+}
+.landscape-header .nav-item.active .material-icons-outlined,
+.landscape-header .nav-item:hover .material-icons-outlined,
+.landscape-header .nav-item:focus .material-icons-outlined {
+  color: var(--accent);
+}
+.landscape-header .nav-item.active .icon-perfil img,
+.landscape-header .nav-item:hover .icon-perfil img,
+.landscape-header .nav-item:focus .icon-perfil img {
+  border-color: var(--accent);
+}
+
+/* pequeña clase accesible para textos ocultos (sr-only) */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* mantiene layout responsive (ya tenías los media queries para mostrar/ocultar) */
+@media (orientation: portrait) {
+  .landscape-header { display: none; }
+}
+@media (orientation: landscape) {
+  .landscape-header { display: flex; }
+}
+
+/* Agrupar logo + menú en la izquierda */
+.landscape-header .land-left {
+  display: flex;
+  align-items: center;
+  gap: 28px; /* separación entre logo y nav */
+}
+
+.landscape-header .land-nav {
+  display: flex;
+  gap: 22px; /* separación entre links */
+}
+
+.landscape-header .land-nav a {
+  color: #dddcdc;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: color .2s;
+}
+
+.landscape-header .land-nav a:hover {
+  color: var(--accent); /* naranja */
+}
+
+/* Overlay pantalla completa */
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  display: none;
+  flex-direction: column;
+  z-index: 200;
+  padding: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+.settings-overlay.active {
+  display: flex;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.settings-header h2 {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.settings-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.settings-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 16px;
+}
+
+.settings-list .value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- SWITCH ESTILO MATERIAL --- */
+/* --- SWITCH ESTILO MATERIAL OUTLINED --- */
+.switch.material {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  display: inline-block;
+}
+
+.switch.material input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch.material .slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.switch.material input:checked + .slider {
+  border-color: #00bfa5;
+  background-color: rgba(0, 191, 165, 0.15);
+}
+
+.switch.material .slider::before {
+  content: "";
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: scale(0.9);
+  transition: 0.25s ease;
+}
+
+.switch.material input:checked + .slider::before {
+  background-color: #00bfa5;
+  transform: translateX(16px) scale(1);
+}
+
+
+
+
+/* ===============================
+   🎨 Overlay estilo Crunchyroll
+   =============================== */
+   .settings-overlay-alt {
+  position: absolute;
+  bottom: 200px;
+  right: 40px;
+  width: 280px;
+  background: rgba(22, 22, 24, 0.95);
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  backdrop-filter: blur(8px);
+  transform: scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 9999;
+}
+
+.settings-overlay-alt.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.settings-header-alt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.settings-header-alt h2 {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 500;
+  flex: 1;
+  text-align: left;
+}
+
+.settings-list-alt {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+}
+
+.settings-list-alt li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  transition: background 0.2s;
+}
+
+.settings-list-alt li:hover {
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+/* Iconos */
+.material-icons-outlined {
+  font-size: 20px;
+  color: #aaa;
+  vertical-align: middle;
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Switch estilo icono Material */
+.switch-icon {
+  font-size: 26px;
+  color: #00b5ad;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.switch-icon.off {
+  color: #555;
+}
+
+
+</style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div class="container">
+
+  
+  <!-- HEADER LANDSCAPE -->
+  <header class="landscape-header">
+    <div class="land-left">
+      <!-- Logo -->
+      <img src="https://od.lk/s/M18zMTk5MzYzNDRf/crunchy%20roll%20logo2.png" 
+           alt="Crunchyroll" class="logo">
+  
+      <!-- Navegación pegada al logo -->
+      <nav class="land-nav">
+        <a href="#">Novedades</a>
+        <a href="#">Popular</a>
+        <a href="#">Simulcast</a>
+        <a href="#">Categorías</a>
+      </nav>
+    </div>
+  
+    <div class="land-right">
+      <!-- Buscar -->
+      <a href="buscar.html" class="nav-item nav-search" title="Buscar">
+        <span class="material-icons-outlined" aria-hidden="true">search</span>
+        <span class="sr-only">Buscar</span>
+      </a>
+  
+      <!-- Bookmark -->
+      <a href="listas.html" class="nav-item nav-bookmark" title="Mis listas">
+        <span class="material-icons-outlined" aria-hidden="true">bookmark_border</span>
+        <span class="sr-only">Mis listas</span>
+      </a>
+  
+      <!-- Perfil -->
+      <a href="cuenta.html" class="nav-item nav-account" title="Cuenta">
+        <span class="icon-perfil">
+          <img src="https://od.lk/s/M18zMTk5MzU1ODVf/crunchy%20roll%20logo.png" alt="Perfil">
+        </span>
+        <span class="sr-only">Cuenta</span>
+      </a>
+    </div>
+  </header>
+ 
+    <!-- PLAYER -->
+     
+    <div class="player">
+      <video
+        id="video"
+        class="video-js vjs-default-skin"
+        preload="auto"
+        width="100%"
+        height="100%"
+        poster="https://wallpapercave.com/wp/wp5415042.jpg"
+        data-setup='{"controls": false, "autoplay": true, "preload": "auto"}'>
+        <source id="videoSource" src="https://od.lk/s/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4" type="video/mp4" />
+      </video>
+  
+      <div class="overlay-dark"></div>
+      <!-- ✅ Botón de saltar intro (fuera del video, antes de los controles) -->
+      <button id="skipIntroBtn" class="skip-intro-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-skip-forward-fill" viewBox="0 0 16 16">
+          <path d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5z"/>
+        </svg>
+        <span>SALTAR INTRO</span>
+      </button>
+      
+      <!-- ✅ Botón de saltar créditos (3 min antes del final) -->
+<button id="skipCreditsBtn" class="skip-intro-btn">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+       class="bi bi-skip-forward-fill" viewBox="0 0 16 16">
+    <path d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5z"/>
+  </svg>
+  <span>SALTAR CRÉDITOS</span>
+</button>
+
+      
+  
+      <div class="controls">
+        <!-- Top controls -->
+        <div class="top-controls">
+          <!-- Back Arrow -->
+          <span class="material-symbols-outlined" id="backBtn"
+            onclick="if(document.referrer && document.referrer!==location.href){history.back()}else{location.href='/'}">arrow_back</span>
+  
+          <div class="top-controls-right">
+            <!-- Skip next episodio -->
+            <span id="nextBtn" style="display:inline-block; width:24px; height:24px; cursor:pointer; color:var(--crunchy-white);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="24" height="24">
+                <path
+                  d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.693 3.3 4 3.678 4 4.308v7.384c0 .63.692 1.01 1.233.697L11.5 8.753V12a.5.5 0 0 0 1 0V4z" />
+              </svg>
+            </span>
+  
+            <!-- Cast -->
+            <span class="material-symbols-outlined" id="castBtn" onclick="checkAndCast()">cast</span>
+
+  
+            <!-- Settings -->
+            <span id="settingsBtn"
+              style="display:inline-block; width:20px; height:20px; cursor:pointer;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20"
+                fill="currentColor" style="transform: scale(0.85);">
+                <path
+                  d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+              </svg>
+            </span>
+
+          
+
+  
+            <!-- Fullscreen -->
+            <span id="fullscreenBtn" style="cursor:pointer;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24">
+                <rect width="256" height="256" fill="none" />
+                <polyline points="160 48 208 48 208 96" fill="none" stroke="#fff" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="24" />
+                <line x1="152" y1="104" x2="208" y2="48" fill="none" stroke="#fff" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="24" />
+                <polyline points="96 208 48 208 48 160" fill="none" stroke="#fff" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="24" />
+                <line x1="104" y1="152" x2="48" y2="208" fill="none" stroke="#fff" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="24" />
+              </svg>
+            </span>
+          </div>
+        </div>
+  
+        <!-- Center controls -->
+        <div class="center-controls">
+          <!-- Retroceder 10s -->
+          <button class="skip-btn" id="backward">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
+              <path
+                d="M12 5V1L7 6l5 5V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8zm-1.1 11H10v-3.3L9 13v-.7l1.8-.6h.1V16zm4.3-1.8c0 .3 0 .6-.1.8l-.3.6s-.3.3-.5.3-.4.1-.6.1-.4 0-.6-.1-.3-.2-.5-.3-.2-.3-.3-.6-.1-.5-.1-.8v-.7c0-.3 0-.6.1-.8l.3-.6s.3-.3.5-.3.4-.1.6-.1.4 0 .6.1c.2.1.3.2.5.3s.2.3.3.6.1.5.1.8v.7zm-.9-.8v-.5s-.1-.2-.1-.3-.1-.1-.2-.2-.2-.1-.3-.1-.2 0-.3.1l-.2.2s-.1.2-.1.3v2s.1.2.1.3.1.1.2.2.2.1.3.1.2 0 .3-.1l.2-.2s.1-.2.1-.3v-1.5z" />
+            </svg>
+          </button>
+  
+          <!-- Play/Pause -->
+          <button id="playPause">
+            <span class="material-icons">play_arrow</span>
+          </button>
+  
+          <!-- Adelantar 10s -->
+          <button class="skip-btn" id="forward">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
+              <path
+                d="M4 13c0 4.4 3.6 8 8 8s8-3.6 8-8h-2c0 3.3-2.7 6-6 6s-6-2.7-6-6 2.7-6 6-6v4l5-5-5-5v4c-4.4 0-8 3.6-8 8zm6.8 3H10v-3.3L9 13v-.7l1.8-.6h.1V16zm4.3-1.8c0 .3 0 .6-.1.8l-.3.6s-.3.3-.5.3-.4.1-.6.1-.4 0-.6-.1-.3-.2-.5-.3-.2-.3-.3-.6-.1-.5-.1-.8v-.7c0-.3 0-.6.1-.8l.3-.6s.3-.3.5-.3.4-.1.6-.1.4 0 .6.1.3.2.5.3.2.3.3.6.1.5.1.8v.7zm-.8-.8v-.5s-.1-.2-.1-.3-.1-.1-.2-.2-.2-.1-.3-.1-.2 0-.3.1l-.2.2s-.1.2-.1.3v2s.1.2.1.3.1.1.2.2.2.1.3.1.2 0 .3-.1l.2-.2s.1-.2.1-.3v-1.5z" />
+            </svg>
+          </button>
+        </div>
+  <!-- Bottom controls -->
+<div class="bottom-controls">
+  <div class="time">
+    <span id="current">0:00</span>
+    <span id="duration">0:00</span>
+  </div>
+
+  <div class="progress" id="progress">
+  <div class="progress-buffered" id="progressBuffered"></div>
+  <div class="progress-filled" id="progressFilled"></div>
+  <div class="progress-thumb" id="progressThumb"></div>
+
+ <!-- Miniatura flotante -->
+<div id="previewThumbnail">
+  <canvas width="240" height="135"></canvas>
+  <span class="preview-time"></span>
+</div>
+
+</div>
+
+
+<!-- Controles alternativos (solo desktop) -->
+<div class="alt-controls">
+  <button id="altPlayPause">
+    <span class="material-icons">play_arrow</span>
+  </button>
+
+  <button id="altNext">
+    <span class="material-icons">skip_next</span>
+  </button>
+</div>
+
+<!-- Contenedor independiente para fullscreen -->
+<!-- Contenedor independiente para fullscreen y settings -->
+<div class="fullscreen-control">
+  <!-- Settings -->
+  <span id="settingsBtnAlt"
+    style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:pointer; margin-right:18px;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20"
+      fill="currentColor" style="transform: scale(0.85);">
+      <path
+        d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+    </svg>
+  </span>
+
+  <!-- Fullscreen -->
+  <span id="fullscreenBtnAlt" style="cursor:pointer;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="none" />
+      <polyline points="160 48 208 48 208 96" fill="none" stroke="#fff" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="24" />
+      <line x1="152" y1="104" x2="208" y2="48" fill="none" stroke="#fff" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="24" />
+      <polyline points="96 208 48 208 48 160" fill="none" stroke="#fff" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="24" />
+      <line x1="104" y1="152" x2="48" y2="208" fill="none" stroke="#fff" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="24" />
+    </svg>
+  </span>
+</div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+ 
+  
+  <!-- ⚙️ Overlay de ajustes -->
+<div id="settingsOverlay" class="settings-overlay">
+  <div class="settings-header">
+    <span id="settingsBack" class="material-symbols-outlined">arrow_back</span>
+    <h2>Preferencias de reproducción</h2>
+  </div>
+
+  <ul class="settings-list">
+    <li>
+      <span>Reproducción automática</span>
+      <label class="switch material">
+        <input type="checkbox" id="autoPlayToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </li>
+
+    <li>
+      <span>Audio</span>
+      <span class="value">
+        Español (A…)
+        <span class="material-symbols-outlined">chevron_right</span>
+      </span>
+    </li>
+
+    <li>
+      <span>Subtítulos</span>
+      <span class="value">
+        Español (A…)
+        <span class="material-symbols-outlined">chevron_right</span>
+      </span>
+    </li>
+
+    <li>
+      <span>Calidad</span>
+      <span class="value">
+        Más alta
+        <span class="material-symbols-outlined">chevron_right</span>
+      </span>
+    </li>
+
+    <li>
+      <span>Reportar un problema</span>
+      <span class="value">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </span>
+    </li>
+  </ul>
+</div>
+
+
+  <!-- ⚙️ Overlay de configuración alternativo -->
+<div id="settingsOverlayAlt" class="settings-overlay-alt">
+  <div class="settings-header-alt">
+    <span id="settingsBackAlt" class="material-icons-outlined">arrow_back</span>
+    <h2>Preferencias</h2>
+  </div>
+
+  <ul class="settings-list-alt">
+    <li>
+      <span>Reproducción automática</span>
+      <span class="material-icons-outlined switch-icon" id="autoPlayToggleAlt">toggle_on</span>
+    </li>
+    <li>
+      <span>Audio</span>
+      <div class="item-right">
+        <span class="value">Español (América Latina)</span>
+        <span class="material-icons-outlined">chevron_right</span>
+      </div>
+    </li>
+    <li>
+      <span>Subtítulos</span>
+      <div class="item-right">
+        <span class="value">Español (América Latina)</span>
+        <span class="material-icons-outlined">chevron_right</span>
+      </div>
+    </li>
+    <li>
+      <span>Calidad</span>
+      <div class="item-right">
+        <span class="value">Más alta</span>
+        <span class="material-icons-outlined">chevron_right</span>
+      </div>
+    </li>
+    <li>
+      <span>Velocidad</span>
+      <div class="item-right">
+        <span class="value">1x</span>
+        <span class="material-icons-outlined">chevron_right</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+  
+  <!-- INFO -->
+  <div class="meta">
+    <div class="series">Gachiakuta</div>
+    <h1>T1 E1 - La Esfera</h1>
+    <div class="badges">
+      <span class="badge">16+</span>
+      <span style="font-size:13px;color:var(--crunchy-muted)">Dob | Sub Español</span>
+    </div>
+  
+    <div class="likes-row">
+      <div class="likes">
+        <div class="like-btn">
+          <span class="material-symbols-outlined">thumb_up</span>
+          <span class="count">25.5K</span>
+        </div>
+        <div class="dislike-btn">
+          <span class="material-symbols-outlined">thumb_down</span>
+          <span class="count">122</span>
+        </div>
+      </div>
+      <div class="likes-actions">
+  <span class="material-symbols-outlined">arrow_downward</span>
+
+  <span class="material-symbols-outlined" id="moreBtn">more_vert</span>
+
+  <!-- 🔸 Menú desplegable oculto -->
+  <div class="more-menu" id="moreMenu">
+    <div class="menu-item">Ver serie</div>
+    <div class="menu-item">Compartir</div>
+  </div>
+</div>
+</div>
+  
+    <div class="description-wrapper">
+      <p class="desc">
+        Ludo saquea la basura de los ricos y vive en paz con su padre adoptivo.
+        Pero un día vuelve a casa y descubre un secreto que cambiará su vida para siempre.
+        Los eventos que siguen lo llevarán por un viaje lleno de desafíos, amistad y redención.
+      </p>
+    
+      <div class="extra-info">
+        <div class="content-warning">Aviso sobre contenido</div>
+        <div class="warning-list">16+ · Lenguaje ofensivo, Tabaquismo, Violencia</div>
+      </div>
+    
+      <button class="toggle-desc">Leer más</button>
+    </div>
+    
+  
+    <div class="next-label">Próximo Episodio</div>
+    <div class="next-ep">
+      <div class="thumb">
+        <img src="https://i.ibb.co/2czYHfX/anime-thumb.jpg" alt="">
+        <div class="play-overlay">
+          <span class="material-icons">play_arrow</span>
+        </div>
+        <div class="duration">23m</div>
+      </div>
+    
+      <div class="next-info">
+        <div class="number-title">
+          <div class="next-number">2.</div>
+          <div class="next-title">Los habitantes que tienen un nombre muy largo para probar el wrap</div>
+        </div>
+      </div>
+    
+      <div class="next-download">
+        <span class="material-icons">arrow_downward</span>
+      </div>
+    </div>
+    
+    </div>
+    
+
+  
+    <button class="all-btn">TODOS LOS EPISODIOS</button>
+  </div>
+  
+</div>
+<script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+<script>
+
+  // Prevenir gestos táctiles no deseados
+document.addEventListener('touchmove', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+// --- Configuración inicial ---
+let videoId = "miVideoUnico";
+let initialEpisode = null;
+let introListener = null;
+let creditsListener = null;
+
+try {
+  const raw = localStorage.getItem('currentEpisode');
+  if (raw) {
+    initialEpisode = JSON.parse(raw);
+
+    const sid = initialEpisode.seriesId || initialEpisode.series || 'serie';
+    const num = parseInt(initialEpisode.number) || 0;
+    videoId = `${sid}_${(initialEpisode.season || '').replace(/[^a-z0-9]+/gi, '_')}_ep${num}`;
+    console.log("🎬 Episodio detectado:", videoId);
+  }
+} catch (err) {
+  console.warn('No hay episodio inicial válido en localStorage', err);
+}
+
+let playerJs;
+let controlsTimeout;
+
+let skipBtn = null;
+let skipCreditsBtn = null;
+let introVisible = false;
+let introExpired = false;
+let creditsVisible = false;
+let creditsTimeout = null;
+
+function isAutoPlayEnabled() {
+  const pref = localStorage.getItem("autoPlayEnabled");
+  return pref === null ? true : pref === "true";
+}
+
+// -----------------------------
+// Helper: construir clave de progreso única por serie + temporada + episodio
+// -----------------------------
+function buildProgressKey(ep) {
+  if (!ep || !ep.seriesId) return 'progress_unknown';
+  const seasonKey = ep.season ? ep.season.replace(/[^a-z0-9]+/gi, '_') : 'T0';
+  return `${ep.seriesId}_${seasonKey}_ep${parseInt(ep.number, 10)}`;
+}
+
+
+
+// ----------------------------------------------
+// Funciones auxiliares
+// ----------------------------------------------
+function updateUI(ep) {
+  if (!ep) return;
+
+  document.querySelector(".meta .series").textContent = ep.seriesTitle || '';
+  document.querySelector(".meta h1").textContent = `${ep.hiddenCode || `E${ep.number}`} - ${ep.title || ""}`;
+  document.querySelector(".meta .desc").textContent = ep.description || ""; // ✅ descripción
+
+  const badgesContainer = document.querySelector('.meta .badges');
+  if (badgesContainer) {
+    badgesContainer.innerHTML = `
+      <span class="badge">${ep.age || ''}</span>
+      <span style="font-size:13px;color:var(--crunchy-muted)">${ep.subDob || ''}</span>
+    `;
+  }
+}
+
+// Actualiza la vista/acción del "Próximo episodio"
+// Actualiza la vista/acción del "Próximo episodio"
+function updateNextPreview(currentEp, playlist) {
+  if (!currentEp) return;
+
+  const nextEl = document.querySelector('.next-ep');
+  const nextBtn = document.getElementById('nextBtn');
+  if (!nextEl) return;
+
+  playlist = playlist || JSON.parse(localStorage.getItem('currentPlaylist')) || [];
+  const seriesData = JSON.parse(localStorage.getItem('currentSeriesData')) || null;
+
+  // Buscar siguiente episodio dentro de la temporada actual
+  const currentIndex = playlist.findIndex(ep => parseInt(ep.number, 10) === parseInt(currentEp.number, 10));
+  let nextEpisode = currentIndex >= 0 ? playlist[currentIndex + 1] : null;
+  let nextPlaylist = playlist;
+
+  // Si no hay más episodios en la temporada, buscar en la siguiente
+  if (!nextEpisode && seriesData && Array.isArray(seriesData.seasons)) {
+    const normalize = s => (s || '').toString().toLowerCase().replace(/\s+/g, '').replace(/temporada|season|t/gi, '');
+    const currentKey = normalize(currentEp.season);
+    let currentSeasonIndex = seriesData.seasons.findIndex(s => normalize(s.season) === currentKey);
+
+    // fallback si no encontró coincidencia exacta
+    if (currentSeasonIndex === -1) currentSeasonIndex = seriesData.seasons.findIndex(s => s.season === currentEp.season);
+
+    const nextSeason = seriesData.seasons[currentSeasonIndex + 1];
+    if (nextSeason && nextSeason.episodes && nextSeason.episodes.length > 0) {
+      nextEpisode = nextSeason.episodes[0];
+      nextPlaylist = nextSeason.episodes;
+    }
+  }
+
+  // Si no hay siguiente episodio ni siguiente temporada → fin
+  if (!nextEpisode) {
+    nextEl.querySelector('.thumb img').src = '';
+    nextEl.querySelector('.thumb .duration').textContent = '';
+    nextEl.querySelector('.next-title').textContent = 'Fin de serie';
+    nextEl.querySelector('.next-number').textContent = '';
+    nextEl.style.cursor = "default";
+    nextEl.onclick = null;
+    if (nextBtn) nextBtn.onclick = null;
+    return;
+  }
+
+  // Mostrar la información del siguiente episodio
+  nextEl.querySelector('.thumb img').src = nextEpisode.thumbnail || '';
+  nextEl.querySelector('.thumb .duration').textContent = nextEpisode.duration || '';
+  nextEl.querySelector('.next-title').textContent = nextEpisode.title || '';
+  nextEl.querySelector('.next-number').textContent = `${nextEpisode.number}.`;
+  nextEl.style.cursor = "pointer";
+
+  // Acción para reproducir el siguiente episodio
+  const action = () => {
+    const payload = {
+      ...nextEpisode,
+      seriesId: currentEp.seriesId,
+      seriesTitle: currentEp.seriesTitle,
+      season: nextEpisode.season || currentEp.season,
+      age: currentEp.age,
+      subDob: currentEp.subDob
+    };
+    loadEpisode(payload, nextPlaylist);
+  };
+
+  nextEl.onclick = action;
+  if (nextBtn) nextBtn.onclick = action;
+}
+
+
+
+
+
+
+
+
+// Carga/activa un episodio dado (centraliza la lógica de reproducción)
+function loadEpisode(payload, playlist = []) {
+  // Guardamos/normalizamos payload y playlist en localStorage
+  const vid = buildProgressKey(payload);
+  const saved = parseFloat(localStorage.getItem(`progress_${vid}`)) || 0;
+  const durationGuess = parseFloat(payload.duration) || 0;
+
+  // Si estaba completado, reiniciamos su progreso
+  if (saved >= durationGuess - 2 && durationGuess > 0) {
+    localStorage.setItem(`progress_${vid}`, 0);
+    payload.currentTime = 0;
+  }
+
+  // Actualizamos currentEpisode y currentPlaylist (IMPORTANTE)
+  localStorage.setItem('currentEpisode', JSON.stringify(payload));
+  localStorage.setItem('currentPlaylist', JSON.stringify(playlist || []));
+  videoId = vid; // variable global usada por el timeupdate saver
+
+  
+
+  // Cargar fuente y poster
+  playerJs.src({ src: payload.source, type: "video/mp4" });
+  if (payload.thumbnail) playerJs.poster(payload.thumbnail);
+
+  // Ajustar tiempo (espera metadata si es necesario)
+  const applyTime = () => {
+    const dur = playerJs.duration() || durationGuess;
+    const savedNow = parseFloat(localStorage.getItem(`progress_${vid}`)) || saved || 0;
+    if (savedNow > 0 && savedNow < dur - 2) playerJs.currentTime(savedNow);
+    else playerJs.currentTime(0);
+  };
+
+  if (playerJs.readyState && playerJs.readyState() >= 1) {
+    applyTime();
+  } else {
+    playerJs.one('loadedmetadata', applyTime);
+  }
+
+  if (isAutoPlayEnabled()) playerJs.play();
+  else playerJs.pause();
+
+  updateUI(payload);
+  updateNextPreview(payload, nextPlaylist);
+
+
+  // Reasignar ended para siguiente automático
+  playerJs.off('ended');
+  playerJs.on('ended', () => goNext());
+
+  // Reasignar listeners de intro / créditos limpiamente (tu lógica original)
+  if (introListener) playerJs.off('timeupdate', introListener);
+  if (creditsListener) playerJs.off('timeupdate', creditsListener);
+
+  // (Reusamos tu bloque de creditsListener / introListener — idéntico a tu código,
+  // solo que ahora payload, playlist y videoId están sincronizados correctamente)
+  // --- Credits listener (usa payload.credits) ---
+  creditsListener = () => {
+    const dur = playerJs.duration();
+    if (!dur) return;
+    const t = playerJs.currentTime();
+    const credits = payload.credits;
+    if (credits && typeof credits.start === 'number' && typeof credits.end === 'number') {
+      if (t >= credits.start && t < credits.end && !creditsVisible) {
+        creditsVisible = true;
+        if (skipCreditsBtn) skipCreditsBtn.classList.add('visible');
+        clearTimeout(creditsTimeout);
+        creditsTimeout = setTimeout(() => {
+          if (skipCreditsBtn) skipCreditsBtn.classList.remove('visible');
+          creditsVisible = false;
+        }, 10000);
+      }
+      if (t >= credits.end && creditsVisible) {
+        creditsVisible = false;
+        if (skipCreditsBtn) skipCreditsBtn.classList.remove('visible');
+        clearTimeout(creditsTimeout);
+      }
+    } else {
+      if (creditsVisible) {
+        creditsVisible = false;
+        if (skipCreditsBtn) skipCreditsBtn.classList.remove('visible');
+        clearTimeout(creditsTimeout);
+      }
+    }
+  };
+  playerJs.on('timeupdate', creditsListener);
+
+  // --- Intro listener (usa payload.intro) ---
+  introListener = () => {
+    const intro = payload.intro;
+    if (!intro || intro.end <= 0) return;
+    const t = playerJs.currentTime();
+    if (t >= intro.start && t < intro.end && !introVisible && !introExpired) {
+      introVisible = true;
+      if (skipBtn) skipBtn.classList.add('visible');
+      clearTimeout(skipTimeout);
+      skipTimeout = setTimeout(() => {
+        if (skipBtn) skipBtn.classList.remove('visible');
+        introVisible = false;
+        introExpired = true;
+      }, 20000);
+    }
+    if (t >= intro.end && introVisible) {
+      if (skipBtn) skipBtn.classList.remove('visible');
+      introVisible = false;
+      introExpired = true;
+    }
+  };
+  playerJs.on('timeupdate', introListener);
+
+  // Acción del botón SALTAR INTRO (si existe)
+  if (skipBtn) {
+    skipBtn.onclick = () => {
+      const intro = payload.intro;
+      if (!intro || intro.end <= 0) return;
+      if (playerJs.readyState && playerJs.readyState() >= 1) {
+        playerJs.currentTime(intro.end);
+      } else {
+        playerJs.one('loadedmetadata', () => playerJs.currentTime(intro.end));
+      }
+      if (skipBtn) skipBtn.classList.remove('visible');
+      introVisible = false;
+      introExpired = true;
+    };
+  }
+
+  // Finalmente actualiza la vista del siguiente episodio (updateNextPreview usa playlist)
+  updateNextPreview(payload, playlist || []);
+}
+
+
+
+
+function goNext() {
+  const currentEpisode = JSON.parse(localStorage.getItem('currentEpisode'));
+  if (!currentEpisode) return;
+
+  const seriesData = JSON.parse(localStorage.getItem('currentSeriesData')) || null;
+  let playlist = JSON.parse(localStorage.getItem('currentPlaylist')) || [];
+  const currentIndex = playlist.findIndex(ep => parseInt(ep.number, 10) === parseInt(currentEpisode.number, 10));
+
+  let nextEpisode = playlist[currentIndex + 1];
+  let nextPlaylist = playlist;
+
+  // Buscar siguiente temporada si no hay siguiente episodio
+  if (!nextEpisode && seriesData && Array.isArray(seriesData.seasons)) {
+    const currentSeasonIndex = seriesData.seasons.findIndex(s => s.season === currentEpisode.season);
+    const nextSeason = seriesData.seasons[currentSeasonIndex + 1];
+    if (nextSeason && nextSeason.episodes.length > 0) {
+      nextEpisode = nextSeason.episodes[0];
+      nextPlaylist = nextSeason.episodes;
+    } else {
+      console.log("🎬 Fin de la serie — no hay más temporadas.");
+      return;
+    }
+  }
+
+  if (!nextEpisode) return;
+
+  const payload = {
+    ...nextEpisode,
+    seriesId: currentEpisode.seriesId,
+    seriesTitle: currentEpisode.seriesTitle,
+    season: nextEpisode.season || currentEpisode.season,
+    age: currentEpisode.age,
+    subDob: currentEpisode.subDob
+  };
+
+  // Cargar siguiente episodio normalmente
+  loadEpisode(payload, nextPlaylist);
+
+
+  // 🔹 Calcular IDs y progreso
+  const nextVideoId = `${payload.seriesId}_${(payload.season || '').replace(/[^a-z0-9]+/gi, '_')}_ep${parseInt(payload.number)}`;
+  const savedTime = parseFloat(localStorage.getItem(`progress_${nextVideoId}`)) || 0;
+  const nextDuration = parseFloat(nextEpisode.duration) || 0;
+
+  // ✅ Si el siguiente estaba completado, reiniciamos su progreso
+  if (savedTime >= nextDuration - 2) {
+    localStorage.setItem(`progress_${nextVideoId}`, 0);
+    payload.currentTime = 0;
+  }
+
+  localStorage.setItem('currentEpisode', JSON.stringify(payload));
+  videoId = nextVideoId;
+
+  // 🎬 Cargar el siguiente episodio
+  playerJs.src({ src: nextEpisode.source, type: "video/mp4" });
+  if (nextEpisode.thumbnail) playerJs.poster(nextEpisode.thumbnail);
+
+  // Cargar posición si tiene progreso (solo si no estaba completado)
+  if (savedTime > 0 && savedTime < nextDuration - 2) {
+    playerJs.currentTime(savedTime);
+  } else {
+    playerJs.currentTime(0);
+  }
+
+  // Autoplay o pausa
+  if (isAutoPlayEnabled()) {
+    playerJs.play();
+  } else {
+    playerJs.pause();
+  }
+
+  // Actualizar interfaz
+  updateUI(payload);
+  localStorage.setItem('currentPlaylist', JSON.stringify(nextPlaylist));
+
+  // 🔁 Preparar evento “ended” para el siguiente episodio
+  playerJs.off("ended");
+  playerJs.on("ended", () => goNext());
+
+  // 🔄 Reiniciar listeners de intro / créditos
+  if (introListener) playerJs.off('timeupdate', introListener);
+  if (creditsListener) playerJs.off('timeupdate', creditsListener);
+
+  // --- Listener de créditos ---
+  creditsListener = () => {
+    const duration = playerJs.duration();
+    if (!duration) return;
+
+    const currentTime = playerJs.currentTime();
+    const credits = payload.credits;
+
+    if (credits && typeof credits.start === "number" && typeof credits.end === "number") {
+      if (currentTime >= credits.start && currentTime < credits.end && !creditsVisible) {
+        creditsVisible = true;
+        skipCreditsBtn.classList.add('visible');
+
+        clearTimeout(creditsTimeout);
+        creditsTimeout = setTimeout(() => {
+          skipCreditsBtn.classList.remove('visible');
+          creditsVisible = false;
+        }, 10000);
+      }
+
+      if (currentTime >= credits.end && creditsVisible) {
+        creditsVisible = false;
+        skipCreditsBtn.classList.remove('visible');
+        clearTimeout(creditsTimeout);
+      }
+    }
+  };
+  playerJs.on('timeupdate', creditsListener);
+
+  // --- Listener de intro ---
+  introListener = () => {
+    const intro = payload.intro;
+    if (!intro || intro.end <= 0) return;
+    const t = playerJs.currentTime();
+
+    if (t >= intro.start && t < intro.end && !introVisible && !introExpired) {
+      introVisible = true;
+      skipBtn.classList.add('visible');
+      clearTimeout(skipTimeout);
+      skipTimeout = setTimeout(() => {
+        skipBtn.classList.remove('visible');
+        introVisible = false;
+        introExpired = true;
+      }, 20000);
+    }
+
+    if (t >= intro.end && introVisible) {
+      skipBtn.classList.remove('visible');
+      introVisible = false;
+      introExpired = true;
+    }
+  };
+  playerJs.on('timeupdate', introListener);
+
+  // 🎯 Acción del botón “Saltar Intro”
+  skipBtn.onclick = () => {
+    const intro = payload.intro;
+    if (!intro || intro.end <= 0) return;
+    if (playerJs.readyState() >= 1) {
+      playerJs.currentTime(intro.end);
+    } else {
+      playerJs.one('loadedmetadata', () => playerJs.currentTime(intro.end));
+    }
+    skipBtn.classList.remove('visible');
+    introVisible = false;
+    introExpired = true;
+  };
+
+  // ✅ Actualizar miniatura del próximo episodio
+  const upcoming = nextPlaylist[nextPlaylist.findIndex(ep => ep.number == payload.number) + 1];
+  const nextEl = document.querySelector('.next-ep');
+  if (upcoming && nextEl) {
+    nextEl.querySelector('.thumb img').src = upcoming.thumbnail || '';
+    nextEl.querySelector('.thumb .duration').textContent = upcoming.duration || '';
+    nextEl.querySelector('.next-title').textContent = upcoming.title || '';
+    nextEl.querySelector('.next-number').textContent = `${upcoming.number}.`;
+    nextEl.style.cursor = "pointer";
+    nextEl.onclick = goNext;
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) nextBtn.onclick = goNext;
+  } else if (nextEl) {
+    nextEl.querySelector('.thumb img').src = '';
+    nextEl.querySelector('.thumb .duration').textContent = '';
+    nextEl.querySelector('.next-title').textContent = 'Fin de temporada';
+    nextEl.querySelector('.next-number').textContent = '';
+    nextEl.style.cursor = "default";
+  }
+}
+
+
+
+// ----------------------------------------------
+// Inicialización
+// ----------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  const currentEpisode = JSON.parse(localStorage.getItem('currentEpisode'));
+  const playlist = JSON.parse(localStorage.getItem('currentPlaylist')) || [];
+  if (!currentEpisode) return;
+  initialEpisode = currentEpisode;
+
+  playerJs = videojs('video', { controls: false });
+
+  playerJs.ready(() => {
+    playerJs.src({ src: initialEpisode.source, type: "video/mp4" });
+    if (initialEpisode.thumbnail) playerJs.poster(initialEpisode.thumbnail);
+    updateUI(initialEpisode);
+
+    playerJs.ready(() => {
+      playerJs.src({ src: initialEpisode.source, type: "video/mp4" });
+      if (initialEpisode.thumbnail) playerJs.poster(initialEpisode.thumbnail);
+      updateUI(initialEpisode);
+
+      videoId = buildProgressKey(initialEpisode);
+
+
+      // 🔑 Esperamos a que cargue la metadata antes de setear currentTime
+      playerJs.one('loadedmetadata', () => {
+        const savedTime = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+        const duration = playerJs.duration();
+
+        // ✅ Si está en replay o ya estaba completado, iniciar desde 0
+        if (initialEpisode.replay || savedTime >= duration - 2) {
+          playerJs.currentTime(0);
+        } else if (savedTime && savedTime < duration) {
+          playerJs.currentTime(savedTime);
+        }
+      });
+
+      // Guardar progreso cada segundo (aprox)
+      let lastSavedTime = 0;
+      playerJs.on("timeupdate", () => {
+        const currentTime = playerJs.currentTime();
+        if (Math.abs(currentTime - lastSavedTime) > 1) {
+          localStorage.setItem(`progress_${videoId}`, currentTime);
+          const ce = JSON.parse(localStorage.getItem('currentEpisode')) || {};
+          ce.currentTime = currentTime;
+          localStorage.setItem('currentEpisode', JSON.stringify(ce));
+          lastSavedTime = currentTime;
+        }
+      });
+
+      // ✅ Evento ended: marca episodio actual como visto y pasa al siguiente
+      playerJs.on("ended", () => {
+        const ce = JSON.parse(localStorage.getItem('currentEpisode')) || {};
+        const videoId = `${ce.seriesId}_${(ce.season || '').replace(/[^a-z0-9]+/gi, '_')}_ep${parseInt(ce.number)}`;
+
+        localStorage.setItem(`progress_${videoId}`, playerJs.duration());
+        ce.currentTime = playerJs.duration();
+        localStorage.setItem('currentEpisode', JSON.stringify(ce));
+
+        goNext();
+        // ✅ Si no hay siguiente episodio, intentar pasar a la siguiente temporada
+if (!nextEpisode) {
+  const currentEpisode = JSON.parse(localStorage.getItem('currentEpisode'));
+  const seriesData = JSON.parse(localStorage.getItem('currentSeriesData')); // guardada desde serie.html
+  if (!seriesData || !seriesData.seasons) return;
+
+  // Buscar el índice de la temporada actual
+  const currentSeasonIndex = seriesData.seasons.findIndex(s => s.season === currentEpisode.season);
+  const nextSeason = seriesData.seasons[currentSeasonIndex + 1];
+
+  if (nextSeason && nextSeason.episodes.length > 0) {
+    const firstEpisode = nextSeason.episodes[0];
+
+    const payload = {
+      ...firstEpisode,
+      seriesId: currentEpisode.seriesId,
+      seriesTitle: currentEpisode.seriesTitle,
+      season: nextSeason.season,
+      age: currentEpisode.age,
+      subDob: currentEpisode.subDob
+    };
+
+    // ✅ Cargar el primer episodio de la siguiente temporada
+    loadEpisode(payload, nextSeason.episodes);
+
+    // Actualizar UI (nombre temporada)
+    const seasonBtn = document.querySelector('.season-select span:last-child');
+    if (seasonBtn) seasonBtn.textContent = nextSeason.season;
+
+    console.log(`➡️ Pasando a ${nextSeason.season} — Episodio 1`);
+  } else {
+    console.log("🎬 Serie completada, no hay más temporadas");
+  }
+}
+
+      });
+
+      // 🎬 Solo una vez se define el botón y el icono
+      const playPauseBtn = document.getElementById("playPause");
+      const playIcon = playPauseBtn.querySelector(".material-icons");
+
+      if (playPauseBtn) {
+        playPauseBtn.classList.add("loading");
+        playerJs.pause();
+        setTimeout(() => {
+  playPauseBtn.classList.remove("loading");
+  if (isAutoPlayEnabled()) {
+    playerJs.play();
+  } else {
+    playerJs.pause();
+  }
+}, 2000);
+
+      }
+
+      
+
+      // --- BOTÓN "SALTAR INTRO" ---
+      // --- BOTÓN "SALTAR INTRO" ---
+const skipBtn = document.getElementById('skipIntroBtn');
+let skipTimeout;
+let introVisible = false;
+let introExpired = false;
+
+function resetIntroState() {
+  introVisible = false;
+  introExpired = false;
+  clearTimeout(skipTimeout);
+  skipBtn.classList.remove('visible');
+}
+
+// Llamar resetIntroState() al cargar un nuevo episodio
+resetIntroState();
+
+playerJs.on('timeupdate', () => {
+  const intro = initialEpisode.intro;
+  if (!intro || typeof intro.start !== 'number' || typeof intro.end !== 'number') return;
+
+  const t = playerJs.currentTime();
+
+  // Mostrar botón
+  if (t >= intro.start && t < intro.end && !introVisible && !introExpired) {
+    introVisible = true;
+    skipBtn.classList.add('visible');
+    clearTimeout(skipTimeout);
+    skipTimeout = setTimeout(() => {
+      skipBtn.classList.remove('visible');
+      introVisible = false;
+      introExpired = true;
+    }, 20000);
+  }
+
+  // Ocultar si pasó del final
+  if (t >= intro.end && introVisible) {
+    skipBtn.classList.remove('visible');
+    introVisible = false;
+    introExpired = true;
+  }
+});
+
+// Click del botón
+skipBtn.addEventListener('click', () => {
+  const intro = initialEpisode.intro;
+  if (!intro || typeof intro.end !== 'number') return;
+
+  if (playerJs.readyState() >= 1) {
+    playerJs.currentTime(intro.end);
+  } else {
+    playerJs.one('loadedmetadata', () => {
+      playerJs.currentTime(intro.end);
+    });
+  }
+  skipBtn.classList.remove('visible');
+  introVisible = false;
+  introExpired = true;
+});
+
+
+    // ✅ Botón SALTAR CRÉDITOS (solo si el episodio tiene tiempos definidos)
+const skipCreditsBtn = document.getElementById('skipCreditsBtn');
+let creditsVisible = false;
+let creditsTimeout = null;
+let creditsShownOnce = false; // 👈 evita que reaparezca durante el mismo rango
+
+playerJs.on('timeupdate', () => {
+  const duration = playerJs.duration();
+  if (!duration) return;
+
+  const currentTime = playerJs.currentTime();
+  const credits = initialEpisode.credits;
+
+  if (credits && typeof credits.start === "number" && typeof credits.end === "number") {
+    // Mostrar solo una vez por rango
+    if (
+      currentTime >= credits.start &&
+      currentTime < credits.end &&
+      !creditsVisible &&
+      !creditsShownOnce
+    ) {
+      creditsVisible = true;
+      creditsShownOnce = true; // ✅ evita reapariciones
+      skipCreditsBtn.classList.add('visible');
+
+      // ⏳ Ocultar automáticamente después de 10 segundos
+      clearTimeout(creditsTimeout);
+      creditsTimeout = setTimeout(() => {
+        skipCreditsBtn.classList.remove('visible');
+        creditsVisible = false;
+      }, 10000);
+    }
+
+    // Si ya pasó del final de los créditos, reiniciamos el estado
+    if (currentTime >= credits.end && (creditsVisible || creditsShownOnce)) {
+      creditsVisible = false;
+      creditsShownOnce = false; // ✅ listo para siguiente episodio
+      skipCreditsBtn.classList.remove('visible');
+      clearTimeout(creditsTimeout);
+    }
+  } else {
+    // Si no hay créditos definidos
+    if (creditsVisible) {
+      creditsVisible = false;
+      skipCreditsBtn.classList.remove('visible');
+      clearTimeout(creditsTimeout);
+    }
+  }
+});
+
+// Acción del botón
+skipCreditsBtn.addEventListener('click', () => {
+  const credits = initialEpisode.credits;
+  const duration = playerJs.duration();
+  if (!duration) return;
+
+  if (credits && typeof credits.end === "number") {
+    playerJs.currentTime(credits.end - 2);
+    skipCreditsBtn.classList.remove('visible');
+    creditsVisible = false;
+    clearTimeout(creditsTimeout);
+  }
+});
+
+
+    });
+
+    // 🔹 Mostrar/ocultar loader según estado
+    playerJs.on("waiting", () => playPauseBtn.classList.add("loading"));
+    playerJs.on("canplay playing", () => playPauseBtn.classList.remove("loading"));
+    playerJs.on("pause", () => (playIcon.textContent = "play_arrow"));
+    playerJs.on("play", () => (playIcon.textContent = "pause"));
+
+    // Actualizar miniatura del próximo episodio
+    const currentIndex = playlist.findIndex(ep => parseInt(ep.number) === parseInt(initialEpisode.number));
+    const nextEpisode = playlist[currentIndex + 1];
+    if (nextEpisode) {
+      const nextEl = document.querySelector('.next-ep');
+      if (nextEl) {
+        nextEl.querySelector('.thumb img').src = nextEpisode.thumbnail || '';
+        nextEl.querySelector('.thumb .duration').textContent = nextEpisode.duration || '';
+        nextEl.querySelector('.next-title').textContent = nextEpisode.title || '';
+        nextEl.querySelector('.next-number').textContent = `${nextEpisode.number}.`;
+
+        nextEl.style.cursor = "pointer";
+        nextEl.addEventListener('click', goNext);
+        document.getElementById('nextBtn').addEventListener('click', goNext);
+      }
+    }
+  });
+
+  // Botón "Todos los episodios"
+  const allBtn = document.querySelector('.all-btn');
+  if (allBtn) {
+    allBtn.addEventListener('click', () => {
+      const ce = JSON.parse(localStorage.getItem('currentEpisode'));
+      if (ce && ce.seriesId) {
+        window.location.href = `serie.html?id=${ce.seriesId}`;
+      } else {
+        window.location.href = 'serie.html';
+      }
+    });
+  }
+
+
+  // -------------------------------------------------------------
+  // Controles personalizados
+  // -------------------------------------------------------------
+  const playPause = document.getElementById('playPause');
+  const forward = document.getElementById('forward');
+  const backward = document.getElementById('backward');
+  const progress = document.getElementById('progress');
+  const progressFilled = document.getElementById('progressFilled');
+  const progressThumb = document.getElementById('progressThumb');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+  const current = document.getElementById('current');
+  const duration = document.getElementById('duration');
+  const player = document.querySelector('.player');
+  const controls = document.querySelectorAll('.top-controls, .center-controls, .bottom-controls');
+  const progressBuffered = document.getElementById('progressBuffered');
+  let controlsTimeout;
+
+  playerJs.on('progress', () => {
+    try {
+      if (playerJs.buffered().length) {
+        const bufferedEnd = playerJs.bufferedEnd();
+        const duration = playerJs.duration();
+        if (duration > 0) {
+          const percent = (bufferedEnd / duration) * 100;
+          progressBuffered.style.width = percent + '%';
+        }
+      }
+    } catch (e) {}
+  });
+
+
+
+  const fullscreenExpandSVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24">
+    <rect width="256" height="256" fill="none"/>
+    <polyline points="160 48 208 48 208 96" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+    <line x1="152" y1="104" x2="208" y2="48" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+    <polyline points="96 208 48 208 48 160" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+    <line x1="104" y1="152" x2="48" y2="208" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+  </svg>`;
+
+  const fullscreenContractSVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24">
+    <rect width="256" height="256" fill="none"/>
+    <polyline points="152 56 152 104 200 104" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+    <line x1="208" y1="48" x2="152" y2="104" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+    <polyline points="56 152 104 152 104 200" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+    <line x1="48" y1="208" x2="104" y2="152" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+  </svg>`;
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    let s = Math.floor(sec % 60);
+    if (s < 10) s = "0" + s;
+    return `${m}:${s}`;
+  }
+
+  function showControls() {
+  controls.forEach(c => { 
+    c.style.opacity = '1'; 
+    c.style.pointerEvents = 'auto'; 
+  });
+  player.classList.add('controls-visible'); // muestra overlays y oscurecimiento
+  player.style.cursor = 'default'; // muestra el puntero
+
+  clearTimeout(controlsTimeout);
+  controlsTimeout = setTimeout(hideControls, 6000);
+}
+
+function hideControls() {
+  controls.forEach(c => { 
+    c.style.opacity = '0'; 
+    c.style.pointerEvents = 'none'; 
+  });
+  player.classList.remove('controls-visible'); // ✨ oculta overlays y oscurecimiento
+  player.style.cursor = 'none'; // oculta el puntero del mouse
+}
+
+// --- EVENTOS ---
+let mouseMoveTimeout;
+
+// Mover el mouse muestra los controles y reinicia el temporizador
+player.addEventListener('mousemove', () => {
+  showControls();
+
+  // Si el mouse se queda quieto, ocultamos puntero y controles
+  clearTimeout(mouseMoveTimeout);
+  mouseMoveTimeout = setTimeout(() => {
+    if (player.classList.contains('controls-visible')) {
+      hideControls();
+    }
+  }, 3000);
+});
+
+// Mostrar controles si toca pantalla (móvil)
+player.addEventListener('touchstart', showControls);
+
+// Ocultar controles al salir del reproductor
+player.addEventListener('mouseleave', hideControls);
+
+// Mantener controles visibles al reproducir
+playerJs.on('play', showControls);
+
+// --- PLAY / PAUSE ---
+playPause.addEventListener('click', () => {
+  if (playerJs.paused()) playerJs.play();
+  else playerJs.pause();
+});
+
+playerJs.on('play', () => playPause.innerHTML = '<span class="material-icons">pause</span>');
+playerJs.on('pause', () => {
+  playPause.innerHTML = '<span class="material-icons">play_arrow</span>';
+  if (playerJs.currentTime() === 0) progressThumb.style.display = 'none';
+});
+
+// --- FORWARD / BACKWARD ---
+forward.addEventListener('click', () => playerJs.currentTime(playerJs.currentTime() + 10));
+backward.addEventListener('click', () => playerJs.currentTime(playerJs.currentTime() - 10));
+
+// --- PROGRESO ---
+function updateProgress() {
+  const durationVal = playerJs.duration();
+  const currentTime = playerJs.currentTime();
+  if (currentTime > 0) progressThumb.style.display = 'block';
+  const percent = durationVal ? (currentTime / durationVal) * 100 : 0;
+  progressFilled.style.width = percent + '%';
+  progressThumb.style.left = percent + '%';
+  current.textContent = formatTime(currentTime);
+}
+playerJs.on('timeupdate', updateProgress);
+playerJs.on('loadedmetadata', () => duration.textContent = formatTime(playerJs.duration()));
+
+progress.addEventListener('click', e => {
+  const rect = progress.getBoundingClientRect();
+  const percent = (e.clientX - rect.left) / rect.width;
+  playerJs.currentTime(percent * playerJs.duration());
+  updateProgress();
+});
+
+
+  let isDragging = false;
+  progressThumb.addEventListener('mousedown', () => isDragging = true);
+  document.addEventListener('mouseup', () => isDragging = false);
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const rect = progress.getBoundingClientRect();
+    let percent = (e.clientX - rect.left) / rect.width;
+    percent = Math.max(0, Math.min(1, percent));
+    playerJs.currentTime(percent * playerJs.duration());
+    updateProgress();
+  });
+
+  progressThumb.addEventListener('touchstart', e => { e.preventDefault(); isDragging = true; });
+  document.addEventListener('touchend', () => isDragging = false);
+  document.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const rect = progress.getBoundingClientRect();
+    let percent = (touch.clientX - rect.left) / rect.width;
+    percent = Math.max(0, Math.min(1, percent));
+    playerJs.currentTime(percent * playerJs.duration());
+    updateProgress();
+  });
+
+  // --- Miniaturas dinámicas en la barra de progreso ---
+const previewThumbnail = document.getElementById("previewThumbnail");
+const previewCanvas = previewThumbnail.querySelector("canvas");
+const previewCtx = previewCanvas.getContext("2d");
+const previewTimeLabel = previewThumbnail.querySelector(".preview-time");
+
+
+let previewVideo = null;
+let pendingSeek = null;
+let isSeeking = false;
+
+// Crear video oculto para mostrar miniaturas
+function createPreviewVideo() {
+  if (previewVideo) previewVideo.remove();
+  previewVideo = document.createElement("video");
+  previewVideo.muted = true;
+  previewVideo.crossOrigin = "anonymous";
+  previewVideo.preload = "auto";
+  previewVideo.style.position = "absolute";
+  previewVideo.style.width = "1px";
+  previewVideo.style.height = "1px";
+  previewVideo.style.opacity = "0";
+  previewVideo.style.pointerEvents = "none";
+  document.body.appendChild(previewVideo);
+}
+
+playerJs.ready(() => {
+  const mainVideo = playerJs.el().querySelector("video");
+  createPreviewVideo();
+  previewVideo.src = mainVideo.currentSrc || mainVideo.src;
+});
+
+playerJs.on("loadstart", () => {
+  const mainVideo = playerJs.el().querySelector("video");
+  createPreviewVideo();
+  previewVideo.src = mainVideo.currentSrc || mainVideo.src;
+});
+
+function seekPreviewTo(time) {
+  // Si ya hay un seek en curso, lo guardamos para más tarde
+  if (isSeeking) {
+    pendingSeek = time;
+    return;
+  }
+
+  isSeeking = true;
+  previewVideo.currentTime = time;
+
+  const drawFrame = () => {
+    previewCtx.drawImage(previewVideo, 0, 0, previewCanvas.width, previewCanvas.height);
+    isSeeking = false;
+
+    // Si se solicitó otro seek mientras este ocurría, lo ejecutamos ahora
+    if (pendingSeek !== null) {
+      const next = pendingSeek;
+      pendingSeek = null;
+      seekPreviewTo(next);
+    }
+  };
+
+  previewVideo.addEventListener("seeked", drawFrame, { once: true });
+}
+
+progress.addEventListener("mousemove", (e) => {
+  if (!previewVideo || !playerJs.duration()) return;
+
+  const rect = progress.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const percent = Math.max(0, Math.min(1, x / rect.width));
+  const time = percent * playerJs.duration();
+
+  // Posicionar el preview arriba del mouse
+  previewThumbnail.style.display = "block";
+  previewThumbnail.style.left = `${x - previewCanvas.width / 2}px`;
+  previewTimeLabel.textContent = formatTime(time);
+
+  // Pedir miniatura
+  seekPreviewTo(time);
+});
+
+progress.addEventListener("mouseleave", () => {
+  previewThumbnail.style.display = "none";
+});
+
+
+  fullscreenBtn.addEventListener('click', async () => toggleFullscreen());
+
+  window.toggleFullscreen = async function (forceExit = false) {
+    if (!document.fullscreenElement && !forceExit) {
+      if (player.requestFullscreen) await player.requestFullscreen();
+      else if (player.webkitRequestFullscreen) await player.webkitRequestFullscreen();
+      else if (player.msRequestFullscreen) await player.msRequestFullscreen();
+      if (screen.orientation && screen.orientation.lock) {
+        try { await screen.orientation.lock('landscape'); } catch (err) {}
+      }
+      fullscreenBtn.innerHTML = fullscreenContractSVG;
+    } else {
+      if (document.exitFullscreen) await document.exitFullscreen();
+      else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) await document.msExitFullscreen();
+      if (screen.orientation && screen.orientation.unlock) {
+        try { screen.orientation.unlock(); } catch (err) {}
+      }
+      fullscreenBtn.innerHTML = fullscreenExpandSVG;
+    }
+  }
+
+  if (screen.orientation) {
+    screen.orientation.addEventListener('change', () => {
+      if (screen.orientation.type.startsWith('landscape')) toggleFullscreen(false);
+      else toggleFullscreen(true);
+    });
+  } else {
+    window.matchMedia("(orientation: landscape)").addEventListener("change", e => {
+      if (e.matches) toggleFullscreen(false);
+      else toggleFullscreen(true);
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.querySelector(".description-wrapper");
+  const desc = wrapper.querySelector(".desc");
+  const btn = wrapper.querySelector(".toggle-desc");
+
+  // Verifica si el texto está truncado
+  const isTruncated = desc.scrollHeight > desc.clientHeight + 5;
+
+  if (!isTruncated) {
+    // Si no está truncado, ocultamos el botón
+    btn.classList.add("hidden");
+    wrapper.querySelector(".extra-info").style.display = "block";
+  }
+
+  btn.addEventListener("click", () => {
+    wrapper.classList.toggle("expanded");
+    btn.textContent = wrapper.classList.contains("expanded")
+      ? "Leer menos"
+      : "Leer más";
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const altControls = document.querySelector(".alt-controls");
+  const altPlayPause = document.getElementById("altPlayPause");
+  const altNext = document.getElementById("altNext");
+  const fullscreenControl = document.querySelector(".fullscreen-control");
+  const player = document.querySelector(".player");
+
+  // 🔹 Aquí agregamos el ID único del modo cine
+  const fullscreenBtnAlt = document.getElementById("fullscreenBtnAlt");
+
+  if (!altControls || !player) return;
+
+  const HIDE_DELAY = 4000;
+  let altTimeout;
+
+  function showAlt() {
+    altControls.classList.add("visible");
+    if (fullscreenControl) fullscreenControl.classList.add("visible");
+    clearTimeout(altTimeout);
+    altTimeout = setTimeout(() => {
+      altControls.classList.remove("visible");
+      if (fullscreenControl) fullscreenControl.classList.remove("visible");
+    }, HIDE_DELAY);
+  }
+
+  player.addEventListener("mousemove", showAlt);
+  player.addEventListener("touchstart", showAlt);
+  document.addEventListener("keydown", showAlt);
+
+  // --- Play / Pause
+  if (altPlayPause) {
+    altPlayPause.addEventListener("click", () => {
+      if (window.playerJs && typeof playerJs.paused === "function") {
+        if (playerJs.paused()) playerJs.play(); else playerJs.pause();
+      } else {
+        const video = player.querySelector("video");
+        if (video) {
+          if (video.paused) video.play(); else video.pause();
+        }
+      }
+    });
+  }
+
+  function setPlayIcon(isPlaying) {
+    if (!altPlayPause) return;
+    altPlayPause.innerHTML = isPlaying
+      ? `<span class="material-icons">pause</span>`
+      : `<span class="material-icons">play_arrow</span>`;
+  }
+
+  if (window.playerJs && typeof playerJs.on === "function") {
+    playerJs.on("play", () => setPlayIcon(true));
+    playerJs.on("pause", () => setPlayIcon(false));
+  } else {
+    const video = player.querySelector("video");
+    if (video) {
+      video.addEventListener("play", () => setPlayIcon(true));
+      video.addEventListener("pause", () => setPlayIcon(false));
+    }
+  }
+
+  // --- Next
+  if (altNext) {
+    altNext.addEventListener("click", () => {
+      document.getElementById("nextBtn")?.click();
+    });
+  }
+
+  // --- Fullscreen modo cine
+  if (fullscreenBtnAlt) {
+    fullscreenBtnAlt.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFullscreen(); // llama a la función global
+    });
+
+    // Soporte teclado: tecla "f"
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key.toLowerCase() === "f") {
+        fullscreenBtnAlt.click();
+      }
+    });
+  }
+
+  showAlt();
+});
+
+
+
+
+// -------------------------------------------------------------
+// DESCARGAR VIDEO desde botones de descarga
+// -------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  // Botón de descarga en la fila de likes
+  const likeDownload = document.querySelector(".likes-actions .material-symbols-outlined:nth-child(1)");
+
+  // Botón de descarga del próximo episodio
+  const nextDownload = document.querySelector(".next-download .material-icons");
+
+  // Obtiene el episodio actual desde localStorage
+  const getCurrentSource = () => {
+    const ce = JSON.parse(localStorage.getItem("currentEpisode"));
+    return ce?.source || null;
+  };
+
+  // Función para descargar el archivo de video
+  function descargarVideo(src, nombre = "video.mp4") {
+    if (!src) {
+      console.warn("⚠️ No hay fuente de video para descargar.");
+      return;
+    }
+
+    const a = document.createElement("a");
+    a.href = src;
+    a.download = nombre;
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // 🟠 Descargar episodio actual desde el botón de likes
+  if (likeDownload) {
+    likeDownload.addEventListener("click", e => {
+      e.stopPropagation();
+      const src = getCurrentSource();
+      const ce = JSON.parse(localStorage.getItem("currentEpisode"));
+      const nombre = `${ce?.seriesTitle || "Serie"}_E${ce?.number || ""}.mp4`;
+      descargarVideo(src, nombre);
+    });
+  }
+
+  // 🟠 Descargar siguiente episodio desde el botón de “next-download”
+  if (nextDownload) {
+    nextDownload.addEventListener("click", e => {
+      e.stopPropagation();
+
+      const playlist = JSON.parse(localStorage.getItem("currentPlaylist")) || [];
+      const ce = JSON.parse(localStorage.getItem("currentEpisode"));
+      const currentIndex = playlist.findIndex(ep => parseInt(ep.number) === parseInt(ce?.number));
+      const nextEpisode = playlist[currentIndex + 1];
+
+      if (!nextEpisode) {
+        console.warn("⚠️ No hay siguiente episodio para descargar.");
+        return;
+      }
+
+      const nombre = `${nextEpisode.seriesTitle || "Serie"}_E${nextEpisode.number}.mp4`;
+      descargarVideo(nextEpisode.source, nombre);
+    });
+  }
+});
+
+const moreBtn = document.getElementById('moreBtn');
+  const moreMenu = document.getElementById('moreMenu');
+
+  // Mostrar/ocultar menú
+  moreBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    moreMenu.classList.toggle('show');
+  });
+
+  // Cerrar si haces clic fuera
+  document.addEventListener('click', (e) => {
+    if (!moreMenu.contains(e.target) && e.target !== moreBtn) {
+      moreMenu.classList.remove('show');
+    }
+  });
+
+  // Acciones de los ítems
+  document.querySelectorAll('.menu-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      if (item.textContent.includes('Ver serie')) {
+        window.location.href = 'serie.html'; // cambia la ruta si quieres
+      } else if (item.textContent.includes('Compartir')) {
+        navigator.share
+          ? navigator.share({ title: document.title, url: window.location.href })
+          : alert('Copiado: ' + window.location.href);
+      }
+      moreMenu.classList.remove('show');
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const likeBtn = document.querySelector(".like-btn");
+  const dislikeBtn = document.querySelector(".dislike-btn");
+
+  let liked = false;
+  let disliked = false;
+
+  function adjustCount(span, delta) {
+    const text = span.innerText.trim();
+    const match = text.match(/^([\d,.]+)([a-zA-Z]*)$/);
+    if (!match) return;
+    let number = parseFloat(match[1].replace(",", "")) || 0;
+    const suffix = match[2] || "";
+
+    number += delta;
+    if (number < 0) number = 0;
+
+    span.innerText = number + suffix;
+  }
+
+  likeBtn.addEventListener("click", () => {
+    const countSpan = likeBtn.querySelector(".count");
+
+    if (!liked) {
+      adjustCount(countSpan, 1);
+      liked = true;
+      likeBtn.classList.add("active");
+
+      if (disliked) {
+        const dislikeCountSpan = dislikeBtn.querySelector(".count");
+        adjustCount(dislikeCountSpan, -1);
+        disliked = false;
+        dislikeBtn.classList.remove("active");
+      }
+    } else {
+      adjustCount(countSpan, -1);
+      liked = false;
+      likeBtn.classList.remove("active");
+    }
+  });
+
+  dislikeBtn.addEventListener("click", () => {
+    const countSpan = dislikeBtn.querySelector(".count");
+
+    if (!disliked) {
+      adjustCount(countSpan, 1);
+      disliked = true;
+      dislikeBtn.classList.add("active");
+
+      if (liked) {
+        const likeCountSpan = likeBtn.querySelector(".count");
+        adjustCount(likeCountSpan, -1);
+        liked = false;
+        likeBtn.classList.remove("active");
+      }
+    } else {
+      adjustCount(countSpan, -1);
+      disliked = false;
+      dislikeBtn.classList.remove("active");
+    }
+  });
+});
+
+// ---- CAST robusto: obtiene la URL real y abre Web Video Caster (intent / callback) ----
+function getCurrentVideoUrl() {
+  try {
+    // 1) Elemento <video> directo
+    const vEl = document.getElementById('video') || document.querySelector('video');
+    if (vEl) {
+      const cur = vEl.currentSrc || vEl.src;
+      if (cur) {
+        console.log('[cast] encontrado en <video>:', cur);
+        return cur;
+      }
+    }
+
+    // 2) Video.js API (currentSrc / src())
+    if (window.playerJs) {
+      try {
+        if (typeof playerJs.currentSrc === 'function') {
+          const c = playerJs.currentSrc();
+          if (c) {
+            console.log('[cast] encontrado via playerJs.currentSrc():', c);
+            return c;
+          }
+        }
+      } catch (e) { /* ignore */ }
+
+      try {
+        if (typeof playerJs.src === 'function') {
+          const s = playerJs.src();
+          if (s) {
+            if (typeof s === 'string') {
+              console.log('[cast] playerJs.src() string:', s);
+              return s;
+            } else if (Array.isArray(s) && s.length) {
+              console.log('[cast] playerJs.src() array:', s[0].src || s[0]);
+              return s[0].src || s[0];
+            } else if (s.src) {
+              console.log('[cast] playerJs.src() obj:', s.src);
+              return s.src;
+            }
+          }
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    // 3) currentEpisode en localStorage
+    try {
+      const ceRaw = localStorage.getItem('currentEpisode');
+      if (ceRaw) {
+        const ce = JSON.parse(ceRaw);
+        const src = ce?.source || ce?.videoUrl || ce?.src;
+        if (src) {
+          console.log('[cast] encontrado en localStorage.currentEpisode:', src);
+          return src;
+        }
+      }
+    } catch (e) { console.warn('[cast] error parseando currentEpisode', e); }
+
+    // 4) Buscar en currentPlaylist (puede ser array plano o seasons->episodes)
+    try {
+      const plRaw = localStorage.getItem('currentPlaylist');
+      const pl = plRaw ? JSON.parse(plRaw) : null;
+      const ceRaw = localStorage.getItem('currentEpisode');
+      const ce = ceRaw ? JSON.parse(ceRaw) : null;
+
+      if (Array.isArray(pl)) {
+        // Si es lista de seasons (cada temporada tiene .episodes)
+        for (const item of pl) {
+          if (item && Array.isArray(item.episodes)) {
+            for (const ep of item.episodes) {
+              if ((ce && String(ep.number) === String(ce.number)) || ep.isCurrent) {
+                const found = ep.source || ep.videoUrl || ep.src;
+                if (found) {
+                  console.log('[cast] encontrado en playlist (season->episodes):', found);
+                  return found;
+                }
+              }
+            }
+          } else {
+            // Lista plana de episodios
+            if (ce && pl.findIndex(el => String(el.number) === String(ce.number)) !== -1) {
+              const found = pl.find(el => String(el.number) === String(ce.number));
+              const src = found?.source || found?.videoUrl || found?.src;
+              if (src) {
+                console.log('[cast] encontrado en playlist (plano):', src);
+                return src;
+              }
+            }
+          }
+        }
+      }
+    } catch (e) { console.warn('[cast] error parseando playlist', e); }
+
+    // nada
+    return null;
+  } catch (err) {
+    console.error('[cast] getCurrentVideoUrl fallo:', err);
+    return null;
+  }
+}
+
+function castCurrentEpisode() {
+  const videoUrl = getCurrentVideoUrl();
+  if (!videoUrl) {
+    console.warn('[cast] No se detectó URL del episodio actual.');
+    alert('No se pudo detectar el episodio actual para transmitir.');
+    return;
+  }
+
+  console.log('[cast] URL detectada ->', videoUrl);
+
+  const storeAndroid = 'https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo';
+  const storeIOS = 'https://apps.apple.com/us/app/web-video-cast-browser-to-tv/id1400866497';
+
+  const ua = navigator.userAgent || '';
+  const isAndroid = /android/i.test(ua);
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  const fallback = isAndroid ? storeAndroid : storeIOS;
+
+  // Construir intent para Android (intenta mantener host+path+search)
+  let openUrl;
+  if (isAndroid) {
+    try {
+      const parsed = new URL(videoUrl);
+      openUrl = `intent://${parsed.host}${parsed.pathname}${parsed.search}#Intent;scheme=${parsed.protocol.replace(':','')};package=com.instantbits.cast.webvideo;end;`;
+    } catch (e) {
+      // si URL no parsea por cualquier razón, usar fallback de esquema
+      openUrl = `intent://${encodeURIComponent(videoUrl)}#Intent;scheme=http;package=com.instantbits.cast.webvideo;end;`;
+    }
+  } else {
+    // iOS y otros usan callback scheme
+    openUrl = 'wvc-x-callback://open?url=' + encodeURIComponent(videoUrl);
+  }
+
+  // Usamos anchor.click() en el mismo evento de usuario y detectamos visibilitychange
+  const a = document.createElement('a');
+  a.href = openUrl;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+
+  let pageHidden = false;
+  const onVis = () => { if (document.hidden) pageHidden = true; };
+  document.addEventListener('visibilitychange', onVis);
+
+  try {
+    a.click(); // intento de abrir la app (se ejecuta en el click del usuario)
+    console.log('[cast] intento de abrir app con:', openUrl);
+  } catch (err) {
+    console.warn('[cast] error al clickear anchor:', err);
+  }
+
+  // Si en 1200ms la página NO se oculta, asumimos que no abrió la app => redirigimos a tienda
+  setTimeout(() => {
+    document.removeEventListener('visibilitychange', onVis);
+    try { document.body.removeChild(a); } catch (e) {}
+    if (!pageHidden) {
+      console.log('[cast] app no detectada -> redirigiendo a tienda:', fallback);
+      // En desktop puedes querer abrir algo distinto; aquí redirigimos igual
+      window.location.href = fallback;
+    } else {
+      console.log('[cast] app detectada (la página se ocultó), no redirigir.');
+    }
+  }, 1200);
+}
+
+// vincular el botón (asegúrate tener <span id="castBtn">)
+(function bindCastBtn(){
+  const castBtn = document.getElementById('castBtn');
+  if (!castBtn) {
+    console.warn('[cast] no existe #castBtn en DOM.');
+    return;
+  }
+  // si ya había listener, quitamos para evitar duplicados
+  castBtn.removeEventListener('click', castCurrentEpisode);
+  castBtn.addEventListener('click', (e) => {
+    // importante: el intento de abrir la app debe ocurrir directamente en el handler del evento click del usuario
+    castCurrentEpisode();
+  });
+})();
+
+
+// Abrir configuración
+// --- Preferencias de reproducción ---
+// Abrir configuración
+// --- Preferencias de reproducción ---
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsOverlay = document.getElementById("settingsOverlay");
+const settingsBack = document.getElementById("settingsBack");
+const autoPlayToggle = document.getElementById("autoPlayToggle");
+
+let wasPlaying = false;
+
+// --- 📦 CONFIGURAR AUTOPLAY AL INICIAR ---
+document.addEventListener("DOMContentLoaded", () => {
+  const autoPlayPref = localStorage.getItem("autoPlayEnabled");
+
+  if (autoPlayPref !== null) {
+    const enabled = autoPlayPref === "true";
+    if (autoPlayToggle) autoPlayToggle.checked = enabled;
+    playerJs.autoplay(enabled);
+  } else {
+    // si no hay preferencia guardada, usar el valor por defecto del input
+    if (autoPlayToggle) playerJs.autoplay(autoPlayToggle.checked);
+  }
+
+  // Escuchar cambios del switch de autoplay
+  if (autoPlayToggle) {
+    autoPlayToggle.addEventListener("change", (e) => {
+      const enabled = e.target.checked;
+
+      // Guardar preferencia
+      localStorage.setItem("autoPlayEnabled", enabled);
+
+      // Actualizar el reproductor
+      playerJs.autoplay(enabled);
+
+      // Feedback opcional
+      console.log("Autoplay:", enabled ? "Activado" : "Desactivado");
+    });
+  }
+});
+
+// --- ⚙️ ABRIR OVERLAY DE CONFIGURACIÓN ---
+if (settingsBtn && settingsOverlay) {
+  settingsBtn.addEventListener("click", () => {
+    wasPlaying = !playerJs.paused();
+
+    if (wasPlaying) playerJs.pause();
+
+    // mostrar overlay
+    settingsOverlay.classList.add("active");
+    showControls?.();
+
+    // agregar estado al historial para botón atrás
+    history.pushState({ overlay: "settings" }, "");
+  });
+}
+
+// --- 🚪 FUNCIÓN PARA CERRAR EL OVERLAY ---
+function closeSettingsOverlay() {
+  if (settingsOverlay.classList.contains("active")) {
+    settingsOverlay.classList.remove("active");
+
+    // reanudar si estaba reproduciendo
+    if (wasPlaying) setTimeout(() => playerJs.play(), 300);
+
+    return true;
+  }
+  return false;
+}
+
+// --- ⬅️ BOTÓN INTERNO "ATRÁS" ---
+if (settingsBack) {
+  settingsBack.addEventListener("click", () => {
+    closeSettingsOverlay();
+    if (history.state?.overlay === "settings") history.back();
+  });
+}
+
+// --- 🔙 BOTÓN ATRÁS DE ANDROID / NAVEGADOR ---
+window.addEventListener("popstate", (event) => {
+  if (event.state?.overlay === "settings") {
+    closeSettingsOverlay();
+  }
+});
+
+// 🔹 Detectar botón atrás en móvil (versión extendida)
+window.addEventListener("popstate", (event) => {
+  if (settingsOverlay.classList.contains("active")) {
+    // Solo cerramos el overlay sin retroceder página
+    settingsOverlay.classList.remove("active");
+
+    // Evitar doble popstate
+    history.pushState({}, "");
+  } else {
+    // Overlay no activo → comportamiento normal
+  }
+});
+
+
+
+
+const settingsBtnAlt = document.getElementById("settingsBtnAlt");
+const settingsOverlayAlt = document.getElementById("settingsOverlayAlt");
+const settingsBackAlt = document.getElementById("settingsBackAlt");
+const autoPlayToggleAlt = document.getElementById("autoPlayToggleAlt");
+
+let wasPlayingAlt = false;
+
+// --- función para leer preferencia ---
+function isAutoPlayEnabled() {
+  const pref = localStorage.getItem("autoPlayEnabled");
+  return pref === null ? true : pref === "true";
+}
+
+// --- aplicar preferencia inicial ---
+document.addEventListener("DOMContentLoaded", () => {
+  const enabled = isAutoPlayEnabled();
+
+  // Mostrar el ícono correcto
+  if (enabled) {
+    autoPlayToggleAlt.textContent = "toggle_on";
+    autoPlayToggleAlt.classList.remove("off");
+  } else {
+    autoPlayToggleAlt.textContent = "toggle_off";
+    autoPlayToggleAlt.classList.add("off");
+  }
+
+  // Aplicar autoplay inicial
+  if (typeof playerJs !== "undefined") playerJs.autoplay(enabled);
+
+  // Evento click para alternar
+  autoPlayToggleAlt.addEventListener("click", () => {
+    const isEnabled = autoPlayToggleAlt.classList.toggle("off") === false; // Si quedó sin 'off', está activado
+    autoPlayToggleAlt.textContent = isEnabled ? "toggle_on" : "toggle_off";
+    localStorage.setItem("autoPlayEnabled", isEnabled);
+    if (typeof playerJs !== "undefined") playerJs.autoplay(isEnabled);
+  });
+});
+
+// --- función para cerrar overlay ---
+function closeSettingsOverlayAlt() {
+  if (settingsOverlayAlt.classList.contains("active")) {
+    settingsOverlayAlt.classList.remove("active");
+
+    // reanudar video si estaba reproduciendo
+    if (wasPlayingAlt && typeof playerJs !== "undefined") {
+      setTimeout(() => playerJs.play(), 300);
+    }
+    return true;
+  }
+  return false;
+}
+
+// --- función para abrir overlay ---
+function openSettingsOverlayAlt() {
+  wasPlayingAlt = typeof playerJs !== "undefined" && !playerJs.paused();
+  if (wasPlayingAlt && typeof playerJs !== "undefined") playerJs.pause();
+
+  settingsOverlayAlt.classList.add("active");
+  if (typeof showControls === "function") showControls();
+  history.pushState({ overlay: "settingsAlt" }, "");
+}
+
+// --- toggle con el mismo botón ---
+if (settingsBtnAlt && settingsOverlayAlt) {
+  settingsBtnAlt.addEventListener("click", () => {
+    if (settingsOverlayAlt.classList.contains("active")) {
+      closeSettingsOverlayAlt();
+      if (history.state?.overlay === "settingsAlt") history.back();
+    } else {
+      openSettingsOverlayAlt();
+    }
+  });
+}
+
+// --- botón volver ---
+if (settingsBackAlt) {
+  settingsBackAlt.addEventListener("click", () => {
+    closeSettingsOverlayAlt();
+    if (history.state?.overlay === "settingsAlt") history.back();
+  });
+}
+
+// --- botón atrás Android / historial ---
+window.addEventListener("popstate", (event) => {
+  if (settingsOverlayAlt.classList.contains("active")) {
+    settingsOverlayAlt.classList.remove("active");
+    history.pushState({}, ""); // Evita doble popstate
+  }
+});
+
+
+
+
+
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const stored = localStorage.getItem("currentPlayback");
+    if (!stored) return;
+    const data = JSON.parse(stored);
+  
+    const { seasons, seasonIndex, episodeIndex } = data;
+    let currentSeason = seasonIndex;
+    let currentEpisode = episodeIndex;
+  
+    const player = videojs("video"); // ⚠️ asegúrate que tu <video> tenga id="video"
+  
+    // 🟠 Función para cargar un episodio
+    function loadEpisode(sIndex, eIndex) {
+      const episode = seasons[sIndex].episodes[eIndex];
+      if (!episode) return;
+      player.src({ src: episode.source, type: "video/mp4" });
+      document.querySelector(".series").textContent = seasons[sIndex].season;
+      document.querySelector("h1").textContent = `E${episode.number}: ${episode.title}`;
+      document.querySelector(".desc").textContent = episode.description;
+      updateNextPreview();
+    }
+  
+    // 🟠 Función para actualizar preview del siguiente episodio
+    function updateNextPreview() {
+      let nextSeason = currentSeason;
+      let nextEpisode = currentEpisode + 1;
+      if (nextEpisode >= seasons[nextSeason].episodes.length) {
+        nextSeason++;
+        nextEpisode = 0;
+      }
+  
+      const nextContainer = document.querySelector(".next-ep");
+      if (!nextContainer) return;
+  
+      const next = seasons[nextSeason] && seasons[nextSeason].episodes[nextEpisode];
+      if (!next) {
+        nextContainer.innerHTML = `<p style="color:#bbb;">Fin de la serie</p>`;
+        return;
+      }
+  
+      nextContainer.innerHTML = `
+        <div class="thumb">
+          <img src="${next.thumbnail}">
+          <div class="duration">${next.duration}</div>
+          <div class="play-overlay"><span class="material-icons">play_arrow</span></div>
+        </div>
+        <div class="next-info">
+          <div class="number-title">E${next.number}: ${next.title}</div>
+          <div class="next-download"><span class="material-icons">arrow_downward</span></div>
+        </div>
+      `;
+  
+      // Click manual
+      nextContainer.onclick = () => {
+        currentSeason = nextSeason;
+        currentEpisode = nextEpisode;
+        loadEpisode(currentSeason, currentEpisode);
+        player.play();
+      };
+    }
+  
+    // 🟠 Al terminar el episodio
+    player.on("ended", () => {
+      let nextSeason = currentSeason;
+      let nextEpisode = currentEpisode + 1;
+  
+      if (nextEpisode >= seasons[nextSeason].episodes.length) {
+        nextSeason++;
+        nextEpisode = 0;
+      }
+  
+      if (seasons[nextSeason] && seasons[nextSeason].episodes[nextEpisode]) {
+        currentSeason = nextSeason;
+        currentEpisode = nextEpisode;
+        loadEpisode(currentSeason, currentEpisode);
+        player.play();
+      } else {
+        console.log("✅ Fin de la serie");
+      }
+    });
+  
+    // Carga inicial
+    loadEpisode(currentSeason, currentEpisode);
+  });
+  </script>
+  
+</body>
+</html>

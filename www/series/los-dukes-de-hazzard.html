@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Los Dukes de Hazzard</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/uAFxjtaZlRbEQcEWSsfBGjsNj30.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/kO1ysVkZ5QvtE2ZjZKnGiYYkojR.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Los Dukes de Hazzard</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/6uzH9SkbWJlzIFLtFNxuZxegttZ.png" alt="Los Dukes de Hazzard Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   7 temporadas   1979   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Los Dukes de Hazzard" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/5BJfGTtke5MtPUuC9teenNbZ6kE.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="los-dukes-de-hazzard.html"></a>
+          <span id="nombre">Los Dukes de Hazzard</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Cuenta la historia de Bo y Luke Duke, dos primos que luchan contra la injusticia en el condado de Hazzard, "encabezada" por el corrupto comisionado Boss Hogg y su mano derecha, el comisario Rosco P. C...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="one-day-at-a-time.html">
+          <img src="https://image.tmdb.org/t/p/w300/zheJWmmDRUYuApz83ZVrrPUjL2F.jpg" alt="One Day at a Time" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">One Day at a Time</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="hardcastle-and-mccormick.html">
+          <img src="https://image.tmdb.org/t/p/w300/d3ZWBPAlcmYwvA183aI5z1mosv7.jpg" alt="Hardcastle and McCormick" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Hardcastle and McCormick</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="worst-week.html">
+          <img src="https://image.tmdb.org/t/p/w300/A92sj8iKxx3FHZ2o1UP7pA3E9Eo.jpg" alt="Worst Week" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Worst Week</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="you-can39t-do-that-on-television.html">
+          <img src="https://image.tmdb.org/t/p/w300/6Yw2aZ5uR2yrKoWlxsGeV0VZ3VA.jpg" alt="You Can&#39;t Do That on Television" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">You Can&#39;t Do That on Television</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDU1OTY4NDRf/DKH%20-%2001x01-Los%20Tragamonedas%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Los Dukes de Hazzard</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+  <script src="../share.js"></script>
+<script>
+
+const seriesId = "los-dukes-de-hazzard-397";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+      {
+  "title": "E1: Los Tragamonedas",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4cQbO3j0QuALw0iSMp7Cda5awX8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY4NDRf/DKH%20-%2001x01-Los%20Tragamonedas%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY4NDRf/DKH%20-%2001x01-Los%20Tragamonedas%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E1: Los Tragamonedas",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: La Canción De Daisy",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rxJhTc35Qo2ku6YVrKR4cqpk2R9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY4NTRf/DKH%20-%2001x02-La%20Cancion%20De%20Daisy%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY4NTRf/DKH%20-%2001x02-La%20Cancion%20De%20Daisy%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E2: La Canción De Daisy",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: El Bebé De Mary Kaye",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gz49BMSBbzgvDbTbvjFHoW6s8yo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY4Nzlf/DKH%20-%2001x03-El%20Bebe%20De%20Mary%20Kaye%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY4Nzlf/DKH%20-%2001x03-El%20Bebe%20De%20Mary%20Kaye%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E3: El Bebé De Mary Kaye",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: El Embargo",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tZwL3YpRS18qkSUOGKudbYpPexU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY4ODhf/DKH%20-%2001x04-El%20Embargo%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY4ODhf/DKH%20-%2001x04-El%20Embargo%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E4: El Embargo",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Alto Octanaje",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rtPoVmBnMc5CvlbC68xatS8xiM0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY5MThf/DKH%20-%2001x05-Alto%20Octanaje%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY5MThf/DKH%20-%2001x05-Alto%20Octanaje%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E5: Alto Octanaje",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Molly Del Pantano",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o8YvrBA6iQqw4otTEdZomUJXGH2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY5Mjdf/DKH%20-%2001x06-Molly%20Del%20Pantano%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY5Mjdf/DKH%20-%2001x06-Molly%20Del%20Pantano%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E6: Molly Del Pantano",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: La Historia De Amor De Luke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6oo0QxgP312W0bG6V0rmmHh6tH5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY5NjVf/DKH%20-%2001x07-La%20Historia%20De%20Amor%20De%20Luke%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY5NjVf/DKH%20-%2001x07-La%20Historia%20De%20Amor%20De%20Luke%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E7: La Historia De Amor De Luke",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: El Gran Atraco",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5EhCpuV7F2rq5QAloyoCOPyUrVx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcwMTVf/DKH%20-%2001x08-El%20Gran%20Atraco%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcwMTVf/DKH%20-%2001x08-El%20Gran%20Atraco%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E8: El Gran Atraco",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Limusina Uno Perdida",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/K6Q3lq8PardLu1YLIz3vjMByKe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcwMzFf/DKH%20-%2001x09-Limusina%20Uno%20Perdida%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcwMzFf/DKH%20-%2001x09-Limusina%20Uno%20Perdida%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E9: Limusina Uno Perdida",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Los Dukes Alguaciles",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gPUIXCa5XDCI3DZMmEqZVbCyj9F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcwNDlf/DKH%20-%2001x10-Los%20Dukes%20Alguaciles%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcwNDlf/DKH%20-%2001x10-Los%20Dukes%20Alguaciles%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E10: Los Dukes Alguaciles",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Dinero Para Quemar",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bR4pZcM6M5pOwnxq3UyIOn3vh6O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcwODBf/DKH%20-%2001X11-Dinero%20Para%20Quemar%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcwODBf/DKH%20-%2001X11-Dinero%20Para%20Quemar%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E11: Dinero Para Quemar",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Ruta 7-11",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/asooaSuH0vPgDAcLF1V7Cj2rKqs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcxNTJf/DKH%20-%2001x12-Ruta%207-11%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcxNTJf/DKH%20-%2001x12-Ruta%207-11%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E12: Ruta 7-11",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Cuarentena",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iTk3XuOo3v8WeAbCx08Orth8Mfh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcyMDFf/DKH%20-%2001x13-Cuarentena%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcyMDFf/DKH%20-%2001x13-Cuarentena%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E13: Cuarentena",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+  "title": "E1: Días De Recuerdos",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hTMdPICymGh8PS9THFwfxXtqsQ6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDA5MThf/DKH%20-%202x01-Dias%20De%20Recuerdos.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDA5MThf/DKH%20-%202x01-Dias%20De%20Recuerdos.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E1: Días De Recuerdos",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: La Fiebre Del Oro",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qhv8pfT3x6Xvx75zaZ3mSjKmD1W.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDA5NjVf/DKH%20-%202x02-La%20Fiebre%20Del%20Oro.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDA5NjVf/DKH%20-%202x02-La%20Fiebre%20Del%20Oro.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E2: La Fiebre Del Oro",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Los Abigeos",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9ChesvfGg2q0fKVtE1hcDJ5u9cM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDEwNTZf/DKH%20-%202x03-Los%20Abigeos.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDEwNTZf/DKH%20-%202x03-Los%20Abigeos.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E3: Los Abigeos",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: La Junta",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mkkbvPLqSF5ZiiCrikd0Z1AK910.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDEyMTFf/DKH%20-%202x04-La%20Junta.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDEyMTFf/DKH%20-%202x04-La%20Junta.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E4: La Junta",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Piratas Del Camino",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rr82aEk8k8acONbMiwDtihNZYd4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjEwMDY0Nzdf/DKH%20-%202x05-Piratas%20Del%20Camino.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjEwMDY0Nzdf/DKH%20-%202x05-Piratas%20Del%20Camino.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E5: Piratas Del Camino",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: El Fantasma Del General Lee",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/al6sva7NFnTnxhA2iVTpcFOTPbx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDM5NTdf/DKH%20-%2006-El%20Fantasma%20Del%20General%20Lee.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDM5NTdf/DKH%20-%2006-El%20Fantasma%20Del%20General%20Lee.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E6: El Fantasma Del General Lee",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: El Duke Cale",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iuM2jaXHHo0Xha1hRcJRhnfHONl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDQyMzJf/DKH%20-%2007-El%20Duke%20Cale.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDQyMzJf/DKH%20-%2007-El%20Duke%20Cale.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E7: El Duke Cale",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Contacto En Hazzard",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7V7Be7AP1UVH30gAcLAm5WeYGZI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDQzODVf/DKH%20-%2008-Contacto%20En%20Hazzard.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDQzODVf/DKH%20-%2008-Contacto%20En%20Hazzard.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E8: Contacto En Hazzard",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Testigo Del Gobierno",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fFiwatMvHPuQuEGtA2ZAES72KwL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDQ1NDBf/DKH%20-%2009-Testigo%20Del%20Gobierno.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDQ1NDBf/DKH%20-%2009-Testigo%20Del%20Gobierno.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E9: Testigo Del Gobierno",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: La Abuela Annie",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f2P6ugJAQWLGNrFrL4aminH17nN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDQ2MTFf/DKH%20-%2010-La%20Abuela%20Annie.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDQ2MTFf/DKH%20-%2010-La%20Abuela%20Annie.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E10: La Abuela Annie",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: El Candidato",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iW8dDCivaIlSgYdo84N98dAtQVs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDUwNzVf/DKH%20-%2011-El%20Candidato.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDUwNzVf/DKH%20-%2011-El%20Candidato.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E11: El Candidato",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Arresten A Jessie Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pWXsB2WiA2O03aAWYenPM8FxhyT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDc4NDlf/DKH%20-%2012-Arresten%20A%20Jessie%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDc4NDlf/DKH%20-%2012-Arresten%20A%20Jessie%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E12: Arresten A Jessie Duke",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: El Duque Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wpMNuqYICEdd1zwPGM0VdoqQPti.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDc5MjFf/DKH%20-%2013-El%20Duque%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDc5MjFf/DKH%20-%2013-El%20Duque%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E13: El Duque Duke",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: La Fugitiva",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7lP1XqFaTM6XpSiyHiVga4WAX2c.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDgxMjFf/DKH%20-%2014-La%20Fugitiva.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDgxMjFf/DKH%20-%2014-La%20Fugitiva.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E14: La Fugitiva",
+  "hiddenCode": "T2 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Sigan Al Alambique",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eDJOyOVfpE9XvdTPEkQnOjaTHOP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDgxODJf/DKH%20-%2015-Sigan%20Al%20Alambique.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDgxODJf/DKH%20-%2015-Sigan%20Al%20Alambique.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E15: Sigan Al Alambique",
+  "hiddenCode": "T2 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: El Tesoro De Hazzard",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iq3AjJCQCidYfjF3gmsAEPklTAO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDE0NzNf/DKH%20-%202x16-El%20Tesoro%20De%20Hazzard.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDE0NzNf/DKH%20-%202x16-El%20Tesoro%20De%20Hazzard.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E16: El Tesoro De Hazzard",
+  "hiddenCode": "T2 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Oficial Daisy Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ihHCqc9aUGVAyZL4yELURqUgfBd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDE2NDNf/DKH%20-%202x17-Oficial%20Daisy%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDE2NDNf/DKH%20-%202x17-Oficial%20Daisy%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E17: Oficial Daisy Duke",
+  "hiddenCode": "T2 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Encuentren A Loretta Lynn",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p1APVz3PyAR6lkiEkBHDHO8L7KI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDIxNjBf/DKH%20-%202x18-Encuentren%20A%20Loretta%20Lynn.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDIxNjBf/DKH%20-%202x18-Encuentren%20A%20Loretta%20Lynn.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E18: Encuentren A Loretta Lynn",
+  "hiddenCode": "T2 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Jude Emery",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eNUtJfcAAhzYJtWa070Ya8mqTyG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDIzODdf/DKH%20-%202x19-Jude%20Emery.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDIzODdf/DKH%20-%202x19-Jude%20Emery.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E19: Jude Emery",
+  "hiddenCode": "T2 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: El Regreso De Los Corsarios Montañeses",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oxqZUrEqTFA5XphtaTGJLZU94XV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDI1NzNf/DKH%20-%202x20-El%20Regreso%20De%20Los%20Corsarios%20Monta%C3%B1eses.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDI1NzNf/DKH%20-%202x20-El%20Regreso%20De%20Los%20Corsarios%20Monta%C3%B1eses.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E20: El Regreso De Los Corsarios Montañeses",
+  "hiddenCode": "T2 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Las Chicas De Mason Dixon",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rF1RbIiArVOdEWAufXv5HNGVHkm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDMwNTVf/DKH%20-%202x21-Las%20Chicas%20De%20Mason%20Dixon.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDMwNTVf/DKH%20-%202x21-Las%20Chicas%20De%20Mason%20Dixon.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E21: Las Chicas De Mason Dixon",
+  "hiddenCode": "T2 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Descansa En Paz Henry Flatt",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1DXyySMdYJmIbOHPvF5GJnpqVxi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDM1NTdf/DKH%20-%202x22-Descansa%20En%20Paz%20Henry%20Flatt.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDM1NTdf/DKH%20-%202x22-Descansa%20En%20Paz%20Henry%20Flatt.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E22: Descansa En Paz Henry Flatt",
+  "hiddenCode": "T2 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Los Primos Comfurts",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fKjnTqHwNbenP1CLMXgnVCUWUsm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2MDM3ODRf/DKH%20-%202x23-Los%20Primos%20Comfurts.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2MDM3ODRf/DKH%20-%202x23-Los%20Primos%20Comfurts.SeriesRetro.com.mp4",
+  "episodeCode": "T2 E23: Los Primos Comfurts",
+  "hiddenCode": "T2 E23",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+"title": "E1: Carnaval De Emoción Parte 1",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/1Ot6dXlwAKLCBx69rajkAx5GTU8.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzU5MTZf/DKH%20-%2001-Carnaval%20De%20Emoci%C3%B3n%20Parte%201.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzU5MTZf/DKH%20-%2001-Carnaval%20De%20Emoci%C3%B3n%20Parte%201.SeriesRetro.com.mp4",
+"episodeCode": "T3 E1: Carnaval De Emoción Parte 1",
+"hiddenCode": "T3 E1",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E2: Carnaval De Emoción Parte 2",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/ay6Gkf3WxbH13+Tut9Wfdadw7jDC.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzU5ODdf/DKH%20-%2002-Carnaval%20De%20Emoci%C3%B3n%20Parte%202.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzU5ODdf/DKH%20-%2002-Carnaval%20De%20Emoci%C3%B3n%20Parte%202.SeriesRetro.com.mp4",
+"episodeCode": "T3 E2: Carnaval De Emoción Parte 2",
+"hiddenCode": "T3 E2",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E3: El Acenso De Enos",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/3vYUF7d14R4N3HrqqVvO2FlgSN5.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzYxMDdf/DKH%20-%2003-El%20Acenso%20De%20Enos.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzYxMDdf/DKH%20-%2003-El%20Acenso%20De%20Enos.SeriesRetro.com.mp4",
+"episodeCode": "T3 E3: El Acenso De Enos",
+"hiddenCode": "T3 E3",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E4: La Casa De Espantos",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/48QwEABkgqRBRRpzTdhAUfQNs3f.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzYzMjhf/DKH%20-%2004-La%20Casa%20De%20Espantos.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzYzMjhf/DKH%20-%2004-La%20Casa%20De%20Espantos.SeriesRetro.com.mp4",
+"episodeCode": "T3 E4: La Casa De Espantos",
+"hiddenCode": "T3 E4",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E5: Y En Esta Esquina Luke Duke",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/wbyuVgQbET65Ym21jBneWU4xc8x.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzY1MjJf/DKH%20-%2005-Y%20En%20Esta%20Esquina%20Luke%20Duke.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzY1MjJf/DKH%20-%2005-Y%20En%20Esta%20Esquina%20Luke%20Duke.SeriesRetro.com.mp4",
+"episodeCode": "T3 E5: Y En Esta Esquina Luke Duke",
+"hiddenCode": "T3 E5",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E6: El Difunto J.D Hogg",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/2lUh8Io8mGTdZg8o4u1NHO3RS3H.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzY3MzJf/DKH%20-%2006-El%20Difunto%20J.D%20Hogg.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzY3MzJf/DKH%20-%2006-El%20Difunto%20J.D%20Hogg.SeriesRetro.com.mp4",
+"episodeCode": "T3 E6: El Difunto J.D Hogg",
+"hiddenCode": "T3 E6",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E7: El Tío Boss",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/sCQXC1LXj4Px3WC7PRsyXg0Jn6t.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzY5MDJf/DKH%20-%2007-El%20T%C3%ADo%20Boss.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzY5MDJf/DKH%20-%2007-El%20T%C3%ADo%20Boss.SeriesRetro.com.mp4",
+"episodeCode": "T3 E7: El Tío Boss",
+"hiddenCode": "T3 E7",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E8: La Oveja Blanca",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/3CW3dG8PzVx4h7sGvT8gRJXnuBa.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzcwMDNf/DKH%20-%2008-La%20Oveja%20Blanca.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzcwMDNf/DKH%20-%2008-La%20Oveja%20Blanca.SeriesRetro.com.mp4",
+"episodeCode": "T3 E8: La Oveja Blanca",
+"hiddenCode": "T3 E8",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E9: Rosco Se Casa",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/lhufrsXuiW7ReQfp9riaGVq9hN6.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzcwODdf/DKH%20-%2009-Rosco%20Se%20Casa.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzcwODdf/DKH%20-%2009-Rosco%20Se%20Casa.SeriesRetro.com.mp4",
+"episodeCode": "T3 E9: Rosco Se Casa",
+"hiddenCode": "T3 E9",
+"intro": { "start": 0, "end": 0 }
+},
+{
+"title": "E10: La Gran Persecución De Santa Claus",
+"meta": "13+ · 60m · 1979",
+"thumbnail": "https://image.tmdb.org/t/p/w300/liIM8FfmBIBhVgWsnWMs0lOi9Jp.jpg",
+"videoUrl": "https://od.lk/d/M18zMDU2NzcyODZf/DKH%20-%2010-La%20Gran%20Persecuci%C3%B3n%20De%20Santa%20Claus.SeriesRetro.com.mp4",
+"downloadUrl": "https://od.lk/d/M18zMDU2NzcyODZf/DKH%20-%2010-La%20Gran%20Persecuci%C3%B3n%20De%20Santa%20Claus.SeriesRetro.com.mp4",
+"episodeCode": "T3 E10: La Gran Persecución De Santa Claus",
+"hiddenCode": "T3 E10",
+"intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E11: Los Buenos Vecinos",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cYZcsPIsLMMQhBut25G9pove0R4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzc4Mzhf/DKH%20-%2011-Los%20Buenos%20Vecinos%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzc4Mzhf/DKH%20-%2011-Los%20Buenos%20Vecinos%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E11: Los Buenos Vecinos",
+  "hiddenCode": "T3 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Los Dukes Siempre Listos",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1VFNUPeAWVg6eOOFSVztFWDvWxx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgwNzFf/DKH%20-%2012-Los%20Dukes%20Siempre%20Listos.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgwNzFf/DKH%20-%2012-Los%20Dukes%20Siempre%20Listos.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E12: Los Dukes Siempre Listos",
+  "hiddenCode": "T3 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: La Herencia",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dK26PtVBhkN1AflAggqiZTwMNTH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgxODVf/DKH%20-%2013-La%20Herencia.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgxODVf/DKH%20-%2013-La%20Herencia.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E13: La Herencia",
+  "hiddenCode": "T3 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Duke Vs Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/d1Oxq69k8qvzPiYGsaV2kllvNWF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgyNzdf/DKH%20-%2014-Duke%20Vs%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgyNzdf/DKH%20-%2014-Duke%20Vs%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E14: Duke Vs Duke",
+  "hiddenCode": "T3 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Mi Hijo Bo Hogg",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/erk0xHlWdHNLv8RRTiA2vVsPkcJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgzOTJf/DKH%20-%2015-Mi%20Hijo%20Bo%20Hogg.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgzOTJf/DKH%20-%2015-Mi%20Hijo%20Bo%20Hogg.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E15: Mi Hijo Bo Hogg",
+  "hiddenCode": "T3 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Para Atrapar a un Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jpBSu4A9my353b7htm6d6uJAaSo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg0ODdf/DKH%20-%2016-Para%20Atrapara%20A%20Un%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg0ODdf/DKH%20-%2016-Para%20Atrapara%20A%20Un%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E16: Para Atrapar a un Duke",
+  "hiddenCode": "T3 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Llega Otro Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2fb2Gi1YbN0ltz0Ukn7Z2FAJniY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg1OThf/DKH%20-%2017-Lega%20Otro%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg1OThf/DKH%20-%2017-Lega%20Otro%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E17: Llega Otro Duke",
+  "hiddenCode": "T3 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: La Reportera Daisy Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6kWCHz4R1bg55COpIThmJGO6WwT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg3NTJf/DKH%20-%2018-La%20Reportera%20Daisy%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg3NTJf/DKH%20-%2018-La%20Reportera%20Daisy%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E18: La Reportera Daisy Duke",
+  "hiddenCode": "T3 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: El Regreso de Hughie Hogg",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c7PSef73Lv1nnJ32bj7yiFvNkBA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg5MjVf/DKH%20-%2019-El%20Regreso%20De%20Hughie%20Hogg.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg5MjVf/DKH%20-%2019-El%20Regreso%20De%20Hughie%20Hogg.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E19: El Regreso de Hughie Hogg",
+  "hiddenCode": "T3 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Hasta Luego Boss",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vZruGnAH4rHQghkzXuuDP3L0lom.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkwMDhf/DKH%20-%2020-Hasta%20Luego%20Boss.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkwMDhf/DKH%20-%2020-Hasta%20Luego%20Boss.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E20: Hasta Luego Boss",
+  "hiddenCode": "T3 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: El Gran Asalto de Hazzard",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gDIBpAadVONEZT7izRx5EkLhvay.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkxNzVf/DKH%20-%2021-El%20Gran%20Asalto%20De%20Hazzard.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkxNzVf/DKH%20-%2021-El%20Gran%20Asalto%20De%20Hazzard.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E21: El Gran Asalto de Hazzard",
+  "hiddenCode": "T3 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: El Auto de Alquiler",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2M3ODzfIbD3crVFlbTsFmhXtdYS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk0MzRf/DKH%20-%2022-El%20Auto%20De%20Alquiler.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk0MzRf/DKH%20-%2022-El%20Auto%20De%20Alquiler.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E22: El Auto de Alquiler",
+  "hiddenCode": "T3 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: La Vasija de Canterbury",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n1sgVxvfSiyYRtjn0oXNjZT0zQF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk2MTJf/DKH%20-%2023-La%20Vasija%20De%20Canterbury.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk2MTJf/DKH%20-%2023-La%20Vasija%20De%20Canterbury.SeriesRetro.com.mp4",
+  "episodeCode": "T3 E23: La Vasija de Canterbury",
+  "hiddenCode": "T3 E23",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+  "title": "E1: La Señora Daisy Hogg",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9Fxr80BotXFHPh9I4xqmhoNZKfn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk5Nzdf/DKH%20-%2001-La%20Señora%20Daisy%20Hogg.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk5Nzdf/DKH%20-%2001-La%20Señora%20Daisy%20Hogg.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E1: La Señora Daisy Hogg",
+  "hiddenCode": "T4 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Los Dobles",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lN1mz5SeVmZ9Mbq1t6BoYx7hx1r.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODAwNTdf/DKH%20-%2002-Los%20Dobles.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODAwNTdf/DKH%20-%2002-Los%20Dobles.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E2: Los Dobles",
+  "hiddenCode": "T4 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Diamantes En Bruto",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3o7z3usrv2ocb9vUbbPdt46fnXD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODAxNTZf/DKH%20-%2003-Diamantes%20En%20Bruto.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODAxNTZf/DKH%20-%2003-Diamantes%20En%20Bruto.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E3: Diamantes En Bruto",
+  "hiddenCode": "T4 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Coltrane Vs Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qImp30VD5cakoHUJSEzZfAQ62p0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODAyODFf/DKH%20-%2004-Coltrane%20Vs%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODAyODFf/DKH%20-%2004-Coltrane%20Vs%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E4: Coltrane Vs Duke",
+  "hiddenCode": "T4 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: La Fugitiva",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eTnErGm3pgnhHObmr3i9hHk5CKG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODA0MjFf/DKH%20-%2005-La%20Fugitiva.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODA0MjFf/DKH%20-%2005-La%20Fugitiva.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E5: La Fugitiva",
+  "hiddenCode": "T4 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: El Gran Robo Del Banco",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1FVi4KhsjaO1CUZi51Z36aMx3ru.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODA2NDJf/DKH%20-%2006-El%20Gran%20Robo%20Del%20Banco.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODA2NDJf/DKH%20-%2006-El%20Gran%20Robo%20Del%20Banco.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E6: El Gran Robo Del Banco",
+  "hiddenCode": "T4 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: El Día De Sadie Hogg",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9XVnW8rVUOevi0hIaq5zuoGM0sy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODA5NDFf/DKH%20-%2007-El%20Día%20De%20Sadie%20Hogg.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODA5NDFf/DKH%20-%2007-El%20Día%20De%20Sadie%20Hogg.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E7: El Día De Sadie Hogg",
+  "hiddenCode": "T4 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: La Herencia De Rosco (Parte 1)",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9wIPfOXAif63bZA0tydlSpM9x3A.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODEwNTBf/DKH%20-%2008-La%20Herencia%20De%20Rosco%20Parte%201.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODEwNTBf/DKH%20-%2008-La%20Herencia%20De%20Rosco%20Parte%201.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E8: La Herencia De Rosco (Parte 1)",
+  "hiddenCode": "T4 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: La Herencia De Rosco (Parte 2)",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9iGlW4AQctfsX4tLf2tXScdpLtg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODExNDBf/DKH%20-%2009-La%20Herencia%20De%20Rosco%20Parte%202.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODExNDBf/DKH%20-%2009-La%20Herencia%20De%20Rosco%20Parte%202.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E9: La Herencia De Rosco (Parte 2)",
+  "hiddenCode": "T4 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Problemas En El Taller De Cooter",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ri3j3b5ZbRmh6YlCGUWTwM42d23.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODEyMzNf/DKH%20-%2010-Problemas%20En%20El%20Taller%20De%20Cooter.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODEyMzNf/DKH%20-%2010-Problemas%20En%20El%20Taller%20De%20Cooter.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E10: Problemas En El Taller De Cooter",
+  "hiddenCode": "T4 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Episodio 11 (SIN LINK)",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zjxYskcJyHxiyL2o80QUr4D348w.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E11",
+  "hiddenCode": "T4 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Cletus Se Enamora",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3LttRWmuZodecOPA8HGF8iKTlrk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE0MDJf/DKH%20-%2012-Cletus%20Se%20Enamora.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE0MDJf/DKH%20-%2012-Cletus%20Se%20Enamora.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E12: Cletus Se Enamora",
+  "hiddenCode": "T4 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Hughie Hogg Reaparece",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a8unWiBGOgMPQPSGUqoh4b8kLXk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1NzVf/DKH%20-%2013-Hughie%20Hogg%20Reaparece.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1NzVf/DKH%20-%2013-Hughie%20Hogg%20Reaparece.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E13: Hughie Hogg Reaparece",
+  "hiddenCode": "T4 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E14: El Robo Al Banco",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hxNQNJe0Degvln5TOnUCk9bx0hh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjEwMDczMTZf/DKH%20-%2014-El%20Robo%20Al%20Banco.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjEwMD73MTZf/DKH%20-%2014-El%20Robo%20Al%20Banco.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E14: El Robo Al Banco",
+  "hiddenCode": "T4 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Hagamos Música",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wSL5jYfU020o5fKFuq37ssgzPAh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3NDhf/DKH%20-%2015-Hagamos%20M%C3%BAsica.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3NDhf/DKH%20-%2015-Hagamos%20M%C3%BAsica.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E15: Hagamos Música",
+  "hiddenCode": "T4 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: El Aguardiente De Jessie",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p3xp9rjnnUoOp1PTpR2tBsFSsRA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5MTRf/DKH%20-%2016-El%20Aguardiente%20De%20Jessie.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5MTRf/DKH%20-%2016-El%20Aguardiente%20De%20Jessie.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E16: El Aguardiente De Jessie",
+  "hiddenCode": "T4 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Pisándoles Los Talones A Los Dukes",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sEnLKELdsmoNFf4TcGjB5gKjATh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxMjJf/DKH%20-%2017-Pisandole%20Los%20Talones%20A%20Los%20Dukes.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxMjJf/DKH%20-%2017-Pisandole%20Los%20Talones%20A%20Los%20Dukes.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E17: Pisándoles Los Talones A Los Dukes",
+  "hiddenCode": "T4 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: La Señorita Tisdale Fugitiva",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4uWik5QNHZB9XSlUveO9onS7XfL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNjBf/DKH%20-%2018-La%20Se%C3%B1orita%20Tisdale%20Fugitiva.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNjBf/DKH%20-%2018-La%20Se%C3%B1orita%20Tisdale%20Fugitiva.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E18: La Señorita Tisdale Fugitiva",
+  "hiddenCode": "T4 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Solo La Verdad",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rlWQVGo3AOwGUa4yqhVGuPuASN1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMjVf/DKH%20-%2019-Solo%20La%20Verdad.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMjVf/DKH%20-%2019-Solo%20La%20Verdad.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E19: Solo La Verdad",
+  "hiddenCode": "T4 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Querido Diario",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/t6BYJ7pd40ujICgTgTIcB2eN7Sb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0MDBf/DKH%20-%2020-Querido%20Diario.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0MDBf/DKH%20-%2020-Querido%20Diario.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E20: Querido Diario",
+  "hiddenCode": "T4 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: El Agente Nuevo",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lA0kfJQjiODapDNtSfHkGWbyFyX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0Nzlf/DKH%20-%2021-El%20Agente%20Nuevo.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0Nzlf/DKH%20-%2021-El%20Agente%20Nuevo.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E21: El Agente Nuevo",
+  "hiddenCode": "T4 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Las Aves Deben Volar",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pF2qKNb3S2tYlHuOf55VAWNQLHQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1ODlf/DKH%20-%2022-Las%20Aves%20Deben%20Volar.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1ODlf/DKH%20-%2022-Las%20Aves%20Deben%20Volar.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E22: Las Aves Deben Volar",
+  "hiddenCode": "T4 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Mal Día En Hazzard",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oK2OdIaNp4LkuZbZf8ZYeRe5BZD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3MDlf/DKH%20-%2023-Mal%20D%C3%ADa%20En%20Hazzard.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3MDlf/DKH%20-%2023-Mal%20D%C3%ADa%20En%20Hazzard.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E23: Mal Día En Hazzard",
+  "hiddenCode": "T4 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Señorita Tres Condados",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8rhMuwkC53ZoFD7FPixG1Zg3frm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNTRf/DKH%20-%2024-Se%C3%B1orita%20Tres%20Condados.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNTRf/DKH%20-%2024-Se%C3%B1orita%20Tres%20Condados.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E24: Señorita Tres Condados",
+  "hiddenCode": "T4 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: Compartimos Todos Por Igual",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rGhB6awEFh81UWBwpDBdI8sablG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczMDJf/DKH%20-%2025-Compartimos%20Todos%20Por%20Igual.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2OD73MDJf/DKH%20-%2025-Compartimos%20Todos%20Por%20Igual.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E25: Compartimos Todos Por Igual",
+  "hiddenCode": "T4 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: La Ley Y Jesse Duke",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3WvGl2d0heQUswJriPRbOQSl65q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2OD73Njdf/DKH%20-%2026-La%20Ley%20Y%20Jesse%20Duke.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2OD73Njdf/DKH%20-%2026-La%20Ley%20Y%20Jesse%20Duke.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E26: La Ley Y Jesse Duke",
+  "hiddenCode": "T4 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: Los Dukes En Peligro",
+  "meta": "13+ · 60m · 1979",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eaWKvY0NB3qX2TFJPfAiEDadYvt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0MjFf/DKH%20-%2027-Los%20Dukes%20En%20Peligro.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MjFf/DKH%20-%2027-Los%20Dukes%20En%20Peligro.SeriesRetro.com.mp4",
+  "episodeCode": "T4 E27: Los Dukes En Peligro",
+  "hiddenCode": "T4 E27",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hY0h9Ugb10BQI1f4rRag56CsRRA.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E1: Episodio 1",
+        "hiddenCode": "T5 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8WaermVtTXyIYCb60PmkEEMOTyL.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E2: Episodio 2",
+        "hiddenCode": "T5 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uvfJ5KRR36rXCV3oUhxc24pNaV9.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E3: Episodio 3",
+        "hiddenCode": "T5 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/z913vcydDGj3IRhbh34ZNTuocYr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E4: Episodio 4",
+        "hiddenCode": "T5 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/18EXIRQNA8S2fIKH4PUvFBGNjsS.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E5: Episodio 5",
+        "hiddenCode": "T5 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mIgMw7g9206IyRMpxtzzBxJpGbB.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E6: Episodio 6",
+        "hiddenCode": "T5 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jVD3LR93Ughu65TP86sPOjsGwrF.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E7: Episodio 7",
+        "hiddenCode": "T5 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ha9MjP6Hz0GuSR8rssyIS0wuavY.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E8: Episodio 8",
+        "hiddenCode": "T5 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qQfkITEqK8Jt72TBs3I05XQwb4z.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E9: Episodio 9",
+        "hiddenCode": "T5 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xi3uucCDLAglefQzEPHFQBKGYQs.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E10: Episodio 10",
+        "hiddenCode": "T5 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1lwPqZnc3AG2ZaR5S92XRYHnGFZ.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E11: Episodio 11",
+        "hiddenCode": "T5 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6g2OHiayfUVeqhZzVHOC6fVpgQb.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E12: Episodio 12",
+        "hiddenCode": "T5 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9R44Vj2cjX7L6D9vZZ92DDhDkrY.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E13: Episodio 13",
+        "hiddenCode": "T5 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/l6swCOfw5WM9rIJMT9obHinrKAT.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E14: Episodio 14",
+        "hiddenCode": "T5 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yuE0IljobaRNNXlPA0fuTLZ0uqx.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E15: Episodio 15",
+        "hiddenCode": "T5 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hxo75WxnTiI53EfTM6PfDiIZLKA.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E16: Episodio 16",
+        "hiddenCode": "T5 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/26ogkB7BFeKwPVaspeE55X4Djzt.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E17: Episodio 17",
+        "hiddenCode": "T5 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/52t2XJS5MVW2yj7uFHYTBdHBfAH.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E18: Episodio 18",
+        "hiddenCode": "T5 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jMNA6Wy6TRqODZYRlBHDqRkn2Gr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E19: Episodio 19",
+        "hiddenCode": "T5 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Episodio 20",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cwBQgNzjC8SXXtTaosdfoyG39Jn.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E20: Episodio 20",
+        "hiddenCode": "T5 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Episodio 21",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fvj8cyTyznEKcA0FlJxCmLWcTQR.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E21: Episodio 21",
+        "hiddenCode": "T5 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Episodio 22",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oBvzy0ZuFKzRRVw6gio8praAhA2.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E22: Episodio 22",
+        "hiddenCode": "T5 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 6",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1BXtSyktAWTrTNNv9LcK4skarfj.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E1: Episodio 1",
+        "hiddenCode": "T6 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/doQfwlvmJFMZBL4oZ4opiz5wBNi.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E2: Episodio 2",
+        "hiddenCode": "T6 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iC74qI2L3TjVF1dNqLQ2fhP6fAz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E3: Episodio 3",
+        "hiddenCode": "T6 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xNZBinxRkU1Vd4D5lWY4hMYj2Da.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E4: Episodio 4",
+        "hiddenCode": "T6 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iYrxyKN5lROli72WsrHwPkURcn0.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E5: Episodio 5",
+        "hiddenCode": "T6 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wjISGuQS5fB1t7GhUj7QwP8FJvu.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E6: Episodio 6",
+        "hiddenCode": "T6 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AhuPOVbsnW7X2ktPkbxmLcc7Wgu.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E7: Episodio 7",
+        "hiddenCode": "T6 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3wKpi2IV0SoaM289iDgMV4Ju5Wa.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E8: Episodio 8",
+        "hiddenCode": "T6 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qtu0tOSZ1QrfwhCuuIInbYnk1Jk.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E9: Episodio 9",
+        "hiddenCode": "T6 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eYijAqKp9gttJcV8d1crp2d2EEz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E10: Episodio 10",
+        "hiddenCode": "T6 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fYbZF80VfL9PGjYZa37USKZiyFq.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E11: Episodio 11",
+        "hiddenCode": "T6 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zlyjs3B6G0vK3utSjElnykXRx7d.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E12: Episodio 12",
+        "hiddenCode": "T6 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aAP3H3MyKavDkb2qS5O0EbcUFlG.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E13: Episodio 13",
+        "hiddenCode": "T6 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xmzcU3mTfY0JLBdfh7nIyJDoDBv.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E14: Episodio 14",
+        "hiddenCode": "T6 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7D6MQAlxXkYmyfeRVRhjIlXKLCt.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E15: Episodio 15",
+        "hiddenCode": "T6 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/366gzIZ3dTQDDTn0ViNz3GLCKJ7.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E16: Episodio 16",
+        "hiddenCode": "T6 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jaoxP5ZHvQgzZ3LDaruHuD5OuaP.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E17: Episodio 17",
+        "hiddenCode": "T6 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pplqOWcyQjDNZQ9Mabrv6dEiA60.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E18: Episodio 18",
+        "hiddenCode": "T6 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yPfNSUXgQvRfQBkdS6AybcjMktI.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E19: Episodio 19",
+        "hiddenCode": "T6 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Episodio 20",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r8BTHzjW5RzhyQJ9HqhfaR9HyTk.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E20: Episodio 20",
+        "hiddenCode": "T6 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Episodio 21",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2PPSS19AnXVouxQpxQPc8Y9xwHq.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E21: Episodio 21",
+        "hiddenCode": "T6 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Episodio 22",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jEF907ZTed2nCY6rHo39bJ3Xe8z.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E22: Episodio 22",
+        "hiddenCode": "T6 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 7",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/70ZGPRdWFG8OVw2UjPs4rCOXGD7.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E1: Episodio 1",
+        "hiddenCode": "T7 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iZRkOKU48fXTTZBPPBYMgWnj0Tf.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E2: Episodio 2",
+        "hiddenCode": "T7 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9qZOD28HKGVtlsQ0FGZVlkuInKd.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E3: Episodio 3",
+        "hiddenCode": "T7 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9d0btSvhVhrX4iCh4rUbGBMA7z8.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E4: Episodio 4",
+        "hiddenCode": "T7 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xPc936WoiGcGp1IvHvvo8GpuJiI.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E5: Episodio 5",
+        "hiddenCode": "T7 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sdh7PKNFBammBc3HYhh0Au17B5f.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E6: Episodio 6",
+        "hiddenCode": "T7 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rbpoNpmiRhJFVLNI9HeW3SNPAl7.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E7: Episodio 7",
+        "hiddenCode": "T7 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pPDhXJrRiQfpnk5bDNJSs8tLaHA.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E8: Episodio 8",
+        "hiddenCode": "T7 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mGpAeYAKjvDIv46XZ9WmezXiWAn.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E9: Episodio 9",
+        "hiddenCode": "T7 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rRqgSkjHirLPssyGkRwy5WoYnRf.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E10: Episodio 10",
+        "hiddenCode": "T7 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vV3gA1VFOgniICPPUUWvFChr944.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E11: Episodio 11",
+        "hiddenCode": "T7 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sQUCfuqTBmQQ2vKX1x3p3FHMfyG.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E12: Episodio 12",
+        "hiddenCode": "T7 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nBJpVBS2NTmLfji7l4HRnqdLgKS.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E13: Episodio 13",
+        "hiddenCode": "T7 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h0QWLPypa3auOlWIIAEcb34bpJL.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E14: Episodio 14",
+        "hiddenCode": "T7 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/btHrD4ukSOGBQTPu237Y1hWfPDk.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E15: Episodio 15",
+        "hiddenCode": "T7 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/890ZBMKTcTeVDVRCXdMeeKVNkfP.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E16: Episodio 16",
+        "hiddenCode": "T7 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "13+ · 60m · 1979",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1jvWGzCNYTVS7lZZdZikG29uT9E.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E17: Episodio 17",
+        "hiddenCode": "T7 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de Plantillas TMDB</title>
+  <style>
+    body {
+      padding-top: env(safe-area-inset-top); font-family: sans-serif; padding: 2rem; }
+    textarea { width: 100%; height: 300px; margin-top: 1rem; }
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+  <h1>Generador de Plantillas TMDB</h1>
+  <input type="text" id="movieId" placeholder="ID de la película o serie">
+  <select id="tipo">
+    <option value="movie">Película</option>
+    <option value="tv">Serie</option>
+  </select>
+  <button onclick="generar()">Generar HTML</button>
+  <!-- Puedes ocultar este textarea si solo quieres descargar el archivo -->
+  <textarea id="salida" readonly></textarea>
+
+  <script>
+    const API_KEY = '4b77886f6f12c73066c0d0509038df60';
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>"']/g, function (m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[m];
+      });
+    }
+
+    async function generar() {
+      const id = document.getElementById('movieId').value.trim();
+      const tipo = document.getElementById('tipo').value;
+
+      try {
+        const res = await fetch(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=${API_KEY}&language=es-ES`);
+        if (!res.ok) throw new Error("No encontrado");
+
+        const data = await res.json();
+        const title = tipo === 'movie' ? data.title : data.name;
+        const overview = data.overview || 'Sin descripción';
+        const poster = data.poster_path
+          ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
+          : '';
+
+        const safeTitle = escapeHTML(title);
+        const safeOverview = escapeHTML(overview);
+
+        const htmlContent = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>${safeTitle}</title>
+</head>
+<body>
+  <h1>${safeTitle}</h1>
+  <img src="${poster}" alt="${safeTitle}">
+  <p>${safeOverview}</p>
+</body>
+</html>`; // <- Aquí termina correctamente el template literal
+
+        // 🧼 Limpiar textarea antes de mostrar el nuevo HTML
+        document.getElementById('salida').value = '';
+        document.getElementById('salida').value = htmlContent;
+
+        // 🐞 Mostrar en consola para depuración
+        console.log("HTML generado:", htmlContent);
+
+        // 💾 Generar y descargar archivo
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const enlace = document.createElement('a');
+        enlace.href = URL.createObjectURL(blob);
+        enlace.download = `${safeTitle.replace(/\s+/g, '_')}.html`;
+        enlace.click();
+
+      } catch (e) {
+        alert("Error al obtener los datos. Revisa el ID y tipo.");
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+</html>

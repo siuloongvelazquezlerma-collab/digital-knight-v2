@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>BTX</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/7yUHkmooOk7HnAvh3PHI6inlGzS.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/6lJROHhUSRcNLqAKIPmIsbYW2Vl.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+    .cover::before,
+    .cover::after {
+      display: none;
+    }
+  
+    .cover-landscape {
+      display: block;
+    }
+  }
+  
+  .cover-content {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Mostrar landscape solo en modo horizontal */
+  @media screen and (orientation: landscape) {
+    .cover {
+      background: none;
+    }
+  
+    .cover-landscape {
+      display: block;
+    }
+  }
+
+
+
+    </style>
+</head>
+
+  <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">B't X</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://vignette.wikia.nocookie.net/btx/images/f/f6/B't_X_Logo.png/revision/latest?cb=20171116221310&path-prefix=es" alt="B't X Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;2 temporadas&nbsp;&nbsp;1996&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="B't X" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/2HHSTeOXcerGt2TKNZGALV33lMx.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="BTX.html"></a>
+          <span id="nombre">B't X (1996)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        En un mundo donde la ciencia se mezcla con el misticismo, Teppei Takamiya lucha junto a B't X, una criatura mecánica con
+        alma, para enfrentarse al temido Imperio de las Máquinas y salvar a su hermano secuestrado.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+      
+      <div class="suggested-item">
+        <a href="evangelion.html">
+          <img src="https://image.tmdb.org/t/p/original/hAejqZt7ptBRkYuR1p1lmGGS3g8.jpg" alt="Neon Genesis Evangelion (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Neon Genesis Evangelion (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="Mobile Suit Gundam Wing.html">
+          <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Mobile Suit Gundam Wing (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Mobile Suit Gundam Wing (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTUyNjg4OTdf/S1%20E01%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">B't X</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: Aparece un mini Gokū, su nombre es Gohan</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "btx";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: El retorno del robot X",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MjVf/Screenshot_20250421_180740.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA0MTQ2Njdf/01.El%20retorno%20del%20robot%20X.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA0MTQ2Njdf/01.El%20retorno%20del%20robot%20X.mp4",
+    "episodeCode": "T1 E1: El retorno del robot X",
+    "hiddenCode": "T1 E1",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E2: El nacimiento del guerrero del sol",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MjZf/Screenshot_20250421_180901.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3Mjk4MDRf/02.El%20nacimiento%20del%20guerrero%20del%20sol.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3Mjk4MDRf/02.El%20nacimiento%20del%20guerrero%20del%20sol.mp4",
+    "episodeCode": "T1 E2: El nacimiento del guerrero del sol",
+    "hiddenCode": "T1 E2",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E3: La prueba decisiva del Imperio de las Máquinas",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5Mjdf/Screenshot_20250421_180951.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzA1MTNf/03.La%20prueba%20de%20decisiva%20del%20imperio%20de%20las%20maquinas%20V2.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzA1MTNf/03.La%20prueba%20de%20decisiva%20del%20imperio%20de%20las%20maquinas%20V2.mp4",
+    "episodeCode": "T1 E3: La prueba decisiva del Imperio de las Máquinas",
+    "hiddenCode": "T1 E3",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E4: La llegada de los legendarios Guardianes Espirituales",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5Mjhf/Screenshot_20250421_181009.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzEyMTJf/04.La%20llegada%20de%20los%20legendarios%20guardianes%20espirituales.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzEyMTJf/04.La%20llegada%20de%20los%20legendarios%20guardianes%20espirituales.mp4",
+    "episodeCode": "T1 E4: La llegada de los legendarios Guardianes Espirituales",
+    "hiddenCode": "T1 E4",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E5: El desesperado viaje de batalla",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5Mjlf/Screenshot_20250421_181027.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzE3MDZf/05.El%20desesperado%20viaje%20de%20batalla.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzE3MDZf/05.El%20desesperado%20viaje%20de%20batalla.mp4",
+    "episodeCode": "T1 E5: El desesperado viaje de batalla",
+    "hiddenCode": "T1 E5",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E6: El terrible desierto pirata",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzBf/Screenshot_20250421_181046.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzIzOTNf/06.El%20temible%20desierto%20pirata.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzIzOTNf/06.El%20temible%20desierto%20pirata.mp4",
+    "episodeCode": "T1 E6: El terrible desierto pirata",
+    "hiddenCode": "T1 E6",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E7: El misterio del emperador de las máquinas",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzFf/Screenshot_20250421_181224.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzMwOTJf/07.El%20misterio%20del%20emperador%20de%20las%20maquinas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzMwOTJf/07.El%20misterio%20del%20emperador%20de%20las%20maquinas.mp4",
+    "episodeCode": "T1 E7: El misterio del emperador de las máquinas",
+    "hiddenCode": "T1 E7",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E8: Camila, dama de la ilusión",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzJf/Screenshot_20250421_181257.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzM3ODNf/08.Camilla%20dama%20de%20la%20ilusion.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzM3ODNf/08.Camilla%20dama%20de%20la%20ilusion.mp4",
+    "episodeCode": "T1 E8: Camila, dama de la ilusión",
+    "hiddenCode": "T1 E8",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E9: La increíble flor maligna",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzNf/Screenshot_20250421_181321.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzQ0NDFf/09.La%20incre%C3%ADble%20flor%20maligna.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzQ0NDFf/09.La%20incre%C3%ADble%20flor%20maligna.mp4",
+    "episodeCode": "T1 E9: La increíble flor maligna",
+    "hiddenCode": "T1 E9",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+    "title": "E10: La revancha de Cara Metálica",
+    "meta": "13+ · 23m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzRf/Screenshot_20250421_181404.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA3MzUwODFf/10.La%20revancha%20de%20Cara%20Metalica.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA3MzUwODFf/10.La%20revancha%20de%20Cara%20Metalica.mp4",
+    "episodeCode": "T1 E10: La revancha de Cara Metálica",
+    "hiddenCode": "T1 E10",
+    "intro": {
+      "start": 5,
+      "end": 85
+    }
+  },
+  {
+  "title": "E11: El invencible Ron, guardián espiritual del este",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzVf/Screenshot_20250421_181426.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3MzU3OTVf/11.El%20invencible%20Ron%20guardian%20espiritual%20del%20este.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3MzU3OTVf/11.El%20invencible%20Ron%20guardian%20espiritual%20del%20este.mp4",
+  "episodeCode": "T1 E11: El invencible Ron, guardián espiritual del este",
+  "hiddenCode": "T1 E11",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E12: Un enemigo formidable, el gran Caballero Kaos",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5MzZf/Screenshot_20250421_181507.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NTQ1NzVf/12.Un%20enemigo%20formidable%20el%20gran%20caballero%20Kaos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NTQ1NzVf/12.Un%20enemigo%20formidable%20el%20gran%20caballero%20Kaos.mp4",
+  "episodeCode": "T1 E12: Un enemigo formidable, el gran Caballero Kaos",
+  "hiddenCode": "T1 E12",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E13: Amigos, el lazo del corazón",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5Mzdf/Screenshot_20250421_181621.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NTQ1NjZf/13.Amigos%20el%20lazo%20del%20corazon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NTQ1NjZf/13.Amigos%20el%20lazo%20del%20corazon.mp4",
+  "episodeCode": "T1 E13: Amigos, el lazo del corazón",
+  "hiddenCode": "T1 E13",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E14: La tragedia de María",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5Mzhf/Screenshot_20250421_181711.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3Mzc0OTRf/14.La%20tragedia%20de%20Maria.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3Mzc0OTRf/14.La%20tragedia%20de%20Maria.mp4",
+  "episodeCode": "T1 E14: La tragedia de María",
+  "hiddenCode": "T1 E14",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E15: La batalla contra el dios de la muerte",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5Mzlf/Screenshot_20250421_181745.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3Mzc5Nzhf/15.La%20batalla%20contra%20el%20dios%20de%20la%20muerte.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3Mzc5Nzhf/15.La%20batalla%20contra%20el%20dios%20de%20la%20muerte.mp4",
+  "episodeCode": "T1 E15: La batalla contra el dios de la muerte",
+  "hiddenCode": "T1 E15",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E16: La resurrección, una luz de cinco colores",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDBf/Screenshot_20250421_181806.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3Mzg0NzRf/16.La%20resurreccion%20una%20luz%20de%20cinco%20colores.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3Mzg0NzRf/16.La%20resurreccion%20una%20luz%20de%20cinco%20colores.mp4",
+  "episodeCode": "T1 E16: La resurrección, una luz de cinco colores",
+  "hiddenCode": "T1 E16",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E17: La llegada de Beta Nocturna",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDFf/Screenshot_20250421_181822.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NTQ1NzZf/17.La%20llegada%20de%20beta%20Nocturna.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NTQ1NzZf/17.La%20llegada%20de%20beta%20Nocturna.mp4",
+  "episodeCode": "T1 E17: La llegada de Beta Nocturna",
+  "hiddenCode": "T1 E17",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E18: El terror de las tinieblas",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDJf/Screenshot_20250421_181943.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3Mzk1NzRf/18.El%20terror%20de%20las%20tinieblas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3Mzk1NzRf/18.El%20terror%20de%20las%20tinieblas.mp4",
+  "episodeCode": "T1 E18: El terror de las tinieblas",
+  "hiddenCode": "T1 E18",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E19: Muerte segura, el fin de X",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDNf/Screenshot_20250421_182008.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NDAxMzdf/19.Muerte%20segura%2C%20el%20fin%20de%20X.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NDAxMzdf/19.Muerte%20segura%2C%20el%20fin%20de%20X.mp4",
+  "episodeCode": "T1 E19: Muerte segura, el fin de X",
+  "hiddenCode": "T1 E19",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E20: Corazón de oro",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDVf/Screenshot_20250421_182047.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NDA2NzZf/20.Corazon%20de%20oro.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NDA2NzZf/20.Corazon%20de%20oro.mp4",
+  "episodeCode": "T1 E20: Corazón de oro",
+  "hiddenCode": "T1 E20",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E21: El renacimiento de X",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDZf/Screenshot_20250421_182123.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NDEyMDFf/21.El%20renacimiento%20de%20X.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NDEyMDFf/21.El%20renacimiento%20de%20X.mp4",
+  "episodeCode": "T1 E21: El renacimiento de X",
+  "hiddenCode": "T1 E21",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E22: Los siete generales del demonio",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDdf/Screenshot_20250421_182150.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NDE4NzRf/22.Los%20siete%20generales%20del%20demonio.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NDE4NzRf/22.Los%20siete%20generales%20del%20demonio.mp4",
+  "episodeCode": "T1 E22: Los siete generales del demonio",
+  "hiddenCode": "T1 E22",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E23: Nudillos brillantes",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NDhf/Screenshot_20250421_182217.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDA3NDI1NDFf/23.Nudillos%20brillantes.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDA3NDI1NDFf/23.Nudillos%20brillantes.mp4",
+  "episodeCode": "T1 E23: Nudillos brillantes",
+  "hiddenCode": "T1 E23",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E24: Una parte del sol",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NTFf/Screenshot_20250421_182241.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQ0MjE4MzVf/24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MjE4MzVf/24.mp4",
+  "episodeCode": "T1 E24: Una parte del sol",
+  "hiddenCode": "T1 E24",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+},
+{
+  "title": "E25: Destruyan a Beta Rafaelo",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://od.lk/s/M18zMTcxNjU5NTJf/Screenshot_20250421_182259.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQ0MjE4MzJf/25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MjE4MzJf/25.mp4",
+  "episodeCode": "T1 E25: Destruyan a Beta Rafaelo",
+  "hiddenCode": "T1 E25",
+  "intro": {
+      "start": 5,
+      "end": 85
+    }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E26: Los guardianes espirituales contra los demonios",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iEYprGh99hLNR9YD1hH9UQFL8of.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjE5ODdf/26.Los%20guardianes%20espirituales%20contra%20los%20demonios.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjE5ODdf/26.Los%20guardianes%20espirituales%20contra%20los%20demonios.mp4",
+  "episodeCode": "T2 E26: Los guardianes espirituales contra los demonios",
+  "hiddenCode": "T2 E26",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E27: La tierra del amor y del odio",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ybKkTMHvjnoADwfUKOg7ofJ2uMO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjE5OTBf/27.La%20tierra%20del%20amor%20y%20del%20odio.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjE5OTBf/27.La%20tierra%20del%20amor%20y%20del%20odio.mp4",
+  "episodeCode": "T2 E27: La tierra del amor y del odio",
+  "hiddenCode": "T2 E27",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E28: Flamas tormentosas",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i2YCmL1zlJlP1b9B9xa3hYHZpwG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjE5OTVf/28.Flamas%20tormentosas.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjE5OTVf/28.Flamas%20tormentosas.mp4",
+  "episodeCode": "T2 E28: Flamas tormentosas",
+  "hiddenCode": "T2 E28",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E29: El milagro de la sangre",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dSh2877QINNY28es1xIUUmwX032.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjE5OTZf/29.El%20milagro%20de%20la%20sangre.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjE5OTZf/29.El%20milagro%20de%20la%20sangre.mp4",
+  "episodeCode": "T2 E29: El milagro de la sangre",
+  "hiddenCode": "T2 E29",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E30: El miedo a los suelos",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kWd48jwyH2ltIP49XDrPgLUUZpH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwMjFf/30.El%20miedo%20a%20los%20suelos.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwMjFf/30.El%20miedo%20a%20los%20suelos.mp4",
+  "episodeCode": "T2 E30: El miedo a los suelos",
+  "hiddenCode": "T2 E30",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E31: Un rayo de luz",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nnd45hwcsPo6XubeEsfp93UZNCl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwNDJf/31.Un%20rayo%20de%20luz.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwNDJf/31.Un%20rayo%20de%20luz.mp4",
+  "episodeCode": "T2 E31: Un rayo de luz",
+  "hiddenCode": "T2 E31",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E32: Masluz",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b0QGdQMfbRODMxtuLayQ0lcKc4X.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwNDhf/32.Masluz.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwNDhf/32.Masluz.mp4",
+  "episodeCode": "T2 E32: Masluz",
+  "hiddenCode": "T2 E32",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E33: La confesión de la máscara",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1HkITRzTek1x5CPgJcVkzHV01Yx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwNTRf/33.La%20confesion%20de%20la%20mascara.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwNTRf/33.La%20confesion%20de%20la%20mascara.mp4",
+  "episodeCode": "T2 E33: La confesión de la máscara",
+  "hiddenCode": "T2 E33",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E34: Amistad de sangre",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lJzv7T1vq0tf7Tqc7SZCzJkeN6Y.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwNjNf/34.Amistad%20de%20sangre.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwNjNf/34.Amistad%20de%20sangre.mp4",
+  "episodeCode": "T2 E34: Amistad de sangre",
+  "hiddenCode": "T2 E34",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E35: El aullido diabólico",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yqqI5TGdNlNMWv2dyrSHaDm8IQ6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwNjZf/35.El%20aullido%20diabolico.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwNjZf/35.El%20aullido%20diabolico.mp4",
+  "episodeCode": "T2 E35: El aullido diabólico",
+  "hiddenCode": "T2 E35",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E36: En busca del tiempo perdido",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uxhzvlWZrO5wPoxvNmVz6mP2rhA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwNzRf/36.En%20busca%20del%20tiempo%20perdido.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwNzRf/36.En%20busca%20del%20tiempo%20perdido.mp4",
+  "episodeCode": "T2 E36: En busca del tiempo perdido",
+  "hiddenCode": "T2 E36",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E37: Uno para todos",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nagiUirKI5lcGnL1InGtMuc7MuA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwODJf/37.Uno%20para%20todos.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwODJf/37.Uno%20para%20todos.mp4",
+  "episodeCode": "T2 E37: Uno para todos",
+  "hiddenCode": "T2 E37",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E38: Recuerdos del futuro",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v6c6QjZocce42wbFpTaRyk3db2H.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwODlf/38.Recuerdos%20del%20futuro.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwODlf/38.Recuerdos%20del%20futuro.mp4",
+  "episodeCode": "T2 E38: Recuerdos del futuro",
+  "hiddenCode": "T2 E38",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E39: Un pedazo de sol",
+  "meta": "13+ · 23m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2FVIm8ztzoxfshWnj7nWJu90ufp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MjIwOTdf/39.Un%20pedazo%20de%20sol.mp4",
+  "downloadUrl": "http://od.lk/d/M18zMDQ0MjIwOTdf/39.Un%20pedazo%20de%20sol.mp4",
+  "episodeCode": "T2 E39: Un pedazo de sol",
+  "hiddenCode": "T2 E39",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+}
+
+
+    ]
+  }
+];
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+
+
+
+
+</body>
+</html>

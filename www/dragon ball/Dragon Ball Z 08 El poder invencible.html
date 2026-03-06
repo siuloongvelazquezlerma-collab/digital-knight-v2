@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Dragon Ball Z: El Poder Invencible</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+      background: black;
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      color: white;
+    }
+
+     /* Estilo general para el header */
+  #header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0); /* Fondo del header transparente al inicio */
+    display: flex;
+    justify-content: space-between; /* Mantiene espacio entre la flecha y otros elementos */
+    align-items: center;
+    padding: 10px;
+    z-index: 3000; /* Asegura que el header esté por encima de otros elementos */
+    transition: background-color 0.3s ease; /* Transición suave del fondo */
+}
+
+/* Estilo de los enlaces */
+.icon-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; /* Color del ícono */
+    text-decoration: none; /* Quitar subrayado */
+    z-index: 3001;
+}
+
+/* Flecha a la izquierda */
+#back-link {
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
+    border-radius: 50%; /* Hace el fondo circular */
+    width: 36px; /* Tamaño del círculo */
+    height: 36px;
+    font-size: 20px; /* Tamaño del ícono */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#page-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    opacity: 0; /* Lo ocultamos por defecto */
+    transition: opacity 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+/* Hover efectos */
+.icon-link:hover {
+    opacity: 0.8; /* Ligera transparencia al hacer hover */
+}
+
+    .cover {
+      position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTIwMTE2MjFf/El%20poder%20invencible.jpeg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/c3GXGuf5zVSM1m4n63gwCkz24N9.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .cover-content {
+    padding-top: 70px; /* Ajusta según el tamaño de tu #header */
+  }
+}
+
+
+.cover-content img.logo {
+    width: 230px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 190px;
+      margin-bottom: 4px;
+    }
+  
+    
+  }
+  
+  @media (min-width: 1024px) {
+    
+  
+    .cover-content img.logo {
+      margin-top: 310px;
+      width: 370px;
+      margin-bottom: -10px;
+    }
+  
+    
+  } 
+
+
+/* General: espacio para header fijo en pantallas pequeñas */
+@media screen and (max-width: 1024px) {
+  .cover-content {
+    padding-top: 80px; /* deja espacio para el header fijo */
+  }
+}
+
+/* Móviles en portrait */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .cover-content {
+    padding-top: 90px; /* un poco más de espacio en modo vertical */
+  }
+
+  .cover {
+    padding-top: 0; /* el padding se maneja dentro de .cover-content */
+  }
+}
+
+/* Móviles en landscape (horizontal) */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .cover-content {
+    padding-top: 60px;
+  }
+}
+
+/* Tablets en cualquier orientación */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .cover-content {
+    padding-top: 70px;
+  }
+}
+
+/* PC: sin padding adicional */
+@media screen and (min-width: 1025px) {
+  .cover-content {
+    padding-top: 0;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+    .meta {
+      font-size: 12px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    #video-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* espacio vertical entre botones */
+}
+
+
+
+.watch-button {
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 95vw; /* ⬅️ Usa el 95% del ancho del viewport */
+  margin: 0 auto 0px auto;
+  padding: 10px 20px;
+}
+
+.watch-text-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.watch-progress-bar {
+  width: 100%;
+  height: 3px;
+  background-color: #666;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: -1px;
+  display: none;
+}
+
+.watch-progress-bar > div {
+  height: 100%;
+  width: 0%;
+  background-color: rgb(240, 7, 7);
+  transition: width 0.3s ease;
+}
+
+/* Reiniciar con espacio reservado (no empuja al aparecer) */
+/* Reiniciar: inicialmente oculto, sin reservar espacio */
+.restart-button {
+  background: #0643759c;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: none; /* esto es clave */
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 95vw;
+  padding: 10px 20px;
+  margin: 0 auto 0px auto;
+  transition: all 0.3s ease;
+}
+
+.restart-button.shown {
+  display: flex; /* aparece y empuja lo de abajo */
+}
+
+
+
+/* Íconos */
+.material-icons {
+  font-size: 22px;
+}
+
+.cover-content img.logo {
+  width: 220px;
+  margin-bottom: 12px;
+}
+
+/* NUEVO estilo para iconos de acción */
+.iconos {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  align-items: center;
+}
+
+.iconos button,
+.iconos .action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.iconos .material-icons-outlined {
+  font-size: 23px;
+  margin-bottom: 5px;
+}
+
+.iconos button:focus {
+  outline: none;
+}
+
+/* Si quieres mantener el estilo de descarga similar */
+.download-action a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.download-action .material-icons {
+  font-size: 23px;
+  margin-bottom: 5px;
+}
+
+.download-action .underline {
+  width: 15px;
+  height: 2px;
+  background-color: white;
+  margin-top: -6px;
+  margin-bottom: 3px;
+}
+
+
+.notificacion {
+  position: fixed;
+  bottom: -100px; /* Oculto fuera de vista */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  transition: bottom 0.4s ease-in-out;
+  z-index: 9999;
+  pointer-events: none; /* para que no interfiera con clicks */
+}
+
+.notificacion-icono {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(49, 13, 250, 0.89);
+  border-radius: 50%;
+}
+
+.description {
+  font-size: 0.95em;
+  color: #ccc;
+  margin-top: 15px;
+  max-width: 500px;
+  line-height: 1.4;
+}
+
+.sugerencias-section {
+  padding: 1.5rem 1rem 1rem;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.sugerencias-header {
+  position: relative;
+  border-bottom: 1px solid #555; /* línea gris horizontal */
+  margin-bottom: 1rem;
+}
+
+.sugerencias-titulo {
+  color: white;
+  font-size: 1.05rem;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 0.3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.sugerencias-titulo::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background-color: white;
+  width: 100%; /* del mismo ancho que el texto */
+  margin-top: 2px;
+  margin-bottom: -6px;
+}
+
+.sugerencias-tabs-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: #555; /* línea gris */
+  z-index: 1;
+}
+
+.sugerencias-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 70px;
+}
+
+.sugerencias-grid a img {
+  width: 100%;
+  height: 320px; /* o el alto que desees */
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+
+.sugerencia-item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
+}
+
+.sugerencia-titulo {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-top: 0.4rem;
+}
+
+.sugerencia-sub {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: 0.1rem;
+}
+
+
+
+@media (orientation: landscape) {
+  .cover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 2.5rem 2rem;
+    gap: 1rem;
+    min-height: 100vh;
+    height: auto;
+    max-width: 100vw;
+  }
+
+  .cover-content img.logo {
+    width: 240px;
+    margin-bottom: 12px;
+  }
+
+  .cover-meta-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 600px;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: #ccc;
+    margin: 0;
+  }
+
+  .watch-button {
+    max-width: 280px;
+    padding: 12px 16px;
+    font-size: 1.05em;
+    margin: 0;
+    margin-bottom:10px;
+  }
+
+  /* NUEVO estilo para iconos de acción */
+  .iconos {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    align-items: center;
+  }
+
+  .iconos button,
+  .iconos .action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  .iconos .material-icons-outlined {
+    font-size: 24px; /* reducido */
+    margin-bottom: 4px;
+  }
+
+  .iconos button:focus {
+    outline: none;
+  }
+
+  /* Estilo adaptado para descarga en landscape */
+  .download-action a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 0.75rem;
+  }
+
+  .download-action .material-icons {
+    font-size: 24px; /* reducido como los demás */
+    margin-bottom: 4px;
+  }
+
+  .download-action .underline {
+    width: 18px;
+    height: 2px;
+    background-color: white;
+    margin-top: -5px;
+    margin-bottom: 3px;
+  }
+
+  .description {
+    font-size: 0.95em;
+    color: #ccc;
+    line-height: 1.4;
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .sugerencias-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 70px;
+  }
+
+  .sugerencia-item {
+    flex: 0 0 auto;
+    width: 130px; /* Puedes ajustar según el tamaño deseado */
+  }
+
+  .sugerencias-grid a img {
+  width: 100%;
+  height: 190px; /* altura fija: puedes ajustar a tu gusto */
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+
+  .sugerencia-titulo,
+  .sugerencia-sub {
+    text-align: center;
+  }
+}
+
+   
+
+    /* --- PLAYER --- */
+
+    .video-js .vjs-control-bar,
+.video-js .vjs-big-play-button,
+.video-js .vjs-loading-spinner,
+.video-js .vjs-error-display {
+  display: none !important;
+}
+
+
+.player {
+  display: none; /* ⬅️ Esto es clave */
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: black;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: black;
+}
+
+.video-js {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: black !important;
+}
+
+.video-js video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  background-color: black;
+}
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+
+    .overlay.visible {
+      opacity: 1;
+    }
+
+    .controls {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 1;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .controls.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .top-bar, .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      pointer-events: auto;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 0; width: 100%;
+    }
+
+    .bottom-bar {
+      position: absolute;
+      bottom: 0; width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #episodeHeader .title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+#episodeHeader .subtitle {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+    .center-controls {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      pointer-events: auto;
+    }
+
+    .btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn .material-icons {
+      font-size: 55px;
+    }
+
+    .progress-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .progress {
+      flex: 1;
+      appearance: none;
+      height: 5px;
+      background: #666;
+      border-radius: 3px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .progress::-webkit-slider-thumb {
+      appearance: none;
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background: rgb(255, 255, 255);
+      border: none;
+    }
+
+    .time {
+      font-size: 0.9em;
+      color: #ccc;
+      white-space: nowrap;
+    }
+
+    .icon-btn {
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .extra-controls {
+  display: flex;
+  justify-content: center;
+  gap: 300px;
+  width: 100%;
+  pointer-events: auto;
+  margin-bottom: 10px;
+}
+
+.extra-controls .btn {
+  flex-direction: row;
+  gap: 8px;
+  font-size: 19px; /* Antes era 1.2em */
+}
+
+.extra-controls .btn .material-icons {
+  font-size: 20px;
+}
+
+.extra-controls .btn .label {
+  font-size: 13px; /* Antes era 1em */
+  color: white;
+}
+
+    .footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: #0a1936;
+padding: 10px 0;
+height: 60px;
+z-index: 3000;
+justify-content: space-around;
+}
+
+.footer-icon {
+color: #ccbf79; /* Icono gris cuando está inactivo */
+text-align: center;
+text-decoration: none;
+font-size: 30px; /* Tamaño aumentado para los iconos */
+flex: 1; /* Ocupa el mismo espacio cada icono */
+display: flex;
+flex-direction: column;
+align-items: center;
+text-decoration: none;
+transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+.footer-icon p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #ccbf79;
+}
+
+.footer-icon.active p {
+  color: #ff5e00; /* Color destacado para la opción activa */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+color: #ff5e00; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+width: 30px; /* Tamaño de la imagen de perfil */
+height: 30px; /* Tamaño de la imagen de perfil */
+border-radius: 50%; /* Hacer la imagen circular */
+border: 2px solid #ccbf79; /* Borde blanco por defecto */
+object-fit: cover; /* Asegura que la imagen se recorte bien */
+transition: border-color 0.3s ease; /* Transición suave para el borde */
+}
+
+/* Cambiar el color del borde cuando el icono esté activo */
+.footer-icon.active .profile-icon-footer {
+border-color: #ff5e00; /* Cambiar el borde a azul cuando esté activo */
+}
+
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+color: #bbb; /* Gris para iconos inactivos */
+}
+  
+  .nav__icon {
+    font-size: 20px; /* Ajusta el tamaño del icono aquí */
+  }
+
+
+
+  /* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+
+        /* Deshabilitar el arrastre de imágenes */
+        img {
+            pointer-events: none; /* Desactiva interacciones del puntero en imágenes */
+        }
+
+        .video-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(
+   background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+  opacity: 1 !important;
+  transition: opacity 3s ease-out;
+}
+
+/* Oculto */
+.hidden {
+  display: none !important;
+}
+
+/* Animación de rotación */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Animación de brillo */
+@keyframes shine {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.8);
+  }
+}
+
+        /* Overlay para oscurecer la página */
+.overlay-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 0.8s ease-out; /* Cambia de 2s a 0.8s */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay-loader.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+/* Loader de página */
+#loader {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  animation: page-spin 1.2s linear infinite, page-shine 2s ease-in-out infinite;
+  opacity: 1 !important;
+  transition: opacity 3s ease-out;
+  z-index: 600000;
+}
+
+/* Animaciones únicas para loader de página */
+@keyframes page-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes page-shine {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.8); }
+}
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader"></div>
+
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+        <span class="material-icons">chevron_left</span>
+    </a>
+    <span id="page-title" class="page-title">El Poder Invencible </span> <!-- Título oculto por defecto -->
+</header>
+
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+    <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+    <div class="cover-landscape">
+      <div class="cover-landscape-shadow-left"></div>
+    </div>
+  
+    <div class="cover-content">
+      <img src="https://od.lk/s/M18zMDQ2ODQ3NzVf/El%20Poder%20Invencible.png" alt="Dragon Ball Z: El Poder Invencible  "class="logo" tabindex="2">
+      <div class="meta">12+    1h 10m   1993</div>
+  
+      <div class="bloque-botones">
+        <div id="video-controls">
+          <button id="watchButton" class="watch-button" onclick="showPlayer()">
+            <span id="watchButtonIcon" class="material-icons">play_arrow</span>
+            <div class="watch-text-wrapper">
+              <span id="watchButtonText">Ver ahora</span>
+              <div id="watchProgressBar" class="watch-progress-bar">
+                <div></div>
+              </div>
+            </div>
+          </button>
+          
+          <button id="restartButton" class="restart-button" onclick="restartMovie()"> 
+            <span class="material-icons">replay</span> Reiniciar
+          </button>
+      
+          <!-- Espacio opcional si quieres animar la separación (no obligatorio) -->
+          <!-- <div id="restartSpacer" style="height: 0px; transition: height 0.3s ease;"></div> -->
+        </div>
+      
+        <div class="iconos">
+          <!-- Botón de Favoritos -->
+          <button id="favoritoBtn" data-identificador="Dragon Ball Z: El Poder Invencible" onclick="toggleFavorito()" tabindex="4">
+            <span id="favoritoIcon" class="material-icons-outlined">add</span>
+            <p id="favoritoText">Favoritos</p>
+          </button>
+      
+          <!-- Info oculta para localStorage -->
+          <div id="favoritoData" style="display: none;">
+            <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTIwMTE3MTBf/el%20poder%20invencible%20fondo.png" alt="Poster de la Película">
+            <a id="favoritoEnlace" href="Dragon Ball Z 08 El poder invencible.html"></a>
+            <span id="nombre">Dragon Ball Z: El Poder Invencible (1993)</span>
+          </div>
+      
+          <!-- Notificación tipo "añadido a favoritos" -->
+          <div id="notificacion" class="notificacion" style="bottom: -100px;">
+            <span id="notificacionTexto">Añadido a favoritos</span>
+            <span class="notificacion-icono material-icons-outlined">check</span>
+          </div>
+      
+          <!-- Botón de Compartir -->
+          <div class="action-item" id="compartirBtn">
+            <span class="material-icons-outlined">share</span>
+            <p>Compartir</p>
+          </div>
+      
+          <!-- Botón de Descargar -->
+          <div class="download-action">
+            <a href="https://od.lk/d/M18zMDQ2Mjk5MDdf/08%20El%20Poder%20Invensible%20_%201993.mp4" download>
+              <i class="material-icons">arrow_downward</i>
+              <span class="underline"></span>
+              Descargar
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="description">
+        Gokū es contactado por Kaiō Sama para que investigue la aparición de un Saiyajin que ha destruido la galaxia del
+        sur.
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZÁ TAMBIÉN TE GUSTE -->
+<div class="sugerencias-section">
+  <div class="sugerencias-header">
+    <h2 class="sugerencias-titulo">Quizá también te guste</h2>
+    <div class="sugerencias-tabs-line"></div>
+  </div>
+  <div class="sugerencias-grid">
+    <a href="Dragon Ball Z 07 La Pelea de los Tres Saiyajin.html" class="sugerencia-item">
+      <img src="https://es.web.img3.acsta.net/pictures/21/04/19/13/24/3827526.jpg" alt="La Pelea de los Tres Saiyajin">
+      <p class="sugerencia-titulo">La Pelea de los Tres Saiyajin</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+    <a href="Dragon Ball Z 06 Los Guerreros más Poderosos.html" class="sugerencia-item">
+      <img src="https://media.fstatic.com/OpiMMDWeuS0ODRXHmSgcOXut0gU=/322x478/smart/filters:format(webp)/media/movies/covers/2023/03/movie_09.jpg" alt="Los Guerreros más Poderosos">
+      <p class="sugerencia-titulo">Los Guerreros más Poderosos</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+    <a href="Dragon Ball Z 05 Los Rivales más Poderosos.html" class="sugerencia-item">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgyCeOEfMI47kxU7SPLuzNf2k4q-4JHnNr_CuY0vFx8dNkSL0vAQVqTsV2YRlhwAR4q8lfZ6YHv4_PubIOaQDyylA8XZYipaw299BCUkCJTiAjqS2alSc0cgXVnsl_sKGq3DkHOiC1Z5w9MNZuF1ZEnIIEp2Efw9lSvyaXPG7eaJ_H95JOi22HlKWWYng/w1200-h630-p-k-no-nu/poster.jpg" alt="Los Rivales más Poderosos">
+      <p class="sugerencia-titulo">Los Rivales más Poderosos</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+    <a href="Dragon Ball Z 04 Goku es un Super Saiyajin.html" class="sugerencia-item">
+      <img src="https://media-cache.cinematerial.com/p/500x/dfjymyez/doragon-boru-z-4-super-saiyajin-da-son-goku-japanese-movie-poster.jpg?v=1456728757" alt="Goku es un Super Saiyajin">
+      <p class="sugerencia-titulo">Goku es un Super Saiyajin</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+    <a href="dragon ball z 03 la batalla mas grande de este mundo esta por comenzar.html" class="sugerencia-item">
+      <img src="https://2.bp.blogspot.com/-9na0FWUZbIo/XHVYZrNzhPI/AAAAAAAAEf4/EavU8l915YkXD4H5XBvftbABYG6nUEF9wCLcBGAs/s1600/90345l.jpg" alt="La batalla más grande de este mundo está por comenzar">
+      <p class="sugerencia-titulo">La batalla más grande de este mundo está por comenzar</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+    <a href="Dragon Ball Z 02 El Hombre más Fuerte de este Mundo.html" class="sugerencia-item">
+      <img src="https://th.bing.com/th/id/OIP.nJ6SBnNjBntFaaRLS5KaAgAAAA?rs=1&pid=ImgDetMain" alt="El Hombre más Fuerte de este Mundo">
+      <p class="sugerencia-titulo">El Hombre más Fuerte de este Mundo</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+    <a href="Dragon Ball Z 01 ¡Devuélvanme a mi Gohan!.html" class="sugerencia-item">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/8104Ve6FsiL._RI_SX300_.jpg" alt="¡Devuélvanme a mi Gohan!">
+      <p class="sugerencia-titulo">¡Devuélvanme a mi Gohan!</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  </div>
+  
+</div>
+
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video id="video" poster="https://wallpapercave.com/wp/wp5415042.jpg" src="https://od.lk/s/M18zMDQ2Mjk5MDdf/08%20El%20Poder%20Invensible%20_%201993.mp4" preload="metadata"></video>
+ <!-- Loader -->
+ <div class="video-loader hidden" id="videoLoader">
+  <div class="spinner"></div>
+</div>
+
+    <!-- Aspect Ratio Label -->
+    <div id="aspectLabel" style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      display: none;
+      z-index: 9999;
+    ">
+      cover
+    </div>
+  
+   <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+  
+   
+    <div class="controls" id="controls">
+      <div class="top-bar">
+        <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+        <div style="display: flex; gap: 15px;">
+  
+         <!-- Botón de idioma con mini menú -->
+<!--
+<div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+  <span class="material-icons" id="langIcon">chat</span>
+  
+  <div id="langMenu" class="lang-menu">
+    <div class="lang-option" data-lang="latino">
+      <span class="check"></span> Español (Latino)
+    </div>
+    <div class="lang-option" data-lang="ingles">
+      <span class="check"></span> Inglés (Subtitulada)
+    </div>
+    <button id="langConfirmBtn">Listo</button>
+  </div>
+</div>
+-->
+  
+  <!-- Botón Cast -->
+  <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+  
+  <!-- Botón Aspect Ratio -->
+  <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+  </div>
+  </div>
+  
+      <div class="center-controls">
+        <button class="btn" onclick="skip(-10)">
+          <span class="material-icons">replay_10</span>
+        </button>
+        <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        <button class="btn" onclick="skip(10)">
+          <span class="material-icons">forward_10</span>
+        </button>
+      </div>
+  
+      <div class="bottom-bar">
+        <div id="episodeHeader">
+          <div class="title">Dragon Ball Z:</div>
+          <div class="subtitle" id="episodeSubtitle">El Poder Invencible</div>
+        </div>
+  
+        <div class="progress-container">
+          <div class="buffer-bar"></div>  <!-- ✅ Agrega esto -->
+          <input type="range" class="progress" id="progress" value="0" max="100">
+          <div class="time" id="duration">- 00:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+</footer>
+
+
+<script>
+
+window.movieId = "dragon-ball-z-el-poder-invencible"; // cambia por el ID único que desees
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+ 
+  
+ 
+
+function castCurrentVideo() {
+  const video = document.getElementById("video");
+  let currentSrc = video?.currentSrc;
+
+  // Si currentSrc está vacío, intenta obtenerlo del <source>
+  if (!currentSrc) {
+    const sourceEl = video.querySelector('source');
+    currentSrc = sourceEl ? sourceEl.src : null;
+  }
+
+  if (!currentSrc) {
+    alert("No se encontró el enlace del video.");
+    return;
+  }
+
+  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
+  const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
+
+  const transmitLink = document.createElement('a');
+  transmitLink.href = appLink;
+  transmitLink.style.display = 'none';
+  document.body.appendChild(transmitLink);
+
+  let appOpened = false;
+  transmitLink.click();
+
+  setTimeout(() => {
+    if (!appOpened) {
+      window.location.href = storeLink;
+    }
+    document.body.removeChild(transmitLink);
+  }, 1000);
+
+  window.addEventListener("blur", () => {
+    appOpened = true;
+  }, { once: true });
+}
+
+
+const mainTitle = document.querySelector(".title")?.textContent?.trim() || "Sin título";
+    const subTitle = document.querySelector("#episodeSubtitle")?.textContent?.trim() || "Sin subtítulo";
+const moviePoster = document.getElementById("favoritoImagen")?.src || "";
+const movieLink = document.getElementById("favoritoEnlace")?.href || window.location.href;
+
+// Guarda automáticamente al actualizar el tiempo
+video.addEventListener("timeupdate", () => {
+      const currentTime = video.currentTime;
+      const duration = video.duration || 1;
+
+      // Guarda datos individuales
+      localStorage.setItem(`progress_${movieId}`, currentTime);
+      localStorage.setItem(`duration_${movieId}`, duration);
+
+      // Guarda el objeto completo
+      localStorage.setItem(`movie_${movieId}`, JSON.stringify({
+        title: mainTitle,
+        subtitle: subTitle,
+        poster: moviePoster,
+        link: movieLink,
+        progress: currentTime,
+        duration: duration
+      }));
+
+      // Flag para recargar sección al volver
+      localStorage.setItem("justReturnedFromSeries", "true");
+    });
+
+
+</script>
+
+</body>
+</html>

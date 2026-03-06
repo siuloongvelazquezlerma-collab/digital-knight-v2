@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Mi Bella Genio</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/w500/w7Gg2NpcajWd9S0bnbMyAvi5ycm.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/x4q7vFbZ0YbNGMtk4sMmaDswSpP.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Mi Bella Genio</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://od.lk/s/M18zMjA1MzUzMDNf/mi%20bella%20genio%20logo.png" alt="Mi Bella Genio Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   5 temporadas   1965   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Mi Bella Genio" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMjA1MzUzMjlf/mi%20bella%20genio%20wallpaper.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="mi-bella-genio.html"></a>
+          <span id="nombre">Mi Bella Genio</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        El astronauta Tony Nelson, enviado al espacio para realizar una misión, se ve obligado a lanzarse en paracaídas sobre
+        una isla desierta. Mientras espera que lo rescaten, encuentra una botella semienterrada, de la que sale una mujer genio
+        que, agradecida, acepta ser su sierva. Cuando Tony regresa a Co-Coa Beach (Florida), sabe muy bien que nadie creerá su
+        aventura. El psicoanalista de la base, el doctor Bellows, esta convencido de que Tony ha sufrido alucinaciones. Además,
+        Jeannie (así la llamó), se negó a mostrarse ante otras personas que no fueran su amo. </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="hechizada.html">
+          <img src="https://image.tmdb.org/t/p/w300/38ouaMAYUoWJc6tiZWb6k0yXEYQ.jpg" alt="Hechizada" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Hechizada</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="super-agente-86.html">
+          <img src="https://image.tmdb.org/t/p/w300/cuVYMvDExkD4TYz2qsAKFEo6AWx.jpg" alt="Super agente 86" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Super agente 86</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="la-isla-de-gilligan.html">
+          <img src="https://image.tmdb.org/t/p/w300/7PjIzzCh43hNU77C8oKLdL7XXge.jpg" alt="La isla de Gilligan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">La isla de Gilligan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="the-brady-bunch.html">
+          <img src="https://image.tmdb.org/t/p/w300/63MN0GwbAW4Oq2VxbpZODYomMsi.jpg" alt="The Brady Bunch" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">The Brady Bunch</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Mi Bella Genio</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "mi-bella-genio-1660";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+     {
+        "title": "E1: The Lady in the Bottle",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/b8naGKLB57eGUyM8KfmpMsjqWrX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODUyMDFf/S01E01.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODUyMDFf/S01E01.mp4",
+        "episodeCode": "T1 E1: The Lady in the Bottle",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: My Hero?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mxwIMfh1MoGsIKQyjMCDsTT1LZu.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODUzMzJf/S01E02.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODUzMzJf/S01E02.mp4",
+        "episodeCode": "T1 E2: My Hero?",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Guess What Happened on the Way to the Moon?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2FHvOb65ATbqmaybPa4QqKr4W03.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU0Nzdf/S01E03.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU0Nzdf/S01E03.mp4",
+        "episodeCode": "T1 E3: Guess What Happened on the Way to the Moon?",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Jeannie and the Marriage Caper",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nJAYd2psCfyYR1vdCPx63so6Dyx.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU1NThf/S01E04.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU1NThf/S01E04.mp4",
+        "episodeCode": "T1 E4: Jeannie and the Marriage Caper",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: G.I. Jeannie",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/q3jTVLqpK436qVKti0Jmwz8E92x.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU1Nzhf/S01E05.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU1Nzhf/S01E05.mp4",
+        "episodeCode": "T1 E5: G.I. Jeannie",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Jeannie and the Yacht Murder Caper",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/i2FmxrXwEC0KXTTBtZjb0DjqZYW.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU2NDZf/S01E06.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU2NDZf/S01E06.mp4",
+        "episodeCode": "T1 E6: Jeannie and the Yacht Murder Caper",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Anybody Here Seen Jeannie?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/o5eu7utEAzfLX65nBjRxCLWSVGH.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU3NjBf/S01E07.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU3NjBf/S01E07.mp4",
+        "episodeCode": "T1 E7: Anybody Here Seen Jeannie?",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: The Americanization of Jeannie",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mAd7DtuFInYmhGJUvdpiMWRRGcN.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU5MDhf/S01E08.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU5MDhf/S01E08.mp4",
+        "episodeCode": "T1 E8: The Americanization of Jeannie",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: The Moving Finger",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y8YDiXOoydW6RawV4ukCj2cJfUo.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODYwNjRf/S01E09.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODYwNjRf/S01E09.mp4",
+        "episodeCode": "T1 E9: The Moving Finger",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Djinn and Water",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/original/6NRcfJetPmQJMkQnLM2hlBbqRwC.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODYxMTVf/S01E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODYxMTVf/S01E10.mp4",
+        "episodeCode": "T1 E10: Djinn and Water",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Whatever Became of Baby Custer?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rCg9Nk8NWLb7eZFzaaLcBvIRXqZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODYzMjBf/S01E11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODYzMjBf/S01E11.mp4",
+        "episodeCode": "T1 E11: Whatever Became of Baby Custer?",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Does Life Give You Lemonade?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kAUk09Cbe88vwZ6FR5QyBtBcwwg.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY1NDZf/S01E12.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY1NDZf/S01E12.mp4",
+        "episodeCode": "T1 E12: Does Life Give You Lemonade?",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: The Warms-Up Kid",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/Pn4kNahD4CvM40BRoU01Z8dWRs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY1Njhf/S01E13.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY1Njhf/S01E13.mp4",
+        "episodeCode": "T1 E13: The Warms-Up Kid",
+        "hiddenCode": "T1 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Surprised by a Friend",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2EWMbr8a3M1Bdt8nVvjZbfkGMuv.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY1OTNf/S01E14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY1OTNf/S01E14.mp4",
+        "episodeCode": "T1 E14: Surprised by a Friend",
+        "hiddenCode": "T1 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: A Full Hand",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://od.lk/s/M18zMjA1MzUzOTRf/MV5BMjA5OTczNDMzOF5BMl5BanBnXkFtZTgwNDAzMzk0MjE%40._V1_FMjpg_UX1000_.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY2MTVf/S01E15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY2MTVf/S01E15.mp4",
+        "episodeCode": "T1 E15: A Full Hand",
+        "hiddenCode": "T1 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Get Me to Mecca on Time",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AqZF07x4gLaKXKo8NrColn6Yc3Y.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY2NDJf/S01E16.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY2NDJf/S01E16.mp4",
+        "episodeCode": "T1 E16: Get Me to Mecca on Time",
+        "hiddenCode": "T1 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: The Richest Astronaut in the Whole Wide World",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yENGd6NTkqyBsOCNsRfEiFhAeOn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODU2Njhf/S01E17.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODU2Njhf/S01E17.mp4",
+        "episodeCode": "T1 E17: The Richest Astronaut in the Whole Wide World",
+        "hiddenCode": "T1 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Is There an Extra Jeannie in the House?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r9OHZlZWGFO847bhifrP21ektSY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY3MDJf/S01E18.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY3MDJf/S01E18.mp4",
+        "episodeCode": "T1 E18: Is There an Extra Jeannie in the House?",
+        "hiddenCode": "T1 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Never Try to Outsmart a Genie",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oWGlSmvNZuM2pxlLDBIMVlN7Wdh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY3MzFf/S01E19.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY3MzFf/S01E19.mp4",
+        "episodeCode": "T1 E19: Never Try to Outsmart a Genie",
+        "hiddenCode": "T1 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: The Other Side of the Street (How Lucky Can You Get?)",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/awInVYBRs8TPkioTDvBYXb6boW3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY3NjNf/S01E20.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY3NjNf/S01E20.mp4",
+        "episodeCode": "T1 E20: The Other Side of the Street (How Lucky Can You Get?)",
+        "hiddenCode": "T1 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Jeannie and the Bachelor Party / The Bachelor Party",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/srB8BlXMucieXm2wik13qxOXfjD.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY3ODhf/S01E21.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY3ODhf/S01E21.mp4",
+        "episodeCode": "T1 E21: Jeannie and the Bachelor Party / The Bachelor Party",
+        "hiddenCode": "T1 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: How Lucky Can You Get?",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ajWfgOlGYkpOmszKiWAsVV6uHdU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4MDhf/S01E22.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4MDhf/S01E22.mp4",
+        "episodeCode": "T1 E22: How Lucky Can You Get?",
+        "hiddenCode": "T1 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: The Valentine’s Day Episode",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/Au0TY27vqFbnWc64jJSOCKjPTqk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4Mjlf/S01E23.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4Mjlf/S01E23.mp4",
+        "episodeCode": "T1 E23: The Valentine’s Day Episode",
+        "hiddenCode": "T1 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: The Home-Movie Episode",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r2vfAm57bV6M1jzB5VJO9zFoTrf.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4NTJf/S01E24.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4NTJf/S01E24.mp4",
+        "episodeCode": "T1 E24: The Home-Movie Episode",
+        "hiddenCode": "T1 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E25: The Guy Who Came to Dinner",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/p8ee8DouB5vsEs4fWgu2gUgzPgD.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4Njdf/S01E25.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4Njdf/S01E25.mp4",
+        "episodeCode": "T1 E25: The Guy Who Came to Dinner",
+        "hiddenCode": "T1 E25",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E26: This Is Murder",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sRjQaqVMW1fVOAiDI2dpKk2BGku.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4Nzdf/S01E26.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4Nzdf/S01E26.mp4",
+        "episodeCode": "T1 E26: This Is Murder",
+        "hiddenCode": "T1 E26",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E27: The Mod Party",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5K15HKpv1nSsnfPfJhfZA0ZsqMO.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4ODJf/S01E27.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4ODJf/S01E27.mp4",
+        "episodeCode": "T1 E27: The Mod Party",
+        "hiddenCode": "T1 E27",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E28: The Wedding",  
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xSSmZc5WMQErmUlVcsmXgnpZN6C.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY4OTJf/S01E28.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY4OTJf/S01E28.mp4",
+        "episodeCode": "T1 E28: The Wedding",
+        "hiddenCode": "T1 E28",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E29: The Mod Party",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lw6lXeeDsh11mIK73JbHhiRTdGU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY5MDFf/S01E29.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY5MDFf/S01E29.mp4",
+        "episodeCode": "T1 E29: The Mod Party (Alternate Title?)",
+        "hiddenCode": "T1 E29",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E30: I'll Never Forget What's Her Name",
+        "meta": "13+ · 25m · 1965",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3jaI6iBOwaVi8oj1Lfuo6gFgLlz.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODY5MjZf/S01E30.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODY5MjZf/S01E30.mp4",
+        "episodeCode": "T1 E30: I'll Never Forget What's Her Name",
+        "hiddenCode": "T1 E30",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: Happy Anniversary",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/31UzU88x3GrgR6ZgTYjstC8NCr3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxMDBf/S02E01.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxMDBf/S02E01.mp4",
+        "episodeCode": "T2 E1: Happy Anniversary",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Always on Sunday",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iCBdFH5iKMF1pGAe8eMmxfTiWHL.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxMTRf/S02E02.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxMTRf/S02E02.mp4",
+        "episodeCode": "T2 E2: Always on Sunday",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: My Master, the Rich Tycoon",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/i5jqu34Rvw4V8EuKczyfPXyEHv2.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxMjdf/S02E03.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxMjdf/S02E03.mp4",
+        "episodeCode": "T2 E3: My Master, the Rich Tycoon",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: My Master, the Rainmaker",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vk6uuzWNt8BeLlNFWuXdOaj46Gl.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxNDFf/S02E04.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxNDFf/S02E04.mp4",
+        "episodeCode": "T2 E4: My Master, the Rainmaker",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: My Wild Eyed Master",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cThPP6swBWtkoMAl3o0Y1jYyg0O.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxNDdf/S02E05.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxNDdf/S02E05.mp4",
+        "episodeCode": "T2 E5: My Wild Eyed Master",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: What's New, Poodle Dog?",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eGFs6jS9D2Yj5m0kuaMbUwOyOYu.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxNTRf/S02E06.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxNTRf/S02E06.mp4",
+        "episodeCode": "T2 E6: What's New, Poodle Dog?",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Fastest Gun in the East",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wOMhbJeeE6HJtEqEeBQ3PUMP09F.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxNjFf/S02E07.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxNjFf/S02E07.mp4",
+        "episodeCode": "T2 E7: Fastest Gun in the East",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: How to Be a Genie in 10 Easy Lessons",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oOssTQXWsRVVzpxMYAY4YJlpr71.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxNzNf/S02E08.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxNzNf/S02E08.mp4",
+        "episodeCode": "T2 E8: How to Be a Genie in 10 Easy Lessons",
+        "hiddenCode": "T2 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Who Needs A Green-Eyed Genie?",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zAzM8n8nyqIE127GKTgCJZ7Tgk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcxOTFf/S02E09.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcxOTFf/S02E09.mp4",
+        "episodeCode": "T2 E9: Who Needs A Green-Eyed Genie?",
+        "hiddenCode": "T2 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: The Girl Who Never Had a Birthday (Part 1)",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1kirG5irLOjFZfZq9qPziRiDzO6.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyMDRf/S02E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyMDRf/S02E10.mp4",
+        "episodeCode": "T2 E10: The Girl Who Never Had a Birthday (Part 1)",
+        "hiddenCode": "T2 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: The Girl Who Never Had a Birthday (Part 2)",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yRAodpeZAOUYoBdfpZcTSO3RHMw.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyMThf/S02E11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyMThf/S02E11.mp4",
+        "episodeCode": "T2 E11: The Girl Who Never Had a Birthday (Part 2)",
+        "hiddenCode": "T2 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: How Do You Beat Superman?",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rJSVuJr5jw7ynDqOSPDkEkL7Ocu.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyMjlf/S02E12.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyMjlf/S02E12.mp4",
+        "episodeCode": "T2 E12: How Do You Beat Superman?",
+        "hiddenCode": "T2 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: My Master, the Great Caruso",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1NMZ8vtxlSXKlT4Qqy50X04THif.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyMzhf/S02E13.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyMzhf/S02E13.mp4",
+        "episodeCode": "T2 E13: My Master, the Great Caruso",
+        "hiddenCode": "T2 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: The Greatest Lover In The World",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/shNUA61Y3i4hhdDnFWow304ewux.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyNDlf/S02E14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyNDlf/S02E14.mp4",
+        "episodeCode": "T2 E14: The Greatest Lover In The World",
+        "hiddenCode": "T2 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Jeannie Breaks the Bank",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hWtG09AsDvu33qGACwzSZ6DKsDY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyNjZf/S02E15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyNjZf/S02E15.mp4",
+        "episodeCode": "T2 E15: Jeannie Breaks the Bank",
+        "hiddenCode": "T2 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: My Master, the Author",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xDXYiPoj33zXw3ii5kqGnYHdW2c.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyNzRf/S02E16.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyNzRf/S02E16.mp4",
+        "episodeCode": "T2 E16: My Master, the Author",
+        "hiddenCode": "T2 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: The Greatest Invention In The World",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pQ3PvqM3Xgn0uVzeJWbsV2y3mcv.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODcyODdf/S02E17.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODcyODdf/S02E17.mp4",
+        "episodeCode": "T2 E17: The Greatest Invention In The World",
+        "hiddenCode": "T2 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: My Master, the Spy",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8YXmqkviYEbiNHn76DnbxykHOV0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczMDFf/S02E18.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczMDFf/S02E18.mp4",
+        "episodeCode": "T2 E18: My Master, the Spy",
+        "hiddenCode": "T2 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: You Can't Arrest Me... I Don't Have a Driver's License",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7Qo38cevUmY6Rtyj6KMKM6A8hvV.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczMDhf/S02E19.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczMDhf/S02E19.mp4",
+        "episodeCode": "T2 E19: You Can't Arrest Me... I Don't Have a Driver's License",
+        "hiddenCode": "T2 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: One of Our Bottles is Missing",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wNqBbrkcsTH8J8muQuzpzIAXgMq.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczMThf/S02E20.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczMThf/S02E20.mp4",
+        "episodeCode": "T2 E20: One of Our Bottles is Missing",
+        "hiddenCode": "T2 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: My Poor Master, The Civilian",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ar66EpeB0pCrbumSFEHGfWmL8gc.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczMzVf/S02E21.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczMzVf/S02E21.mp4",
+        "episodeCode": "T2 E21: My Poor Master, The Civilian",
+        "hiddenCode": "T2 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: There Goes the Best Genie I Ever Had",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gazG5vJ11c3w9iQlFNjuAI6qXiZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczNDhf/S02E22.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczNDhf/S02E22.mp4",
+        "episodeCode": "T2 E22: There Goes the Best Genie I Ever Had",
+        "hiddenCode": "T2 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: The Greatest Entertainer in the World",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/migp2f4JGmJRxzPVOSI2Vqeb7r2.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczNTZf/S02E23.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczNTZf/S02E23.mp4",
+        "episodeCode": "T2 E23: The Greatest Entertainer in the World",
+        "hiddenCode": "T2 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: The Incredible Shrinking Master",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rQvZh264ExRkLvK8ko7kEhhr5X1.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczNjdf/S02E24.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczNjdf/S02E24.mp4",
+        "episodeCode": "T2 E24: The Incredible Shrinking Master",
+        "hiddenCode": "T2 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E25: My Master, the Pirate",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pTCLV2bo31oNiMAhz8oNkc3EyBx.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODczOTBf/S02E25.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODczOTBf/S02E25.mp4",
+        "episodeCode": "T2 E25: My Master, the Pirate",
+        "hiddenCode": "T2 E25",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E26: A Secretary is Not a Toy",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lnkCznY09IeFbVOd5cwRWQMmvE5.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc0MDRf/S02E26.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc0MDRf/S02E26.mp4",
+        "episodeCode": "T2 E26: A Secretary is Not a Toy",
+        "hiddenCode": "T2 E26",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E27: There Goes the Bride",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/v0sToJobhvwFfwJVl7mdE2MdygG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc0MTlf/S02E27.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc0MTlf/S02E27.mp4",
+        "episodeCode": "T2 E27: There Goes the Bride",
+        "hiddenCode": "T2 E27",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E28: My Master, Napoleon's Buddy",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2QTc6QXzezTvHisf081L030xOPc.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc0MzRf/S02E28.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc0MzRf/S02E28.mp4",
+        "episodeCode": "T2 E28: My Master, Napoleon's Buddy",
+        "hiddenCode": "T2 E28",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E29: The Birds and the Bees Bit",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9VK5BPDmxH5pJQhzgBapdkfvra9.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc0NTFf/S02E29.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc0NTFf/S02E29.mp4",
+        "episodeCode": "T2 E29: The Birds and the Bees Bit",
+        "hiddenCode": "T2 E29",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E30: My Master, the Swinging Bachelor",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/45iccb87STkDXqDIg10G9ir7HzI.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc0Njdf/S02E30.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc0Njdf/S02E30.mp4",
+        "episodeCode": "T2 E30: My Master, the Swinging Bachelor",
+        "hiddenCode": "T2 E30",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E31: The Mod Party",
+        "meta": "13+ · 25m · 1966",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h9inOYUdqx7OQtPvxkpdQXuiIYc.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc1MDVf/S02E31.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc1MDVf/S02E31.mp4",
+        "episodeCode": "T2 E31: The Mod Party",
+        "hiddenCode": "T2 E31",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+        "title": "E1: Fly Me to the Moon",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hLsJg0ddty9wdErvb4EnCWcDunm.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc1ODBf/S03E01.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc1ODBf/S03E01.mp4",
+        "episodeCode": "T3 E1: Fly Me to the Moon",
+        "hiddenCode": "T3 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Jeannie or the Tiger?",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zYmwRwHFy47KmtMxPD1gK8Sx3cz.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc2MThf/S03E02.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc2MThf/S03E02.mp4",
+        "episodeCode": "T3 E2: Jeannie or the Tiger?",
+        "hiddenCode": "T3 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: The Second Greatest Con Artist in the World",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3NUHz94RVQw6dhkCaLSEmqNFfF5.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc2ODRf/S03E03.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc2ODRf/S03E03.mp4",
+        "episodeCode": "T3 E3: The Second Greatest Con Artist in the World",
+        "hiddenCode": "T3 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: My Turned-On Master",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5zhsXSSzfrxpyFqN7G2jr6v3wRG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODc5ODNf/S03E04.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODc5ODNf/S03E04.mp4",
+        "episodeCode": "T3 E4: My Turned-On Master",
+        "hiddenCode": "T3 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: My Master, the Weakling",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3MHlWrRZrrc1Uv46TKJ21Go0Ber.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODgyNjBf/S03E05.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODgyNjBf/S03E05.mp4",
+        "episodeCode": "T3 E5: My Master, the Weakling",
+        "hiddenCode": "T3 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Jeannie, the Hip Hippie",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xUYUua2oN6CtkOlZCIxQeOc6CRR.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODg0OTBf/S03E06.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODg0OTBf/S03E06.mp4",
+        "episodeCode": "T3 E6: Jeannie, the Hip Hippie",
+        "hiddenCode": "T3 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Everybody's a Movie Star",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nmfkWMcxoFh6cRiYBKo1b98BvwE.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODg3MzNf/S03E07.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODg3MzNf/S03E07.mp4",
+        "episodeCode": "T3 E7: Everybody's a Movie Star",
+        "hiddenCode": "T3 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Who Are You Calling a Genie?",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kYdo4DSX1y0D15TyTBCzymImPY3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODg5NTVf/S03E08.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODg5NTVf/S03E08.mp4",
+        "episodeCode": "T3 E8: Who Are You Calling a Genie?",
+        "hiddenCode": "T3 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Meet My Master's Mother",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yRKfcIA2Q2UKgyF6MW187Cfm0LG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODkxODNf/S03E09.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODkxODNf/S03E09.mp4",
+        "episodeCode": "T3 E9: Meet My Master's Mother",
+        "hiddenCode": "T3 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Here Comes Bootsie Nightingale",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uN5TUgXX0ATJ73S3MzmIKEyvCpi.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODkzODRf/S03E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODkzODRf/S03E10.mp4",
+        "episodeCode": "T3 E10: Here Comes Bootsie Nightingale",
+        "hiddenCode": "T3 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Tony's Wife",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vgEQbLWTy0XrFDlpamZAPO1yeLf.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODk2MjBf/S03E11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODk2MjBf/S03E11.mp4",
+        "episodeCode": "T3 E11: Tony's Wife",
+        "hiddenCode": "T3 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Jeannie and the Great Bank Robbery",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tc2MtUBpzRIColv2h79rjmo5nkJ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODk2OTRf/S03E12.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODk2OTRf/S03E12.mp4",
+        "episodeCode": "T3 E12: Jeannie and the Great Bank Robbery",
+        "hiddenCode": "T3 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: My Son, the Genie",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iNkmDUw9fux4Rll9U49nTcIKFSL.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODk4MTZf/S03E13.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODk4MTZf/S03E13.mp4",
+        "episodeCode": "T3 E13: My Son, the Genie",
+        "hiddenCode": "T3 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: The Jackpot",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9Bg48CQijprc4ItIQKUw0or7UKn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1ODk5MDlf/S03E14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1ODk5MDlf/S03E14.mp4",
+        "episodeCode": "T3 E14: The Jackpot",
+        "hiddenCode": "T3 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: The Vanishing Island",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iatc8vgBYgXihWaejwdodKVmBaG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTAwMzJf/S03E15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTAwMzJf/S03E15.mp4",
+        "episodeCode": "T3 E15: The Vanishing Island",
+        "hiddenCode": "T3 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: The Fastest Gun in the West",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uiAS2oNSJVj2rBLTVZjWzrriFX4.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTAxMzFf/S03E16.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTAxMzFf/S03E16.mp4",
+        "episodeCode": "T3 E16: The Fastest Gun in the West",
+        "hiddenCode": "T3 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Jeannie and the Wedding Band",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2EHkV1CEd8GHRzpL7lyXibnnC7i.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTAxOThf/S03E17.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTAxOThf/S03E17.mp4",
+        "episodeCode": "T3 E17: Jeannie and the Wedding Band",
+        "hiddenCode": "T3 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Here's Jeannie",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/i82A8VWZZLCbYzzeWcLtwkaBVm6.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTAyOTVf/S03E18.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTAyOTVf/S03E18.mp4",
+        "episodeCode": "T3 E18: Here's Jeannie",
+        "hiddenCode": "T3 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: The Very Naughty Genius",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qfzkWFTKLxk81pTwH0tpjQfoqtf.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA0NThf/S03E19.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA0NThf/S03E19.mp4",
+        "episodeCode": "T3 E19: The Very Naughty Genius",
+        "hiddenCode": "T3 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: All That Jazz",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zhVwHEZ0TYu4BcSRkYySgef4Dym.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA2MTdf/S03E20.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA2MTdf/S03E20.mp4",
+        "episodeCode": "T3 E20: All That Jazz",
+        "hiddenCode": "T3 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Jeannie and the Superhero",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/amUdr9dwvvIed1lIQ58hCSXLuhT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA3MjJf/S03E21.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA3MjJf/S03E21.mp4",
+        "episodeCode": "T3 E21: Jeannie and the Superhero",
+        "hiddenCode": "T3 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Jeannie and the Magic Medal",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nFvIj5L9VRruCZYh3BAZkHpSIzh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA3OTBf/S03E22.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA3OTBf/S03E22.mp4",
+        "episodeCode": "T3 E22: Jeannie and the Magic Medal",
+        "hiddenCode": "T3 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: The Lady in the Closet",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yfwZWUxWKEW70IeNxEshYCq2hIT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA4NzJf/S03E23.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA4NzJf/S03E23.mp4",
+        "episodeCode": "T3 E23: The Lady in the Closet",
+        "hiddenCode": "T3 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: The Return of Jeannie",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aalA86JUcnWVk3HLVcQydZTQKkA.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA5MTBf/S03E24.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA5MTBf/S03E24.mp4",
+        "episodeCode": "T3 E24: The Return of Jeannie",
+        "hiddenCode": "T3 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E25: Jeannie, the Babysitter",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7kaA9KaOkwmlrqWM6OJrYv9lBQx.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTA5NzRf/S03E25.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTA5NzRf/S03E25.mp4",
+        "episodeCode": "T3 E25: Jeannie, the Babysitter",
+        "hiddenCode": "T3 E25",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E26: Jeannie and the Big Apple",
+        "meta": "13+ · 25m · 1967",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AoIobaavqKmVuoFX0v7IqKbr5tr.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1OTExMDVf/S03E26.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1OTExMDVf/S03E26.mp4",
+        "episodeCode": "T3 E26: Jeannie and the Big Apple",
+        "hiddenCode": "T3 E26",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+  "title": "E1: U-F-Oh Jeannie",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6oUYbB8m32XbjJzv65Cz7x5MfB8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU2NjZf/S04E01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU2NjZf/S04E01.mp4",
+  "episodeCode": "T4 E1: U-F-Oh Jeannie",
+  "hiddenCode": "T4 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Jeannie and the Wild Pipchicks",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ffHY2U6sd0tUQf3zwJrgqtaxWAh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU2ODJf/S04E02.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU2ODJf/S04E02.mp4",
+  "episodeCode": "T4 E2: Jeannie and the Wild Pipchicks",
+  "hiddenCode": "T4 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Tomorrow Is Not Another Day",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kUE6fBELWf9WOlYKjEVQuwiHCjV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU2OTRf/S04E03.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU2OTRf/S04E03.mp4",
+  "episodeCode": "T4 E3: Tomorrow Is Not Another Day",
+  "hiddenCode": "T4 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Abdullah",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mgd3qOOW6c5Ld6Nwv3InKsWJrdc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU3NjRf/S04E04.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU3NjRf/S04E04.mp4",
+  "episodeCode": "T4 E4: Abdullah",
+  "hiddenCode": "T4 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Have You Heard the One About The Used Car Salesman?",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/geNZ1CDFnQzLIyPktfpiqLc43Qo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU3NzJf/S04E05.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU3NzJf/S04E05.mp4",
+  "episodeCode": "T4 E5: Have You Heard the One About The Used Car Salesman?",
+  "hiddenCode": "T4 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Djinn, Djinn, Go Home",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dKt8bTAzVH6SdkoxWZ5jeI8UKHd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU4MTFf/S04E06.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU4MTFf/S04E06.mp4",
+  "episodeCode": "T4 E6: Djinn, Djinn, Go Home",
+  "hiddenCode": "T4 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: The Strongest Man in the World",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3MQV0B1Hc90lshRpOFObWcYdXAt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU4NTVf/S04E07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU4NTVf/S04E07.mp4",
+  "episodeCode": "T4 E7: The Strongest Man in the World",
+  "hiddenCode": "T4 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: The Indispensable Jeannie",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pvJ3ed4VyQVMGBgwYpCf41UvOD6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU4NjRf/S04E08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU4NjRf/S04E08.mp4",
+  "episodeCode": "T4 E8: The Indispensable Jeannie",
+  "hiddenCode": "T4 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Jeannie and the Top Secret Secret",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/da8njhu6cgKzVqHMDxQOXRmq41G.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU4ODFf/S04E09.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU4ODFf/S04E09.mp4",
+  "episodeCode": "T4 E9: Jeannie and the Top Secret Secret",
+  "hiddenCode": "T4 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: How to Marry an Astronaut",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lMUZbspsFB7gpuMxAC7cbkQWM8i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU4OTRf/S04E10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU4OTRf/S04E10.mp4",
+  "episodeCode": "T4 E10: How to Marry an Astronaut",
+  "hiddenCode": "T4 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Dr. Bellows Goes Sane",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k3GRlMcubbickh32wEtRnAua1nU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU5MTJf/S04E11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU5MTJf/S04E11.mp4",
+  "episodeCode": "T4 E11: Dr. Bellows Goes Sane",
+  "hiddenCode": "T4 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Jeannie The Guru",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5PAiAI617SXvCO1HT8U9axHqIWk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU5MzRf/S04E12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU5MzRf/S04E12.mp4",
+  "episodeCode": "T4 E12: Jeannie The Guru",
+  "hiddenCode": "T4 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: The Case of My Vanishing Master (1)",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/crgle4CBhoJa7s6sUu7InPYiTXX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTU5OTZf/S04E13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTU5OTZf/S04E13.mp4",
+  "episodeCode": "T4 E13: The Case of My Vanishing Master (1)",
+  "hiddenCode": "T4 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: The Case of My Vanishing Master (2)",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v734avCyc9zP4OTOqg5WXhLwO4C.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYwMDFf/S04E14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYwMDFf/S04E14.mp4",
+  "episodeCode": "T4 E14: The Case of My Vanishing Master (2)",
+  "hiddenCode": "T4 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Ride ’Em Astronaut",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2aLXPmkSXOIto9fIwuuxgeCMxNX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYwMTdf/S04E15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYwMTdf/S04E15.mp4",
+  "episodeCode": "T4 E15: Ride ’Em Astronaut",
+  "hiddenCode": "T4 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Invisible House for Sale",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/slpk07L1Xbssh7NvpF0WU0dxuc6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYwNTNf/S04E16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYwNTNf/S04E16.mp4",
+  "episodeCode": "T4 E16: Invisible House for Sale",
+  "hiddenCode": "T4 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Jeannie, the Governor’s Wife",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/78ugUvsa8HIXAK7TwFfMlTxP668.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYwNzhf/S04E17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYwNzhf/S04E17.mp4",
+  "episodeCode": "T4 E17: Jeannie, the Governor’s Wife",
+  "hiddenCode": "T4 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Is There a Doctor in the House?",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ybPrictgCwYj71E2iyixiKa6KCy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYxMTBf/S04E18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYxMTBf/S04E18.mp4",
+  "episodeCode": "T4 E18: Is There a Doctor in the House?",
+  "hiddenCode": "T4 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: The Biggest Star in Hollywood",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/d0yz5lw8g5b47LjlXUoIYaCDJV0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYxMjVf/S04E19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYxMjVf/S04E19.mp4",
+  "episodeCode": "T4 E19: The Biggest Star in Hollywood",
+  "hiddenCode": "T4 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: The Case of the Porcelain Puppy",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gMQfK9Es7JGhfMkakR5Cwk0Hjnb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYxMzhf/S04E20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYxMzhf/S04E20.mp4",
+  "episodeCode": "T4 E20: The Case of the Porcelain Puppy",
+  "hiddenCode": "T4 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Jeannie for the Defense",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gZmPM5Fioxty9wHd04FW0eQTfRC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYxNDlf/S04E21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYxNDlf/S04E21.mp4",
+  "episodeCode": "T4 E21: Jeannie for the Defense",
+  "hiddenCode": "T4 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Nobody Loves a Fat Astronaut",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hBUBicD3ksxTTkvls5MgQmP2hT7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYxNzJf/S04E22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYxNzJf/S04E22.mp4",
+  "episodeCode": "T4 E22: Nobody Loves a Fat Astronaut",
+  "hiddenCode": "T4 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Around the Moon in 80 Blinks",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jEhV2uNnl2mb294LyrWOlQWByZJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYxOTJf/S04E23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYxOTJf/S04E23.mp4",
+  "episodeCode": "T4 E23: Around the Moon in 80 Blinks",
+  "hiddenCode": "T4 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Jeannie-Go-Round",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/UHknwDUa4lDI1AFVSJ3wBcJuiT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYyMDdf/S04E24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYyMDdf/S04E24.mp4",
+  "episodeCode": "T4 E24: Jeannie-Go-Round",
+  "hiddenCode": "T4 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: Jeannie and the Secret Weapon",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/51DuQpkcZtZM4CnkOsO1PUMS3ql.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYyMjJf/S04E25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYyMjJf/S04E25.mp4",
+  "episodeCode": "T4 E25: Jeannie and the Secret Weapon",
+  "hiddenCode": "T4 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Blackmail Order Bride",
+  "meta": "13+ · 25m · 1967",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vhUa924lX4N8RqBJsE4JcwsSrga.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTYyODBf/S04E26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTYyODBf/S04E26.mp4",
+  "episodeCode": "T4 E26: Blackmail Order Bride",
+  "hiddenCode": "T4 E26",
+  "intro": { "start": 0, "end": 0 }
+}
+
+
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+  "title": "E1: Jeannie at the Piano",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rpvsWmKfVpjU1jGOCp3wPwNunIu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY3NzBf/S05E01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY3NzBf/S05E01.mp4",
+  "episodeCode": "T5 E1: Jeannie at the Piano",
+  "hiddenCode": "T5 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Djinn Djinn, the Pied Piper",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dnNm4P17EWHf8a7tuZ3X0BOpibJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY3ODRf/S05E02.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY3ODRf/S05E02.mp4",
+  "episodeCode": "T5 E2: Djinn Djinn, the Pied Piper",
+  "hiddenCode": "T5 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Guess Who's Going to Be a Bride? Part 1",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oWzUucOk6AumSR0q30y5K3bOnFc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY4Mjlf/S05E03.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY4Mjlf/S05E03.mp4",
+  "episodeCode": "T5 E3: Guess Who's Going to Be a Bride? Part 1",
+  "hiddenCode": "T5 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Guess Who's Going to Be a Bride? Part 2",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rCEdOH6vATXThIBlLAvEpMllmJo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY4NTVf/S05E04.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY4NTVf/S05E04.mp4",
+  "episodeCode": "T5 E4: Guess Who's Going to Be a Bride? Part 2",
+  "hiddenCode": "T5 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Jeannie’s Beauty Cream",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zrR3c2aH6a3dEraRQJvbKQsQxM7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY5MTVf/S05E05.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY5MTVf/S05E05.mp4",
+  "episodeCode": "T5 E5: Jeannie’s Beauty Cream",
+  "hiddenCode": "T5 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Jeannie and the Bachelor Party",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/m3SQGwfhmqMS1ToLepgxzmKeBqv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTY5NjJf/S05E06.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTY5NjJf/S05E06.mp4",
+  "episodeCode": "T5 E6: Jeannie and the Bachelor Party",
+  "hiddenCode": "T5 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: The Blood of Jeannie",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tve9pVo60X3kEgoWLYkNwTOmy1I.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcwMzNf/S05E07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcwMzNf/S05E07.mp4",
+  "episodeCode": "T5 E7: The Blood of Jeannie",
+  "hiddenCode": "T5 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: See You in C-U-B-A",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7oRjpWlFMBhYpWpbIDqskUvOcaV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcxMjNf/S05E08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcxMjNf/S05E08.mp4",
+  "episodeCode": "T5 E8: See You in C-U-B-A",
+  "hiddenCode": "T5 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: The Mad Home Wrecker",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4hFSJnkWprFO5avevqK7LA2Xq2r.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTcyMDRf/S05E09.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTcyMDRf/S05E09.mp4",
+  "episodeCode": "T5 E9: The Mad Home Wrecker",
+  "hiddenCode": "T5 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Uncle a Go-Go",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p4fjBrZpcJo2msMj0FOCNv0xpMD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTczMzRf/S05E10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTczMzRf/S05E10.mp4",
+  "episodeCode": "T5 E10: Uncle a Go-Go",
+  "hiddenCode": "T5 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: The Wedding",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dWhM49IzHWd4m6yorQb9KEIKGUR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTczNzhf/S05E11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTczNzhf/S05E11.mp4",
+  "episodeCode": "T5 E11: The Wedding",
+  "hiddenCode": "T5 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: My Sister, the Home Wrecker",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hHizaEPFrRbgcDADbT0DhPK1G21.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc0MTJf/S05E12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc0MTJf/S05E12.mp4",
+  "episodeCode": "T5 E12: My Sister, the Home Wrecker",
+  "hiddenCode": "T5 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Jeannie, the Matchmaker",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3ViT3N6WJQ1wgpk1CpphLw8ap5p.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc0NDdf/S05E13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc0NDdf/S05E13.mp4",
+  "episodeCode": "T5 E13: Jeannie, the Matchmaker",
+  "hiddenCode": "T5 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Never Put a Genie on a Budget",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vseKjyDRzRlXEv0xkJ6LYvSchXt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc0ODdf/S05E14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc0ODdf/S05E14.mp4",
+  "episodeCode": "T5 E14: Never Put a Genie on a Budget",
+  "hiddenCode": "T5 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Please Don’t Give My Jeannie No More Wine",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ndSYEdU2ahDQAGrKAaiuGocDuKo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc1MThf/S05E15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc1MThf/S05E15.mp4",
+  "episodeCode": "T5 E15: Please Don’t Give My Jeannie No More Wine",
+  "hiddenCode": "T5 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: One of Our Hotels Is Growing",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tdU1z8GvyFhfew7s7bhJGpEEg5E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc1NTFf/S05E16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc1NTFf/S05E16.mp4",
+  "episodeCode": "T5 E16: One of Our Hotels Is Growing",
+  "hiddenCode": "T5 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: The Solid Gold Jeannie",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7j4v8IhyQ5ZM3mvbISmIAVmkvQV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc1NzJf/S05E17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc1NzJf/S05E17.mp4",
+  "episodeCode": "T5 E17: The Solid Gold Jeannie",
+  "hiddenCode": "T5 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Mrs. Djinn Djinn",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/faa7sDCwwNPdjTGzfsh0SAoL4uB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc1ODlf/S05E18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc1ODlf/S05E18.mp4",
+  "episodeCode": "T5 E18: Mrs. Djinn Djinn",
+  "hiddenCode": "T5 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Jeannie and the Curious Kid",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nvFoyqphoPEsPiD64leq7zqGyN8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc2MDRf/S05E19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc2MDRf/S05E19.mp4",
+  "episodeCode": "T5 E19: Jeannie and the Curious Kid",
+  "hiddenCode": "T5 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Jeannie, the Recording Secretary",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7j8awtqYjjbqX9qGGk12hadwWT6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc2NDRf/S05E20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc2NDRf/S05E20.mp4",
+  "episodeCode": "T5 E20: Jeannie, the Recording Secretary",
+  "hiddenCode": "T5 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Help, Help, a Shark",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sFsj13OjToKz9L9PyH32E6oik1b.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc2OTlf/S05E21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc2OTlf/S05E21.mp4",
+  "episodeCode": "T5 E21: Help, Help, a Shark",
+  "hiddenCode": "T5 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Eternally Yours, Jeannie",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mEEPM9Pfoy8a2TR2Gq9SAs0NXUi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc3ODZf/S05E22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc3ODZf/S05E22.mp4",
+  "episodeCode": "T5 E22: Eternally Yours, Jeannie",
+  "hiddenCode": "T5 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: An Astronaut in Sheep’s Clothing",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ApBRNUMLqoE4Cpq2V20fGCNyPKA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc3OTdf/S05E23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc3OTdf/S05E23.mp4",
+  "episodeCode": "T5 E23: An Astronaut in Sheep’s Clothing",
+  "hiddenCode": "T5 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Hurricane Jeannie",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rX9hQAgyUoACrPvZtcC751jykL5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc8NDJf/S05E24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc8NDJf/S05E24.mp4",
+  "episodeCode": "T5 E24: Hurricane Jeannie",
+  "hiddenCode": "T5 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: One Jeannie Beats Four of a Kind",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ytYXxuT1oVrXb2ZdDIZvkrIlE8o.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc8Njdf/S05E25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc8Njdf/S05E25.mp4",
+  "episodeCode": "T5 E25: One Jeannie Beats Four of a Kind",
+  "hiddenCode": "T5 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: My Master, the Chili King",
+  "meta": "13+ · 25m · 1969",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hd7RKbs3h2FT7ei5c2Wk72wAaR0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1OTc5MjZf/S05E26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1OTc5MjZf/S05E26.mp4",
+  "episodeCode": "T5 E26: My Master, the Chili King",
+  "hiddenCode": "T5 E26",
+  "intro": { "start": 0, "end": 0 }
+}
+
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

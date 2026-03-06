@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Mis Descargas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #000;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #mis-descargas {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .descarga-item {
+      background-color: #121212;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .descarga-item button,
+    .descarga-item a {
+      margin-top: 10px;
+      display: inline-block;
+      margin-right: 10px;
+      padding: 8px 16px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .descarga-item button:hover,
+    .descarga-item a:hover {
+      background-color: #555;
+    }
+
+    video {
+      width: 100%;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mis Descargas</h1>
+  <div id="mis-descargas"></div>
+
+  <script>
+    function mostrarDescargas() {
+      const container = document.getElementById("mis-descargas");
+      const descargas = JSON.parse(localStorage.getItem("misDescargas") || "[]");
+
+      if (descargas.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>Aún no has descargado nada.</p>";
+        return;
+      }
+
+      container.innerHTML = "";
+
+      descargas.forEach(d => {
+        const div = document.createElement("div");
+        div.classList.add("descarga-item");
+        div.innerHTML = `
+          <p><strong>${d.nombre}</strong></p>
+          <button onclick="abrirReproductor('${d.local || d.url}')">Ver</button>
+          <button onclick="abrirConAppExterna('${d.local || d.url}')">Abrir con app externa</button>
+          <a href="${d.url}" download>Descargar de nuevo</a>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function verVideo(src) {
+      const reproductor = document.createElement("video");
+      reproductor.src = src;
+      reproductor.controls = true;
+      document.body.appendChild(reproductor);
+      reproductor.scrollIntoView({ behavior: "smooth" });
+      reproductor.play();
+    }
+
+    function abrirConAppExterna(fileUrl) {
+      if (typeof App !== "undefined" && App.sendIntent) {
+        App.sendIntent({
+          action: "android.intent.action.VIEW",
+          uri: fileUrl.startsWith("file://") ? fileUrl : "file://" + fileUrl,
+          type: "video/*"
+        });
+      } else {
+        alert("Esta función solo está disponible en la app instalada.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", mostrarDescargas);
+
+   
+  function abrirReproductor(rutaLocal) {
+    if (!rutaLocal) {
+      alert("El archivo aún no está disponible.");
+      return;
+    }
+
+    // Guardar temporalmente la ruta en localStorage
+    localStorage.setItem("rutaParaReproducir", rutaLocal);
+
+    // Redirigir a la página de tu reproductor HTML
+    window.location.href = `reproductor.html?archivo=/storage/emulated/0/Download/hotel_transylvania_2.mp4`;
+
+  }
+
+
+  </script>
+</body>
+</html>

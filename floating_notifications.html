@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones Flotantes</title>
+  <style>
+    /* Fondo oscuro */
+    #notificationOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9998;
+    }
+
+    .floating-notification {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      color: #111;
+      padding: 20px 16px 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      width: 320px;
+      max-width: 90%;
+      text-align: center;
+      font-family: sans-serif;
+      display: none;
+    }
+
+    .notification-banner {
+      width: 100%;
+      border-radius: 10px;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      margin-bottom: 16px;
+    }
+
+    .notification-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .notification-description {
+      font-size: 14px;
+      color: #444;
+      margin: 0 0 16px;
+    }
+
+    .notification-button {
+      display: inline-block;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+      border: 1.5px solid #000;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      margin: 4px;
+    }
+
+    .notification-button:hover {
+      background: #eee;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 24px;
+      color: #555;
+      background: transparent;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Fondo oscuro -->
+<div id="notificationOverlay" style="display: none;"></div>
+
+<div id="notificationTelegram" class="floating-notification">
+  <div class="notification-content">
+
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" 
+         class="notification-logo" alt="Dragon Plus Logo">
+
+    <span class="close-btn" data-close>&times;</span>
+
+    <img src="https://od.lk/s/M18zMjEzMDAwNTZf/telegram%20group.jpg" 
+         class="notification-banner" alt="Canal de Telegram">
+
+    <div class="notification-text">
+      <h2 class="notification-title">
+        ¡Únete a nuestro canal exclusivo de<br><strong>Telegram</strong>!
+      </h2>
+      <p class="notification-description">
+        Sé el primero en enterarte de los estrenos, noticias y contenido nuevo. <br>Todo en un solo lugar.
+      </p>
+    </div>
+
+    <a href="https://t.me/+beqjOs9cwWtjOGQx" 
+       class="notification-button primary" 
+       target="_blank"
+       data-close>UNIRME AHORA</a>
+
+    <a class="notification-button secondary" data-close>NO, GRACIAS</a>
+
+  </div>
+</div>
+
+<!-- Notificación: Película -->
+<!-- Notificación: Película -->
+<div id="notificationPelicula" class="floating-notification">
+  <div class="notification-content">
+
+    <!-- Logo -->
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png"
+         class="notification-logo"
+         alt="Dragon Plus Logo">
+
+    <!-- Botón de cerrar -->
+    <span class="close-btn" data-close>&times;</span>
+
+    <!-- Banner -->
+    <img src="https://od.lk/s/M18zMTQzNzA3ODhf/nueva-pelicula-poster.jpg"
+         class="notification-banner"
+         alt="Nueva Película">
+
+    <!-- Texto -->
+    <div class="notification-text">
+      <h2 class="notification-title">
+        ¡Nueva película disponible!<br><strong>“EL DESPERTAR DEL DRAGÓN”</strong>
+      </h2>
+      <p class="notification-description">
+        Acción, secretos y leyendas milenarias.<br>
+        Ya puedes verla completa en nuestra plataforma.
+      </p>
+    </div>
+
+    <!-- Botón principal -->
+    <a href="#ver-pelicula"
+       class="notification-button primary"
+       data-close>VER AHORA</a>
+
+    <!-- Botón secundario -->
+    <a class="notification-button secondary"
+       data-close>MÁS TARDE</a>
+
+  </div>
+</div>
+
+
+<!-- Notificación: Episodio -->
+<div id="notificationEpisodio" class="floating-notification">
+  <div class="notification-content">
+
+    <!-- Logo -->
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png"
+         class="notification-logo"
+         alt="Dragon Plus Logo">
+
+    <!-- Botón de cerrar -->
+    <span class="close-btn" data-close>&times;</span>
+
+    <!-- Banner -->
+    <img src="https://od.lk/s/M18zMTQzNzA3ODhf/nuevo-episodio-poster.jpg"
+         class="notification-banner"
+         alt="Nuevo Episodio">
+
+    <!-- Texto -->
+    <div class="notification-text">
+      <h2 class="notification-title">
+        ¡Nuevo episodio disponible de<br><strong>“WIND BREAKER”!</strong>
+      </h2>
+      <p class="notification-description">
+        Sakura vuelve a la acción. <br>Ya puedes ver el nuevo episodio antes que nadie.
+      </p>
+    </div>
+
+    <!-- Botón principal -->
+    <a href="#ver-episodio"
+       class="notification-button primary"
+       data-close>VER AHORA</a>
+
+    <!-- Botón secundario -->
+    <a class="notification-button secondary"
+       data-close>DESPUÉS</a>
+
+  </div>
+</div>
+
+
+
+<!-- Fondo oscuro -->
+<div id="notificationOverlay"></div>
+
+
+<!-- Notificación: Premium -->
+<div id="notificationPremium" class="floating-notification">
+  <div class="notification-content">
+    <img src="https://od.lk/s/M18zMTc2Njc5NjBf/notification%20logo.png" class="notification-logo" alt="Dragon Plus Logo">
+    <span class="close-btn" onclick="closeFloatingNotification()">&times;</span>
+    <img src="https://od.lk/s/M18zMTQzNzA3ODlf/hazte-premium.jpg" class="notification-banner" alt="Hazte Premium">
+    <div class="notification-text">
+      <h2 class="notification-title">¡Disfruta sin límites con<br><strong>Premium de por vida</strong>!</h2>
+      <p class="notification-description">Una sola vez, sin suscripciones, sin anuncios.<br>Acceso completo a todo el contenido.</p>
+    </div>
+    <a href="#hazte-premium" class="notification-button primary">HAZME PREMIUM</a>
+    <a href="#" onclick="closeFloatingNotification()" class="notification-button secondary">NO, GRACIAS</a>
+  </div>
+</div>
+
+<div id="floatingNotification" class="floating-notification">
+  <div class="notification-content">
+
+    <!-- Logo arriba (como Crunchyroll en la captura) -->
+    <img src="https://od.lk/s/M18zMTc2Njc5NjBf/notification%20logo.png" class="notification-logo" alt="Dragon Plus Logo">
+
+    <!-- Botón cerrar -->
+    <span class="close-btn" onclick="closeFloatingNotification()">&times;</span>
+
+    <!-- Imagen banner principal (como la del anime) -->
+    <img src="https://image.tmdb.org/t/p/original/jHZofim3Matbn0TbJhNp88Ij8YD.jpg" class="notification-banner" alt="Promo">
+
+    <div class="notification-text">
+      <h2 class="notification-title">
+        Sakura está de regreso en<br><strong>WIND BREAKER Temporada 2</strong>
+      </h2>
+      <p class="notification-description">
+        Cada día en la escuela es una batalla.<br>Para Sakura, eso es parte de la diversión.
+      </p>
+    </div>
+
+    <a href="#ver-ahora" class="notification-button primary">VER AHORA</a>
+    <a href="#" onclick="closeFloatingNotification()" class="notification-button secondary">NO, GRACIAS</a>
+  </div>
+</div>
+
+<script>
+function closeFloatingNotification() {
+  document.getElementById("notificationOverlay").style.display = "none";
+  const notis = document.querySelectorAll(".floating-notification");
+  notis.forEach(n => n.style.display = "none");
+}
+</script>
+
+</body>
+</html>

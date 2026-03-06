@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Rush Hour Collection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+  <style>
+  * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+  height: 100%;
+}
+
+body {
+      padding-top: env(safe-area-inset-top);
+  background-color: #01011d;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+}
+
+/* Estilo general para el header */
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0); /* Fondo transparente al inicio */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  z-index: 3000;
+  transition: background-color 0.3s ease;
+}
+
+/* Enlace de regreso */
+.icon-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  text-decoration: none;
+  z-index: 3001;
+}
+
+#back-link {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logo en el centro (reemplaza al título) */
+#page-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 48px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none; /* Para evitar clics accidentales */
+}
+
+/* Hover en el ícono */
+.icon-link:hover {
+  opacity: 0.8;
+}
+
+
+.fondo-principal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('https://od.lk/s/M18zMTk1ODMyMjZf/rush%20poster.jpeg') top center / contain no-repeat;
+  z-index: 0;
+
+  filter: brightness(1.9); /* 👈 Aumenta el brillo (1 es normal, 1.2 es +20%) */
+}
+
+.fondo-principal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.055), rgba(0, 0, 0, 0.164), #01011def),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgb(0, 0, 0), #01011de0, #010111);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (orientation: landscape) {
+  .fondo-principal {
+    background: url('https://image.tmdb.org/t/p/original/Atik4QqBg8IrTPiCzaj9AcI9p1i.jpg') top center / cover no-repeat;
+    filter: brightness(1.9); /* También para landscape si quieres */
+  }
+  .fondo-principal::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.822)),
+                linear-gradient(to bottom, rgba(0,0,0,0),rgba(0,0,0,0),#01011d96, #01010f),
+                linear-gradient(to left, rgba(0, 0, 0, 0.13),rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.877));
+  }
+}
+
+.logo-dc {
+  display: block;
+  position: relative;     /* O asegurarte que no sea static */
+  z-index: 1;             /* z-index mayor al fondo */
+  width: 300px;
+  max-width: 65vw;
+  margin: 0 auto;
+  margin-top: -450px;
+  transition: all 0.4s ease;
+}
+
+@media (orientation: landscape) {
+  .logo-dc {
+    margin-top: -500px;          /* Ajusta según necesites en landscape */
+    margin-left: 2%;
+    transform: translateY(0);
+    width: 380px;
+    max-width: 28vw;
+  }
+}
+
+.contenido-principal {
+  position: relative;
+  z-index: 2;
+  margin-top: 1px;       /* Ajuste si quieres separarlo más del logo */
+  padding: 1rem;
+}
+
+@media (orientation: landscape) {
+  .contenido-principal {
+    margin-top: 5vh;
+  }
+}
+
+.contenedor-categorias {
+  margin-top: 5vh;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 5px black;
+}
+
+.scroll-poster {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.scroll-poster::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-poster::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 4px;
+}
+
+.poster {
+  flex: 0 0 auto;
+  width: 130px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 7px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .poster {
+    width: 200px;     /* Más ancho */
+    height: 300px;    /* Más alto */
+  }
+
+  .scroll-poster {
+    gap: 1.5rem;      /* Un poco más de espacio entre posters */
+  }
+}
+
+.scroll-container {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 5;
+}
+
+.arrow.left {
+  left: 0;
+}
+
+.arrow.right {
+  right: 0;
+}
+
+/* Mostrar flechas solo en pantallas grandes al pasar el mouse */
+@media (min-width: 1024px) {
+  .scroll-container:hover .arrow {
+    opacity: 1;
+  }
+}
+
+/* Estilo básico del scroll horizontal */
+.scroll-poster {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+/* Scroll horizontal modificado para apaisados */
+.scroll-container-horizontal {
+  position: relative;
+}
+
+.scroll-poster-horizontal {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.scroll-poster-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-poster-horizontal::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 4px;
+}
+
+/* Posters apaisados (horizontal) */
+.poster-horizontal {
+  flex: 0 0 auto;
+  width: 320px;
+  height: 190px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+/* Mejora en pantallas grandes */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .poster-horizontal {
+    width: 400px;
+    height: 225px;
+  }
+
+  .scroll-poster-horizontal {
+    gap: 1.5rem;
+  }
+}
+
+/* Mostrar flechas al hacer hover en el scroll horizontal */
+@media (min-width: 1024px) {
+  .scroll-container-horizontal:hover .arrow {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .contenido-principal {
+    padding-top: 20vh; /* o el espacio que necesites según el logo/fondo */
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .logo-dc {
+    margin-top: -250px; /* más seguro para móviles */
+    width: 215px;
+    max-width: 45vw;
+  }
+}
+
+
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+.nav__icon {
+  font-size: 20px; /* Ajusta el tamaño del icono aquí */
+}
+
+/* Overlay para oscurecer la página */
+.overlay-loader-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que sté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+
+.overlay-loader-page.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* Loader */
+/* Loader de página */
+#loader {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  animation: page-spin 1.2s linear infinite, page-shine 2s ease-in-out infinite;
+  opacity: 1 !important;
+  transition: opacity 3s ease-out;
+  z-index: 600000;
+}
+
+/* Animaciones únicas para loader de página */
+@keyframes page-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes page-shine {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.8); }
+}
+
+.tabs-secondary {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 3005;
+    background-color: rgba(0, 0, 0, 0); /* Transparente */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    transition: background-color 0.4s ease;
+    border: none;
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Se oscurece al subir */
+  }
+  
+  
+  .tabs-secondary .logo {
+    height: 20px;
+    width: auto;
+  }
+  
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  
+  .tabs-secondary .tab {
+    color: rgba(255, 255, 255, 0.856);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 14px 8px;
+    transition: background 0.3s ease;
+    border-radius: 8px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+  .tabs-secondary .tab:hover {
+    background-color: #81818179;
+  }
+  
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+  
+  .tabs-secondary .icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .tabs-secondary .icons span,
+  .header-only span {
+    font-size: 36px !important;
+    color: white;
+  }
+  
+  #headerProfileIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+  }
+  
+  /* Mostrar solo en pantallas grandes */
+  @media screen and (min-width: 1024px) {
+    .tabs-secondary {
+      display: flex;
+    }
+  }
+  
+  
+  
+  @media screen and (min-width: 1024px) {
+    #header {
+      display: none;
+    }
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro al subir */
+    transition: background-color 0.4s ease;
+  }
+
+  .custom-top-bar {
+    background-color: #000;
+    color: white;
+    padding: 6px 20px;
+    display: flex;
+    justify-content: flex-start; /* <- Cambio aquí */
+    align-items: center;
+    gap: 12px; /* <- Espacio entre los botones */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  
+  .custom-top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-top-bar .material-icons {
+    font-size: 25px;
+  }
+  
+  /* Ocultar en pantallas pequeñas */
+  @media screen and (max-width: 1024px) {
+    .custom-top-bar {
+      display: none;
+    }
+  }
+
+  /* Contenedor del botón: relativo para que el menú se posicione respecto a él */
+#langBtnWrapper {
+  position: relative;
+}
+
+.lang-menu {
+  position: absolute;
+  top: 40px;        /* debajo del botón */
+  left: -60px;      /* negativo mueve el menú a la izquierda */
+  background: rgba(20,20,20,0.95);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 180px;
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+
+
+.lang-option {
+  padding: 8px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-option .check {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+}
+
+.lang-option.active .check::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 6px;
+  height: 10px;
+  border: solid rgb(255, 255, 255);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  background: none;
+}
+
+.lang-option:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* Ocultar en pantallas mayores a 768px (tablets y computadoras) */
+@media screen and (min-width: 768px) {
+  .footer {
+    display: none;
+  }
+}
+
+/* Ocultar en pantallas mayores a 768px (tablets y computadoras) */
+@media screen and (min-width: 768px) {
+  .footer {
+    display: none;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link">
+        <span class="material-icons">chevron_left</span>
+    </a>
+    
+</header>
+
+<!-- Tabs para pantallas grandes -->
+<!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+  <div class="fondo-principal"></div>
+  <img src="https://od.lk/s/M18zMTk3MTU3Mjdf/rush%20hour%20collection%20logo.png" alt="DC Logo" class="logo-dc" />
+  <div class="contenido-principal">
+    
+
+    <div class="contenedor-categorias">
+      <div class="categoria">
+        <div class="titulo"></div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+      
+            <a href="una-pareja-explosiva.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/akk070AaUnG5xMmqT1paybmcDvK.jpg');"></div>
+            </a>
+      
+            <a href="una-pareja-explosiva-2.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/rqquHoHee73YSV5xqAcpEf8dU2s.jpg');"></div>
+            </a>
+      
+            <a href="una-pareja-explosiva-3.html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMTk1ODcxMDlf/rush%203%20poster%20movie.jpeg');"></div>
+            </a>
+      
+            
+      
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+      
+
+     
+      
+    </div>
+  </div>
+
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="https://od.lk/d/M18zMTIxODI5MjJf/logo%202025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script>
+     window.addEventListener('load', function () {
+  const overlay = document.querySelector('.overlay-loader-page');
+  const loader = document.getElementById('loader');
+
+  // Se mantiene el loader visible por 1 segundo
+  setTimeout(() => {
+    loader.style.opacity = '0'; // Corrige esto: '2' no tiene efecto visual
+    setTimeout(() => {
+      loader.style.display = 'none';
+      overlay.classList.add('hidden');
+    }, 300);
+  }, 1000);
+});
+
+
+
+   // Funciona para contenedores verticales
+document.querySelectorAll('.scroll-container').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+// Funciona para contenedores horizontales
+document.querySelectorAll('.scroll-container-horizontal').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster-horizontal');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageLogo = document.getElementById('page-logo');
+
+  if (!header || !pageLogo) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const logoOpacity = scrollY > 150 ? opacity : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageLogo.style.opacity = logoOpacity;
+  });
+});
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+  </script>
+</body>
+
+</html>

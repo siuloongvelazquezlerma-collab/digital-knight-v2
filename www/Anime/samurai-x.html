@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Samurai X</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTgwODk5MjBf/samurai%20x%20portada.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/AwhfYDJHEsgUzEkd7Dp3fKaeHHU.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Samurai X</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/y6wr1ukaqRzWRlRUBahkyAB1SNT.png" alt="Samurai X Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;3 temporadas&nbsp;&nbsp;1996&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Samurai X" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/dBkLGVps7niXxA1mzTwvLsk1AkL.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="samurai-x.html"></a>
+          <span id="nombre">Samurai X</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Hace 140 años en el caos del Bakumatsu hubo un imperialista en Kyoto apodado "Battousai el Destajador".      
+</div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="evangelion.html">
+          <img src="https://image.tmdb.org/t/p/original/hAejqZt7ptBRkYuR1p1lmGGS3g8.jpg" alt="Neon Genesis Evangelion (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Neon Genesis Evangelion (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDI4MDUzNTNf/RK%2001.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Samurai X</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "samurai-kenshin";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+  "title": "E1: El Batousai Himura, el espadachín legendario",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ghEjPaP95A4Dy5QGCfnTyWEJYhC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MDUzNTNf/RK%2001.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDUzNTNf/RK%2001.mp4",
+  "episodeCode": "T1 E1: El Batousai Himura, el espadachín legendario",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E2: Yahiko Myoujin, el estudiante indomable",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/djRU6q7riU6I38PpJb5o35QRtB9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTQxNjlf/RK%2002.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTQxNjlf/RK%2002.mp4",
+  "episodeCode": "T1 E2: Yahiko Myoujin, el estudiante indomable",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E3: El hombre que mató el pasado",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wvuARDieDg7MyGV2Q7ENBzp0hK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTQ5NDZf/RK%2003.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTQ5NDZf/RK%2003.mp4",
+  "episodeCode": "T1 E3: El hombre que mató el pasado",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E4: Sólo el mal camino es el correcto, guerrero Sanosuke",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bX5MkCOVQ9gmHlKcgkEHk7ejKzN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTUyMjBf/RK%2004.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTUyMjBf/RK%2004.mp4",
+  "episodeCode": "T1 E4: Sólo el mal camino es el correcto, guerrero Sanosuke",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E5: La espada de doble filo versus la espada Zanba",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iss0TYVSpsbfeFgoD4jfWIvV6K5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MDUzODBf/RK%2005.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDUzODBf/RK%2005.mp4",
+  "episodeCode": "T1 E5: La espada de doble filo versus la espada Zanba",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E6: El visitante de las sombras",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7wo23r1J8quovRbzKpyPdczY4WB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU0MDFf/RK%2006.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU0MDFf/RK%2006.mp4",
+  "episodeCode": "T1 E6: El visitante de las sombras",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E7: Duelo en plenilunio",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/68KXGAKXhe7GsAfIfbqwCAWVhBU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU0OTZf/RK%2007.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU0OTZf/RK%2007.mp4",
+  "episodeCode": "T1 E7: Duelo en plenilunio",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E8: La mujer misteriosa y el nuevo combate",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vs3fPYMMOYsjRDifCwX4zvOW8cK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU1OTNf/RK%2008.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU1OTNf/RK%2008.mp4",
+  "episodeCode": "T1 E8: La mujer misteriosa y el nuevo combate",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E9: Los más poderosos cuerpos de asalto",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iowop983BhOjhrI2HfXySrbZRow.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU3MDJf/RK%2009.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU3MDJf/RK%2009.mp4",
+  "episodeCode": "T1 E9: Los más poderosos cuerpos de asalto",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E10: Aoshi, tan impresionante que es casi hermoso",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lM0om4OYdxJKDTfzG0G8WPTFoH1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU3NzNf/RK%2010.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU3NzNf/RK%2010.mp4",
+  "episodeCode": "T1 E10: Aoshi, tan impresionante que es casi hermoso",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E11: La batalla de la luz y la oscuridad",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jpcYLvZIktJMxTDnz03R0xwsH7o.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU4NjNf/RK%2011.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU4NjNf/RK%2011.mp4",
+  "episodeCode": "T1 E11: La batalla de la luz y la oscuridad",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E12: Nace un espadachín, el combate de Yahiko",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4T8gzCKN2ITyEyWAaTQ3tOLuNNh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTU5OTdf/RK%2012.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTU5OTdf/RK%2012.mp4",
+  "episodeCode": "T1 E12: Nace un espadachín, el combate de Yahiko",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E13: Toramaru, el luchador de Sumo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fehoOQXgMzwku8VM7jzXs1X8Afa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTYwNDhf/RK%2013.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTYwNDhf/RK%2013.mp4",
+  "episodeCode": "T1 E13: Toramaru, el luchador de Sumo",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E14: La doctora Megumi al rescate",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2ONn8gczwfyEq5CrjW3nO08Gyw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTg5Njlf/RK%2014.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTg5Njlf/RK%2014.mp4",
+  "episodeCode": "T1 E14: La doctora Megumi al rescate",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E15: Dos espadachines legendarios",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ucelT8ATphy8t4FbiI7JxPgaqF2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkwNjRf/RK%2015.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkwNjRf/RK%2015.mp4",
+  "episodeCode": "T1 E15: Dos espadachines legendarios",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E16: La espada secreta de Shilem",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vhrMr5qkHlcHJcAaSu6KoRZOtZk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkxMTBf/RK%2016.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkxMTBf/RK%2016.mp4",
+  "episodeCode": "T1 E16: La espada secreta de Shilem",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E17: Marimo, la bala humana",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gzXt0V1YggNKalfsQ8h9GOjeqlY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkxMzlf/RK%2017.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkxMzlf/RK%2017.mp4",
+  "episodeCode": "T1 E17: Marimo, la bala humana",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E18: Corre Yahiko, recupera la espada sin filo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zwQBY71TRqss5KWpYAV24gGBGju.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkxNjJf/RK%2018.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkxNjJf/RK%2018.mp4",
+  "episodeCode": "T1 E18: Corre Yahiko, recupera la espada sin filo",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E19: El reino prohibido",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e90uwRmOLg0gSAGeQ30SfUiCFdQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkxOTdf/RK%2019.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkxOTdf/RK%2019.mp4",
+  "episodeCode": "T1 E19: El reino prohibido",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E20: El estilo Shinko, renace la espada asesina",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zaqLwv9r9YwlFzqlPeJitCtw3sJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkyMzBf/RK%2020.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkyMzBf/RK%2020.mp4",
+  "episodeCode": "T1 E20: El estilo Shinko, renace la espada asesina",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E21: La destrucción de una pesadilla, la ambición de Raijuta",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e7GttDV0NHXXlFrCBs621dYfT2N.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkyNjNf/RK%2021.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkyNjNf/RK%2021.mp4",
+  "episodeCode": "T1 E21: La destrucción de una pesadilla, la ambición de Raijuta",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E22: Incidente en la locomotora del ferrocarril",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mfuD5wkTIPFG8Mo6iULyhgZf5UK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkyOTdf/RK%2022.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkyOTdf/RK%2022.mp4",
+  "episodeCode": "T1 E22: Incidente en la locomotora del ferrocarril",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E23: Sanosuke y los retratos a color",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lv058xd7x8sgGS0N8CoxO15xuDQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkzMTdf/RK%2023.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkzMTdf/RK%2023.mp4",
+  "episodeCode": "T1 E23: Sanosuke y los retratos a color",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E24: Kenshin y Sanosuke se enfrentan de nuevo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3wZtEMxCHEu7XjrkgFrWCUE2ouA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkzNTNf/RK%2024.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkzNTNf/RK%2024.mp4",
+  "episodeCode": "T1 E24: Kenshin y Sanosuke se enfrentan de nuevo",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E25: El pirata rojo separa a Kenshin y a Kaoru",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2xDdGxcw4AkSh1TsQlntedppvQq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTkzNzdf/RK%2025.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTkzNzdf/RK%2025.mp4",
+  "episodeCode": "T1 E25: El pirata rojo separa a Kenshin y a Kaoru",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E26: Shura, la misteriosa mujer pirata",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rOkoybZjlsCrSTi7h0sWCMn0kYl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk0MDVf/RK%2026.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk0MDVf/RK%2026.mp4",
+  "episodeCode": "T1 E26: Shura, la misteriosa mujer pirata",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E27: Los últimos días del pirata rojo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/54hBwN8eDbds1vld0JxkvUGQxsP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk0Mzlf/RK%2027.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk0Mzlf/RK%2027.mp4",
+  "episodeCode": "T1 E27: Los últimos días del pirata rojo",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 90 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E1: El regreso del lobo: Prólogo de una guerra sangrienta",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jfdPrtqpJUfXEjlACEurrBaKVRN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk0Njhf/RK%2028.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk0Njhf/RK%2028.mp4",
+  "episodeCode": "T2 E1: El regreso del lobo: Prólogo de una guerra sangrienta",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E2: El más poderoso enemigo, colmillo al ataque",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gznkPeLoA6AKTHuu6W4s2g3YjVa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk0OTVf/RK%2029.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk0OTVf/RK%2029.mp4",
+  "episodeCode": "T2 E2: El más poderoso enemigo, colmillo al ataque",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E3: La venganza del demonio, un complot de Makoto Shishio",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zYkkWIHI42gOW2BNWTZc670XTiU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk1MTZf/RK%2030.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk1MTZf/RK%2030.mp4",
+  "episodeCode": "T2 E3: La venganza del demonio, un complot de Makoto Shishio",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E4: La partida de Kenshin, realidad inaceptable",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qZ7oFYzwklKJPiqX3PGA3zBkItc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk1NDhf/RK%2031.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk1NDhf/RK%2031.mp4",
+  "episodeCode": "T2 E4: La partida de Kenshin, realidad inaceptable",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E5: El viaje de Kaoru a Kioto",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dKWLIU6p3wabMaJeb0lloPJAKpa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk1NzBf/RK%2032.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk1NzBf/RK%2032.mp4",
+  "episodeCode": "T2 E5: El viaje de Kaoru a Kioto",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E6: La obsesión de Aoshi",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zHg0oZz4xZ94cjoIqtSX59fHsKI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk2MDJf/RK%2033.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk2MDJf/RK%2033.mp4",
+  "episodeCode": "T2 E6: La obsesión de Aoshi",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E7: Misao Makimashi, la ladronzuela",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eDmkja2asch0bA4kFEzMDUsRwnv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk2NDdf/RK%2034.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk2NDdf/RK%2034.mp4",
+  "episodeCode": "T2 E7: Misao Makimashi, la ladronzuela",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E8: La aldea abandonada",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/433of0cH3F7UYeDxFaBSpIXGWOa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTk2NzRf/RK%2035.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTk2NzRf/RK%2035.mp4",
+  "episodeCode": "T2 E8: La aldea abandonada",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E9: Se acerca el fin de la era Tokugawa. Shishio y Kenshin frente a frente",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pxnZTWi99g53xAXBqDECfgCcQEB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAxNDBf/RK%2036.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAxNDBf/RK%2036.mp4",
+  "episodeCode": "T2 E9: Se acerca el fin de la era Tokugawa. Shishio y Kenshin frente a frente",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E10: Soujiro contra Kenshin: La espada sin filo se rompe",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wLWT2S3dqmnz0TfHG24ekKJKteY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAxNjdf/RK%2037.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAxNjdf/RK%2037.mp4",
+  "episodeCode": "T2 E10: Soujiro contra Kenshin: La espada sin filo se rompe",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E11: El entrenamiento de Sanosuke",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7UeJfXmXzHwwQpO8dyaUM51CSgi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAxNzhf/RK%2038.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAxNzhf/RK%2038.mp4",
+  "episodeCode": "T2 E11: El entrenamiento de Sanosuke",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E12: La última espada de Shaku",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wYEH14eohpz9tNsNYKG0Uvkb04c.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAyMDJf/RK%2039.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAyMDJf/RK%2039.mp4",
+  "episodeCode": "T2 E12: La última espada de Shaku",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E13: Combate mortal con Chō, uno de los 10 asesinos",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qmfr3DTZPvzYEyUadVx8OPLWIwp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAyMTdf/RK%2040.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAyMTdf/RK%2040.mp4",
+  "episodeCode": "T2 E13: Combate mortal con Chō, uno de los 10 asesinos",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E14: Encuentro con el maestro Seijuro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2ONn8gczwfyEq5CrjW3nO08Gyw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAyMjhf/RK%2041.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAyMjhf/RK%2041.mp4",
+  "episodeCode": "T2 E14: Encuentro con el maestro Seijuro",
+  "hiddenCode": "T2 E14",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E15: Aoshi y Shishio: aliados",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e4QJ4Ahuz8wKavskOLWcLSWymIv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAyNDdf/RK%2042.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAyNDdf/RK%2042.mp4",
+  "episodeCode": "T2 E15: Aoshi y Shishio: aliados",
+  "hiddenCode": "T2 E15",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E16: Un principio secreto",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lZuw7KcXUjtGbXq6sATJt9uVmuU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAyNjRf/RK%2043.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAyNjRf/RK%2043.mp4",
+  "episodeCode": "T2 E16: Un principio secreto",
+  "hiddenCode": "T2 E16",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E17: El Juppongatana",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c66H7bxk2Kmf2TJnpyNyfYj5EVC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAyODFf/RK%2044.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAyODFf/RK%2044.mp4",
+  "episodeCode": "T2 E17: El Juppongatana",
+  "hiddenCode": "T2 E17",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E18: Detengan el Rengoku",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7px3FwlR7bvSpKJ7UHnLsV4nm92.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAzMDZf/RK%2045.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAzMDZf/RK%2045.mp4",
+  "episodeCode": "T2 E18: Detengan el Rengoku",
+  "hiddenCode": "T2 E18",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E19: Destrucción del Rengoku",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vPzjmrihikQEzE5N34oQXtWE90k.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAzMjhf/RK%2046.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAzMjhf/RK%2046.mp4",
+  "episodeCode": "T2 E19: Destrucción del Rengoku",
+  "hiddenCode": "T2 E19",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E20: El puño de Sanosuke",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rqmG5mTMqU3ZSTG9bcZStGn6Z8G.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAzNDlf/RK%2047.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAzNDlf/RK%2047.mp4",
+  "episodeCode": "T2 E20: El puño de Sanosuke",
+  "hiddenCode": "T2 E20",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E21: La conversión de Anyi",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sngkTOfwdASiiooTQg6tOWRSgKG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAzNjlf/RK%2048.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAzNjlf/RK%2048.mp4",
+  "episodeCode": "T2 E21: La conversión de Anyi",
+  "hiddenCode": "T2 E21",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E22: El duelo de Saito y Usui",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/etTofqMzMmug9afDZzL0VsMl74J.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjAzODVf/RK%2049.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjAzODVf/RK%2049.mp4",
+  "episodeCode": "T2 E22: El duelo de Saito y Usui",
+  "hiddenCode": "T2 E22",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E23: El reencuentro de Kenshin y Aoshi",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4ipv39tkm6TSu6QEUQmpLZbFJx7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NjA0MDFf/RK%2050.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NjA0MDFf/RK%2050.mp4",
+  "episodeCode": "T2 E23: El reencuentro de Kenshin y Aoshi",
+  "hiddenCode": "T2 E23",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E24: Aoshi contra Kenshin, la batalla final",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a5dclXiZRTxnbOLGIk1xuVigt1L.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTMzNzdf/RK%2051.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTMzNzdf/RK%2051.mp4",
+  "episodeCode": "T2 E24: Aoshi contra Kenshin, la batalla final",
+  "hiddenCode": "T2 E24",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E25: El milagro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gnDSOOYhICUWRS3arZPYi0uMLm0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM0MzJf/RK%2052.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM0MzJf/RK%2052.mp4",
+  "episodeCode": "T2 E25: El milagro",
+  "hiddenCode": "T2 E25",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E26: La superpelea",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yBmCBpfm9a3Ei4QhLxNcF7RpVBz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM0ODVf/RK%2053.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM0ODVf/RK%2053.mp4",
+  "episodeCode": "T2 E26: La superpelea",
+  "hiddenCode": "T2 E26",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E27: El poder de Soujiro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nECW80NJh5ZBcuYP1qOZR8XeBdg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM1Mjlf/RK%2054.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM1Mjlf/RK%2054.mp4",
+  "episodeCode": "T2 E27: El poder de Soujiro",
+  "hiddenCode": "T2 E27",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E28: El pasado de Soujiro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5CdyZO7q2UCEYzBOlxLO3RoSGXK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM1NTZf/RK%2055.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM1NTZf/RK%2055.mp4",
+  "episodeCode": "T2 E28: El pasado de Soujiro",
+  "hiddenCode": "T2 E28",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E29: El último ataque de Soujiro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3tIeloevqlSpfQrlAuE0wV1DpT0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM1ODFf/RK%2056.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM1ODFf/RK%2056.mp4",
+  "episodeCode": "T2 E29: El último ataque de Soujiro",
+  "hiddenCode": "T2 E29",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E30: Shisio contra Kenshin",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4X5wlLF19QhmQc0aSd2chTXgxGG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM2MDZf/RK%2057.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM2MDZf/RK%2057.mp4",
+  "episodeCode": "T2 E30: Shisio contra Kenshin",
+  "hiddenCode": "T2 E30",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E31: Kenshin en peligro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yUpYZ3qvrSDyKGZrkGA0cSzOm2K.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM3NjJf/RK%2058.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM3NjJf/RK%2058.mp4",
+  "episodeCode": "T2 E31: Kenshin en peligro",
+  "hiddenCode": "T2 E31",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E32: Resurrección",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/573s9Gmgtz8ux8CmmyA2MDfYch1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ2NTM5NTBf/RK%2059.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ2NTM5NTBf/RK%2059.mp4",
+  "episodeCode": "T2 E32: Resurrección",
+  "hiddenCode": "T2 E32",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E33: Shishio contra Kenshin, la última batalla",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9eOLYrIaK5LxxtmBT3iAeJAMRAI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwNzZf/RK%2060.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwNzZf/RK%2060.mkv",
+  "episodeCode": "T2 E33: Shishio contra Kenshin, la última batalla",
+  "hiddenCode": "T2 E33",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E34: El Juppongatana, una acción de vida",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v9Cg59ICrCprh1w9SyhkeNLVLbQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwNzhf/RK%2061.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwNzhf/RK%2061.mkv",
+  "episodeCode": "T2 E34: El Juppongatana, una acción de vida",
+  "hiddenCode": "T2 E34",
+  "intro": { "start": 5, "end": 100 }
+},
+{
+  "title": "E35: Regreso a casa",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jcIfpbQgSRsK8i6hKJ4PBQADddZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwNzlf/RK%2062.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwNzlf/RK%2062.mkv",
+  "episodeCode": "T2 E35: Regreso a casa",
+  "hiddenCode": "T2 E35",
+  "intro": { "start": 5, "end": 100 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+  "title": "E1: La leyenda del fuego volador",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xD0MqnNWuKEBqXOdo5asgnkf8by.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODBf/RK%2063.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODBf/RK%2063.mkv",
+  "episodeCode": "T3 E1: La leyenda del fuego volador",
+  "hiddenCode": "T3 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: ¿El nacimiento del príncipe Yahiko?",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gXtZ82P1LB4dY25JmNfUt9JGuvo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODFf/RK%2064.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODFf/RK%2064.mkv",
+  "episodeCode": "T3 E2: ¿El nacimiento del príncipe Yahiko?",
+  "hiddenCode": "T3 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Notaro, el famoso perro detective",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gC67dcDrA7prmqGR6KpUKFqKxw6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODJf/RK%2065.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODJf/RK%2065.mkv",
+  "episodeCode": "T3 E3: Notaro, el famoso perro detective",
+  "hiddenCode": "T3 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: ¿Una propuesta de Kenshin?",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jnzjEg0KelrDxJYTghXiYSTtC2K.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODNf/RK%2066.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODNf/RK%2066.mkv",
+  "episodeCode": "T3 E4: ¿Una propuesta de Kenshin?",
+  "hiddenCode": "T3 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: La espada legendaria",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8cX9O2zMhOYdFTYZkVLQS4YCppv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODRf/RK%2067.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODRf/RK%2067.mkv",
+  "episodeCode": "T3 E5: La espada legendaria",
+  "hiddenCode": "T3 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: El medallón del destino",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vB9qHomFDXs19auxInYwMPHwyXT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODVf/RK%2068.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODVf/RK%2068.mkv",
+  "episodeCode": "T3 E6: El medallón del destino",
+  "hiddenCode": "T3 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: El momento de la verdad",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cxYwzwET7CRkdEyfOlrLDRmQV0T.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODZf/RK%2069.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODZf/RK%2069.mkv",
+  "episodeCode": "T3 E7: El momento de la verdad",
+  "hiddenCode": "T3 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Kenshin Sepultado en la obscuridad",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/twehR3yqu7ZcILGBMHovG7OzIHg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODdf/RK%2070.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODdf/RK%2070.mkv",
+  "episodeCode": "T3 E8: Kenshin Sepultado en la obscuridad",
+  "hiddenCode": "T3 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Shogo atrapado",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/EgTQXAHGpMNZnnQPfFEGcQBtHL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODhf/RK%2071.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODhf/RK%2071.mkv",
+  "episodeCode": "T3 E9: Shogo atrapado",
+  "hiddenCode": "T3 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: El triste pasado de Shogo y Sayo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uYuxmHXVizz0H5mD8woPWD0BVER.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwODlf/RK%2072.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwODlf/RK%2072.mkv",
+  "episodeCode": "T3 E10: El triste pasado de Shogo y Sayo",
+  "hiddenCode": "T3 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: El demonio despreciable",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6FX8zJnwcIPdeuVvInhwwOsRwaf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTBf/RK%2073.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTBf/RK%2073.mkv",
+  "episodeCode": "T3 E11: El demonio despreciable",
+  "hiddenCode": "T3 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: El adiós definitivo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/boKwNscWzAHWWOS46WrAHjAUyMo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTFf/RK%2074.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTFf/RK%2074.mkv",
+  "episodeCode": "T3 E12: El adiós definitivo",
+  "hiddenCode": "T3 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: El enfrentamiento de los dos Amakakeru Ryu no Hirameki",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mY0xW8O4C0gfUePkyIF5n69IVTL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTJf/RK%2075.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTJf/RK%2075.mkv",
+  "episodeCode": "T3 E13: El enfrentamiento de los dos Amakakeru Ryu no Hirameki",
+  "hiddenCode": "T3 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: La partida",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oD1n5ThGZVxc7qykljjGRjP5gfG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTNf/RK%2076.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTNf/RK%2076.mkv",
+  "episodeCode": "T3 E14: La partida",
+  "hiddenCode": "T3 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Aparece otro Battusai",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eWklZbXqFbyY5qhlFWXxnDR7Jia.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTRf/RK%2077.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTRf/RK%2077.mkv",
+  "episodeCode": "T3 E15: Aparece otro Battusai",
+  "hiddenCode": "T3 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Una dama admirada por un estudiante de artes",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cyA9VO7yXykFLPmCdKqiTonXzFM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTVf/RK%2078.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTVf/RK%2078.mkv",
+  "episodeCode": "T3 E16: Una dama admirada por un estudiante de artes",
+  "hiddenCode": "T3 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: El destino de dos sujetos que vivieron al final de la era Tokugawa",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/m9PRKNFgL0ZTnSF5gJmnCEbdoHy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTdf/RK%2079.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTdf/RK%2079.mkv",
+  "episodeCode": "T3 E17: El destino de dos sujetos que vivieron al final de la era Tokugawa",
+  "hiddenCode": "T3 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: El final sin fin de la era Tokugawa",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6EjogKDaacqWfJmzsCzEbDB7PXx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOThf/RK%2080.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOThf/RK%2080.mkv",
+  "episodeCode": "T3 E18: El final sin fin de la era Tokugawa",
+  "hiddenCode": "T3 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Un fantasma del final de la era que trata de asesinar a Kaishu",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jZXJ4yKTnlQXIizygoidzsgkxyc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAwOTlf/RK%2081.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAwOTlf/RK%2081.mkv",
+  "episodeCode": "T3 E19: Un fantasma del final de la era que trata de asesinar a Kaishu",
+  "hiddenCode": "T3 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: La verdad más allá de la era",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lAMjFpAYQiCOGGEfQ6xtPCilcZS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDBf/RK%2082.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDBf/RK%2082.mkv",
+  "episodeCode": "T3 E20: La verdad más allá de la era",
+  "hiddenCode": "T3 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: El regreso de Yutaro",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sngkTOfwdASiiooTQg6tOWRSgKG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDFf/RK%2083.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDFf/RK%2083.mkv",
+  "episodeCode": "T3 E21: El regreso de Yutaro",
+  "hiddenCode": "T3 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: El grupo ninja Sanada y la medicina milagrosa",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AqEQlN2hgkAMiRbE6pEhTKO2Mub.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDJf/RK%2084.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDJf/RK%2084.mkv",
+  "episodeCode": "T3 E22: El grupo ninja Sanada y la medicina milagrosa",
+  "hiddenCode": "T3 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Una trampa en el cruce de Dios",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v3pJqic76f7jqtpwVd5hZyfktEz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDNf/RK%2085.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDNf/RK%2085.mkv",
+  "episodeCode": "T3 E23: Una trampa en el cruce de Dios",
+  "hiddenCode": "T3 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Kaita ve la verdad",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sKMLt7uEMDIxjsNKIlKVujm1ot7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDRf/RK%2086.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDRf/RK%2086.mkv",
+  "episodeCode": "T3 E24: Kaita ve la verdad",
+  "hiddenCode": "T3 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: Schneider defiende a Misanagi",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rj5zy1LHtzdNitWszYT34Usqsn4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDVf/RK%2087.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDVf/RK%2087.mkv",
+  "episodeCode": "T3 E25: Schneider defiende a Misanagi",
+  "hiddenCode": "T3 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Las cenizas de la medicina sagrada",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uu5dVoJAxTeJo1fNfWCKbkfWWPS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDZf/RK%2088.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDZf/RK%2088.mkv",
+  "episodeCode": "T3 E26: Las cenizas de la medicina sagrada",
+  "hiddenCode": "T3 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: Para mi ángel Misao de Kioto",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4QJpsfCZkxDPfaoZOwHiSo4QLxi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDdf/RK%2089.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDdf/RK%2089.mkv",
+  "episodeCode": "T3 E27: Para mi ángel Misao de Kioto",
+  "hiddenCode": "T3 E27",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E28: El Ki, espada de doble filo",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eCToRnG3IvGdKYHH6nic47Y5mxQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDhf/RK%2090.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDhf/RK%2090.mkv",
+  "episodeCode": "T3 E28: El Ki, espada de doble filo",
+  "hiddenCode": "T3 E28",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E29: El principio del fin",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iaCqpquWvb8JKLeVx9wC0TrONHK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMDlf/RK%2091.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMDlf/RK%2091.mkv",
+  "episodeCode": "T3 E29: El principio del fin",
+  "hiddenCode": "T3 E29",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E30: Liberación del Ki",
+  "meta": "13+ · 25m · 1996",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zR5wHvsPa9bAnYaNvGgMT4kANgc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTgwNjAxMTBf/RK%2092.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMTBf/RK%2092.mkv",
+  "episodeCode": "T3 E30: Liberación del Ki",
+  "hiddenCode": "T3 E30",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+        "title": "E31: Partes del rompecabezas",
+        "meta": "13+ · 25m · 1996",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vF1j7AE7XbgbXRREfLdN92k80rj.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTgwNjAxMTFf/RK%2093.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMTFf/RK%2093.mkv",
+        "episodeCode": "T3 E31: Partes del rompecabezas",
+        "hiddenCode": "T3 E31",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E32: El Ki cambia de rumbo y muere",
+        "meta": "13+ · 25m · 1996",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/x2hogfr4Vwf1ZB3hgWxnspZfvLP.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTgwNjAxMTNf/RK%2094.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMTgwNjAxMTNf/RK%2094.mkv",
+        "episodeCode": "T3 E32: El Ki cambia de rumbo y muere",
+        "hiddenCode": "T3 E32",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      
+     
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

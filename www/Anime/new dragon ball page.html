@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+
+  <title>Dragon Ball</title>
+  <script src="loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
+    <link rel="manifest" href="manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTE5NDExOTBf/dragon%20ball%20poster%202025.png") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/3H2RZIIVEQSuBzmm8QaNIwp0rVt.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content img.logo {
+    width: 300px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 220px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 420px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Dragon Ball Z</span> <!-- Título oculto por defecto -->
+    </header>
+
+     <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="new dragon ball plus page.html">
+    <img src="https://od.lk/s/M18zMTc2Njc5NjBf/notification%20logo.png" width="450px" class="logo" />
+  </a>
+
+  
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="Favoritos dragon ball 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="buscador dragon ball 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="perfil dragon ball 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTI1Njc0OThf/dragonballapp.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/qaytWkyWEz7b92AeGByRA5QtriR.png" alt="Dragon Ball Logo" class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+    1 temporada    1986    Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Dragon Ball" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTE5NDEyMzhf/1-Dragon-Ball.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="dragon-ball.html"></a>
+          <span id="nombre">Dragon Ball (1986)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Hace mucho tiempo, en las montañas, el maestro de artes marciales Gohan  descubrió a un excepcional niño  durante una noche tormentosa, al que llamó Goku. Sin saber nada de su  pasado, Gohan le crió c...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="dragon-ball-z.html">
+          <img src="https://od.lk/s/M18zMDc3ODEzOTBf/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg" alt="Dragon Ball Z" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Z</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball-gt.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/3eb79333155a8e87b2f7be64f064c694.jpg" alt="Dragon Ball GT" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball GT</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball-super.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/98ea4207e23a2ea3e3af39ad641d8800.jpg" alt="Dragon Ball Super" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball Super</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="dragon-ball.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/257cdb6a1fdd566600a01eb0f9f73b22.jpg" alt="Dragon Ball" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dragon Ball</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTgwMzI0MTZf/E1%20Zapatero%20a%20Tus%20Zapatos.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Dragon Ball</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="new dragon ball plus page.html" class="footer-icon">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+      <p>Inicio</p>
+  </a>
+  <a href="Favoritos dragon ball 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+      <p>Favoritos</p>
+  </a>
+  <a href="mangas dragon ball.html" class="footer-icon">
+      <span class="material-icons-outlined">auto_stories</span>
+      <span class="material-icons">auto_stories</span>
+      <p>Mangas</p>
+  </a>
+  <a href="buscador dragon ball 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+      <p>Buscar</p>
+  </a>
+  <a href="perfil dragon ball 2025.html" class="footer-icon">
+      <img src="https://od.lk/s/M18zMTI1Njc0OThf/dragonballapp.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+      <p>Perfil</p>
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+<script>
+
+const seriesId = "dragon-ball-12609";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+  {
+    season: "Temporada 1",
+    episodes: [
+    {
+    "title": "T1 E1: El secreto de la esfera del dragón",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ekQkWpBvtSaKwPFqnr0yfOnHvgF.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDU4NTRf/Dragon%20Ball%20001%20%5B960p%5D%20-%20El%20secreto%20de%20la%20esfera%20del%20drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDU4NTRf/Dragon%20Ball%20001%20%5B960p%5D%20-%20El%20secreto%20de%20la%20esfera%20del%20drag%C3%B3n.mp4",
+    "episodeCode": "T1 E1: El secreto de la esfera del dragón",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E2: La búsqueda del emperador",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w160_and_h90_bestv2/ySt7z76P2QSVHp3Gxm3ppcfCdB6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDU4NTVf/Dragon%20Ball%20002%20%5B960p%5D%20-%20La%20b%C3%BAsqueda%20del%20emperador.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDU4NTVf/Dragon%20Ball%20002%20%5B960p%5D%20-%20La%20b%C3%BAsqueda%20del%20emperador.mp4",
+    "episodeCode": "T1 E2: La búsqueda del emperador",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E3: La nube dorada de Roshi",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w160_and_h90_bestv2/gPH1WBzPJoiBpdDrjW6aaZUWPaR.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDU4NTlf/Dragon%20Ball%20003%20%5B960p%5D%20-%20La%20nube%20dorada%20de%20Roshi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDU4NTlf/Dragon%20Ball%20003%20%5B960p%5D%20-%20La%20nube%20dorada%20de%20Roshi.mp4",
+    "episodeCode": "T1 E3: La nube dorada de Roshi",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E4: Oolong, el secuestrador de niñas",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fAp3XFjqtIZzOkkaeQZFUiK4nAS.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDgwOThf/Dragon%20Ball%20004%20%5B960p%5D%20-%20Oolong%2C%20el%20secuestrador%20de%20ni%C3%B1as.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDgwOThf/Dragon%20Ball%20004%20%5B960p%5D%20-%20Oolong%2C%20el%20secuestrador%20de%20ni%C3%B1as.mp4",
+    "episodeCode": "T1 E4: Oolong, el secuestrador de niñas",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E5: El fuerte y malvado Yamcha vive en el desierto",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/2XWtD2T6O0lnqJm8n7luOfIXqFo.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDgyNDdf/Dragon%20Ball%20005%20%5B960p%5D%20-%20El%20misterioso%20y%20malvado%20Yamcha%20vive%20en%20el%20desierto.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDgyNDdf/Dragon%20Ball%20005%20%5B960p%5D%20-%20El%20misterioso%20y%20malvado%20Yamcha%20vive%20en%20el%20desierto.mp4",
+    "episodeCode": "T1 E5: El fuerte y malvado Yamcha vive en el desierto",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E6: Vigila la esfera del dragón",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/s60AA8va7LtJ8LHW4Z9WzYFaWwG.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDgzODhf/Dragon%20Ball%20006%20%5B960p%5D%20-%20Vigila%20la%20esfera%20del%20drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDgzODhf/Dragon%20Ball%20006%20%5B960p%5D%20-%20Vigila%20la%20esfera%20del%20drag%C3%B3n.mp4",
+    "episodeCode": "T1 E6: Vigila la esfera del dragón",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E7: Ox-Satan en la montaña de fuego",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/kPCS0iqk3Sma01V1Puc2LfhfZTP.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDg0NzVf/Dragon%20Ball%20007%20%5B960p%5D%20-%20Ox-Sat%C3%A1n%20en%20la%20monta%C3%B1a%20de%20fuego.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDg0NzVf/Dragon%20Ball%20007%20%5B960p%5D%20-%20Ox-Sat%C3%A1n%20en%20la%20monta%C3%B1a%20de%20fuego.mp4",
+    "episodeCode": "T1 E7: Ox-Satan en la montaña de fuego",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E8: La onda glaciar de Roshi",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/itmzd73XH58cvnD6ADYR9Q91e0E.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDg1NzJf/Dragon%20Ball%20008%20%5B960p%5D%20-%20La%20onda%20glaciar%20de%20Roshi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDg1NzJf/Dragon%20Ball%20008%20%5B960p%5D%20-%20La%20onda%20glaciar%20de%20Roshi.mp4",
+    "episodeCode": "T1 E8: La onda glaciar de Roshi",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E9: El truco especial del jefe conejo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/b95dhAyrSNB9vIfl93vWHVBDpVO.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDg2NzJf/Dragon%20Ball%20009%20%5B960p%5D%20-%20El%20truco%20especial%20del%20Jefe%20Conejo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDg2NzJf/Dragon%20Ball%20009%20%5B960p%5D%20-%20El%20truco%20especial%20del%20Jefe%20Conejo.mp4",
+    "episodeCode": "T1 E9: El truco especial del jefe conejo",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E10: Las esferas del dragón han sido robadas",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/YpqU8lE5TNwyv9wIk7CbFdmffB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDg4MTBf/Dragon%20Ball%20010%20%5B960p%5D%20-%20Las%20esferas%20del%20drag%C3%B3n%20han%20sido%20robadas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDg4MTBf/Dragon%20Ball%20010%20%5B960p%5D%20-%20Las%20esferas%20del%20drag%C3%B3n%20han%20sido%20robadas.mp4",
+    "episodeCode": "T1 E10: Las esferas del dragón han sido robadas",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E11: El dragón ha sido llamado",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ySFrJ01YjsC3XshpBmFP0F9s1Ue.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDg5NTRf/Dragon%20Ball%20011%20%5B960p%5D%20-%20El%20drag%C3%B3n%20ha%20sido%20llamado.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDg5NTRf/Dragon%20Ball%20011%20%5B960p%5D%20-%20El%20drag%C3%B3n%20ha%20sido%20llamado.mp4",
+    "episodeCode": "T1 E11: El dragón ha sido llamado",
+    "hiddenCode": "T1 E11",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E12: Un deseo pedido al Dios Dragón",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/xZZI96vtRLgA9nBM7Gx6k7avmq2.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDkwNDhf/Dragon%20Ball%20012%20%5B960p%5D%20-%20Un%20deseo%20pedido%20al%20Dios%20drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDkwNDhf/Dragon%20Ball%20012%20%5B960p%5D%20-%20Un%20deseo%20pedido%20al%20Dios%20drag%C3%B3n.mp4",
+    "episodeCode": "T1 E12: Un deseo pedido al Dios Dragón",
+    "hiddenCode": "T1 E12",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E13: La metamorfosis de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/tBCV4gItk8eakxtSfOOBBBSYSvZ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDc4OTZf/Dragon%20Ball%20013%20%5B960p%5D%20-%20La%20metamorfosis%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDc4OTZf/Dragon%20Ball%20013%20%5B960p%5D%20-%20La%20metamorfosis%20de%20Goku.mp4",
+    "episodeCode": "T1 E13: La metamorfosis de Gokú",
+    "hiddenCode": "T1 E13",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E14: El rival de Goku",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/1TPw96nMzzICMEA8EXweMxIEES0.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNDkxOTlf/Dragon%20Ball%20014%20%5B960p%5D%20-%20El%20rival%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNDkxOTlf/Dragon%20Ball%20014%20%5B960p%5D%20-%20El%20rival%20de%20Goku.mp4",
+    "episodeCode": "T1 E14: El rival de Goku",
+    "hiddenCode": "T1 E14",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E15: La misteriosa niña Launch",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fvimwCynPDrRdSQq1cvBxngIFOI.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0Njlf/Dragon%20Ball%20015%20%5B960p%5D%20-%20La%20misteriosa%20ni%C3%B1a%20Lunch.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0Njlf/Dragon%20Ball%20015%20%5B960p%5D%20-%20La%20misteriosa%20ni%C3%B1a%20Lunch.mp4",
+    "episodeCode": "T1 E15: La misteriosa niña Launch",
+    "hiddenCode": "T1 E15",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E16: La cacería de piedras",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/6TYjefA4LxhTSKzEu6GIvPN5H8c.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0NzFf/Dragon%20Ball%20016%20%5B960p%5D%20-%20La%20cacer%C3%ADa%20de%20piedras.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0NzFf/Dragon%20Ball%20016%20%5B960p%5D%20-%20La%20cacer%C3%ADa%20de%20piedras.mp4",
+    "episodeCode": "T1 E16: La cacería de piedras",
+    "hiddenCode": "T1 E16",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E17: Los repartidores de leche",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iRMzsMgwbAXaCXlnxwGB6k9jlqk.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0NzJf/Dragon%20Ball%20017%20%5B960p%5D%20-%20Los%20repartidores%20de%20leche.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0NzJf/Dragon%20Ball%20017%20%5B960p%5D%20-%20Los%20repartidores%20de%20leche.mp4",
+    "episodeCode": "T1 E17: Los repartidores de leche",
+    "hiddenCode": "T1 E17",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E18: Entrenando al estilo de Roshi",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/4GNsv3ZEz8PEO0YMdYIyhMFt4bZ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0NzNf/Dragon%20Ball%20018%20%5B960p%5D%20-%20Entrenando%20al%20estilo%20de%20Roshi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0NzNf/Dragon%20Ball%20018%20%5B960p%5D%20-%20Entrenando%20al%20estilo%20de%20Roshi.mp4",
+    "episodeCode": "T1 E18: Entrenando al estilo de Roshi",
+    "hiddenCode": "T1 E18",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E19: El gran torneo de Artes Marciales",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/dxZ6Q0ucrJg8mUpoTQQ3eQ5QRHv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0MDNf/Dragon%20Ball%20019%20%5B962p%5D%20-%20El%20gran%20torneo%20de%20las%20Artes%20Marciales.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0MDNf/Dragon%20Ball%20019%20%5B962p%5D%20-%20El%20gran%20torneo%20de%20las%20Artes%20Marciales.mp4",
+    "episodeCode": "T1 E19: El gran torneo de Artes Marciales",
+    "hiddenCode": "T1 E19",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E20: ¿Podrá el duro entrenamiento ser puesto en práctica?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/kWZO6et19fI1FE7lXScRbIGnH3J.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0MDRf/Dragon%20Ball%20020%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20el%20duro%20entrenamiento%20ser%20puesto%20en%20pr%C3%A1ctica.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0MDRf/Dragon%20Ball%20020%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20el%20duro%20entrenamiento%20ser%20puesto%20en%20pr%C3%A1ctica.mp4",
+    "episodeCode": "T1 E20: ¿Podrá el duro entrenamiento ser puesto en práctica?",
+    "hiddenCode": "T1 E20",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E21: ¡Alerta Krilin!",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/xjKbeB3nFKpRVNDZ4oRXSTZeVY2.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0MTJf/Dragon%20Ball%20021%20%5B960p%5D%20-%20%C2%A1Alerta%20Krilin%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0MTJf/Dragon%20Ball%20021%20%5B960p%5D%20-%20%C2%A1Alerta%20Krilin%21.mp4",
+    "episodeCode": "T1 E21: ¡Alerta Krilin!",
+    "hiddenCode": "T1 E21",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E22: Yamcha contra Jackie Chun",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/dr6uIJfCjhApQnaelnCAsBUYDr0.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzAzODhf/Dragon%20Ball%20022%20%5B960p%5D%20-%20%C2%A1Yamcha%20vs%20Jackie%20Chun%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzAzODhf/Dragon%20Ball%20022%20%5B960p%5D%20-%20%C2%A1Yamcha%20vs%20Jackie%20Chun%21.mp4",
+    "episodeCode": "T1 E22: Yamcha contra Jackie Chun",
+    "hiddenCode": "T1 E22",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E23: El horrible Guilan",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/o5kmcFAozFAPGrUvKw1fwiQmcSC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0NjRf/Dragon%20Ball%20023%20%5B960p%5D%20-%20El%20horrible%20Guilan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0NjRf/Dragon%20Ball%20023%20%5B960p%5D%20-%20El%20horrible%20Guilan.mp4",
+    "episodeCode": "T1 E23: El horrible Guilan",
+    "hiddenCode": "T1 E23",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E24: El frenético ataque de Krilin",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/8vzP8jkpCv3C5hGKvF7ZigZYUyd.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0NjVf/Dragon%20Ball%20024%20%5B960p%5D%20-%20El%20fren%C3%A9tico%20ataque%20de%20krilin.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0NjVf/Dragon%20Ball%20024%20%5B960p%5D%20-%20El%20fren%C3%A9tico%20ataque%20de%20krilin.mp4",
+    "episodeCode": "T1 E24: El frenético ataque de Krilin",
+    "hiddenCode": "T1 E24",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E25: El terrible ataque aéreo de Nam",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/uk6v28NVLxNYwIjkmKDVZNB5oLI.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0Njhf/Dragon%20Ball%20025%20%5B960p%5D%20-%20El%20terrible%20ataque%20a%C3%A9reo%20de%20Nam.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0Njhf/Dragon%20Ball%20025%20%5B960p%5D%20-%20El%20terrible%20ataque%20a%C3%A9reo%20de%20Nam.mp4",
+    "episodeCode": "T1 E25: El terrible ataque aéreo de Nam",
+    "hiddenCode": "T1 E25",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E26: La fuerza Kame Hame al ataque",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ewfHr2S3EajPKFEqJHh4ufMcGdi.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA1MDJf/Dragon%20Ball%20026%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20al%20ataque.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA1MDJf/Dragon%20Ball%20026%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20al%20ataque.mp4",
+    "episodeCode": "T1 E26: La fuerza Kame Hame al ataque",
+    "hiddenCode": "T1 E26",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E27: Goku en graves aprietos",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/79NCwX2t170P4KWrLdDtGCerTNe.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwNzA0OThf/Dragon%20Ball%20027%20%5B960p%5D%20-%20Goku%20en%20graves%20aprietos.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwNzA0OThf/Dragon%20Ball%20027%20%5B960p%5D%20-%20Goku%20en%20graves%20aprietos.mp4",
+    "episodeCode": "T1 E27: Goku en graves aprietos",
+    "hiddenCode": "T1 E27",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E28: Goku ha desaparecido",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ohWHMpYRfUTc1s22GQYGJBCIV7O.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgxMTZf/Dragon%20Ball%20028%20%5B960p%5D%20-%20Goku%20ha%20desaparecido.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgxMTZf/Dragon%20Ball%20028%20%5B960p%5D%20-%20Goku%20ha%20desaparecido.mp4",
+    "episodeCode": "T1 E28: Goku ha desaparecido",
+    "hiddenCode": "T1 E28",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E29: El río que podía moverse",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/91SVzEmYvzm1yRzBwPllPWGVDTh.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM0NDVf/Dragon%20Ball%20029%20%5B960p%5D%20-%20El%20r%C3%ADo%20que%20pod%C3%ADa%20moverse.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM0NDVf/Dragon%20Ball%20029%20%5B960p%5D%20-%20El%20r%C3%ADo%20que%20pod%C3%ADa%20moverse.mp4",
+    "episodeCode": "T1 E29: El río que podía moverse",
+    "hiddenCode": "T1 E29",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E30: El marciano y la patrulla misteriosa",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/d9iDJrjSMyQLmRLNpdw0Rk541j4.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM0NjZf/Dragon%20Ball%20030%20%5B960p%5D%20-%20El%20marciano%20y%20La%20patrulla%20misteriosa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM0NjZf/Dragon%20Ball%20030%20%5B960p%5D%20-%20El%20marciano%20y%20La%20patrulla%20misteriosa.mp4",
+    "episodeCode": "T1 E30: El marciano y la patrulla misteriosa",
+    "hiddenCode": "T1 E30",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E31: Gokú creyó encontrarla",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/aUKxJGJOvJTAfJG4B5O9pbCY8Gd.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM0ODBf/Dragon%20Ball%20031%20%5B960p%5D%20-%20Goku%20crey%C3%B3%20encontrarla.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM0ODBf/Dragon%20Ball%20031%20%5B960p%5D%20-%20Goku%20crey%C3%B3%20encontrarla.mp4",
+    "episodeCode": "T1 E31: Gokú creyó encontrarla",
+    "hiddenCode": "T1 E31",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E32: La fortaleza voladora desapareció",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/o98lOo9EB1ucrNuyE5YqTFJvnzx.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM0OTBf/Dragon%20Ball%20032%20%5B960p%5D%20-%20La%20fortaleza%20voladora%20desapareció.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM0OTBf/Dragon%20Ball%20032%20%5B960p%5D%20-%20La%20fortaleza%20voladora%20desapareció.mp4",
+    "episodeCode": "T1 E32: La fortaleza voladora desapareció",
+    "hiddenCode": "T1 E32",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E33: La leyenda del Dragón",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/1iZqoj5IxTZc6YrXApK19pOrzRV.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1MDNf/Dragon%20Ball%20033%20%5B960p%5D%20-%20La%20leyenda%20del%20Drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1MDNf/Dragon%20Ball%20033%20%5B960p%5D%20-%20La%20leyenda%20del%20Drag%C3%B3n.mp4",
+    "episodeCode": "T1 E33: La leyenda del Dragón",
+    "hiddenCode": "T1 E33",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E34: El ejército del listón rojo y su cruel comandante general",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/4qkuKwyL08oI3kKJObYKy229yfj.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1MTRf/Dragon%20Ball%20034%20%5B960p%5D%20-%20El%20ej%C3%A9rcito%20list%C3%B3n%20rojo%20y%20su%20cruel%20comandante%20general.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1MTRf/Dragon%20Ball%20034%20%5B960p%5D%20-%20El%20ej%C3%A9rcito%20list%C3%B3n%20rojo%20y%20su%20cruel%20comandante%20general.mp4",
+    "episodeCode": "T1 E34: El ejército del listón rojo y su cruel comandante general",
+    "hiddenCode": "T1 E34",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E35: Suno, la pequeña niña de la aldea del norte",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/n9F1B7yy9PTo3lbvf4yci0qNFEq.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1Mjhf/Dragon%20Ball%20035%20%5B960p%5D%20-%20Suno%2C%20la%20peque%C3%B1a%20ni%C3%B1a%20de%20la%20aldea%20del%20norte.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1Mjhf/Dragon%20Ball%20035%20%5B960p%5D%20-%20Suno%2C%20la%20peque%C3%B1a%20ni%C3%B1a%20de%20la%20aldea%20del%20norte.mp4",
+    "episodeCode": "T1 E35: Suno, la pequeña niña de la aldea del norte",
+    "hiddenCode": "T1 E35",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E36: La batalla con el sargento Metálico",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/r0clzMp1FbhogdMLzPKMy6wTJMl.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1Mzdf/Dragon%20Ball%20036%20%5B960p%5D%20-%20La%20batalla%20con%20el%20sargento%20Met%C3%A1lico.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1Mzdf/Dragon%20Ball%20036%20%5B960p%5D%20-%20La%20batalla%20con%20el%20sargento%20Met%C3%A1lico.mp4",
+    "episodeCode": "T1 E36: La batalla con el sargento Metálico",
+    "hiddenCode": "T1 E36",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E37: Llegó el ninja Púrpura",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/eFA5c5pCtOL8PfuJAglSyJ06Pai.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1NTFf/Dragon%20Ball%20037%20%5B960p%5D%20-%20Lleg%C3%B3%20el%20ninja%20P%C3%BArpura.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1NTFf/Dragon%20Ball%20037%20%5B960p%5D%20-%20Lleg%C3%B3%20el%20ninja%20P%C3%BArpura.mp4",
+    "episodeCode": "T1 E37: Llegó el ninja Púrpura",
+    "hiddenCode": "T1 E37",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E38: Cinco ninjas en contra de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/9EAtBPz5Y6Uyi1UJq0V2uRLX60H.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1NjJf/Dragon%20Ball%20038%20%5B960p%5D%20-%20Cinco%20ninjas%20en%20contra%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1NjJf/Dragon%20Ball%20038%20%5B960p%5D%20-%20Cinco%20ninjas%20en%20contra%20de%20Goku.mp4",
+    "episodeCode": "T1 E38: Cinco ninjas en contra de Gokú",
+    "hiddenCode": "T1 E38",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E39: El encuentro con el misterioso robot Nº8",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/6iqiF6Dfcb4rS64n0fBoH3oAfEW.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1Nzhf/Dragon%20Ball%20039%20%5B960p%5D%20-%20El%20encuentro%20con%20el%20misterioso%20robot%20N%C2%BA8.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1Nzhf/Dragon%20Ball%20039%20%5B960p%5D%20-%20El%20encuentro%20con%20el%20misterioso%20robot%20N%C2%BA8.mp4",
+    "episodeCode": "T1 E39: El encuentro con el misterioso robot Nº8",
+    "hiddenCode": "T1 E39",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E40: La pelea de Goku contra el temible Buyon",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/4SibY6eH4whsgRd1JCCDr7q3jZp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1ODNf/Dragon%20Ball%20040%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20contra%20el%20temible%20Buyon.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1ODNf/Dragon%20Ball%20040%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20contra%20el%20temible%20Buyon.mp4",
+    "episodeCode": "T1 E40: La pelea de Goku contra el temible Buyon",
+    "hiddenCode": "T1 E40",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E41: El último día en la torre de la fuerza",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/eYpSqdfbuPNiXGGhdMrPJwOpVol.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1ODdf/Dragon%20Ball%20041%20%5B960p%5D%20-%20El%20%C3%BAltimo%20d%C3%ADa%20en%20la%20torre%20de%20la%20fuerza.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1ODdf/Dragon%20Ball%20041%20%5B960p%5D%20-%20El%20%C3%BAltimo%20d%C3%ADa%20en%20la%20torre%20de%20la%20fuerza.mp4",
+    "episodeCode": "T1 E41: El último día en la torre de la fuerza",
+    "hiddenCode": "T1 E41",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E42: El inesperado secreto del Dr. Flappe",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/lGToiAduQl5lLEtMtWmnfFyV83p.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1OTJf/Dragon%20Ball%20042%20%5B960p%5D%20-%20El%20inesperado%20secreto%20del%20Dr.%20Flappe.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1OTJf/Dragon%20Ball%20042%20%5B960p%5D%20-%20El%20inesperado%20secreto%20del%20Dr.%20Flappe.mp4",
+    "episodeCode": "T1 E42: El inesperado secreto del Dr. Flappe",
+    "hiddenCode": "T1 E42",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E43: La casa de Bulma al oeste de la Metrópoli",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/jU6zr9Lwx9d1iggH5e1hVGihyAB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1OTNf/Dragon%20Ball%20043%20%5B960p%5D%20-%20La%20casa%20de%20Bulma%20al%20oeste%20de%20la%20Metr%C3%B3poli.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1OTNf/Dragon%20Ball%20043%20%5B960p%5D%20-%20La%20casa%20de%20Bulma%20al%20oeste%20de%20la%20Metr%C3%B3poli.mp4",
+    "episodeCode": "T1 E43: La casa de Bulma al oeste de la Metrópoli",
+    "hiddenCode": "T1 E43",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E44: Gokú y sus amigos en terribles aprietos",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/A30Hy03V4USbOc4Fqeiy9bxrKwB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM1OTVf/Dragon%20Ball%20044%20%5B960p%5D%20-%20Goku%20y%20sus%20amigos%20en%20terribles%20aprietos.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM1OTVf/Dragon%20Ball%20044%20%5B960p%5D%20-%20Goku%20y%20sus%20amigos%20en%20terribles%20aprietos.mp4",
+    "episodeCode": "T1 E44: Gokú y sus amigos en terribles aprietos",
+    "hiddenCode": "T1 E44",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E45: Cuidado, hay una trampa",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/63lANX9qbSz2If8VFRz2itIxgXo.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2MzZf/Dragon%20Ball%20045%20%5B960p%5D%20-%20Cuidado%2C%20hay%20una%20trampa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2MzZf/Dragon%20Ball%20045%20%5B960p%5D%20-%20Cuidado%2C%20hay%20una%20trampa.mp4",
+    "episodeCode": "T1 E45: Cuidado, hay una trampa",
+    "hiddenCode": "T1 E45",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E46: El fracaso total de Bulma",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/4jyU1ud6s5rDdO7XUaGiarsDfP0.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2Mzdf/Dragon%20Ball%20046%20%5B960p%5D%20-%20El%20fracaso%20total%20de%20Bulma.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2Mzdf/Dragon%20Ball%20046%20%5B960p%5D%20-%20El%20fracaso%20total%20de%20Bulma.mp4",
+    "episodeCode": "T1 E46: El fracaso total de Bulma",
+    "hiddenCode": "T1 E46",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E47: Encuentran la casa de Roshi",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/rJznk4vSH3lznu85oF5r2GySMs6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2Mzhf/Dragon%20Ball%20047%20%5B960p%5D%20-%20Encuentran%20la%20casa%20de%20Roshi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2Mzhf/Dragon%20Ball%20047%20%5B960p%5D%20-%20Encuentran%20la%20casa%20de%20Roshi.mp4",
+    "episodeCode": "T1 E47: Encuentran la casa de Roshi",
+    "hiddenCode": "T1 E47",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E48: El General Blue empieza a atacar",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/jCuO4Wtud3BRmCO2Em2zGWjgbEO.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2NTRf/Dragon%20Ball%20048%20%5B960p%5D%20-%20El%20General%20Blue%20empieza%20a%20atacar.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2NTRf/Dragon%20Ball%20048%20%5B960p%5D%20-%20El%20General%20Blue%20empieza%20a%20atacar.mp4",
+    "episodeCode": "T1 E48: El General Blue empieza a atacar",
+    "hiddenCode": "T1 E48",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E49: Cuidado con el enemigo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/tLK336RCTRZgBkYuZN1nCb0CbS3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2NjNf/Dragon%20Ball%20049%20%5B960p%5D%20-%20Cuidado%20con%20el%20enemigo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2NjNf/Dragon%20Ball%20049%20%5B960p%5D%20-%20Cuidado%20con%20el%20enemigo.mp4",
+    "episodeCode": "T1 E49: Cuidado con el enemigo",
+    "hiddenCode": "T1 E49",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E50: El secreto de los piratas",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/wz8kaOK0aavguwdeWVT7XGWgPlC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2Njlf/Dragon%20Ball%20050%20%5B960p%5D%20-%20El%20secreto%20de%20los%20piratas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2Njlf/Dragon%20Ball%20050%20%5B960p%5D%20-%20El%20secreto%20de%20los%20piratas.mp4",
+    "episodeCode": "T1 E50: El secreto de los piratas",
+    "hiddenCode": "T1 E50",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E51: El guardia de las profundidades",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/g3C27svJGFT8pj1FqiXhKOx82uv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODM2Nzhf/Dragon%20Ball%20051%20%5B960p%5D%20-%20El%20guardia%20de%20las%20profundidades.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODM2Nzhf/Dragon%20Ball%20051%20%5B960p%5D%20-%20El%20guardia%20de%20las%20profundidades.mp4",
+    "episodeCode": "T1 E51: El guardia de las profundidades",
+    "hiddenCode": "T1 E51",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E52: ¡Grandioso! Hemos encontrado el tesoro",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/uZSuMKidnieO8I8CsnK5KsgJ1J1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODQ3MzNf/Dragon%20Ball%20052%20%5B960p%5D%20-%20%C2%A1Grandioso%21%20Hemos%20encontrado%20el%20tesoro.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODQ3MzNf/Dragon%20Ball%20052%20%5B960p%5D%20-%20%C2%A1Grandioso%21%20Hemos%20encontrado%20el%20tesoro.mp4",
+    "episodeCode": "T1 E52: ¡Grandioso! Hemos encontrado el tesoro",
+    "hiddenCode": "T1 E52",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E53: La cueva siniestra",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/4ObhYtWoTwYb2gV20nqrwVN84eB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODQ3MzRf/Dragon%20Ball%20053%20%5B960p%5D%20-%20La%20cueva%20siniestra.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODQ3MzRf/Dragon%20Ball%20053%20%5B960p%5D%20-%20La%20cueva%20siniestra.mp4",
+    "episodeCode": "T1 E53: La cueva siniestra",
+    "hiddenCode": "T1 E53",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E54: El escape",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/gOYVunYRjWGRoRR0ybBhMu9W2mR.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMjlf/Dragon%20Ball%20054%20%5B960p%5D%20-%20El%20escape.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMjlf/Dragon%20Ball%20054%20%5B960p%5D%20-%20El%20escape.mp4",
+    "episodeCode": "T1 E54: El escape",
+    "hiddenCode": "T1 E54",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E55: Camino a Villa Pingüino",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/cacvBnVWhS4IEfugrG6oq3OM4qv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMzBf/Dragon%20Ball%20055%20%5B960p%5D%20-%20Camino%20a%20Villa%20Ping%C3%BCino.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMzBf/Dragon%20Ball%20055%20%5B960p%5D%20-%20Camino%20a%20Villa%20Ping%C3%BCino.mp4",
+    "episodeCode": "T1 E55: Camino a Villa Pingüino",
+    "hiddenCode": "T1 E55",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E56: Aralé viaja en la nube voladora",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/5tcrVAk2VD1ahlDEnnF5QnVgsyZ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMzJf/Dragon%20Ball%20056%20%5B960p%5D%20-%20Arale%20viaja%20en%20la%20nube%20voladora.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMzJf/Dragon%20Ball%20056%20%5B960p%5D%20-%20Arale%20viaja%20en%20la%20nube%20voladora.mp4",
+    "episodeCode": "T1 E56: Aralé viaja en la nube voladora",
+    "hiddenCode": "T1 E56",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E57: Aralé contra el General Blue",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ae68VEw1X9n1bJAsGZZaS0hYTXA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMzNf/Dragon%20Ball%20057%20%5B960p%5D%20-%20Arale%20contra%20el%20General%20Blue.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMzNf/Dragon%20Ball%20057%20%5B960p%5D%20-%20Arale%20contra%20el%20General%20Blue.mp4",
+    "episodeCode": "T1 E57: Aralé contra el General Blue",
+    "hiddenCode": "T1 E57",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E58: La Tierra Sagrada",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/8xEXAYhFOY6fpYasoFOcAK2UOt6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMzVf/Dragon%20Ball%20058%20%5B960p%5D%20-%20La%20Tierra%20Sagrada.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMzVf/Dragon%20Ball%20058%20%5B960p%5D%20-%20La%20Tierra%20Sagrada.mp4",
+    "episodeCode": "T1 E58: La Tierra Sagrada",
+    "hiddenCode": "T1 E58",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E59: Tao Pai Pai, el exterminador más famoso del mundo ha llegado",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/urf0UXhUzxSFAVlBM4DkYJ4WkdD.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMzZf/Dragon%20Ball%20059%20%5B960p%5D%20-%20Tao%20PaiPai%2C%20el%20exterminador%20m%C3%A1s%20famoso%20del%20mundo%20ha%20llegado.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMzZf/Dragon%20Ball%20059%20%5B960p%5D%20-%20Tao%20PaiPai%2C%20el%20exterminador%20m%C3%A1s%20famoso%20del%20mundo%20ha%20llegado.mp4",
+    "episodeCode": "T1 E59: Tao Pai Pai, el exterminador más famoso del mundo ha llegado",
+    "hiddenCode": "T1 E59",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E60: La fuerza Kame Hame contra Tao Pai Pai",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/pTzGpfWMEG8N4qVL3ycPLDXBBS0.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwMzdf/Dragon%20Ball%20060%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20contra%20Tao%20Pai%20Pai.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwMzdf/Dragon%20Ball%20060%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20contra%20Tao%20Pai%20Pai.mp4",
+    "episodeCode": "T1 E60: La fuerza Kame Hame contra Tao Pai Pai",
+    "hiddenCode": "T1 E60",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E61: La torre del maestro Karin",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/2SRODlEUiZIkcJRZRDDvIrZeiUq.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDBf/Dragon%20Ball%20061%20%5B960p%5D%20-%20La%20torre%20del%20maestro%20Karin.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDBf/Dragon%20Ball%20061%20%5B960p%5D%20-%20La%20torre%20del%20maestro%20Karin.mp4",
+    "episodeCode": "T1 E61: La torre del maestro Karin",
+    "hiddenCode": "T1 E61",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E62: El beneficio del agua ultra sagrada",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/qrRLMf1pEkGQujiSXTLux5KfFrX.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDJf/Dragon%20Ball%20062%20%5B960p%5D%20-%20El%20beneficio%20del%20agua%20ultra%20sagrada.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDJf/Dragon%20Ball%20062%20%5B960p%5D%20-%20El%20beneficio%20del%20agua%20ultra%20sagrada.mp4",
+    "episodeCode": "T1 E62: El beneficio del agua ultra sagrada",
+    "hiddenCode": "T1 E62",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E63: Gokú contraataca",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/lyAPVWtA3EKsyxbSYiAXasR4TX.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDVf/Dragon%20Ball%20063%20%5B960p%5D%20-%20Goku%20contraataca.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDVf/Dragon%20Ball%20063%20%5B960p%5D%20-%20Goku%20contraataca.mp4",
+    "episodeCode": "T1 E63: Gokú contraataca",
+    "hiddenCode": "T1 E63",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E64: El último Tao Pai Pai",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/dgcWepUVwYEDUaTYFWhsY3I89xN.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDZf/Dragon%20Ball%20064%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Tao%20Pai%20Pai.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDZf/Dragon%20Ball%20064%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Tao%20Pai%20Pai.mp4",
+    "episodeCode": "T1 E64: El último Tao Pai Pai",
+    "hiddenCode": "T1 E64",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E65: Vamos Gokú! Comienza la pelea",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/s577TlgEJlnpypse3Lv9lhxkWYT.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDdf/Dragon%20Ball%20065%20%5B960p%5D%20-%20%C2%81Vamos%20Goku%21%20Comienza%20la%20pelea.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDdf/Dragon%20Ball%20065%20%5B960p%5D%20-%20%C2%81Vamos%20Goku%21%20Comienza%20la%20pelea.mp4",
+    "episodeCode": "T1 E65: Vamos Gokú! Comienza la pelea",
+    "hiddenCode": "T1 E65",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E66: El último esfuerzo de la Patrulla Roja",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/v7fRkPZt31DTxJnmTqxqzzAOfjV.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDhf/Dragon%20Ball%20066%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo%20de%20la%20Patrulla%20Roja.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDhf/Dragon%20Ball%20066%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo%20de%20la%20Patrulla%20Roja.mp4",
+    "episodeCode": "T1 E66: El último esfuerzo de la Patrulla Roja",
+    "hiddenCode": "T1 E66",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E67: El comandante de la patrulla roja muere",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/3uBtEtYul9GpEyPRev7Cb6i3vKA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNDlf/Dragon%20Ball%20067%20%5B960p%5D%20-%20El%20comandante%20de%20la%20patrulla%20roja%20muere.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNDlf/Dragon%20Ball%20067%20%5B960p%5D%20-%20El%20comandante%20de%20la%20patrulla%20roja%20muere.mp4",
+    "episodeCode": "T1 E67: El comandante de la patrulla roja muere",
+    "hiddenCode": "T1 E67",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E68: La última Esfera del Dragón",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/tB7e7urlzVE0lHdEXNVgpVekua3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNTFf/Dragon%20Ball%20068%20%5B960p%5D%20-%20La%20%C3%BAltima%20Esfera%20del%20Drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNTFf/Dragon%20Ball%20068%20%5B960p%5D%20-%20La%20%C3%BAltima%20Esfera%20del%20Drag%C3%B3n.mp4",
+    "episodeCode": "T1 E68: La última Esfera del Dragón",
+    "hiddenCode": "T1 E68",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E69: ¿Quién es Uranai Baba?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/aiSbOBZIRRV5PdjBrVNTz1Tz5ow.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNzBf/Dragon%20Ball%20069%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20Uranai%20Baba.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNzBf/Dragon%20Ball%20069%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20Uranai%20Baba.mp4",
+    "episodeCode": "T1 E69: ¿Quién es Uranai Baba?",
+    "hiddenCode": "T1 E69",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E70: El ataque de los cinco guerreros",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/wB5RvvrG88cWSlZpAiuZdIckFte.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgwNzFf/Dragon%20Ball%20070%20%5B960p%5D%20-%20El%20ataque%20de%20los%20cinco%20guerreros.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgwNzFf/Dragon%20Ball%20070%20%5B960p%5D%20-%20El%20ataque%20de%20los%20cinco%20guerreros.mp4",
+    "episodeCode": "T1 E70: El ataque de los cinco guerreros",
+    "hiddenCode": "T1 E70",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E71: Una batalla sangrienta y mortal",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/lFR5kcq0cvYlJXmsTKMKZHKidFM.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgxMDdf/Dragon%20Ball%20071%20%5B960p%5D%20-%20Una%20batalla%20sangrienta%20y%20mortal.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgxMDdf/Dragon%20Ball%20071%20%5B960p%5D%20-%20Una%20batalla%20sangrienta%20y%20mortal.mp4",
+    "episodeCode": "T1 E71: Una batalla sangrienta y mortal",
+    "hiddenCode": "T1 E71",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E72: La pelea de Son Gokú en el baño del diablo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/6lkw6gEa9jJ2xjJ9xm0rSC2ZlvP.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgxMTNf/Dragon%20Ball%20072%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20en%20el%20ba%C3%B1o%20del%20diablo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgxMTNf/Dragon%20Ball%20072%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20en%20el%20ba%C3%B1o%20del%20diablo.mp4",
+    "episodeCode": "T1 E72: La pelea de Son Gokú en el baño del diablo",
+    "hiddenCode": "T1 E72",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E73: ¿Qué es el resplandor mortal del diablo?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/vRw8Grwok7p0zoVHE3BXiNcCtX8.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgxMTRf/Dragon%20Ball%20073%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20es%20el%20resplandor%20mortal%20del%20diablo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgxMTRf/Dragon%20Ball%20073%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20es%20el%20resplandor%20mortal%20del%20diablo.mp4",
+    "episodeCode": "T1 E73: ¿Qué es el resplandor mortal del diablo?",
+    "hiddenCode": "T1 E73",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E74: El misterioso quinto participante",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fNA22fMfQ0jxVmyFBghzSA6S0Ol.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODgxMTVf/Dragon%20Ball%20074%20%5B960p%5D%20-%20El%20misterioso%20quinto%20participante.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODgxMTVf/Dragon%20Ball%20074%20%5B960p%5D%20-%20El%20misterioso%20quinto%20participante.mp4",
+    "episodeCode": "T1 E74: El misterioso quinto participante",
+    "hiddenCode": "T1 E74",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E75: ¿Qué? ¡El poderoso adversario resultó ser un viejo amigo!",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/uBfU1pkZKtpEmLHUeeRM9ij6VTh.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1Mzlf/Dragon%20Ball%20075%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20%C2%A1El%20poderoso%20adversario%20result%C3%B3%20ser%20un%20viejo%20amigo%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1Mzlf/Dragon%20Ball%20075%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20%C2%A1El%20poderoso%20adversario%20result%C3%B3%20ser%20un%20viejo%20amigo%21.mp4",
+    "episodeCode": "T1 E75: ¿Qué? ¡El poderoso adversario resultó ser un viejo amigo!",
+    "hiddenCode": "T1 E75",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E76: La verdadera identidad del hombre enmascarado es...",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/meeCjjDcOhzCPyw7xAXDWZSDI7f.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NDJf/Dragon%20Ball%20076%20%5B960p%5D%20-%20La%20verdadera%20identidad%20del%20hombre%20enmascarado%20es....mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NDJf/Dragon%20Ball%20076%20%5B960p%5D%20-%20La%20verdadera%20identidad%20del%20hombre%20enmascarado%20es....mp4",
+    "episodeCode": "T1 E76: La verdadera identidad del hombre enmascarado es...",
+    "hiddenCode": "T1 E76",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E77: El gran plan de Pilaf",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/s7fefZbiqCGWO8aTUs5ueYLJbxV.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NDZf/Dragon%20Ball%20077%20%5B960p%5D%20-%20El%20gran%20plan%20de%20Pilaf.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NDZf/Dragon%20Ball%20077%20%5B960p%5D%20-%20El%20gran%20plan%20de%20Pilaf.mp4",
+    "episodeCode": "T1 E77: El gran plan de Pilaf",
+    "hiddenCode": "T1 E77",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E78: Otra vez el Dios Dragón",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/cNK33G80VkPIrfEXJFoo1CTW8mB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NDhf/Dragon%20Ball%20078%20%5B960p%5D%20-%20Otra%20vez%20el%20Dios%20Drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NDhf/Dragon%20Ball%20078%20%5B960p%5D%20-%20Otra%20vez%20el%20Dios%20Drag%C3%B3n.mp4",
+    "episodeCode": "T1 E78: Otra vez el Dios Dragón",
+    "hiddenCode": "T1 E78",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E79: Oro, Plata y una cantimplora come hombres",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/rqtL9tUuO9rvXohsRCZyWfsztS4.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NDlf/Dragon%20Ball%20079%20%5B960p%5D%20-%20Oro%2C%20Plata%20y%20una%20cantimplora%20come%20hombres.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NDlf/Dragon%20Ball%20079%20%5B960p%5D%20-%20Oro%2C%20Plata%20y%20una%20cantimplora%20come%20hombres.mp4",
+    "episodeCode": "T1 E79: Oro, Plata y una cantimplora come hombres",
+    "hiddenCode": "T1 E79",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E80: Una pelea ante la presencia del rey, Goku contra Ten-Long",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/2KJiGSbkAsd6Ct5Ft7m8ooNACuA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NDlf/Dragon%20Ball%20080%20%5B960p%5D%20-%20Una%20pelea%20ante%20la%20presencia%20del%20rey%2C%20Goku%20contra%20Ten%20Long.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NDlf/Dragon%20Ball%20080%20%5B960p%5D%20-%20Una%20pelea%20ante%20la%20presencia%20del%20rey%2C%20Goku%20contra%20Ten%20Long.mp4",
+    "episodeCode": "T1 E80: Una pelea ante la presencia del rey, Goku contra Ten-Long",
+    "hiddenCode": "T1 E80",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E81: Gokú va a la tierra del Demonio",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/sEzMHIcriDBgd7dRDPdtziguu7P.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NTBf/Dragon%20Ball%20081%20%5B960p%5D%20-%20Goku%20va%20a%20la%20tierra%20del%20Demonio.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NTBf/Dragon%20Ball%20081%20%5B960p%5D%20-%20Goku%20va%20a%20la%20tierra%20del%20Demonio.mp4",
+    "episodeCode": "T1 E81: Gokú va a la tierra del Demonio",
+    "hiddenCode": "T1 E81",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E82: Un monstruo violento llamado Inoch-ka-cho",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/9sb1hrG0oxSIR6ZcUk3S5Dw4Az4.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NTFf/Dragon%20Ball%20082%20%5B960p%5D%20-%20Un%20monstruo%20violento%20llamado%20Inoch-ka-cho.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NTFf/Dragon%20Ball%20082%20%5B960p%5D%20-%20Un%20monstruo%20violento%20llamado%20Inoch-ka-cho.mp4",
+    "episodeCode": "T1 E82: Un monstruo violento llamado Inoch-ka-cho",
+    "hiddenCode": "T1 E82",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E83: ¡Apresúrate Gokú! El Torneo de las Artes Marciales se avecina",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/dmhSNuN3J3Wd4nWE8MdyLA7wo53.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NTNf/Dragon%20Ball%20083%20%5B960p%5D%20-%20%C2%81Apres%C3%BArate%20Goku%21%20El%20Torneo%20de%20las%20Artes%20Marciales%20se%20avecina.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NTNf/Dragon%20Ball%20083%20%5B960p%5D%20-%20%C2%81Apres%C3%BArate%20Goku%21%20El%20Torneo%20de%20las%20Artes%20Marciales%20se%20avecina.mp4",
+    "episodeCode": "T1 E83: ¡Apresúrate Gokú! El Torneo de las Artes Marciales se avecina",
+    "hiddenCode": "T1 E83",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E84: ¿Quién es el mejor peleador de las Artes Marciales?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/oTQfeQgKdgnGYamLguteRVwaxLJ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NTVf/Dragon%20Ball%20084%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NTVf/Dragon%20Ball%20084%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",
+    "episodeCode": "T1 E84: ¿Quién es el mejor peleador de las Artes Marciales?",
+    "hiddenCode": "T1 E84",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E85: ¡Tenemos que ganar! ¿Quién llegará a las preliminares?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/91DC9b1MPLrlCOUyAnkj8iIvzMC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NTdf/Dragon%20Ball%20085%20%5B960p%5D%20-%20Tenemos%20que%20ganar%21%20%C2%BFQui%C3%A9n%20llegar%C3%A1%20a%20las%20preliminares.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NTdf/Dragon%20Ball%20085%20%5B960p%5D%20-%20Tenemos%20que%20ganar%21%20%C2%BFQui%C3%A9n%20llegar%C3%A1%20a%20las%20preliminares.mp4",
+    "episodeCode": "T1 E85: ¡Tenemos que ganar! ¿Quién llegará a las preliminares?",
+    "hiddenCode": "T1 E85",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E86: Los ocho finalistas",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/s5aFESGvS7UVSucUyF3WZTZOA1q.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NjBf/Dragon%20Ball%20086%20%5B960p%5D%20-%20Los%20ocho%20finalistas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NjBf/Dragon%20Ball%20086%20%5B960p%5D%20-%20Los%20ocho%20finalistas.mp4",
+    "episodeCode": "T1 E86: Los ocho finalistas",
+    "hiddenCode": "T1 E86",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E87: Yamcha contra Tenshinhan",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/xlzy1Qsi8JGByRYWhGCE3yijbr3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NjJf/Dragon%20Ball%20087%20%5B960p%5D%20-%20Yamcha%20contra%20Ten%20Shin%20Han.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NjJf/Dragon%20Ball%20087%20%5B960p%5D%20-%20Yamcha%20contra%20Ten%20Shin%20Han.mp4",
+    "episodeCode": "T1 E87: Yamcha contra Tenshinhan",
+    "hiddenCode": "T1 E87",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E88: ¡Ten cuidado Yamcha! El terrible Tenshinhan es muy poderoso",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/3G2uLYjiYrDQIu4pkFc7tbBMHIC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NjNf/Dragon%20Ball%20088%20%5B960p%5D%20-%20%C2%A1Ten%20cuidado%20Yamcha%21%20El%20temible%20Ten%20Shin%20Han%20es%20muy%20peligroso.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NjNf/Dragon%20Ball%20088%20%5B960p%5D%20-%20%C2%A1Ten%20cuidado%20Yamcha%21%20El%20temible%20Ten%20Shin%20Han%20es%20muy%20peligroso.mp4",
+    "episodeCode": "T1 E88: ¡Ten cuidado Yamcha! El terrible Tenshinhan es muy poderoso",
+    "hiddenCode": "T1 E88",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E89: Terror! El misterio de la luna llena",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/7ycnobpM15DlDgEI9jTsgZlDoD9.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NjZf/Dragon%20Ball%20089%20%5B960p%5D%20-%20%C2%A1Terror%21%20El%20misterio%20de%20la%20luna%20llena.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NjZf/Dragon%20Ball%20089%20%5B960p%5D%20-%20%C2%A1Terror%21%20El%20misterio%20de%20la%20luna%20llena.mp4",
+    "episodeCode": "T1 E89: Terror! El misterio de la luna llena",
+    "hiddenCode": "T1 E89",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E90: ¿Qué…Qué…Qué? ¿Qué? ¿Dodonpa?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/shc250jE2bzC4MqBLUj0MOxSmnp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NzNf/Dragon%20Ball%20090%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%E2%80%A6Qu%C3%A9%E2%80%A6Qu%C3%A9%20%C2%BFQu%C3%A9%20%C2%BFDodonpa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NzNf/Dragon%20Ball%20090%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%E2%80%A6Qu%C3%A9%E2%80%A6Qu%C3%A9%20%C2%BFQu%C3%A9%20%C2%BFDodonpa.mp4",
+    "episodeCode": "T1 E90: ¿Qué…Qué…Qué? ¿Qué? ¿Dodonpa?",
+    "hiddenCode": "T1 E90",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E91: La situación ha cambiado! El plan matemático de Krilin",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/mzFJUpIOpsZQTQyq3ZBleXupHMP.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1NzVf/Dragon%20Ball%20091%20%5B960p%5D%20-%20%C2%A1La%20situaci%C3%B3n%20ha%20cambiado%21%20El%20plan%20matem%C3%A1tico%20de%20Krilin.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1NzVf/Dragon%20Ball%20091%20%5B960p%5D%20-%20%C2%A1La%20situaci%C3%B3n%20ha%20cambiado%21%20El%20plan%20matem%C3%A1tico%20de%20Krilin.mp4",
+    "episodeCode": "T1 E91: La situación ha cambiado! El plan matemático de Krilin",
+    "hiddenCode": "T1 E91",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E92: Finalmente... El turno de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/hT1sptLWvwcOKeajfQrM0eTis0o.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1Nzdf/Dragon%20Ball%20092%20%5B960p%5D%20-%20Finalmente...%20El%20turno%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1Nzdf/Dragon%20Ball%20092%20%5B960p%5D%20-%20Finalmente...%20El%20turno%20de%20Goku.mp4",
+    "episodeCode": "T1 E92: Finalmente... El turno de Gokú",
+    "hiddenCode": "T1 E92",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E93: Una pelea muy difícil - Tenshinhan contra Jackie Chun",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/3tRN4u1w50OZzZzDn4CrXbeqDPs.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1ODJf/Dragon%20Ball%20093%20%5B960p%5D%20-%20Una%20pelea%20muy%20dif%C3%ADcil%20Ten%20Shin%20Han%20contra%20Jackie%20Chun.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1ODJf/Dragon%20Ball%20093%20%5B960p%5D%20-%20Una%20pelea%20muy%20dif%C3%ADcil%20Ten%20Shin%20Han%20contra%20Jackie%20Chun.mp4",
+    "episodeCode": "T1 E93: Una pelea muy difícil - Tenshinhan contra Jackie Chun",
+    "hiddenCode": "T1 E93",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E94: ¡Qué! La técnica del maestro Tsuru - Taiyoken",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/lDDfR0JhrjgMKlAj6H4Zaa740lq.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1ODNf/Dragon%20Ball%20094%20%5B960p%5D%20-%20%C2%A1Qu%C3%A9%21%20La%20t%C3%A9cnica%20del%20maestro%20Tsuru%20Taiyouken.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1ODNf/Dragon%20Ball%20094%20%5B960p%5D%20-%20%C2%A1Qu%C3%A9%21%20La%20t%C3%A9cnica%20del%20maestro%20Tsuru%20Taiyouken.mp4",
+    "episodeCode": "T1 E94: ¡Qué! La técnica del maestro Tsuru - Taiyoken",
+    "hiddenCode": "T1 E94",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E95: ¡A pelear! Gokú contra Krilin!",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/yCYBUbMwk3v7X32IoMb6Xlp3fZ1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1ODRf/Dragon%20Ball%20095%20%5B960p%5D%20-%20%C2%A1A%20pelear%21%20%C2%A1Goku%20contra%20Krilin%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1ODRf/Dragon%20Ball%20095%20%5B960p%5D%20-%20%C2%A1A%20pelear%21%20%C2%A1Goku%20contra%20Krilin%21.mp4",
+    "episodeCode": "T1 E95: ¡A pelear! Gokú contra Krilin!",
+    "hiddenCode": "T1 E95",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E96: La sorpresa de Gokú y el plan de Krilin",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/8RNszQuwgGCzaarWUfIOOHFpbMk.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1ODZf/Dragon%20Ball%20096%20%5B960p%5D%20-%20La%20sorpresa%20de%20Goku%20y%20el%20plan%20de%20Krilin.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1ODZf/Dragon%20Ball%20096%20%5B960p%5D%20-%20La%20sorpresa%20de%20Goku%20y%20el%20plan%20de%20Krilin.mp4",
+    "episodeCode": "T1 E96: La sorpresa de Gokú y el plan de Krilin",
+    "hiddenCode": "T1 E96",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E97: El último combate. ¿Quién será el mejor peleador de las Artes Marciales?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/68EZiCMq85w4OOztZyfneKfQriL.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2Mjdf/Dragon%20Ball%20097%20%5B960p%5D%20-%20El%20%C3%BAltimo%20combate.%20%C2%BFQui%C3%A9n%20ser%C3%A1%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2Mjdf/Dragon%20Ball%20097%20%5B960p%5D%20-%20El%20%C3%BAltimo%20combate.%20%C2%BFQui%C3%A9n%20ser%C3%A1%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",
+    "episodeCode": "T1 E97: El último combate. ¿Quién será el mejor peleador de las Artes Marciales?",
+    "hiddenCode": "T1 E97",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E98: Las técnicas secretas Tay yuken contra el poder de combate",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/hLP8dmdPUJFybWapDabV1hXnt7n.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2Mjhf/Dragon%20Ball%20098%20%5B960p%5D%20-%20Las%20t%C3%A9cnicas%20secretas%20Tay%20yu%20ken%20contra%20el%20poder%20de%20combate.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2Mjhf/Dragon%20Ball%20098%20%5B960p%5D%20-%20Las%20t%C3%A9cnicas%20secretas%20Tay%20yu%20ken%20contra%20el%20poder%20de%20combate.mp4",
+    "episodeCode": "T1 E98: Las técnicas secretas Tay yuken contra el poder de combate",
+    "hiddenCode": "T1 E98",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E99: La angustia de Tenshinhan",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iWKn4bVL3jgYbht1BzP5UPh7zBO.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2MzFf/Dragon%20Ball%20099%20%5B960p%5D%20-%20La%20angustia%20de%20Ten%20Shin%20Han.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2MzFf/Dragon%20Ball%20099%20%5B960p%5D%20-%20La%20angustia%20de%20Ten%20Shin%20Han.mp4",
+    "episodeCode": "T1 E99: La angustia de Tenshinhan",
+    "hiddenCode": "T1 E99",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E100: Vivir o morir la última alternativa",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/Ihr9GpVCIzd8gRJGs3aes7xpIl.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2MzJf/Dragon%20Ball%20100%20%5B960p%5D%20-%20Vivir%20o%20morir%20la%20%C3%BAltima%20alternativa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2MzJf/Dragon%20Ball%20100%20%5B960p%5D%20-%20Vivir%20o%20morir%20la%20%C3%BAltima%20alternativa.mp4",
+    "episodeCode": "T1 E100: Vivir o morir la última alternativa",
+    "hiddenCode": "T1 E100",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E101: El torneo de las Artes Marciales ha terminado. ¿Y ahora que?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/jnOfAnd8lIep1j0Hy3DADQjuuuB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2MzNf/Dragon%20Ball%20101%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20terminado.%20%C2%BFY%20ahora%20que.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2MzNf/Dragon%20Ball%20101%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20terminado.%20%C2%BFY%20ahora%20que.mp4",
+    "episodeCode": "T1 E101: El torneo de las Artes Marciales ha terminado. ¿Y ahora que?",
+    "hiddenCode": "T1 E101",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E102: La muerte de Krilin! Un complot",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/5QOZG5Y3iRuiwMuqMHZI2dZVABz.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2MzRf/Dragon%20Ball%20102%20%5B960p%5D%20-%20La%20muerte%20de%20Krilin%21%20Un%20complot.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2MzRf/Dragon%20Ball%20102%20%5B960p%5D%20-%20La%20muerte%20de%20Krilin%21%20Un%20complot.mp4",
+    "episodeCode": "T1 E102: La muerte de Krilin! Un complot",
+    "hiddenCode": "T1 E102",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E103: El temible Pikoro Daimaku",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/a1ay6IKrXSLxTPBEuw5v4lbNIgC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2MzZf/Dragon%20Ball%20103%20%5B960p%5D%20-%20El%20temible%20Pikoro%20Dai-ma-ku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2MzZf/Dragon%20Ball%20103%20%5B960p%5D%20-%20El%20temible%20Pikoro%20Dai-ma-ku.mp4",
+    "episodeCode": "T1 E103: El temible Pikoro Daimaku",
+    "hiddenCode": "T1 E103",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E104: Gokú regresa",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/wPofZiA0KqqL2ZZJoj2VBC6SP7c.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk2Mzdf/Dragon%20Ball%20104%20%5B960p%5D%20-%20Goku%20regresa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk2Mzdf/Dragon%20Ball%20104%20%5B960p%5D%20-%20Goku%20regresa.mp4",
+    "episodeCode": "T1 E104: Gokú regresa",
+    "hiddenCode": "T1 E104",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E105: El gran Yajirobe",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/1FtsiakZLdH8sMez3GuDWS6W3JF.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1MzZf/Dragon%20Ball%20105%20%5B960p%5D%20-%20El%20gran%20Yayirobe.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1MzZf/Dragon%20Ball%20105%20%5B960p%5D%20-%20El%20gran%20Yayirobe.mp4",
+    "episodeCode": "T1 E105: El gran Yajirobe",
+    "hiddenCode": "T1 E105",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E106: El malvado Tamborin se acerca",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/2XCxQtTCqSFcFWwtC4hvVoLM83V.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1Mzdf/Dragon%20Ball%20106%20%5B960p%5D%20-%20El%20malvado%20Tamborin%20se%20acerca.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1Mzdf/Dragon%20Ball%20106%20%5B960p%5D%20-%20El%20malvado%20Tamborin%20se%20acerca.mp4",
+    "episodeCode": "T1 E106: El malvado Tamborin se acerca",
+    "hiddenCode": "T1 E106",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E107: Gokú se enfurece",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/2Sae07okQjNA1wM73i0TUDYRaoT.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwODk1Mzhf/Dragon%20Ball%20107%20%5B960p%5D%20-%20Goku%20se%20enfurece.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwODk1Mzhf/Dragon%20Ball%20107%20%5B960p%5D%20-%20Goku%20se%20enfurece.mp4",
+    "episodeCode": "T1 E107: Gokú se enfurece",
+    "hiddenCode": "T1 E107",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E108: La aparición de Piccolo Daimaku",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/a1PoINbzypFHJrNBi4WDsJll4m3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMDdf/Dragon%20Ball%20108%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Pikolo%20Dai-ma-ku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMDdf/Dragon%20Ball%20108%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Pikolo%20Dai-ma-ku.mp4",
+    "episodeCode": "T1 E108: La aparición de Piccolo Daimaku",
+    "hiddenCode": "T1 E108",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E109: Gokú contra Piccolo Daimaku",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/9gVMI3dhH9RS82VYj1zjblBNVY5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMDhf/Dragon%20Ball%20109%20%5B960p%5D%20-%20Goku%20contra%20Pikolo%20Dai-ma-ku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMDhf/Dragon%20Ball%20109%20%5B960p%5D%20-%20Goku%20contra%20Pikolo%20Dai-ma-ku.mp4",
+    "episodeCode": "T1 E109: Gokú contra Piccolo Daimaku",
+    "hiddenCode": "T1 E109",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E110: ¡Tú puedes Gokú!",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fXWUrCyfGevUFzPs3AgbCnODEH5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMTNf/Dragon%20Ball%20110%20%5B960p%5D%20-%20%C2%A1T%C3%BA%20puedes%20Goku%21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMTNf/Dragon%20Ball%20110%20%5B960p%5D%20-%20%C2%A1T%C3%BA%20puedes%20Goku%21.mp4",
+    "episodeCode": "T1 E110: ¡Tú puedes Gokú!",
+    "hiddenCode": "T1 E110",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E111: El último Ma-Fuu-Ba del maestro Roshi",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/vIFRzbPRXKHqu7wevLYtGr7wNmC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMTVf/Dragon%20Ball%20111%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Ma-Fuu-Ba%20del%20maestro%20Roshi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMTVf/Dragon%20Ball%20111%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Ma-Fuu-Ba%20del%20maestro%20Roshi.mp4",
+    "episodeCode": "T1 E111: El último Ma-Fuu-Ba del maestro Roshi",
+    "hiddenCode": "T1 E111",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E112: ¿Podrá Piccolo Daimaku recuperar la juventud?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/qDJ2c0evVjEBsdGJa049l1qX8jN.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMTZf/Dragon%20Ball%20112%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20Pikoro%20Dai-ma-ku%20recuperar%20la%20juventud.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMTZf/Dragon%20Ball%20112%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20Pikoro%20Dai-ma-ku%20recuperar%20la%20juventud.mp4",
+    "episodeCode": "T1 E112: ¿Podrá Piccolo Daimaku recuperar la juventud?",
+    "hiddenCode": "T1 E112",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E113: Ataque al Castillo del Rey",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/xuAN1nrn26R5oNWnZCVqNeINLEA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMTdf/Dragon%20Ball%20113%20%5B960p%5D%20-%20Ataque%20al%20Castillo%20del%20Rey.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMTdf/Dragon%20Ball%20113%20%5B960p%5D%20-%20Ataque%20al%20Castillo%20del%20Rey.mp4",
+    "episodeCode": "T1 E113: Ataque al Castillo del Rey",
+    "hiddenCode": "T1 E113",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E114: La esperanza de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fDLEBNC1H4BJfUk8VlSa48xaWpN.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMjJf/Dragon%20Ball%20114%20%5B960p%5D%20-%20La%20esperanza%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMjJf/Dragon%20Ball%20114%20%5B960p%5D%20-%20La%20esperanza%20de%20Goku.mp4",
+    "episodeCode": "T1 E114: La esperanza de Gokú",
+    "hiddenCode": "T1 E114",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E115: Vamos por la misteriosa agua de los Dioses",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/6M1UW0TjnilzphKad7b20FhXciH.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMjRf/Dragon%20Ball%20115%20%5B960p%5D%20-%20Vamos%20por%20la%20misteriosa%20agua%20de%20los%20Dioses.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMjRf/Dragon%20Ball%20115%20%5B960p%5D%20-%20Vamos%20por%20la%20misteriosa%20agua%20de%20los%20Dioses.mp4",
+    "episodeCode": "T1 E115: Vamos por la misteriosa agua de los Dioses",
+    "hiddenCode": "T1 E115",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E116: ¿El Maestro Roshi está vivo?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/egjbr65n3dw9pxwnUnVEyX0SFq6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMjVf/Dragon%20Ball%20116%20%5B960p%5D%20-%20%C2%BFEl%20Maestro%20Roshi%20est%C3%A1%20vivo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMjVf/Dragon%20Ball%20116%20%5B960p%5D%20-%20%C2%BFEl%20Maestro%20Roshi%20est%C3%A1%20vivo.mp4",
+    "episodeCode": "T1 E116: ¿El Maestro Roshi está vivo?",
+    "hiddenCode": "T1 E116",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E117: Gokú despierta",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/tYsEsVpZIgzEaRUCz4Hjq2HR7b9.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMzFf/Dragon%20Ball%20117%20%5B960p%5D%20-%20Goku%20despierta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMzFf/Dragon%20Ball%20117%20%5B960p%5D%20-%20Goku%20despierta.mp4",
+    "episodeCode": "T1 E117: Gokú despierta",
+    "hiddenCode": "T1 E117",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E118: La decisión de TenShinHan",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/pRSr0lMxYd0gMnQi62YpYp8dIfX.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMzJf/Dragon%20Ball%20118%20%5B960p%5D%20-%20La%20decisi%C3%B3n%20de%20Ten%20Shin%20Han.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMzJf/Dragon%20Ball%20118%20%5B960p%5D%20-%20La%20decisi%C3%B3n%20de%20Ten%20Shin%20Han.mp4",
+    "episodeCode": "T1 E118: La decisión de TenShinHan",
+    "hiddenCode": "T1 E118",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E119: La legendaria técnica Ma-Fuu-Ba",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/5OvqUiYIhzjCsdqL9OFsfszxTgH.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMzVf/Dragon%20Ball%20119%20%5B960p%5D%20-%20La%20legendaria%20t%C3%A9cnica%20Ma-Fuu-Ba.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMzVf/Dragon%20Ball%20119%20%5B960p%5D%20-%20La%20legendaria%20t%C3%A9cnica%20Ma-Fuu-Ba.mp4",
+    "episodeCode": "T1 E119: La legendaria técnica Ma-Fuu-Ba",
+    "hiddenCode": "T1 E119",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E120: La ira de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ArItjBYpfKNJK4z8HvRFk1CTdZB.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyMzZf/Dragon%20Ball%20120%20%5B960p%5D%20-%20La%20ira%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyMzZf/Dragon%20Ball%20120%20%5B960p%5D%20-%20La%20ira%20de%20Goku.mp4",
+    "episodeCode": "T1 E120: La ira de Gokú",
+    "hiddenCode": "T1 E120",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E121: El momento crucial de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/5uvZ6GHbWNpiCeDw1wBBlNo7pIg.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNDFf/Dragon%20Ball%20121%20%5B960p%5D%20-%20El%20momento%20crucial%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNDFf/Dragon%20Ball%20121%20%5B960p%5D%20-%20El%20momento%20crucial%20de%20Goku.mp4",
+    "episodeCode": "T1 E121: El momento crucial de Gokú",
+    "hiddenCode": "T1 E121",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E122: El último esfuerzo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/k7DYZvSP9QZHTmID8dOpVNBOmle.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNDRf/Dragon%20Ball%20122%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNDRf/Dragon%20Ball%20122%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo.mp4",
+    "episodeCode": "T1 E122: El último esfuerzo",
+    "hiddenCode": "T1 E122",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E123: El secreto del báculo sagrado",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fCpglBIGL1CUjl1OaGqugRT7sQE.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNDdf/Dragon%20Ball%20123%20%5B960p%5D%20-%20El%20secreto%20del%20b%C3%A1culo%20sagrado.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNDdf/Dragon%20Ball%20123%20%5B960p%5D%20-%20El%20secreto%20del%20b%C3%A1culo%20sagrado.mp4",
+    "episodeCode": "T1 E123: El secreto del báculo sagrado",
+    "hiddenCode": "T1 E123",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E124: El templo sagrado que está arriba de las nubes",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/vjzIHgk2Cf2T5MwEnkdAem4x8Go.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNTNf/Dragon%20Ball%20124%20%5B960p%5D%20-%20El%20templo%20sagrado%20que%20est%C3%A1%20arriba%20de%20las%20nubes.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNTNf/Dragon%20Ball%20124%20%5B960p%5D%20-%20El%20templo%20sagrado%20que%20est%C3%A1%20arriba%20de%20las%20nubes.mp4",
+    "episodeCode": "T1 E124: El templo sagrado que está arriba de las nubes",
+    "hiddenCode": "T1 E124",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E125: La aparición de KamiSama",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iSHzMu9d8RqFSAdNOmcY2S8Q56z.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNTlf/Dragon%20Ball%20125%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Kami-Sama.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNTlf/Dragon%20Ball%20125%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Kami-Sama.mp4",
+    "episodeCode": "T1 E125: La aparición de KamiSama",
+    "hiddenCode": "T1 E125",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E126: Shen-Long revive",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/AbqXZFagKgVekYtGRbQ2WbRtdb6.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNjBf/Dragon%20Ball%20126%20%5B960p%5D%20-%20Shen-Long%20revive.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNjBf/Dragon%20Ball%20126%20%5B960p%5D%20-%20Shen-Long%20revive.mp4",
+    "episodeCode": "T1 E126: Shen-Long revive",
+    "hiddenCode": "T1 E126",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E127: Más rápido que un relámpago",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/lRTomJUEgo9KvJbiafANtTwDdG9.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNjVf/Dragon%20Ball%20127%20%5B960p%5D%20-%20M%C3%A1s%20r%C3%A1pido%20que%20un%20rel%C3%A1mpago.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNjVf/Dragon%20Ball%20127%20%5B960p%5D%20-%20M%C3%A1s%20r%C3%A1pido%20que%20un%20rel%C3%A1mpago.mp4",
+    "episodeCode": "T1 E127: Más rápido que un relámpago",
+    "hiddenCode": "T1 E127",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E128: Tranquilo como el cielo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/roV687lQm7tbkRQe7pb3qtKbMcM.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNjdf/Dragon%20Ball%20128%20%5B960p%5D%20-%20Tranquilo%20como%20el%20cielo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNjdf/Dragon%20Ball%20128%20%5B960p%5D%20-%20Tranquilo%20como%20el%20cielo.mp4",
+    "episodeCode": "T1 E128: Tranquilo como el cielo",
+    "hiddenCode": "T1 E128",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E129: Goku viaja a través del tiempo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/zbHCUODDC3UdYXfXGpbpAXpGnSE.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTAyNjhf/Dragon%20Ball%20129%20%5B960p%5D%20-%20Goku%20viaja%20a%20trav%C3%A9s%20del%20tiempo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTAyNjhf/Dragon%20Ball%20129%20%5B960p%5D%20-%20Goku%20viaja%20a%20trav%C3%A9s%20del%20tiempo.mp4",
+    "episodeCode": "T1 E129: Goku viaja a través del tiempo",
+    "hiddenCode": "T1 E129",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E130: El oponente de Goku es... ¿Goku?",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/htdslsvzU8OIgnzHYltOQKoAOKH.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMDJf/Dragon%20Ball%20130%20%5B960p%5D%20-%20El%20oponente%20de%20Goku%20es...%20%C2%BFGoku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMDJf/Dragon%20Ball%20130%20%5B960p%5D%20-%20El%20oponente%20de%20Goku%20es...%20%C2%BFGoku.mp4",
+    "episodeCode": "T1 E130: El oponente de Goku es... ¿Goku?",
+    "hiddenCode": "T1 E130",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E131: Cada quién toma un camino diferente",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/9YU6t3lDMookALHMihGEyu5Lp2M.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMDRf/Dragon%20Ball%20131%20%5B960p%5D%20-%20Cada%20qui%C3%A9n%20toma%20un%20camino%20diferente.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMDRf/Dragon%20Ball%20131%20%5B960p%5D%20-%20Cada%20qui%C3%A9n%20toma%20un%20camino%20diferente.mp4",
+    "episodeCode": "T1 E131: Cada quién toma un camino diferente",
+    "hiddenCode": "T1 E131",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E132: Más caliente que el magma",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iKIfXvW3hXMf36d5dtQ6xcsUqYS.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMDdf/Dragon%20Ball%20132%20%5B960p%5D%20-%20M%C3%A1s%20caliente%20que%20el%20magma.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMDdf/Dragon%20Ball%20132%20%5B960p%5D%20-%20M%C3%A1s%20caliente%20que%20el%20magma.mp4",
+    "episodeCode": "T1 E132: Más caliente que el magma",
+    "hiddenCode": "T1 E132",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E133: Una reunión después de la tormenta",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/hMQBwKDfz25qKT5BJcKKWN1qCp3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMTNf/Dragon%20Ball%20133%20%5B960p%5D%20-%20Una%20reuni%C3%B3n%20despu%C3%A9s%20de%20la%20tormenta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMTNf/Dragon%20Ball%20133%20%5B960p%5D%20-%20Una%20reuni%C3%B3n%20despu%C3%A9s%20de%20la%20tormenta.mp4",
+    "episodeCode": "T1 E133: Una reunión después de la tormenta",
+    "hiddenCode": "T1 E133",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E134: El torneo de las Artes Marciales ha comenzado",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/kt4XD7V1ZEZ31gihaY1FzOD48vM.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMTVf/Dragon%20Ball%20134%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20comenzado.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMTVf/Dragon%20Ball%20134%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20comenzado.mp4",
+    "episodeCode": "T1 E134: El torneo de las Artes Marciales ha comenzado",
+    "hiddenCode": "T1 E134",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E135: Los ocho peleadores",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/oZnD8kuXP0JQJFJzx6B7UTjGwQG.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMjBf/Dragon%20Ball%20135%20%5B960p%5D%20-%20Los%20ocho%20peleadores.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMjBf/Dragon%20Ball%20135%20%5B960p%5D%20-%20Los%20ocho%20peleadores.mp4",
+    "episodeCode": "T1 E135: Los ocho peleadores",
+    "hiddenCode": "T1 E135",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E136: El contraataque del asesino Tao-pai-Pai",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/fNSNWPLVBhrVvipoCIqwTH7vVF4.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMjNf/Dragon%20Ball%20136%20%5B960p%5D%20-%20El%20contraataque%20del%20asesino%20Tao-pai-Pai.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMjNf/Dragon%20Ball%20136%20%5B960p%5D%20-%20El%20contraataque%20del%20asesino%20Tao-pai-Pai.mp4",
+    "episodeCode": "T1 E136: El contraataque del asesino Tao-pai-Pai",
+    "hiddenCode": "T1 E136",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E137: La promesa de Goku",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/d6ZAK3SnNZHlfkWjoFkvclbNu26.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMjhf/Dragon%20Ball%20137%20%5B960p%5D%20-%20La%20promesa%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMjhf/Dragon%20Ball%20137%20%5B960p%5D%20-%20La%20promesa%20de%20Goku.mp4",
+    "episodeCode": "T1 E137: La promesa de Goku",
+    "hiddenCode": "T1 E137",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E138: El misterioso hombre llamado Shen",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/8LabH3Vs9MVyjsljZCbfESoGuVy.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMjhf/Dragon%20Ball%20138%20%5B960p%5D%20-%20El%20misterioso%20hombre%20llamado%20Shen.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMjhf/Dragon%20Ball%20138%20%5B960p%5D%20-%20El%20misterioso%20hombre%20llamado%20Shen.mp4",
+    "episodeCode": "T1 E138: El misterioso hombre llamado Shen",
+    "hiddenCode": "T1 E138",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E139: Nuevamente una pelea violenta. Gokū contra Ten-shin-han",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/pfyFWoKDPTsj96YFftlDgDd2jVX.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMzBf/Dragon%20Ball%20139%20%5B960p%5D%20-%20Nuevamente%20una%20pelea%20violenta.%20Gok%C5%AB%20contra%20Ten-shin-han.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMzBf/Dragon%20Ball%20139%20%5B960p%5D%20-%20Nuevamente%20una%20pelea%20violenta.%20Gok%C5%AB%20contra%20Ten-shin-han.mp4",
+    "episodeCode": "T1 E139: Nuevamente una pelea violenta. Gokū contra Ten-shin-han",
+    "hiddenCode": "T1 E139",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E140: El verdadero poder",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/flcvK9iIHP8BZF0WruVXI0sXvmU.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMzFf/Dragon%20Ball%20140%20%5B960p%5D%20-%20El%20verdadero%20poder.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMzFf/Dragon%20Ball%20140%20%5B960p%5D%20-%20El%20verdadero%20poder.mp4",
+    "episodeCode": "T1 E140: El verdadero poder",
+    "hiddenCode": "T1 E140",
+    "intro": { "start": 5, "end": 108 }
+  },
+   {
+    "title": "T1 E141: Cuatro Ten-shin-hans",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/rrGkLgSSZ2qQyaugBToOKtMAEi2.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMzhf/Dragon%20Ball%20141%20%5B960p%5D%20-%20Cuatro%20Ten-shin-hans.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMzhf/Dragon%20Ball%20141%20%5B960p%5D%20-%20Cuatro%20Ten-shin-hans.mp4",
+    "episodeCode": "T1 E141: Cuatro Ten-shin-hans",
+    "hiddenCode": "T1 E141",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E142: ¿Quién será más fuerte? KamiSama contra Piccolo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/7nR7EECC1RWu3lTYFqQwrvC58Tv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNDNf/Dragon%20Ball%20142%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20ser%C3%A1%20m%C3%A1s%20fuerte%20KamiSama%20contra%20Pikoro%20Dai-ma-ku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNDNf/Dragon%20Ball%20142%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20ser%C3%A1%20m%C3%A1s%20fuerte%20KamiSama%20contra%20Pikoro%20Dai-ma-ku.mp4",
+    "episodeCode": "T1 E142: ¿Quién será más fuerte? KamiSama contra Piccolo",
+    "hiddenCode": "T1 E142",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E143: El destino del mundo corre peligro",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/5LJ2EIyZ2FFzzHBhquoAFgT7cIf.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNDVf/Dragon%20Ball%20143%20%5B960p%5D%20-%20El%20destino%20del%20mundo%20corre%20peligro.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNDVf/Dragon%20Ball%20143%20%5B960p%5D%20-%20El%20destino%20del%20mundo%20corre%20peligro.mp4",
+    "episodeCode": "T1 E143: El destino del mundo corre peligro",
+    "hiddenCode": "T1 E143",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E144: El súper Kame-Hame-Ha",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/3KuaUgHLW2I3LFrrj36fALFKgx1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNDlf/Dragon%20Ball%20144%20%5B960p%5D%20-%20El%20s%C3%BAper%20Kame-Hame-Ha.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNDlf/Dragon%20Ball%20144%20%5B960p%5D%20-%20El%20s%C3%BAper%20Kame-Hame-Ha.mp4",
+    "episodeCode": "T1 E144: El súper Kame-Hame-Ha",
+    "hiddenCode": "T1 E144",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E145: El gigante Piccolo Daimaku",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/lciXd6rdwAHWRiKYckPsv0LjDgS.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNTRf/Dragon%20Ball%20145%20%5B960p%5D%20-%20El%20gigante%20Pikoro%20Daimaku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNTRf/Dragon%20Ball%20145%20%5B960p%5D%20-%20El%20gigante%20Pikoro%20Daimaku.mp4",
+    "episodeCode": "T1 E145: El gigante Piccolo Daimaku",
+    "hiddenCode": "T1 E145",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E146: La trampa de Gokú",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/aim6mw1rlRVvWa3kJBrl0oBJTw5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNTlf/Dragon%20Ball%20146%20%5B960p%5D%20-%20La%20trampa%20de%20Goku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNTlf/Dragon%20Ball%20146%20%5B960p%5D%20-%20La%20trampa%20de%20Goku.mp4",
+    "episodeCode": "T1 E146: La trampa de Gokú",
+    "hiddenCode": "T1 E146",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E147: Todo se ha perdido",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/jRrP7IVG21ojVO3pwiExOEU9hgf.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNjJf/Dragon%20Ball%20147%20%5B960p%5D%20-%20Todo%20se%20ha%20perdido.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNjJf/Dragon%20Ball%20147%20%5B960p%5D%20-%20Todo%20se%20ha%20perdido.mp4",
+    "episodeCode": "T1 E147: Todo se ha perdido",
+    "hiddenCode": "T1 E147",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E148: El hombre más fuerte del mundo",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/cqaIBGems4o6es0f2eOdaEIX4Qc.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNzFf/Dragon%20Ball%20148%20%5B960p%5D%20-%20El%20hombre%20m%C3%A1s%20fuerte%20del%20mundo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNzFf/Dragon%20Ball%20148%20%5B960p%5D%20-%20El%20hombre%20m%C3%A1s%20fuerte%20del%20mundo.mp4",
+    "episodeCode": "T1 E148: El hombre más fuerte del mundo",
+    "hiddenCode": "T1 E148",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E149: El vestido de novia rodeado de llamas",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/w77MqLOzezOXiKM0HjolBLRqmMv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyNzdf/Dragon%20Ball%20149%20%5B960p%5D%20-%20El%20vestido%20de%20novia%20rodeado%20por%20las%20llamas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyNzdf/Dragon%20Ball%20149%20%5B960p%5D%20-%20El%20vestido%20de%20novia%20rodeado%20por%20las%20llamas.mp4",
+    "episodeCode": "T1 E149: El vestido de novia rodeado de llamas",
+    "hiddenCode": "T1 E149",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E150: El ave traga fuego",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/sYsCmN3nTjHHX0WZGp9BvyHbU1W.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYxNjJf/Dragon%20Ball%20150%20%5B960p%5D%20-%20El%20ave%20traga%20fuego.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYxNjJf/Dragon%20Ball%20150%20%5B960p%5D%20-%20El%20ave%20traga%20fuego.mp4",
+    "episodeCode": "T1 E150: El ave traga fuego",
+    "hiddenCode": "T1 E150",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E151: Milk entrena duró para ser una buena esposa",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/ohVDi65MBHlrsdeONO7Bd11A37H.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYxNjZf/Dragon%20Ball%20151%20%5B960p%5D%20-%20Milk%20entrena%20dur%C3%B3%20para%20ser%20una%20buena%20esposa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYxNjZf/Dragon%20Ball%20151%20%5B960p%5D%20-%20Milk%20entrena%20dur%C3%B3%20para%20ser%20una%20buena%20esposa.mp4",
+    "episodeCode": "T1 E151: Milk entrena duró para ser una buena esposa",
+    "hiddenCode": "T1 E151",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E152: ¡Apresúrate Goku! El misterio de la montaña de los cinco elementos",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/1WSjqlVA26BABDWF7KtBRNIOTYU.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYxOTFf/Dragon%20Ball%20152%20%5B960p%5D%20-%20%C2%A1Apres%C3%BArate%20Goku%21%20El%20misterio%20de%20la%20monta%C3%B1a%20de%20los%20cinco%20elementos.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYxOTFf/Dragon%20Ball%20152%20%5B960p%5D%20-%20%C2%A1Apres%C3%BArate%20Goku%21%20El%20misterio%20de%20la%20monta%C3%B1a%20de%20los%20cinco%20elementos.mp4",
+    "episodeCode": "T1 E152: ¡Apresúrate Goku! El misterio de la montaña de los cinco elementos",
+    "hiddenCode": "T1 E152",
+    "intro": { "start": 5, "end": 108 }
+  },
+  {
+    "title": "T1 E153: La montaña Fry-Pan esta en llamas, una decisión de vida o muerte",
+    "meta": "13+ · 25m · 1986",
+    "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/8IPPURxLKnPR9XSGkiv8igGr45q.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDEwOTYyMDBf/Dragon%20Ball%20153%20%5B960p%5D%20-%20La%20monta%C3%B1a%20Fry-Pan%20esta%20en%20llamas%2C%20una%20decisi%C3%B3n%20de%20vida%20o%20muerte.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDEwOTYyMDBf/Dragon%20Ball%20153%20%5B960p%5D%20-%20La%20monta%C3%B1a%20Fry-Pan%20esta%20en%20llamas%2C%20una%20decisi%C3%B3n%20de%20vida%20o%20muerte.mp4",
+    "episodeCode": "T1 E153: La montaña Fry-Pan esta en llamas, una decisión de vida o muerte",
+    "hiddenCode": "T1 E153",
+    "intro": { "start": 5, "end": 108 }
+  }
+
+    ]
+  },
+ 
+];
+
+</script>
+<script src="player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+
+</body>
+</html>

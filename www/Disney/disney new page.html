@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Página de Colecciones</title>
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+     <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+         * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+        }
+
+        body {
+      padding-top: env(safe-area-inset-top);
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        /* Estilo para el header */
+.header {
+    position: fixed; /* Fijo en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0); /* Inicialmente transparente */
+    z-index: 10;
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+    justify-content: space-between; /* Para que el contenido esté separado */
+}
+
+/* Contenedor para el logo */
+.header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ocupa todo el ancho */
+    position: absolute; /* Asegura que esté posicionado dentro del header */
+    text-align: center;
+    transition: opacity 0.5s ease; /* Transición suave para el logo */
+    opacity: 0; /* Inicialmente oculto */
+    top: 50%; /* Centrado verticalmente */
+    left: 0px; /* Desplazado un poco a la izquierda */
+    transform: translateY(-50%); /* Centrado verticalmente */
+}
+
+
+.header-logo img {
+    max-width: 80px; /* Tamaño más pequeño */
+    height: auto;
+}
+
+             .back-button {
+            color: white; /* Flecha en blanco */
+            font-size: 40px; /* Tamaño más grande de la flecha */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-flex; /* Asegura que el fondo se adapte al tamaño de la flecha */
+            align-items: center;
+            justify-content: center;
+            width: 30px; /* Tamaño del círculo */
+            height: 30px; /* Tamaño del círculo */
+            border-radius: 50%; /* Círculo perfecto */
+            background-color: rgba(0, 0, 0, 0.288); /* Fondo negro transparente */
+            padding: 10px; /* Padding dentro del círculo */
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.4); /* Efecto hover */
+        }
+        .chevron-link {
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  color: inherit; /* Hereda el color del texto en lugar de usar azul */
+}
+
+.chevron-link:visited {
+  color: inherit;
+}
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Ocupa toda la altura de la ventana */
+            background: linear-gradient(
+                to bottom,
+                #000000cb,
+                #00000000,
+                #00000000,
+                #000000f5,
+                #000000,
+                #000000
+            ),
+            url('https://od.lk/s/M18zMTE1NzUxNjRf/castillo%20disney%20%281%29.jpg') no-repeat top center;
+            background-size: contain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: -1;
+            background-attachment: fixed;
+            transition: background-color 0.3s ease; /* Transición suave para oscurecer */
+            transition: filter 0.3s ease; /* Para aplicar el filtro de oscurecimiento */
+        }
+
+        
+        /* Nueva imagen solo visible en modo horizontal */
+.hero-horizontal {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(
+        to bottom,
+        #000000cb,
+        #00000000,
+        #00000000,
+        #000000a4,
+        #000000ab,
+        #000000
+    ),
+    url('https://od.lk/s/M18zMDc4MTk1MThf/castillo%20disney%20%281%29.jpg') no-repeat top center;
+    background-size: contain;
+    display: none; /* Se oculta por defecto */
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background-attachment: fixed;
+    transition: background-color 0.3s ease; /* Transición suave para oscurecer */
+}
+
+/* Mostrar la segunda imagen solo en modo horizontal */
+@media (orientation: landscape) {
+    .hero-horizontal {
+        display: flex; /* Muestra la segunda imagen solo en horizontal */
+    }
+}
+
+        .hero-logo {
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        .hero-logo img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        /* Media query para orientación horizontal */
+@media (orientation: landscape) {
+    .hero-logo {
+        left: 10%; /* Mueve el logo a la izquierda */
+        transform: translateX(0); /* Ajusta la transformación para no centrarlo */
+    }
+}
+
+        .movie-sections {
+            margin-top: -300px; /* Reduce la separación superior */
+        }
+
+        .movie-section {
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .movie-section h2 {
+            color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 5px;
+            padding-left: 10px;
+        }
+
+        .scroll-container {
+            display: flex;
+            padding-left: 10px;
+            overflow-x: auto;
+            padding-top: 0;
+            padding-bottom: 10px;
+            gap: 10px;
+        }
+
+        .scroll-container img {
+            width: 130px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            margin-right: 0;
+        }
+
+        .scroll-container img:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .movie-section h2 {
+                font-size: 16px;
+            }
+
+            .scroll-container img {
+                width: 120px;
+                height: 180px;
+            }
+        }
+
+        .footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+.nav__icon {
+  font-size: 20px; /* Ajusta el tamaño del icono aquí */
+}
+
+.horizontal-scroll-container {
+    display: flex;
+    overflow-x: auto; /* Scroll horizontal */
+    white-space: nowrap; /* Evitar que los elementos se rompan en varias líneas */
+    padding: 5px;
+    border: 2px solid #66666600;
+    background-color: #00000000;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #666 #333; /* Firefox */
+}
+
+/* Estilos para escritorio */
+@media (min-width: 768px) {
+    .horizontal-scroll-container::-webkit-scrollbar {
+        height: 8px; /* Altura del scrollbar */
+        background-color: #333;
+    }
+
+    .horizontal-scroll-container::-webkit-scrollbar-thumb {
+        background-color: #666;
+    }
+}
+
+/* Estilos para móvil (opcional: ocultar completamente el scrollbar) */
+@media (max-width: 767px) {
+    .horizontal-scroll-container::-webkit-scrollbar {
+        display: none; /* Ocultar scrollbar en dispositivos móviles */
+    }
+}
+
+.horizontal-scroll-container a {
+    display: inline-block; /* Elementos en línea */
+    margin-right: 10px; /* Espaciado entre imágenes */
+}
+
+.horizontal-scroll-container img {
+    width: 250px; /* Tamaño fijo para las imágenes */
+    height: auto;
+    border-radius: 7px; /* Bordes redondeados */
+    transition: transform 0.3s ease-in-out;
+}
+
+.horizontal-scroll-container img:hover {
+    transform: scale(1.1); /* Efecto de zoom */
+    cursor: pointer;
+}
+
+   /* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+/* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+    <header class="header">
+        <a href="index.html" class="back-button">
+            <span class="material-icons">chevron_left</span>
+        </a>
+    <!-- Logo que aparecerá cuando el header se oscurezca -->
+    <div class="header-logo">
+      <img src="https://od.lk/s/M18zMDc4MTk1NjZf/disney%20logo.png" alt="Logo">
+  </div>
+</header>
+
+    <div class="hero">
+      <div class="hero-horizontal"></div>
+        <div class="hero-logo">
+            <img src="https://od.lk/s/M18zMDc4MTk1NjZf/disney%20logo.png" alt="Logo">
+        </div>
+    </div>
+
+    <div class="movie-sections">
+        <div class="movie-section">
+          <h2>Clásicos</h2>
+          <div class="scroll-container">
+            <a href="Dumbo (1941).html"><img src="https://image.tmdb.org/t/p/original/wxE4fGviBgiwbspY5SYwHnjEUTV.jpg" alt="Dumbo"></a>
+            <a href="La Espada en La Piedra (1963).html"><img src="https://od.lk/s/M18zMDYyMzc3MjVf/unnamed.jpg" alt="La espada en la piedra"></a>
+            <a href="Los Aristogatos (1970).html"><img src="https://image.tmdb.org/t/p/original/9S2UJnvLShTI46CBXbVM18oN6NA.jpg" alt="Los Aristogatos"></a>
+            <a href="El rey león (1994).html"><img src="https://image.tmdb.org/t/p/original/8mPqgVdfLKjFAR2LGshDJTdSejq.jpg" alt="El Rey León"></a>
+            <a href="La dama y el vagabundo (1955).html"><img src="https://image.tmdb.org/t/p/original/eZM9PqrAQP6CJPNlNDFmlClFrug.jpg" alt="La Dama y el Vagabundo"></a>
+            <a href="peter pan.html"><img src="https://image.tmdb.org/t/p/original/4UkIf8tIO9Jr5wHrdkTscAvSzgG.jpg" alt="Peter Pan"></a>
+            <a href="La noche de las narices frías (1961).html"><img src="https://image.tmdb.org/t/p/original/dWF2BBfiYmXrOyYr79mxOsxqwh1.jpg" alt="101 Dálmatas"></a>
+            <a href="Lilo y Stitch (2002).html"><img src="https://image.tmdb.org/t/p/original/dMLfIVbfbi300yDGVSqpkbVxtnd.jpg" alt="Lilo y Stitch"></a>
+            <a href="pinocho.html"><img src="https://image.tmdb.org/t/p/original/5VQAV7SpcPB7C5ZzGAjMzqGZ7Uk.jpg" alt="Pinocho"></a>
+            <a href="robin hood.html"><img src="https://image.tmdb.org/t/p/original/8T0qQsZIKEuWuT8NufeAQmj6HL3.jpg" alt="Robin Hood"></a>
+            <a href="el zorro y el sabueso.html"><img src="https://image.tmdb.org/t/p/original/3jGG0fiOAQ0dmPtbpKIkxOHZW0V.jpg" alt="El Zorro y el Sabueso"></a>
+            <a href="La Bella y La Bestia (1991).html"><img src="https://image.tmdb.org/t/p/original/u7DPc43ePtirQSfkXCVWc4u63WK.jpg" alt="La Bella y la Bestia"></a>
+            <a href="La cenicienta (1950).html"><img src="https://image.tmdb.org/t/p/original/fZXYpEw9im9bkELJ9StaV3qnTeE.jpg" alt="Cenicienta"></a>
+            <a href="La Sirenita (1989).html"><img src="https://image.tmdb.org/t/p/original/2ZucaVMGVqtmi7MD4adOq51kdAX.jpg" alt="La Sirenita"></a>
+            <a href="Blanca Nieves y los siete enanos (1937).html"><img src="https://image.tmdb.org/t/p/original/jDpFqbbB2tQ1dPmPf1sV4sWqwvm.jpg" alt="Blanca Nieves"></a>
+            <a href="la bella durmiente.html"><img src="https://image.tmdb.org/t/p/original/uzNfWtMUXHSiWK5YFd91VEYq5a8.jpg" alt="La Bella Durmiente"></a>
+            <a href="mulan.html"><img src="https://image.tmdb.org/t/p/original/v3VCpCZcANaqP1I0mcaHVLZCYDI.jpg" alt="Mulán"></a>
+            <a href="Aladdin (1992).html"><img src="https://image.tmdb.org/t/p/original/qiEpw4qjwYw82Qzme56UZwWJOAG.jpg" alt="Aladdín"></a>
+            <a href="El libro de la selva (1967).html"><img src="https://image.tmdb.org/t/p/original/lHC6lwaeuQKEq1XUbEkZTf7VzFs.jpg" alt="El Libro de la Selva"></a>
+            <a href="Bambi (1942).html"><img src="https://image.tmdb.org/t/p/original/90Shq6yU7vqXskmZbX2AEf57ddy.jpg" alt="Bambi"></a>
+            <a href="el jorobado de notredame.html"><img src="https://image.tmdb.org/t/p/original/5OhTLaFl0LYCfDw5NifjCBn92r.jpg" alt="El Jorobado de Notre Dame"></a>
+            <a href="Alicia en el país de las maravillas (1951).html"><img src="https://image.tmdb.org/t/p/original/nglYQuJdaZ8aHSsAmadEbmu5Al1.jpg" alt="Alicia en el País de las Maravillas"></a>
+            <a href="tarzan.html"><img src="https://image.tmdb.org/t/p/original/ukgGlWbEv3pABxMHWhjkLtscP3i.jpg" alt="Tarzán"></a>
+            <a href="pocahontas.html"><img src="https://image.tmdb.org/t/p/original/iKZioEcxgDGsJkRkd9n2R5q2ctx.jpg" alt="Pocahontas"></a>
+            <a href="Las locuras del emperador (2000).html"><img src="https://image.tmdb.org/t/p/original/bUb1d4xiXs8mtXaGQVp75nkdR9q.jpg" alt="Las locuras del emperador"></a>
+            <a href="hercules.html"><img src="https://od.lk/s/M18zMDc3NzI3MjBf/hercules.jpg" alt="Hércules"></a>
+          </div>
+        </div>
+     
+        <div class="movie-section">
+          <h2>Descubriendo Princesas</h2>
+          <div class="horizontal-scroll-container">
+            <a href="go:princess1"><img src="https://od.lk/s/M18zMDcyNzI5MjVf/maxresdefault%20%284%29.jpg" alt="Princesa 1"></a>
+            <a href="go:princess2"><img src="https://od.lk/s/M18zMDcyNzI5Mzhf/maxresdefault%20%281%29.jpg" alt="Princesa 2"></a>
+            <a href="go:princess3"><img src="https://od.lk/s/M18zMDcyNzkxMjZf/sddefault.jpg" alt="Princesa 3"></a>
+            <a href="go:princess4"><img src="https://od.lk/s/M18zMDcyNzI5MzJf/2b1cb3d2960eaf0384ef30ebd3d2822e.jpg" alt="Princesa 4"></a>
+            <a href="go:princess5"><img src="https://od.lk/s/M18zMDcyODAxMzVf/maxresdefault%20%287%29.jpg" alt="Princesa 5"></a>
+            <a href="go:princess6"><img src="https://od.lk/s/M18zMDcyNzc2NTZf/Descubriendo-Aladdin.jpg" alt="Princesa 6"></a>
+            <a href="go:princess7"><img src="https://od.lk/s/M18zMDcyNzc5Mzdf/maxresdefault%20%285%29.jpg" alt="Princesa 7"></a>
+            <a href="go:princess8"><img src="https://od.lk/s/M18zMDcyNzI5Mjlf/maxresdefault.jpg" alt="Princesa 8"></a>
+            <a href="go:princess9"><img src="https://od.lk/s/M18zMDcyNzI5NDFf/maxresdefault%20%282%29.jpg" alt="Princesa 9"></a>
+            <a href="go:princess10"><img src="https://od.lk/s/M18zMDcyNzI5NjFf/OIP%20%283%29.jpeg" alt="Princesa 10"></a>
+            <a href="go:princess11"><img src="https://od.lk/s/M18zMDcyNzI5NDNf/maxresdefault%20%283%29.jpg" alt="Princesa 11"></a>
+            <a href="go:princess12"><img src="https://od.lk/s/M18zMDcyNzg1NDZf/OIP%20%284%29.jpeg" alt="Princesa 12"></a>
+          </div>
+        </div>
+   
+            <div class="movie-section">
+              <h2>Princesas</h2>
+              <div class="scroll-container">
+                <a href="La Bella y La Bestia (1991).html"><img src="https://image.tmdb.org/t/p/original/1FxMtEUc6DP1MXsTBftOFaoCVVO.jpg" alt="Bella"></a>
+                <a href="La cenicienta (1950).html"><img src="https://image.tmdb.org/t/p/original/7tVLRdfbkFqunopykQq2BoBGIiY.jpg" alt="Cenicienta"></a>
+                <a href="La Sirenita (1989).html"><img src="https://image.tmdb.org/t/p/original/3hBEYJfPKq1iXXGkeNV0n6baTFF.jpg" alt="La Sirenita"></a>
+                <a href="Blanca Nieves y los siete enanos (1937).html"><img src="https://image.tmdb.org/t/p/original/b2ZPP3bZqDOzqTHr1TlFIFPWP48.jpg" alt="Blanca Nieves"></a>
+                <a href="la bella durmiente.html"><img src="https://image.tmdb.org/t/p/original/d7aeSm6RgJySwelL5tdu1TCclZh.jpg" alt="Aurora"></a>
+                <a href="Aladdin (1992).html"><img src="https://image.tmdb.org/t/p/original/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg" alt="Jasmine"></a>
+                <a href="mulan.html"><img src="https://image.tmdb.org/t/p/original/towmTJ0k29quKI9IDnOZKAAtQx.jpg" alt="Mulan"></a>
+                <a href="Enredados (2010).html"><img src="https://image.tmdb.org/t/p/original/z5kvXWek4smCyeWBDJQkT5sLc9T.jpg" alt="Rapunzel"></a>
+                <a href="Valiente (2012).html"><img src="https://image.tmdb.org/t/p/original/uBu6MRbQiUwGuQMoeh6oQE3QMNJ.jpg" alt="Mérida"></a>
+                <a href="La princesa y el sapo (2009).html"><img src="https://image.tmdb.org/t/p/original/8v4xHT0Ox8XIDvOJySdpuf9qcL2.jpg" alt="Tiana"></a>
+                <a href="Frozen Una Aventura Congelada (2013).html"><img src="https://image.tmdb.org/t/p/original/8aAkLBwrnBuKWyWowgj9KTNnjzo.jpg" alt="Elsa y Anna"></a>
+                <a href="pocahontas.html"><img src="https://image.tmdb.org/t/p/original/fNoMqPbhzjZuMuMMT0iT3hVgSo.jpg" alt="Pocahontas"></a>
+                <a href="Moana Un mar de aventuras (2016).html"><img src="https://image.tmdb.org/t/p/original/hw4FlDdufQuLIsYiqBYIL0Bxn26.jpg" alt="Moana"></a>
+              </div>
+            </div>
+
+                <div class="movie-section">
+                  <h2>Animation</h2>
+                  <div class="horizontal-scroll-container">
+                    <a href="Disney/zootopia-2.html"><img src="https://image.tmdb.org/t/p/original/bjUWGw0Ao0qVWxagN3VCwBJHVo6.jpg" alt="zootopia 2" loading="lazy"></a>
+                    <a href="Chip y Dale Al rescate.html"><img src="https://image.tmdb.org/t/p/original/kNXr9XXqvBHLE4I27ChBH60KbHn.jpg" alt="chip y dale"></a>
+                     <a href="wish.hmtl"><img src="https://image.tmdb.org/t/p/original/bg7FAcLTLSNR0dlq1nEbdiHaJPo.jpg" alt="Wish"></a>
+                    <a href="encanto.html"><img src="https://image.tmdb.org/t/p/original/hHyAD6iR5gL06TAJGprvxDFUmvO.jpg" alt="Encanto"></a>
+                    <a href="Raya y El Último Dragón (2021).html"><img src="https://image.tmdb.org/t/p/original/yejWDSINQmZoYAdUx9U9xqIt1Zm.jpg" alt="Raya and the Last Dragon"></a>
+                    <a href="Frozen Una Aventura Congelada (2013).html"><img src="https://image.tmdb.org/t/p/original/gFbk12sQb01c2sbaK9sTk9KBpQj.jpg" alt="Frozen"></a>
+                    <a href="frozen-2.html"><img src="https://image.tmdb.org/t/p/original/xD7yQyIZTU56OhzIjEa6FhD66Pe.jpg" alt="Frozen 2"></a>
+                    <a href="Wifi Ralph (2018).html"><img src="https://image.tmdb.org/t/p/original/obgvVR2PAEIhpcbBbTdTAaBmKXg.jpg" alt="Ralph Breaks the Internet"></a>
+                    <a href="Moana Un mar de aventuras (2016).html"><img src="https://image.tmdb.org/t/p/original/oUtfsaDbX3MPme5TAdvnSpQiRKD.jpg" alt="Moana"></a>
+                    <a href="Zootopia (2016).html"><img src="https://image.tmdb.org/t/p/original/lTNmiqIX60vSnpjUreEkLDqx6VL.jpg" alt="Zootopia"></a>
+                    <a href="grandes heroes.html"><img src="https://image.tmdb.org/t/p/original/pPuX2QRb11CmQv5MSORrmUELx35.jpg" alt="Big Hero 6"></a>
+                    <a href="Ralph, el demoledor (2012).html"><img src="https://image.tmdb.org/t/p/original/ysu0OEr4has7AG1XI0o5cGrfINx.jpg" alt="Wreck-It Ralph"></a>
+                    <a href="Enredados (2010).html"><img src="https://image.tmdb.org/t/p/original/hloHqMjQYHgSah2KRi9mdIF4SYy.jpg" alt="Tangled"></a>
+                    <a href="fantasia.html"><img src="https://image.tmdb.org/t/p/original/fmNjtc01ky51MTbdJPNvsp9zFzW.jpg" alt="Fantasia"></a>
+                    <a href="Las locuras del emperador (2000).html"><img src="https://image.tmdb.org/t/p/original/3DjSVPhQ0PMyvQevpcKQiopGgOn.jpg" alt="The Emperor's New Groove"></a>
+                    <a href="Lilo y Stitch (2002).html"><img src="https://image.tmdb.org/t/p/original/iAzxiaUHstmfyXiFV2MijW2X2Uu.jpg" alt="Lilo & Stitch"></a>
+                    <a href="tierra de osos.html"><img src="https://image.tmdb.org/t/p/original/mOEQV0VLtChQEsF2UUjQTTtkUX7.jpg" alt="Brother Bear"></a>
+                    <a href="chicken little.html"><img src="https://image.tmdb.org/t/p/original/nvjfcQKcT3zQZ3rQZl8C42LcExs.jpg" alt="Chicken Little"></a>
+                    <a href="la familia del futuro.html"><img src="https://image.tmdb.org/t/p/original/4LOVSNCMnKi630hYCwWFQZi4bmG.jpg" alt="Meet the Robinsons"></a>
+                    <a href="bolt.hmtl"><img src="https://image.tmdb.org/t/p/original/iQBucIw8yqKMwqGccch4eMd7cj1.jpg" alt="Bolt"></a>
+                    <a href="La princesa y el sapo (2009).html"><img src="https://image.tmdb.org/t/p/original/b9eUgmkmjTIRdlj4Etm2HGMFkrz.jpg" alt="The Princess and the Frog"></a>
+                    <a href="el zorro y el sabueso.html"><img src="https://image.tmdb.org/t/p/original/7bQMpHIiQ6sv7rKrX09IhmJNrVz.jpg" alt="Robin Hood"></a>
+                    <a href="La Sirenita (1989).html"><img src="https://image.tmdb.org/t/p/original/p72M8vHHEqBCPShn9n8s6jX92vM.jpg" alt="The Little Mermaid"></a>
+                    <a href="La Bella y La Bestia (1991).html"><img src="https://image.tmdb.org/t/p/original/4Ta7OeWksbQlIiehoHbiPS4U1S5.jpg" alt="Beauty and the Beast"></a>
+                    <a href="Aladdin (1992).html"><img src="https://image.tmdb.org/t/p/original/deHMJAi10p2drYjnYi4IbSXpAqV.jpg" alt="Aladdin"></a>
+                    <a href="El rey león (1994).html"><img src="https://image.tmdb.org/t/p/original/ztlWLlKCMhpkMMhfIWsYTcnEOJw.jpg" alt="The Lion King"></a>
+                    <a href="pocahontas.html"><img src="https://image.tmdb.org/t/p/original/a615IBiwbDocRizxf6AS713Z0Ue.jpg" alt="Pocahontas"></a>
+                    <a href="el jorobado de notredame.html"><img src="https://image.tmdb.org/t/p/original/tBT6sFUqp2kt5Lo4VCYlvx83woN.jpg" alt="The Hunchback of Notre Dame"></a>
+                    <a href="hercules.html"><img src="https://image.tmdb.org/t/p/original/hkbmQKcowa64xayVNYZWK9fCIzx.jpg" alt="Hercules"></a>
+                    <a href="mulan.html"><img src="https://image.tmdb.org/t/p/original/l9SZBrcphlgygG57NjbF8ipqIgc.jpg" alt="Mulan"></a>
+                    <a href="tarzan.html"><img src="https://image.tmdb.org/t/p/original/vaq2VamgogWEyO5gIKQXnWHHs3v.jpg" alt="Tarzan"></a>
+                    <a href="La cenicienta (1950).html"><img src="https://image.tmdb.org/t/p/original/b0IUQanwvkTGPjn1ANGWSy1TQ3E.jpg" alt="Cinderella"></a>
+                    <a href="Alicia en el país de las maravillas (1951).html"><img src="https://image.tmdb.org/t/p/original/x8Z75nZ2kY5QJZvEQRtqzF9hRKo.jpg" alt="Alice in Wonderland"></a>
+                    <a href="peter pan.html"><img src="https://image.tmdb.org/t/p/original/zxR732V00t3FNhkgZvZmHVSk9uk.jpg" alt="Peter Pan"></a>
+                    <a href="La dama y el vagabundo (1955).html"><img src="https://image.tmdb.org/t/p/original/jbBMJWLgjVudTN5dy4xrjJF8bMk.jpg" alt="Lady and the Tramp"></a>
+                    <a href="la bella durmiente.html"><img src="https://image.tmdb.org/t/p/original/8giMrebqGFrLBnURqIv5tPJBedd.jpg" alt="Sleeping Beauty"></a>
+                    <a href="La noche de las narices frías (1961).html"><img src="https://image.tmdb.org/t/p/original/7iNxYnNHP50W13ELOLI0UG1hswK.jpg" alt="101 Dalmatians"></a>
+                    <a href="La Espada en La Piedra (1963).html"><img src="https://image.tmdb.org/t/p/original/17mC7ybDkeen0mi3DSbiD8xhpns.jpg" alt="The Sword in the Stone"></a>
+                    <a href="El libro de la selva (1967).html"><img src="https://image.tmdb.org/t/p/original/oBKUrf03sPP9iVv65xWEKvyx8ua.jpg" alt="The Jungle Book"></a>
+                    <a href="Los Aristogatos (1970).html"><img src="https://image.tmdb.org/t/p/original/a5vxitjsVfwQRXWGlEjiu0FDuht.jpg" alt="The Aristocats"></a>
+                    <a href="robin hood.html"><img src="https://image.tmdb.org/t/p/original/1I3xIxbO62ED4FaKWaUkg1Un2oz.jpg" alt="Robin Hood"></a>
+                    <a href="Blanca Nieves y los siete enanos (1937).html"><img src="https://image.tmdb.org/t/p/original/dW3sSiCsQ8ZKtLrPxZwWzHoPrVV.jpg" alt="Snow White and the Seven Dwarfs"></a>
+                    <a href="pinocho.html"><img src="https://image.tmdb.org/t/p/original/8cqBrUZsclFOX5lUyO2WfMWmBCO.jpg" alt="Pinocchio"></a>
+                    <a href="Dumbo (1941).html"><img src="https://image.tmdb.org/t/p/original/rVwUPd2DBZmICFWC9kOGagDcpMk.jpg" alt="Dumbo"></a>
+                    <a href="Bambi (1942).html"><img src="https://image.tmdb.org/t/p/original/11xEYYZXlG28U2fOBzvCXhyAIic.jpg" alt="Bambi"></a>
+                  </div>
+                </div>
+             
+                    <div class="movie-section">
+                      <h2>Pixar</h2>
+                      <div class="scroll-container">
+                        <a href="Disney/elio.html"><img src="https://image.tmdb.org/t/p/original/w2ARwtc1zoh0pyfwmyhpZHwuXgK.jpg" alt="elio" loading="lazy"></a>
+                        <a href="IntensaMente 2.html"><img src="https://image.tmdb.org/t/p/original/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg" alt="Inside Out 2"></a>
+                        <a href="intensamente.html"><img src="https://image.tmdb.org/t/p/original/1Cp4fl3E6p6PkPHPR2u6b9otQfQ.jpg" alt="Inside Out"></a>
+                        <a href="elementos.html"><img src="https://image.tmdb.org/t/p/original/haKaoR9bfFJLoZSYyk2lLApNbcp.jpg" alt="Elemental"></a>
+                        <a href="up.html"><img src="https://image.tmdb.org/t/p/original/vSdpOU6rDK7IpmOD7iAvlZdMUCc.jpg" alt="Up"></a>
+                        <a href="buscando a nemo.html"><img src="https://image.tmdb.org/t/p/original/kffFhbSRF20sY7DiqWcFWAxi58K.jpg" alt="Finding Nemo"></a>
+                        <a href="red.html"><img src="https://image.tmdb.org/t/p/original/ccmWYjE51ITfK7DCifzAfXBUXkQ.jpg" alt="Turning Red"></a>
+                        <a href="soul.html"><img src="https://image.tmdb.org/t/p/original/xJ7MCAy4oCLerPo3JjnB8lKOhl4.jpg" alt="Soul"></a>
+                        <a href="luca.html"><img src="https://image.tmdb.org/t/p/original/nvILfxzIboLOq9deUK9m58Y8l8E.jpg" alt="Luca"></a>
+                        <a href="toy story.html"><img src="https://image.tmdb.org/t/p/original/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg" alt="Toy Story"></a>
+                        <a href="toy story 2.html"><img src="https://image.tmdb.org/t/p/original/2MFIhZAW0CVlEQrFyqwa4U6zqJP.jpg" alt="Toy Story 2"></a>
+                        <a href="toy story 3.html"><img src="https://image.tmdb.org/t/p/original/yBSISwqix2z0JiwIrM3r6fiI6Cm.jpg" alt="Toy Story 3"></a>
+                        <a href="toy story 4.html"><img src="https://image.tmdb.org/t/p/original/iHc9Cn47bvxRFJqt11zMftX6kit.jpg" alt="Toy Story 4"></a>
+                        <a href="Valiente (2012).html"><img src="https://image.tmdb.org/t/p/original/uBu6MRbQiUwGuQMoeh6oQE3QMNJ.jpg" alt="Brave"></a>
+                        <a href="cars.html"><img src="https://image.tmdb.org/t/p/original/4EPfGayocyoaoX96siE9Ol3xZUD.jpg" alt="Cars"></a>
+                        <a href="Cars 2 (2011).html"><img src="https://image.tmdb.org/t/p/original/eQo1LQs5Vo9RHVHYUhNSfMZa3VB.jpg" alt="Cars 2"></a>
+                        <a href="Cars 3 (2017).html"><img src="https://image.tmdb.org/t/p/original/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg" alt="Cars 3"></a>
+                        <a href="Coco.html"><img src="https://image.tmdb.org/t/p/original/98G7zRNJBGuJiJmWcCTv0whXltA.jpg" alt="Coco"></a>
+                        <a href="unidos.hmtl"><img src="https://image.tmdb.org/t/p/original/yEvAI0XE6sCWyIAUwN1hdP3nf9b.jpg" alt="Onward"></a>
+                        <a href="un gran dinosaurio.html"><img src="https://image.tmdb.org/t/p/original/AdBRNzPeeQHujTug9y4vSbibWF8.jpg" alt="The Good Dinosaur"></a>
+                        <a href="buscando a dory.html"><img src="https://image.tmdb.org/t/p/original/o8lNBlTOXPUldnpqXetsfECpu3Q.jpg" alt="Finding Dory"></a>
+                        <a href="bichos.html"><img src="https://image.tmdb.org/t/p/original/vpkIWz6c0ajlpykGi5JYtjZiu6t.jpg" alt="A Bug's Life"></a>
+                        <a href="ratatouille.html"><img src="https://image.tmdb.org/t/p/original/sDwCBLWHFebxgkqlfm0SwdD9vIn.jpg" alt="Ratatouille"></a>
+                        <a href="buzz lightyear.html"><img src="https://image.tmdb.org/t/p/original/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg" alt="Lightyear"></a>
+                        <a href="Monsters, Inc. (2001).html"><img src="https://image.tmdb.org/t/p/original/hHRvKl4zwS234fcjypa82A2Ecjr.jpg" alt="Monsters, Inc."></a>
+                        <a href="Monsters University (2013).html"><img src="https://image.tmdb.org/t/p/original/yxrPtz7s3qe1c6MKSEoaCwHEDDP.jpg" alt="Monsters University"></a>
+                        <a href="los-increibles.html"><img src="https://image.tmdb.org/t/p/original/zXP4sSS03NzzYxmut0hUufNyTcD.jpg" alt="The Incredibles"></a>
+                        <a href="los-increibles-2.html"><img src="https://image.tmdb.org/t/p/original/rebOnIOf2AYadW3TsvaPWeghKdG.jpg" alt="The Incredibles 2"></a>
+                         <a href="wall-e.html"><img src="https://image.tmdb.org/t/p/original/t9p7mI2BzzFvebdWoMtois4yRmA.jpg" alt="WALL-E"></a>
+                      </div>
+                    </div>
+                    
+                        <div class="movie-section">
+                          <h2>Tinkerbell</h2>
+                          <div class="horizontal-scroll-container">
+                            <a href="Tinker Bell y el Secreto de las Hadas (2012).html"><img src="https://image.tmdb.org/t/p/original/7Dgj2GshHAnBFAwD8DfpFTCKbAa.jpg" alt="Tinkerbell: Secret"></a>
+                            <a href="Tinker Bell: Hadas y Piratas (2014).html"><img src="https://image.tmdb.org/t/p/original/lbsDbRKNjpSGK5jXLtXxUuOVCzw.jpg" alt="Tinkerbell: Pirate"></a>
+                            <a href="Tinker Bell (2008).html"><img src="https://image.tmdb.org/t/p/original/s3hpuiDFt8DatyCIYvyPcYNPhSh.jpg" alt="Tinkerbell"></a>
+                            <a href="Tinker Bell: Hadas al Rescate (2010).html"><img src="https://image.tmdb.org/t/p/original/jMHfB1Xp4y2te35v6qd7hUF5Wji.jpg" alt="Tinkerbell: Rescate"></a>
+                            <a href="Tinker bell y La Bestia de Nunca Jamas (2014).html"><img src="https://image.tmdb.org/t/p/original/elTsicNkkODpx9i76JPpx1rKBuN.jpg" alt="Tinkerbell: Beast"></a>
+                            <a href="Tinker Bell y el tesoro perdido (2009).html"><img src="https://image.tmdb.org/t/p/original/zpRTDx9MrUxMpThr3q1iEaX3Q2Q.jpg" alt="Tinkerbell: Treasure"></a>
+                          </div>
+                        </div>
+                      
+                        <div class="movie-section">
+                          <h2>Live Action</h2>
+                          <div class="scroll-container">
+                            <a href="Disney/Lilo y Stitch (2025).html"><img src="https://image.tmdb.org/t/p/original/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg" alt="lilo y stitch  " loading="lazy"></a>
+                           <a href="La sirenita (2023).html"><img src="https://image.tmdb.org/t/p/original/mdszPVnIY7cWgbgJ8zbwu1PiU5V.jpg" alt="The Little Mermaid"></a>
+                            <a href="La Bella y La Bestia (2017).html"><img src="https://image.tmdb.org/t/p/original/9ejTG3RYW3psH0cVhFmkVtTzdJx.jpg" alt="Beauty and the Beast"></a>
+                            <a href="desencantada.html"><img src="https://image.tmdb.org/t/p/original/jUtlgyDFzEVP9EQaveQwpvE61ly.jpg" alt="Disenchanted"></a>
+                            <a href="go:giselle"><img src="https://image.tmdb.org/t/p/original/e6CnQbQNX1vsQKqXzBwMpj9RS2I.jpg" alt="Enchanted"></a>
+                            <a href="                                        "><img src="https://image.tmdb.org/t/p/original/ykUEbfpkf8d0w49pHh0AD2KrT52.jpg" alt="Aladdin"></a>
+                            <a href="go:cinder"><img src="https://image.tmdb.org/t/p/original/zqWF0q31AgZTPDlCEgQlMNopnHy.jpg" alt="Cinderella"></a>
+                            <a href="go:malefica"><img src="https://image.tmdb.org/t/p/original/brwFWg2jiK3cbfaE0reApXP51pX.jpg" alt="Maleficent"></a>
+                            <a href="go:malefica2"><img src="https://image.tmdb.org/t/p/original/cXOGXpfKSbUD6E3Qewsj4hKy9Jx.jpg" alt="Maleficent: Mistress of Evil"></a>
+                            <a href="Descendientes.html"><img src="https://image.tmdb.org/t/p/original/peyeQHwVZFvAnP1SRK12asjUnmt.jpg" alt="Descendants"></a>
+                            <a href="go:mal2"><img src="https://image.tmdb.org/t/p/original/hNCqAkuVrYinuh4MTwiXZr2WuNl.jpg" alt="Descendants 2"></a>
+                            <a href="go:mal3"><img src="https://image.tmdb.org/t/p/original/rQQS0L0lllQckG6yS2x0x1ydcTV.jpg" alt="Descendants 3"></a>
+                            <a href="go:mal4"><img src="https://image.tmdb.org/t/p/original/vnrHniqku460lvQw0fJz0q2aEjA.jpg" alt="Descendants 4"></a>
+                          </div>
+                        </div>
+                      </div>
+                      
+       
+<br><br><br>
+    
+    <footer class="footer">
+      <a href="../main.html" class="footer-icon">
+          <span class="material-icons-outlined">home</span>
+          <span class="material-icons">home</span>
+      </a>
+      <a href="go:favoritos" class="footer-icon">
+          <span class="material-icons-outlined">bookmark_border</span>
+          <span class="material-icons">bookmark</span>
+      </a>
+      <a href="go:busqueda" class="footer-icon">
+          <span class="material-icons-outlined">search</span>
+          <span class="material-icons">search</span>
+      </a>
+      <a href="go:perfil" class="footer-icon">
+          
+          <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+      </a>
+    </footer>
+
+    <script>
+
+        // Prevenir gestos táctiles no deseados
+   document.addEventListener('touchmove', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    const hero = document.querySelector('.hero');
+    const heroHorizontal = document.querySelector('.hero-horizontal');
+    const headerLogo = document.querySelector('.header-logo');
+    
+    // Obtener la cantidad de desplazamiento
+    const scrollPosition = window.scrollY;
+
+    // Ajustar el color de fondo del header según el desplazamiento
+    const opacity = Math.min(scrollPosition / 200, 1); // Aumenta la opacidad según el desplazamiento
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+
+    // Mostrar el logo en el header cuando el fondo se oscurezca
+    if (opacity > 0.5) {
+        headerLogo.style.opacity = '1'; // Mostrar el logo con transición suave
+    } else {
+        headerLogo.style.opacity = '0'; // Ocultar el logo con transición suave
+    }
+
+    // Oscurecer la imagen principal (hero) completamente según el desplazamiento
+    const filterIntensity = Math.min(scrollPosition / 400, 1); // Oscurecer completamente la imagen
+    hero.style.filter = `brightness(${1 - filterIntensity})`;
+
+    // Si estamos en modo horizontal, oscurecer más la imagen
+    if (window.innerHeight < window.innerWidth) { // Detectar si la pantalla está en modo horizontal
+        heroHorizontal.style.filter = `brightness(${1 - filterIntensity})`;
+    }
+});
+
+window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+      // Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Inuyasha</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/w500/47kGzUp9MyU4JuZzrHJPpX6ZHQ1.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/mVE1ULmLaYhCkBQPt3JC5xZC6T6.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Inuyasha</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/nwjy8l3YlOJr48YrtmgG6YTpK81.png" alt="Inuyasha Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;2 temporadas&nbsp;&nbsp;2000&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Inuyasha" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/4UTsdrPEV0NU9XeMsQ6OXdEPvXd.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="inuyasha.html"></a>
+          <span id="nombre">Inuyasha</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Kagome Higurashi es una joven moderna que vive con su familia en el antiguo santuario de Higure. Sin saberlo a Kagome, ella es la reencarnación de la sacerdotisa Kikyo.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Ranma ½.html">
+          <img src="https://image.tmdb.org/t/p/original/qb1R5iLZcjIgdDIfXFQXmJadQPI.jpg" alt="Ranma ½" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Oh! My Goddess.html">
+          <img src="https://image.tmdb.org/t/p/original/d5NGnOLHRrRtlxQHBfrbqzor98M.jpg" alt="Oh! My Goddess" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Oh! My Goddess</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="sakura card captor.html">
+          <img src="https://image.tmdb.org/t/p/w300/dj0uI34MOkZMTE233tfRebs0YYx.jpg" alt="Sakura Card Captor" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Sakura Card Captor</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Los Siete Pecados Capitales.html">
+          <img src="https://image.tmdb.org/t/p/original/yhmHgYvxj1Xez3q6pJKxQVFiP4S.jpg" alt="Los Siete Pecados Capitales " oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Siete Pecados Capitales </div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDU2ODEzOTRf/HDI-01%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Inuyasha</div>
+        <div class="subtitle" id="episodeSubtitle">"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "inuya-sha";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+      {
+  "title": "E1: La joven que cruzó la barrera del tiempo",
+  "meta": "13+ · 23m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sLKrB3v6HipRkGR7hiYXd2DYVec.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI0NjZf/1.%20La%20joven%20que%20cruz%C3%B3%20la%20barrera%20del%20tiempo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI0NjZf/1.%20La%20joven%20que%20cruz%C3%B3%20la%20barrera%20del%20tiempo.mp4",
+  "episodeCode": "T1 E1: La joven que cruzó la barrera del tiempo",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E2: Seres en busca de la perla de Shikón",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a1TG3Fi7WQb9RRNOvEFEBJWuEcf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI0ODJf/2.%20Seres%20en%20busca%20de%20la%20perla%20de%20las%20cuatro%20almas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI0ODJf/2.%20Seres%20en%20busca%20de%20la%20perla%20de%20las%20cuatro%20almas.mp4",
+  "episodeCode": "T1 E2: Seres en busca de la perla de Shikón",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E3: El regreso de Aome",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yGxM6D6hCELTs5xHjadM2LegYB4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI0OTZf/3.%20El%20regreso%20de%20Aome.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI0OTZf/3.%20El%20regreso%20de%20Aome.mp4",
+  "episodeCode": "T1 E3: El regreso de Aome",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E4: Yura, el demonio de los cabellos",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3CQBMW4OJKcTcF0deOHkekE28ij.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI1MjZf/4.%20Yura%2C%20el%20demonio%20de%20los%20cabellos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI1MjZf/4.%20Yura%2C%20el%20demonio%20de%20los%20cabellos.mp4",
+  "episodeCode": "T1 E4: Yura, el demonio de los cabellos",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E5: El malvado Sesshomaru",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vXpuHTDKpicEGa5vGadhdOmgRpg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI1NDNf/5.%20El%20malvado%20Sesshomaru.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI1NDNf/5.%20El%20malvado%20Sesshomaru.mp4",
+  "episodeCode": "T1 E5: El malvado Sesshomaru",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E6: La misteriosa espada, Colmillo de Acero",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1eOruSzf3nhW6SC69TXcOo5QSkZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI1NjVf/6.%20La%20misteriosa%20espada%20Colmillo%20de%20Acero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI1NjVf/6.%20La%20misteriosa%20espada%20Colmillo%20de%20Acero.mp4",
+  "episodeCode": "T1 E6: La misteriosa espada, Colmillo de Acero",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E7: Sesshomaru contra el Colmillo de Acero",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/UIFkyWyiq5qP4rooSCiZXW3Ifv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI1ODZf/7.%20Sesshomaru%20contra%20el%20Colmillo%20de%20Acero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI1ODZf/7.%20Sesshomaru%20contra%20el%20Colmillo%20de%20Acero.mp4",
+  "episodeCode": "T1 E7: Sesshomaru contra el Colmillo de Acero",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E8: El sapo Tsukumo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6ybkPHuefJgZC3ClZjDVCOag0Io.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI2MDRf/8.%20El%20sapo%20Tsukumo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI2MDRf/8.%20El%20sapo%20Tsukumo.mp4",
+  "episodeCode": "T1 E8: El sapo Tsukumo",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E9: El Pequeño Shippo y los hermanos Relámpago",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wIWA2Da18XUpgGLXfQXTOBGxSJs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI2MzFf/9.%20El%20Peque%C3%B1o%20Shippo%20y%20los%20hermanos%20rel%C3%A1mpago.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI2MzFf/9.%20El%20Peque%C3%B1o%20Shippo%20y%20los%20hermanos%20rel%C3%A1mpago.mp4",
+  "episodeCode": "T1 E9: El Pequeño Shippo y los hermanos Relámpago",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E10: La espada Relámpago contra el Colmillo de Acero",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/owtLYcgPk4ep6nYmclwQA9KKDIy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI2NDVf/10.%20La%20espada%20Rel%C3%A1mpago%20contra%20el%20Colmillo%20de%20Acero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI2NDVf/10.%20La%20espada%20Rel%C3%A1mpago%20contra%20el%20Colmillo%20de%20Acero.mp4",
+  "episodeCode": "T1 E10: La espada Relámpago contra el Colmillo de Acero",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 5, "end": 95 }
+},
+      
+{
+  "title": "E11: La máscara maldita",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fwANdoEYuUIaTTJexP86jwxzM1W.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI2NjBf/11.%20La%20m%C3%A1scara%20maldita.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI2NjBf/11.%20La%20m%C3%A1scara%20maldita.mp4",
+  "episodeCode": "T1 E11: La máscara maldita",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E12: Un espíritu perverso",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bybZzD2DOaLivjtG6Xm6qYKSLSP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI2Nzdf/12.%20Un%20esp%C3%ADritu%20perverso.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI2Nzdf/12.%20Un%20esp%C3%ADritu%20perverso.mp4",
+  "episodeCode": "T1 E12: Un espíritu perverso",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E13: El misterio de la Luna Nueva",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dZn9HJQx3gYwZbqYtpARFSowMgo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI2OTNf/13.%20El%20misterio%20de%20la%20Luna%20Nueva.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI2OTNf/13.%20El%20misterio%20de%20la%20Luna%20Nueva.mp4",
+  "episodeCode": "T1 E13: El misterio de la Luna Nueva",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E14: Los restos de Kikyo son robados",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gAWGpgcMPRNfnt9EDPLrEh85Ajs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI3MTVf/14.%20Los%20restos%20de%20Kikyo%20son%20robados.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI3MTVf/14.%20Los%20restos%20de%20Kikyo%20son%20robados.mp4",
+  "episodeCode": "T1 E14: Los restos de Kikyo son robados",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E15: Kikyo resucita",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/intNXPnMbUXprgkbFqcy1WKnWD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI3MzRf/15.%20Kikyo%20resucita.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI3MzRf/15.%20Kikyo%20resucita.mp4",
+  "episodeCode": "T1 E15: Kikyo resucita",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E16: Miroku, un monje muy peculiar",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oRObbWWy2VAKg69aBEqP4TfYKZJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI3NTZf/16.%20Miroku%2C%20un%20monje%20muy%20peculiar.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI3NTZf/16.%20Miroku%2C%20un%20monje%20muy%20peculiar.mp4",
+  "episodeCode": "T1 E16: Miroku, un monje muy peculiar",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E17: Un pintor del infierno",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xsqXTZHscXeHbiEHsUydHBAVzU0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI3ODRf/17.%20Un%20pintor%20del%20infierno.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI3ODRf/17.%20Un%20pintor%20del%20infierno.mp4",
+  "episodeCode": "T1 E17: Un pintor del infierno",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E18: Naraku y Sesshomaru se unen",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fQgWjbMM4wdUWJr1tsCJ4Rs68HH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4MTJf/18.%20Naraku%20y%20Sesshomaru%20se%20unen.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4MTJf/18.%20Naraku%20y%20Sesshomaru%20se%20unen.mp4",
+  "episodeCode": "T1 E18: Naraku y Sesshomaru se unen",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E19: Aome regresa a su época",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vxtJLL2QHY5WpT7PRd25PlocpZq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4NDdf/19.%20Aome%20regresa%20a%20su%20%C3%A9poca.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4NDdf/19.%20Aome%20regresa%20a%20su%20%C3%A9poca.mp4",
+  "episodeCode": "T1 E19: Aome regresa a su época",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E20: El misterio de Onigumo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mWzvEtzR0QtmGLrPdGifsVLeK4i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4NTFf/20.%20El%20misterio%20de%20Onigumo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4NTFf/20.%20El%20misterio%20de%20Onigumo.mp4",
+  "episodeCode": "T1 E20: El misterio de Onigumo",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E21: El secreto de Naraku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/Ad5H6fbAoCNkohcVuxBw6vkj8rw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4NTNf/21.%20El%20secreto%20de%20Naraku.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4NTNf/21.%20El%20secreto%20de%20Naraku.mp4",
+  "episodeCode": "T1 E21: El secreto de Naraku",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E22: Las almas de Kikyo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8qmbSYIzY57WQwzNhRhfqEMJ1P5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4NTlf/22.%20Una%20sonrisa%20perversa%3B%20el%20alma%20errante%20de%20Kikyo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4NTlf/22.%20Una%20sonrisa%20perversa%3B%20el%20alma%20errante%20de%20Kikyo.mp4",
+  "episodeCode": "T1 E22: Las almas de Kikyo",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E23: La voz de Aome y el beso de Kikyo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hJ8Dcf2Pidg8MdzLxvbEkUdp3bM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4Njdf/23.%20La%20voz%20de%20Aome%20y%20el%20beso%20de%20Kikyo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4Njdf/23.%20La%20voz%20de%20Aome%20y%20el%20beso%20de%20Kikyo.mp4",
+  "episodeCode": "T1 E23: La voz de Aome y el beso de Kikyo",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E24: La exterminadora de monstruos",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jQwjAyA0RhgDOfViFmcTcpRFfkN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4NzJf/24.%20La%20exterminadora%20de%20monstruos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4NzJf/24.%20La%20exterminadora%20de%20monstruos.mp4",
+  "episodeCode": "T1 E24: La exterminadora de monstruos",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E25: El engaño de Naraku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gRZVAqoycAEIVCGuZrKCjdW9QAS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4OTFf/25.%20El%20enga%C3%B1o%20de%20Naraku.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4OTFf/25.%20El%20enga%C3%B1o%20de%20Naraku.mp4",
+  "episodeCode": "T1 E25: El engaño de Naraku",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E26: El secreto de Shikón",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v7Eqj1zJtes2Xwevrtham9xRpnQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI4OTVf/26.%20El%20secreto%20de%20Shikon.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI4OTVf/26.%20El%20secreto%20de%20Shikon.mp4",
+  "episodeCode": "T1 E26: El secreto de Shikón",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E27: El espíritu maligno del agua",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lsbCjaZz7GuyWgj0hwgce6PNpPm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5MDFf/27.%20El%20esp%C3%ADritu%20maligno%20del%20agua.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5MDFf/27.%20El%20esp%C3%ADritu%20maligno%20del%20agua.mp4",
+  "episodeCode": "T1 E27: El espíritu maligno del agua",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E28: Miroku cae en una cruel trampa",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/Am1UHvKtosRt9U0A99ptUtjth39.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5MThf/28.%20Miroku%20cae%20en%20una%20cruel%20trampa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5MThf/28.%20Miroku%20cae%20en%20una%20cruel%20trampa.mp4",
+  "episodeCode": "T1 E28: Miroku cae en una cruel trampa",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E29: El sufrimiento de Sango y la vida de Kohaku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tPorVGTnIqwlfLo2aIttBYvoP6V.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5MzNf/29.%20El%20sufrimiento%20de%20Sango%20y%20la%20vida%20de%20Kohaku.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5MzNf/29.%20El%20sufrimiento%20de%20Sango%20y%20la%20vida%20de%20Kohaku.mp4",
+  "episodeCode": "T1 E29: El sufrimiento de Sango y la vida de Kohaku",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E30: El robo del Colmillo de Acero",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cGWdcmVgwve8Q3y0dEajszwHqnw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5NDdf/30.%20El%20robo%20del%20colmillo%20de%20acero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5NDdf/30.%20El%20robo%20del%20colmillo%20de%20acero.mp4",
+  "episodeCode": "T1 E30: El robo del Colmillo de Acero",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E31: Un monstruo amigable",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nrCR4U5HFNQ0fCEOd2roQ9CPrhG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5NjBf/31.%20Un%20monstruo%20amigable.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5NjBf/31.%20Un%20monstruo%20amigable.mp4",
+  "episodeCode": "T1 E31: Un monstruo amigable",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E32: Inuyasha y Kikyo quedan atrapados",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/riUzCQYppxaPHQiemD6EvGphIeT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5NzJf/32.%20Inuyasha%20y%20Kikyo%20quedan%20atrapados.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5NzJf/32.%20Inuyasha%20y%20Kikyo%20quedan%20atrapados.mp4",
+  "episodeCode": "T1 E32: Inuyasha y Kikyo quedan atrapados",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E33: Kikyo es secuestrada",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oYONUWixIFUSEAbFMdRrD6ssYV1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5Nzdf/33.%20Kikyo%20es%20secuestrada.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5Nzdf/33.%20Kikyo%20es%20secuestrada.mp4",
+  "episodeCode": "T1 E33: Kikyo es secuestrada",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E34: Colmillo de Acero y Colmillo Sagrado",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/24SVJ6wiuitXhGAHXQNP3bl63WV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTI5Nzlf/34.%20Colmillo%20de%20Acero%20y%20Colmillo%20Sagrado.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTI5Nzlf/34.%20Colmillo%20de%20Acero%20y%20Colmillo%20Sagrado.mp4",
+  "episodeCode": "T1 E34: Colmillo de Acero y Colmillo Sagrado",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E35: La espada elige a su verdadero dueño",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z8JIG1o9uSIaFVHQK7JXtDsttp8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDQ3MDlf/035.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDQ3MDlf/035.mp4",
+  "episodeCode": "T1 E35: La espada elige a su verdadero dueño",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E36: Koga, el veloz",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mArTaDAlrmVBPFUG5H5aqgqiaD2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDQ3MTVf/036.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDQ3MTVf/036.mp4",
+  "episodeCode": "T1 E36: Koga, el veloz",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E37: El chico que se enamoró de Aome",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tVXJNupuC7UJC38WdUK6vgaOSNU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDQ3MjJf/037.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDQ3MjJf/037.mp4",
+  "episodeCode": "T1 E37: El chico que se enamoró de Aome",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E38: Un sentimiento compartido",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/34my7kHrqj4vyXMpai5nVgCRMcp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDQ3MjRf/038.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDQ3MjRf/038.mp4",
+  "episodeCode": "T1 E38: Un sentimiento compartido",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E39: Un combate arreglado",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z96E40UrI6jJRIMqq5hGoSvmNO7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDQ3MjVf/039.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDQ3MjVf/039.mp4",
+  "episodeCode": "T1 E39: Un combate arreglado",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E40: Kagura, el espíritu de los vientos",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lKSkDfO01PyGaHZvjPiPbsecW55.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDQ3MjZf/040.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDQ3MjZf/040.mp4",
+  "episodeCode": "T1 E40: Kagura, el espíritu de los vientos",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E41: La danza de Kagura y el espejo de Kanna",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6aYRzcSM4aR05vJaLD0fdzHvP3U.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU1ODJf/41.%20La%20danza%20de%20Kagura%20y%20el%20espejo%20de%20Kanna.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU1ODJf/41.%20La%20danza%20de%20Kagura%20y%20el%20espejo%20de%20Kanna.mp4",
+  "episodeCode": "T1 E41: La danza de Kagura y el espejo de Kanna",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E42: El viento cortante es vencido",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/u3tcKiG1pDit0dvBMnOzGsoxmpi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU2MTNf/42.%20El%20viento%20cortante%20es%20vencido.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU2MTNf/42.%20El%20viento%20cortante%20es%20vencido.mp4",
+  "episodeCode": "T1 E42: El viento cortante es vencido",
+  "hiddenCode": "T1 E42",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E43: Colmillo de Acero se rompe",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AaGPFiWYnGGPLvLRQqgnQq6pVp4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU2Mzhf/43.%20Colmillo%20de%20Acero%20se%20rompe.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU2Mzhf/43.%20Colmillo%20de%20Acero%20se%20rompe.mp4",
+  "episodeCode": "T1 E43: Colmillo de Acero se rompe",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E44: La espada maligna de Kaijinbo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cq5pUs7oxdHbORHJuip4Lr6Egmv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU2NzVf/44.%20La%20espada%20maligna%20de%20Kaijinbo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU2NzVf/44.%20La%20espada%20maligna%20de%20Kaijinbo.mp4",
+  "episodeCode": "T1 E44: La espada maligna de Kaijinbo",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E45: Sesshomaru se apodera de Tokijin",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qjeM8PdBd4vsIcdNNQ2KBa06lgI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU2OTBf/45.%20Sesshomaru%20se%20apodera%20de%20Tokijin.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU2OTBf/45.%20Sesshomaru%20se%20apodera%20de%20Tokijin.mp4",
+  "episodeCode": "T1 E45: Sesshomaru se apodera de Tokijin",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E46: Juromaru y Kageromaru",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/s2nwksYgWTobRq3jioUJsNYWQSq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU3MDNf/46.%20J%C5%ABr%C5%8Dmaru%20y%20Kager%C5%8Dmaru.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU3MDNf/46.%20J%C5%ABr%C5%8Dmaru%20y%20Kager%C5%8Dmaru.mp4",
+  "episodeCode": "T1 E46: Juromaru y Kageromaru",
+  "hiddenCode": "T1 E46",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E47: El corazón de Onigumo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/27tXN3oMISKkBeB1AsGYE48sBGZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU3MjNf/47.%20El%20coraz%C3%B3n%20de%20Onigumo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU3MjNf/47.%20El%20coraz%C3%B3n%20de%20Onigumo.mp4",
+  "episodeCode": "T1 E47: El corazón de Onigumo",
+  "hiddenCode": "T1 E47",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E48: El lugar en donde nos conocimos",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pHnk3EsS6h72pyWx4OCPFso5rmD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU3MzNf/48.%20El%20lugar%20en%20donde%20nos%20conocimos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU3MzNf/48.%20El%20lugar%20en%20donde%20nos%20conocimos.mp4",
+  "episodeCode": "T1 E48: El lugar en donde nos conocimos",
+  "hiddenCode": "T1 E48",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E49: Kohaku pierde la memoria",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jONAMKAi1LCpWmiZp49YGKwJu7A.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU3NDFf/49.%20Kohaku%20pierde%20la%20memoria.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU3NDFf/49.%20Kohaku%20pierde%20la%20memoria.mp4",
+  "episodeCode": "T1 E49: Kohaku pierde la memoria",
+  "hiddenCode": "T1 E49",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E50: El rostro de Kohaku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2qmrqMIdS94PBfeAsIr6kFYErLM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU3NTRf/50.%20El%20rostro%20de%20Kohaku.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU3NTRf/50.%20El%20rostro%20de%20Kohaku.mp4",
+  "episodeCode": "T1 E50: El rostro de Kohaku",
+  "hiddenCode": "T1 E50",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+    "title": "E51: InuYasha pierde el control",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fAdP0PkcufwQVo4aiUdagJ4Km0F.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU3NjVf/51.%20Pierde%20el%20control.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU3NjVf/51.%20Pierde%20el%20control.mp4",
+    "episodeCode": "T1 E51: InuYasha pierde el control",
+    "hiddenCode": "T1 E51",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E52: El instinto de bestia no se detiene",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hvTwvHSIwR5oTpfOOzNRawztTRC.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU3NzZf/52.%20El%20instinto%20de%20bestia%20no%20se%20detiene.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU3NzZf/52.%20El%20instinto%20de%20bestia%20no%20se%20detiene.mp4",
+    "episodeCode": "T1 E52: El instinto de bestia no se detiene",
+    "hiddenCode": "T1 E52",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E53: El enemigo de mi padre: el Espíritu Dragón",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/2TzqlbmJxdqCZUexNOcKt9FcEEk.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU3OTFf/53.%20El%20enemigo%20de%20mi%20padre%20el%20Esp%C3%ADritu%20Drag%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU3OTFf/53.%20El%20enemigo%20de%20mi%20padre%20el%20Esp%C3%ADritu%20Drag%C3%B3n.mp4",
+    "episodeCode": "T1 E53: El enemigo de mi padre: el Espíritu Dragón",
+    "hiddenCode": "T1 E53",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E54: La técnica secreta de Colmillo de Acero: Bakuryuha",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8L0GrzqAOzaPU73iUAwUP78IYBT.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4MDRf/54.%20La%20t%C3%A9cnica%20secreta%20de%20Colmillo%20de%20Acero%2C%20Bakuryuha.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4MDRf/54.%20La%20t%C3%A9cnica%20secreta%20de%20Colmillo%20de%20Acero%2C%20Bakuryuha.mp4",
+    "episodeCode": "T1 E54: La técnica secreta de Colmillo de Acero: Bakuryuha",
+    "hiddenCode": "T1 E54",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E55: El primer amor de Shippo",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jkPcngh5Ox01FwXTs7LjWMCj7r4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4MTlf/55.%20El%20primer%20amor%20de%20Shippo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4MTlf/55.%20El%20primer%20amor%20de%20Shippo.mp4",
+    "episodeCode": "T1 E55: El primer amor de Shippo",
+    "hiddenCode": "T1 E55",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E56: La invitación misteriosa de una princesa",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fr8ys9MKBjWEzLWMMLpksdSv6B3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4MjZf/56.%20La%20invitaci%C3%B3n%20misteriosa%20de%20una%20princesa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4MjZf/56.%20La%20invitaci%C3%B3n%20misteriosa%20de%20una%20princesa.mp4",
+    "episodeCode": "T1 E56: La invitación misteriosa de una princesa",
+    "hiddenCode": "T1 E56",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E57: Una noche en un paraíso extraño (1ª parte)",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nw0VlgcwvyxA6BaGbjBtn85OOe0.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4Mzdf/57.%20Una%20noche%20en%20un%20para%C3%ADso%20extra%C3%B1o%20%281%C2%BA%20parte%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4Mzdf/57.%20Una%20noche%20en%20un%20para%C3%ADso%20extra%C3%B1o%20%281%C2%BA%20parte%29.mp4",
+    "episodeCode": "T1 E57: Una noche en un paraíso extraño (1ª parte)",
+    "hiddenCode": "T1 E57",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E58: Una noche en un paraíso extraño (2ª parte)",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jt05LdVFggC1MEBhS8lqYDVdcam.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4NDdf/58.%20Una%20noche%20en%20un%20para%C3%ADso%20extra%C3%B1o%20%282%C2%BA%20parte%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4NDdf/58.%20Una%20noche%20en%20un%20para%C3%ADso%20extra%C3%B1o%20%282%C2%BA%20parte%29.mp4",
+    "episodeCode": "T1 E58: Una noche en un paraíso extraño (2ª parte)",
+    "hiddenCode": "T1 E58",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E59: Las niñas discípulas",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oPukwG4t41507wSoMxTKl0gDBj.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4NTVf/59.%20Las%20ni%C3%B1as%20disc%C3%ADpulas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4NTVf/59.%20Las%20ni%C3%B1as%20disc%C3%ADpulas.mp4",
+    "episodeCode": "T1 E59: Las niñas discípulas",
+    "hiddenCode": "T1 E59",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E60: Tsubaki, la sacerdotisa mala",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4geGlQKALEVyukqVoAlOELWGtdL.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTU4NjZf/60.%20Tsubaki%2C%20la%20sacerdotisa%20mala.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTU4NjZf/60.%20Tsubaki%2C%20la%20sacerdotisa%20mala.mp4",
+    "episodeCode": "T1 E60: Tsubaki, la sacerdotisa mala",
+    "hiddenCode": "T1 E60",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+  "title": "E61: Kikyo reaparece",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7oeBTsJbup1ASI551kjd1ardMhH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU4NzJf/61.%20Kikyo%20reaparece.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU4NzJf/61.%20Kikyo%20reaparece.mp4",
+  "episodeCode": "T1 E61: Kikyo reaparece",
+  "hiddenCode": "T1 E61",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E62: La cruel maldición de Tsubaki",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eR7EC23LLq939ZsqIxp9lGmyJkH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU4Nzdf/62.%20La%20cruel%20maldici%C3%B3n%20de%20Tsubaki.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU4Nzdf/62.%20La%20cruel%20maldici%C3%B3n%20de%20Tsubaki.mp4",
+  "episodeCode": "T1 E62: La cruel maldición de Tsubaki",
+  "hiddenCode": "T1 E62",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E63: Unas aprendices inocentes",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r2EUijojQEDknvuEUqIBSqmHRb7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU4ODJf/63.%20Unas%20aprendices%20inocentes.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU4ODJf/63.%20Unas%20aprendices%20inocentes.mp4",
+  "episodeCode": "T1 E63: Unas aprendices inocentes",
+  "hiddenCode": "T1 E63",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E64: El demonio de la pagoda",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1BwLk7Dhbph0ZcIRsciKO3YrDDV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU4ODZf/64.%20El%20demonio%20de%20la%20pagoda.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU4ODZf/64.%20El%20demonio%20de%20la%20pagoda.mp4",
+  "episodeCode": "T1 E64: El demonio de la pagoda",
+  "hiddenCode": "T1 E64",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E65: Adiós a mi hermosa juventud",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iD7Ro0DiWj4GZuConZ97OJakHaM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU5ODRf/65.%20Adi%C3%B3s%20a%20mi%20hermosa%20juventud.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU5ODRf/65.%20Adi%C3%B3s%20a%20mi%20hermosa%20juventud.mp4",
+  "episodeCode": "T1 E65: Adiós a mi hermosa juventud",
+  "hiddenCode": "T1 E65",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E66: La decisión de Kagura",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tdk8wC5PZoEVebFWraIxJULrjPS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU5ODdf/66.%20La%20decisi%C3%B3n%20de%20Kagura.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU5ODdf/66.%20La%20decisi%C3%B3n%20de%20Kagura.mp4",
+  "episodeCode": "T1 E66: La decisión de Kagura",
+  "hiddenCode": "T1 E66",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E67: El viento de la traición se desata",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qQpkfblRVN8MqyQPGdBt3gpueYn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTU5OTZf/67.%20El%20viento%20de%20la%20traici%C3%B3n%20se%20desata.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTU5OTZf/67.%20El%20viento%20de%20la%20traici%C3%B3n%20se%20desata.mp4",
+  "episodeCode": "T1 E67: El viento de la traición se desata",
+  "hiddenCode": "T1 E67",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E68: El desafío de Shippo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sWRYl3UYYaJzwk9u0T8bqNqbjg5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwMDNf/68.%20El%20desaf%C3%ADo%20de%20Shippo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMDNf/68.%20El%20desaf%C3%ADo%20de%20Shippo.mp4",
+  "episodeCode": "T1 E68: El desafío de Shippo",
+  "hiddenCode": "T1 E68",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E69: El temible hombre sin rostro",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lcgs29hptXeyxeASvbpqkAxssdJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwMTJf/69.%20El%20temible%20hombre%20sin%20rostro.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMTJf/69.%20El%20temible%20hombre%20sin%20rostro.mp4",
+  "episodeCode": "T1 E69: El temible hombre sin rostro",
+  "hiddenCode": "T1 E69",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E70: Los recuerdos de Onigumo son recuperados",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qSWsysWnpvoG07t3ldnjHckdNn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwMTZf/70.%20Los%20recuerdos%20de%20Onigumo%20son%20recuperados.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMTZf/70.%20Los%20recuerdos%20de%20Onigumo%20son%20recuperados.mp4",
+  "episodeCode": "T1 E70: Los recuerdos de Onigumo son recuperados",
+  "hiddenCode": "T1 E70",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E71: Un combate mortal",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1kKbTUDsx043fFIAyDRv18zFidX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwMjBf/71.%20Un%20combate%20mortal.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMjBf/71.%20Un%20combate%20mortal.mp4",
+  "episodeCode": "T1 E71: Un combate mortal",
+  "hiddenCode": "T1 E71",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E72: El entrenamiento de Totosai",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6xDpTpOPD1Q0GITuH3BfXoBjOva.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwMjRf/72.%20El%20entrenamiento%20de%20Totosai.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMjRf/72.%20El%20entrenamiento%20de%20Totosai.mp4",
+  "episodeCode": "T1 E72: El entrenamiento de Totosai",
+  "hiddenCode": "T1 E72",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E73: Los hombres murciélago",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pV5BKadH6MjVbY5bEDHNDdXQoo2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwMjlf/73.%20Los%20hombres%20murci%C3%A9lago.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwMjlf/73.%20Los%20hombres%20murci%C3%A9lago.mp4",
+  "episodeCode": "T1 E73: Los hombres murciélago",
+  "hiddenCode": "T1 E73",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E74: Colmillo de Acero destruye el campo de energía",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k5buJ8V98mGmtUe8UOD7iZVOO1u.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwNDZf/74.%20Colmillo%20de%20Acero%20destruye%20el%20campo%20de%20energ%C3%ADa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwNDZf/74.%20Colmillo%20de%20Acero%20destruye%20el%20campo%20de%20energ%C3%ADa.mp4",
+  "episodeCode": "T1 E74: Colmillo de Acero destruye el campo de energía",
+  "hiddenCode": "T1 E74",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E75: El complot de los gatos leopardo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n90j7Z3JbsPCk6810GIRirBQcDX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYwODhf/75.%20El%20complot%20de%20los%20gatos%20leopardo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYwODhf/75.%20El%20complot%20de%20los%20gatos%20leopardo.mp4",
+  "episodeCode": "T1 E75: El complot de los gatos leopardo",
+  "hiddenCode": "T1 E75",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E76: InuYasha y Sesshomaru: un blanco fácil",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9FIKOKfUAhqGSRBspwL7CzBod84.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYxMDhf/76.%20Inuyasha%20y%20Sesshomaru%20un%20blanco%20f%C3%A1cil.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYxMDhf/76.%20Inuyasha%20y%20Sesshomaru%20un%20blanco%20f%C3%A1cil.mp4",
+  "episodeCode": "T1 E76: InuYasha y Sesshomaru: un blanco fácil",
+  "hiddenCode": "T1 E76",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E77: Los gatos leopardo contra las dos espadas Colmillo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tK2c94mjhaDQNF4xCLZKKQItyPH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYxMTJf/77.%20Los%20gatos%20leopardo%20contra%20las%20dos%20espadas%20colmillo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYxMTJf/77.%20Los%20gatos%20leopardo%20contra%20las%20dos%20espadas%20colmillo.mp4",
+  "episodeCode": "T1 E77: Los gatos leopardo contra las dos espadas Colmillo",
+  "hiddenCode": "T1 E77",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E78: Solamente tú y yo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jlVII2XeVpLsLYgtywXIctYD90Q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYxMjJf/78.%20Solamente%20t%C3%BA%20y%20yo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYxMjJf/78.%20Solamente%20t%C3%BA%20y%20yo.mp4",
+  "episodeCode": "T1 E78: Solamente tú y yo",
+  "hiddenCode": "T1 E78",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E79: Jaken intenta robar a Colmillo de Acero",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AayMtvyUjubykn6zI0aqmn7HwQL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYxMzBf/79.%20Jaken%20intenta%20robar%20a%20Colmillo%20de%20Acero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYxMzBf/79.%20Jaken%20intenta%20robar%20a%20Colmillo%20de%20Acero.mp4",
+  "episodeCode": "T1 E79: Jaken intenta robar a Colmillo de Acero",
+  "hiddenCode": "T1 E79",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E80: Lin es secuestrada",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5CGvTMML7vXZLzOC0l38qHuUhEn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYxNjdf/80.%20Rin%20es%20secuestrada.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYxNjdf/80.%20Rin%20es%20secuestrada.mp4",
+  "episodeCode": "T1 E80: Lin es secuestrada",
+  "hiddenCode": "T1 E80",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+    "title": "E81: Naraku desaparece",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hr7TW2Au7Mq2Wbghmr5RsAToly7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYxNzVf/81.%20Naraku%20desaparece.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYxNzVf/81.%20Naraku%20desaparece.mp4",
+    "episodeCode": "T1 E81: Naraku desaparece",
+    "hiddenCode": "T1 E81",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E82: Conexión de la época actual con la antigua",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lCg2LyErPQkEST52r7LCApi2Huq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYxODNf/82.%20Conexi%C3%B3n%20de%20la%20%C3%A9poca%20actual%20con%20la%20antigua.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYxODNf/82.%20Conexi%C3%B3n%20de%20la%20%C3%A9poca%20actual%20con%20la%20antigua.mp4",
+    "episodeCode": "T1 E82: Conexión de la época actual con la antigua",
+    "hiddenCode": "T1 E82",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E83: La promesa debajo del arcoíris lunar",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uEzeNHGmf4reAe1qPNQcWYIM5aV.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYxOTRf/83.%20La%20promesa%20debajo%20del%20arco%C3%ADris%20lunar.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYxOTRf/83.%20La%20promesa%20debajo%20del%20arco%C3%ADris%20lunar.mp4",
+    "episodeCode": "T1 E83: La promesa debajo del arcoíris lunar",
+    "hiddenCode": "T1 E83",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E84: La novia de Koga, el lobo veloz",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/josEPlLlESlyM0oWzjq6NCSmKnB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyMDdf/84.%20La%20novia%20de%20Koga%20el%20lobo%20veloz.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyMDdf/84.%20La%20novia%20de%20Koga%20el%20lobo%20veloz.mp4",
+    "episodeCode": "T1 E84: La novia de Koga, el lobo veloz",
+    "hiddenCode": "T1 E84",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E85: La cabeza del ogro",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hPr3tZXEYyFvFQi39Eca1CXLkjQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyMTJf/85.%20La%20cabeza%20del%20ogro.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyMTJf/85.%20La%20cabeza%20del%20ogro.mp4",
+    "episodeCode": "T1 E85: La cabeza del ogro",
+    "hiddenCode": "T1 E85",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E86: El refugio del ogro",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dfjPj7JqTtEKhOxv6Wgnq3NiJbS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyMjVf/86.%20El%20refugio%20del%20ogro.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyMjVf/86.%20El%20refugio%20del%20ogro.mp4",
+    "episodeCode": "T1 E86: El refugio del ogro",
+    "hiddenCode": "T1 E86",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E87: Kikyo y el viajero solitario",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jpzYHEd9fmEcmFSuyncvvJb7zvF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyMzVf/87.%20Kikyo%20y%20el%20viajero%20solitario.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyMzVf/87.%20Kikyo%20y%20el%20viajero%20solitario.mp4",
+    "episodeCode": "T1 E87: Kikyo y el viajero solitario",
+    "hiddenCode": "T1 E87",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E88: Los tres guardianes del dios Mono",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pamntCbmcB9kmXW9AyJ5IUzmhog.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyNDVf/88.%20Los%20tres%20guardianes%20del%20dios%20Mono.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyNDVf/88.%20Los%20tres%20guardianes%20del%20dios%20Mono.mp4",
+    "episodeCode": "T1 E88: Los tres guardianes del dios Mono",
+    "hiddenCode": "T1 E88",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E89: Una competencia de remedios medicinales",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mxs9J7XPdUlWXbu4sG1ghvMQIko.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyNThf/89.%20Una%20competencia%20de%20remedios%20medicinales.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyNThf/89.%20Una%20competencia%20de%20remedios%20medicinales.mp4",
+    "episodeCode": "T1 E89: Una competencia de remedios medicinales",
+    "hiddenCode": "T1 E89",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+    "title": "E90: La confesión de Sota",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8vLBmdsmcKemgL0EhsPyamTDMnR.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MTYyNjhf/90.%20La%20confesi%C3%B3n%20de%20Sota.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MTYyNjhf/90.%20La%20confesi%C3%B3n%20de%20Sota.mp4",
+    "episodeCode": "T1 E90: La confesión de Sota",
+    "hiddenCode": "T1 E90",
+    "intro": { "start": 5, "end": 95 }
+  },
+  {
+  "title": "E91: Una Kirara maligna y un adivino sospechoso",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5pQkqzBsFejO9poywUmmWzyViBn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYyODBf/91.%20Una%20Kirara%20maligna%20y%20un%20adivino%20sospechoso.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYyODBf/91.%20Una%20Kirara%20maligna%20y%20un%20adivino%20sospechoso.mp4",
+  "episodeCode": "T1 E91: Una Kirara maligna y un adivino sospechoso",
+  "hiddenCode": "T1 E91",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E92: La ambición de los resucitados",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cUT1WmOay58xywXHwypBKYQFfIp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYyOTNf/92.%20La%20ambici%C3%B3n%20de%20los%20resucitados.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYyOTNf/92.%20La%20ambici%C3%B3n%20de%20los%20resucitados.mp4",
+  "episodeCode": "T1 E92: La ambición de los resucitados",
+  "hiddenCode": "T1 E92",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E93: Un misterioso monje aparece",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lVrgg5j2BpzY2G5wHrljJcHHgw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYzMDJf/93.%20Un%20misterioso%20monje%20aparece.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYzMDJf/93.%20Un%20misterioso%20monje%20aparece.mp4",
+  "episodeCode": "T1 E93: Un misterioso monje aparece",
+  "hiddenCode": "T1 E93",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E94: El creador de la Perla de Shikón (1ª parte)",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mDbsDoaQvtJtzJeQmgZ6YGZeQll.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYzMTVf/94.%20El%20creador%20de%20la%20perla%20de%20Shikon%20%281%C2%AA%20parte%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYzMTVf/94.%20El%20creador%20de%20la%20perla%20de%20Shikon%20%281%C2%AA%20parte%29.mp4",
+  "episodeCode": "T1 E94: El creador de la Perla de Shikón (1ª parte)",
+  "hiddenCode": "T1 E94",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E95: El creador de la Perla de Shikón (2ª parte)",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nyRVbh9tBLJ2NAU8GyXD3e35RPR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MTYzMzBf/95.%20El%20creador%20de%20la%20perla%20de%20Shikon%20%282%C2%AA%20parte%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTYzMzBf/95.%20El%20creador%20de%20la%20perla%20de%20Shikon%20%282%C2%AA%20parte%29.mp4",
+  "episodeCode": "T1 E95: El creador de la Perla de Shikón (2ª parte)",
+  "hiddenCode": "T1 E95",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E96: Jaken se envenena",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wCZ8Ni0hSfvuZNT2Ue6Msiibddy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjM5OTZf/96.%20Jaken%20se%20envenena.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjM5OTZf/96.%20Jaken%20se%20envenena.mp4",
+  "episodeCode": "T1 E96: Jaken se envenena",
+  "hiddenCode": "T1 E96",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E97: Kirara no regresa",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zezwpBL0omASQYAz04GNLH9YH7k.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwMDhf/97.%20Kirara%20no%20regresa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwMDhf/97.%20Kirara%20no%20regresa.mp4",
+  "episodeCode": "T1 E97: Kirara no regresa",
+  "hiddenCode": "T1 E97",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E98: Aome y Kikyo quedan atrapadas",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q0EWCBzccwGLlU5HxBIjaKpIy7m.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwMTlf/98.%20Aome%20y%20Kikyo%20quedan%20atrapadas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwMTlf/98.%20Aome%20y%20Kikyo%20quedan%20atrapadas.mp4",
+  "episodeCode": "T1 E98: Aome y Kikyo quedan atrapadas",
+  "hiddenCode": "T1 E98",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E99: Koga y Sesshomaru: un enfrentamiento peligroso",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1MN5xVLnHcQNHW5JzlU6S36vq2v.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwMzJf/99.%20Koga%20y%20Sesshomaru%20un%20enfrentamiento%20peligroso.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwMzJf/99.%20Koga%20y%20Sesshomaru%20un%20enfrentamiento%20peligroso.mp4",
+  "episodeCode": "T1 E99: Koga y Sesshomaru: un enfrentamiento peligroso",
+  "hiddenCode": "T1 E99",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E100: La batalla en el bosque de los lamentos",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kDjOAUO2YQKLrkrTWIx2aCXpuml.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwNDZf/100.%20La%20batalla%20en%20el%20bosque%20de%20los%20lamentos.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwNDZf/100.%20La%20batalla%20en%20el%20bosque%20de%20los%20lamentos.mp4",
+  "episodeCode": "T1 E100: La batalla en el bosque de los lamentos",
+  "hiddenCode": "T1 E100",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E101: El recuerdo de una tormenta",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/peKj8gWz2cnn6oaLqsrIH4PwroL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwNjBf/101.%20El%20recuerdo%20de%20una%20tormenta.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwNjBf/101.%20El%20recuerdo%20de%20una%20tormenta.mp4",
+  "episodeCode": "T1 E101: El recuerdo de una tormenta",
+  "hiddenCode": "T1 E101",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E102: El espíritu que atacó al clan lobo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nlChBwVOwLYa8uZIVYV4To6yNWq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwNzRf/102.%20El%20esp%C3%ADritu%20que%20atac%C3%B3%20al%20clan%20lobo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwNzRf/102.%20El%20esp%C3%ADritu%20que%20atac%C3%B3%20al%20clan%20lobo.mp4",
+  "episodeCode": "T1 E102: El espíritu que atacó al clan lobo",
+  "hiddenCode": "T1 E102",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E103: Los siete espíritus guerreros resucitan",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/davsAVwRgFr6I5ikrpx4XYnYGVr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQwOThf/103.%20Los%20siete%20esp%C3%ADritus%20guerreros%20resucitan.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQwOThf/103.%20Los%20siete%20esp%C3%ADritus%20guerreros%20resucitan.mp4",
+  "episodeCode": "T1 E103: Los siete espíritus guerreros resucitan",
+  "hiddenCode": "T1 E103",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E104: El espíritu del veneno",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cmGjMrzhZaZRCXmZi3Ky64CjW4L.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQxMTBf/104.%20El%20esp%C3%ADritu%20del%20veneno.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQxMTBf/104.%20El%20esp%C3%ADritu%20del%20veneno.mp4",
+  "episodeCode": "T1 E104: El espíritu del veneno",
+  "hiddenCode": "T1 E104",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E105: Un guerrero con armadura de acero",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hf389x1daG2QFIpoPMyBE00zQZz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQxMjRf/105.%20Un%20guerrero%20con%20armadura%20de%20acero.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQxMjRf/105.%20Un%20guerrero%20con%20armadura%20de%20acero.mp4",
+  "episodeCode": "T1 E105: Un guerrero con armadura de acero",
+  "hiddenCode": "T1 E105",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E106: Perdidos bajo las llamas",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/azjwfF1f1BxFnl02ZLcAX4oRG81.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQxMzlf/106.%20Perdidos%20bajo%20las%20llamas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQxMzlf/106.%20Perdidos%20bajo%20las%20llamas.mp4",
+  "episodeCode": "T1 E106: Perdidos bajo las llamas",
+  "hiddenCode": "T1 E106",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E107: InuYasha llora por primera vez",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cyIkvRDe38q21eiXPMZxSIphO7M.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQxNjJf/107.%20InuYasha%20llora%20por%20primera%20vez.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQxNjJf/107.%20InuYasha%20llora%20por%20primera%20vez.mp4",
+  "episodeCode": "T1 E107: InuYasha llora por primera vez",
+  "hiddenCode": "T1 E107",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E108: El secreto del resplandor puro",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8yLyDTK2ie7kUrHB2zMf1MD4cTB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQxNzhf/108.%20El%20secreto%20del%20resplandor%20puro.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQxNzhf/108.%20El%20secreto%20del%20resplandor%20puro.mp4",
+  "episodeCode": "T1 E108: El secreto del resplandor puro",
+  "hiddenCode": "T1 E108",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E109: El Monte de las Ánimas",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/coG3nId48QJTHwEYnuH5sINgmVD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQxOTJf/109.%20El%20monte%20de%20las%20%C3%A1nimas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQxOTJf/109.%20El%20monte%20de%20las%20%C3%A1nimas.mp4",
+  "episodeCode": "T1 E109: El Monte de las Ánimas",
+  "hiddenCode": "T1 E109",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E110: Bankotsu, el líder de los siete guerreros",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/crQoKCKtCGIdcS3VIiUujfTffQX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQyMTFf/110.%20Bankotsu%2C%20el%20l%C3%ADder%20de%20los%20siete%20guerreros.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQyMTFf/110.%20Bankotsu%2C%20el%20l%C3%ADder%20de%20los%20siete%20guerreros.mp4",
+  "episodeCode": "T1 E110: Bankotsu, el líder de los siete guerreros",
+  "hiddenCode": "T1 E110",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+    "title": "E111: Banryu contra Colmillo de Acero",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/sDj9doMk7BkQhb8avIcBsVOsYTS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQyNDBf/111.%20Banryu%20contra%20Colmillo%20de%20Acero.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQyNDBf/111.%20Banryu%20contra%20Colmillo%20de%20Acero.mp4",
+    "episodeCode": "T1 E111: Banryu contra Colmillo de Acero",
+    "hiddenCode": "T1 E111",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E112: El campo de energía de la isla Hijiri",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lgmVN3Jvwt2LaE0exTrtDZi3Z0t.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQyNjBf/112.%20El%20campo%20de%20energ%C3%ADa%20de%20la%20isla%20Hijiri.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQyNjBf/112.%20El%20campo%20de%20energ%C3%ADa%20de%20la%20isla%20Hijiri.mp4",
+    "episodeCode": "T1 E112: El campo de energía de la isla Hijiri",
+    "hiddenCode": "T1 E112",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E113: El misterioso artefacto",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/72e8lNhojP2zOmHz9UQ7JkW1Stb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQyNzJf/113.%20El%20misterioso%20artefacto.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQyNzJf/113.%20El%20misterioso%20artefacto.mp4",
+    "episodeCode": "T1 E113: El misterioso artefacto",
+    "hiddenCode": "T1 E113",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E114: El arriesgado combate de Koga",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/826K654JY9sIQ97g0uzZKJYbBPr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQyOTFf/114.%20El%20arriesgado%20combate%20de%20Koga.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQyOTFf/114.%20El%20arriesgado%20combate%20de%20Koga.mp4",
+    "episodeCode": "T1 E114: El arriesgado combate de Koga",
+    "hiddenCode": "T1 E114",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E115: Dominado por el resplandor negro",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jbhoKgrALY0cLUcARlXnsGAWZbg.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQzMTNf/115.%20Dominado%20por%20el%20resplandor%20negro.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQzMTNf/115.%20Dominado%20por%20el%20resplandor%20negro.mp4",
+    "episodeCode": "T1 E115: Dominado por el resplandor negro",
+    "hiddenCode": "T1 E115",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E116: El verdadero rostro de Suikotsu",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ca1qqd9x0KUl3wtCEHTrudD74WS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQzMzZf/116.%20El%20verdadero%20rostro%20de%20Suikotsu.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQzMzZf/116.%20El%20verdadero%20rostro%20de%20Suikotsu.mp4",
+    "episodeCode": "T1 E116: El verdadero rostro de Suikotsu",
+    "hiddenCode": "T1 E116",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E117: InuYasha desaparece en un río de fuego",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pc2niQclro4MAWTbYoXrJPY9Ns0.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQzNTVf/117.%20Desaparece%20en%20un%20r%C3%ADo%20de%20fuego.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQzNTVf/117.%20Desaparece%20en%20un%20r%C3%ADo%20de%20fuego.mp4",
+    "episodeCode": "T1 E117: InuYasha desaparece en un río de fuego",
+    "hiddenCode": "T1 E117",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E118: En el fondo del Monte de las Ánimas",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fs1DGeocyn3FYxm489taoaKN8GA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQzNjVf/118.%20En%20el%20fondo%20del%20monte%20de%20las%20%C3%A1nimas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQzNjVf/118.%20En%20el%20fondo%20del%20monte%20de%20las%20%C3%A1nimas.mp4",
+    "episodeCode": "T1 E118: En el fondo del Monte de las Ánimas",
+    "hiddenCode": "T1 E118",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E119: Una figura maligna",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6cUvvi5zMxqB8QUiBH73fRIPwT8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQzODBf/119.%20Una%20figura%20maligna.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQzODBf/119.%20Una%20figura%20maligna.mp4",
+    "episodeCode": "T1 E119: Una figura maligna",
+    "hiddenCode": "T1 E119",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E120: La caída de Jakotsu",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cSEeX63RK1BgbUkB7PviZLIWYAo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjQzOTBf/120.%20La%20ca%C3%ADda%20de%20Jakotsu.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjQzOTBf/120.%20La%20ca%C3%ADda%20de%20Jakotsu.mp4",
+    "episodeCode": "T1 E120: La caída de Jakotsu",
+    "hiddenCode": "T1 E120",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+  "title": "E121: El más fuerte y el último de los siete guerreros",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qQFA2yIfUvc1vyAMwkip0m1GJLX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0MDJf/121.%20El%20m%C3%A1s%20fuerte%20y%20el%20%C3%BAltimo%20de%20los%20siete%20guerreros.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0MDJf/121.%20El%20m%C3%A1s%20fuerte%20y%20el%20%C3%BAltimo%20de%20los%20siete%20guerreros.mp4",
+  "episodeCode": "T1 E121: El más fuerte y el último de los siete guerreros",
+  "hiddenCode": "T1 E121",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E122: Banryu, la invencible arma de Bankotsu",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sDh1YNaRdTMo3uNUXj65lYZRxq0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0MTJf/122.%20Banryu%2C%20la%20invencible%20arma%20de%20Bankotsu.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0MTJf/122.%20Banryu%2C%20la%20invencible%20arma%20de%20Bankotsu.mp4",
+  "episodeCode": "T1 E122: Banryu, la invencible arma de Bankotsu",
+  "hiddenCode": "T1 E122",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E123: La nueva apariencia de Naraku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hWouv0rce5dUAdJPZdxyxKUR7kV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0MjZf/123.%20La%20nueva%20apariencia%20de%20Naraku.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0MjZf/123.%20La%20nueva%20apariencia%20de%20Naraku.mp4",
+  "episodeCode": "T1 E123: La nueva apariencia de Naraku",
+  "hiddenCode": "T1 E123",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E124: Adiós a la querida Kikyo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jkTcZPZaCUSGwIIw8RV3OmvOdPY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0MzRf/124.%20Adi%C3%B3s%20a%20la%20querida%20Kikyo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0MzRf/124.%20Adi%C3%B3s%20a%20la%20querida%20Kikyo.mp4",
+  "episodeCode": "T1 E124: Adiós a la querida Kikyo",
+  "hiddenCode": "T1 E124",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E125: La oscuridad del corazón de Aome",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7McrJdxhGmvODFgJPEYdmJpEMF2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0NDhf/125.%20La%20oscuridad%20del%20coraz%C3%B3n%20de%20Aome.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0NDhf/125.%20La%20oscuridad%20del%20coraz%C3%B3n%20de%20Aome.mp4",
+  "episodeCode": "T1 E125: La oscuridad del corazón de Aome",
+  "hiddenCode": "T1 E125",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E126: El valor de Aome",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qoHBiSJy71VfTNEXxT8KB1YI3Fc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0NTdf/126.%20El%20valor%20de%20Aome.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0NTdf/126.%20El%20valor%20de%20Aome.mp4",
+  "episodeCode": "T1 E126: El valor de Aome",
+  "hiddenCode": "T1 E126",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E127: La comida seca misteriosa",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/awKySxhHcSIg3aHiApy5MtOMA6g.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjQ0NzZf/127.%20La%20comida%20seca%20misteriosa.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjQ0NzZf/127.%20La%20comida%20seca%20misteriosa.mp4",
+  "episodeCode": "T1 E127: La comida seca misteriosa",
+  "hiddenCode": "T1 E127",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E128: Monstruos en el festival escolar",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uEgHn3jWFtucqI32lGkN69qJyU0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjU3ODVf/128.%20Monstruos%20en%20el%20festival%20escolar.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjU3ODVf/128.%20Monstruos%20en%20el%20festival%20escolar.mp4",
+  "episodeCode": "T1 E128: Monstruos en el festival escolar",
+  "hiddenCode": "T1 E128",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E129: Chokyukai y las novias secuestradas",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c5690oArf1z5HTy7NktqUYwTe98.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjU4MDZf/129.%20Chokyukai%20y%20las%20novias%20secuestradas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjU4MDZf/129.%20Chokyukai%20y%20las%20novias%20secuestradas.mp4",
+  "episodeCode": "T1 E129: Chokyukai y las novias secuestradas",
+  "hiddenCode": "T1 E129",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+  "title": "E130: La técnica secreta de Shippo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cnEJOslztWxl7VyFsYQw9iByR0y.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI4MjU4MjBf/130.%20La%20t%C3%A9cnica%20secreta%20de%20Shippo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MjU4MjBf/130.%20La%20t%C3%A9cnica%20secreta%20de%20Shippo.mp4",
+  "episodeCode": "T1 E130: La técnica secreta de Shippo",
+  "hiddenCode": "T1 E130",
+  "intro": { "start": 30, "end": 125 }
+},
+{
+      "title": "E131: El pergamino maldito de la diosa Kannon",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qCbuy8KkQeQDTZFUMGmociTM2gm.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU4Mzhf/131.%20El%20pergamino%20maldito%20de%20la%20diosa%20Kannon.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU4Mzhf/131.%20El%20pergamino%20maldito%20de%20la%20diosa%20Kannon.mp4",
+      "episodeCode": "T1 E131: El pergamino maldito de la diosa Kannon",
+      "hiddenCode": "T1 E131",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E132: La peligrosa confesión del monje Miroku",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vrgcohZ8OAOls81oC1ASx6kgmGa.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU4NTRf/132.%20La%20peligrosa%20confesi%C3%B3n%20del%20monje%20Miroku.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU4NTRf/132.%20La%20peligrosa%20confesi%C3%B3n%20del%20monje%20Miroku.mp4",
+      "episodeCode": "T1 E132: La peligrosa confesión del monje Miroku",
+      "hiddenCode": "T1 E132",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E133: La mujer que amó a Sesshomaru (1ª parte)",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cc3EnNoPCabyQayekKyaTCoHQ2w.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDUxNjVf/133.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDUxNjVf/133.mp4",
+      "episodeCode": "T1 E133: La mujer que amó a Sesshomaru (1ª parte)",
+      "hiddenCode": "T1 E133",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E134: La mujer que amó a Sesshomaru (2ª parte)",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/uM3mCRmU7BLn0YVfBsJK2ZutCx2.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDUxNjdf/134.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDUxNjdf/134.mp4",
+      "episodeCode": "T1 E134: La mujer que amó a Sesshomaru (2ª parte)",
+      "hiddenCode": "T1 E134",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E135: El último banquete del maestro Mushin",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/kl4Zcs5VJ26AWFWJmPMFa8yfKNT.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU5MThf/135.%20El%20%C3%BAltimo%20banquete%20del%20maestro%20Moushin.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU5MThf/135.%20El%20%C3%BAltimo%20banquete%20del%20maestro%20Moushin.mp4",
+      "episodeCode": "T1 E135: El último banquete del maestro Mushin",
+      "hiddenCode": "T1 E135",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E136: Un monstruo invisible, ¿lo ves o no lo ves?",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/rOsLAgkbcpiBR3PRjkXM90HfyVP.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU5NDBf/136.%20Un%20monstruo%20invisible%2C%20lo%20ves%20o%20no%20lo%20ves.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU5NDBf/136.%20Un%20monstruo%20invisible%2C%20lo%20ves%20o%20no%20lo%20ves.mp4",
+      "episodeCode": "T1 E136: Un monstruo invisible, ¿lo ves o no lo ves?",
+      "hiddenCode": "T1 E136",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E137: El nombre de mi antepasado era Aome Hojo",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/wPDBgcZ62bMgzwtarwBXmzHlUXW.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU5NTVf/137.%20El%20nombre%20de%20mi%20antepasado%20era%20Aome%20H%C5%8Dj%C5%8D.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU5NTVf/137.%20El%20nombre%20de%20mi%20antepasado%20era%20Aome%20H%C5%8Dj%C5%8D.mp4",
+      "episodeCode": "T1 E137: El nombre de mi antepasado era Aome Hojo",
+      "hiddenCode": "T1 E137",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E138: Sobreviviendo en tierra de demonios",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/slyZf8UYb3Ov2rqYorxc4Nfmtdf.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU5NjZf/138.%20Sobreviviendo%20en%20tierra%20de%20demonios.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU5NjZf/138.%20Sobreviviendo%20en%20tierra%20de%20demonios.mp4",
+      "episodeCode": "T1 E138: Sobreviviendo en tierra de demonios",
+      "hiddenCode": "T1 E138",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E139: El gran duelo en la cascada Shoun",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/ktHZ2OB3xowh5HAvftczWzw0u8J.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjU5ODlf/139.%20El%20gran%20duelo%20en%20la%20cascada%20Shoun.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjU5ODlf/139.%20El%20gran%20duelo%20en%20la%20cascada%20Shoun.mp4",
+      "episodeCode": "T1 E139: El gran duelo en la cascada Shoun",
+      "hiddenCode": "T1 E139",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+      "title": "E140: Sentimientos eternos",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/kgD1xrXVoQlZpCVumiQo8GlJEtH.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDI4MjYwMDBf/140.%20Sentimientos%20eternos.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDI4MjYwMDBf/140.%20Sentimientos%20eternos.mp4",
+      "episodeCode": "T1 E140: Sentimientos eternos",
+      "hiddenCode": "T1 E140",
+      "intro": { "start": 30, "end": 125 }
+    },
+    {
+    "title": "E141: Entei, el caballo demonio",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lNHxf3xp6A8kMQppqYIhDz18tst.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYwMTBf/141.%20Entei%2C%20el%20caballo%20demonio.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYwMTBf/141.%20Entei%2C%20el%20caballo%20demonio.mp4",
+    "episodeCode": "T1 E141: Entei, el caballo demonio",
+    "hiddenCode": "T1 E141",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E142: Entei y Hakudoshi",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oEIdfgnMgSgYVVzGosAb5Z5l3Le.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYwMjhf/142.%20Entei%20y%20Hakudoshi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYwMjhf/142.%20Entei%20y%20Hakudoshi.mp4",
+    "episodeCode": "T1 E142: Entei y Hakudoshi",
+    "hiddenCode": "T1 E142",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E143: 3000 leguas de viaje en busca de mi padre",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/eeeAsfld5F52n6OCcsNiOKBNjjJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYwNDFf/143.%203000%20leguas%20de%20viaje%20en%20busca%20de%20mi%20Padre.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYwNDFf/143.%203000%20leguas%20de%20viaje%20en%20busca%20de%20mi%20Padre.mp4",
+    "episodeCode": "T1 E143: 3000 leguas de viaje en busca de mi padre",
+    "hiddenCode": "T1 E143",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E144: Hosenki y el último fragmento",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mPzvQcfB5zOOri3m0MdXp4bf8sI.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYwNTBf/144.%20Hosenki%20y%20el%20%C3%BAltimo%20fragmento.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYwNTBf/144.%20Hosenki%20y%20el%20%C3%BAltimo%20fragmento.mp4",
+    "episodeCode": "T1 E144: Hosenki y el último fragmento",
+    "hiddenCode": "T1 E144",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E145: Los guardianes del portal",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/l9kCdBqxPvJIiu0r3Rp1mEGYoM8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYwNjJf/145.%20Los%20guardianes%20del%20portal.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYwNjJf/145.%20Los%20guardianes%20del%20portal.mp4",
+    "episodeCode": "T1 E145: Los guardianes del portal",
+    "hiddenCode": "T1 E145",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E146: La Princesa Abi",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/au2t9V509iugpNn29Tddyr678gl.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYwNzlf/146.%20La%20Princesa%20Abi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYwNzlf/146.%20La%20Princesa%20Abi.mp4",
+    "episodeCode": "T1 E146: La Princesa Abi",
+    "hiddenCode": "T1 E146",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E147: La trágica canción de amor del destino (1ª parte)",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/AdJTVlt6pzTjAhnVUbMMbjIvcCs.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTc5NDUyMTRf/147.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTc5NDUyMTRf/147.mp4",
+    "episodeCode": "T1 E147: La trágica canción de amor del destino (1ª parte)",
+    "hiddenCode": "T1 E147",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E148: La trágica canción de amor del destino (2ª parte)",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7BtSRWHZHhUKV5Uwlpub0EMW8RP.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTc5NDUyMTdf/148.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTc5NDUyMTdf/148.mp4",
+    "episodeCode": "T1 E148: La trágica canción de amor del destino (2ª parte)",
+    "hiddenCode": "T1 E148",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E149: El misterio de la flecha",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yvl2paEYu458gTesvZXMArDxd01.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYxMjZf/149.%20El%20misterio%20de%20la%20flecha.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYxMjZf/149.%20El%20misterio%20de%20la%20flecha.mp4",
+    "episodeCode": "T1 E149: El misterio de la flecha",
+    "hiddenCode": "T1 E149",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E150: Las luces que guían a su eminencia",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/AktLuAeVLiU9kIbPlN8lLfUUvht.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYxMzlf/150.%20Las%20luces%20que%20gu%C3%ADan%20a%20su%20eminencia.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYxMzlf/150.%20Las%20luces%20que%20gu%C3%ADan%20a%20su%20eminencia.mp4",
+    "episodeCode": "T1 E150: Las luces que guían a su eminencia",
+    "hiddenCode": "T1 E150",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E151: La intuición de Aome",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pwWin690XXGMwyLevh60aucGBeK.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYxNTJf/151.%20La%20intuici%C3%B3n%20de%20Aome.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYxNTJf/151.%20La%20intuici%C3%B3n%20de%20Aome.mp4",
+    "episodeCode": "T1 E151: La intuición de Aome",
+    "hiddenCode": "T1 E151",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E152: Protégelo y róbalo",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3QNf3u6iKS68PUaiv6QDp3V6JHV.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYxNjJf/152.%20Prot%C3%A9gelo%20y%20r%C3%B3balo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYxNjJf/152.%20Prot%C3%A9gelo%20y%20r%C3%B3balo.mp4",
+    "episodeCode": "T1 E152: Protégelo y róbalo",
+    "hiddenCode": "T1 E152",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E153: El destino es una cruel reunión",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/2gr9kBjkwecwY5EUz7aaVHIdpBf.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4MjYxNzZf/153.%20El%20destino%20es%20una%20cruel%20reuni%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MjYxNzZf/153.%20El%20destino%20es%20una%20cruel%20reuni%C3%B3n.mp4",
+    "episodeCode": "T1 E153: El destino es una cruel reunión",
+    "hiddenCode": "T1 E153",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E154: El demonio que conecta al otro mundo",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/rPGnmHzfEdF4vJKvM3FaivN9w7Y.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4NDgyNzdf/154.%20El%20demonio%20que%20conecta%20al%20otro%20mundo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4NDgyNzdf/154.%20El%20demonio%20que%20conecta%20al%20otro%20mundo.mp4",
+    "episodeCode": "T1 E154: El demonio que conecta al otro mundo",
+    "hiddenCode": "T1 E154",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E155: El protector del fragmento",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/R2vrosf8ThWXcarwgpFXahrbqy.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4NDgzMzdf/155.%20El%20protector%20del%20fragmento.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4NDgzMzdf/155.%20El%20protector%20del%20fragmento.mp4",
+    "episodeCode": "T1 E155: El protector del fragmento",
+    "hiddenCode": "T1 E155",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E156: Inuyasha contra Sesshomaru",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/75yXxQ8xrKHnrKpSbTrA4NLFNB6.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4NDg0NTlf/156.%20Inuyasha%20contra%20Sesshomaru.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4NDg0NTlf/156.%20Inuyasha%20contra%20Sesshomaru.mp4",
+    "episodeCode": "T1 E156: Inuyasha contra Sesshomaru",
+    "hiddenCode": "T1 E156",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E157: La aniquilación de Naraku",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/Ecl8zJZPN4apKhqN120EupJx3x.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4NDg1MzJf/157.%20La%20aniquilaci%C3%B3n%20de%20Naraku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4NDg1MzJf/157.%20La%20aniquilaci%C3%B3n%20de%20Naraku.mp4",
+    "episodeCode": "T1 E157: La aniquilación de Naraku",
+    "hiddenCode": "T1 E157",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E158: Las Ratas Monstruo",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mEFoYZ0Qdc1hd6vSm6kaZkoRSqM.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4NDg1ODdf/158.%20Las%20ratas%20monstruo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4NDg1ODdf/158.%20Las%20ratas%20monstruo.mp4",
+    "episodeCode": "T1 E158: Las Ratas Monstruo",
+    "hiddenCode": "T1 E158",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E159: La decisión de Kohaku",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9j0YYWYf1uyRMSWvz29UaByMuYr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4NDg2NDVf/159.%20La%20decisi%C3%B3n%20de%20Kohaku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4NDg2NDVf/159.%20La%20decisi%C3%B3n%20de%20Kohaku.mp4",
+    "episodeCode": "T1 E159: La decisión de Kohaku",
+    "hiddenCode": "T1 E159",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E160: El joven violento que atrae la felicidad",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jllHYs6tMiHhYFXFhZlMk4wK0Ls.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4ODM5ODFf/160.%20El%20joven%20violento%20que%20atrae%20la%20felicidad.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4ODM5ODFf/160.%20El%20joven%20violento%20que%20atrae%20la%20felicidad.mp4",
+    "episodeCode": "T1 E160: El joven violento que atrae la felicidad",
+    "hiddenCode": "T1 E160",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E161: El recuerdo confuso de Miroku",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lXmSQ58YUBNpVAj6A4lHVkUkYP5.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4ODM5ODhf/161.%20El%20malentendido%20de%20Miroku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4ODM5ODhf/161.%20El%20malentendido%20de%20Miroku.mp4",
+    "episodeCode": "T1 E161: El recuerdo confuso de Miroku",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E162: El Amo Sesshomaru y yo, por siempre",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dffi4h8ZxdS9BHSRHYx1kMUlctt.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4ODM5OThf/162.%20Con%20el%20Se%C3%B1or%20Sesshomaru%20para%20siempre.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4ODM5OThf/162.%20Con%20el%20Se%C3%B1or%20Sesshomaru%20para%20siempre.mp4",
+    "episodeCode": "T1 E162: El Amo Sesshomaru y yo, por siempre",
+    "hiddenCode": "T1 E162",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E163: Kohaku, Sango y Kirara: El jardín secreto de las flores",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jUBNzTgIrF5TT7y9tJpoQE9V3NI.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4ODQwMDVf/163.%20Kohaku%2C%20Sango%20y%20Kirara%20y%20el%20jard%C3%ADn%20de%20flores%20secreto.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4ODQwMDVf/163.%20Kohaku%2C%20Sango%20y%20Kirara%20y%20el%20jard%C3%ADn%20de%20flores%20secreto.mp4",
+    "episodeCode": "T1 E163: Kohaku, Sango y Kirara: El jardín secreto de las flores",
+    "hiddenCode": "T1 E163",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E164: Shippo infectado, nuestro peor enemigo",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/eMmQ8XDEUzOS8uHVR972zJ5pyDd.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4ODQwMTBf/164.%20Nuestro%20peor%20enemigo%2C%20Shippo%20pose%C3%ADdo%20por%20un%20Par%C3%A1sito%20Cris%C3%A1lida.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4ODQwMTBf/164.%20Nuestro%20peor%20enemigo%2C%20Shippo%20pose%C3%ADdo%20por%20un%20Par%C3%A1sito%20Cris%C3%A1lida.mp4",
+    "episodeCode": "T1 E164: Shippo infectado, nuestro peor enemigo",
+    "hiddenCode": "T1 E164",
+   "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E165: La pista más grande para derrotar a Naraku",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hWu5XjHrzgsoPyG8luekNLS8iKH.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDI4ODQwMTVf/165.%20La%20%C3%BAltima%20pista%20para%20derrotar%20a%20Naraku.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI4ODQwMTVf/165.%20La%20%C3%BAltima%20pista%20para%20derrotar%20a%20Naraku.mp4",
+    "episodeCode": "T1 E165: La pista más grande para derrotar a Naraku",
+    "hiddenCode": "T1 E165",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E166: El lazo entre dos que une los fragmentos de Shikón (1ª parte)",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/s9m5phCcotBRTTsmU9DjYu7hHJB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTc5NDUzMDFf/166.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTc5NDUzMDFf/166.mp4",
+    "episodeCode": "T1 E166: El lazo entre dos que une los fragmentos de Shikón (1ª parte)",
+    "hiddenCode": "T1 E166",
+    "intro": { "start": 30, "end": 125 }
+  },
+  {
+    "title": "E167: El lazo entre dos que une los fragmentos de Shikón (2ª parte)",
+    "meta": "13+ · 24m · 2000",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/c7DUC5uFXD4DD3PrEZ8tK7EFYYx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTc5NDUzMDNf/167.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTc5NDUzMDNf/167.mp4",
+    "episodeCode": "T1 E167: El lazo entre dos que une los fragmentos de Shikón (2ª parte)",
+    "hiddenCode": "T1 E167",
+    "intro": { "start": 30, "end": 125 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+      "title": "E1: El corazón de Naraku",
+      "meta": "13+ · 24m · 2000 · Jap · Sub",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/zph8lPcZu6ywqtuNUUB0bkrcRAV.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0Nzdf/01%285%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0Nzdf/01%285%29.mp4",
+      "episodeCode": "T2 E1: El corazón de Naraku",
+      "hiddenCode": "T2 E1",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E2: El viento de Kagura",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/eazNnycCItYbnX5V1MRVHWR2YM0.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0Nzlf/02%285%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0Nzlf/02%285%29.mp4",
+      "episodeCode": "T2 E2: El viento de Kagura",
+      "hiddenCode": "T2 E2",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E3: El ataque de la Luna Infernal",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/3DWsQJ84ubhZ17P0LC2XZFaR2fV.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0ODFf/03%285%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0ODFf/03%285%29.mp4",
+      "episodeCode": "T2 E3: El ataque de la Luna Infernal",
+      "hiddenCode": "T2 E3",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E4: Tessaiga con Escamas de Dragón",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/scKLi3A8SAHbJZ8ysbI2oUOtXoG.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0ODJf/04%285%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0ODJf/04%285%29.mp4",
+      "episodeCode": "T2 E4: Tessaiga con Escamas de Dragón",
+      "hiddenCode": "T2 E4",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E5: La prueba del Sagrado Espíritu Demoníaco",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xFS0tKtUtt0U6SbHWed46oeHHwk.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0ODNf/05%285%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0ODNf/05%285%29.mp4",
+      "episodeCode": "T2 E5: La prueba del Sagrado Espíritu Demoníaco",
+      "hiddenCode": "T2 E5",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E6: El fin de Moryoumaru",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/aW5o6IAh5MAgIEwoDmPajedfgot.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0ODRf/06%285%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0ODRf/06%285%29.mp4",
+      "episodeCode": "T2 E6: El fin de Moryoumaru",
+      "hiddenCode": "T2 E6",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E7: El mausoleo del Monte Azusa",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/lVkArTjAP43sxE719P3SVYt6Gej.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0ODVf/07%284%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0ODVf/07%284%29.mp4",
+      "episodeCode": "T2 E7: El mausoleo del Monte Azusa",
+      "hiddenCode": "T2 E7",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E8: Entre las brillantes estrellas",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/ogBU0od2NXVz6pvah1nGg2xVWRR.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU0ODlf/08%284%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU0ODlf/08%284%29.mp4",
+      "episodeCode": "T2 E8: Entre las brillantes estrellas",
+      "hiddenCode": "T2 E8",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E9: Sesshomaru en el Inframundo",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1D3nPH96cvEnKwAl5u9zwq4Uz5.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU1MDVf/09%284%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MDVf/09%284%29.mp4",
+      "episodeCode": "T2 E9: Sesshomaru en el Inframundo",
+      "hiddenCode": "T2 E9",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+      "title": "E10: Flores bañadas en tristeza",
+      "meta": "13+ · 24m · 2000",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/hXD5UVejG0aUflwJfG3Nw0EtZOQ.jpg",
+      "videoUrl": "https://od.lk/d/M18zMTc5NDU1MDZf/10%284%29.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MDZf/10%284%29.mp4",
+      "episodeCode": "T2 E10: Flores bañadas en tristeza",
+      "hiddenCode": "T2 E10",
+      "intro": { "start": 5, "end": 95 }
+    },
+    {
+  "title": "E11: La tumba de Kanna",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iy27UGnhfB8V2qAaIFo8fPMgSfP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MDdf/11%284%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MDdf/11%284%29.mp4",
+  "episodeCode": "T2 E11: La tumba de Kanna",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E12: Los sentimientos de Sango y la decisión de Miroku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sEE3Y3u36bGghOHKQVkNp2IX55z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MTdf/12%284%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MTdf/12%284%29.mp4",
+  "episodeCode": "T2 E12: Los sentimientos de Sango y la decisión de Miroku",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E13: Luna Llena, el complemento de la luna",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q530GmWuocas8hKYhX6m5SZfVU5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MThf/13%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MThf/13%283%29.mp4",
+  "episodeCode": "T2 E13: Luna Llena, el complemento de la luna",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E14: La búsqueda de Naraku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2mSKWucQoVCBJIWiAtKyNIWnSER.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MjBf/14%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MjBf/14%283%29.mp4",
+  "episodeCode": "T2 E14: La búsqueda de Naraku",
+  "hiddenCode": "T2 E14",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E15: El sucesor legitimo",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vrqhaxfsopfwejLVSAOegAmoCCH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MjFf/15%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MjFf/15%283%29.mp4",
+  "episodeCode": "T2 E15: El sucesor legitimo",
+  "hiddenCode": "T2 E15",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E16: La barrera de Hitomiko",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/btv43L9d4UEUrFY1qGqwEgiCao4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MjJf/16%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MjJf/16%283%29.mp4",
+  "episodeCode": "T2 E16: La barrera de Hitomiko",
+  "hiddenCode": "T2 E16",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E17: El deseo maligno de Magatsuh",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4D8xAXBogl3RDZplV6Appf04k9z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1MjVf/17%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1MjVf/17%283%29.mp4",
+  "episodeCode": "T2 E17: El deseo maligno de Magatsuh",
+  "hiddenCode": "T2 E17",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E18: El día más importante",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9eVtaIhFsO0siFUUAXcDMBCTBcT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1Mjhf/18%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1Mjhf/18%283%29.mp4",
+  "episodeCode": "T2 E18: El día más importante",
+  "hiddenCode": "T2 E18",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E19: El fragmento de Kohaku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/h3dYTpcIRpwMrectrXOORV2GnPs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1NTFf/19%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1NTFf/19%283%29.mp4",
+  "episodeCode": "T2 E19: El fragmento de Kohaku",
+  "hiddenCode": "T2 E19",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E20: La Perla de Shikon esta completa",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/87ZtIeSCWBshYi9GgDVqHSvHQnM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1NTJf/20%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1NTJf/20%283%29.mp4",
+  "episodeCode": "T2 E20: La Perla de Shikon esta completa",
+  "hiddenCode": "T2 E20",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E21: En el interior de Naraku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4qm2FtxoBgVn8XmsorrxKrh27Kf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1NTNf/21%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1NTNf/21%283%29.mp4",
+  "episodeCode": "T2 E21: En el interior de Naraku",
+  "hiddenCode": "T2 E21",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E22: Naraku, la trampa de la oscuridad",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/98DiQM03sw82a4qLKmJxpncAIsv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1NTRf/22%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1NTRf/22%283%29.mp4",
+  "episodeCode": "T2 E22: Naraku, la trampa de la oscuridad",
+  "hiddenCode": "T2 E22",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E23: Naraku, la trampa de luz",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ib8MI3rTiAsNcBpvGkqrU14TIyB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1NTdf/23%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1NTdf/23%283%29.mp4",
+  "episodeCode": "T2 E23: Naraku, la trampa de luz",
+  "hiddenCode": "T2 E23",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E24: El efímero deseo de Naraku",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cjt3W2GbfsvTr7DPF48kab10wkD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1ODFf/24%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1ODFf/24%283%29.mp4",
+  "episodeCode": "T2 E24: El efímero deseo de Naraku",
+  "hiddenCode": "T2 E24",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E25: Sentimientos inalcanzables",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kpSoNYhF9SOUcpuDIyn0iSSJ8CZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU1OTlf/25%283%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU1OTlf/25%283%29.mp4",
+  "episodeCode": "T2 E25: Sentimientos inalcanzables",
+  "hiddenCode": "T2 E25",
+  "intro": { "start": 5, "end": 95 }
+},
+{
+  "title": "E26: Hacia el mañana",
+  "meta": "13+ · 24m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9zy2MU34lWuVrzNNbNH997WziXU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTc5NDU2MDdf/26%282%29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTc5NDU2MDdf/26%282%29.mp4",
+  "episodeCode": "T2 E26: Hacia el mañana",
+  "hiddenCode": "T2 E26",
+  "intro": { "start": 0, "end": 0 }
+}
+
+
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

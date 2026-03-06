@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Demon Slayer: Kimetsu no Yaiba</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/4RuJf3ufe8DgQVycdyMZrJHGK1s.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/7e9maFsRJanwrR7YFgn6rEmudiX.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+  width: 130px;
+  margin-bottom: 10px;
+}
+
+@media (orientation: landscape) {
+  
+
+  .cover-content img.logo {
+    width: 80px;
+    margin: 0 0 0.5rem 0;
+  }
+
+  
+}
+
+
+@media (min-width: 1200px) {
+  .cover-content img.logo {
+    margin-top: 340px;
+    width: 190px;
+    margin-bottom: 0px;
+  }
+
+  
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Demon Slayer: Kimetsu no Yaiba</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/ecghlDeabR3X3Vv8tXIOeXHQvQe.png" alt="Demon Slayer: Kimetsu no Yaiba Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">15+&nbsp;&nbsp;5 temporadas&nbsp;&nbsp;2019&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Demon Slayer: Kimetsu no Yaiba" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/unhUWXYl8DFaIsaz6U59cDGSBgj.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="demon-slayer-kimetsu-no-yaiba.html"></a>
+          <span id="nombre">Demon Slayer: Kimetsu no Yaiba</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        En la era Taisho de Japón, Tanjiro, un joven vendedor de carbón, descubre que su familia ha sido asesinada por un demonio.      
+</div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="my-hero-academia.html">
+          <img src="https://image.tmdb.org/t/p/w300/phuYuzqWW9ru8EA3HVjE9W2Rr3M.jpg" alt="My Hero Academia" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">My Hero Academia</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Attack on Titan (2013).html">
+          <img src="https://image.tmdb.org/t/p/original/yNI1GpgU3BH4fljGNsTCWTcVuwS.jpg" alt="Attack on Titan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Attack on Titan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDI4MDUzNTNf/RK%2001.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Demon Slayer: Kimetsu no Yaiba</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "Oh-My-Goddess";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: Crueldad",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/l2C38X6RsbD5gom4iGvFe6yuPEy.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzEzMDFf/Demon.Slayer.Kimetsu.No.Yaiba.S01e01.1080P-dual-lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzEzMDFf/Demon.Slayer.Kimetsu.No.Yaiba.S01e01.1080P-dual-lat.mp4",
+        "episodeCode": "T1 E1: Crueldad",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Entrenador Sakonji Urokodaki",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r2MZH3snLABIpqUPj8YOF9HIaBf.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3NzE1NTRf/Demon.Slayer.Kimetsu.No.Yaiba.S01e02.1080P-dual-lat.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI3NzE1NTRf/Demon.Slayer.Kimetsu.No.Yaiba.S01e02.1080P-dual-lat.mp4",
+        "episodeCode": "T1 E2: Entrenador Sakonji Urokodaki",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 57,
+          "end": 148
+        }
+      },
+      {
+        "title": "E3: Sabito y Makomo",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/m9sWQLtoU1G5jdHOYUnykin0xxw.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxOTk5Mjlf/DS%20T1%20E3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxOTk5Mjlf/DS%20T1%20E3.mp4",
+        "episodeCode": "T1 E3: Sabito y Makomo",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 35,
+          "end": 122
+        }
+      },
+      {
+        "title": "E4: Selección final",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kH6Ir9EWGoqkTMoiQnx5fJmwY2I.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxOTk0ODdf/DS%20T1%20E4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxOTk0ODdf/DS%20T1%20E4.mp4",
+        "episodeCode": "T1 E4: Selección final",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 60,
+          "end": 151
+        }
+      },
+      {
+        "title": "E5: Tu acero",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fWsUsEVYaOHh6bPkgH7HeQxotmP.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxOTk3Nzdf/DS%20T1%20E5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxOTk3Nzdf/DS%20T1%20E5.mp4",
+        "episodeCode": "T1 E5: Tu acero",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 45,
+          "end": 136
+        }
+      },
+      {
+        "title": "E6: Un cazador acompañado por un demonio",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qd0lN2R3wzbUyXbSEQEO19nkGah.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxOTk2MDNf/DS%20T1%20E6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxOTk2MDNf/DS%20T1%20E6.mp4",
+        "episodeCode": "T1 E6: Un cazador acompañado por un demonio",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 35,
+          "end": 126
+        }
+      },
+      {
+        "title": "E7: Muzan Kibutsuji",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aR1bB3ltg1FjGc6N3xBpiYz7Huo.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxOTk1MTNf/DS%20T1%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxOTk1MTNf/DS%20T1%20E7.mp4",
+        "episodeCode": "T1 E7: Muzan Kibutsuji",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 45,
+          "end": 136
+        }
+      },
+      {
+        "title": "E8: El encantador olor a sangre",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hnvD3jFov03BLjvGrqTueXZfvwL.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAxNjBf/KMYT1%20-%2008.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAxNjBf/KMYT1%20-%2008.mp4",
+        "episodeCode": "T1 E8: El encantador olor a sangre",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 23,
+          "end": 114
+        }
+      },
+      {
+        "title": "E9: Demonios de temari y de flechas",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pMST9IQizKO4EE6P54yFFMBz7vE.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNDJf/KMYT1%20-%2009.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNDJf/KMYT1%20-%2009.mp4",
+        "episodeCode": "T1 E9: Demonios de temari y de flechas",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 55,
+          "end": 146
+        }
+      },
+      {
+        "title": "E10: Juntos para siempre",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nDbVix8vunXKj6zLcVEaxwF7YTq.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNzRf/10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNzRf/10.mp4",
+        "episodeCode": "T1 E10: Juntos para siempre",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 45,
+          "end": 136
+        }
+      },
+      {
+        "title": "E11: Mansión de los tambores",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xKOewshyBZcisLUWrOQjEGe650L.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyODFf/11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyODFf/11.mp4",
+        "episodeCode": "T1 E11: Mansión de los tambores",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 45,
+          "end": 136
+        }
+      },
+      {
+        "title": "E12: El jabalí muestra sus colmillos mientras Zenitsu duerme",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qrPsA5eNGH4sPwMImUhOvlShd7U.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyOTBf/12.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyOTBf/12.mp4",
+        "episodeCode": "T1 E12: El jabalí muestra sus colmillos mientras Zenitsu duerme",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 33,
+          "end": 124
+        }
+      },
+      {
+        "title": "E13: Algo más importante que la vida",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5ixd8rC1tTDHf5kSo5o7hbghpOi.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyOTZf/13.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyOTZf/13.mp4",
+        "episodeCode": "T1 E13: Algo más importante que la vida",
+        "hiddenCode": "T1 E13",
+        "intro": {
+          "start": 29,
+          "end": 120
+        }
+      },
+      {
+        "title": "E14: La casa con el blasón familiar de glicinias",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AgDZ0yW2Me7pB7ZLVb4ynbBxRZp.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMDdf/14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMDdf/14.mp4",
+        "episodeCode": "T1 E14: La casa con el blasón familiar de glicinias",
+        "hiddenCode": "T1 E14",
+        "intro": {
+          "start": 35,
+          "end": 126
+        }
+      },
+      {
+        "title": "E15: Montaña Natagumo",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8CNCZfubtFYzvuo4GgIDCSXBYvj.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMDlf/15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMDlf/15.mp4",
+        "episodeCode": "T1 E15: Montaña Natagumo",
+        "hiddenCode": "T1 E15",
+        "intro": {
+          "start": 30,
+          "end": 118
+        }
+      },
+      {
+        "title": "E16: Deja que otro vaya primero",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/swSQtQPgFpqjw3s0LNtUMWyHFnU.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMTBf/16.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMTBf/16.mp4",
+        "episodeCode": "T1 E16: Deja que otro vaya primero",
+        "hiddenCode": "T1 E16",
+        "intro": {
+          "start": 55,
+          "end": 146
+        }
+      },
+      {
+        "title": "E17: Debes dominar una sola cosa",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oKOrMhozP1BX6gWiJAcuZVSm6Zd.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMTZf/17.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMTZf/17.mp4",
+        "episodeCode": "T1 E17: Debes dominar una sola cosa",
+        "hiddenCode": "T1 E17",
+        "intro": {
+          "start": 130,
+          "end": 221
+        }
+      },
+      {
+        "title": "E18: Un lazo forjado",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ra7dCRS9E39fnhHieFKF47ldESl.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMTlf/18.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMTlf/18.mp4",
+        "episodeCode": "T1 E18: Un lazo forjado",
+        "hiddenCode": "T1 E18",
+        "intro": {
+          "start": 28,
+          "end": 119
+        }
+      },
+      {
+        "title": "E19: Dios del fuego",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/b4o8DMgM61MJymZMFyR2nRnOifl.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMjFf/19.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMjFf/19.mp4",
+        "episodeCode": "T1 E19: Dios del fuego",
+        "hiddenCode": "T1 E19",
+        "intro": {
+          "start": 90,
+          "end": 181
+        }
+      },
+      {
+        "title": "E20: Una familia formada por la fuerza",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zEBhEj2Dt58vqAUsEWv6DOCz5RJ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAzMzBf/20.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAzMzBf/20.mp4",
+        "episodeCode": "T1 E20: Una familia formada por la fuerza",
+        "hiddenCode": "T1 E20",
+        "intro": {
+          "start": 25,
+          "end": 116
+        }
+      },
+      {
+        "title": "E21: Contra las reglas del cuerpo",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2EX3WZVmtELyqdcDtGLf5KJjZ6.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNTdf/21.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNTdf/21.mp4",
+        "episodeCode": "T1 E21: Contra las reglas del cuerpo",
+        "hiddenCode": "T1 E21",
+        "intro": {
+          "start": 98,
+          "end": 189
+        }
+      },
+      {
+        "title": "E22: El patrón de la mansión",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2bo6M1fLHXz47b3NoW3Y5zesTKB.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNjFf/22.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNjFf/22.mp4",
+        "episodeCode": "T1 E22: El patrón de la mansión",
+        "hiddenCode": "T1 E22",
+        "intro": {
+          "start": 53,
+          "end": 144
+        }
+      },
+      {
+        "title": "E23: Reunión de pilares",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gdlEXQbUuVtIzKxuOMWd2BhT4n8.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNjZf/23.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNjZf/23.mp4",
+        "episodeCode": "T1 E23: Reunión de pilares",
+        "hiddenCode": "T1 E23",
+        "intro": {
+          "start": 25,
+          "end": 116
+        }
+      },
+      {
+        "title": "E24: Entrenamiento de rehabilitación",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hhZsnP34Tjx568RJwSTN9nkkCcX.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxOTk4ODlf/KMYT1%20-%2024.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxOTk4ODlf/KMYT1%20-%2024.mp4",
+        "episodeCode": "T1 E24: Entrenamiento de rehabilitación",
+        "hiddenCode": "T1 E24",
+        "intro": {
+          "start": 60,
+          "end": 151
+        }
+      },
+      {
+        "title": "E25: Tsuguko, Kanao Tsuyuri",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4VmgnTSJvOPbfy7k51t94T4q88e.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNDhf/KMYT1%20-%2025.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNDhf/KMYT1%20-%2025.mp4",
+        "episodeCode": "T1 E25: Tsuguko, Kanao Tsuyuri",
+        "hiddenCode": "T1 E25",
+        "intro": {
+          "start": 43,
+          "end": 134
+        }
+      },
+      {
+        "title": "E26: Una nueva misión",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ooZNrd1lFth6NVzToRd8MOKuNGK.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkyMDAyNDVf/KMYT1%20-%2026.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkyMDAyNDVf/KMYT1%20-%2026.mp4",
+        "episodeCode": "T1 E26: Una nueva misión",
+        "hiddenCode": "T1 E26",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: El Pilar del Fuego, Kyojuro Rengoku",
+        "meta": "13+ · 26m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/s25sv0IoUYWL24MhoYbYU5idlZ5.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E1: El Pilar del Fuego, Kyojuro Rengoku",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Un sueño profundo",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3D1Ke4O5eRcKr255ddlDTnwmoa6.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E2: Un sueño profundo",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Si fuera verdad…",
+        "meta": "13+ · 25m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bsjdWN0H0t9Pe7nPYoxXTHd8KpP.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E3: Si fuera verdad…",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Agravio",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eECM3oquq3G8jFOGWTnxaFql3vM.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E4: Agravio",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Hacia delante",
+        "meta": "13+ · 21m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wiyxLpsQtpG6tMO3HjaTwD98SD.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E5: Hacia delante",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Akaza",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9mhvaSJfVDUF8uiInaa3KOoXMsC.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E6: Akaza",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Haz arder tu corazón",
+        "meta": "13+ · 26m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bSKs2NzkXd8n0f2bIT8lhEuR7DH.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T2 E7: Haz arder tu corazón",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+        "title": "E1: Tengen Uzui, Pilar del Sonido",
+        "meta": "13+ · 47m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yHvD7Yhaxcn0Mc3BSI0yAFVrYT8.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E1: Tengen Uzui, Pilar del Sonido",
+        "hiddenCode": "T3 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Entrada al distrito rojo",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mTtIdiS9ntOjlBFaZxGRu5qkZdF.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E2: Entrada al distrito rojo",
+        "hiddenCode": "T3 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: ¿Qué eres?",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1pEUWW6ynwjeCthb7NqQlSMtxso.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E3: ¿Qué eres?",
+        "hiddenCode": "T3 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Esta noche",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oyZd3BMT8pH83PLLG07njxhKfkO.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E4: Esta noche",
+        "hiddenCode": "T3 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: ¡Llamemos la atención!",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xHobu2pJtnRePBxrvxafUHXKJNr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E5: ¡Llamemos la atención!",
+        "hiddenCode": "T3 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Recuerdos superpuestos",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9jSSKfsWXEPwiSz8eCMQK8St5gc.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E6: Recuerdos superpuestos",
+        "hiddenCode": "T3 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Transformación",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6IVxJBaIAOboW9HXzx0Kr0DevAZ.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E7: Transformación",
+        "hiddenCode": "T3 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Reunión",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5UvxFzLy40MGDue1fvTDFmz2WNj.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E8: Reunión",
+        "hiddenCode": "T3 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Si derrotamos a una Luna Superior",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8qmQglGIAYFk3cPGONQrr3EpxQ7.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E9: Si derrotamos a una Luna Superior",
+        "hiddenCode": "T3 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: ¡No me rendiré!",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9vq4YJdsQ53D4CqQQumRHg6gLgg.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E10: ¡No me rendiré!",
+        "hiddenCode": "T3 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Aunque nos reencarnemos",
+        "meta": "13+ · 32m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jEVRbGU7NJZRzgqqSFiSG4rEGTP.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T3 E11: Aunque nos reencarnemos",
+        "hiddenCode": "T3 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+        "title": "E1: El sueño de alguien",
+        "meta": "13+ · 49m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cqDCLZ050JmmumJyTA9FbuQe6a3.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E1: El sueño de alguien",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Yoriichi tipo cero",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uvT1yTTx3rfAIP8AtqxtSM0ZxRB.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E2: Yoriichi tipo cero",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Una espada de 300 años",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wquxWyBwsXG3lWrDjg7TQKSRfew.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E3: Una espada de 300 años",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Gracias, Tokito",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2HLP9LAcPkkzGbLpeKm33BXj4NE.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E4: Gracias, Tokito",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Espada rojo brillante",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vtImSrMdWDsmhXFMs681mkxdGed.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E5: Espada rojo brillante",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: ¿No querías ser un pilar?",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/o0HAhA3zeNsPQPtAnoigJlpCCuk.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E6: ¿No querías ser un pilar?",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Los villanos más detestables",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7jOdHvdpD5oKGsRgixuMCJ5P5vJ.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E7: Los villanos más detestables",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: El Mu de Muichiro",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sM31ISH4HuaSvC9Kf7A76f7SsOa.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E8: El Mu de Muichiro",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Muichiro Tokito, el Pilar de la Neblina",
+        "meta": "13+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6EgVImJC0fn0jshgw12NHRf5Rzd.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E9: Muichiro Tokito, el Pilar de la Neblina",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Mitsuri Kanroji, el Pilar del Amor",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iKD90AUxGHcLHGvbuSKfqq76rbE.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E10: Mitsuri Kanroji, el Pilar del Amor",
+        "hiddenCode": "T4 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Nuestros lazos y la luz del alba",
+        "meta": "13+ · 52m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kFvPNnB8215j0xudEtFXa7oJ8F6.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E11: Nuestros lazos y la luz del alba",
+        "hiddenCode": "T4 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+        "title": "E1: Para vencer a Muzan Kibutsuji",
+        "meta": "13+ · 49m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rgDvHS8LHTHuU4Xx64sSVvA39gZ.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E1: Para vencer a Muzan Kibutsuji",
+        "hiddenCode": "T5 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: El dolor de Giyu Tomioka, el Pilar del Agua",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wJPkCpsVFmMS6lAgBbLW5zs8Q3f.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E2: El dolor de Giyu Tomioka, el Pilar del Agua",
+        "hiddenCode": "T5 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: ¡Tanjiro se recupera y se une al entrenamiento!",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mNiT7VrfYxQXbgVqEEWtyM2EgRu.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E3: ¡Tanjiro se recupera y se une al entrenamiento!",
+        "hiddenCode": "T5 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Me trae una sonrisa",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bQQ0uQ5AJ7sYDbirDIzB33J7FgF.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E4: Me trae una sonrisa",
+        "hiddenCode": "T5 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Hasta he devorado demonios",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iiKJxsJOT69R86Y5QFtUUQmeha.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E5: Hasta he devorado demonios",
+        "hiddenCode": "T5 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: El más fuerte del Cuerpo de Matademonios",
+        "meta": "13+ · 24m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jwAiNnEDDgGathvC8VDTmfXqybH.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E6: El más fuerte del Cuerpo de Matademonios",
+        "hiddenCode": "T5 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Gyomei Himejima, el Pilar de las Rocas",
+        "meta": "13+ · 32m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1rw2hmzC7yJwtDfXuP9MIYQvJWQ.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E7: Gyomei Himejima, el Pilar de las Rocas",
+        "hiddenCode": "T5 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Los Pilares se reúnen",
+        "meta": "13+ · 41m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/a8QEWBNIfRzXN7g5WOdrPS3QeKy.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E8: Los Pilares se reúnen",
+        "hiddenCode": "T5 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+      
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

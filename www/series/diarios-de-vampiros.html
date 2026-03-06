@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Diarios de Vampiros</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTkxNTY1MjNf/vampire%20diaries%20poster%202.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTkxNTYzOThf/vampire%20diaries%20background.jpeg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 320px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 220px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 420px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Diarios de Vampiros</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://od.lk/s/M18zMTkxNTYzOTlf/vampire%20diaries%20logo.png" alt="Diarios de Vampiros Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+    8 temporadas    2009   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Diarios de Vampiros" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTkxNTY0MDBf/vampire%20diaries%20wallpaper.jpeg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="diarios-de-vampiros.html"></a>
+          <span id="nombre">Diarios de Vampiros</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Dos hermanos vampiros compiten por el amor de una joven en un pueblo de seres sobrenaturales. Romance, suspenso y sangre en una travesía épica.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="los-originales.html">
+          <img src="https://image.tmdb.org/t/p/w300/skerTaHjg2cJhxrxybCcVE7Pgcf.jpg" alt="Los Originales" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Originales</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="el-legado.html">
+          <img src="https://image.tmdb.org/t/p/w300/qTZIgXrBKURBK1KrsT7fe3qwtl9.jpg" alt="El Legado" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">El Legado</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="lobo-adolescente.html">
+          <img src="https://image.tmdb.org/t/p/w300/ycj1ReH56364LiubRLLS4mY7hJw.jpg" alt="Lobo Adolescente" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Lobo Adolescente</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="lindas-mentirosas.html">
+          <img src="https://image.tmdb.org/t/p/w300/kyuBJq4XFaxP2Y83ibnoNvC2ZIL.jpg" alt="Lindas Mentirosas" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Lindas Mentirosas</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>      
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTgwMzI0MTZf/E1%20Zapatero%20a%20Tus%20Zapatos.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Diarios de Vampiros</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "diarios-de-vampiros-18165";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+        "title": "E1: Pilot",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zaVO5tSSSjgLLSXRBvDDCzyBqfX.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1NDNf/vd%20T1%20E1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1NDNf/vd%20T1%20E1.mp4",
+        "episodeCode": "T1 E1: Pilot",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: The Night of the Comet",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aIwKvdwGCvxQZDZzh89DrGgm74x.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1Mzdf/VD%20T1%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1Mzdf/VD%20T1%20E2.mp4",
+        "episodeCode": "T1 E2: The Night of the Comet",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Friday Night Bites",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6m8fd1s5pyXLDOBFDXu9panIxeu.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MzNf/VD%20T1%20E3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MzNf/VD%20T1%20E3.mp4",
+        "episodeCode": "T1 E3: Friday Night Bites",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Family Ties",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/80Mag2jbHid3X4NxWC031C785FK.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MjZf/VD%20T1%20E4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MjZf/VD%20T1%20E4.mp4",
+        "episodeCode": "T1 E4: Family Ties",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: You're Undead to Me",
+        "meta": "16+ · 42m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sybpzVMdYQRYWKZrGBGHFL4OhtD.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MjFf/VD%20T1%20E5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MjFf/VD%20T1%20E5.mp4",
+        "episodeCode": "T1 E5: You're Undead to Me",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Lost Girls",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/flHYnuvIOm4MmEnDlPFOSHoOgvi.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MjRf/VD%20T1%20E6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MjRf/VD%20T1%20E6.mp4",
+        "episodeCode": "T1 E6: Lost Girls",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Haunted",
+        "meta": "16+ · 42m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/z4Ye1TyS6MfzfCikqULL3t26l4e.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MTFf/VD%20T1%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MTFf/VD%20T1%20E7.mp4",
+        "episodeCode": "T1 E7: Haunted",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: 162 Candles",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/87GU0EHVzAma2sNbPLwDLftk8bO.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MThf/VD%20T1%20E8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MThf/VD%20T1%20E8.mp4",
+        "episodeCode": "T1 E8: 162 Candles",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: History Repeating",
+        "meta": "16+ · 43m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kBJfC9tvqnc5itDAL4iXO85yP5z.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MDlf/VD%20T1%20E9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MDlf/VD%20T1%20E9.mp4",
+        "episodeCode": "T1 E9: History Repeating",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: The Turning Point",
+        "meta": "16+ · 40m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2V05XM7YpzNe6okZ5AWuT9ef6xT.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxNTY1MDVf/VD%20T1%20E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MDVf/VD%20T1%20E10.mp4",
+        "episodeCode": "T1 E10: The Turning Point",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+  "title": "E11: Bloodlines",
+  "meta": "16+ · 42m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2vdRPTaLsI7la5256ROQm6Duyxl.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTY1MDFf/VD%20T1%20E11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTY1MDFf/VD%20T1%20E11.mp4",
+  "episodeCode": "T1 E11: Bloodlines",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Unpleasantville",
+  "meta": "16+ · 42m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ajc7kRmV9cUUJ4vCJIFdDoWd9uG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTY0ODdf/VD%20T1%20E12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTY0ODdf/VD%20T1%20E12.mp4",
+  "episodeCode": "T1 E12: Unpleasantville",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Children of the Damned",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/s8nLnmIOEjNbWIkNfKDVImCytcx.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTY0NzJf/VD%20T1%20E13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTY0NzJf/VD%20T1%20E13.mp4",
+  "episodeCode": "T1 E13: Children of the Damned",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Fool Me Once",
+  "meta": "16+ · 42m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gs5ATQ6o9jYjLFkBksJ9mpOZWIZ.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTY0MTBf/VD%20T1%20E14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTY0MTBf/VD%20T1%20E14.mp4",
+  "episodeCode": "T1 E14: Fool Me Once",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: A Few Good Men",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tD85NQGA80RJ5Zn5OL1FZ8MG30m.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTY0Njdf/VD%20T1%20E15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTY0Njdf/VD%20T1%20E15.mp4",
+  "episodeCode": "T1 E15: A Few Good Men",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: There Goes the Neighborhood",
+  "meta": "16+ · 42m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8ONScjLxYLJm1XJPWC3U1X4oGoO.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTY0MDFf/VD%20T1%20E16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTY0MDFf/VD%20T1%20E16.mp4",
+  "episodeCode": "T1 E16: There Goes the Neighborhood",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Let the Right One In",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dmBppkCRAzv0AQOoHCcyKwfV4Km.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTYzODZf/VD%20T1%20E17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTYzODZf/VD%20T1%20E17.mp4",
+  "episodeCode": "T1 E17: Let the Right One In",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Under Control",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qJd9EK7510ksj5IuFACiYZjn1kp.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTYzNzVf/VD%20T1%20E18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTYzNzVf/VD%20T1%20E18.mp4",
+  "episodeCode": "T1 E18: Under Control",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Miss Mystic Falls",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/72rm2L0mLGTIBdFPmNqcA9vunlb.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTYzNTlf/VD%20T1%20E19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTYzNTlf/VD%20T1%20E19.mp4",
+  "episodeCode": "T1 E19: Miss Mystic Falls",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Blood Brothers",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2W7ZtD84NAnErAuuFBAH1988fpn.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTYzNTlf/VD%20T1%20E19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTYzNTlf/VD%20T1%20E19.mp4",
+  "episodeCode": "T1 E20: Blood Brothers",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Isobel",
+  "meta": "16+ · 43m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gY9mTBmhAqGrTcj9YUbQnNyp9lz.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTYzNTFf/VD%20T1%20E21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTYzNTFf/VD%20T1%20E21.mp4",
+  "episodeCode": "T1 E21: Isobel",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Founder’s Day",
+  "meta": "16+ · 42m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sSuxMVbLGMHosZvJWYKhYODOen3.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTkxNTYzNDVf/VD%20T1%20E22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNTYzNDVf/VD%20T1%20E22.mp4",
+  "episodeCode": "T1 E22: Founder’s Day",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 0, "end": 0 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E1: The Return",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jzYV2jaQkIvo6T9JvuxkRzv8r4f.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3NDRf/DV%20T2%20E1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3NDRf/DV%20T2%20E1.mp4",
+  "episodeCode": "T2 E1: The Return",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Brave New World",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3xcKbK4jtFyGWBCoh4OgZoccIw9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3NDNf/DV%20T2%20E2.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3NDNf/DV%20T2%20E2.mp4",
+  "episodeCode": "T2 E2: Brave New World",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Bad Moon Rising",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6dnyl5JdxNGcis4FrRlfgfBGkA7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3NDVf/DV%20T2%20E3.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3NDVf/DV%20T2%20E3.mp4",
+  "episodeCode": "T2 E3: Bad Moon Rising",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Memory Lane",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tchtbS3z0HgmZzwhQBivLZKtyxG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3NDJf/DV%20T2%20E4.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3NDJf/DV%20T2%20E4.mp4",
+  "episodeCode": "T2 E4: Memory Lane",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Kill or Be Killed",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cjntdE8fsbRbbgOV5UqBKgzbj1I.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MzFf/DV%20T2%20E5.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MzFf/DV%20T2%20E5.mp4",
+  "episodeCode": "T2 E5: Kill or Be Killed",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Plan B",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/y9D4nhgd4GyHlfowyYKCwtCLBZo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3Mjlf/DV%20T2%20E6.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3Mjlf/DV%20T2%20E6.mp4",
+  "episodeCode": "T2 E6: Plan B",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Masquerade",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/siWtHdsWpLSRgha7HLSdC98zJEs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MjBf/DV%20T2%20E7.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MjBf/DV%20T2%20E7.mp4",
+  "episodeCode": "T2 E7: Masquerade",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Rose",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7xyMZKjeI8GtGd1lEAYiK0tBWsr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MThf/DV%20T2%20E8.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MThf/DV%20T2%20E8.mp4",
+  "episodeCode": "T2 E8: Rose",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Katerina",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6FnMiaKfMWYEj3VuBQWAqk91cGe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MTdf/DV%20T2%20E9.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MTdf/DV%20T2%20E9.mp4",
+  "episodeCode": "T2 E9: Katerina",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: The Sacrifice",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uxTWfbs9oaijIezZuiEdk7pfaQL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MTZf/DV%20T2%20E10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MTZf/DV%20T2%20E10.mp4",
+  "episodeCode": "T2 E10: The Sacrifice",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: By the Light of the Moon",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hjA38vdL4QB1Pa2Fzl7XtcmzZnM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MTVf/DV%20T2%20E11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MTVf/DV%20T2%20E11.mp4",
+  "episodeCode": "T2 E11: By the Light of the Moon",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: The Descent",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/svNt0Ask7rtubnMBCuZYmtTb2we.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MTRf/DV%20T2%20E12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MTRf/DV%20T2%20E12.mp4",
+  "episodeCode": "T2 E12: The Descent",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Daddy Issues",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mNqQy7dKFBhW26pcmGvnO4xLGxy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MTNf/DV%20T2%20E13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MTNf/DV%20T2%20E13.mp4",
+  "episodeCode": "T2 E13: Daddy Issues",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Crying Wolf",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k2ThDAoMkFrys9RKqoAV8hysixm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MDZf/DV%20T2%20E14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MDZf/DV%20T2%20E14.mp4",
+  "episodeCode": "T2 E14: Crying Wolf",
+  "hiddenCode": "T2 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: The Dinner Party",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3EzuCDFxcYPb1OGyENQNgN1nTGh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MDJf/DV%20T2%20E15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MDJf/DV%20T2%20E15.mp4",
+  "episodeCode": "T2 E15: The Dinner Party",
+  "hiddenCode": "T2 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: The House Guest",
+  "meta": "16+ · 41m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tfj6V04SkFDVZXNG5LRR48jDKJu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MDFf/DV%20T2%20E16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MDFf/DV%20T2%20E16.mp4",
+  "episodeCode": "T2 E16: The House Guest",
+  "hiddenCode": "T2 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Know Thy Enemy",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lP7xv2HrNCgy8MdggcqWudsJbBM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA3MDBf/DV%20T2%20E17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA3MDBf/DV%20T2%20E17.mp4",
+  "episodeCode": "T2 E17: Know Thy Enemy",
+  "hiddenCode": "T2 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: The Last Dance",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ajBKbPUY6029KqeV8ins8L9Pezs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA2OTdf/DV%20T2%20E18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA2OTdf/DV%20T2%20E18.mp4",
+  "episodeCode": "T2 E18: The Last Dance",
+  "hiddenCode": "T2 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Klaus",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lFSzwf46I87amME9MZo8gq48gc1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA2OTZf/DV%20T2%20E19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA2OTZf/DV%20T2%20E19.mp4",
+  "episodeCode": "T2 E19: Klaus",
+  "hiddenCode": "T2 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: The Cell",
+  "meta": "16+ · 42m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3aEE2qiHXpkYObbA91drnj3w3Y9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA2OTNf/DV%20T2%20E20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA2OTNf/DV%20T2%20E20.mp4",
+  "episodeCode": "T2 E20: The Cell",
+  "hiddenCode": "T2 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: The Sun Also Rises",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9xKHHourvTu0eAUNVEk9MCAomyw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA2ODlf/DV%20T2%20E21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA2ODlf/DV%20T2%20E21.mp4",
+  "episodeCode": "T2 E21: The Sun Also Rises",
+  "hiddenCode": "T2 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: As I Lay Dying",
+  "meta": "16+ · 43m · 2010",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g12uWQ03NbtVrohzHE848EUx0NO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA2ODhf/DV%20T2%20E22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA2ODhf/DV%20T2%20E22.mp4",
+  "episodeCode": "T2 E22: As I Lay Dying",
+  "hiddenCode": "T2 E22",
+  "intro": { "start": 0, "end": 0 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+  "title": "E1: The Birthday",
+  "meta": "16+ · 42m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/original/jjFUXe0LjHeLnyrvtS1O9dwe3u3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5NDNf/DV%20T3%20E1.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5NDNf/DV%20T3%20E1.mp4",
+  "episodeCode": "T3 E1: The Birthday",
+  "hiddenCode": "T3 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: The Hybrid",
+  "meta": "16+ · 41m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ybF8slgzyNiqE1ZKduFn34VjuVZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5Mzlf/DV%20T3%20E2.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5Mzlf/DV%20T3%20E2.mp4",
+  "episodeCode": "T3 E2: The Hybrid",
+  "hiddenCode": "T3 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: The End of the Affair",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4S8dGtLEkSY6t5F8ITTWqyNSi61.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MzVf/DV%20T3%20E3.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MzVf/DV%20T3%20E3.mp4",
+  "episodeCode": "T3 E3: The End of the Affair",
+  "hiddenCode": "T3 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Disturbing Behavior",
+  "meta": "16+ · 42m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jLetnMUISh8DMG59dQWpY4h5BQJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MzRf/DV%20T3%20E4.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MzRf/DV%20T3%20E4.mp4",
+  "episodeCode": "T3 E4: Disturbing Behavior",
+  "hiddenCode": "T3 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: The Reckoning",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/taGFTflONzldqWeDZJVbvhhvzRx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MzJf/DV%20T3%20E5.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MzJf/DV%20T3%20E5.mp4",
+  "episodeCode": "T3 E5: The Reckoning",
+  "hiddenCode": "T3 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Smells Like Teen Spirit",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kZlWCltDNTtfU5IINhTKhMqMAsR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5Mzdf/DV%20T3%20E6.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5Mzdf/DV%20T3%20E6.mp4",
+  "episodeCode": "T3 E6: Smells Like Teen Spirit",
+  "hiddenCode": "T3 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Ghost World",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7v7quqiIifxMje8y8eHMBybUZPj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5Mjlf/DV%20T3%20E7.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5Mjlf/DV%20T3%20E7.mp4",
+  "episodeCode": "T3 E7: Ghost World",
+  "hiddenCode": "T3 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Ordinary People",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gJ02SHb87mK1wEQfWjtlofx0W9P.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MjJf/DV%20T3%20E8.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MjJf/DV%20T3%20E8.mp4",
+  "episodeCode": "T3 E8: Ordinary People",
+  "hiddenCode": "T3 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Homecoming",
+  "meta": "16+ · 42m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fp1BgYOBqhvvaXfIRC8s0Zcu5ZC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MjBf/DV%20T3%20E9.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MjBf/DV%20T3%20E9.mp4",
+  "episodeCode": "T3 E9: Homecoming",
+  "hiddenCode": "T3 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: The New Deal",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3c5Sr8x0BTb1BtldMXlb4euosqB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MTdf/DV%20T3%20E10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MTdf/DV%20T3%20E10.mp4",
+  "episodeCode": "T3 E10: The New Deal",
+  "hiddenCode": "T3 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Our Town",
+  "meta": "13+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v2mKsvW4jLm2vUnu7T637WHzycM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MTZf/DV%20T3%20E11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MTZf/DV%20T3%20E11.mp4",
+  "episodeCode": "T3 E11: Our Town",
+  "hiddenCode": "T3 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: The Ties That Bind",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z7jVa6jqXPQWGJkCJRZQlOmFUSD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MTNf/DV%20T3%20E12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MTNf/DV%20T3%20E12.mp4",
+  "episodeCode": "T3 E12: The Ties That Bind",
+  "hiddenCode": "T3 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Bringing Out the Dead",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z1ycCdnCIZSSJnpjfoqUeeb9thi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MDZf/DV%20T3%20E13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MDZf/DV%20T3%20E13.mp4",
+  "episodeCode": "T3 E13: Bringing Out the Dead",
+  "hiddenCode": "T3 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Dangerous Liaisons",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wuZLqv10vAIMSSLg55vbOrKC7Eg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MDVf/DV%20T3%20E14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MDVf/DV%20T3%20E14.mp4",
+  "episodeCode": "T3 E14: Dangerous Liaisons",
+  "hiddenCode": "T3 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: All My Children",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jaKSkqujNQhVmLlvikRin3FUUD8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MDJf/DV%20T3%20E15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MDJf/DV%20T3%20E15.mp4",
+  "episodeCode": "T3 E15: All My Children",
+  "hiddenCode": "T3 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: 1912",
+  "meta": "16+ · 42m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ohqHQYuY94204LMCJVRGkhViCWM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA5MDFf/DV%20T3%20E16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA5MDFf/DV%20T3%20E16.mp4",
+  "episodeCode": "T3 E16: 1912",
+  "hiddenCode": "T3 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Break On Through",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/t9ycBJkbgWDW8qGAw0PccKYchCi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA4OTdf/DV%20T3%20E17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA4OTdf/DV%20T3%20E17.mp4",
+  "episodeCode": "T3 E17: Break On Through",
+  "hiddenCode": "T3 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: The Murder of One",
+  "meta": "16+ · 42m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9j1xqXiKC4kgzO6VkQ2UDG2Gv8O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA4OTVf/DV%20T3%20E18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA4OTVf/DV%20T3%20E18.mp4",
+  "episodeCode": "T3 E18: The Murder of One",
+  "hiddenCode": "T3 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Heart of Darkness",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cKPPwOXB6ytKJGOKtLmlySB182d.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA4OTJf/DV%20T3%20E19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA4OTJf/DV%20T3%20E19.mp4",
+  "episodeCode": "T3 E19: Heart of Darkness",
+  "hiddenCode": "T3 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Do Not Go Gentle",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zxDGK2rm07zwEYVPNFKKCQigRx8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA4OTFf/DV%20T3%20E20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA4OTFf/DV%20T3%20E20.mp4",
+  "episodeCode": "T3 E20: Do Not Go Gentle",
+  "hiddenCode": "T3 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Before Sunset",
+  "meta": "16+ · 42m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/y7UVo4A8XPRmzTbQsnz2FMD3Veh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA4OTBf/DV%20T3%20E21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA4OTBf/DV%20T3%20E21.mp4",
+  "episodeCode": "T3 E21: Before Sunset",
+  "hiddenCode": "T3 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: The Departed",
+  "meta": "16+ · 43m · 2011",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mwu9oQJADUZAh71z5K29mZQs9Vj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTkxNzA4ODRf/DV%20T3%20E22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTkxNzA4ODRf/DV%20T3%20E22.mp4",
+  "episodeCode": "T3 E22: The Departed",
+  "hiddenCode": "T3 E22",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+    {
+  "title": "E1: Growing Pains",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qPSpDJ554ffN1Fi1IvFhc0n883V.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E1: Growing Pains",
+  "hiddenCode": "T4 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Memorial",
+  "meta": "16+ · 42m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uM9O9fcMseTXt1YxjXHiASiUbqY.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E2: Memorial",
+  "hiddenCode": "T4 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: The Rager",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qu3LmH76u5Vqd5DhdIqgwOsHn2b.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E3: The Rager",
+  "hiddenCode": "T4 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: The Five",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rfx4pGTnKdAw3DDT00vyoKZubCS.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E4: The Five",
+  "hiddenCode": "T4 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: The Killer",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hSEDQZ0YJWrnF2KvK3sGphJuEAZ.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E5: The Killer",
+  "hiddenCode": "T4 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: We All Go a Little Mad Sometimes",
+  "meta": "16+ · 42m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/34wEYCld6s5uxnFVRz8olDhnBLN.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E6: We All Go a Little Mad Sometimes",
+  "hiddenCode": "T4 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: My Brother's Keeper",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xa6LU15gxHt9C8uJFOUPhqMHZM5.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E7: My Brother's Keeper",
+  "hiddenCode": "T4 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: We'll Always Have Bourbon Street",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/81Lpn6x2CFNCVyUlBqXkaaEUjpu.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E8: We'll Always Have Bourbon Street",
+  "hiddenCode": "T4 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: O Come, All Ye Faithful",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vKxgBLya9Pes3smWsPRbh7axd1j.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E9: O Come, All Ye Faithful",
+  "hiddenCode": "T4 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: After School Special",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6HARNLUhuehHXtpCoFYTD6JqOaD.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E10: After School Special",
+  "hiddenCode": "T4 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Catch Me If You Can",
+  "meta": "16+ · 42m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/u4sOFJxGRh9WaBLujsgddOV6L25.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E11: Catch Me If You Can",
+  "hiddenCode": "T4 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: A View to a Kill",
+  "meta": "16+ · 42m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/j3UJNmQqZ1NHKMl84VgjEkLpSlf.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E12: A View to a Kill",
+  "hiddenCode": "T4 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Into the Wild",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nznifbpydqoJWhtSBB3JocviNdY.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E13: Into the Wild",
+  "hiddenCode": "T4 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Down the Rabbit Hole",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tOD4L01yDMepCfIo3bPqYDIIEN0.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E14: Down the Rabbit Hole",
+  "hiddenCode": "T4 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Stand by Me",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/53AWyK46dW3IqzbcxpMdMLKRyLw.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E15: Stand by Me",
+  "hiddenCode": "T4 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Bring It On",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yJp8noPFKcwwoCgVsqVCEnZTQl.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E16: Bring It On",
+  "hiddenCode": "T4 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Because the Night",
+  "meta": "16+ · 41m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/y8EtLYGYng8RIW3yS3YqRoPFRyr.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E17: Because the Night",
+  "hiddenCode": "T4 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: American Gothic",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z0x7ThVMaoadMags0pTXzu29dOu.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E18: American Gothic",
+  "hiddenCode": "T4 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Pictures of You",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/w8VKZ8EkM4OeLV7pZHQGJhPbLYm.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E19: Pictures of You",
+  "hiddenCode": "T4 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: The Originals",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/enLk9UDDnP9wFHsnkjYTXMkT7w5.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E20: The Originals",
+  "hiddenCode": "T4 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: She's Come Undone",
+  "meta": "16+ · 42m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sagHatrFTJIpTO9UNBP6BIy3Nyw.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E21: She's Come Undone",
+  "hiddenCode": "T4 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: The Walking Dead",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/blI2xjuPKqgVHTd78ZPFr2n2eiY.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E22: The Walking Dead",
+  "hiddenCode": "T4 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Graduation",
+  "meta": "16+ · 43m · 2012",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gPX1nGAPQcWa7kEnbRUoY0Ib1yK.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T4 E23: Graduation",
+  "hiddenCode": "T4 E23",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+    {
+  "title": "E1: I Know What You Did Last Summer",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6nPcrm7yxxiV6ryVaYRohakfAki.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E1: I Know What You Did Last Summer",
+  "hiddenCode": "T5 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: True Lies",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hueePtNS8PHjExz57VOYA3NeB2r.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E2: True Lies",
+  "hiddenCode": "T5 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Original Sin",
+  "meta": "16+ · 42m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tlkvmSsjY34rknEvicDSc3oMZKw.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E3: Original Sin",
+  "hiddenCode": "T5 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: For Whom the Bell Tolls",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3cfz2hBw5h3Emjqw4K2O2eEl0Hs.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E4: For Whom the Bell Tolls",
+  "hiddenCode": "T5 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Monster´s Ball",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bXbgalz0W1cYgqwSvO7pVX2SKl6.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E5: Monster´s Ball",
+  "hiddenCode": "T5 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Handle with Care",
+  "meta": "16+ · 42m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4s0YMkd9tFrUiDN81z2qWowHfgG.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E6: Handle with Care",
+  "hiddenCode": "T5 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Death and the Maiden",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/920LRNJtNtdC9C5ou2NfBYzJVfp.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E7: Death and the Maiden",
+  "hiddenCode": "T5 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Dead Man on Campus",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hlliReFWBCqhRpZYH20dLnGf6kt.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E8: Dead Man on Campus",
+  "hiddenCode": "T5 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: The Cell",
+  "meta": "16+ · 42m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iMeoiC8yGEitUcmcy7G1ipUYa2O.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E9: The Cell",
+  "hiddenCode": "T5 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Fifty Shades of Grayson",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pwhIg1s9uieTSzBGZuT1N7gbphG.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E10: Fifty Shades of Grayson",
+  "hiddenCode": "T5 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: 500 Years of Solitude",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qU5gNsW0UTmbuZGxgi9DjyhZ9DC.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E11: 500 Years of Solitude",
+  "hiddenCode": "T5 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: The Devil inside",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yuSDk7w3r1iQmYZAP3SwwDHiCSX.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E12: The Devil inside",
+  "hiddenCode": "T5 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Total Eclipse of the Heart",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2D5WPHyQKrbvf1LpBoHujVszakU.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E13: Total Eclipse of the Heart",
+  "hiddenCode": "T5 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: No Exit",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o0Yb8oNMmemW7GEoy9iVph1udO.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E14: No Exit",
+  "hiddenCode": "T5 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Gone Girl",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AqD2C7E3hLZvltZminucfLusvp4.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E15: Gone Girl",
+  "hiddenCode": "T5 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: While You Were Sleeping",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i3HTKxQB87Q6NzYC5o5oZdrFtlV.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E16: While You Were Sleeping",
+  "hiddenCode": "T5 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Rescue Me",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tI1Q397ShAypOauekXzhX1ifc90.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E17: Rescue Me",
+  "hiddenCode": "T5 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Resident Evil",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v1yGRrjYvjSScjlijuooTO8yHK6.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E18: Resident Evil",
+  "hiddenCode": "T5 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Man on Fire",
+  "meta": "16+ · 42m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wAqQ28Lph0moF7wbzifDYUsECMV.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E19: Man on Fire",
+  "hiddenCode": "T5 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: What Lies Beneath",
+  "meta": "16+ · 42m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iSdXEANr45Uy1V1jsu3Sq9RKGcr.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E20: What Lies Beneath",
+  "hiddenCode": "T5 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Promised Land",
+  "meta": "16+ · 42m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yiqKaXOxeZ2r0Fdl8FauhFALM2y.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E21: Promised Land",
+  "hiddenCode": "T5 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Home",
+  "meta": "16+ · 43m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mVwnq9163GL7OBC5TK0s3cX7R6B.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E22: Home",
+  "hiddenCode": "T5 E22",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 6",
+    "episodes": [
+    {
+  "title": "E1: I'll Remember",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/scFp7IqKCAisFSVsknU2KNX0y84.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E1: I'll Remember",
+  "hiddenCode": "T6 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Yellow Ledbetter",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lUz3MfHQ6tcPPwa6bTO6Zn9TgjK.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E2: Yellow Ledbetter",
+  "hiddenCode": "T6 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Welcome to Paradise",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sBluHD9qYQP0yyCjORLEiKIYTKC.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E3: Welcome to Paradise",
+  "hiddenCode": "T6 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Black Hole Sun",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/d72vLEdFWKqQ7FynGV4s0Uo3D4f.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E4: Black Hole Sun",
+  "hiddenCode": "T6 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: The World Has Turned and Left Me Here",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/l9Jz7MdCBxEwBMxGpcbBo7iR0kR.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E5: The World Has Turned and Left Me Here",
+  "hiddenCode": "T6 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: The More You Ignore Me, the Closer I Get",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hFoQWfUzOBU9K2hfwO345BqQ2ac.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E6: The More You Ignore Me, the Closer I Get",
+  "hiddenCode": "T6 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Do You Remember the First Time?",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/QfwW0E2YcYVlCN748DpSJAKq11.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E7: Do You Remember the First Time?",
+  "hiddenCode": "T6 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Fade Into You",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3SLmwHxIdBSp12glf4vx1ePTNmQ.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E8: Fade Into You",
+  "hiddenCode": "T6 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: I Alone",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mfYxCzoHxqck8o68CNwvcAxeKT9.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E9: I Alone",
+  "hiddenCode": "T6 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Christmas Through Your Eyes",
+  "meta": "16+ · 42m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8rhuXYOp0r006iBmiee4KYUU1Ur.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E10: Christmas Through Your Eyes",
+  "hiddenCode": "T6 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Woke Up With a Monster",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tJ86ax1lwKO40fSEGrpnN56UZ01.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E11: Woke Up With a Monster",
+  "hiddenCode": "T6 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Prayer for the Dying",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nHkBrgSGELgRfLVcyK6Z19jsuO2.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E12: Prayer for the Dying",
+  "hiddenCode": "T6 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: The Day I Tried to Live",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wLlC3p2KIdWTxlxA8Upsae2redi.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E13: The Day I Tried to Live",
+  "hiddenCode": "T6 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Stay",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pnhvv7kXECvN6JSPcvvjuAnDSIH.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E14: Stay",
+  "hiddenCode": "T6 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Let Her Go",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hVNfHgPEc0kTI2T2wP0rWLb4D6R.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E15: Let Her Go",
+  "hiddenCode": "T6 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: The Downward Spiral",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rufAOUx6Yp0FKMVxkAW7SsDoPv8.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E16: The Downward Spiral",
+  "hiddenCode": "T6 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: A Bird in a Gilded Cage",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5GbtNX27ivEEhT70DQ311r49Dmh.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E17: A Bird in a Gilded Cage",
+  "hiddenCode": "T6 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: I Never Could Love Like That",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rTHIw7mHTievxT9Ko0iSDDdboAa.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E18: I Never Could Love Like That",
+  "hiddenCode": "T6 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Because",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dHxXjYU84nqaJwUjcMkC33KWkmN.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E19: Because",
+  "hiddenCode": "T6 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: I´d Leave My Happy Home For You",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c5x1cO7jwMiKlx3O71yetrs2L5K.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E20: I´d Leave My Happy Home For You",
+  "hiddenCode": "T6 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: I´ll Wed You In The Golden Summertime",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nhycrhNSd6zqNNwwOOTd5iCNNU5.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E21: I´ll Wed You In The Golden Summertime",
+  "hiddenCode": "T6 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: I'm Thinking of You All the While",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tMLo4oFvXfMLXzX3OJPBEkRlW60.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T6 E22: I'm Thinking of You All the While",
+  "hiddenCode": "T6 E22",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 7",
+    "episodes": [
+    {
+  "title": "E1: Day One of Twenty-Two Thousand, Give or Take",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mPH5o0CXDUiMFMQLcJHI33BnyIS.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E1: Day One of Twenty-Two Thousand, Give or Take",
+  "hiddenCode": "T7 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Never Let Me Go",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ctNni3U6Uu84pOYwstu4Lzz56Dj.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E2: Never Let Me Go",
+  "hiddenCode": "T7 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Age of Innocence",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vFoNjRCgXtbWmlk22kzbx6FNodK.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E3: Age of Innocence",
+  "hiddenCode": "T7 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: I Carry Your Heart With Me",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hxb9qu7GPLpABhLbGkXSxcLXxUu.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E4: I Carry Your Heart With Me",
+  "hiddenCode": "T7 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Live Through This",
+  "meta": "16+ · 42m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nk9gRCLOrm2OZ9M3tWVsT3R2ZS6.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E5: Live Through This",
+  "hiddenCode": "T7 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Best Served Cold",
+  "meta": "16+ · 44m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wj0W0soc50aIC0Qefp2tYfSzS9r.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E6: Best Served Cold",
+  "hiddenCode": "T7 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Mommie Dearest",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AhXud6g2xQRdiL5Oz8MW9MuIRjN.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E7: Mommie Dearest",
+  "hiddenCode": "T7 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Hold Me, Thrill Me, Kiss Me, Kill Me",
+  "meta": "16+ · 43m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gfWUr0Bi6vP5XDejiyiznwYU2N1.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E8: Hold Me, Thrill Me, Kiss Me, Kill Me",
+  "hiddenCode": "T7 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Cold as Ice",
+  "meta": "16+ · 42m · 2015",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hIaCLyD4Cc0useawqHQXYAEqSVf.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E9: Cold as Ice",
+  "hiddenCode": "T7 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Hell Is Other People",
+  "meta": "16+ · 42m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3iex8eSwjt44K7l6CuE468wvFiJ.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E10: Hell Is Other People",
+  "hiddenCode": "T7 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Things We Lost in the Fire",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oOTcJij6IVCeTCDCvZRGpmdtp1v.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E11: Things We Lost in the Fire",
+  "hiddenCode": "T7 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Postcards from the Edge",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pWkFcdgyS2ESTgVfldKvSPOPlk2.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E12: Postcards from the Edge",
+  "hiddenCode": "T7 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: This Woman's Work",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/w4jKYeWAy1IAGc8BlVzj0NVtqDd.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E13: This Woman's Work",
+  "hiddenCode": "T7 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Moonlight on the Bayou",
+  "meta": "16+ · 42m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pzqpXSzrrhHRZf0JBO5JBOGwkQa.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E14: Moonlight on the Bayou",
+  "hiddenCode": "T7 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: I Would for You",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e5QR80E4fp1MwXhfmypopnIHcyS.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E15: I Would for You",
+  "hiddenCode": "T7 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Days of Future Past",
+  "meta": "16+ · 42m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o6Yf8YqfOJdZQigXNZdiVSq7qF2.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E16: Days of Future Past",
+  "hiddenCode": "T7 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: I Went to the Woods",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tLC3pZr2niKgvWrIdkzgakr6pst.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E17: I Went to the Woods",
+  "hiddenCode": "T7 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: One Way or Another",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n1xRHTwTfq4CzxeUczctWibYVxy.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E18: One Way or Another",
+  "hiddenCode": "T7 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Somebody That I Used to Know",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kx5cfvattitaZjMiQ5L1LLpW4nM.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E19: Somebody That I Used to Know",
+  "hiddenCode": "T7 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Kill 'Em All",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ddCxUlxgSTjTAf1WIUNpMLvXC6W.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E20: Kill 'Em All",
+  "hiddenCode": "T7 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Requiem for a Dream",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pr03NGpdJqhKXgkJvCFU6eRfje1.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E21: Requiem for a Dream",
+  "hiddenCode": "T7 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Gods and Monsters",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hrL2fJfXKM6cYnGH0diOig4xGQc.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T7 E22: Gods and Monsters",
+  "hiddenCode": "T7 E22",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 8",
+    "episodes": [
+    {
+  "title": "E1: Hello Brother",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/epatMhJ0r0ktm2CxnsHTUutsneo.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E1: Hello Brother",
+  "hiddenCode": "T8 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Today Will Be Different",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5PTMFQ2AbbCY6AshSoSht7ZpWpy.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E2: Today Will Be Different",
+  "hiddenCode": "T8 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: You Decided That I Was Worth Saving",
+  "meta": "16+ · 42m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pxBILNOt3fLq1vMQ4I6oPLitROe.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E3: You Decided That I Was Worth Saving",
+  "hiddenCode": "T8 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: An Eternity of Misery",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9brcEYRHEjilpaV70SsoJEsdfBX.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E4: An Eternity of Misery",
+  "hiddenCode": "T8 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Coming Home Was a Mistake",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ls2HYDf6oJfX0NjdzG5p3gmwGUr.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E5: Coming Home Was a Mistake",
+  "hiddenCode": "T8 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Detoured on Some Random Backwoods Path to Hell",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qKWK5Lj8bILYjTqrRTEF6DLu5Zu.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E6: Detoured on Some Random Backwoods Path to Hell",
+  "hiddenCode": "T8 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: The Next Time I Hurt Somebody, It Could Be You",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lHroY6Lr1s8nSnBqg9iEPPIwWe9.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E7: The Next Time I Hurt Somebody, It Could Be You",
+  "hiddenCode": "T8 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: We Have History Together",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nNdRhAW3Ksu3p5KTKiBXBNLyK41.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E8: We Have History Together",
+  "hiddenCode": "T8 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: The Simple Intimacy of the Near Touch",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lgggxnRa0uQ0FZ2aOCRYKSl1T71.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E9: The Simple Intimacy of the Near Touch",
+  "hiddenCode": "T8 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Nostalgia's a Bitch",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/odRImZYmcINrJFJPTBOG8X0o8T0.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E10: Nostalgia's a Bitch",
+  "hiddenCode": "T8 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: You Made a Choice to Be Good",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1R7JQvh54URuDmjakk0wu68JHHP.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E11: You Made a Choice to Be Good",
+  "hiddenCode": "T8 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: What Are You?",
+  "meta": "16+ · 42m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oAgC2OYktMHfgA8dDdNxR42dAsb.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E12: What Are You?",
+  "hiddenCode": "T8 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: The Lies Are Going to Catch Up with You",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1wvcHTTgagTB8v1g8UaKnyEYZzo.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E13: The Lies Are Going to Catch Up with You",
+  "hiddenCode": "T8 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: It's Been a Hell of a Ride",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ksAzE7dwcBMLf7R7lTTCbOgX879.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E14: It's Been a Hell of a Ride",
+  "hiddenCode": "T8 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: We're Planning a June Wedding",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AkDMnPhvq14mpG7zVseRJVA7poX.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E15: We're Planning a June Wedding",
+  "hiddenCode": "T8 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: I Was Feeling Epic",
+  "meta": "16+ · 43m · 2016",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xtM5p58DvX8Q4vxM14ifpEt8ARO.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T8 E16: I Was Feeling Epic",
+  "hiddenCode": "T8 E16",
+  "intro": { "start": 0, "end": 0 }
+}
+
+    ]
+  }
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

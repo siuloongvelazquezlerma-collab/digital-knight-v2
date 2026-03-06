@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Colección Disney</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../collections.css">
+  <style>
+  
+
+
+.fondo-principal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('https://od.lk/s/M18zMTE1NzYzNjRf/STAR%20WARS%20MILLENIUM%20FALCON.jpg') top center / contain no-repeat;
+  z-index: 0;
+
+  filter: brightness(1.9); /* 👈 Aumenta el brillo (1 es normal, 1.2 es +20%) */
+}
+
+
+
+@media (orientation: landscape) {
+  .fondo-principal {
+    background: url('https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/5A5348B2F39D45B2C262C674F5B5E5F154C93E590C4A7E5ADB4A4A308F52CF5A/compose?format=webp&width=2880') top center / cover no-repeat;
+    filter: brightness(1.9); /* También para landscape si quieres */
+  }
+  .fondo-principal::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.822)),
+                linear-gradient(to bottom, rgba(0,0,0,0),rgba(0,0,0,0),#01011d96, #01010f),
+                linear-gradient(to left, rgba(0, 0, 0, 0.13),rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.877));
+  }
+}
+
+.logo-dc {
+  display: block;
+  position: relative;     /* O asegurarte que no sea static */
+  z-index: 1;             /* z-index mayor al fondo */
+  width: 250px;
+  max-width: 65vw;
+  margin: 0 auto;
+  margin-top: -450px;
+  transition: all 0.4s ease;
+}
+
+@media (orientation: landscape) {
+  .logo-dc {
+    margin-top: -500px;          /* Ajusta según necesites en landscape */
+    margin-left: 2%;
+    transform: translateY(0);
+    width: 380px;
+    max-width: 28vw;
+  }
+}
+
+.contenido-principal {
+  position: relative;
+  z-index: 2;
+  margin-top: 1px;       /* Ajuste si quieres separarlo más del logo */
+  padding: 1rem;
+}
+
+@media (orientation: landscape) {
+  .contenido-principal {
+    margin-top: 5vh;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+        <span class="material-icons">chevron_left</span>
+    </a>
+    <img id="page-logo" class="page-logo" src="https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/57A0EA5BFA41EA7991E8629C6563BC178462B0399E733A6249F8150F93ACFED8/compose?format=webp&width=800" alt="DC Comics Logo">
+</header>
+  <div class="fondo-principal"></div>
+  <img src="https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/57A0EA5BFA41EA7991E8629C6563BC178462B0399E733A6249F8150F93ACFED8/compose?format=webp&width=800" alt="DC Logo" class="logo-dc" />
+  <div class="contenido-principal">
+    
+
+    <div class="contenedor-categorias">
+      <div class="categoria">
+        <div class="titulo">Originales</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+      
+            <a href="ahsoka.html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MzJf/Sin%20t%C3%ADtulo%284%29.jpg');"></div>
+            </a>
+      
+            <a href="The mandalorian.html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1NDhf/mandalorian-poster-2_45ab56c3.jpeg');"></div>
+            </a>
+      
+            <a href="Star Wars Las aventuras de jóvenes Jedi (2023).html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MThf/Sin%20t%C3%ADtulo%281%29.jpg');"></div>
+            </a>
+      
+            <a href="andor.html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MjJf/Sin%20t%C3%ADtulo%282%29.jpg');"></div>
+            </a>
+      
+            <a href="obi-wan-kenobi.html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MzFf/Sin%20t%C3%ADtulo%286%29.jpg');"></div>
+            </a>
+      
+            <a href="El libro de Boba Fett (2021).html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MjZf/Sin%20t%C3%ADtulo%285%29.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Rebels (2014).html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MzZf/Sin%20t%C3%ADtulo%287%29.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars The Bad Batch (2021).html">
+              <div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1NDBf/bad_batch_poster.jpeg');"></div>
+            </a>
+      
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+
+      <div class="categoria">
+        <div class="titulo">Películas</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+      
+            <a href="La guerra de las galaxias (1977).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/ahT4ObS7XKedQkOSpGr1wQ97aKA.jpg');"></div>
+            </a>
+      
+            <a href="El Imperio contraataca (1980).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/zsZwahm4ktZPKX0B494CxqhbBhu.jpg');"></div>
+            </a>
+      
+            <a href="El regreso del Jedi (1983).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/rKMmXzdm7eRgmlwYo7iq3klT7wJ.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Episodio I - La amenaza fantasma (1999).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/rJwpYgQWfebnNnIIKSUTUx3sBc4.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Episodio II - El Ataque de los Clones (2002).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/pwwBIUqVSWrCBuUAvbaNdf7VajF.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Episodio III - La Venganza de los Sith (2005).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fen971QdTOagZEv4rAU3sjSlpj1.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars El despertar de la fuerza (2015).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/vI86GLIkT5pP3ZfNs2EvmTrBLBm.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Rogue One (2016).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/96q6av18Q9IvILLk0kui22rHtiU.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Los últimos Jedi (2017).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/7SNzh1fY3YJ8Y8MX93pZF5cJHaH.jpg');"></div>
+            </a>
+      
+            <a href="Han Solo Una historia de Star Wars (2018).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/isFKKZS3JEIxGfcciL2DQEYhiy1.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars El ascenso de Skywalker (2019).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/oeQxq6If4DcW6ADIYCF9SQwKov.jpg');"></div>
+            </a>
+      
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+
+      <div class="categoria">
+        <div class="titulo">Star Wars: Orden cronológico</div>
+        <div class="scroll-container-horizontal">
+          <button class="arrow left">&#10094;</button>
+      
+          <div class="scroll-poster-horizontal">
+      
+            <a href="Star Wars Episodio I - La amenaza fantasma (1999).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/qXulRWB56gUgW5LCBDg1asTlEXq.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Episodio II - El Ataque de los Clones (2002).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/pXnNSeyTCUebjpHTiZt7v6FZId0.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars La Guerra de los Clones (2008).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/vkhMmRYetDfcjW8oEz8HbDSQnfQ.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Episodio III - La Venganza de los Sith (2005).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/wLoU4R13A1NXPem6Tt5lvbmsU1H.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars The Bad Batch (2021).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/gkmwFREnzojUKYuRJA6GBTuxg7m.jpg');"></div>
+            </a>
+      
+            <a href="Han Solo Una historia de Star Wars (2018).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/fM9IfJu9m3CfO3nMWgnRCeC10r2.jpg');"></div>
+            </a>
+      
+            <a href="obi-wan-kenobi.html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/a69aEVkHifkL154uUpZbLgSDmB0.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Rebels (2014).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/933WXXFEeepkhO8noTWkPjDKVNZ.jpg');"></div>
+            </a>
+      
+            <a href="andor.html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/hOShjhBnq5UoKMI3pdnpUgdLD6J.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Rogue One (2016).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/9BarWUc56Cvy5IjXysoT29DF6mI.jpg');"></div>
+            </a>
+      
+            <a href="La guerra de las galaxias (1977).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/rOzHJtqy8qnzakP2nLDV6DEJwFL.jpg');"></div>
+            </a>
+      
+            <a href="El Imperio contraataca (1980).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/zQABKTERvdBJQhYnIlkFF0E4aEN.jpg');"></div>
+            </a>
+      
+            <a href="El regreso del Jedi (1983).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/7cefR9o2H4dmHJOnfPpEILHCtgT.jpg');"></div>
+            </a>
+      
+            <a href="The mandalorian.html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/biPTe4FGdy5eDTPFoiXO0JpFJEY.jpg');"></div>
+            </a>
+      
+            <a href="El libro de Boba Fett (2021).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/bZfjaB6PpNtnGYiq7AdSwW2TSOM.jpg');"></div>
+            </a>
+      
+            <a href="ahsoka.html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/2HUds5BaD95vu3IvnZyhY5DIkRy.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars La Resistencia (2018).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/nxDyDGbPzT4swMJu7icMcZAbg7D.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars El despertar de la fuerza (2015).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/A1mvAox2NuIcTOBZEh1yJMU9Wtx.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars Los últimos Jedi (2017).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/5TbfpAHCPgMD5eoir39sUChXtg2.jpg');"></div>
+            </a>
+      
+            <a href="Star Wars El ascenso de Skywalker (2019).html">
+              <div class="poster-horizontal" style="background-image: url('https://image.tmdb.org/t/p/original/u6nYLrtz2CnH8sfiNTNIqaDKCMy.jpg');"></div>
+            </a>
+      
+          </div>
+      
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+
+      
+
+      <div class="categoria">
+        <div class="titulo">Series y especiales</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+            <a href="andor.html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MjJf/Sin%20t%C3%ADtulo%282%29.jpg');"></div></a>
+            <a href="The mandalorian.html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1NDhf/mandalorian-poster-2_45ab56c3.jpeg');"></div></a>
+            <a href="obi-wan-kenobi.html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1NTNf/mVHpVzGwhB9NBpyS5j6qJsME7lo.jpg');"></div></a>
+            <a href="El libro de Boba Fett (2021).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MjZf/Sin%20t%C3%ADtulo%285%29.jpg');"></div></a>
+            <a href="Star Wars La Guerra de los Clones (2008).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1OTlf/scale%20%2842%29.jpeg');"></div></a>
+            <a href="Star Wars Rebels (2014).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1OTRf/scale%20%2839%29.jpeg');"></div></a>
+            <a href="Star Wars Las aventuras de jóvenes Jedi (2023).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MThf/Sin%20t%C3%ADtulo%281%29.jpg');"></div></a>
+            <a href="ahsoka.html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MzJf/Sin%20t%C3%ADtulo%284%29.jpg');"></div></a>
+            <a href="Star Wars Clone Wars (2003).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3NDFf/Sin%20t%C3%ADtulo%289%29.jpg');"></div></a>
+            <a href="Star Wars Visions (2021).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6NgLGcOHscy6yLXpKCQi4Mz1yVa.jpg');"></div></a>
+            <a href="LEGO Star Wars Droid Tales (2015).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/kwEtB6toMVkmoqEoG5Hl63KP9NL.jpg');"></div></a>
+            <a href="Star Wars The Bad Batch (2021).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1NDBf/bad_batch_poster.jpeg');"></div></a>
+            <a href="Star Wars La Resistencia (2018).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fIHTEvGSBt3IRHx9yykmWA8dz2p.jpg');"></div></a>
+            <a href="LEGO Star Wars All-Stars (2018).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/azaVy8hnFonljfq7KVaT7GPeR0J.jpg');"></div></a>
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+      <div class="categoria">
+        <div class="titulo">Animación</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+            <a href="Star Wars Visions (2021).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6NgLGcOHscy6yLXpKCQi4Mz1yVa.jpg');"></div></a>
+            <a href="Star Wars La Guerra de los Clones (2008).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1OTlf/scale%20%2842%29.jpeg');"></div></a>
+            <a href="Star Wars Historias del Imperio (2024).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/cUJkJjBaWtqHk0lqSFXmyk5aM2B.jpg');"></div></a>
+            <a href="Star Wars Rebels (2014).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1OTRf/scale%20%2839%29.jpeg');"></div></a>
+            <a href="Star Wars La Resistencia (2018).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fIHTEvGSBt3IRHx9yykmWA8dz2p.jpg');"></div></a>
+            <a href="Star Wars Las aventuras de jóvenes Jedi (2023).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3MThf/Sin%20t%C3%ADtulo%281%29.jpg');"></div></a>
+            <a href="Star Wars The Bad Batch (2021).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU1NDBf/bad_batch_poster.jpeg');"></div></a>
+            <a href="Star Wars Clone Wars (2003).html"><div class="poster" style="background-image: url('https://od.lk/s/M18zMDMyOTU3NDFf/Sin%20t%C3%ADtulo%289%29.jpg');"></div></a>
+            <a href="LEGO Star Wars All-Stars (2018).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/azaVy8hnFonljfq7KVaT7GPeR0J.jpg');"></div></a>
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+      <div class="categoria">
+        <div class="titulo">Cortos</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+            <a href="rebel cortos.html"><div class="poster" style="background-image: url('https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/AA31540F1C1D1D584AA39CB814B128FBEC59E060863CDF017145273FE07E22E9/scale?width=506&amp;aspectRatio=2.00&amp;format=webp');"></div></a>
+            <a href="forces.html"><div class="poster" style="background-image: url('https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/63CB0BFE35CE796A74CC48E4FA5A12A7D8F8C059196AAA9CB10CE747F38273CF/scale?width=506&amp;aspectRatio=2.00&amp;format=webp');"></div></a>
+            <a href="blips.html"><div class="poster" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZmUyNzhmM2YtMjEzNS00OTkzLThiZjgtMmU2ZDRmODA1OWFhXkEyXkFqcGdeQXVyMDM0MzU2NA@@._V1_FMjpg_UX1000_.jpg');"></div></a>
+            <a href="jovenes jedi cortos.html"><div class="poster" style="background-image: url('https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/33F0D1A0DED5DECC2B478BC5B673EB815297EAFB9A0FDFB85287445E06784BEE/scale?width=506&amp;aspectRatio=2.00&amp;format=webp');"></div></a>
+            <a href="lego star wars the resistance.html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/xvYc0QGTC1rMuONe6PWBnWnpfuv.jpg');"></div></a>
+            <a href="lego all stars cortos.html"><div class="poster" style="background-image: url('https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/A376DDAAF60C625E7DE8EC5B6C44884190C1BEEE8F7123825845E14CBFEEC802/scale?width=506&amp;aspectRatio=2.00&amp;format=webp');"></div></a>
+            <a href="Star Wars Visions (2021).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6NgLGcOHscy6yLXpKCQi4Mz1yVa.jpg');"></div></a>
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+      <div class="categoria">
+        <div class="titulo">Vintage</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+          <div class="scroll-poster">
+            <a href="Star Wars Los androides (1985).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/AuGZbGeOQt30zsoTUSPlS8kMe1v.jpg');"></div></a>
+            <a href="Star Wars Ewoks Caravana De Valor (1984).html"><div class="poster" style="background-image: url('https://th.bing.com/th/id/OIP.1uizczpqK2feuxxH3AiKTwAAAA?rs=1&pid=ImgDetMain');"></div></a>
+            <a href="Star Wars Ewoks La Batalla Por Endor (1985).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6N00SZ7npCyxpBFoVDyU1P8DGYQ.jpg');"></div></a>
+            <a href="Ewoks (1985).html"><div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/cXA4GMtXeJyK3EIP6r4k4jExyDU.jpg');"></div></a>
+          </div>
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="https://od.lk/d/M18zMTIxODI5MjJf/logo%202025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script>
+     window.addEventListener('load', function () {
+  const overlay = document.querySelector('.overlay-loader-page');
+  const loader = document.getElementById('loader');
+
+  // Se mantiene el loader visible por 1 segundo
+  setTimeout(() => {
+    loader.style.opacity = '0'; // Corrige esto: '2' no tiene efecto visual
+    setTimeout(() => {
+      loader.style.display = 'none';
+      overlay.classList.add('hidden');
+    }, 300);
+  }, 1000);
+});
+
+
+
+   // Funciona para contenedores verticales
+document.querySelectorAll('.scroll-container').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+// Funciona para contenedores horizontales
+document.querySelectorAll('.scroll-container-horizontal').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster-horizontal');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageLogo = document.getElementById('page-logo');
+
+  if (!header || !pageLogo) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const logoOpacity = scrollY > 150 ? opacity : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageLogo.style.opacity = logoOpacity;
+  });
+});
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+  </script>
+</body>
+
+</html>

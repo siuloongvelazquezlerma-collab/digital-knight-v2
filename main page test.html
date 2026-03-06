@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Dragon Plus</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      padding-top: env(safe-area-inset-top);
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(to bottom, black 0%, transparent);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      z-index: 1000;
+   
+    }
+
+
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      font-style: italic;
+      color: #ff7b0f;
+      text-shadow: 4px 4px 8px #000;
+    }
+
+
+     .icono-notification a {
+      color: rgb(255, 255, 255);
+      font-size: 24px;
+      position: relative;
+    }
+
+
+    .icono-notification i {
+      font-size: 30px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+
+    .icono-notification i:hover {
+      transform: scale(1.2);
+      color: #FFD90F;
+    }
+
+
+/* Notificaciones */
+              .notifications-page {
+                  display: none;
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  background-color: black;
+                  z-index: 9999;
+                  overflow-y: auto;
+                  
+              }
+        .notifications-page.show {
+                  display: block;
+              }
+      
+      .notification-icon {
+      position: relative; /* Permite posicionar elementos hijos de forma absoluta */
+      display: inline-block;
+      cursor: pointer;
+      font-size:25px;
+  }
+      #notificationBadge {
+      position: absolute;
+      top: -3px;
+      left: -1px; /* Mueve el badge hacia la izquierda */
+      transform: translate( -50%, -50%); /* Ajusta el posicionamiento */
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 6px;
+      font-size: 12px;
+      font-weight: bold;
+      min-width: 18px; /* Asegura un tamaño mínimo */
+      text-align: center;
+      line-height: 1.2;
+  }
+      
+      
+  
+      .notifications-header {
+          display: grid;
+          grid-template-columns: auto 1fr auto; /* Dividimos en tres áreas: icono, título, espacio extra */
+          align-items: center; /* Centra verticalmente todos los elementos */
+          background-color: #121212;
+          padding: 10px 20px; /* Espaciado interno */
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+      }
+      
+          .notifications-header h1 {
+          font-size: 0.5em; /* Tamaño más grande */
+          color: #ffffff; /* Texto blanco para destacar sobre el fondo gris oscuro */
+          text-align: center; /* Asegura que el texto esté centrado */
+          margin: 0; /* Sin márgenes adicionales */
+      }
+      
+      .notifications-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: WHITE; /* Un color oscuro para contrastar */
+    letter-spacing: 2px; /* Espaciado entre letras */
+    margin: 0;
+    padding: 5px 15px; /* Espaciado alrededor del texto */
+    text-align: left; /* Centrar el texto */
+}
+
+
+  /* Diseño de notificaciones */
+  .notification-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: black; /* Gris oscuro pero con más contraste */
+      border-radius: 12px;
+      margin: 12px 0;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+  }
+
+
+
+
+  
+  .notification-item::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 10px;
+      width: calc(100% - 20px);
+      height: 3px;
+       /* Línea degradada de blanco a dorado */
+      border-radius: 3px;
+  }
+  
+  
+  .notification-image {
+      width: 150px;
+      height: 90px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .notification-text h2 {
+      font-size: 1.7em;
+      margin-left: 20px; /* Aumenta la separación del texto con la imagen */
+      color: white;
+      flex: 1;
+  }
+  
+  .notification-text h3{
+      margin-left: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #FFD90F;
+  }
+  
+  .notification-text p {
+      margin-left: 20px;
+      font-size: 1.0em;
+      color: #ffffff;
+      opacity: 0.8;
+  }
+  
+  .notification-item {
+      text-decoration: none !important;
+      border-bottom: none !important;
+      outline: none !important;
+  }
+  
+  .notification-item h2,
+  .notification-item h3,
+  .notification-item p {
+      text-decoration: none !important;
+      border-bottom: none !important;
+      outline: none !important;
+  }
+  
+  .notification-item:focus,
+  .notification-item:active,
+  .notification-item h2:focus,
+  .notification-item h2:active,
+  .notification-item h3:focus,
+  .notification-item h3:active,
+  .notification-item p:focus,
+  .notification-item p:active {
+      text-decoration: none !important;
+      border-bottom: none !important;
+      outline: none !important;
+      color: inherit !important;
+  }
+  
+  
+      
+      
+      
+      .icono-notification a:focus,
+      .icono-notification a:active {
+          outline: none !important;
+          border: none !important;
+          box-shadow: none !important;
+          -webkit-box-shadow: none !important; /* Para navegadores Webkit */
+      }
+      
+      
+      .icono-notification i {
+          font-size: 32px; /* Tamaño del ícono */
+          line-height: 1;
+          transition: all 0.3s ease; /* Transición para efectos futuros */
+      }
+
+
+          /* General para enlaces y botones */
+      a, button {
+        outline: none !important; /* Elimina el cuadro azul en enlaces y botones */
+        box-shadow: none !important; /* Evita sombras adicionales */
+        -webkit-tap-highlight-color: transparent; /* Elimina el efecto de resaltado en móviles */
+      }
+      
+      
+      /* Íconos y logotipos */
+      a:focus, a:active, button:focus, button:active {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      
+      
+      /* Elimina el cuadro azul en navegadores específicos */
+      * {
+        outline: none !important;
+      }
+
+
+
+
+
+
+    .portrait-overlay {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+
+
+  background: 
+    linear-gradient(to right, 
+      rgba(0, 0, 0, 0.8) 0%, 
+      rgba(0, 0, 0, 0.4) 15%, 
+      rgba(255, 255, 255, 0.15) 30%,  /* brillo agregado */
+      rgba(255, 255, 255, 0.15) 70%, 
+      rgba(0, 0, 0, 0.4) 85%, 
+      rgba(0, 0, 0, 0.8) 100%
+    ),
+    url('https://image.tmdb.org/t/p/original/2gFEiDISYR3Xh2RagRgj1K7mJMS.jpg') no-repeat center top;
+
+
+    background-size: contain;
+  background-blend-mode: lighten;
+  z-index: 250;
+}
+
+
+
+
+
+
+    /* Overlay para la imagen horizontal */
+
+
+.horizontal-overlay {
+  display: none; /* Visible solo en landscape */
+  position: relative;
+  width: 100%;
+  height: 140vh;
+   background: linear-gradient(to bottom, transparent 0%, black 100%),
+  url('https://image.tmdb.org/t/p/original/wL4WeLEBsXLvC07tbJtKfTaIVtg.jpg') no-repeat center center;
+background-size: cover;
+  background-position: center;
+  z-index: 250;
+}
+
+
+
+
+
+
+
+
+   /* Mostrar y ocultar las capas según la orientación */
+@media (orientation: landscape) {
+    .portrait-overlay {
+        display: none; /* Oculta el overlay vertical en landscape */
+    }
+
+
+    .horizontal-overlay {
+        display: flex; /* Muestra el overlay horizontal */
+    }
+   .info img{
+     position:absolute;
+     margin-top:-250px;
+   }
+   
+  .info .meta{
+    position: absolute;
+    margin-top: -125px;
+  }
+   .info p{
+    position: absolute;
+    margin-top: -90px;
+    
+   }
+}
+
+
+@media (orientation: portrait) {
+    .portrait-overlay {
+        display: flex; /* Asegura que el overlay vertical esté visible */
+    }
+
+
+    .horizontal-overlay {
+        display: none; /* Oculta completamente la imagen horizontal en portrait */
+    }
+}
+
+
+
+
+    .info {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      padding: 24px 20px 60px;
+      background: linear-gradient(to top, black 40%, transparent 100%);
+      z-index: 2;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.9);
+    }
+
+
+    
+
+
+    .info .meta {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
+
+    .info p {
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 650px;
+      margin-bottom:0px;
+    }
+.series {
+  background-color: #000; /* Fondo negro */
+  padding: 20px;
+  color: #fff;
+}
+
+
+.series h3 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+
+.series-list {
+  display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+}
+
+
+.series-item {
+  min-width: 120px;
+      background-color: #111;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+
+.series-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+
+.series-info {
+  padding: 10px 8px;
+}
+
+
+.series-info h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+
+.series-info p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #ccc;
+}
+.series-item a {
+  text-decoration: none;         /* Elimina el subrayado */
+  outline: none;                 /* Elimina el contorno azul al hacer clic */
+  display: block;                /* Hace que el enlace envuelva toda la tarjeta */
+  color: inherit;                /* Hereda el color del texto del contenedor padre */
+}
+
+
+.series-item a:focus {
+  outline: none; /* Elimina el contorno al enfocarse con teclado o clic */
+}
+
+
+
+
+
+
+    .series h3,.movies h3{
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: #ffffff;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    }
+
+
+    .series-list,.movies-list{
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+    }
+
+
+    .series-item,.movie-item {
+      min-width: 120px;
+      background-color: #111;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+
+    .series-item img,.movie-item img {
+      width: 120px;
+      height: 170px;
+      object-fit: cover;
+    }
+
+
+ 
+  .info img {
+      width: auto;
+      margin-left:-10px;
+      height:100px;
+      margin-bottom: 20px;
+    }
+
+
+
+
+    /* Overlay para oscurecer la página */
+.over {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+
+/* Cuando se ocultará */
+.over.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #2b0f0f; /* Azul oscuro */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+}
+
+
+
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #d4c988; /* Dorado suave */
+  font-size: 12px;
+  text-decoration: none;
+  padding: 0 8px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+
+.nav-item i {
+  font-size: 26px;
+  transition: color 0.3s ease;
+}
+
+
+.nav-item img#footerIconImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  border: 2px solid #d4c988;
+  object-fit: cover;
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+
+.nav-item span {
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+
+/* === ESTILO HOVER IGUAL A ACTIVE === */
+.nav-item:hover {
+  color: #ff6600;
+}
+
+
+.nav-item:hover i {
+  color: #ff6600;
+}
+
+
+.nav-item:hover img#footerIconImg {
+  border-color: #ff6600;
+  transform: scale(1.05);
+}
+
+
+/* === ÍTEM ACTIVO === */
+.nav-item.active {
+  color: #ff6600;
+}
+
+
+.nav-item.active i {
+  color: #ff6600;
+}
+
+
+
+
+
+
+
+
+  .series {
+    margin-bottom: 80px; /* ajusta el valor según lo que necesites */
+  }
+
+
+
+
+      #loader {
+      display: block; /* Visible al cargar */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(0, 0, 0, 0.2); /* Borde gris semitransparente */
+      border-top: 1px solid #ff8800; /* Color principal */
+      border-radius: 50%; /* Hace que sea circular */
+      animation: spin 1s linear infinite; /* Animación de rotación */
+      z-index: 5000000;
+      opacity: 1; /* Visible inicialmente */
+      transition: opacity 0.3s ease;
+  }
+  
+  /* Animación de rotación */
+  @keyframes spin {
+      0% {
+          transform: translate(-50%, -50%) rotate(0deg);
+      }
+      100% {
+          transform: translate(-50%, -50%) rotate(360deg);
+      }
+  } 
+
+
+  </style>
+</head>
+<body>
+      <div id="loader" class="loader"></div>
+  <div class="over"></div>
+  <header class="header" id="header">
+    <div class="logo">SHINOBITV</div>
+    <div class="icono-notification">
+      <a href="#" onclick="showNotifications()">
+        <i class="material-icons-outlined">notifications</i>
+        <span id="notificationBadge"></span>
+      </a>
+    </div>
+    <div id="notificationsPage" class="notifications-page hidden slide-up">
+    <!-- Header de Notificaciones -->
+    <div class="notifications-header">
+        <span class="material-icons back-icon" onclick="closeNotifications()">arrow_back</span>
+        <h2>Notificaciones</h2>
+    </div>
+
+
+    <!-- Contenedor de Notificaciones -->
+<div id="notificationsContainer" class="notifications-container">
+    <p>No hay notificaciones nuevas.</p>
+    <!-- Aquí se agregarán dinámicamente las notificaciones -->
+</div>
+</div>
+  </header>
+
+
+  <main>
+   <section class="portrait-overlay">
+  <div class="info">
+    <a href="#">
+      <img 
+        src="https://image.tmdb.org/t/p/original/fLc6pr3c5XAZjOjUA7JjlE7e4OC.png" 
+        alt="Dragon Ball Z" 
+        class="portrait-image">
+    </a>
+    <div class="meta">12+ · Dob | Lat</div>
+    <p class="description">
+      Sigue las aventuras de Boruto Uzumaki, hijo de Naruto, mientras se forma como ninja en la aldea de Konoha.
+    </p>
+  </div>
+</section>
+
+
+<section class="horizontal-overlay">
+  <div class="info">
+    <img 
+      src="https://image.tmdb.org/t/p/original/fLc6pr3c5XAZjOjUA7JjlE7e4OC.png" 
+      alt="Dragon Ball Z" 
+      class="horizontal-image">
+    <div class="meta">12+ · Doblado | Latino</div>
+    <p class="description">
+      Sigue las aventuras de Boruto Uzumaki, hijo de Naruto, mientras se forma como ninja en la aldea de Konoha.
+    </p>
+  </div>
+</section>
+
+
+    <section class="series">
+  <h3>Series</h3>
+  <div class="series-list">
+    <div class="series-item">
+      <a href="#">
+        <img src="https://image.tmdb.org/t/p/original/n4OLeeHqP4tpdvDxiloV65N6M5h.jpg" alt="Boruto"/>
+        <div class="series-info">
+          <h4>Boruto</h4>
+          <p>Dob Latino</p>
+        </div>
+      </a>
+    </div>
+    <div class="series-item">
+      <a href="#">
+      <img src="https://image.tmdb.org/t/p/original/oOkvQ1anSMvdYbUGGf7NAnfwHUt.jpg" alt="Naruto"/>
+      <div class="series-info">
+        <h4>Naruto</h4>
+        <p>Dob Latino</p>
+      </div>
+      </a>
+    </div>
+    <div class="series-item">
+      <a href="#">
+      <img src="https://media.themoviedb.org/t/p/original/71mASgFgSiPl9QUexVH8BubU0lD.jpg" alt="Naruto:Shipuden"/>
+      <div class="series-info">
+        <h4>Naruto Shippuden</h4>
+        <p>Dob Latino</p>
+      </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+  </main>
+<!-- Menú Inferior estilo Dragon-Plus -->
+<footer class="footer">
+  <nav class="bottom-nav">
+    <a href="go:home" class="nav-item active">
+      <i class="material-icons">home</i>
+      <span>Inicio</span>
+    </a>
+    <a href="go:fav" class="nav-item">
+      <i class="material-icons">bookmark_border</i>
+      <span>Favoritos</span>
+    </a>
+    <a href="go:search" class="nav-item">
+      <i class="material-icons">search</i>
+      <span>Buscar</span>
+    </a>
+    <a href="go:perfil" class="nav-item">
+      <img id="footerIconImg" src="https://archive.org/download/img-photoroom/IMG-Photoroom_thumb.jpg" alt="Perfil" />
+      <span>Perfil</span>
+    </a>
+  </nav>
+</footer>
+
+
+
+
+
+
+<script>
+
+
+    // Simula datos de notificaciones
+const mockNotifications = [
+{
+        header: "Nueva Sección",
+        title: "nueva notificacion",
+        body: "notificacion nueva",
+        image: "https://image.tmdb.org/t/p/original/xG93d6PsnRN6C1PEUUnjZdGA6QO.jpg",
+        link: "go:#"
+    },
+  {
+        header: "Nueva Sección",
+        title: "nueva notificacion",
+        body: "notificacion nueva",
+        image: "https://image.tmdb.org/t/p/original/xG93d6PsnRN6C1PEUUnjZdGA6QO.jpg",
+        link: "go:#"
+    },
+
+
+    
+];
+
+
+// Simula la llamada a un servidor con setTimeout
+function fetchNotifications() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(mockNotifications); // Simula la respuesta del servidor
+        }, 1000); // Simula un retraso de 1 segundo
+    });
+}
+
+
+// Función para cargar notificaciones
+async function loadNotifications() {
+    try {
+        const notifications = await fetchNotifications();
+
+
+        const notificationsContainer = document.getElementById("notificationsContainer");
+        notificationsContainer.innerHTML = ""; // Limpia las notificaciones actuales
+
+
+        if (notifications.length === 0) {
+            notificationsContainer.innerHTML = "<p>No hay notificaciones nuevas.</p>";
+            return;
+        }
+
+
+        notifications.forEach(notification => {
+            const notificationElement = createNotificationElement(notification);
+            notificationsContainer.appendChild(notificationElement);
+        });
+
+
+        updateNotificationBadge(); // Actualiza el badge
+    } catch (error) {
+        console.error("Error al cargar notificaciones:", error);
+    }
+}
+
+
+// Crear el elemento HTML de la notificación
+function createNotificationElement(notification) {
+    const notificationItem = document.createElement("a");
+    notificationItem.href = notification.link || "#"; // Enlace por defecto
+    notificationItem.className = "notification-item";
+
+
+    notificationItem.innerHTML = `
+        <img src="${notification.image}" alt="${notification.title}" class="notification-image">
+        <div class="notification-text">
+            <h2>${notification.header || "Notificación"}</h2>
+            <h3>${notification.title}</h3>
+            <p>${notification.body}</p>
+        </div>
+    `;
+    return notificationItem;
+}
+
+
+// Función para mostrar la sección de notificaciones
+function showNotifications() {
+    const notificationsPage = document.getElementById("notificationsPage");
+    notificationsPage.classList.remove("hidden");
+    updateNotificationBadge(); // Actualiza el badge al abrir la página
+}
+
+
+// Función para cerrar las notificaciones
+function closeNotifications() {
+    const notificationsPage = document.getElementById("notificationsPage");
+    notificationsPage.classList.add("hidden");
+    updateNotificationBadge(); // Actualiza el badge al cerrar la página
+}
+
+
+// Función para actualizar el punto rojo en el ícono de notificaciones
+function updateNotificationBadge() {
+    const notificationsContainer = document.getElementById("notificationsContainer");
+    const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
+    const notificationBadge = document.getElementById("notificationBadge");
+
+
+    if (notificationItems.length > 0) {
+        notificationBadge.style.display = "flex"; // Muestra el badge
+        notificationBadge.textContent = notificationItems.length; // Muestra el número de notificaciones
+    } else {
+        notificationBadge.style.display = "none"; // Oculta el badge si no hay notificaciones
+    }
+}
+
+
+// Inicializa las notificaciones al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    loadNotifications();
+    updateNotificationBadge();
+});
+function showNotifications() {
+      document.getElementById("notificationsPage").classList.add("show");
+    }
+function closeNotifications() {
+      document.getElementById("notificationsPage").classList.remove("show");
+    }
+  </script>
+             <script>
+
+
+
+
+
+
+
+
+
+
+            window.addEventListener('load', function () {
+    const overlay = document.querySelector('.over');
+    const loader = document.getElementById('loader');
+
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+
+});
+      </script>
+      <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const navItems = document.querySelectorAll(".bottom-nav .nav-item");
+
+
+  // Recuperar el ítem activo guardado
+  const activeHref = localStorage.getItem("activeNavItem");
+
+
+  navItems.forEach((item) => {
+    const href = item.getAttribute("href");
+
+
+    // Si coincide el href, agregar clase 'active'
+    if (href === activeHref) {
+      item.classList.add("active");
+    }
+
+
+    // Agregar evento clic
+    item.addEventListener("click", () => {
+      navItems.forEach((i) => i.classList.remove("active"));
+      item.classList.add("active");
+
+
+      // Guardar el ítem activo en localStorage
+      localStorage.setItem("activeNavItem", href);
+    });
+  });
+});
+
+
+  // Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon"); // Icono de perfil en el footer
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt"); // Icono alternativo de perfil
+
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  profileImage.src = src;
+  profilePageImage.src = src;
+  footerProfileIcon.src = src;
+  defaultProfileIcon.style.display = 'none'; // Ocultar el icono de perfil
+  defaultProfileIconAlt.style.display = 'none'; // Ocultar el icono alternativo
+  localStorage.setItem('profileImage', src); // Guardar la imagen en el almacenamiento local
+}
+
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    footerProfileIcon.src = storedProfileImage;
+    profileImage.src = storedProfileImage;
+    profilePageImage.src = storedProfileImage;
+    defaultProfileIcon.style.display = 'none'; // Ocultar el icono de perfil
+    defaultProfileIconAlt.style.display = 'none'; // Ocultar el icono alternativo
+  }
+});
+
+
+
+
+</script>
+  <script>
+  const header = document.querySelector(".header");
+  let lastScroll = window.scrollY;
+  let lastDirection = 0;
+  let scrollThreshold = 10;
+  let ticking = false;
+
+
+  function handleScroll() {
+    const currentScroll = window.scrollY;
+    const scrollDifference = currentScroll - lastScroll;
+
+
+    if (Math.abs(scrollDifference) > scrollThreshold) {
+      if (scrollDifference > 0 && currentScroll > 100) {
+        // Scroll hacia abajo
+        if (!header.classList.contains("header-hidden")) {
+          header.classList.add("header-hidden");
+          header.classList.remove("header-visible");
+        }
+        lastDirection = 1;
+      } else if (scrollDifference < 0) {
+        // Scroll hacia arriba
+        if (!header.classList.contains("header-visible")) {
+          header.classList.remove("header-hidden");
+          header.classList.add("header-visible");
+        }
+        lastDirection = -1;
+      }
+
+
+      lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+    }
+
+
+    ticking = false;
+  }
+
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(handleScroll);
+      ticking = true;
+    }
+  });
+</script>
+
+
+</body>
+</html>

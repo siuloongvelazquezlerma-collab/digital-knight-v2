@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Candy Candy</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTc5Mjc0MzVf/candy%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/ohgiAphy8WvHmDqmTWOybOn5Xa4.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+    .cover::before,
+    .cover::after {
+      display: none;
+    }
+  
+    .cover-landscape {
+      display: block;
+    }
+  }
+  
+  .cover-content {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Mostrar landscape solo en modo horizontal */
+  @media screen and (orientation: landscape) {
+    .cover {
+      background: none;
+    }
+  
+    .cover-landscape {
+      display: block;
+    }
+  }
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Candy Candy</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/2nXUXrx2JIqlPNJGv9ZV5bE8Fmk.png" alt="Candy Candy Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;1976&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Candy Candy" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTc5Mjc1NDBf/candy%20fondo.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="candy-candy.html"></a>
+          <span id="nombre">Candy Candy</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Candy es una niña huérfana, buena, optimista y con un gran corazón. Cuando era pequeña, vive en un orfanato con su mejor
+        amiga, Annie.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="heidi.html">
+          <img src="https://image.tmdb.org/t/p/original/q0WtdvwCo9OMGR840jxcoTSQk.jpg" alt="Heidi (1974)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Heidi (1974)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDU2ODEzMzZf/CDY-001%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Candy Candy</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: Las travesuras de Candy"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "candy-candy";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: Las travesuras de Candy",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4SYdRXhSEf0aW34W8CTGbPOUI4A.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODEzMzZf/CDY-001%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODEzMzZf/CDY-001%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E1: Las travesuras de Candy",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E2: La aventura de Candy y Annie",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jKkmR0w8mAP2BbjVonS3VjdXQ0P.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODEzOTFf/CDY-002%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODEzOTFf/CDY-002%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E2: La aventura de Candy y Annie",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E3: Adiós, Annie",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6UQcZGjuPtavrxILtFK0osVS0Wu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE0NDJf/CDY-003%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE0NDJf/CDY-003%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E3: Adiós, Annie",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E4: Una carta de Annie",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/urrZiUHSfDvJbapoeVXOjzfM8br.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE0ODZf/CDY-004%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE0ODZf/CDY-004%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E4: Una carta de Annie",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E5: Adoptada por una familia rica",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/duXdSY6LMK4e3HwfQVQvqifMFT3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE1MjJf/CDY-005%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE1MjJf/CDY-005%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E5: Adoptada por una familia rica",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E6: Un príncipe en la colina",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1KyF4N1fBEh9nl55vGH6Ef3JK4l.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE1ODFf/CDY-006%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE1ODFf/CDY-006%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E6: Un príncipe en la colina",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E7: ¿Parezco una dama?",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dvgNiZGlFKmChA9eWtPEbdPs59c.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE2MjFf/CDY-007%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE2MjFf/CDY-007%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E7: ¿Parezco una dama?",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E8: Una invitación feliz",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mK6WJaKrnwD1fHUuuVHZzD4inBW.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE2ODhf/CDY-008%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE2ODhf/CDY-008%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E8: Una invitación feliz",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E9: Una fiesta espléndida",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bUVIjacimBUtvfMm3I7EP5tWx0W.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE3MzJf/CDY-009%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE3MzJf/CDY-009%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E9: Una fiesta espléndida",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+    "title": "E10: Una dama en el establo",
+    "meta": "13+ · 25m · 1976",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hBeaaKWKJ49gko9ycWHcehykvc6.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE3ODVf/CDY-010%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE3ODVf/CDY-010%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E10: Una dama en el establo",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 5, "end": 70 }
+  },
+  {
+  "title": "E11: Una pequeña cinta",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/edgwrw7bVqdpbyZ6pBdI8cQeIJH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4NDhf/CDY-011%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4NDhf/CDY-011%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E11: Una pequeña cinta",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E12: Dulce Candy",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rkmbsaAvXIQJYmEGnjMGPWrIcum.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5MDhf/CDY-012%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5MDhf/CDY-012%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E12: Dulce Candy",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E13: Tres solitarios",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AbK3oRZt9094k1gpqMY7qTAfktv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5NjJf/CDY-013%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5NjJf/CDY-013%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E13: Tres solitarios",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E14: Querido viejo árbol en primavera",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7JJEDO7oIAvURgD8Mw2ohsh3YBb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwMzZf/CDY-014%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwMzZf/CDY-014%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E14: Querido viejo árbol en primavera",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E15: Una decisión que quita felicidad a Candy",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mc6Cat2n7SO10XylvY7xpfAGK8b.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwODdf/CDY-015%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwODdf/CDY-015%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E15: Una decisión que quita felicidad a Candy",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E16: Viaje a un país desconocido",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/w7xu4iFtSp1Ntdd0UnMy1QLNJzC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxMjdf/CDY-016%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxMjdf/CDY-016%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E16: Viaje a un país desconocido",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E17: En el desierto lejano",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pdHcGpBSAhFAeBXoDzBVVNj9qnf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxNjBf/CDY-017%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxNjBf/CDY-017%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E17: En el desierto lejano",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E18: El crucifijo de la suerte",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f2txyLotv5ubMtAX5GUJG22rghM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxOTdf/CDY-018%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxOTdf/CDY-018%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E18: El crucifijo de la suerte",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E19: Después de un penoso viaje",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yr5k9ufIdugOO5fSd7t5QuVxo6i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyMzVf/CDY-019%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyMzVf/CDY-019%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E19: Después de un penoso viaje",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E20: Soy más feliz que una alondra",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tJQQWadcQkWwzDK8d1w2lyn7cSB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNTVf/CDY-020%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNTVf/CDY-020%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E20: Soy más feliz que una alondra",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E21: Una paloma trae un voto de amistad",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oj5CiADJpmYdq3NoLvWNPWcr4i0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNzZf/CDY-021%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNzZf/CDY-021%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E21: Una paloma trae un voto de amistad",
+  "hiddenCode": "T1 E21",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E22: ¡No te mueras, Anthony!",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dghQ1ulcNtLt7UkDb6OLwdCALsr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyOTRf/CDY-022%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyOTRf/CDY-022%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E22: ¡No te mueras, Anthony!",
+  "hiddenCode": "T1 E22",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E23: Su primer paseo juntos",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/s47VA8rSXbOmFRtrw3CYiJDlO9E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMTRf/CDY-023%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMTRf/CDY-023%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E23: Su primer paseo juntos",
+  "hiddenCode": "T1 E23",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E24: Anthony mío",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eCc6BTxpUKHcatBguAsRxJfWBvA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMzRf/CDY-024%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMzRf/CDY-024%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E24: Anthony mío",
+  "hiddenCode": "T1 E24",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E25: Sobreponiéndose al dolor",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6Xv6Hu1LGDSZzp0veqDJyHbH7N0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNTBf/CDY-025%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNTBf/CDY-025%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E25: Sobreponiéndose al dolor",
+  "hiddenCode": "T1 E25",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E26: El padre árbol todo lo sabe",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vbgKUXSIOOQrjAJfK0OcO7iUtXL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNzJf/CDY-026%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNzJf/CDY-026%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E26: El padre árbol todo lo sabe",
+  "hiddenCode": "T1 E26",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E27: El regalo de un ángel",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/t6L6wBdoQD8Db1amzGn6gU3WoGK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzOTNf/CDY-027%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzOTNf/CDY-027%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E27: El regalo de un ángel",
+  "hiddenCode": "T1 E27",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E28: El dolorido corazón de Candy",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4PI3Zfu6yS3rwT1c5yFCpnotkEP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0MjRf/CDY-028%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0MjRf/CDY-028%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E28: El dolorido corazón de Candy",
+  "hiddenCode": "T1 E28",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E29: Una partida llena de esperanzas",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kTTbdZ81KMlUqR9UTlo5m5xkK9S.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0NTVf/CDY-029%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0NTVf/CDY-029%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E29: Una partida llena de esperanzas",
+  "hiddenCode": "T1 E29",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E30: Amor a través del mar",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tRp2J4dnpalmhIRdsmoKM2cVZVR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0ODdf/CDY-030%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0ODdf/CDY-030%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E30: Amor a través del mar",
+  "hiddenCode": "T1 E30",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E31: Un nuevo día en una vieja ciudad",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zR3m6i4eEKMLZeDrQ9bkZu6f1Cd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1MTJf/CDY-031%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1MTJf/CDY-031%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E31: Un nuevo día en una vieja ciudad",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E32: Otra colina de Pony",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/scGgfnoS2PioF6XvB7MX8kVuqKi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1Mzdf/CDY-032%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1Mzdf/CDY-032%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E32: Otra colina de Pony",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E33: Una alumna envejecida",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3WhHA41rWEqXxAIP16yyngZEUSX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1NzJf/CDY-033%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1NzJf/CDY-033%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E33: Una alumna envejecida",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E34: El secreto de un sobre",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2WkVpCgfRyHbPHQeTnP0Fqz6uZ4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI2MTZf/CDY-034%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI2MTZf/CDY-034%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E34: El secreto de un sobre",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E35: Un maravilloso domingo",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a0xV1vfe0Zp3Eh0xwpdEsb0OFMz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI2NTJf/CDY-035%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI2NTJf/CDY-035%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E35: Un maravilloso domingo",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E36: Annie recupera su sonrisa",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oT79Z8UfbTkK4FT0loO7ItN1O4p.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3MDVf/CDY-036%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3MDVf/CDY-036%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E36: Annie recupera su sonrisa",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E37: Un encuentro inesperado",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gjHvFZPgGNK0uH5CdMmPFNTasft.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3Mjdf/CDY-037%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3Mjdf/CDY-037%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E37: Un encuentro inesperado",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E38: El secreto de Terry",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qFxdZwHCdzkecnnJLPflrS0mKNE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3NjFf/CDY-038%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3NjFf/CDY-038%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E38: El secreto de Terry",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E39: El tesoro que enfureció a la rectora",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/70sjM5rp7iZsPiL9Qvc5udzKxdu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyMzhf/CDY-039%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyMzhf/CDY-039%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E39: El tesoro que enfureció a la rectora",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E40: Se puede entrar y salir libremente",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/x9ftxjFxt7xUqTCu6HcAOLc4CUJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNTJf/CDY-040%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNTJf/CDY-040%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E40: Se puede entrar y salir libremente",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E41: Un hada en el festival del colegio",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9mSiIxh0ZvvfCHdooiyx9OB27ru.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNjdf/CDY-041%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNjdf/CDY-041%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E41: Un hada en el festival del colegio",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E42: Un pícnic a medianoche",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qsFl6QpaIKxNaJwQghrYJUv0wzr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNzZf/CDY-042%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNzZf/CDY-042%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E42: Un pícnic a medianoche",
+  "hiddenCode": "T1 E42",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E43: Colegio de verano",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/s66Ve3As2Hu4JGr1IC0wlcj3Ghq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyODhf/CDY-043%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyODhf/CDY-043%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E43: Colegio de verano",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E44: Lazos de Sangre",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b6aXWbaKDQJUpQQ0yyePHnKK7a5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczMDlf/CDY-044%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczMDlf/CDY-044%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E44: Lazos de Sangre",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E45: Fiesta blanca para dos",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/soNECqMt9dvxwpWCvN02VZM5A3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczMzVf/CDY-045%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczMzVf/CDY-045%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E45: Fiesta blanca para dos",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E46: Fin de un verano vibrante",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yiD9k8Kir5shlDy0Ex8jTUtV6FY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNTJf/CDY-046%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNTJf/CDY-046%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E46: Fin de un verano vibrante",
+  "hiddenCode": "T1 E46",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E47: La trampa de Eliza",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vsZYDms9uHfLmWG1uHdiYSoEgo9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNjVf/CDY-047%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNjVf/CDY-047%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E47: La trampa de Eliza",
+  "hiddenCode": "T1 E47",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E48: Entre frías y espesas paredes",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eVA1yFFKViUSTUBwTiGkNvcxAhw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNzhf/CDY-048%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNzhf/CDY-048%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E48: Entre frías y espesas paredes",
+  "hiddenCode": "T1 E48",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E49: La decisión de Terry",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fdqrJ0JCJnxN5NdTVuIiZeZIYMD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczOTZf/CDY-049%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczOTZf/CDY-049%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E49: La decisión de Terry",
+  "hiddenCode": "T1 E49",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E50: Partida en la bruma matinal",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yqQ9Z2gyw3EO1dw7EPvlsbsUHvs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0MTBf/CDY-050%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MTBf/CDY-050%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E50: Partida en la bruma matinal",
+  "hiddenCode": "T1 E50",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E51: El largo camino al puerto",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8Bb7PfLyyLGnSZxhT2sh3glEEjZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0MThf/CDY-051%20-%20SeriesRetrocom.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MThf/CDY-051%20-%20SeriesRetrocom.mp4",
+  "episodeCode": "T1 E51: El largo camino al puerto",
+  "hiddenCode": "T1 E51",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E52: Las estrellas de un establo",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/j75hK8da9HdmMyaufvKix43pPH9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0MzRf/CDY-052%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MzRf/CDY-052%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E52: Las estrellas de un establo",
+  "hiddenCode": "T1 E52",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E53: Amanecer en el monte Rossdale",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fJ5PoYCCO8ozZ0VWMukXuqdWr0c.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0NDhf/CDY-053%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NDhf/CDY-053%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E53: Amanecer en el monte Rossdale",
+  "hiddenCode": "T1 E53",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E54: Southampton en la niebla",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/caMQePF7n0zh0CGr2ca9S6KXcPn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0NjJf/CDY-054%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NjJf/CDY-054%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E54: Southampton en la niebla",
+  "hiddenCode": "T1 E54",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E55: Viajando como polizonte",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4kq6EKF0TdN0eIxFXovnjP5M4ud.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0Njdf/CDY-055%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0Njdf/CDY-055%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E55: Viajando como polizonte",
+  "hiddenCode": "T1 E55",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E56: Más allá de la tormenta",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oJ1ePTUCJ6EHWvSABQchs7OjxdI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0NzBf/CDY-056%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NzBf/CDY-056%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E56: Más allá de la tormenta",
+  "hiddenCode": "T1 E56",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E57: El puerto a través de una ventana",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nMEPse7V8TTl36p0KA6nwtLCexP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0NzRf/CDY-057%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NzRf/CDY-057%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E57: El puerto a través de una ventana",
+  "hiddenCode": "T1 E57",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E58: La vuelta al hogar bajo la nieve",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p6R0nxdSWZxzSJlXkLTOjxsAStd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0ODFf/CDY-058%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0ODFf/CDY-058%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E58: La vuelta al hogar bajo la nieve",
+  "hiddenCode": "T1 E58",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E59: Maestra de juegos por un día",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fOsRX2qMer7s2XTUFA41DFLp3ln.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0ODNf/CDY-059%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0ODNf/CDY-059%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E59: Maestra de juegos por un día",
+  "hiddenCode": "T1 E59",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E60: Amigo ve con el viento",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/raSutXjY0LAdf7GVNvxi9Ms7Hn3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0ODhf/CDY-060%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0ODhf/CDY-060%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E60: Amigo ve con el viento",
+  "hiddenCode": "T1 E60",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E61: Tiempo de decisiones",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yXHahUigcwP9IPAzVtH9AzJtgEB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0OTNf/CDY-061%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0OTNf/CDY-061%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E61: Tiempo de decisiones",
+  "hiddenCode": "T1 E61",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E62: Tren hacia una nueva vida",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hqgCRtBKMYfMwowYN6P1rx36SST.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc0OTRf/CDY-062%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc0OTRf/CDY-062%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E62: Tren hacia una nueva vida",
+  "hiddenCode": "T1 E62",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E63: Candy conoce una abuela en la ciudad",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8teXWmwfBfLcLZB8pYwV6IEh5sB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MDJf/CDY-063%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MDJf/CDY-063%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E63: Candy conoce una abuela en la ciudad",
+  "hiddenCode": "T1 E63",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E64: Un ángel blanco muy torpe",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bB5vLIpVCdthETCbml8HceATlzr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MDdf/CDY-064%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MDdf/CDY-064%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E64: Un ángel blanco muy torpe",
+  "hiddenCode": "T1 E64",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E65: Tratamiento con una sonrisa",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ejAurYGnxArhs3Wpwk6QQR3Yuld.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MTNf/CDY-065%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MTNf/CDY-065%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E65: Tratamiento con una sonrisa",
+  "hiddenCode": "T1 E65",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E66: Un abuelo imaginario",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/atoCCPnJQJXqa2yjINEx1WKI2hp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MTlf/CDY-066%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MTlf/CDY-066%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E66: Un abuelo imaginario",
+  "hiddenCode": "T1 E66",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E67: Miena ¿dónde estás?",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r2kHBIDpC5uLEyFvrrFHqhpVeRD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MjJf/CDY-067%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MjJf/CDY-067%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E67: Miena ¿dónde estás?",
+  "hiddenCode": "T1 E67",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E68: Cayeron pétalos en Primavera",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7JNY9u5GAw68KUinBWR8C6u4jiU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1Mjdf/CDY-068%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1Mjdf/CDY-068%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E68: Cayeron pétalos en Primavera",
+  "hiddenCode": "T1 E68",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E69: Recuerdos de una rosa blanca",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wDXkXdoXOKKFrhNZNYd2yUBWNrT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MzJf/CDY-069%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MzJf/CDY-069%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E69: Recuerdos de una rosa blanca",
+  "hiddenCode": "T1 E69",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E70: Una novia muy joven",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fwkkWImov5UIQ6hP1kvflXHSux0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1MzZf/CDY-070%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1MzZf/CDY-070%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E70: Una novia muy joven",
+  "hiddenCode": "T1 E70",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E71: Un marinero en la colina",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cUnKkXq9mZTb02cpJNxO0BECYR6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1NDdf/CDY-071%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1NDdf/CDY-071%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E71: Un marinero en la colina",
+  "hiddenCode": "T1 E71",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E72: Una chica en un cuarto especial",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oLVonC890OtRkgK3tJ6giodrCev.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1NTNf/CDY-072%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1NTNf/CDY-072%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E72: Una chica en un cuarto especial",
+  "hiddenCode": "T1 E72",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E73: Un rumor sobre Terry",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jWOGdF4KpS1SPQJDiQZs5ErbH2G.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1NjRf/CDY-073%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1NjRf/CDY-073%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E73: Un rumor sobre Terry",
+  "hiddenCode": "T1 E73",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E74: Hacia un gran hospital de ciudad",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6e929x3Y6R18aPqSp5Ghd0oJzLK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1NzNf/CDY-074%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1NzNf/CDY-074%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E74: Hacia un gran hospital de ciudad",
+  "hiddenCode": "T1 E74",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E75: La residencia del abuelo",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nzfCQSrLmzye239ZaXDFwVixgui.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1Nzlf/CDY-075%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1Nzlf/CDY-075%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E75: La residencia del abuelo",
+  "hiddenCode": "T1 E75",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E76: La pequeña casa del recuerdo",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jI10nroPnTkHzmSIbB0HOqaMy6c.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1ODFf/CDY-076%20-%20SeriesRetrocom.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1ODFf/CDY-076%20-%20SeriesRetrocom.mp4",
+  "episodeCode": "T1 E76: La pequeña casa del recuerdo",
+  "hiddenCode": "T1 E76",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E77: Una enfermera muy consciente",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c3avJ9Kg99xrLI235wP3nTVWVxz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1ODdf/CDY-077%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1ODdf/CDY-077%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E77: Una enfermera muy consciente",
+  "hiddenCode": "T1 E77",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E78: La melodía de Terry",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tRsXUZrah63dkTOPuDtG0dzcMvV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1OTFf/CDY-078%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1OTFf/CDY-078%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E78: La melodía de Terry",
+  "hiddenCode": "T1 E78",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E79: Detrás de las candilejas",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nnoCcbOI3ok6ULMQsAoFAufV5sE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1OTRf/CDY-079%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1OTRf/CDY-079%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E79: Detrás de las candilejas",
+  "hiddenCode": "T1 E79",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E80: Un encuentro muy breve",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/d78FzKCzfrJcPOiZFBOuZPKcjz8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc1OThf/CDY-080%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc1OThf/CDY-080%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E80: Un encuentro muy breve",
+  "hiddenCode": "T1 E80",
+  "intro": { "start": 5, "end": 70 }
+},
+{
+  "title": "E81: Terry sin su rostro",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zV3MZqCjDTzGTFVsiiJuhVG26V7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2MDJf/CDY-081%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2MDJf/CDY-081%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E81: Terry sin su rostro",
+  "hiddenCode": "T1 E81",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E82: Crecen flores en un tierno corazón",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8WFiaTzeQDnGvX1RKnJNWjyFaE4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2MDRf/CDY-082%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2MDRf/CDY-082%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E82: Crecen flores en un tierno corazón",
+  "hiddenCode": "T1 E82",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E83: Un fantasma que juega a los naipe",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/46W7mJEBYhuvpKQmdB654p9khKS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2MDlf/CDY-083%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2MDlf/CDY-083%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E83: Un fantasma que juega a los naipe",
+  "hiddenCode": "T1 E83",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E84: El olor de la guerra en el uniforme",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vNO6kMuwk4ac6sCXwU5HfRw17wC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2MjJf/CDY-084%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2MjJf/CDY-084%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E84: El olor de la guerra en el uniforme",
+  "hiddenCode": "T1 E84",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E85: Una familia hecha de odio y amor",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3iXwlcxFXhWz0nucvVQdXXOdbw2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2Mjdf/CDY-085%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2Mjdf/CDY-085%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E85: Una familia hecha de odio y amor",
+  "hiddenCode": "T1 E85",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E86: El hombre que perdió su pasado",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hbwDkKdBN8fLIgHiOaV3Q1zg8EZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2MzRf/CDY-086%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2MzRf/CDY-086%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E86: El hombre que perdió su pasado",
+  "hiddenCode": "T1 E86",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E87: Exámenes para dos",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1JGnLt7ln4TtWsQNPZV9q4iv3QX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2Mzhf/CDY-087%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2Mzhf/CDY-087%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E87: Exámenes para dos",
+  "hiddenCode": "T1 E87",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E88: Un buen aliciente",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5LnrHPzyLWEulZ3ooqVSIRlLUL5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2NDVf/CDY-088%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2NDVf/CDY-088%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E88: Un buen aliciente",
+  "hiddenCode": "T1 E88",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E89: El desaparecido Señor Albert",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6HnxMpAyviAh1sfJmMtACd5w52k.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2NTZf/CDY-089%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2NTZf/CDY-089%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E89: El desaparecido Señor Albert",
+  "hiddenCode": "T1 E89",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E90: Un pequeño castillo",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hQvTlWzdOcmGJnZcXoYXEkNoqOw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2NzJf/CDY-090%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2NzJf/CDY-090%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E90: Un pequeño castillo",
+  "hiddenCode": "T1 E90",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E91: Dos amantes corazones",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6JIqCBVuXzB5THnFxvOSmv48c3i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2OTBf/CDY-091%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2OTBf/CDY-091%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E91: Dos amantes corazones",
+  "hiddenCode": "T1 E91",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E92: Tratamiento con shock",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kqnDmNt7lHNYtJBi1H64XBek2se.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2OTdf/CDY-092%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc2OTdf/CDY-092%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E92: Tratamiento con shock",
+  "hiddenCode": "T1 E92",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E93: Un cupido con arrugas",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qyUd3zWW8B5ec5wVNjk6lG56WTu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MDRf/CDY-093%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MDRf/CDY-093%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E93: Un cupido con arrugas",
+  "hiddenCode": "T1 E93",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E94: Dos para un viaje",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pejj1d8PV2KYNQVPSFm9Nx0orS2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MDdf/CDY-094%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MDdf/CDY-094%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E94: Dos para un viaje",
+  "hiddenCode": "T1 E94",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E95: Rivales",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g4juUNSIhUvHOw5BG6C0waqb92U.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MTNf/CDY-095%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MTNf/CDY-095%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E95: Rivales",
+  "hiddenCode": "T1 E95",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E96: Invitación con pasaje de ida",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sd8sE93HiZjmuMIjbHy79yrS5oI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MTdf/CDY-096%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MTdf/CDY-096%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E96: Invitación con pasaje de ida",
+  "hiddenCode": "T1 E96",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E97: El reencuentro",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3Fr4w5RJrrMEbiEmYqkN6TUv7Bu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MjRf/CDY-097%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MjRf/CDY-097%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E97: El reencuentro",
+  "hiddenCode": "T1 E97",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E98: Una noche de estreno",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xO8obtRJgEVswYOX4sWJXC1oQzM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MzBf/CDY-098%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MzBf/CDY-098%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E98: Una noche de estreno",
+  "hiddenCode": "T1 E98",
+ "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E99: Separación en un día de nieve",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zvY4QgF3ze3BLUW1s2VcpvLdp22.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MzZf/CDY-099%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3MzZf/CDY-099%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E99: Separación en un día de nieve",
+  "hiddenCode": "T1 E99",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E100: La plataforma de las lágrimas",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/SNr7JFxsmtd0qdKlEc8dH5NBHD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3NDRf/CDY-100%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3NDRf/CDY-100%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E100: La plataforma de las lágrimas",
+  "hiddenCode": "T1 E100",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E101: Un atisbo de memoria",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8n5IbCmVozE17D2kerlHE36uJ4s.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3NTFf/CDY-101%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3NTFf/CDY-101%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E101: Un atisbo de memoria",
+  "hiddenCode": "T1 E101",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E102: La cruz en la colina de Pony",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ohNB3jCAdVnN1vy9YJMKXQbDuu6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3NTVf/CDY-102%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3NTVf/CDY-102%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E102: La cruz en la colina de Pony",
+  "hiddenCode": "T1 E102",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E103: Un viaje largo y difícil",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/A1XxMpkdVwilPBoFs7sr5bYSskJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3NjRf/CDY-103%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3NjRf/CDY-103%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E103: Un viaje largo y difícil",
+  "hiddenCode": "T1 E103",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E104: Una clínica no necesita un ángel",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nERGpDic7iF9HnIybmupAdNy3Y6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3NzBf/CDY-104%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3NzBf/CDY-104%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E104: Una clínica no necesita un ángel",
+  "hiddenCode": "T1 E104",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E105: El gentil refugiado",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1NQrWbG2QwtZh7Z9Dcal1ypJfCC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3NzVf/CDY-105%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3NzVf/CDY-105%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E105: El gentil refugiado",
+  "hiddenCode": "T1 E105",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E106: Otro asesino",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1pcIxWoS89kAuFtYFgbMuC1cKl5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3ODFf/CDY-106%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3ODFf/CDY-106%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E106: Otro asesino",
+  "hiddenCode": "T1 E106",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E107: Un menú especial para 100 trabajadores",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vQ04IaDKuPTUvmRBiWQ4Ys3uaAv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3ODdf/CDY-107%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3ODdf/CDY-107%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E107: Un menú especial para 100 trabajadores",
+  "hiddenCode": "T1 E107",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E108: Festejos en el valle",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ietc71Lkmlg0Q3QDn167QuOlzxC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3OTNf/CDY-108%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc3OTNf/CDY-108%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E108: Festejos en el valle",
+  "hiddenCode": "T1 E108",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E109: Las lágrimas de un pequeño Cartwright",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yEza3d1CeE415wO3KOhT0SS0dvS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4MDNf/CDY-109%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4MDNf/CDY-109%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E109: Las lágrimas de un pequeño Cartwright",
+  "hiddenCode": "T1 E109",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E110: Un amor embarazoso",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1go3fCm7F8xMc0eZtMlFGIM3bCE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4MTBf/CDY-110%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4MTBf/CDY-110%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E110: Un amor embarazoso",
+  "hiddenCode": "T1 E110",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E111: Recobrar el pasado",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ybrM3mjKMjASMOj39SXUzGwTzBq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4MThf/CDY-111%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4MThf/CDY-111%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E111: Recobrar el pasado",
+  "hiddenCode": "T1 E111",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E112: El engaño de Neil",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5e587zNsIY8MUdXlaf2rKu3dzww.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4MzRf/CDY-112%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4MzRf/CDY-112%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E112: El engaño de Neil",
+  "hiddenCode": "T1 E112",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E113: Personas vienen y personas se van",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/A857rfS752TebacvmWAYFB7D5Dm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4Mzlf/CDY-113%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4Mzlf/CDY-113%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E113: Personas vienen y personas se van",
+  "hiddenCode": "T1 E113",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E114: El día en que Candy ve al bisabuelo",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gyNwGOvC4pluMdpcm41I58au2B3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4NDBf/CDY-114%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4NDBf/CDY-114%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E114: El día en que Candy ve al bisabuelo",
+  "hiddenCode": "T1 E114",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E115: Las rosas están en flor en el Hogar de Pony",
+  "meta": "13+ · 25m · 1976",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/og6rArvz8iZmAXtTOvwZEm4SXrZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc4NDdf/CDY-115%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc4NDdf/CDY-115%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E115: Las rosas están en flor en el Hogar de Pony",
+  "hiddenCode": "T1 E115",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+}
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

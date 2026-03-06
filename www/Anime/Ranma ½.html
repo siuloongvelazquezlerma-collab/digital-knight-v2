@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Ranma ½</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/c7VBbO2IAoWeQLQxzYSypsFvxd0.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTc5MjI2Mjhf/OIP%20%284%29.jpeg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Ranma ½</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/jIPw1T05kVYiRnNZtxNB7jdLxrs.png" alt="Ranma ½ Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">14+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;1989&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Ranma ½" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/h9kMKxArSV4CJkPWmGzABC7Z1fw.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Ranma ½.html"></a>
+          <span id="nombre">Ranma ½ (1989)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Ranma Saotome sufre una maldición que lo transforma en chica con agua fría. Junto a Akane Tendo, enfrentan enredos
+        amorosos y combates inesperados. 
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+    <button class="tab" onclick="showTab('mangas')" tabindex="9">Mangas</button>
+  </div>
+  
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="evangelion.html">
+          <img src="https://image.tmdb.org/t/p/original/hAejqZt7ptBRkYuR1p1lmGGS3g8.jpg" alt="Neon Genesis Evangelion (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Neon Genesis Evangelion (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+  <div id="mangas" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma.html">
+          <img src="mangas/Ranma/Ranma tomo 1/RM01-001.jpg" alt="Ranma ½ (Tomo 1)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 1)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma2.html">
+          <img src="mangas/Ranma/Ranma tomo 2/RM02-001.jpg" alt="Ranma ½ (Tomo 2)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 2)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma3.html">
+          <img src="mangas/Ranma/Ranma tomo 3/RM03-001.jpg" alt="Ranma ½ (Tomo 3)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 3)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma4.html">
+          <img src="mangas/Ranma/Ranma tomo 4/RM04-001.jpg" alt="Ranma ½ (Tomo 4)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 4)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma5.html">
+          <img src="mangas/Ranma/Ranma tomo 5/RM05-001.jpg" alt="Ranma ½ (Tomo 5)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 5)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma6.html">
+          <img src="mangas/Ranma/Ranma tomo 6/RM06-001.jpg" alt="Ranma ½ (Tomo 6)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 6)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma7.html">
+          <img src="mangas/Ranma/Ranma tomo 7/RM07-001.jpg" alt="Ranma ½ (Tomo 7)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 7)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma8.html">
+          <img src="mangas/Ranma/Ranma tomo 8/RM08-017.jpg" alt="Ranma ½ (Tomo 8)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 8)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma9.html">
+          <img src="mangas/Ranma/Ranma tomo 9/RM09-001.jpg" alt="Ranma ½ (Tomo 9)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 9)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma10.html">
+          <img src="mangas/Ranma/Ranma tomo 10/RM10-001.jpg" alt="Ranma ½ (Tomo 10)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 10)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma11.html">
+          <img src="mangas/Ranma/Ranma tomo 11/RM11-001.jpg" alt="Ranma ½ (Tomo 11)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 11)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma12.html">
+          <img src="mangas/Ranma/Ranma tomo 12/RM12-001.jpg" alt="Ranma ½ (Tomo 12)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 12)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma13.html">
+          <img src="mangas/Ranma/Ranma tomo 13/RN13-001.jpg" alt="Ranma ½ (Tomo 13)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 13)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma14.html">
+          <img src="mangas/Ranma/Ranma tomo 14/RM14-017.jpg" alt="Ranma ½ (Tomo 14)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 14)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma15.html">
+          <img src="mangas/Ranma/Ranma tomo 15/RM15-001.jpg" alt="Ranma ½ (Tomo 15)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 15)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma16.html">
+          <img src="mangas/Ranma/Ranma tomo 16/Rm16-017.jpg" alt="Ranma ½ (Tomo 16)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 16)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma17.html">
+          <img src="mangas/Ranma/Ranma tomo 17/Rm17-001.jpg" alt="Ranma ½ (Tomo 17)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 17)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma18.html">
+          <img src="mangas/Ranma/Ranma tomo 18/RM18-001.jpg" alt="Ranma ½ (Tomo 18)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 18)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma19.html">
+          <img src="mangas/Ranma/Ranma tomo 19/RM19-001.jpg" alt="Ranma ½ (Tomo 19)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 19)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma20.html">
+          <img src="mangas/Ranma/Ranma tomo 20/RM20-001.jpg" alt="Ranma ½ (Tomo 20)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 20)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma21.html">
+          <img src="mangas/Ranma/Ranma tomo 21/RM21-001.jpg" alt="Ranma ½ (Tomo 21)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 21)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma22.html">
+          <img src="mangas/Ranma/Ranma tomo 22/RM22-001.jpg" alt="Ranma ½ (Tomo 22)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 22)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma23.html">
+          <img src="mangas/Ranma/Ranma tomo 23/RM23-005.jpg" alt="Ranma ½ (Tomo 23)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 23)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma24.html">
+          <img src="mangas/Ranma/Ranma tomo 24/RM24-005.gif" alt="Ranma ½ (Tomo 24)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 24)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma25.html">
+          <img src="mangas/Ranma/Ranma tomo 25/RM25-005.gif" alt="Ranma ½ (Tomo 25)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 25)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma26.html">
+          <img src="mangas/Ranma/Ranma tomo 26/RM26-005.gif" alt="Ranma ½ (Tomo 26)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 26)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma27.html">
+          <img src="mangas/Ranma/Ranma tomo 27/RM27-001.jpg" alt="Ranma ½ (Tomo 27)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 27)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma28.html">
+          <img src="mangas/Ranma/Ranma tomo 28/RM28-001.jpg" alt="Ranma ½ (Tomo 28)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 28)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma29.html">
+          <img src="mangas/Ranma/Ranma tomo 29/RM29-005.gif" alt="Ranma ½ (Tomo 29)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 29)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma30.html">
+          <img src="mangas/Ranma/Ranma tomo 30/RM30-001.jpg" alt="Ranma ½ (Tomo 30)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 30)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma31.html">
+          <img src="mangas/Ranma/Ranma tomo 31/31-000.jpg" alt="Ranma ½ (Tomo 31)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 31)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma32.html">
+          <img src="mangas/Ranma/Ranma tomo 32/RM32-001.jpg" alt="Ranma ½ (Tomo 32)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 32)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma33.html">
+          <img src="mangas/Ranma/Ranma tomo 33/33-001.jpg" alt="Ranma ½ (Tomo 33)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 33)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma34.html">
+          <img src="mangas/Ranma/Ranma tomo 34/RM34-005.gif" alt="Ranma ½ (Tomo 34)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 34)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma35.html">
+          <img src="mangas/Ranma/Ranma tomo 35/RM35-001.jpg" alt="Ranma ½ (Tomo 35)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 35)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma36.html">
+          <img src="mangas/Ranma/Ranma tomo 36/RM36-005.GIF" alt="Ranma ½ (Tomo 36)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 36)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma37.html">
+          <img src="mangas/Ranma/Ranma tomo 37/RM37-005.gif" alt="Ranma ½ (Tomo 37)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 37)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="suggested-item">
+        <a href="mangas/Ranma/ranma38.html">
+          <img src="mangas/Ranma/Ranma tomo 38/RM38-005.gif" alt="Ranma ½ (Tomo 38)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Ranma ½ (Tomo 38)</div>
+          <div class="meta-row">
+            <span class="meta"></span>
+          </div>
+        </div>
+      </div>
+  
+  
+    </div>
+  </div>
+  
+  
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTc5MjM2MTRf/01.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Ranma ½</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: De China llega un extraño"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+      
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "ranma-½";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+      "title": "E1: De China llega un extraño",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/HEYH0suodlPbDDqEUiIMJiiNmT.jpg",
+      "videoUrl": "https://od.lk/s/M18zMTc5MjM2MTRf/01.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMTc5MjM2MTRf/01.mp4",
+      "episodeCode": "T1 E1: De China llega un extraño",
+      "hiddenCode": "T1 E1",
+      "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E2: La escuela no es un parque de diversiones",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/7CCP2Xotvxi9a1qJK0gtniTmBdt.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2MDhf/02.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MDhf/02.mp4",
+      "episodeCode": "T1 E2: La escuela no es un parque de diversiones",
+      "hiddenCode": "T1 E2",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E3: Y de pronto surgió el amor",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/m7JSQj4MPpO31xLx8PeZnE8DKBg.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2MThf/03.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MThf/03.mp4",
+      "episodeCode": "T1 E3: Y de pronto surgió el amor",
+      "hiddenCode": "T1 E3",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E4: ¿Ranma y Ranma? Vaya confusión",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/d3djNjZzc1AlZJ07dz33SmMduus.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2MjBf/04.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MjBf/04.mp4",
+      "episodeCode": "T1 E4: ¿Ranma y Ranma? Vaya confusión",
+      "hiddenCode": "T1 E4",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E5: Akane y su amor salvaje",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/H8E5Lpyg9Skhc03anhEEZDoTO4.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2MjFf/05.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MjFf/05.mp4",
+      "episodeCode": "T1 E5: Akane y su amor salvaje",
+      "hiddenCode": "T1 E5",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E6: Akane y su amor imposible",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/n1U21GD3jEX1QbbWTqaRAjEJkjd.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2Mjhf/06.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2Mjhf/06.mp4",
+      "episodeCode": "T1 E6: Akane y su amor imposible",
+      "hiddenCode": "T1 E6",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E7: Ryoga siempre está perdido",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/z1ARlUKreCpAtnTFy6jFViEeK7K.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2MzZf/07.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MzZf/07.mp4",
+      "episodeCode": "T1 E7: Ryoga siempre está perdido",
+      "hiddenCode": "T1 E7",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E8: La escuela es el campo de batalla. Ranma contra Ryoga",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/3d6pRmuwEfkudqpger9FkP3oBOY.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2NDZf/08.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2NDZf/08.mp4",
+      "episodeCode": "T1 E8: La escuela es el campo de batalla. Ranma contra Ryoga",
+      "hiddenCode": "T1 E8",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E9: Akane y Ryoga cambian de apariencia",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/ufjcjrQ8XV24vMpAYlEgwlibQ6t.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2Njlf/09.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2Njlf/09.mp4",
+      "episodeCode": "T1 E9: Akane y Ryoga cambian de apariencia",
+      "hiddenCode": "T1 E9",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "E10: P-Chan eres un pícaro",
+      "meta": "13+ · 25m · 1989",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/323CFW1SdhUR6LT2XWAEnQzVnem.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU1MTY2Nzdf/10.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU1MTY2Nzdf/10.mp4",
+      "episodeCode": "T1 E10: P-Chan eres un pícaro",
+      "hiddenCode": "T1 E10",
+       "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+        "title": "E11: La capitana del equipo de gimnasia se enamora de Ranma",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oXf3nlAs4VoOSIGBLQakbWp7wih.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY2ODdf/11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY2ODdf/11.mp4",
+        "episodeCode": "T1 E11: La capitana del equipo de gimnasia se enamora de Ranma",
+        "hiddenCode": "T1 E11",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E12: Un duelo de amor",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hPFu8DLzMH96U4QiVB7rwlNxdlL.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY2OTVf/12.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY2OTVf/12.mp4",
+        "episodeCode": "T1 E12: Un duelo de amor",
+        "hiddenCode": "T1 E12",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E13: Competencia deportiva sin reglas",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3x98oZ2Ux5YoqxfOsH8FAyAdFAA.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3MDFf/13.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3MDFf/13.mp4",
+        "episodeCode": "T1 E13: Competencia deportiva sin reglas",
+        "hiddenCode": "T1 E13",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E14: La mejor esposa para el Doctor Tofu",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pxLUDHKwO1l2FpLtsMjAzKXpDsM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3MDZf/14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3MDZf/14.mp4",
+        "episodeCode": "T1 E14: La mejor esposa para el Doctor Tofu",
+        "hiddenCode": "T1 E14",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E15: Aparece la poderosa Shampoo ¡Sálvese quien pueda!.",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6SLtNHMZD5ghs1718sgWMbSB8lZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3MDhf/15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3MDhf/15.mp4",
+        "episodeCode": "T1 E15: Aparece la poderosa Shampoo ¡Sálvese quien pueda!.",
+        "hiddenCode": "T1 E15",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E16: La venganza de Shampoo o cómo dominar el cuerpo y corazón con la presión de un dedo",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cgbjZqwzqJ3lYvpTcPcb2BCVmYa.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3MTJf/16.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3MTJf/16.mp4",
+        "episodeCode": "T1 E16: La venganza de Shampoo o cómo dominar el cuerpo y corazón con la presión de un dedo",
+        "hiddenCode": "T1 E16",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E17: Amo a Ranma y no lo dejaré",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vIqb8MfhLpDhjoKs0Dh48KX1jzQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3MTdf/17.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3MTdf/17.mp4",
+        "episodeCode": "T1 E17: Amo a Ranma y no lo dejaré",
+        "hiddenCode": "T1 E17",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E18: Soy un hombre! Ranma quiere volver a China",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lBJGPqD34xcTV7vh9lU1zNomeM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3Mjdf/18.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3Mjdf/18.mp4",
+        "episodeCode": "T1 E18: Soy un hombre! Ranma quiere volver a China",
+        "hiddenCode": "T1 E18",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E19: Una competencia muy accidentada",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bPUj9HZEQCxUClBg0nRBwd5T5P8.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3Mjhf/19.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3Mjhf/19.mp4",
+        "episodeCode": "T1 E19: Una competencia muy accidentada",
+        "hiddenCode": "T1 E19",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E20: ¿En verdad no te gustan los gatos?",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qxkieCuqTDy8eg51Sc4Ej4RQFot.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY3MzRf/20.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY3MzRf/20.mp4",
+        "episodeCode": "T1 E20: ¿En verdad no te gustan los gatos?",
+        "hiddenCode": "T1 E20",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+  "title": "E21: La abuela de Shampoo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5FZ0g4EfB7Ce5KV4PtJeDYlROTt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY3Mzdf/21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY3Mzdf/21.mp4",
+  "episodeCode": "T1 E21: La abuela de Shampoo",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E22: ¡Ahí está! El legendario truco de las castañas",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8yboxms3nxuNk6uHpnseb6KXZoX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY3NDFf/22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY3NDFf/22.mp4",
+  "episodeCode": "T1 E22: ¡Ahí está! El legendario truco de las castañas",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E23: Mousse, el hombre con el truco del cisne",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1y6tivKUzJ3Jydt81TTohQdRcVa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyMDZf/23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyMDZf/23.mp4",
+  "episodeCode": "T1 E23: Mousse, el hombre con el truco del cisne",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E24: La bola Fénix",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ytFFzDv6IXF8eC6wDejpFGra1FQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyMDlf/24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyMDlf/24.mp4",
+  "episodeCode": "T1 E24: La bola Fénix",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E25: ¡Se roban a P-Chan!",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zfNZXVdjM2aEcjtRscK77bZDUre.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyMTVf/25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyMTVf/25.mp4",
+  "episodeCode": "T1 E25: ¡Se roban a P-Chan!",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E26: El baile del espíritu de la muerte",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uRI5YZG8QSB63TeRKuBQwhHrxLp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyMjZf/26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyMjZf/26.mp4",
+  "episodeCode": "T1 E26: El baile del espíritu de la muerte",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E27: ¡P-chan al rescate!",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5d7W7BsZSigbQ9qeCWjMvn7onL4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyNDFf/27.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyNDFf/27.mp4",
+  "episodeCode": "T1 E27: ¡P-chan al rescate!",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E28: El terrible entrenamiento en la montaña",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kHYRsLYYRA2uimUw3PeHETiCA2B.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyNDZf/28.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyNDZf/28.mp4",
+  "episodeCode": "T1 E28: El terrible entrenamiento en la montaña",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E29: La venganza de Ryoga",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wd1xzVs5hQ34rFOcr1iWUgLFWYK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYyODBf/29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYyODBf/29.mp4",
+  "episodeCode": "T1 E29: La venganza de Ryoga",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E30: Un reto para dos",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4JnsP9m6JOSgRjlQTwDTIlf8CxF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTYzNzJf/30.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTYzNzJf/30.mp4",
+  "episodeCode": "T1 E30: Un reto para dos",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E31: Secuestran a Akane",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zKoX9gbaGRUJEhsBYUa37ci40Pf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MTJf/31.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MTJf/31.mp4",
+  "episodeCode": "T1 E31: Secuestran a Akane",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E32: Ranma contra Mousse: Perder para ganar",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v9spC9SSRjeo9ttOvZnkfWZCdW7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MTNf/32.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MTNf/32.mp4",
+  "episodeCode": "T1 E32: Ranma contra Mousse: Perder para ganar",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E33: Happosai, el monstruo lujurioso",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9P2cimQSJD8dkI1iQxWef2YdYK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MTRf/33.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MTRf/33.mp4",
+  "episodeCode": "T1 E33: Happosai, el monstruo lujurioso",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E34: Ataque al vestidor de mujeres",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jHeVXl4cIfvaG3J4T0uelJ4hnwb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MTVf/34.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MTVf/34.mp4",
+  "episodeCode": "T1 E34: Ataque al vestidor de mujeres",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E35: La mansión del terror",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xy0a5imJUVwQtGXfOY5gjr8hYeO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MTZf/35.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MTZf/35.mp4",
+  "episodeCode": "T1 E35: La mansión del terror",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E36: Adiós a la chica",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8jfvlNaerUggyv2VmzNthIvMqHX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MThf/36.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MThf/36.mp4",
+  "episodeCode": "T1 E36: Adiós a la chica",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E37: La Rosa Negra y sus galletas del amor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tDbdnAfg5uOMv1BA9vaY9PpkQdB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MTlf/37.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MTlf/37.mp4",
+  "episodeCode": "T1 E37: La Rosa Negra y sus galletas del amor",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E38: ¡Cuidado con el ladrón!",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1uuSRLl79VuTz73kVCaUSOd8dHk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MjBf/38.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MjBf/38.mp4",
+  "episodeCode": "T1 E38: ¡Cuidado con el ladrón!",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E39: ¿Quién besará a Akane?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/urgIqAHWm0uf2zgBKdnUUYz6ig7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MjFf/39.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MjFf/39.mp4",
+  "episodeCode": "T1 E39: ¿Quién besará a Akane?",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E40: Batalla en un baño público",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3TFxYKsPyr4tLczRMBmbscMgX4l.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY0MjJf/40.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MjJf/40.mp4",
+  "episodeCode": "T1 E40: Batalla en un baño público",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E41: Alguien más en busca de Ranma",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yvvxB2uepSWstW2HxLikV9lNwjE.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0MjVf/41.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MjVf/41.mp4",
+        "episodeCode": "T1 E41: Alguien más en busca de Ranma",
+        "hiddenCode": "T1 E41",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E42: ¿Ryoga y Akane son novios?",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yF9G20e7GjAJkmKkfIrvmSUhW4d.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0MjZf/42.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MjZf/42.mp4",
+        "episodeCode": "T1 E42: ¿Ryoga y Akane son novios?",
+        "hiddenCode": "T1 E42",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E43: Un estornudo de amor",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qsjqC57D36zpJ81kznRUQQIH5JP.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0Mjlf/43.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0Mjlf/43.mp4",
+        "episodeCode": "T1 E43: Un estornudo de amor",
+        "hiddenCode": "T1 E43",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E44: En busca del Happo-Daikarin",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fpJNmKibzihkDTC6vG5NN0xcbjH.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0MzFf/44.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0MzFf/44.mp4",
+        "episodeCode": "T1 E44: En busca del Happo-Daikarin",
+        "hiddenCode": "T1 E44",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E45: Vaya confusión",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zKaiYm7ABXDzd7f7vcWvkIhaJ3m.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0NjBf/45.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0NjBf/45.mp4",
+        "episodeCode": "T1 E45: Vaya confusión",
+        "hiddenCode": "T1 E45",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E46: La bruja de la ropa íntima",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ul499KEqnlLQyxpQFoIGL43RoOQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0ODFf/46.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0ODFf/46.mp4",
+        "episodeCode": "T1 E46: La bruja de la ropa íntima",
+        "hiddenCode": "T1 E46",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E47: Akane se transforma",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/75VX4PSIHvLVyHQK7bAXphRn5Xz.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0OTRf/47.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0OTRf/47.mp4",
+        "episodeCode": "T1 E47: Akane se transforma",
+        "hiddenCode": "T1 E47",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E48: El vengador de Jusenkyo",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/n6u0zZn9G3sJMWXeUVTE77IKkm3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0OTVf/48.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0OTVf/48.mp4",
+        "episodeCode": "T1 E48: El vengador de Jusenkyo",
+        "hiddenCode": "T1 E48",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E49: ¿Ranma se volvió mujer?",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/g6LZqf0QEk71bTMUWFYmJbh4RJn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY0OTlf/49.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY0OTlf/49.mp4",
+        "episodeCode": "T1 E49: ¿Ranma se volvió mujer?",
+        "hiddenCode": "T1 E49",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E50: Happosai contra el hombre invisible",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8Xfah1cBkyyoY2bfbahgTgv41fQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDJf/50.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDJf/50.mp4",
+        "episodeCode": "T1 E50: Happosai contra el hombre invisible",
+        "hiddenCode": "T1 E50",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E51: La miserable familia de Kuno",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gq9HuJnjzgNJmo1srvSQruZKYei.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDNf/51.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDNf/51.mp4",
+        "episodeCode": "T1 E51: La miserable familia de Kuno",
+        "hiddenCode": "T1 E51",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E52: El fantasma y la espada encantada",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/WUVrPzgJs9SU42Bx78VFZvs4dA.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDRf/52.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDRf/52.mp4",
+        "episodeCode": "T1 E52: El fantasma y la espada encantada",
+        "hiddenCode": "T1 E52",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E53: La pastilla del amor",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y33uvXOl5wu4TooHUET0DqmXr1W.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDVf/53.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDVf/53.mp4",
+        "episodeCode": "T1 E53: La pastilla del amor",
+        "hiddenCode": "T1 E53",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E54: La decisión de Ryoga",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jdHk5SEqhBXVtvSahBfAbnk71a2.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDZf/54.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDZf/54.mp4",
+        "episodeCode": "T1 E54: La decisión de Ryoga",
+        "hiddenCode": "T1 E54",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E55: Recordando a Happosai",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y3V8SfD67vN1NtGt6Iq1t4gSMeb.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDdf/55.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDdf/55.mp4",
+        "episodeCode": "T1 E55: Recordando a Happosai",
+        "hiddenCode": "T1 E55",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E56: Kodachi y su gran amor",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9T6b0WxtUnv8vHcNvYIlQd6C8nl.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDhf/56.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDhf/56.mp4",
+        "episodeCode": "T1 E56: Kodachi y su gran amor",
+        "hiddenCode": "T1 E56",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E57: ¿Los últimos días de Happosai?",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8vb8Ph58MdqSx8r9rMLLZZy8TSg.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MDlf/57.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MDlf/57.mp4",
+        "episodeCode": "T1 E57: ¿Los últimos días de Happosai?",
+        "hiddenCode": "T1 E57",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E58: Rin-Rin, Ran-Ran, ¡Vaya chicas!",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4UDOlmnvfuSixQ6f1daTGdwNzfK.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MTJf/58.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MTJf/58.mp4",
+        "episodeCode": "T1 E58: Rin-Rin, Ran-Ran, ¡Vaya chicas!",
+        "hiddenCode": "T1 E58",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E59: El espíritu diabólico viene por Ranma",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h8YqwiuplQ01g0TMyFGBCIcMYbL.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MThf/59.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MThf/59.mp4",
+        "episodeCode": "T1 E59: El espíritu diabólico viene por Ranma",
+        "hiddenCode": "T1 E59",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+        "title": "E60: El truco del camaleón",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4IPlHknEl3OliYHMEHkyQtgi5QQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTY1MjBf/60.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MjBf/60.mp4",
+        "episodeCode": "T1 E60: El truco del camaleón",
+        "hiddenCode": "T1 E60",
+        "intro": { "start": 5, "end": 90 }
+      },
+      {
+  "title": "E61: Un cambio en el cuerpo de Ryoga",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mbZ24FEt80LDHqyCdJDoFaqM1uX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MjFf/61.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MjFf/61.mp4",
+  "episodeCode": "T1 E61: Un cambio en el cuerpo de Ryoga",
+  "hiddenCode": "T1 E61",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E62: La gran carrera de obstáculos",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/liSEdqJvdBX9b9doYY6KHBqT1WI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MjJf/62.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MjJf/62.mp4",
+  "episodeCode": "T1 E62: La gran carrera de obstáculos",
+  "hiddenCode": "T1 E62",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E63: Ranma vuelve al fin a las fosas encantadas",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yf5kcKhVclXU0HnjSzgpi4tuP6F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Mjlf/63.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Mjlf/63.mp4",
+  "episodeCode": "T1 E63: Ranma vuelve al fin a las fosas encantadas",
+  "hiddenCode": "T1 E63",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E64: Ranma vuelve al fin a las fosas encantadas",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8GqBlu1penDbiAjhfGWYoQsy9h6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MzBf/64.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MzBf/64.mp4",
+  "episodeCode": "T1 E64: Ranma vuelve al fin a las fosas encantadas",
+  "hiddenCode": "T1 E64",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E65: El regreso del director",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fAeVUN07c3nKY4svU4egL4gqRPc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MzFf/65.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MzFf/65.mp4",
+  "episodeCode": "T1 E65: El regreso del director",
+  "hiddenCode": "T1 E65",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E66: La Gran fortaleza de Kuno",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eSCmmSLKDyLeVyhrECHd4jL40Yg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MzRf/66.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MzRf/66.mp4",
+  "episodeCode": "T1 E66: La Gran fortaleza de Kuno",
+  "hiddenCode": "T1 E66",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E67: Ranma pierde su fuerza",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xA3C78iTSo3NaYIpx5P36aePvJ0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MzVf/67.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MzVf/67.mp4",
+  "episodeCode": "T1 E67: Ranma pierde su fuerza",
+  "hiddenCode": "T1 E67",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E68: Ranma adivina el último movimiento",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fvCJIJXBq9oQ4QB8t7lMDSqHBcK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1MzZf/68.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1MzZf/68.mp4",
+  "episodeCode": "T1 E68: Ranma adivina el último movimiento",
+  "hiddenCode": "T1 E68",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E69: Ranma se recupera",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1Wy1Es3OJFSMVqrIZvssMBfkgK6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Mzhf/69.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Mzhf/69.mp4",
+  "episodeCode": "T1 E69: Ranma se recupera",
+  "hiddenCode": "T1 E69",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E70: La mamá de Ranma está aquí",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/A5bes9w6Lp1TkeBw2fvImEg6a9C.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NDBf/70.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NDBf/70.mp4",
+  "episodeCode": "T1 E70: La mamá de Ranma está aquí",
+  "hiddenCode": "T1 E70",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E71: Ryoga recuerda su amor y su dolor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ddOqI3i4RQCmXH6TTxC10E6nDh8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NDFf/71.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NDFf/71.mp4",
+  "episodeCode": "T1 E71: Ryoga recuerda su amor y su dolor",
+  "hiddenCode": "T1 E71",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E72: La prometida del gato",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7uzQy52TBnl9UCgXVRxnCS4eLKl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NDJf/72.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NDJf/72.mp4",
+  "episodeCode": "T1 E72: La prometida del gato",
+  "hiddenCode": "T1 E72",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E73: Solo se es joven una vez",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/icx3TGyrE4vwfcmQcwngl4u8dhP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NDNf/73.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NDNf/73.mp4",
+  "episodeCode": "T1 E73: Solo se es joven una vez",
+  "hiddenCode": "T1 E73",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E74: El discípulo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uxuOy6S8SiShlSO29zgoE6nz3cL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NTJf/74.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NTJf/74.mp4",
+  "episodeCode": "T1 E74: El discípulo",
+  "hiddenCode": "T1 E74",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E75: ¿Quieres salir?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2ruKb0Lk5Qx8w8Ypfob8xQoLyrj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NTNf/75.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NTNf/75.mp4",
+  "episodeCode": "T1 E75: ¿Quieres salir?",
+  "hiddenCode": "T1 E75",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E76: Ryoga es huésped de la familia Tendo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aglAmCDaA4ilqORaQ9lWyRd9Ojj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NTRf/76.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NTRf/76.mp4",
+  "episodeCode": "T1 E76: Ryoga es huésped de la familia Tendo",
+  "hiddenCode": "T1 E76",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E77: Happosai se enamora",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6H7p6Rv0dTXu3UB6hmkwvuE8UZ1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NTVf/77.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NTVf/77.mp4",
+  "episodeCode": "T1 E77: Happosai se enamora",
+  "hiddenCode": "T1 E77",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E78: Profecía de amor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xssGOPwQkyBfkRfKZsKS3BGnzmr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NTZf/78.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NTZf/78.mp4",
+  "episodeCode": "T1 E78: Profecía de amor",
+  "hiddenCode": "T1 E78",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E79: El hombre más fuerte del mundo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nwMMnWsxhEeFjs73sySUF6Yuis8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NTlf/79.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NTlf/79.mp4",
+  "episodeCode": "T1 E79: El hombre más fuerte del mundo",
+  "hiddenCode": "T1 E79",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E80: El secreto de Ryoga",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9rasRtnOh16SrKOVSnYCOMcK1N6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjBf/80.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjBf/80.mp4",
+  "episodeCode": "T1 E80: El secreto de Ryoga",
+  "hiddenCode": "T1 E80",
+  "intro": { "start": 5, "end": 90 }
+},
+      {
+  "title": "E81: Un lindo recuerdo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6GXXp8QhiqE94d1CS6JdsIX1RN7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjFf/81.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjFf/81.mp4",
+  "episodeCode": "T1 E81: Un lindo recuerdo",
+  "hiddenCode": "T1 E81",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E82: ¿Ranma acepta salir con Kuno?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xbTS8aKyzxXm1EACgT84dc4WEAL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjJf/82.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjJf/82.mp4",
+  "episodeCode": "T1 E82: ¿Ranma acepta salir con Kuno?",
+  "hiddenCode": "T1 E82",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E83: El hilo mágico de Shampoo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8hA0QSawLgI7cRUQqkDgtHvQ2LV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjNf/83.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjNf/83.mp4",
+  "episodeCode": "T1 E83: El hilo mágico de Shampoo",
+  "hiddenCode": "T1 E83",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E84: Mousse regresa a casa",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1rct1ppKcieI1XSS0iyPKYqelTE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjRf/84.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjRf/84.mp4",
+  "episodeCode": "T1 E84: Mousse regresa a casa",
+  "hiddenCode": "T1 E84",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E85: La peor apuesta del mundo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tZFxvtKCKAdMlK9zG4rRW3NDK4E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjVf/85.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjVf/85.mp4",
+  "episodeCode": "T1 E85: La peor apuesta del mundo",
+  "hiddenCode": "T1 E85",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E86: ¿Kuno se convierte en Marianne?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k8pAMooXPAxtaPUrfuEtgbleqw9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NjZf/86.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NjZf/86.mp4",
+  "episodeCode": "T1 E86: ¿Kuno se convierte en Marianne?",
+  "hiddenCode": "T1 E86",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E87: Detesto a Ranma",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lzIqVKREuW3trrqTVoNjYi4utHy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Njdf/87.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Njdf/87.mp4",
+  "episodeCode": "T1 E87: Detesto a Ranma",
+  "hiddenCode": "T1 E87",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E88: Los Bigotes de Dragón",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lH9NmwWWAnnWOzflB6Vt2bfzEyQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Njhf/88.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Njhf/88.mp4",
+  "episodeCode": "T1 E88: Los Bigotes de Dragón",
+  "hiddenCode": "T1 E88",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E89: Cuando termina la ambición del hombre",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i6jpBTZvIkEcHqT288wGMjbBw21.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Njlf/89.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Njlf/89.mp4",
+  "episodeCode": "T1 E89: Cuando termina la ambición del hombre",
+  "hiddenCode": "T1 E89",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E90: RinRin y RanRan contraatacan",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4ZbtuubnHR68NCYKz059FbzX7es.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NzBf/90.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NzBf/90.mp4",
+  "episodeCode": "T1 E90: RinRin y RanRan contraatacan",
+  "hiddenCode": "T1 E90",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E91: Ryoga declara su amor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pYdfGEiVG7ceNL2J4HjjTDcUI2H.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NzFf/91.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NzFf/91.mp4",
+  "episodeCode": "T1 E91: Ryoga declara su amor",
+  "hiddenCode": "T1 E91",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E93: La famosa ceremonia del té",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/943Zly3dOFyEz53u2D02skXxSMO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NzJf/93.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NzJf/93.mp4",
+  "episodeCode": "T1 E93: La famosa ceremonia del té",
+  "hiddenCode": "T1 E93",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E94: ¿Una niña es la retadora?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7D3nZSesy7UhPjwj9L4ZOuibDx9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NzNf/94.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NzNf/94.mp4",
+  "episodeCode": "T1 E94: ¿Una niña es la retadora?",
+  "hiddenCode": "T1 E94",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E95: La competencia en el manantial",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wEMuCvxjzAB8sX1RSoE4pgzFORk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1NzRf/95.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1NzRf/95.mp4",
+  "episodeCode": "T1 E95: La competencia en el manantial",
+  "hiddenCode": "T1 E95",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E96: ¿Ese es el papá de Kuno?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3YANmbTWM2UT1XelA2Kixaq7JUA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Nzdf/96.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Nzdf/96.mp4",
+  "episodeCode": "T1 E96: ¿Ese es el papá de Kuno?",
+  "hiddenCode": "T1 E96",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E97: La superior de la casa se pone de pie",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/215U53Vz3GPGDc5PV35AyndaHO0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Nzhf/97.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Nzhf/97.mp4",
+  "episodeCode": "T1 E97: La superior de la casa se pone de pie",
+  "hiddenCode": "T1 E97",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E98: La maldición del leotardo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rB1fsghGRvmojsijFyFBvnTAks.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1Nzlf/98.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1Nzlf/98.mp4",
+  "episodeCode": "T1 E98: La maldición del leotardo",
+  "hiddenCode": "T1 E98",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E99: Peligro en el baño público",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yiuZSwwcTs7vAQWxmPmM4ILRSTh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODBf/99.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODBf/99.mp4",
+  "episodeCode": "T1 E99: Peligro en el baño público",
+  "hiddenCode": "T1 E99",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E100: La venganza de la rana",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/m16nMuYNjsh93L1zoUFgP8jj5YN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODFf/100.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODFf/100.mp4",
+  "episodeCode": "T1 E100: La venganza de la rana",
+  "hiddenCode": "T1 E100",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E101: ¡Contraataque! El pan de la ira",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oYbUbpSdbeuUm1SVi5gzl3vUztk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODJf/101.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODJf/101.mp4",
+  "episodeCode": "T1 E101: ¡Contraataque! El pan de la ira",
+  "hiddenCode": "T1 E101",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E102: ¿Ranma es un Don Juan?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7FnnH5uBSVYfPuTSNPqgcflX6h8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODNf/102.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODNf/102.mp4",
+  "episodeCode": "T1 E102: ¿Ranma es un Don Juan?",
+  "hiddenCode": "T1 E102",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E103: El combate shogi",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/30ZDaf6SMoo0eGH9NYeXPW9zDAw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODRf/103.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODRf/103.mp4",
+  "episodeCode": "T1 E103: El combate shogi",
+  "hiddenCode": "T1 E103",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E104: Sasuke el espía",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e2EppW0EtXUFBDwiPyCJ5Skjj9Z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODVf/104.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODVf/104.mp4",
+  "episodeCode": "T1 E104: Sasuke el espía",
+  "hiddenCode": "T1 E104",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E105: ¡Bonjour! Concurso al estilo francés",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1YkujbkL7mWI5gb2Y8T3Wey8U1T.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODdf/105.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODdf/105.mp4",
+  "episodeCode": "T1 E105: ¡Bonjour! Concurso al estilo francés",
+  "hiddenCode": "T1 E105",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E106: El combate decisivo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eBsck9vdRczZy234yKXep6DzQwD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1ODlf/106.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1ODlf/106.mp4",
+  "episodeCode": "T1 E106: El combate decisivo",
+  "hiddenCode": "T1 E106",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E107: Las temibles lecciones de natación de Akane",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dDuH44pPYta4MHZMYO4IqFv203Q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTBf/107.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTBf/107.mp4",
+  "episodeCode": "T1 E107: Las temibles lecciones de natación de Akane",
+  "hiddenCode": "T1 E107",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E108: Ryoga va en busca del amor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/66x8ItEVX3UkPfzsR0exYNJ6LVX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTFf/108.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTFf/108.mp4",
+  "episodeCode": "T1 E108: Ryoga va en busca del amor",
+  "hiddenCode": "T1 E108",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E109: Bienvenidos a mis sueños",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6XAHX2Jym94hh9yFt2iW0NcnzPQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTJf/109.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTJf/109.mp4",
+  "episodeCode": "T1 E109: Bienvenidos a mis sueños",
+  "hiddenCode": "T1 E109",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E110: ¿Ranma es prometido de Nabiki?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8jlXPtngo9bFmY1OWgnVHqGX28d.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTNf/110.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTNf/110.mp4",
+  "episodeCode": "T1 E110: ¿Ranma es prometido de Nabiki?",
+  "hiddenCode": "T1 E110",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E111: El misterio de las albóndigas de pulpo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/llGgLaceQgLrF9s2KC7Eg6dUtzv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTRf/111.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTRf/111.mp4",
+  "episodeCode": "T1 E111: El misterio de las albóndigas de pulpo",
+  "hiddenCode": "T1 E111",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E112: Ranma contra su sombra",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nm1qLAmQhFM63E8g7LyfAcDNtFi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTVf/112.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTVf/112.mp4",
+  "episodeCode": "T1 E112: Ranma contra su sombra",
+  "hiddenCode": "T1 E112",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E113: Kodachi busca papá",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1Aga0z3l2UDzaRXtAavnY73IN9I.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTZf/113.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTZf/113.mp4",
+  "episodeCode": "T1 E113: Kodachi busca papá",
+  "hiddenCode": "T1 E113",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E114: Un nuevo oponente: Beto Fetiches",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/43RlDnrcVXe3IzFiqObFsZNqbKr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTdf/114.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTdf/114.mp4",
+  "episodeCode": "T1 E114: Un nuevo oponente: Beto Fetiches",
+  "hiddenCode": "T1 E114",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E115: Ranma y su mala caligrafía",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k8RWHqwy2D7p4b7hQiNLsFPGey7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OThf/115.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OThf/115.mp4",
+  "episodeCode": "T1 E115: Ranma y su mala caligrafía",
+  "hiddenCode": "T1 E115",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E116: Aparece el otro Director",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9ncOJ7qDB1ARovQbI4goum8g8SU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY1OTlf/116.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY1OTlf/116.mp4",
+  "episodeCode": "T1 E116: Aparece el otro Director",
+  "hiddenCode": "T1 E116",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E117: Todos quieren volver a ser normales",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cDtbX5BTj6lTa5gBAKcwhFSklo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY2MDBf/117.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MDBf/117.mp4",
+  "episodeCode": "T1 E117: Todos quieren volver a ser normales",
+  "hiddenCode": "T1 E117",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E118: Ryoga ocupa el lugar de Ranma",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hwfIYHEkv28uPnbtCWfIhHM20UP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY2MDFf/118.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MDFf/118.mp4",
+  "episodeCode": "T1 E118: Ryoga ocupa el lugar de Ranma",
+  "hiddenCode": "T1 E118",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E119: La familia Tendo se va al parque de diversiones",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mt7O8fBUPS2eXDLeafXKFUzw3pZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY2MDJf/119.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MDJf/119.mp4",
+  "episodeCode": "T1 E119: La familia Tendo se va al parque de diversiones",
+  "hiddenCode": "T1 E119",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E120: Ranma el bromista",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qI7K2LobPjkxwFlGoha2owG2pe0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTY2MDNf/120.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTY2MDNf/120.mp4",
+  "episodeCode": "T1 E120: Ranma el bromista",
+  "hiddenCode": "T1 E120",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E121: El demonio del estanque encantado (Parte 1)",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/whBXm9YXswX9Wc7Nc4LowKbjLGM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczNjlf/121.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczNjlf/121.mp4",
+  "episodeCode": "T1 E121: El demonio del estanque encantado (Parte 1)",
+  "hiddenCode": "T1 E121",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E122: El demonio del estanque encantado (Parte 2)",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rLugSROtWohkqb3jAMFh3t9vPpx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczNzFf/122.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczNzFf/122.mp4",
+  "episodeCode": "T1 E122: El demonio del estanque encantado (Parte 2)",
+  "hiddenCode": "T1 E122",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E123: Una Navidad sin Ranma",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i7VEZ470fHkSg9JQesl3Sp7DNgl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczNzdf/123.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczNzdf/123.mp4",
+  "episodeCode": "T1 E123: Una Navidad sin Ranma",
+  "hiddenCode": "T1 E123",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E124: Cuento invernal",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jE5gjyyk0QNoJUvM2fO6B94Kk9D.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczODFf/124.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczODFf/124.mp4",
+  "episodeCode": "T1 E124: Cuento invernal",
+  "hiddenCode": "T1 E124",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E125: La maldición del panda pintado",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lloRSxQsFTfsD1st4UVNgVbM63F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczODRf/125.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczODRf/125.mp4",
+  "episodeCode": "T1 E125: La maldición del panda pintado",
+  "hiddenCode": "T1 E125",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E126: El día de la sandía",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pkXZ4AyHVqK6vksgem6U7PovhfC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczODhf/126.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczODhf/126.mp4",
+  "episodeCode": "T1 E126: El día de la sandía",
+  "hiddenCode": "T1 E126",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E127: La leyenda del panda",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n6TsTbdUWanDVQY3TofO143hkEc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTczOTRf/127.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTczOTRf/127.mp4",
+  "episodeCode": "T1 E127: La leyenda del panda",
+  "hiddenCode": "T1 E127",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E128: Salsa de amor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gFezgllaPGkMsIE0SwYlbNqWhrU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0MDVf/128.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0MDVf/128.mp4",
+  "episodeCode": "T1 E128: Salsa de amor",
+  "hiddenCode": "T1 E128",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E129: Vivan los falsos esposos",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fl3Qn9Knp4ccr6m1IHEoFuPOhHR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0MTRf/129.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0MTRf/129.mp4",
+  "episodeCode": "T1 E129: Vivan los falsos esposos",
+  "hiddenCode": "T1 E129",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E130: Doble ceremonia",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uv9PDjR96zxtmL9VKITo47JUzi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0Mjdf/130.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0Mjdf/130.mp4",
+  "episodeCode": "T1 E130: Doble ceremonia",
+  "hiddenCode": "T1 E130",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E131: Akane está en el hospital",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iKWmEryH6Xjtkztb6Qns1YOxXPM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0Mzlf/131.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0Mzlf/131.mp4",
+        "episodeCode": "T1 E131: Akane está en el hospital",
+        "hiddenCode": "T1 E131",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E132: El misterio del pulpo",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rNr2GSpuEfeWtPNKXDZ3NaV1fpr.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NTJf/132.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NTJf/132.mp4",
+        "episodeCode": "T1 E132: El misterio del pulpo",
+        "hiddenCode": "T1 E132",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E133: Gosunkugi y sus muñecas",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oADwsVT7yQwvAj9Jb4GB8feB4oE.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NTlf/133.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NTlf/133.mp4",
+        "episodeCode": "T1 E133: Gosunkugi y sus muñecas",
+        "hiddenCode": "T1 E133",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E134: No puedo olvidar a Akane",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/occ8RDte40GHkYjgWGRUDHrL1x.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NjFf/134.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NjFf/134.mp4",
+        "episodeCode": "T1 E134: No puedo olvidar a Akane",
+        "hiddenCode": "T1 E134",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E135: El misterio de la montaña Kokuri",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/emZHi0GOuHkyGQJTOqQDFVbVD4x.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NjVf/135.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NjVf/135.mp4",
+        "episodeCode": "T1 E135: El misterio de la montaña Kokuri",
+        "hiddenCode": "T1 E135",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E136: No puedo apartarme de ti",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mMkNhwxLwIk5STtxRXQlUyV51Mk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0Njdf/136.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0Njdf/136.mp4",
+        "episodeCode": "T1 E136: No puedo apartarme de ti",
+        "hiddenCode": "T1 E136",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E137: ¿Kuno es el director suplente?",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aSDXHwnn7oqiYr8p2Ve47xRy9kB.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NzBf/137.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NzBf/137.mp4",
+        "episodeCode": "T1 E137: ¿Kuno es el director suplente?",
+        "hiddenCode": "T1 E137",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E138: Ranma en la oscuridad",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/giXonbEZQeL1JFxeJ9NWfTMHO31.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NzJf/138.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NzJf/138.mp4",
+        "episodeCode": "T1 E138: Ranma en la oscuridad",
+        "hiddenCode": "T1 E138",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E139: El guía de Jusenkyo está aquí",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/51mOw7vFU1BP8leo8DqX3Sy3Dod.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0NzZf/139.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0NzZf/139.mp4",
+        "episodeCode": "T1 E139: El guía de Jusenkyo está aquí",
+        "hiddenCode": "T1 E139",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+        "title": "E140: Happosai y sus demonios",
+        "meta": "13+ · 25m · 1989",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7p0RhJJeRPWuVqz0yVOI64I4M3m.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU1MTc0Nzdf/140.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU1MTc0Nzdf/140.mp4",
+        "episodeCode": "T1 E140: Happosai y sus demonios",
+        "hiddenCode": "T1 E140",
+        "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E141: Un nuevo truco",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oEmhS5omwVKKRctFcUaTTHmj94C.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0ODBf/141.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0ODBf/141.mp4",
+  "episodeCode": "T1 E141: Un nuevo truco",
+  "hiddenCode": "T1 E141",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E142: La técnica depende del humor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cDM9jWcoKXrFUHy3kequrVMW24H.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0ODJf/142.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0ODJf/142.mp4",
+  "episodeCode": "T1 E142: La técnica depende del humor",
+  "hiddenCode": "T1 E142",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E143: Shampoo besa cuando la atacan",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gJM34pOfxq9qsGHjXgSS0pEHYIS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0ODZf/143.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0ODZf/143.mp4",
+  "episodeCode": "T1 E143: Shampoo besa cuando la atacan",
+  "hiddenCode": "T1 E143",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E144: Por favor, fúgate conmigo",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iDo3lRz7rwR102c7L8WHjAUtPuP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0ODlf/144.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0ODlf/144.mp4",
+  "episodeCode": "T1 E144: Por favor, fúgate conmigo",
+  "hiddenCode": "T1 E144",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E145: Vamos al templo de los hongos",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bbE6sXHb1ZIj2636k3Z3R369Fpq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0OTNf/145.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0OTNf/145.mp4",
+  "episodeCode": "T1 E145: Vamos al templo de los hongos",
+  "hiddenCode": "T1 E145",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E146: La cuna del infierno",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rPc7Zu0g0Ax7NaXB570eoGpgwVs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0OTdf/146.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0OTdf/146.mp4",
+  "episodeCode": "T1 E146: La cuna del infierno",
+  "hiddenCode": "T1 E146",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E147: ¿Picolette es un vampiro?",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qBpOJlk4oSPZNS7RQIUIPgzATWq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc0OTlf/147.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc0OTlf/147.mp4",
+  "episodeCode": "T1 E147: ¿Picolette es un vampiro?",
+  "hiddenCode": "T1 E147",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E148: La princesa Ori",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/18qzS2XFqx8drp4TkQltSQJn5tJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MDRf/148.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MDRf/148.mp4",
+  "episodeCode": "T1 E148: La princesa Ori",
+  "hiddenCode": "T1 E148",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E149: Una tarta de amor",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gMTwGQHIdfESAJltkk0OSqsl9in.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MDhf/149.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MDhf/149.mp4",
+  "episodeCode": "T1 E149: Una tarta de amor",
+  "hiddenCode": "T1 E149",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E150: La nueva arma de Happosai",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eALhUYQk9t5ryQ4DmusMoCf8gap.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MTBf/150.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MTBf/150.mp4",
+  "episodeCode": "T1 E150: La nueva arma de Happosai",
+  "hiddenCode": "T1 E150",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E151: La guerra de los Kuno",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yISDFAouvOQn2VbFTbRxYuqxOrq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MTRf/151.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MTRf/151.mp4",
+  "episodeCode": "T1 E151: La guerra de los Kuno",
+  "hiddenCode": "T1 E151",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E152: Encuentro en la torre",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8StrMmRVIWMmZ2pB0XWK7TjXuZM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MTVf/152.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MTVf/152.mp4",
+  "episodeCode": "T1 E152: Encuentro en la torre",
+  "hiddenCode": "T1 E152",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E153: Gosunkugi y su aventura de verano",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6ZIpzM4Kyzbop17PNuid9Ho52LJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MTZf/153.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MTZf/153.mp4",
+  "episodeCode": "T1 E153: Gosunkugi y su aventura de verano",
+  "hiddenCode": "T1 E153",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E154: La guerra de animadoras parte 1",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mG9U5mIYhOsDEt77CnRGT0NGsq7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1MjRf/154.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1MjRf/154.mp4",
+  "episodeCode": "T1 E154: La guerra de animadoras parte 1",
+  "hiddenCode": "T1 E154",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E155: La guerra de animadoras parte 2",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/meZ7H7zJRAk6dfmMwmGgNaEQT7X.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1NDhf/155.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1NDhf/155.mp4",
+  "episodeCode": "T1 E155: La guerra de animadoras parte 2",
+  "hiddenCode": "T1 E155",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E156: Señorita Playa",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tWTJxRZD7Xon2mYaQXvUavt0MKi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1NjVf/156.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1NjVf/156.mp4",
+  "episodeCode": "T1 E156: Señorita Playa",
+  "hiddenCode": "T1 E156",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E157: Explosión",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/biPKvFartOpSMq3Ln0E3YsXF6qV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc1ODRf/157.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc1ODRf/157.mp4",
+  "episodeCode": "T1 E157: Explosión",
+  "hiddenCode": "T1 E157",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E158: Blanquinegro",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jCwtMwH4evrKLNyuVYFIk1DdGnK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc2MDNf/158.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc2MDNf/158.mp4",
+  "episodeCode": "T1 E158: Blanquinegro",
+  "hiddenCode": "T1 E158",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E159: La leyenda del dragón",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3SPEtliCZ1izfEy6FNKSjQ4BkZg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc2MTVf/159.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc2MTVf/159.mp4",
+  "episodeCode": "T1 E159: La leyenda del dragón",
+  "hiddenCode": "T1 E159",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E160: Ranma conoce a su mamá",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2hVUt41RLu4GYsehuJ6hIILIdBx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc2MThf/160.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc2MThf/160.mp4",
+  "episodeCode": "T1 E160: Ranma conoce a su mamá",
+  "hiddenCode": "T1 E160",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E161: Quizá, algún día...",
+  "meta": "13+ · 25m · 1989",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3ODhxRlGfml20HhcGeY8cWEPec4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU1MTc2MTlf/161.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU1MTc2MTlf/161.mp4",
+  "episodeCode": "T1 E161: Quizá, algún día...",
+  "hiddenCode": "T1 E161",
+  "intro": { "start": 5, "end": 90 }
+}
+
+
+    ]
+  }
+
+];
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

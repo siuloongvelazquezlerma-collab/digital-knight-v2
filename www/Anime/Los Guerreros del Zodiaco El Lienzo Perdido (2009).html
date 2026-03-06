@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Saint Seiya: El Lienzo Perdido</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=840,height=1260/keyart/G65VP49P6-backdrop_tall") no-repeat center top;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTcyMTY4MzJf/lost%20canvas%20fondo.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Saint Seiya: El Lienzo Perdido</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/uNIuEYmaIofNv0rK1tmuLqNOQMU.png" alt="Saint Seiya: El Lienzo Perdido Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+&nbsp;&nbsp;1 temporada 26 capitulos&nbsp;&nbsp;2009&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Saint Seiya: El Lienzo Perdido" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=320,height=180/catalog/crunchyroll/e0777b901ccce4297d9aea8d256fbf40.jpe" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Los Guerreros del Zodiaco El Lienzo Perdido (2009).html"></a>
+          <span id="nombre">Los Guerreros del Zodiaco: El Lienzo Perdido (2009)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Precuela épica del universo Saint Seiya que narra la Guerra Santa del siglo XVIII entre Atena y Hades, protagonizada por
+        Tenma, el Caballero de Pegaso, y su lucha contra el destino y la oscuridad.      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Saint Seiya Saga de Hades.html">
+          <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/ff3c9c19712caeef0698068b0ae6f5e2.jpe" alt="Saint Seiya: El Lienzo Perdido: Saga de Hades (2002)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya: El Lienzo Perdido: Saga de Hades (2002)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Omega (2012).html">
+          <img src="https://image.tmdb.org/t/p/original/iHXOtxXcDarUOe2wZvouCl6WmTa.jpg" alt="Saint Seiya Ω Omega (2012)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya Ω Omega (2012)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Guerreros del Zodiaco El Lienzo Perdido (2009).html">
+          <img src="https://image.tmdb.org/t/p/original/eJNAxUHVXXUSbuc6D1ojSYH6S1r.jpg" alt="Los Guerreros del Zodiaco: El Lienzo Perdido (2009)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Guerreros del Zodiaco: El Lienzo Perdido (2009)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya: El Lienzo Perdido Alma de Oro (2015).html">
+          <img src="https://image.tmdb.org/t/p/original/yheIUZdnLEkCuzB4cHF6SCJBQiw.jpg" alt="Saint Seiya: El Lienzo Perdido: Alma de Oro (2015)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya: El Lienzo Perdido: Alma de Oro (2015)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Saint Seiya: El Lienzo Perdido (2019).html">
+          <img src="https://image.tmdb.org/t/p/original/tuxfCX9IX70GJBV2JNn8gXlUJlj.jpg" alt="Saint Seiya: Saint Seiya: El Lienzo Perdido (2019)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya: Saint Seiya: El Lienzo Perdido (2019)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Saintia Shō (2018).html">
+          <img src="https://image.tmdb.org/t/p/original/k0lbN5i4USbSEdbEhjc0l0JwOs6.jpg" alt="Saint Seiya Saintia Shō (2018)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya Saintia Shō (2018)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDI4NDgxMDhf/01.El%20Ataque%20del%20%C3%81ngel.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Saint Seiya: El Lienzo Perdido</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: El ataque del ángel</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "saint-seiya-canva";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: Promesa",
+    "meta": "13+ · 27m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/daqXjViD1Wut9wxfL2E492gRKDA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDgzMDlf/LC01%20La%20promesa%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDgzMDlf/LC01%20La%20promesa%20BD1080p.mkv",
+    "episodeCode": "T1 E1: Promesa",
+    "hiddenCode": "T1 E1",
+    "intro": {
+      "start": 40,
+      "end": 100
+    }
+  },
+  {
+    "title": "E2: El despertar de Hades",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uXtqMOEL6dmpMjxY8i5VxPKG0Wp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg0Mzlf/LC02%20El%20despertar%20de%20Hades%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg0Mzlf/LC02%20El%20despertar%20de%20Hades%20BD1080p.mkv",
+    "episodeCode": "T1 E2: El despertar de Hades",
+    "hiddenCode": "T1 E2",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E3: Comienza la guerra santa",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mYn1Edo3eMLD7jky7k9ImQJs231.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg1NjVf/LC03%20Comienza%20la%20guerra%20santa%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg1NjVf/LC03%20Comienza%20la%20guerra%20santa%20BD1080p.mkv",
+    "episodeCode": "T1 E3: Comienza la guerra santa",
+    "hiddenCode": "T1 E3",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E4: Guirnalda de oraciones",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3ozRU3ymroc3dbp34nvnbP3UxMS.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg1OTVf/LC04%20La%20pulsera%20de%20oraci%C3%B3n%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg1OTVf/LC04%20La%20pulsera%20de%20oraci%C3%B3n%20BD1080p.mkv",
+    "episodeCode": "T1 E4: Guirnalda de oraciones",
+    "hiddenCode": "T1 E4",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E5: Rosa envenenada",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/feb086eeDuM3qaGAsapLHOCajvr.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg2MzRf/LC05%20La%20rosa%20venenosa%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg2MzRf/LC05%20La%20rosa%20venenosa%20BD1080p.mkv",
+    "episodeCode": "T1 E5: Rosa envenenada",
+    "hiddenCode": "T1 E5",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E6: Cortejo fúnebre de flores",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tOk2QN4P7dpMXTsYIUqGh6z4yZv.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "episodeCode": "T1 E6: Cortejo fúnebre de flores",
+    "hiddenCode": "T1 E6",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E7: Los frutos del árbol de la sabiduría",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5uWs9Er9As7DeiZ03Y0SCddUISY.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg2NThf/LC07%20El%20%C3%A1rbol%20de%20los%20frutos%20sagrados%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg2NThf/LC07%20El%20%C3%A1rbol%20de%20los%20frutos%20sagrados%20BD1080p.mkv",
+    "episodeCode": "T1 E7: Los frutos del árbol de la sabiduría",
+    "hiddenCode": "T1 E7",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E8: Día de brisa apacible",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5rl5KlWnnfLmp4EIeNbCttOl9Su.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg3NDNf/LC08%20Un%20d%C3%ADa%20con%20viento%20suave%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg3NDNf/LC08%20Un%20d%C3%ADa%20con%20viento%20suave%20BD1080p.mkv",
+    "episodeCode": "T1 E8: Día de brisa apacible",
+    "hiddenCode": "T1 E8",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E9: Estrella gigante",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dmVAPmnw9qgHD3HMInTuLe7lMVW.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDg5MTVf/LC09%20Una%20gran%20estrella%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDg5MTVf/LC09%20Una%20gran%20estrella%20BD1080p.mkv",
+    "episodeCode": "T1 E9: Estrella gigante",
+    "hiddenCode": "T1 E9",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E10: El advenimiento",
+    "meta": "13+ · 25m · 2009",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9vPPh5KJn7fkrASvPTqzV9sjOdL.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDkwMTBf/LC10%20Advenimento%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/d/M18zMDI4MDkwMTBf/LC10%20Advenimento%20BD1080p.mkv",
+    "episodeCode": "T1 E10: El advenimiento",
+    "hiddenCode": "T1 E10",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+        "title": "E11: Inalcanzable",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7a9KyefSvWQaHR2UZQPO8tyiI0E.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkwNzBf/LC11%20Inalcanzable%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkwNzBf/LC11%20Inalcanzable%20BD1080p.mkv",
+        "episodeCode": "T1 E11: Inalcanzable",
+        "hiddenCode": "T1 E11",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E12: Sacrificio inexorable",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hPcBnfhsrnnqt7ggUXtmjxVWFeU.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkxMjNf/LC12%20Sacrificios%20interminables%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkxMjNf/LC12%20Sacrificios%20interminables%20BD1080p.mkv",
+        "episodeCode": "T1 E12: Sacrificio inexorable",
+        "hiddenCode": "T1 E12",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E13: La partida",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gdqAg5lb3eu7s0KONzod1ZVyKzN.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkxNjVf/LC13%20El%20viaje%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkxNjVf/LC13%20El%20viaje%20BD1080p.mkv",
+        "episodeCode": "T1 E13: La partida",
+        "hiddenCode": "T1 E13",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E14: El bosque de la muerte",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pBwBcgy5LG4y2AbLip2B4zNGIx.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkyMTRf/LC14%20El%20bosque%20de%20la%20muerte%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkyMTRf/LC14%20El%20bosque%20de%20la%20muerte%20BD1080p.mkv",
+        "episodeCode": "T1 E14: El bosque de la muerte",
+        "hiddenCode": "T1 E14",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E15: Si pudiera regresar a aquél día",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2Bf3kjvP8eH7AH6yi3oW9MeT5hg.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkyODNf/LC15%20Si%20pudiera%20volver%20a%20ese%20día%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkyODNf/LC15%20Si%20pudiera%20volver%20a%20ese%20día%20BD1080p.mkv",
+        "episodeCode": "T1 E15: Si pudiera regresar a aquél día",
+        "hiddenCode": "T1 E15",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E16: Dioses y peones",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wNgX79EznB7778wcQIZCjdgUGS9.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkzMTBf/LC16%20Dioses%20y%20peones%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkzMTBf/LC16%20Dioses%20y%20peones%20BD1080p.mkv",
+        "episodeCode": "T1 E16: Dioses y peones",
+        "hiddenCode": "T1 E16",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E17: Basura",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8xBE30SqoGcMr2qyjvTAzFgmaKk.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkzNDFf/LC17%20Basura%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkzNDFf/LC17%20Basura%20BD1080p.mkv",
+        "episodeCode": "T1 E17: Basura",
+        "hiddenCode": "T1 E17",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E18: Simplemente vive",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AtCazNegzvjDIuY1jeLuhiTTmVj.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDkzODhf/LC18%20Sólo%20quiero%20que%20vivas%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDkzODhf/LC18%20Sólo%20quiero%20que%20vivas%20BD1080p.mkv",
+        "episodeCode": "T1 E18: Simplemente vive",
+        "hiddenCode": "T1 E18",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E19: La espada del aislamiento",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gRV5HsyhJokPVvbrVeLOPdRX7VW.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDk0NzVf/LC19%20La%20espada%20más%20fuerte%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDk0NzVf/LC19%20La%20espada%20más%20fuerte%20BD1080p.mkv",
+        "episodeCode": "T1 E19: La espada del aislamiento",
+        "hiddenCode": "T1 E19",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+        "title": "E20: La prisión de los sueños",
+        "meta": "13+ · 25m · 2009",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mqSNrTBOeZrGgbqfi8IAr6hslhz.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI4MDk2MThf/LC20%20La%20prisión%20de%20los%20Sueños%20BD1080p.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDI4MDk2MThf/LC20%20La%20prisión%20de%20los%20Sueños%20BD1080p.mkv",
+        "episodeCode": "T1 E20: La prisión de los sueños",
+        "hiddenCode": "T1 E20",
+        "intro": {
+      "start": 5,
+      "end": 90
+    }
+      },
+      {
+  "title": "E21: Más allá de los sueños",
+  "meta": "13+ · 25m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zMEhbmnIhfpDuiyix2BK0AJIINR.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDk2NzFf/LC21%20M%C3%A1s%20all%C3%A1%20del%20sue%C3%B1o%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDk2NzFf/LC21%20M%C3%A1s%20all%C3%A1%20del%20sue%C3%B1o%20BD1080p.mkv",
+  "episodeCode": "T1 E21: Más allá de los sueños",
+  "hiddenCode": "T1 E21",
+  "intro": {
+      "start": 5,
+      "end": 90
+    }
+},
+{
+  "title": "E22: El camino de la rectitud",
+  "meta": "13+ · 25m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7A9qGJOqcJZ3kYQHiUuAliZYXEc.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDk4Mjhf/LC22%20Un%20arduo%20Camino%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDk4Mjhf/LC22%20Un%20arduo%20Camino%20BD1080p.mkv",
+  "episodeCode": "T1 E22: El camino de la rectitud",
+  "hiddenCode": "T1 E22",
+  "intro": {
+      "start": 5,
+      "end": 90
+    }
+},
+{
+  "title": "E23: La Espada Sagrada",
+  "meta": "13+ · 25m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/giV9E6HyEkvsvoD9qAl6a7FoFv.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDk5MDlf/LC23%20La%20Espada%20Sagrada%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDk5MDlf/LC23%20La%20Espada%20Sagrada%20BD1080p.mkv",
+  "episodeCode": "T1 E23: La Espada Sagrada",
+  "hiddenCode": "T1 E23",
+  "intro": {
+      "start": 5,
+      "end": 90
+    }
+},
+{
+  "title": "E24: Tiempo de batallas sangrientas",
+  "meta": "13+ · 25m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hP7rPDJmXrwnIUeEmzsQZo0D48.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDk5NTFf/LC24%20Hora%20de%20una%20sangrienta%20batalla%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDk5NTFf/LC24%20Hora%20de%20una%20sangrienta%20batalla%20BD1080p.mkv",
+  "episodeCode": "T1 E24: Tiempo de batallas sangrientas",
+  "hiddenCode": "T1 E24",
+  "intro": {
+      "start": 5,
+      "end": 90
+    }
+},
+{
+  "title": "E25: Cuántos meses y años",
+  "meta": "13+ · 25m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8YrwrmBhk7Yg92ko9i7QBij1XPk.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDk5ODJf/LC25%20Hace%20muchas%20lunas%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MDk5ODJf/LC25%20Hace%20muchas%20lunas%20BD1080p.mkv",
+  "episodeCode": "T1 E25: Cuántos meses y años",
+  "hiddenCode": "T1 E25",
+  "intro": {
+      "start": 5,
+      "end": 90
+    }
+},
+{
+  "title": "E26: Sé tú mismo",
+  "meta": "13+ · 24m · 2009",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/l4Fm6rlwDBL2lWA9vTSjsxl96q5.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MTAwNjZf/LC26%20S%C3%A9%20t%C3%BA%20mismo%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/d/M18zMDI4MTAwNjZf/LC26%20S%C3%A9%20t%C3%BA%20mismo%20BD1080p.mkv",
+  "episodeCode": "T1 E26: Sé tú mismo",
+  "hiddenCode": "T1 E26",
+  "intro": {
+      "start": 5,
+      "end": 90
+    }
+}
+      
+    ]
+  }
+];
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

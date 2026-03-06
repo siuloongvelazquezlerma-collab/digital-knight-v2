@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Attack on Titan</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/cOemgMBvf1WuTnjcihfSmasRzrh.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/lTDtH9YnFWJdwOgNuB4dUAzGOQl.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+      <span class="material-icons">chevron_left</span>
+    </a>
+    <span id="page-title" class="page-title">Attack on Titan</span>
+  </header>
+
+   <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+  <div class="cover" id="cover">
+    <div class="cover-landscape">
+      <div class="cover-landscape-image-overlay"></div>
+      <div class="cover-landscape-shadow-left"></div>
+    </div>
+
+    <div class="cover-image-overlay"></div>
+
+    <div class="cover-content">
+      <img src="https://image.tmdb.org/t/p/original/eHMfVTIwen9anB4HuvQlFRGZFms.png" alt="Attack on Titan Logo "class="logo" tabindex="2">
+
+      <div class="meta">16+    6 temporadas    2013    Dob Lat</div>
+
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+
+      <div class="iconos">
+        <button id="favoritoBtn" data-identificador="Attack on Titan" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/3ovLDNykjQ3rD6TxL0Zsr0SbC9S.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Attack on Titan (2013).html"></a>
+          <span id="nombre">Attack on Titan (2013)</span>
+        </div>
+
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+
+        <div class="action-item" id="compartirBtn" onclick="window.location.href='http://action_share';" tabindex="5">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+      </div>
+
+      <div class="description" tabindex="6">
+        La humanidad sobrevive tras murallas frente a gigantes devoradores, pero una serie de eventos revelará el origen y los secretos de los Titanes.
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+      <div class="suggested-item">
+        <a href="death-note.html" tabindex="10">
+          <img src="https://image.tmdb.org/t/p/w300/tCZFfYTIwrR7n94J6G14Y4hAFU6.jpg" alt="Death Note">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Death Note</div>
+          <div class="meta-row"><span class="meta">Dob | Lat</span></div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="kimetsu-no-yaiba-guardianes-de-la-noche.html" tabindex="11">
+          <img src="https://image.tmdb.org/t/p/w300/inXU5hvbDbitrYOgLrq2QjYqiJD.jpg" alt="Kimetsu no Yaiba">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Kimetsu no Yaiba</div>
+          <div class="meta-row"><span class="meta">Dob | Lat</span></div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="my-hero-academia.html" tabindex="12">
+          <img src="https://image.tmdb.org/t/p/w300/phuYuzqWW9ru8EA3HVjE9W2Rr3M.jpg" alt="My Hero Academia">
+        </a>
+        <div class="suggested-info">
+          <div class="title">My Hero Academia</div>
+          <div class="meta-row"><span class="meta">Dob | Lat</span></div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="one-punch-man.html" tabindex="13">
+          <img src="https://image.tmdb.org/t/p/w300/yyRJPcRQ0j7JtXq80aIkUXpv639.jpg" alt="One Punch Man">
+        </a>
+        <div class="suggested-info">
+          <div class="title">One Punch Man</div>
+          <div class="meta-row"><span class="meta">Dob | Lat</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+  id="video"
+  class="video-js vjs-default-skin"
+  preload="auto"
+  width="100%"
+  height="100%"
+  poster="https://wallpapercave.com/wp/wp5415042.jpg"
+  data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+  <source id="videoSource" src="https://od.lk/s/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4" type="video/mp4" />
+</video>
+  <!-- Loader -->
+<div class="video-loader hidden" id="videoLoader">
+  <div class="spinner"></div>
+</div>
+
+    <!-- Aspect Ratio Label -->
+    <div id="aspectLabel" style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      display: none;
+      z-index: 9999;
+    ">
+      cover
+    </div>
+  
+   <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+  
+    <!-- Botón Omitir Intro -->
+    <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+      <span class="material-icons">fast_forward</span>
+      <span class="label">Omitir intro</span>
+    </div>
+  
+    <!-- Botón Siguiente Episodio -->
+    <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+      <div class="icon-container">
+        <svg class="circle-timer" viewBox="0 0 36 36">
+          <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+          <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+            a 15.9155 15.9155 0 1 1 0 31.831
+            a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        </svg>
+        <span class="material-icons play-icon">play_arrow</span>
+      </div>
+      <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+    </div>
+  
+    <div class="controls" id="controls">
+      <div class="top-bar">
+        <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+        <div style="display: flex; gap: 15px;">
+  
+         <!-- Botón de idioma con mini menú -->
+<!--
+<div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+  <span class="material-icons" id="langIcon">chat</span>
+  
+  <div id="langMenu" class="lang-menu">
+    <div class="lang-option" data-lang="latino">
+      <span class="check"></span> Español (Latino)
+    </div>
+    <div class="lang-option" data-lang="ingles">
+      <span class="check"></span> Inglés (Subtitulada)
+    </div>
+    <button id="langConfirmBtn">Listo</button>
+  </div>
+</div>
+-->
+  
+  <!-- Botón Cast -->
+  <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+  
+  <!-- Botón Aspect Ratio -->
+  <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+  </div>
+  </div>
+  
+      <div class="center-controls">
+        <button class="btn" onclick="skip(-10)">
+          <span class="material-icons">replay_10</span>
+        </button>
+        <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        <button class="btn" onclick="skip(10)">
+          <span class="material-icons">forward_10</span>
+        </button>
+      </div>
+  
+      <div class="bottom-bar">
+        <div id="episodeHeader">
+          <div class="title">Attack on Titan</div>
+          <div class="subtitle" id="episodeSubtitle"></div>
+        </div>
+  
+        <div class="progress-container">
+          <input type="range" class="progress" id="progress" value="0" max="100">
+          <div class="time" id="duration">- 00:00</div>
+        </div>
+  
+        <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+        <div class="extra-controls">
+          <button class="btn" onclick="restartVideo()">
+            <span class="material-icons">skip_previous</span>
+            <span class="label">Reiniciar</span>
+          </button>
+          <button class="btn" onclick="playNextEpisode()">
+            <span class="material-icons">skip_next</span>
+            <span class="label">Sig. Epi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+<script>
+
+const seriesId = "attack-titan"; // 👈 Cámbialo por un ID único por serie
+
+
+// --- PLAYLIST ---
+const playlist = [
+  {
+    season: "Temporada 1",
+    episodes: [
+    
+    {
+    "title": "E1: A ti, dentro de 2000 años. La caída de Shiganshina (Parte 1)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/e363TDn4uP8jP7kHAXQfHAs6HTR.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzgxNjZf/snk%201.mp4",
+    "episodeCode": "T1 E1: A ti, dentro de 2000 años. La caída de Shiganshina (Parte 1)",
+    "hiddenCode": "T1 E1",
+    "intro": {
+      "start": 130,
+      "end": 220
+    }
+  },
+  {
+    "title": "E2: Aquel día. La caída de Shiganshina (Parte 2)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/r05GWS1PcqQSrKZJa9RSz03rNlz.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzgyNTNf/snk%202.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+    "episodeCode": "T1 E2: Aquel día. La caída de Shiganshina (Parte 2)",
+    "hiddenCode": "T1 E2",
+    "intro": {
+      "start": 45,
+      "end": 135
+    }
+  },
+  {
+    "title": "E3: Una tenue luz en la desesperación. La restauración de la humanidad (Parte 1)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/eBDbxFioIZQx7Nu0vOEQVP4cCIq.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzgzMTlf/SNK%203.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzgzMTlf/SNK%203.mp4",
+    "episodeCode": "T1 E3: Una tenue luz en la desesperación. La restauración de la humanidad (Parte 1)",
+    "hiddenCode": "T1 E3",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E4: La noche de la desbandada. La restauración de la humanidad (Parte 2)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iQMZuF65LHGnA7q9snxM8CHb7SW.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4Mzg4NTZf/SNK%204.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4Mzg4NTZf/SNK%204.mp4",
+    "episodeCode": "T1 E4: La noche de la desbandada. La restauración de la humanidad (Parte 2)",
+    "hiddenCode": "T1 E4",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E5: La primera batalla. La defensa de Trost (Parte 1)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/m0ukXrPPiBc3EZXRHKXsU2aJkK0.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzkxMjFf/SNK%205.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzkxMjFf/SNK%205.mp4",
+    "episodeCode": "T1 E5: La primera batalla. La defensa de Trost (Parte 1)",
+    "hiddenCode": "T1 E5",
+    "intro": {
+      "start": 50,
+      "end": 140
+    }
+  },
+  {
+    "title": "E6: El mundo que ella vio. La defensa de Trost (Parte 2)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/m7Yzfqhvv3SAwiLwI0iWtj8px9v.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4Mzk0NDZf/SNK%206.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4Mzk0NDZf/SNK%206.mp4",
+    "episodeCode": "T1 E6: El mundo que ella vio. La defensa de Trost (Parte 2)",
+    "hiddenCode": "T1 E6",
+    "intro": {
+      "start": 5,
+      "end": 90
+    }
+  },
+  {
+    "title": "E7: Una pequeña hoja. La defensa de Trost (Parte 3)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/z2QHfSCLIO7PuVnI8hcVUAGgaJl.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4Mzk1MDZf/SNK%207.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4Mzk1MDZf/SNK%207.mp4",
+    "episodeCode": "T1 E7: Una pequeña hoja. La defensa de Trost (Parte 3)",
+    "hiddenCode": "T1 E7",
+    "intro": {
+      "start": 105,
+      "end": 195
+    }
+  },
+  {
+    "title": "E8: Se escucha un latido. La defensa de Trost (Parte 4)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/w7URwYFNTSqQhqtgoTZk3wUu1TA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDQyMjAzMjRf/SNK%208.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQyMjAzMjRf/SNK%208.mp4",
+    "episodeCode": "T1 E8: Se escucha un latido. La defensa de Trost (Parte 4)",
+    "hiddenCode": "T1 E8",
+    "intro": {
+      "start": 70,
+      "end": 160
+    }
+  },
+  {
+    "title": "E9: Dónde está el brazo izquierdo. La defensa de Trost (Parte 5)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wnZ2XNmROpeYIdNVnQ7zz1Gsx5M.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDQyMjA2NTdf/SNK%209.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQyMjA2NTdf/SNK%209.mp4",
+    "episodeCode": "T1 E9: Dónde está el brazo izquierdo. La defensa de Trost (Parte 5)",
+    "hiddenCode": "T1 E9",
+    "intro": {
+      "start": 40,
+      "end": 130
+    }
+  },
+  {
+    "title": "E10: Respuesta. La defensa de Trost (Parte 6)",
+    "meta": "13+ · 24m · 2013",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iM0ZnpWE0pzZdNh2dDF5f0O6jK1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDQyMjExODVf/SNK%2010.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQyMjExODVf/SNK%2010.mp4",
+    "episodeCode": "T1 E10: Respuesta. La defensa de Trost (Parte 6)",
+    "hiddenCode": "T1 E10",
+    "intro": {
+      "start": 50,
+      "end": 140
+    }
+      },
+      {
+  "title": "E11: Ídolo. La defensa de Trost (Parte 7)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4Y8Xl6JQBUyYWd5hNWbgxlvB2yL.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjE3NDRf/SNK%2011.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjE3NDRf/SNK%2011.mp4",
+  "episodeCode": "T1 E11: Ídolo. La defensa de Trost (Parte 7)",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 60, "end": 150 }
+},
+{
+  "title": "E12: Herida. La defensa de Trost (Parte 8)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cBtdJdd921et4kxndc3neeCjKja.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjIxNzBf/SNK%2012.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjIxNzBf/SNK%2012.mp4",
+  "episodeCode": "T1 E12: Herida. La defensa de Trost (Parte 8)",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 120, "end": 210 }
+},
+{
+  "title": "E13: Deseos primarios. La defensa de Trost (Parte 9)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/29704CwCHFPQvbjFJJmhMM6m0uG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjI3MjNf/SNK%2013.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjI3MjNf/SNK%2013.mp4",
+  "episodeCode": "T1 E13: Deseos primarios. La defensa de Trost (Parte 9)",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 180, "end": 270 }
+},
+{
+  "title": "E14: Sigo sin poder ver. Preludio a la contraofensiva (Parte 1)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i5LwCRuHRuQxPVJPbOAIIkRKiQo.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjMyMzdf/SNK%2014.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjMyMzdf/SNK%2014.mp4",
+  "episodeCode": "T1 E14: Sigo sin poder ver. Preludio a la contraofensiva (Parte 1)",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 60, "end": 135 }
+},
+{
+  "title": "E15: El escuadrón de operaciones especiales. Preludio a la contraofensiva (Parte 2)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zoXVaoSqxlXpUoq5g5opNCTGUSB.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjM2NTNf/SNK%2015.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjM2NTNf/SNK%2015.mp4",
+  "episodeCode": "T1 E15: El escuadrón de operaciones especiales. Preludio a la contraofensiva (Parte 2)",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 40, "end": 120 }
+},
+{
+  "title": "E16: ¿Y ahora qué hacemos?. Preludio a la contraofensiva (Parte 3)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/imyHAoRf7yeVMal0UCvmSQulovr.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjM3NzVf/SNK%2016.mp4",
+  "downloadUrl": "https://od.lk/6/M18zMDQyMjM3NzVf/SNK%2016.mp4",
+  "episodeCode": "T1 E16: ¿Y ahora qué hacemos?. Preludio a la contraofensiva (Parte 3)",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 5, "end": 85 }
+},
+{
+  "title": "E17: El titán hembra. 57ª expedición más allá de los muros (Parte 1)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/biJWsiI2CzKxWlLJqyPPGj9Krbq.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjQxMTdf/SNK%2017.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjQxMTdf/SNK%2017.mp4",
+  "episodeCode": "T1 E17: El titán hembra. 57ª expedición más allá de los muros (Parte 1)",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E18: El bosque de los árboles gigantes. 57ª expedición más allá de los muros (Parte 2)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qytiWM8NAn3EzdLaoigJTJgLuD5.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjQ2MzNf/SNK%2018.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjQ2MzNf/SNK%2018.mp4",
+  "episodeCode": "T1 E18: El bosque de los árboles gigantes. 57ª expedición más allá de los muros (Parte 2)",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 130, "end": 215 }
+},
+{
+  "title": "E19: Mordisco. 57ª expedición más allá de los muros (Parte 3)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1Uxxm7lpMdHOQ8ebTdfCGQYBL5d.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjQ4NjJf/SNK%2019.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjQ4NjJf/SNK%2019.mp4",
+  "episodeCode": "T1 E19: Mordisco. 57ª expedición más allá de los muros (Parte 3)",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 100, "end": 190 }
+},
+{
+  "title": "E20: Erwin Smith. 57ª expedición más allá de los muros (Parte 4)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k5CjtyUxdfhlzyFhF4isJoY0855.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjUyMjdf/SNK%2020.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjUyMjdf/SNK%2020.mp4",
+  "episodeCode": "T1 E20: Erwin Smith. 57ª expedición más allá de los muros (Parte 4)",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 120, "end": 210 }
+},
+{
+  "title": "E21: Golpe devastador. 57ª Expedición más allá de los muros (Parte 5)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eFI6G70djH0OGRz1NFQZKicImGA.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU2NThf/SNK%2021.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU2NThf/SNK%2021.mp4",
+  "episodeCode": "T1 E21: Golpe devastador. 57ª Expedición más allá de los muros (Parte 5)",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 190, "end": 280 }
+},
+{
+  "title": "E22: El derrotado. 57ª Expedición más allá de los muros (Parte 6)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zvgLwsXPh2WMAfIQOyFhNUAhyx0.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU4NDlf/SNK%2022.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU4NDlf/SNK%2022.mp4",
+  "episodeCode": "T1 E22: El derrotado. 57ª Expedición más allá de los muros (Parte 6)",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 100, "end": 190 }
+},
+{
+  "title": "E23: Sonrisa. Asalto en el Distrito Stohess (Parte 1)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8M1VyncRhIXYn112ietpj3p33cb.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU4NzNf/SNK%2023.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU4NzNf/SNK%2023.mp4",
+  "episodeCode": "T1 E23: Sonrisa. Asalto en el Distrito Stohess (Parte 1)",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E24: Piedad. Asalto en el Distrito Stohess, (Parte 2)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/36TL36zTiN4GnYuBgqCPfHjsrWE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU5MDNf/SNK%2024.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU5MDNf/SNK%2024.mp4",
+  "episodeCode": "T1 E24: Piedad. Asalto en el Distrito Stohess, (Parte 2)",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 50, "end": 140 }
+},
+{
+  "title": "E25: Muro. Asalto en el Distrito Stohess (Parte 3)",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2euk86Y2huYGUHuuAAczyLydNWE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU5MzZf/SNK%2025.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU5MzZf/SNK%2025.mp4",
+  "episodeCode": "T1 E25: Muro. Asalto en el Distrito Stohess (Parte 3)",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 60, "end": 150 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E1: El titán bestia",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mQxrXtBPOopRy2DliSeqqo7sNHE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjY3NzVf/SNK.2-01HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjY3NzVf/SNK.2-01HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E1: El titán bestia",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 160, "end": 250 }
+},
+{
+  "title": "E2: He vuelto a casa",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cVtiOuKZbAOmPhJOipNokPae4cc.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjY4MTJf/SNK.2-02HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjY4MTJf/SNK.2-02HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E2: He vuelto a casa",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 80, "end": 170 }
+},
+{
+  "title": "E3: Hacia el sudoeste",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kjjKsoZojdCWiydpkQf9dFIclZH.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjY4NDZf/SNK.2-03HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjY4NDZf/SNK.2-03HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E3: Hacia el sudoeste",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 170, "end": 260 }
+},
+{
+  "title": "E4: Soldado",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ykAYnzBvVkFlb4uik0jb50HeHh9.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjY4ODNf/SNK.2-04HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjY4ODNf/SNK.2-04HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E4: Soldado",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E5: Historia",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ixW3tXUUK4RrEzFhWhLU0NVI0zn.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjY5Mjhf/SNK.2-05HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjY5Mjhf/SNK.2-05HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E5: Historia",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E6: Guerrero",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mGsGFFdkjXeLikNShJfBu81NVlD.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjY5Njdf/SNK.2-06HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjY5Njdf/SNK.2-06HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E6: Guerrero",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 110, "end": 200 }
+},
+{
+  "title": "E7: Golpea, derriba, atrapa",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tXRinQf6X3DRrJjWGnq9wijIQQ0.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjcwMDhf/SNK.2-07HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjcwMDhf/SNK.2-07HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E7: Golpea, derriba, atrapa",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 90, "end": 180 }
+},
+{
+  "title": "E8: Los perseguidores",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ryAWXAwuJVnssPYZU6tLCsdNZEr.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjcwNTJf/SNK.2-08HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjcwNTJf/SNK.2-08HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E8: Los perseguidores",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 105, "end": 195 }
+},
+{
+  "title": "E9: Apertura",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2lIPShdpfvVL4tVAH1bn0QiLqCn.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjcwODdf/SNK.2-09HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjcwODdf/SNK.2-09HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E9: Apertura",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 80, "end": 170 }
+},
+{
+  "title": "E10: Niños",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r6bYVbIgxtkW5O1p0hVuBuH79Fs.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjcxMjJf/SNK.2-10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjcxMjJf/SNK.2-10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E10: Niños",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 80, "end": 170 }
+},
+{
+  "title": "E11: El ataque",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tJgqXlZDxEA2Dm9HGHMcPymZ20S.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjcxNjRf/SNK.2-11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjcxNjRf/SNK.2-11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E11: El ataque",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 60, "end": 150 }
+},
+{
+  "title": "E12: El grito",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o2MCn8z7dbuU7cdIoPeCtnNsB6m.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MjcyMDFf/SNK.2-12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MjcyMDFf/SNK.2-12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T2 E12: El grito",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 35, "end": 125 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+  "title": "E1: Señales de humo",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g5gdbz4MUxHYAakgFeHfAOQMIvs.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc1Mjhf/SNK3.1HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1Mjhf/SNK3.1HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E1: Señales de humo",
+  "hiddenCode": "T3 E1",
+  "intro": { "start": 30, "end": 120 }
+},
+{
+  "title": "E2: Dolor",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yPGL12ERmX2J5bNMXgmmIcWshGd.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc1Mzlf/SNK3.2HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1Mzlf/SNK3.2HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E2: Dolor",
+  "hiddenCode": "T3 E2",
+  "intro": { "start": 35, "end": 125 }
+},
+{
+  "title": "E3: Relatos del pasado",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/40NoDcR6HqiUlMmuO84cC3BfW56.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc1NzBf/SNK3.3HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1NzBf/SNK3.3HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E3: Relatos del pasado",
+  "hiddenCode": "T3 E3",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E4: Confianza",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hHRzu09zqzwA2c2J5VF48zAbc78.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc1OTRf/SNK3.4HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1OTRf/SNK3.4HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E4: Confianza",
+  "hiddenCode": "T3 E4",
+  "intro": { "start": 110, "end": 200 }
+},
+{
+  "title": "E5: Respuesta",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f4N2VrRSA8ghqGdCtSVRTNnpEO7.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc2MTVf/SNK3.5HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2MTVf/SNK3.5HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E5: Respuesta",
+  "hiddenCode": "T3 E5",
+  "intro": { "start": 35, "end": 125 }
+},
+{
+  "title": "E6: Pecado",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2gmSSmXRTlppgbvWvqP9rYpLMWt.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc2Mjdf/SNK3.6HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2Mjdf/SNK3.6HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E6: Pecado",
+  "hiddenCode": "T3 E6",
+  "intro": { "start": 170, "end": 260 }
+},
+{
+  "title": "E7: Deseo",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yzRT9uzwBRO5Npio8yaAaZeClI1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc2NjZf/SNK3.7HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2NjZf/SNK3.7HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E7: Deseo",
+  "hiddenCode": "T3 E7",
+  "intro": { "start": 5, "end": 90 }
+},
+{
+  "title": "E8: La muralla exterior de Orvud",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8Gm8GDMPsviXQJRzunQTTWlXnw1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc2ODlf/SNK3.8HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2ODlf/SNK3.8HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E8: La muralla exterior de Orvud",
+  "hiddenCode": "T3 E8",
+  "intro": { "start": 50, "end": 140 }
+},
+{
+  "title": "E9: La reina de la muralla",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rA3okAKZCRbog2hOAvKwZggXnAy.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc2OTdf/SNK3.9HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2OTdf/SNK3.9HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E9: La reina de la muralla",
+  "hiddenCode": "T3 E9",
+  "intro": { "start": 90, "end": 180 }
+},
+{
+  "title": "E10: Amigos",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oIqiOCiui0wBkGImdxma4XfWsnJ.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mjc3MzRf/SNK3.10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mjc3MzRf/SNK3.10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+  "episodeCode": "T3 E10: Amigos",
+  "hiddenCode": "T3 E10",
+  "intro": { "start": 45, "end": 135 }
+},
+{
+        "title": "E11: Espectador",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qeISjI2nxqaaUvf4LcW9rlExGcY.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3Mjc3NjJf/SNK3.11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI3Mjc3NjJf/SNK3.11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+        "episodeCode": "T3 E11: Espectador",
+        "hiddenCode": "T3 E11",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E12: La noche de la operación de reconquista",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aFmPdWGTXXRQun2yQzS9ojX3yzC.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDI3Mjc3OTRf/SNK3.12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDI3Mjc3OTRf/SNK3.12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+        "episodeCode": "T3 E12: La noche de la operación de reconquista",
+        "hiddenCode": "T3 E12",
+        "intro": {
+          "start": 180,
+          "end": 270
+        }
+      },
+      {
+        "title": "E13: La ciudad donde empezó todo",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uI0Aazy8kUgT7LKu4UGascoPw7i.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzQ0MzJf/Attack%20on%20Titan%20Season%203%20Episodio%2013%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzQ0MzJf/Attack%20on%20Titan%20Season%203%20Episodio%2013%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E13: La ciudad donde empezó todo",
+        "hiddenCode": "T3 E13",
+        "intro": {
+          "start": 100,
+          "end": 190
+        }
+      },
+      {
+        "title": "E14: Lanzas relámpago",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2XX3Oq8VLE2khmISIvOtJgCOL19.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzQ2ODlf/Attack%20on%20Titan%20Season%203%20Episodio%2014%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzQ2ODlf/Attack%20on%20Titan%20Season%203%20Episodio%2014%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E14: Lanzas relámpago",
+        "hiddenCode": "T3 E14",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E15: Descenso",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/x8eX2fsj5hAZ36UxrKEbtsJzwIS.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzQ3NDhf/Attack%20on%20Titan%20Season%203%20Episodio%2015%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzQ3NDhf/Attack%20on%20Titan%20Season%203%20Episodio%2015%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E15: Descenso",
+        "hiddenCode": "T3 E15",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E16: Partido perfecto",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7ZrwZho2ovVaNpXp8Q4zz43eZuQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzIxNjlf/Attack%20on%20Titan%20Season%203%20Episodio%2016%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzIxNjlf/Attack%20on%20Titan%20Season%203%20Episodio%2016%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E16: Partido perfecto",
+        "hiddenCode": "T3 E16",
+        "intro": {
+          "start": 130,
+          "end": 220
+        }
+      },
+      {
+        "title": "E17: Héroe",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zsgNadsBXC1ubn1qGAskI55DLw0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzI3MTBf/Attack%20on%20Titan%20Season%203%20Episodio%2017%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzI3MTBf/Attack%20on%20Titan%20Season%203%20Episodio%2017%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E17: Héroe",
+        "hiddenCode": "T3 E17",
+        "intro": {
+          "start": 40,
+          "end": 130
+        }
+      },
+      {
+        "title": "E18: Sol de medianoche",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1IofclJNwYSb0hmDuv46s9XYdhZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzMwODFf/Attack%20on%20Titan%20Season%203%20Episodio%2018%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzMwODFf/Attack%20on%20Titan%20Season%203%20Episodio%2018%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E18: Sol de medianoche",
+        "hiddenCode": "T3 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Sótano",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6JT83J6bV4W4Yi9B1v1lrYsfMHy.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzM0MDJf/Attack%20on%20Titan%20Season%203%20Episodio%2019%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzM0MDJf/Attack%20on%20Titan%20Season%203%20Episodio%2019%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E19: Sótano",
+        "hiddenCode": "T3 E19",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E20: Ese día",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7Q1bzza6ZX3a0LBUe3R4hYSHobC.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzM2MDBf/Attack%20on%20Titan%20Season%203%20Episodio%2020%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzM2MDBf/Attack%20on%20Titan%20Season%203%20Episodio%2020%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E20: Ese día",
+        "hiddenCode": "T3 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Ataque a los titanes",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/k6vEmquLyVY1ke0iJwE0G9MP8Uw.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzM4MzRf/Attack%20on%20Titan%20Season%203%20Episodio%2021%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzM4MzRf/Attack%20on%20Titan%20Season%203%20Episodio%2021%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E21: Ataque a los titanes",
+        "hiddenCode": "T3 E21",
+        "intro": {
+      "start": 25,
+      "end": 115
+    }
+      },
+      {
+        "title": "E22: Al otro lado de las murallas",
+        "meta": "13+ · 24m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wYLKB3UA53EvBb15Uh9vXVoTRY4.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDQyMzQxNjhf/Attack%20on%20Titan%20Season%203%20Episodio%2022%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDQyMzQxNjhf/Attack%20on%20Titan%20Season%203%20Episodio%2022%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "episodeCode": "T3 E22: Al otro lado de las murallas",
+        "hiddenCode": "T3 E22",
+        "intro": {
+      "start": 100,
+      "end": 190
+    }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+    {
+  "title": "E1: Al otro lado del mar",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eqRF1ZQSzx31iLkyeJa95hMnWSr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODMwMTlf/SNK4-1FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODMwMTlf/SNK4-1FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E1: Al otro lado del mar",
+  "hiddenCode": "T4 E1",
+  "intro": {
+    "start": 210,
+    "end": 300
+  }
+},
+{
+  "title": "E2: El tren en la noche oscura",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aV2M59hZVguSbVTj7WkVx1icFxl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODM1NjBf/SNK4-2FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODM1NjBf/SNK4-2FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E2: El tren en la noche oscura",
+  "hiddenCode": "T4 E2",
+  "intro": {
+    "start": 170,
+    "end": 260
+  }
+},
+{
+  "title": "E3: La puerta de la esperanza",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bvpdW7h2pqpYZ4IisPq082TGdhe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODM4NThf/SNK4-3FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODM4NThf/SNK4-3FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E3: La puerta de la esperanza",
+  "hiddenCode": "T4 E3",
+  "intro": {
+    "start": 210,
+    "end": 300
+  }
+},
+{
+  "title": "E4: De una mano a otra",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9S4W9H69wM3YQv6ebH9iSFVqrmF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODQyNjlf/SNK4-4FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODQyNjlf/SNK4-4FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E4: De una mano a otra",
+  "hiddenCode": "T4 E4",
+  "intro": {
+    "start": 50,
+    "end": 140
+  }
+},
+{
+  "title": "E5: Declaración de guerra",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8wAQqWibI7FUpEWeDqrgZtbJvWf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODQ1MTNf/SNK4-5FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODQ1MTNf/SNK4-5FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E5: Declaración de guerra",
+  "hiddenCode": "T4 E5",
+  "intro": {
+    "start": 70,
+    "end": 160
+  }
+},
+{
+  "title": "E6: El Titán Martillo de Guerra",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3OporLhmT9PXJ0L9GsWUnPO2BSD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODQ4OTFf/SNK4-6FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODQ8OTFf/SNK4-6FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E6: El Titán Martillo de Guerra",
+  "hiddenCode": "T4 E6",
+  "intro": {
+    "start": 310,
+    "end": 400
+  }
+},
+{
+  "title": "E7: El asalto",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4fYKNPg6npvAr8S3gVs6NDmiz9Z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODU0NzZf/SNK4-7FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODU0NzZf/SNK4-7FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E7: El asalto",
+  "hiddenCode": "T4 E7",
+  "intro": {
+    "start": 150,
+    "end": 240
+  }
+},
+{
+  "title": "E8: Bala asesina",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2vpDtLZnQLSiwBko8xbAMDTqvDX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODU3NTJf/SNK4-8FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODU3NTJf/SNK4-8FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E8: Bala asesina",
+  "hiddenCode": "T4 E8",
+  "intro": {
+    "start": 110,
+    "end": 200
+  }
+},
+{
+  "title": "E9: Los voluntarios",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aq8oMwYb3zewlbeb1uh53pf6IOy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODY1NTRf/SNK4-9FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODY1NTRf/SNK4-9FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E9: Los voluntarios",
+  "hiddenCode": "T4 E9",
+  "intro": {
+    "start": 170,
+    "end": 260
+  }
+},
+{
+  "title": "E10: Un argumento de peso",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mLsWWQs5zrFju6iMNLOkSBf0Jg2.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyODY3MTNf/SNK4-10FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODY3MTNf/SNK4-10FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E10: Un argumento de peso",
+  "hiddenCode": "T4 E10",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E11: El rey titán",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/62mVv6C8gKlSy8jO4ykfdl9V0Gl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODY5MjBf/SNK4-11FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODY5MjBf/SNK4-11FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E11: Impostores",
+  "hiddenCode": "T4 E11",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E12: Herencia",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lSRH3oJgg7v0QNK9vMaVOECuAyI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODc8NDFf/SNK4-12FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODc8NDFf/SNK4-12FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E12: Los guías",
+  "hiddenCode": "T4 E12",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E13: La verdad",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jf9CWoPAFpqyWIyrP3hUSvh2Nwt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODk0MjJf/SNK4-13FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODk0MjJf/SNK4-13FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E13: Los hijos del bosque",
+  "hiddenCode": "T4 E13",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E14: Violencia",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ynZdYzOR8bEvL3l6l21mHIxOH1Z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODE1Njdf/SNK4-14FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODE1Njdf/SNK4-14FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E14: Violencia",
+  "hiddenCode": "T4 E14",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E15: La única salvación",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4NKaIWiO8y5M33cKIOe70qxjpKV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODE5NTRf/SNK4-15FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODE5NTRf/SNK4-15FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E15: La única salvación",
+  "hiddenCode": "T4 E15",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E16: Cielo y tierra",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kYtiYN55pl52zccsG8q6J5MUgCw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODIzNzRf/SNK4-16FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODIzNzRf/SNK4-16FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+  "episodeCode": "T4 E16: Cielo y tierra",
+  "hiddenCode": "T4 E16",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E17: Juicio",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cQp51TGhvY4rBv1DOjXAUhlF32Y.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzA2NDRf/SNK4.P4RT2-01HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzA2NDRf/SNK4.P4RT2-01HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E17: Juicio",
+  "hiddenCode": "T4 E17",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E18: Ataque Furtivo",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8qkQjcBcOtoIYMJbVzVEhRHtl6z.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDI3MzA2ODBf/SNK4.P4RT2-02HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzA2ODBf/SNK4.P4RT2-02HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E18: Ataque Furtivo",
+  "hiddenCode": "T4 E18",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E19: Dos Hermanos",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xljKlZf3RIrRsrhaxdCBjvO1uFn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODYxNDNf/SNK4P4RT2-03HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODYxNDNf/SNK4P4RT2-03HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E19: Hermanos",
+  "hiddenCode": "T4 E19",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E20: Recuerdos del futuro",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oHsTi9EKxiV9poTaw1kJWHxxE4M.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODY2NjZf/SNK4P4RT2-04HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODY2NjZf/SNK4P4RT2-04HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E20: Recuerdos del futuro",
+  "hiddenCode": "T4 E20",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E21: De parte de tu yo de hace 2000 años",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vRXC0k8wsCFRwmgWwVu7KDcGKRT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODc1MTZf/SNK4P4RT2-05HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODc1MTZf/SNK4P4RT2-05HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E21: De parte de tu yo de hace 2000 años",
+  "hiddenCode": "T4 E21",
+  "intro": {
+    "start": 330,
+    "end": 420
+  }
+},
+{
+  "title": "E22: Deshielo",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aD0tJhJ4EGMGianyzuuiQz2nZY0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODc4MDhf/SNK4P4RT2-06HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODc4MDhf/SNK4P4RT2-06HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E22: Deshielo",
+  "hiddenCode": "T4 E22",
+  "intro": {
+    "start": 80,
+    "end": 170
+  }
+},
+{
+  "title": "E23: Atardecer",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/28kjpqi1IqlmaDbouHTLwfzVL2h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODc4MjBf/SNK4P4RT2-07HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODc4MjBf/SNK4P4RT2-07HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E23: Atardecer",
+  "hiddenCode": "T4 E23",
+  "intro": {
+    "start": 200,
+    "end": 290
+  }
+},
+{
+  "title": "E24: Orgullo",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/atKHPrLW5RRG1dUrahRrTXjJVAr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODgxODdf/SNK4P4RT2-08HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODgxODdf/SNK4P4RT2-08HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E24: Orgullo",
+  "hiddenCode": "T4 E24",
+  "intro": {
+    "start": 140,
+    "end": 230
+  }
+},
+{
+  "title": "E25: La noche del fin",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sWZ592AiNnXTDaw8uIxz7ya7MOp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyODkwMzBf/SNK4P4RT2-09HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODkwMzBf/SNK4P4RT2-09HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E25: La noche del fin",
+  "hiddenCode": "T4 E25",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E26: Traidor",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xUcJ93Tt5RHjdFPeXBKDEH3J7U1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyODk7NzNf/SNK4P4RT2-10HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyODk7NzNf/SNK4P4RT2-10HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E26: Traidor",
+  "hiddenCode": "T4 E26",
+  "intro": {
+    "start": 5,
+    "end": 90
+  }
+},
+{
+  "title": "E27: Retrospectiva",
+  "meta": "13+ · 24m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z1ymXAlYjYeTfsFvOAveVdSBeqQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-11HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-11HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E27: Retrospectiva",
+  "hiddenCode": "T4 E27",
+  "intro": {
+    "start": 270,
+    "end": 360
+  }
+},
+{
+  "title": "E28: El amanecer de la humanidad",
+  "meta": "13+ · 23m · 2013",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9IT29LxBTDd610r2XzzGZXeca0b.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyOTEwNTBf/SNK4P4RT2-12HD%20L4T1N0.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyOTEwNTBf/SNK4P4RT2-12HD%20L4T1N0.mp4",
+  "episodeCode": "T4 E28: El amanecer de la humanidad",
+  "hiddenCode": "T4 E28",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+}
+
+
+    ]
+  },
+  {
+    "season": "Special final season",
+    "episodes": [
+    {
+  "title": "E-SP1: Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+  "meta": "13+ · 61m · 2023",
+  "thumbnail": "https://od.lk/s/M18zMDk3MjI0MTdf/OIP%20%283%29.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzExODdf/Shingeki%20no%20Kyojin%20The%20Final%20Season%20THE%20FINAL%20CHAPTERS%20Special%2001%20Sub%20Espa%C3%B1ol%20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzExODdf/Shingeki%20no%20Kyojin%20The%20Final%20Season%20THE%20FINAL%20CHAPTERS%20Special%2001%20Sub%20Espa%C3%B1ol%20.mp4",
+  "episodeCode": "T4 E-SP1: Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+  "hiddenCode": "T4 E-SP1",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E-SP2: Attack on Titan Final Season THE FINAL CHAPTERS Special 2",
+  "meta": "13+ · 85m · 2023",
+  "thumbnail": "https://od.lk/s/M18zMDk3MjIzMTZf/a722aeea2067e3e9ff69b9837c114995.jpe",
+  "videoUrl": "https://od.lk/s/M18zMDI3MzEwMjJf/Shingeki%20no%20Kyojin%20Final.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3MzEwMjJf/Shingeki%20no%20Kyojin%20Final.mp4",
+  "episodeCode": "T4 E-SP2: Attack on Titan Final Season THE FINAL CHAPTERS Special 2",
+  "hiddenCode": "T4 E-SP2",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+      }
+
+    ]
+  },
+  {
+  "season": "Attack on Titan OADs",
+  "episodes": [
+    {
+      "title": "OVA 1: El diario de Ilse",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://od.lk/s/M18zMDk3MjI0OTZf/default.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzI5NzNf/SNK-Ova-01.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzI5NzNf/SNK-Ova-01.mkv",
+      "episodeCode": "OVA 1: El diario de Ilse",
+      "hiddenCode": "OVA 1",
+      "intro": {
+        "start": 120,
+        "end": 210
+      }
+    },
+    {
+      "title": "OVA 2: Un visitante inesperado",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://od.lk/s/M18zMDk3MjI2NDJf/fttygxkcb2e6e4p3mw7xnzw3mrkvsopq_hq.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzMwMzNf/SNK-Ova-02.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzMwMzNf/SNK-Ova-02.mkv",
+      "episodeCode": "OVA 2: Un visitante inesperado",
+      "hiddenCode": "OVA 2",
+      "intro": {
+        "start": 70,
+        "end": 160
+      }
+    },
+    {
+      "title": "OVA 3: Dificultad",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://od.lk/s/M18zMDk3MjI2Njhf/95631987f08ef1b0c8e7f86674ef6dbe.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzMxMDBf/SNK-Ova-03.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzMxMDBf/SNK-Ova-03.mkv",
+      "episodeCode": "OVA 3: Dificultad",
+      "hiddenCode": "OVA 3",
+      "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "OVA 4: Una elección sin remordimientos (1)",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://od.lk/s/M18zMDk3MjI2NzRf/76216c0ea7934694aff5e2ea0c36884d--no-regrets-freedom.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzMxNjBf/SNK-Ova-04.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzMxNjBf/SNK-Ova-04.mkv",
+      "episodeCode": "OVA 4: Una elección sin remordimientos (1)",
+      "hiddenCode": "OVA 4",
+      "intro": {
+        "start": 150,
+        "end": 240
+      }
+    },
+    {
+      "title": "OVA 5: Una elección sin remordimientos (2)",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://pm1.narvii.com/5699/814f55ceb2af43471acb8e751e38d79adee7c674_hq.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzMzMDVf/SNK-Ova-05.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzMzMDVf/SNK-Ova-05.mkv",
+      "episodeCode": "OVA 5: Una elección sin remordimientos (2)",
+      "hiddenCode": "OVA 5",
+      "intro": {
+        "start": 5,
+        "end": 90
+      }
+    },
+    {
+      "title": "OVA 6: Adiós, Muralla Sina (1)",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://www.saizenfansubs.com/wp-content/uploads/2018/01/Saizen-Soldado-Shingeki-no-Kyojin-OVA-6-Lost-Girls-Part-1DVD5053B818.mkv_snapshot_13.11_2018.01.09_11.50.55.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzMzMzRf/SNK-Ova-06.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzMzMzRf/SNK-Ova-06.mkv",
+      "episodeCode": "OVA 6: Adiós, Muralla Sina (1)",
+      "hiddenCode": "OVA 6",
+      "intro": {
+        "start": 0,
+        "end": 0
+      }
+    },
+    {
+      "title": "OVA 7: Adiós, Muralla Sina (2)",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://vidcache.net:8161/static/c6d5355e30ff0921f2b89c7bc04083ebb8057c4d/snk ova 7.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzMzOTZf/SNK-Ova-07.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzMzOTZf/SNK-Ova-07.mkv",
+      "episodeCode": "OVA 7: Adiós, Muralla Sina (2)",
+      "hiddenCode": "OVA 7",
+      "intro": {
+        "start": 0,
+        "end": 0
+      }
+    },
+    {
+      "title": "OVA 8: Perdida en un mundo cruel",
+      "meta": "13+ · 24m · 2013",
+      "thumbnail": "https://vidcache.net:8161/static/4e16513535f8feae1f1f42c8b498d59022174863/snk ova 8.jpg",
+      "videoUrl": "https://od.lk/s/M18zMDI3MzM0NTJf/SNK-Ova-08.mkv",
+      "downloadUrl": "https://od.lk/d/M18zMDI3MzM0NTJf/SNK-Ova-08.mkv",
+      "episodeCode": "OVA 8: Perdida en un mundo cruel",
+      "hiddenCode": "OVA 8",
+      "intro": {
+        "start": 0,
+        "end": 0
+      }
+    }
+
+
+    ]
+  },
+ 
+];
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
+
+  // cuando cierres el player
+  WakeLockManager.disable();
+</script>
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

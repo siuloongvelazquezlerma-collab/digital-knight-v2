@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Colección Disney</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../collections.css">
+  <style>
+  
+
+
+.fondo-principal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('https://od.lk/s/M18zMTgyMzU5NDVf/marvel%20poster.jpg') top center / contain no-repeat;
+  z-index: 0;
+
+  filter: brightness(1.9); /* 👈 Aumenta el brillo (1 es normal, 1.2 es +20%) */
+}
+
+
+
+@media (orientation: landscape) {
+  .fondo-principal {
+    background: url('https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/CCC3F8712F781DC1ECDDC406924EF0569A30DB0F0BF628CA9EAF60B97C9ABC4B/compose?format=webp&width=2880') top center / cover no-repeat;
+    filter: brightness(1.9); /* También para landscape si quieres */
+  }
+  .fondo-principal::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.822)),
+                linear-gradient(to bottom, rgba(0,0,0,0),rgba(0,0,0,0),#01011d96, #01010f),
+                linear-gradient(to left, rgba(0, 0, 0, 0.13),rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.877));
+  }
+}
+
+.logo-dc {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 200px;
+  max-width: 65vw;
+  margin: 0 auto;
+  margin-top: -420px;
+  transition: opacity 0.3s ease; /* 👈 solo opacity */
+}
+
+@media (orientation: landscape) {
+  .logo-dc {
+    margin-top: -500px;
+    margin-left: 2%;
+    transform: translateY(0);
+    width: 380px;
+    max-width: 28vw;
+  }
+}
+
+
+.contenido-principal {
+  position: relative;
+  z-index: 2;
+  margin-top: 1px;       /* Ajuste si quieres separarlo más del logo */
+  padding: 1rem;
+}
+
+@media (orientation: landscape) {
+  .contenido-principal {
+    margin-top: 5vh;
+  }
+}
+
+.heroes-zone.hbo-style::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6,12,34,0.7), rgba(6,12,34,0.9));
+  z-index: 0;
+}
+
+.heroes-inner{
+  position: relative;
+  z-index: 1;
+}
+
+.scroll-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative; /* Necesario para que el badge se posicione sobre los posters */
+}
+
+.badge-theme {
+  text-align: center;
+  margin-bottom: 16px; /* espacio entre logo/subtítulo y posters */
+  color: #fff;
+}
+
+.badge-theme .badge-logo {
+  display: block;
+  width: 140px; /* Ajusta según el logo */
+  height: auto;
+  margin: 0 auto;
+}
+
+.badge-theme .badge-subtitle {
+  margin-top: 6px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: .5px;
+  color: #fff;
+}
+
+
+
+
+
+.scroll-row {
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  scroll-behavior: smooth;
+  padding:18px 4px;
+}
+.scroll-row::-webkit-scrollbar{ height:8px; }
+.scroll-row::-webkit-scrollbar-thumb{ background: rgba(255, 255, 255, 0); border-radius:8px; }
+
+/* Posters más grandes estilo HBO */
+.poster-horizontal.big{
+  width: 160px;
+  height: 240px;
+  background-size:cover;
+  background-position:center;
+  border-radius:10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  flex: 0 0 auto;
+  transition: transform .2s ease, box-shadow .2s ease;
+  margin-top: 30px;
+}
+
+
+
+
+@media (max-width:640px){
+  .poster-horizontal.big{ width:120px; height:180px; }
+  
+}
+
+  </style>
+</head>
+<body>
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <!-- Barra superior personalizada -->
+<div class="custom-top-bar">
+  <!-- Botón volver -->
+  <button onclick="window.history.back()">
+    <span class="material-icons">arrow_back</span>
+  </button>
+
+  <!-- Botón recargar -->
+  <button onclick="location.reload()">
+    <span class="material-icons">refresh</span>
+  </button>
+</div>
+
+<!-- Header principal con logo + botón atrás -->
+<header id="header">
+  <!-- Volver -->
+  <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+    <span class="material-icons">chevron_left</span>
+  </a>
+
+  <!-- Logo de la página actual -->
+  <img id="page-logo" class="page-logo" src="https://od.lk/s/M18zMDQ2MzY3MDJf/marvel1.jpg" alt="DC Comics Logo">
+</header>
+
+<!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- Favoritos -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- Buscar -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+  <div class="fondo-principal"></div>
+  <img src="https://od.lk/s/M18zMDQ2MzY3MDJf/marvel1.jpg" alt="DC Logo" class="logo-dc" />
+  <div class="contenido-principal">
+    
+
+    <div class="contenedor-categorias">
+      <div class="categoria">
+        <div class="titulo">Lo más visto</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+      
+          <div class="scroll-poster">
+
+            <a href="los-4-fantasticos-primeros-pasos.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/u6iFFGcOXk4d6C5pZes1qRgU8Nt.jpg');"></div>
+            </a>
+
+            <a href="thunderbolts.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/ajbHFAIyOY3Bd2PzGkatPSRs0Pq.jpg');"></div>
+            </a>
+
+            <a href="venom-el-ultimo-baile.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/toZiAd0n0NKhiuHTiGk7kBMmhtG.jpg');"></div>
+            </a>
+
+            <a href="capitan-america-un-nuevo-mundo.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/NZEdm7tzqTwj53yE5TySt8x89H.jpg');"></div>
+            </a>
+      
+            <a href="Kraven el cazador (2024).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/ytmJ11n9gm34D1v56myjTxMaEDJ.jpg');"></div>
+            </a>
+      
+            <a href="Avengers Los Vengadores (2012).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/yHdPTs239Cqce1s6y9figbeolR1.jpg');"></div>
+            </a>
+      
+            <a href="Thor un mundo oscuro (2013).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/wXbOESCVaIHh4Rkmm3nhyL9SB00.jpg');"></div>
+            </a>
+      
+            <a href="Avengers 2 Era de Ultrón (2015).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6fdsge3amjdHSVkRXggwforRi5g.jpg');"></div>
+            </a>
+      
+            <a href="Pantera Negra (2018).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/vD8xAJTTfIm76vFZ8KIhyW3K6xF.jpg');"></div>
+            </a>
+      
+            <a href="Doctor Strange Hechicero supremo (2016).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/lxZRdSYXPLxnAQZmlG8civ2sfJr.jpg');"></div>
+            </a>
+      
+            <a href="Avengers Infinity War (2018).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/zwHylDF7qtKJWusdIaVHaqzjarh.jpg');"></div>
+            </a>
+      
+            <a href="Avengers Endgame (2019).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fTFRY6RJTpwkrYybwj4Wdf5nfgn.jpg');"></div>
+            </a>
+      
+            <a href="spiderman lejos de casa.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg');"></div>
+            </a>
+      
+            <a href="spiderman no way home.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg');"></div>
+            </a>
+      
+          </div>
+      
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+
+      <div class="categoria">
+        <div class="titulo">Películas en orden cronológico</div>
+        <div class="scroll-container">
+          <button class="arrow left">&#10094;</button>
+      
+          <div class="scroll-poster">
+      
+            <a href="Capitán América El Primer Vengador (2011).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/llg113ARHG3HylB5Tw3MbluBTHR.jpg');"></div>
+            </a>
+      
+            <a href="Capitana Marvel (2019).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/5SPa7dZ85p54xa7E9tHRmfKq5ce.jpg');"></div>
+            </a>
+      
+            <a href="Iron man - El hombre de hierro (2008).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/dMc96Rn0XutMaIYJNwkJ5yO9oTh.jpg');"></div>
+            </a>
+      
+            <a href="Iron Man 2 (2010).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/eVS6aDR4zCzWOetAF7Q6orj1k3X.jpg');"></div>
+            </a>
+      
+            <a href="Thor (2011).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg');"></div>
+            </a>
+      
+            <a href="Avengers Los Vengadores (2012).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/yHdPTs239Cqce1s6y9figbeolR1.jpg');"></div>
+            </a>
+      
+            <a href="Thor un mundo oscuro (2013).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/wXbOESCVaIHh4Rkmm3nhyL9SB00.jpg');"></div>
+            </a>
+      
+            <a href="Iron Man 3 (2013).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/evmEKgNyEXwIbyXAefK16ZTDfGw.jpg');"></div>
+            </a>
+      
+            <a href="Capitán América y el Soldado del Invierno (2014).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/7KPIJov1oNg5e5x9COwHErDmdCY.jpg');"></div>
+            </a>
+      
+            <a href="Guardianes de la galaxia (2014).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/p98NIlw5RY4SKPdTw1z4z0DQSwa.jpg');"></div>
+            </a>
+      
+            <a href="Guardianes de la Galaxia 2 (2017).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/7bvMsSmNUGtfPACgSYMIe9OCYx4.jpg');"></div>
+            </a>
+      
+            <a href="Avengers 2 Era de Ultrón (2015).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6fdsge3amjdHSVkRXggwforRi5g.jpg');"></div>
+            </a>
+      
+            <a href="Ant-Man El hombre Hormiga (2015).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/tMJ0FBFrYZjo6BNHiYbgqiy8Tf5.jpg');"></div>
+            </a>
+      
+            <a href="Capitán América Civil War (2016).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/tjX3FRx21emmwA30QwXaU39mHoT.jpg');"></div>
+            </a>
+      
+            <a href="Black Widow (2021).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/8kRtYRChyFSYwzVCbHB2Z12wcW7.jpg');"></div>
+            </a>
+      
+            <a href="Pantera Negra (2018).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/vD8xAJTTfIm76vFZ8KIhyW3K6xF.jpg');"></div>
+            </a>
+      
+            <a href="Doctor Strange Hechicero supremo (2016).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/lxZRdSYXPLxnAQZmlG8civ2sfJr.jpg');"></div>
+            </a>
+      
+            <a href="Thor Ragnarok (2017).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fKGfYZvLvd5ZiYbtriaE6O6vOE4.jpg');"></div>
+            </a>
+      
+            <a href="Ant-Man 2 La Avispa (2018).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/ls3bSegCdHD1AcNZX1CpzQJm9th.jpg');"></div>
+            </a>
+      
+            <a href="Avengers Infinity War (2018).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/zwHylDF7qtKJWusdIaVHaqzjarh.jpg');"></div>
+            </a>
+      
+            <a href="Avengers Endgame (2019).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/fTFRY6RJTpwkrYybwj4Wdf5nfgn.jpg');"></div>
+            </a>
+      
+            <a href="Shang-Chi y la leyenda de los Diez Anillos (2021).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/eayglw9AINnwtDZPIEV3js6hhMV.jpg');"></div>
+            </a>
+      
+            <a href="Eternals (2021).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/b6qUu00iIIkXX13szFy7d0CyNcg.jpg');"></div>
+            </a>
+      
+            <a href="Doctor Strange en el multiverso de la locura (2022).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/5nEuAhCKrzf7bpGLBOal4qCuZsI.jpg');"></div>
+            </a>
+      
+            <a href="Pantera Negra Wakanda por siempre (2022).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/nl3Fy48dMaEV9oljX6Ah9cCoOlf.jpg');"></div>
+            </a>
+      
+            <a href="Thor Amor y Trueno (2022).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/jY3NtDATB84TGK6ESa9H1jK8hlX.jpg');"></div>
+            </a>
+      
+            <a href="Ant-Man and the Wasp Quantumania.html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/24I7O4byznETny4izTaYervpcx0.jpg');"></div>
+            </a>
+      
+            <a href="Guardianes de la Galaxia volumen 3 (2023).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6fPacxQCGsStHQzOV6ofEKR14m5.jpg');"></div>
+            </a>
+      
+            <a href="The Marvels (2023).html">
+              <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/2bAuG2KqGoWhIhElkHE0xlQlt1H.jpg');"></div>
+            </a>
+      
+          </div>
+      
+          <button class="arrow right">&#10095;</button>
+        </div>
+      </div>
+
+      <div class="categoria">
+  <div class="titulo">Multiverso</div>
+  <div class="scroll-container">
+    <button class="arrow left">&#10094;</button>
+
+    <div class="scroll-poster">
+
+      <a href="wandavision.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/ng9PIJ0OChcjNeddDPDBJryLp4s.jpg');"></div>
+      </a>
+
+      <a href="falcon y el soldado del invierno.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/4qfyYoH41YYF8bqSwEJljuBmvIT.jpg');"></div>
+      </a>
+
+      <a href="loki.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/bqoOiebYt69U8gKdrjN8mF5O7Yu.jpg');"></div>
+      </a>
+
+      <a href="Black Widow (2021).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/8kRtYRChyFSYwzVCbHB2Z12wcW7.jpg');"></div>
+      </a>
+
+      <a href="what if?.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/rWg4Jk7NwVEz2BtU1aKKDoDJPeB.jpg');"></div>
+      </a>
+
+      <a href="Shang-Chi y la leyenda de los Diez Anillos (2021).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/eayglw9AINnwtDZPIEV3js6hhMV.jpg');"></div>
+      </a>
+
+      <a href="Eternals (2021).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/b6qUu00iIIkXX13szFy7d0CyNcg.jpg');"></div>
+      </a>
+
+      <a href="hawkeye.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/A5AWgciOOq7UE4HzeXahn8VFoPD.jpg');"></div>
+      </a>
+
+      <a href="moonknight.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/65Yyuavz1GtLwf2yVHCq9hLxthw.jpg');"></div>
+      </a>
+
+      <a href="Doctor Strange en el multiverso de la locura (2022).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/5nEuAhCKrzf7bpGLBOal4qCuZsI.jpg');"></div>
+      </a>
+
+      <a href="ms marvel.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/4qoFtoPvFGjlIXYfFVNKhOwZ6zD.jpg');"></div>
+      </a>
+
+      <a href="Thor Ragnarok (2017).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/jY3NtDATB84TGK6ESa9H1jK8hlX.jpg');"></div>
+      </a>
+
+      <a href="yo soy groot.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/mAW22zvybqCo9PeLkUfwYdB4wZu.jpg');"></div>
+      </a>
+
+      <a href="she-hulk.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/wgjzCsT6PhNHACHT7Iscs1QM5vw.jpg');"></div>
+      </a>
+
+      <a href="hombre lobo.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/ud29Pg75Oqr5o4dXfjtZuSYrkrH.jpg');"></div>
+      </a>
+
+      <a href="Pantera Negra Wakanda por siempre (2022).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/nl3Fy48dMaEV9oljX6Ah9cCoOlf.jpg');"></div>
+      </a>
+
+      <a href="guardianes de la galaxia especial de fiestas.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/svFrc058PGUYphe2yTxphDd5dts.jpg');"></div>
+      </a>
+
+      <a href="Ant-Man and the Wasp Quantumania.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/24I7O4byznETny4izTaYervpcx0.jpg');"></div>
+      </a>
+
+      <a href="Guardianes de la Galaxia volumen 3 (2023).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/6fPacxQCGsStHQzOV6ofEKR14m5.jpg');"></div>
+      </a>
+
+      <a href="secret invasion.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/4FhuIvSvKzGa4wqzR5NXvFwsjF7.jpg');"></div>
+      </a>
+
+      <a href="The Marvels (2023).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/2bAuG2KqGoWhIhElkHE0xlQlt1H.jpg');"></div>
+      </a>
+
+      <a href="echo.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/5X4sV85FZd7csSvV8ESOniNfLI1.jpg');"></div>
+      </a>
+
+      <a href="x-men 97.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/4KUVuewdHUx2hPzBTbgehHnWpjA.jpg');"></div>
+      </a>
+
+    </div>
+
+    <button class="arrow right">&#10095;</button>
+  </div>
+</div>
+
+<div class="categoria">
+  <div class="titulo">Clásicos Mutantes</div>
+  <div class="scroll-container">
+    <button class="arrow left">&#10094;</button>
+
+    <div class="scroll-poster">
+      <a href="x-men 1992.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/zTI6sUdIbjZQ0tJDTCsIXO6gnWp.jpg');"></div>
+      </a>
+      <a href="x-men evolution.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/At5aZIKkN8zHTAXOnQR9D3b7usW.jpg');"></div>
+      </a>
+      <a href="x-men dias del pasado futuro.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/37QaCTjMIDXhcIH5JyEyvfLkaSf.jpg');"></div>
+      </a>
+      <a href="X-Men 3 La Batalla Final (2006).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/lEU94hL4J8FLMLjBXloEc8PWo83.jpg');"></div>
+      </a>
+      <a href="X-Men (2000).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/2QelrpT1piTQJXujMFUl38GfjJz.jpg');"></div>
+      </a>
+      <a href="deadpool.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/3E53WEZJqP6aM84D8CckXx4pIHw.jpg');"></div>
+      </a>
+      <a href="deadpool-2.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/8KzhBBJP2ZR1GV4H3EV8MFNPmCv.jpg');"></div>
+      </a>
+      <a href="new deadpool y wolverine page.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/vULfWaCy7EQloKFnQUdOw5XYicq.jpg');"></div>
+      </a>      
+      <a href="daredevil-el-hombre-sin-miedo.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/oCDBwSkntYamuw8VJIxMRCtDBmi.jpg');"></div>
+      </a>
+      <a href="hulk.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/UllIft2jLSBaay3zQyMV4GNdfy.jpg');"></div>
+      </a>
+      <a href="hulk-el-hombre-increible.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/c6cbZVksTFFTgWZtTGIuCDQXp7P.jpg');"></div>
+      </a>
+      <a href="wolverine inmortal.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/9BRz8pI41iAVMRzeItvHnZNMlk2.jpg');"></div>
+      </a>
+      <a href="Los 4 Fantásticos (2015).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/349fSE2Zd4fztRKK5BQ08A9rIMI.jpg');"></div>
+      </a>
+      <a href="The Punisher El Castigador (2004).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/7rmA1HwYp2GKM85BL0cVwCaosGr.jpg');"></div>
+      </a>
+      <a href="Ghost Rider el vengador fantasma (2007).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/1pyU94dAY7npDQCKuxCSyX9KthN.jpg');"></div>
+      </a>
+      <a href="ghost-rider-2-espiritu-de-venganza.html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/gNk4q6f1sXRE8FEPpMiexCs5K20.jpg');"></div>
+      </a>
+    </div>
+
+    <button class="arrow right">&#10095;</button>
+  </div>
+</div>
+
+<div class="categoria">
+  <div class="titulo">X-Men</div>
+  <div class="scroll-container">
+    <button class="arrow left">&#10094;</button>
+
+    <div class="scroll-poster">
+      <a href="X-Men (2000).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/bRDAc4GogyS9ci3ow7UnInOcriN.jpg');"></div>
+      </a>
+      <a href="X-Men 2 (2003).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/gkpuNoaVrgz0003t4b4kgviZgGQ.jpg');"></div>
+      </a>
+      <a href="X-Men 3 La Batalla Final (2006).html">
+        <div class="poster" style="background-image: url('https://image.tmdb.org/t/p/original/lEU94hL4J8FLMLjBXloEc8PWo83.jpg');"></div>
+      </a>
+    </div>
+
+    <button class="arrow right">&#10095;</button>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="https://od.lk/d/M18zMTIxODI5MjJf/logo%202025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script>
+     window.addEventListener('load', function () {
+  const overlay = document.querySelector('.overlay-loader-page');
+  const loader = document.getElementById('loader');
+
+  // Se mantiene el loader visible por 1 segundo
+  setTimeout(() => {
+    loader.style.opacity = '0'; // Corrige esto: '2' no tiene efecto visual
+    setTimeout(() => {
+      loader.style.display = 'none';
+      overlay.classList.add('hidden');
+    }, 300);
+  }, 1000);
+});
+
+const logo = document.querySelector('.logo-dc');
+  const fondo = document.querySelector('.fondo-principal');
+
+  window.addEventListener('scroll', () => {
+    const scroll = window.scrollY;
+    const fadeLimit = 300; // píxeles para desaparecer
+
+    let opacity = 1 - scroll / fadeLimit;
+    opacity = Math.max(0, Math.min(1, opacity));
+
+    logo.style.opacity = opacity;
+    fondo.style.opacity = opacity;
+  });
+
+   // Funciona para contenedores verticales
+document.querySelectorAll('.scroll-container').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+// Funciona para contenedores horizontales
+document.querySelectorAll('.scroll-container-horizontal').forEach(container => {
+  const scroll = container.querySelector('.scroll-poster-horizontal');
+  container.querySelector('.arrow.left').onclick = () => scroll.scrollBy({ left: -600, behavior: 'smooth' });
+  container.querySelector('.arrow.right').onclick = () => scroll.scrollBy({ left: 600, behavior: 'smooth' });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageLogo = document.getElementById('page-logo');
+
+  if (!header || !pageLogo) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const logoOpacity = scrollY > 150 ? opacity : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageLogo.style.opacity = logoOpacity;
+  });
+});
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+  </script>
+</body>
+
+</html>

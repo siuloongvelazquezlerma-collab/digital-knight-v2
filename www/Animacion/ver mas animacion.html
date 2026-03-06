@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Ver Más Animación</title>
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+     <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
+  <title>Animación</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      
+    }
+    body {
+      padding-top: env(safe-area-inset-top);
+            font-family: 'Roboto', sans-serif;
+            background: url('https://od.lk/s/M18zMTIyNTE0NTJf/fondo%20aniamcion.jpg') no-repeat center center fixed;
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            color: #ffffff;
+            overflow-x: hidden;
+            padding-top: 60px; /* Igual a la altura de tu header */
+        }
+
+        html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+  overscroll-behavior-y: contain; /* bloquea el "pull-to-refresh" */
+}
+
+
+
+
+ /* Estilo general para el header */
+#header {
+    position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: rgba(0,0,0,0); 
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Estilo de los enlaces */
+.icon-link {
+display: flex;
+justify-content: center;
+align-items: center;
+color: #ffffff; /* Color del ícono */
+text-decoration: none; /* Quitar subrayado */
+z-index: 3012;
+}
+
+/* Flecha a la izquierda */
+#back-link {
+background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
+border-radius: 50%; /* Hace el fondo circular */
+width: 36px; /* Tamaño del círculo */
+height: 36px;
+font-size: 20px; /* Tamaño del ícono */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 3012;
+}
+
+#page-title {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size: 15px;
+text-align: center;
+width: 100%;
+opacity: 0; /* Lo ocultamos por defecto */
+transition: opacity 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+/* Hover efectos */
+.icon-link:hover {
+opacity: 0.8; /* Ligera transparencia al hacer hover */
+}
+
+.tabs-secondary {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 3005;
+    background-color: rgba(0, 0, 0, 0); /* Transparente */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    transition: background-color 0.4s ease;
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Se oscurece al subir */
+  }
+  
+  
+  .tabs-secondary .logo {
+    height: 20px;
+    width: auto;
+  }
+  
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  
+  .tabs-secondary .tab {
+    color: rgba(255, 255, 255, 0.856);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 14px 8px;
+    transition: background 0.3s ease;
+    border-radius: 8px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+  .tabs-secondary .tab:hover {
+    background-color: #81818179;
+  }
+  
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+  
+  .tabs-secondary .icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .tabs-secondary .icons span,
+  .header-only span {
+    font-size: 36px !important;
+    color: white;
+  }
+  
+  #headerProfileIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+  }
+  
+  /* Mostrar solo en pantallas grandes */
+  @media screen and (min-width: 1024px) {
+    .tabs-secondary {
+      display: flex;
+    }
+  }
+  
+  
+  
+  @media screen and (min-width: 1024px) {
+    #header {
+      display: none;
+    }
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro al subir */
+    transition: background-color 0.4s ease;
+  }
+
+  .custom-top-bar {
+    background-color: #000;
+    color: white;
+    padding: 6px 20px;
+    display: flex;
+    justify-content: flex-start; /* <- Cambio aquí */
+    align-items: center;
+    gap: 12px; /* <- Espacio entre los botones */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  
+  .custom-top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-top-bar .material-icons {
+    font-size: 25px;
+  }
+  
+  /* Ocultar en pantallas pequeñas */
+  @media screen and (max-width: 1024px) {
+    .custom-top-bar {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .restart-button {
+      display: none;
+    }
+  
+    .restart-button.shown {
+      display: flex;
+    }
+  
+    .footer {
+      display: none !important;
+    }
+  
+    
+  }
+
+    header {
+      background: rgba(0, 0, 0, 0);
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Default: 2 columnas */
+  gap: 15px;
+  padding: 20px;
+  flex: 1;
+}
+
+.movie {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+}
+
+.movie:hover {
+  transform: scale(1.05);
+}
+
+.movie img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 📱 Pantallas chicas en landscape → 3 columnas */
+@media (max-width: 768px) and (orientation: landscape) {
+  .container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+/* 💻 Pantallas grandes (>=1024px) en landscape → 4 columnas */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .container {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+  }
+
+  header {
+      background: rgba(0, 0, 0, 0);
+      padding: 15px;
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 150px;
+    }
+}
+
+
+    footer {
+      background: rgba(0, 0, 0, 0.9);
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    .footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 30px; /* Tamaño de la imagen de perfil */
+  height: 30px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #696969; /* Borde blanco por defecto */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+  transition: border-color 0.3s ease; /* Transición suave para el borde */
+}
+
+/* Cambiar el color del borde cuando el icono esté activo */
+.footer-icon.active .profile-icon-footer {
+  border-color: #ffffff; /* Cambiar el borde a azul cuando esté activo */
+}
+
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #929292; /* Gris para iconos inactivos */
+}
+
+/* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 16, 29); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los Hotel Transylvania 4: Transformanía */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+    /* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+  </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay"></div>
+
+    <div class="custom-top-bar">
+        <button onclick="window.history.back()">
+          <span class="material-icons">arrow_back</span>
+        </button>
+        <button onclick="location.reload()">
+          <span class="material-icons">refresh</span>
+        </button>
+      </div>
+      <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Animación</span> <!-- Título oculto por defecto -->
+    </header>
+    
+    <!-- Tabs para pantallas grandes -->
+    <!-- Tabs para pantallas grandes -->
+    <div class="tabs tabs-secondary">
+      <!-- Logo a la izquierda -->
+      <a href="../main.html">
+        <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+      </a>
+    
+      <!-- Tabs centradas -->
+      <div class="tabs-wrapper">
+        <a href="../main.html#inicio" class="tab">Inicio</a>
+        <a href="../main.html#series" class="tab">Películas</a>
+        <a href="../main.html#peliculas" class="tab">Series</a>
+        <a href="../main.html#hbo" class="tab">Anime</a>
+        <a href="../main.html#documentales" class="tab">Familia</a>
+        <a href="../main.html#mi-lista" class="tab">Doramas</a>
+      </div>
+    
+      <!-- Íconos a la derecha -->
+      <div class="icons">
+        <!-- FAVORITOS -->
+        <a href="../new favoritos 2025.html" class="header-only">
+          <span class="material-icons-outlined">bookmark_border</span>
+        </a>
+    
+        <!-- BUSCAR -->
+        <a href="../New search page 2025.html" class="header-only">
+          <span class="material-icons-outlined">search</span>
+        </a>
+    
+        <!-- PERFIL -->
+        <a href="../perfil digital Knight 2025.html" class="header-only">
+          <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+        </a>
+      </div>
+    </div>
+
+  <header>Animación</header>
+
+  <div class="container">
+    <div class="movie">
+        <a href="../Disney/toy story 2.html">
+            <img src="https://image.tmdb.org/t/p/original/2MFIhZAW0CVlEQrFyqwa4U6zqJP.jpg" alt="toy2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/toy story.html">
+            <img src="https://image.tmdb.org/t/p/original/9gVIQbawkR78Rol64IdGBhdBIHP.jpg" alt="toy" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/soul.html">
+            <img src="https://image.tmdb.org/t/p/original/pEz5aROvfy5FBW1OTlrDO3VryWO.jpg" alt="soul" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/ratatouille.html">
+            <img src="https://image.tmdb.org/t/p/original/sDwCBLWHFebxgkqlfm0SwdD9vIn.jpg" alt="ratatouille" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/unidos.html">
+            <img src="https://image.tmdb.org/t/p/original/yEvAI0XE6sCWyIAUwN1hdP3nf9b.jpg" alt="unidos" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/buscando a nemo.html">
+            <img src="https://image.tmdb.org/t/p/original/kffFhbSRF20sY7DiqWcFWAxi58K.jpg" alt="nemo" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/la familia del futuro.html">
+            <img src="https://image.tmdb.org/t/p/original/1V34tiUPo3memMuCFlGhpA7ODbj.jpg" alt="robinson" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+            <a href="ultraman-el-ascenso.html">
+                <img src="https://image.tmdb.org/t/p/original/2D7SsqU8VZOl838KR7q9pzljaLe.jpg" alt="ultraman" loading="lazy">
+            </a>
+        </div>
+        <div class="movie">
+        <a href="gato-con-botas-el-ultimo-deseo.html">
+            <img src="https://image.tmdb.org/t/p/original/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg" alt="gato" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="el-espanta-tiburones.html">
+            <img src="https://image.tmdb.org/t/p/original/3vI17Q3mfkIEpvwItomxMy5w1gw.jpg" alt="shark tale" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="al-rescate-de-fondo-de-bikini-la-pelicula-de-arenita-mejillas.html">
+            <img src="https://image.tmdb.org/t/p/original/1VHcx9WJnxvWs0ykefawnhGU55B.jpg" alt="arenita" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="plankton-la-pelicula.html">
+            <img src="https://image.tmdb.org/t/p/original/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg" alt="Plankton: La película" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="pitufos.html">
+            <img src="https://image.tmdb.org/t/p/original/zBdQclxQnEDOhDOjkKgKPW6jEHh.jpg" alt="pitufos" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="un-jefe-en-panales.html">
+            <img src="https://image.tmdb.org/t/p/original/cl5GCE7kS5LETpa0B1YPym4mIG2.jpg" alt="un-jefe-en-panales" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Mi villano favorito 4 (2024).html">
+            <img src="https://image.tmdb.org/t/p/original/wTpzSDfbUuHPEgqgt5vwVtPHhrb.jpg" alt="Villano 4" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="kung fu panda 4.html">
+            <img src="https://od.lk/s/M18zMDE3NjAwNDJf/panda1.jpg" alt="Panda 4" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Garfield.html">
+            <img src="https://image.tmdb.org/t/p/original/6QR2FOCQr41gSduN70WulRIhJb7.jpg" alt="Garfield" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Lluvia de Hamburguesas 2 La Venganza de las Sobras.html">
+            <img src="https://image.tmdb.org/t/p/original/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg" alt="Inside Out 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Lluvia de Hamburguesas 2 La Venganza de las Sobras.html">
+            <img src="https://image.tmdb.org/t/p/original/pvV9IrPCsddT90LgPSBpTOSHcYa.jpg" alt="Lluvia 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/grandes heroes.html">
+            <img src="https://image.tmdb.org/t/p/original/6EhVbHB6anPKk1QU5UOnoJ2GaqA.jpg" alt="Grandes" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="go:ultraman">
+            <img src="https://image.tmdb.org/t/p/original/2D7SsqU8VZOl838KR7q9pzljaLe.jpg" alt="Ultraman" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="jefe en pañales 2.html">
+            <img src="https://image.tmdb.org/t/p/original/85J1DwZowIlKFOF7jllgCD3iHhx.jpg" alt="Jefe" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="trolls 3.html">
+            <img src="https://image.tmdb.org/t/p/original/nQhVtZLLAZAtlTmFETL2XO91Tcs.jpg" alt="Trolls 3" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="patos.html">
+            <img src="https://image.tmdb.org/t/p/original/wyslVgKc8QcpSUR8vQcvouKmtL4.jpg" alt="Patos" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="antz.html">
+            <img src="https://image.tmdb.org/t/p/original/gHtLNTNIpP31hA3LXlFA6uAYN2k.jpg" alt="Antz" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Mi Villano Favorito 2 (2013).html">
+            <img src="https://image.tmdb.org/t/p/original/ikz6zymN62kqSFioVWAqn8mPufM.jpg" alt="Villano 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="mario bros.html">
+            <img src="https://image.tmdb.org/t/p/original/zNKs1T0VZuJiVuhuL5GSCNkGdxf.jpg" alt="Mario" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="mi villano favorito.html">
+            <img src="https://image.tmdb.org/t/p/original/7ml02WwUzz4jlZJdiEI4ZIYHj1J.jpg" alt="Villano" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="elementos.html">
+            <img src="https://image.tmdb.org/t/p/original/haKaoR9bfFJLoZSYyk2lLApNbcp.jpg" alt="Elementos" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="como entrenar a tu dragon 2.html">
+            <img src="https://image.tmdb.org/t/p/original/bXcRw7FL8QzUZOvY2fZdwDv5ymQ.jpg" alt="Dragon 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Kung Fu Panda 2 (2011).html">
+            <img src="https://image.tmdb.org/t/p/original/mtqqD00vB4PGRt20gWtGqFhrkd0.jpg" alt="Panda 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Kung Fu Panda (2008).html">
+            <img src="https://image.tmdb.org/t/p/original/xCn3VOST64XpOA8x0gaQkQiZtZY.jpg" alt="Panda" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Leo (2023).html">
+            <img src="https://image.tmdb.org/t/p/original/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg" alt="Leo" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Locos por las nueces 2 (2017).html">
+            <img src="https://image.tmdb.org/t/p/original/qs55mQcjpk4JvROQ6nIfs7vop8w.jpg" alt="Nueces 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Los Pingüinos de Madagascar (2014).html">
+            <img src="https://image.tmdb.org/t/p/original/8fQoI3et4GYilMzC43HjwjDvCdZ.jpg" alt="Pinguin" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Los Simpson La película (2007).html">
+            <img src="https://image.tmdb.org/t/p/original/d9wHkwF9ttnNKuOoEIStve32jEk.jpg" alt="Simpsons" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Krakens y sirenas Conoce a los Gillman (2023).html">
+            <img src="https://image.tmdb.org/t/p/original/bX9pTHfbL1hFhF8UgA8VvIJ7nby.jpg" alt="Krakens y sirenas" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="hotel transilvania.html">
+            <img src="https://image.tmdb.org/t/p/original/zvWlwBGQWuJ0wog65q1uS37BApC.jpg" alt="hotel transilvania" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="hotel transilvania 2.html">
+            <img src="https://image.tmdb.org/t/p/original/ndYVcm1k3h81MRDhzZCI4SxDzGp.jpg" alt="hotel transilvania 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="hotel transilvania 3.html">
+            <img src="https://image.tmdb.org/t/p/original/p5eBnMRoFWjSua4DYdiKjmHP3H5.jpg" alt="hotel transilvania 3" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="hotel transilvania 4.html">
+            <img src="https://image.tmdb.org/t/p/original/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg" alt="hotel transilvania 4" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="como entrenar a tu dragon.html">
+            <img src="https://image.tmdb.org/t/p/original/pteWJuPBLJvv4ieHHqmPwvsgxlA.jpg" alt="Como entrenar a tu dragon" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+         <a href="como entrenar a tu dragon 3.html">
+            <img src="https://image.tmdb.org/t/p/original/rhnoAReqO3Xoe6GbJhT3409lnq8.jpg" alt="Como entrenar a tu dragon 3" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/intensamente.html">
+            <img src="https://image.tmdb.org/t/p/original/1Cp4fl3E6p6PkPHPR2u6b9otQfQ.jpg" alt="Inside Out" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/up.html">
+            <img src="https://image.tmdb.org/t/p/original/vSdpOU6rDK7IpmOD7iAvlZdMUCc.jpg" alt="Up" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/buscando a nemo.html">
+            <img src="https://image.tmdb.org/t/p/original/kffFhbSRF20sY7DiqWcFWAxi58K.jpg" alt="Finding Nemo" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/red.html">
+            <img src="https://image.tmdb.org/t/p/original/ccmWYjE51ITfK7DCifzAfXBUXkQ.jpg" alt="Turning Red" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/soul.html">
+            <img src="https://image.tmdb.org/t/p/original/xJ7MCAy4oCLerPo3JjnB8lKOhl4.jpg" alt="Soul" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/luca.html">
+            <img src="https://image.tmdb.org/t/p/original/nvILfxzIboLOq9deUK9m58Y8l8E.jpg" alt="Luca" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/toy story.html">
+            <img src="https://image.tmdb.org/t/p/original/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg" alt="Toy Story" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/toy story 2.html">
+            <img src="https://image.tmdb.org/t/p/original/2MFIhZAW0CVlEQrFyqwa4U6zqJP.jpg" alt="Toy Story 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/toy story 3.html">
+            <img src="https://image.tmdb.org/t/p/original/yBSISwqix2z0JiwIrM3r6fiI6Cm.jpg" alt="Toy Story 3" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/toy story 4.html">
+            <img src="https://image.tmdb.org/t/p/original/iHc9Cn47bvxRFJqt11zMftX6kit.jpg" alt="Toy Story 4" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Valiente (2012).html">
+            <img src="https://image.tmdb.org/t/p/original/uBu6MRbQiUwGuQMoeh6oQE3QMNJ.jpg" alt="Brave" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/cars.html">
+            <img src="https://image.tmdb.org/t/p/original/4EPfGayocyoaoX96siE9Ol3xZUD.jpg" alt="Cars" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Cars 2 (2011).html">
+            <img src="https://image.tmdb.org/t/p/original/eQo1LQs5Vo9RHVHYUhNSfMZa3VB.jpg" alt="Cars 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Cars 3 (2017).html">
+            <img src="https://image.tmdb.org/t/p/original/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg" alt="Cars 3" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Coco.html">
+            <img src="https://image.tmdb.org/t/p/original/98G7zRNJBGuJiJmWcCTv0whXltA.jpg" alt="Coco" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/unidos.hmtl">
+            <img src="https://image.tmdb.org/t/p/original/yEvAI0XE6sCWyIAUwN1hdP3nf9b.jpg" alt="Onward" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/un gran dinosaurio.html"
+            <img src="https://image.tmdb.org/t/p/original/AdBRNzPeeQHujTug9y4vSbibWF8.jpg" alt="The Good Dinosaur" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/buscando a dory.html">
+            <img src="https://image.tmdb.org/t/p/original/o8lNBlTOXPUldnpqXetsfECpu3Q.jpg" alt="Finding Dory" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/bichos.html">
+            <img src="https://image.tmdb.org/t/p/original/vpkIWz6c0ajlpykGi5JYtjZiu6t.jpg" alt="A Bug's Life" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/ratatouille.html">
+            <img src="https://image.tmdb.org/t/p/original/sDwCBLWHFebxgkqlfm0SwdD9vIn.jpg" alt="Ratatouille" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/buzz lightyear.html">
+            <img src="https://image.tmdb.org/t/p/original/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg" alt="Lightyear" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Monsters, Inc. (2001).html">
+            <img src="https://image.tmdb.org/t/p/original/hHRvKl4zwS234fcjypa82A2Ecjr.jpg" alt="Monsters, Inc." loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Monsters University (2013).html">
+            <img src="https://image.tmdb.org/t/p/original/yxrPtz7s3qe1c6MKSEoaCwHEDDP.jpg" alt="Monsters University" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/los-increibles.html">
+            <img src="https://image.tmdb.org/t/p/original/zXP4sSS03NzzYxmut0hUufNyTcD.jpg" alt="The Incredibles" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/los-increibles-2.html">
+            <img src="https://image.tmdb.org/t/p/original/rebOnIOf2AYadW3TsvaPWeghKdG.jpg" alt="The Incredibles 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+         <a href="../Disney/wall-e.html">
+            <img src="https://image.tmdb.org/t/p/original/t9p7mI2BzzFvebdWoMtois4yRmA.jpg" alt="WALL-E" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Chip y Dale Al rescate.html">
+            <img src="https://image.tmdb.org/t/p/original/uLYemOS5BU5y8f8p4VQsKyfRwoR.jpg" alt="chip y dale" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+         <a href="../Disney/wish.hmtl">
+            <img src="https://image.tmdb.org/t/p/original/1VXMrUioKfPAPSsezHKexx77Dbz.jpg" alt="Wish" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/encanto.html">
+            <img src="https://image.tmdb.org/t/p/original/d0ezQ1Jz0lpNsX1skEmIvqRL7mN.jpg" alt="Encanto" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Raya y El Último Dragón (2021).html">
+            <img src="https://image.tmdb.org/t/p/original/4Q9uU3mN5Y1Q04FWlqU2Mu3UAen.jpg" alt="Raya and the Last Dragon" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Frozen Una Aventura Congelada (2013).html">
+            <img src="https://image.tmdb.org/t/p/original/8aAkLBwrnBuKWyWowgj9KTNnjzo.jpg" alt="Frozen" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/frozen-2.html">
+            <img src="https://image.tmdb.org/t/p/original/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg" alt="Frozen 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Wifi Ralph (2018).html">
+            <img src="https://image.tmdb.org/t/p/original/sKF3YtINCFq519JcLnJmlI9I95X.jpg" alt="Ralph Breaks the Internet" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Moana Un mar de aventuras (2016).html">
+            <img src="https://image.tmdb.org/t/p/original/hw4FlDdufQuLIsYiqBYIL0Bxn26.jpg" alt="Moana" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Zootopia (2016).html">
+            <img src="https://image.tmdb.org/t/p/original/kyiEmCk6mOenJiL7s3LspVKkoZM.jpg" alt="Zootopia" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/grandes heroes.html">
+            <img src="https://image.tmdb.org/t/p/original/xozrGME58olN1xBhtxmjpOoY0jH.jpg" alt="Big Hero 6" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Ralph, el demoledor (2012).html">
+            <img src="https://image.tmdb.org/t/p/original/k7peWnDd1Vv57cXfPnJ15U8ZiTR.jpg" alt="Wreck-It Ralph" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Enredados (2010).html">
+            <img src="https://image.tmdb.org/t/p/original/z5kvXWek4smCyeWBDJQkT5sLc9T.jpg" alt="Tangled" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/fantasia.html">
+            <img src="https://image.tmdb.org/t/p/original/5rwAtUaKEK48CPUijVfVU0IPKPZ.jpg" alt="Fantasia" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Las locuras del emperador (2000).html">
+            <img src="https://image.tmdb.org/t/p/original/latMqJxTsmeDIv7oTUTpUMfbl58.jpg" alt="The Emperor's New Groove" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Lilo y Stitch (2002).html">
+            <img src="https://image.tmdb.org/t/p/original/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg" alt="Lilo & Stitch" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/tierra de osos.html">
+            <img src="https://image.tmdb.org/t/p/original/6kGf1Nm99GKtyOCrxmNs6thHmdW.jpg" alt="Brother Bear" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/chicken little.html">
+            <img src="https://image.tmdb.org/t/p/original/87FpA4b90eTaw3U6zmCNikoPLir.jpg" alt="Chicken Little" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/la familia del futuro.html">
+            <img src="https://image.tmdb.org/t/p/original/1V34tiUPo3memMuCFlGhpA7ODbj.jpg" alt="Meet the Robinsons" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/bolt.hmtl">
+            <img src="https://image.tmdb.org/t/p/original/z9VHoUcZ1GiH3f3qYz7Me7Zc1Fd.jpg" alt="Bolt" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/La princesa y el sapo (2009).html">
+            <img src="https://image.tmdb.org/t/p/original/8v4xHT0Ox8XIDvOJySdpuf9qcL2.jpg" alt="The Princess and the Frog" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/el zorro y el sabueso.html">
+            <img src="https://image.tmdb.org/t/p/original/qbXQfEdvIVmx7Epbom42affvUK0.jpg" alt="Robin Hood" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/La Sirenita (1989).html">
+            <img src="https://image.tmdb.org/t/p/original/jvsxYTu5csVbY6Wxb2FkNFe6zU4.jpg" alt="The Little Mermaid" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/La Bella y La Bestia (1991).html">
+            <img src="https://image.tmdb.org/t/p/original/pYop7BKiaqHtgOQpb1OWYI7wrXM.jpg" alt="Beauty and the Beast" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Aladdin (1992).html">
+            <img src="https://image.tmdb.org/t/p/original/5MoKURsBQPUt3hJxWnKRRzLWbOW.jpg" alt="Aladdin" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/El rey león (1994).html">
+            <img src="https://image.tmdb.org/t/p/original/mjVyeceR9JptXeBms4LcR7U20pN.jpg" alt="The Lion King" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/pocahontas.html">
+            <img src="https://image.tmdb.org/t/p/original/fNoMqPbhzjZuMuMMT0iT3hVgSo.jpg" alt="Pocahontas" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/el jorobado de notredame.html">
+            <img src="https://image.tmdb.org/t/p/original/pvnmJckCNgzEbuE5sHXX3tDRQox.jpg" alt="The Hunchback of Notre Dame" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/hercules.html">
+            <img src="https://image.tmdb.org/t/p/original/iwjP7ImLzXZjKHnCUChJThEtNJG.jpg" alt="Hercules" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/mulan.html">
+            <img src="https://image.tmdb.org/t/p/original/towmTJ0k29quKI9IDnOZKAAtQx.jpg" alt="Mulan" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/tarzan.html">
+            <img src="https://image.tmdb.org/t/p/original/231J09zVDE5kgZWYEXEw4tvDzLm.jpg" alt="Tarzan" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="La cenicienta (1950).html">
+            <img src="https://image.tmdb.org/t/p/original/vqzeSm5Agvio7DahhKXaySUbUUW.jpg" alt="Cinderella" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Alicia en el país de las maravillas (1951).html">
+            <img src="https://image.tmdb.org/t/p/original/72f7cAQUjmuEtAmwM9uBD5gk0JX.jpg" alt="Alice in Wonderland" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/peter pan.html">
+            <img src="https://image.tmdb.org/t/p/original/vaoC5HrmQJeAlRUNuZoepp0Bmjm.jpg" alt="Peter Pan" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/La dama y el vagabundo (1955).html">
+            <img src="https://image.tmdb.org/t/p/original/j4in9pWwnYeXyf1Z3303nXbzFAS.jpg" alt="Lady and the Tramp" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/la bella durmiente.html">
+            <img src="https://image.tmdb.org/t/p/original/ofoVXR8gBYhV4e0MpRQtSpeXLiK.jpg" alt="Sleeping Beauty" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="La noche de las narices frías (1961).html">
+            <img src="https://image.tmdb.org/t/p/original/wny5QtN4D9KYRaW3jDCNMSCQ8gc.jpg" alt="101 Dalmatians" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/La Espada en La Piedra (1963).html">
+            <img src="https://image.tmdb.org/t/p/original/tcQhZlpEms2zJdfNU2O02Fc76I4.jpg" alt="The Sword in the Stone" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/El libro de la selva (1967).html">
+            <img src="https://image.tmdb.org/t/p/original/1w8wk8htVPW5cdCYnRU4bt5y5Fw.jpg" alt="The Jungle Book" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Los Aristogatos (1970).html">
+            <img src="https://image.tmdb.org/t/p/original/s9DsxlbVE1HvHnCz50GdHDBeZRy.jpg" alt="The Aristocats" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/robin hood.html">
+            <img src="https://image.tmdb.org/t/p/original/x9AvkYek0bGdxQSZ8W3lAjGrREm.jpg" alt="Robin Hood" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Blanca Nieves y los siete enanos (1937).html">
+            <img src="https://image.tmdb.org/t/p/original/vZB1EmapGEyUxlPlYTQhdrJSi32.jpg" alt="Snow White and the Seven Dwarfs" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/pinocho.html">
+            <img src="https://image.tmdb.org/t/p/original/th4zcMSPbdhDMdCglCcZIjDkWLd.jpg" alt="Pinocchio" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Dumbo (1941).html">
+            <img src="https://image.tmdb.org/t/p/original/xElwvLH9stNdduVnx9hx5UqEUwv.jpg" alt="Dumbo" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="../Disney/Bambi (1942).html">
+            <img src="https://image.tmdb.org/t/p/original/q9LI5Uloz1WRqaJjr8Tq2aOeSeH.jpg" alt="Bambi" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Los Minions (2015).html">
+            <img src="https://image.tmdb.org/t/p/original/nmqLwaTfgyWLQWbYd82w159cAqJ.jpg" alt="Los minions" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Los Croods (2013).html">
+            <img src="https://image.tmdb.org/t/p/original/13X7sQWIZtFWmdvd1P0EfPxvaci.jpg" alt="Los croods" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Madagascar (2005).html">
+            <img src="https://image.tmdb.org/t/p/original/94dkWGy17019vslAQpiKwA24uwS.jpg" alt="Los croods" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Orión y la oscuridad (2024).html">
+            <img src="https://image.tmdb.org/t/p/original/q2ZzqHydVB9tNAL53En8XzPv2kZ.jpg" alt="Los croods" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="PAW Patrol La súper película (2023).html">
+            <img src="https://image.tmdb.org/t/p/original/vPXUpc2HjxFCR9GMmQH3civkBxg.jpg" alt="Los croods" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Rango (2011).html">
+            <img src="https://image.tmdb.org/t/p/original/vGujQOfGIaZx5UWxf9JdNEOxl7B.jpg" alt="Rango" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Turbo (2013).html">
+            <img src="https://image.tmdb.org/t/p/original/lDARMqluCrWaFgybY9KHLY96L3n.jpg" alt="Rango" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="madagascar-2-escape-de-africa.html">
+            <img src="https://image.tmdb.org/t/p/original/vROGhE1Vl7B9ExU0RpjbTA59aJO.jpg" alt="madagascar-2-escape-de-africa" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="shrek.html">
+            <img src="https://image.tmdb.org/t/p/original/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg" alt="madagascar-2-escape-de-africa" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="shrek-2.html">
+            <img src="https://image.tmdb.org/t/p/original/9V3EnS9BFag5x4z6enO25h1E0It.jpg" alt="madagascar-2-escape-de-africa" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="shrek-tercero.html">
+            <img src="https://image.tmdb.org/t/p/original/2ogCqOTY7VlKcOHzELeLP71BGLJ.jpg" alt="madagascar-2-escape-de-africa" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="los-tipos-malos-2.html">
+            <img src="https://image.tmdb.org/t/p/original/26oSPnq0ct59l07QOXZKyzsiRtN.jpg" alt="madagascar-2-escape-de-africa" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="las-guerreras-k-pop.html">
+            <img src="https://image.tmdb.org/t/p/original/swQRKmW7RLhncPYHvM0RHz8b7bT.jpg" alt="madagascar-2-escape-de-africa" loading="lazy">
+        </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon">
+        
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script>
+     // Prevenir gestos táctiles no deseados
+     document.addEventListener('touchmove', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+ // Gestión de imágenes de perfil
+ const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageTitle = document.getElementById('page-title');
+
+  if (!header || !pageTitle) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageTitle.style.opacity = titleOpacity;
+  });
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Drake y Josh</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/tDz82SjJPxrhXzhhJTOLcnTrPmB.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/2nLAARcgjaOCy0YINLHNMThLf2R.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Drake y Josh</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/8hLz40pmmmBuHRD2iF2k0eUsh4Y.png" alt="Drake y Josh Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">7+    4 temporadas    2004   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Drake y Josh" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/4yz5PvVNRW9IqfRywo9zZ9FCSA5.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="drake-y-josh.html"></a>
+          <span id="nombre">Drake y Josh</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Drake y Josh, de quince años, son compañeros de escuela, pero no amigos cercanos. Drake ve a Josh como raro y un poco
+        tonto. Entonces, imaginen la sorpresa de Drake cuando descubre que este "tonto" está a punto de convertirse en su nuevo
+        hermanastro y compañero de cuarto cuando su madre se case con el padre de Josh. Un spin-off de "The Amanda Show". </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="manual-de-supervivencia-escolar-de-ned.html">
+          <img src="https://image.tmdb.org/t/p/w300/zwBbJX7oimIQT0JQq9eqzQVPOHm.jpg" alt="Manual de supervivencia escolar de Ned" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Manual de supervivencia escolar de Ned</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="zoey-101.html">
+          <img src="https://image.tmdb.org/t/p/w300/3eOM57RTccTSvqcYFhWwm9DAba8.jpg" alt="Zoey 101" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Zoey 101</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="icarly.html">
+          <img src="https://image.tmdb.org/t/p/w300/ny0vxdc2733gQVpXvXNds9M9Kpo.jpg" alt="iCarly" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">iCarly</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="kenan-amp-kel.html">
+          <img src="https://image.tmdb.org/t/p/w300/ftRkgMhF1CofVSLMeonh9Hjz7a4.jpg" alt="Kenan &amp; Kel" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Kenan &amp; Kel</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTQ4NjExMjlf/1x01-Drake%20_%20Josh.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Drake y Josh</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "drake-y-josh-2038";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+  "title": "E1: Drake y Josh",
+  "meta": "7+ · 24m · 2004",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/20dphoYQ2djFzqOlrlEOehKrZtv.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTQ4NjExMjlf/1x01-Drake%20_%20Josh.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTQ4NjExMjlf/1x01-Drake%20_%20Josh.mp4",
+  "episodeCode": "T1 E1: Drake y Josh",
+  "hiddenCode": "T1 E1",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E2: Nuestro Auto",
+  "meta": "7+ · 24m · 2004",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f6AYbLIQ6rpSirLPyYWTnwlhEyO.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTQ4NjExODhf/1x02-Nuestro%20auto.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTQ4NjExODhf/1x02-Nuestro%20auto.mp4",
+  "episodeCode": "T1 E2: Nuestro Auto",
+  "hiddenCode": "T1 E2",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E3: Creeme Hermano",
+  "meta": "7+ · 24m · 2004",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aA82oPbxL9PhJ4yXNmNfRnA8Lan.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTQ4NjEyNDBf/1x03-Creeme%20hermano.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTQ4NjEyNDBf/1x03-Creeme%20hermano.mp4",
+  "episodeCode": "T1 E3: Creeme Hermano",
+  "hiddenCode": "T1 E3",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E4: Dos Tontos y un Bebe",
+  "meta": "7+ · 24m · 2004",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aunSWZraeDCGWaPfMx5WqCZuljG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTQ4NjEyOTJf/1x04-Dos%20tontos%20y%20un%20bebe.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTQ4NjEyOTJf/1x04-Dos%20tontos%20y%20un%20bebe.mp4",
+  "episodeCode": "T1 E4: Dos Tontos y un Bebe",
+  "hiddenCode": "T1 E4",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E5: El Primer Amor",
+  "meta": "7+ · 24m · 2004",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/txrSmN00YxDHUp4w9ZwXJuxjwRz.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTQ4NjEzNTBf/1x05-Primer%20amor.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTQ4NjEzNTBf/1x05-Primer%20amor.mp4",
+  "episodeCode": "T1 E5: El Primer Amor",
+  "hiddenCode": "T1 E5",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E6: La Abuela",
+  "meta": "7+ · 24m · 2004",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cyvRJBk3cjmDeR81gHqrC8f6UJo.jpg",
+  "videoUrl": "https://od.lk/s/M18zMTQ4NjE0Mzdf/1x06-La%20abuela.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTQ4NjE0Mzdf/1x06-La%20abuela.mp4",
+  "episodeCode": "T1 E6: La Abuela",
+  "hiddenCode": "T1 E6",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+    "title": "E1: La Apuesta",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/k0boZJEojBfr0hI8X5YFtYuPj9Q.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODczMTJf/2x01-La%20apuesta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODczMTJf/2x01-La%20apuesta.mp4",
+    "episodeCode": "T2 E1: La Apuesta",
+    "hiddenCode": "T2 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: La Guitarra",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uWTk7EbQeyi2FHLUqZARCuak728.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODczNDFf/2x02-La%20guitarra.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODczNDFf/2x02-La%20guitarra.mp4",
+    "episodeCode": "T2 E2: La Guitarra",
+    "hiddenCode": "T2 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Trabajando en el Cine",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/Ai10PXpPJ3ZjYUCIccowENeMTn1.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODczNjZf/2x03-Trabajando%20en%20el%20cine.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODczNjZf/2x03-Trabajando%20en%20el%20cine.mp4",
+    "episodeCode": "T2 E3: Trabajando en el Cine",
+    "hiddenCode": "T2 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: El Equipo de Fútbol",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/kpryaFrPy2RuC64AMf3WcXnGees.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODczNzBf/2x04-El%20equipo%20de%20futbol.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODczNzBf/2x04-El%20equipo%20de%20futbol.mp4",
+    "episodeCode": "T2 E4: El Equipo de Fútbol",
+    "hiddenCode": "T2 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: El Rey del Pool",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zlq077rvsQEeRbF4Kbksq25UjhS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0MDBf/2x05-El%20rey%20el%20pool.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0MDBf/2x05-El%20rey%20el%20pool.mp4",
+    "episodeCode": "T2 E5: El Rey del Pool",
+    "hiddenCode": "T2 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Una Chica Inteligente",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qktEf0ATLhbfGSSdMlOxVEA2zkj.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0MjVf/2x06-Una%20chica%20inteligente.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0MjVf/2x06-Una%20chica%20inteligente.mp4",
+    "episodeCode": "T2 E6: Una Chica Inteligente",
+    "hiddenCode": "T2 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: La pequeña diva",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1InQC8ydAQw6c281Yfu0DRUwkaF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0Mjhf/2x07-La%20peque%C3%B1a%20diva.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0Mjhf/2x07-La%20peque%C3%B1a%20diva.mp4",
+    "episodeCode": "T2 E7: La pequeña diva",
+    "hiddenCode": "T2 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Los Hermanos Caradura",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tZ8XXLqj9RtZh66p5HpsbQug90W.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0Mjlf/2x08-Los%20hermanos%20caradura.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0Mjlf/2x08-Los%20hermanos%20caradura.mp4",
+    "episodeCode": "T2 E8: Los Hermanos Caradura",
+    "hiddenCode": "T2 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Permiso para Conducir",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mjTClZw2bxki3279bBEaXGIvkyq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0MzFf/2x09-Permiso%20para%20conducir.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0MzFf/2x09-Permiso%20para%20conducir.mp4",
+    "episodeCode": "T2 E9: Permiso para Conducir",
+    "hiddenCode": "T2 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: La Fan Número Uno",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/vbylIbwGpHtBVZGsQuu3WknTLd5.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0NTdf/2x10-La%20fan%20numero%20uno.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0NTdf/2x10-La%20fan%20numero%20uno.mp4",
+    "episodeCode": "T2 E10: La Fan Número Uno",
+    "hiddenCode": "T2 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: La Maestra Malvada",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ph6JOBLtmnTxs2zrRPtYi8mcgtX.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0NjFf/2x11-La%20maestra%20malvada.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0NjFf/2x11-La%20maestra%20malvada.mp4",
+    "episodeCode": "T2 E11: La Maestra Malvada",
+    "hiddenCode": "T2 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Los Asadores de Gary",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lEe3NHGFb0iMiV5gNKULtxVmuk5.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc0NjNf/2x12-Los%20asadores%20de%20gary.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc0NjNf/2x12-Los%20asadores%20de%20gary.mp4",
+    "episodeCode": "T2 E12: Los Asadores de Gary",
+    "hiddenCode": "T2 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Drew & Jerry",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/kRTwy7hijqjBzE1Y1G1OnVcLZ5f.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc4NTJf/2x13-Drew%20_%20Jerry.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc4NTJf/2x13-Drew%20_%20Jerry.mp4",
+    "episodeCode": "T2 E13: Drew & Jerry",
+    "hiddenCode": "T2 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: El Consejo de Honor",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iLJht2vWYYimOcskMDEnUFTnXcl.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODc4NTRf/2x14-El%20consejo%20de%20honor.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODc4NTRf/2x14-El%20consejo%20de%20honor.mp4",
+    "episodeCode": "T2 E14: El Consejo de Honor",
+    "hiddenCode": "T2 E14",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+    "title": "E1: El Drake & Josh Inn",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ocxLYysZVDZtcwOC1wDQb6uHkcv.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgwODRf/3x01-El%20Drake%20_%20Josh%20Inn.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgwODRf/3x01-El%20Drake%20_%20Josh%20Inn.mp4",
+    "episodeCode": "T3 E1: El Drake & Josh Inn",
+    "hiddenCode": "T3 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: La Poderosa Pimienta Peruana",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1nKA7a6vTiKXQd22zk7clGlJtrL.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgwOThf/3x02-La%20poderosa%20pimienta%20peruana.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgwOThf/3x02-La%20poderosa%20pimienta%20peruana.mp4",
+    "episodeCode": "T3 E2: La Poderosa Pimienta Peruana",
+    "hiddenCode": "T3 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: ¿Estámos Casados",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/goLtvj78Hmw1UmgIjqiaxD0T8VR.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMTJf/3x03-Estamos%20casados.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMTJf/3x03-Estamos%20casados.mp4",
+    "episodeCode": "T3 E3: ¿Estámos Casados",
+    "hiddenCode": "T3 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: El Regreso de Mindy",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/weJqLaRyKQtka1n9hIvOUiec7pC.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMjNf/3x04-El%20regreso%20de%20Mindy.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMjNf/3x04-El%20regreso%20de%20Mindy.mp4",
+    "episodeCode": "T3 E4: El Regreso de Mindy",
+    "hiddenCode": "T3 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: La Aventura",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jamPFRUmNbabtY0UPORuNvcSdWT.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMjdf/3x05-La%20aventura.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMjdf/3x05-La%20aventura.mp4",
+    "episodeCode": "T3 E5: La Aventura",
+    "hiddenCode": "T3 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: De Cacería",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/k5cgI4uYHcgokRA9ncq4Vs3ky4K.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMjlf/3x06-De%20cacer%C3%ADa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMjlf/3x06-De%20cacer%C3%ADa.mp4",
+    "episodeCode": "T3 E6: De Cacería",
+    "hiddenCode": "T3 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: La Cirugía de Helen",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oI83hMKzgH6Re1lHlRpaxCs4yWN.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMzFf/3x07-La%20cirug%C3%ADa%20de%20Helen.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMzFf/3x07-La%20cirug%C3%ADa%20de%20Helen.mp4",
+    "episodeCode": "T3 E7: La Cirugía de Helen",
+    "hiddenCode": "T3 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Llamando al Dr. Drake",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/vyX2D6acroHstM8xjvP0Gjs4ITv.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMzRf/3x08-Llamando%20al%20doctor%20Drake.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMzRf/3x08-Llamando%20al%20doctor%20Drake.mp4",
+    "episodeCode": "T3 E8: Llamando al Dr. Drake",
+    "hiddenCode": "T3 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: El Dedo de Espuma",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fgvsoMCGgF7pFmEG2yEUmogOihH.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxMzlf/3x09-El%20dedo%20de%20espuma.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxMzlf/3x09-El%20dedo%20de%20espuma.mp4",
+    "episodeCode": "T3 E9: El Dedo de Espuma",
+    "hiddenCode": "T3 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: El poder de las chicas",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/chiOoKlPPXeEVVFZvFXD43G8aS4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxNTRf/3x10-El%20poder%20de%20las%20chicas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxNTRf/3x10-El%20poder%20de%20las%20chicas.mp4",
+    "episodeCode": "T3 E10: El poder de las chicas",
+    "hiddenCode": "T3 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Suerte Ovejuna",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xXlT1q0yybCNmYRvM235bhgowTo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgxNTZf/3x11-Suerte%20ovejuna.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgxNTZf/3x11-Suerte%20ovejuna.mp4",
+    "episodeCode": "T3 E11: Suerte Ovejuna",
+    "hiddenCode": "T3 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Drake & Josh van a Hollywood (Parte 1)",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/original/lxER8BFZsdc8pq301R5t85EzGYI.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgyMzZf/3x12-Drake%20_%20Josh%20van%20a%20Hollywood%20%28parte%201%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgyMzZf/3x12-Drake%20_%20Josh%20van%20a%20Hollywood%20%28parte%201%29.mp4",
+    "episodeCode": "T3 E12: Drake & Josh van a Hollywood (Parte 1)",
+    "hiddenCode": "T3 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Drake & Josh van a Hollywood (Parte 2)",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/original/u9dm5bdDOux6ZctZAEUplkPFTAi.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODgzNTVf/3x13-Drake%20_%20Josh%20van%20a%20Hollywood%20%28parte%202%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODgzNTVf/3x13-Drake%20_%20Josh%20van%20a%20Hollywood%20%28parte%202%29.mp4",
+    "episodeCode": "T3 E13: Drake & Josh van a Hollywood (Parte 2)",
+    "hiddenCode": "T3 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Drake & Josh van a Hollywood (Parte 3)",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/original/a8uuZmxePQBlVBTGQ21X8H1q9P2.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0Mzdf/3x14-Drake%20_%20Josh%20van%20a%20Hollywood%20%28parte%203%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0Mzdf/3x14-Drake%20_%20Josh%20van%20a%20Hollywood%20%28parte%203%29.mp4",
+    "episodeCode": "T3 E14: Drake & Josh van a Hollywood (Parte 3)",
+    "hiddenCode": "T3 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: El Nuevo Profesor de Megan",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yyIKPmilzgSiO7P3h61bBIKSR7l.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0Mzlf/3x15-El%20nuevo%20profesor%20de%20Megan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0Mzlf/3x15-El%20nuevo%20profesor%20de%20Megan.mp4",
+    "episodeCode": "T3 E15: El Nuevo Profesor de Megan",
+    "hiddenCode": "T3 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: El Pupilo",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wVPzTBf60EGRzF7QcqbzDFOSgpx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0NDBf/3x16-El%20pupilo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0NDBf/3x16-El%20pupilo.mp4",
+    "episodeCode": "T3 E16: El Pupilo",
+    "hiddenCode": "T3 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E17: El ladrón del cine",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8mLDBCMgHIEtAqKcdViKXJOpDdL.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0NDJf/3x17-El%20ladr%C3%B3n%20del%20cine.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0NDJf/3x17-El%20ladr%C3%B3n%20del%20cine.mp4",
+    "episodeCode": "T3 E17: El ladrón del cine",
+    "hiddenCode": "T3 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E18: El Demonizador",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/original/dziPEKdTK62qzZz3LBtdic5wgNm.jpg",
+    "videoUrl": "https://od.lk/s/M18zMjA1MDA4OTNf/DR4K3%20Y%20J0SH%203x18.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA1MDA4OTNf/DR4K3%20Y%20J0SH%203x18.mp4",
+    "episodeCode": "T3 E18: El Demonizador",
+    "hiddenCode": "T3 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E19: La Invasión Extraterrestre",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3KCSyPpKvR4M6tXDKjjDexYLQT7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0NDRf/3x19-Invasi%C3%B3n%20extraterrestre.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0NDRf/3x19-Invasi%C3%B3n%20extraterrestre.mp4",
+    "episodeCode": "T3 E19: La Invasión Extraterrestre",
+    "hiddenCode": "T3 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E20: La Doctora Phyllis",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7utq5XSKoJwr2kvloom7wkJIIUa.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0NTZf/3x20-La%20doctora%20Phyllis.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0NTZf/3x20-La%20doctora%20Phyllis.mp4",
+    "episodeCode": "T3 E20: La Doctora Phyllis",
+    "hiddenCode": "T3 E20",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+    {
+    "title": "E1: Josh Se Topa Con Oprah",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/o6wjuiVp2e2nbDJYT2K4PB9JK5o.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0NjZf/4x01-Josh%20se%20topa%20con%20Oprah.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0NjZf/4x01-Josh%20se%20topa%20con%20Oprah.mp4",
+    "episodeCode": "T4 E1: Josh Se Topa Con Oprah",
+    "hiddenCode": "T4 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Tiberius el Feroz",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ww2qEN8x68n4vBmS6ppzBWnTW52.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0Njhf/4x02-Tiberius%20el%20feroz.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0Njhf/4x02-Tiberius%20el%20feroz.mp4",
+    "episodeCode": "T4 E2: Tiberius el Feroz",
+    "hiddenCode": "T4 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: La Boda",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/duCGtoovZJrtwTg31Ma9CxXy1lB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0ODNf/4x03-La%20boda.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0ODNf/4x03-La%20boda.mp4",
+    "episodeCode": "T4 E3: La Boda",
+    "hiddenCode": "T4 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Mindy ama a Josh",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/71tIe5JiMdSmWLqvUCItGUrRVyp.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0ODZf/4x04-Mindy%20ama%20a%20Josh.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0ODZf/4x04-Mindy%20ama%20a%20Josh.mp4",
+    "episodeCode": "T4 E4: Mindy ama a Josh",
+    "hiddenCode": "T4 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: La Apuesta",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nJG2r3kmKikQsT2OIrSZcAF7jjq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0ODdf/4x05-La%20apuesta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0ODdf/4x05-La%20apuesta.mp4",
+    "episodeCode": "T4 E5: La Apuesta",
+    "hiddenCode": "T4 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: El Gran Doheny",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/77UCqYAjzPmFihVQ0LqKdubJwEc.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0ODlf/4x06-El%20gran%20Doheny.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0ODlf/4x06-El%20gran%20Doheny.mp4",
+    "episodeCode": "T4 E6: El Gran Doheny",
+    "hiddenCode": "T4 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Adoro el Sushi",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tj9x1pXPxQHqoBQ3Tnxn1RBzxso.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0OTBf/4x07-Adoro%20el%20sushi.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0OTBf/4x07-Adoro%20el%20sushi.mp4",
+    "episodeCode": "T4 E7: Adoro el Sushi",
+    "hiddenCode": "T4 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: La Tormenta",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cvwTzV0CaXkF8pMCdjl7G8dleYQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0OTNf/4x08-La%20tormenta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0OTNf/4x08-La%20tormenta.mp4",
+    "episodeCode": "T4 E8: La Tormenta",
+    "hiddenCode": "T4 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Mi Cena con Bobo",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5hkwuEcXKH15or0oKKSHGIjXdy0.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0OTdf/4x09-Mi%20cena%20con%20Bobo.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0OTdf/4x09-Mi%20cena%20con%20Bobo.mp4",
+    "episodeCode": "T4 E9: Mi Cena con Bobo",
+    "hiddenCode": "T4 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: La Casa del Árbol",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/vNlgdN2Fg4dd9myO9dR7E4Ww3vs.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg0OTlf/4x10-La%20casa%20del%20%C3%A1rbol.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg0OTlf/4x10-La%20casa%20del%20%C3%A1rbol.mp4",
+    "episodeCode": "T4 E10: La Casa del Árbol",
+    "hiddenCode": "T4 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Se Acabó",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/w60n5SEEd8aVlbchKoajsuErmW6.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1MDdf/4x11-%20Se%20acab%C3%B3.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1MDdf/4x11-%20Se%20acab%C3%B3.mp4",
+    "episodeCode": "T4 E11: Se Acabó",
+    "hiddenCode": "T4 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Eric Golpea a Drake",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/faHjt5TIDfOdNQFezual9CqRes4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1MTNf/4x12-Eric%20golpea%20a%20Drake.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1MTNf/4x12-Eric%20golpea%20a%20Drake.mp4",
+    "episodeCode": "T4 E12: Eric Golpea a Drake",
+    "hiddenCode": "T4 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: La Venganza de Megan",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wk456Co1s0r01tnW3TEPa9TgYLu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1MTZf/4x13-La%20venganza%20de%20Megan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1MTZf/4x13-La%20venganza%20de%20Megan.mp4",
+    "episodeCode": "T4 E13: La Venganza de Megan",
+    "hiddenCode": "T4 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Prevención Correctiva",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bNcsnN1u7KhUD6YyhhXIVa1gurA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1Mjdf/4x14-Prevenci%C3%B3n%20correctiva.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1Mjdf/4x14-Prevenci%C3%B3n%20correctiva.mp4",
+    "episodeCode": "T4 E14: Prevención Correctiva",
+    "hiddenCode": "T4 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: El Primer Beso de Megan",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tDokZGf50MObHFfRjWioY0a47ts.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1NzVf/4x15-El%20primer%20beso%20de%20Megan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1NzVf/4x15-El%20primer%20beso%20de%20Megan.mp4",
+    "episodeCode": "T4 E15: El Primer Beso de Megan",
+    "hiddenCode": "T4 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: La Batalla de Panthatar",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cTCzSqbuNoDcY25gtfG4gPqMjCJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1ODNf/4x16-La%20batalla%20de%20Panthatar.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1ODNf/4x16-La%20batalla%20de%20Panthatar.mp4",
+    "episodeCode": "T4 E16: La Batalla de Panthatar",
+    "hiddenCode": "T4 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E17: Un camarón gigante (Parte 1)",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/71DW85vDzOAAidUJcnlyooZMQKr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1ODhf/4x17-Un%20camar%C3%B3n%20gigante%20%28parte%201%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1ODhf/4x17-Un%20camar%C3%B3n%20gigante%20%28parte%201%29.mp4",
+    "episodeCode": "T4 E17: Un camarón gigante (Parte 1)",
+    "hiddenCode": "T4 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E18: Un camarón gigante (Parte 2)",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/aLlJe6houLA06EFVIYu5eTA5oKE.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg1OTZf/4x18-Un%20camar%C3%B3n%20gigante%20%28parte%202%29.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg1OTZf/4x18-Un%20camar%C3%B3n%20gigante%20%28parte%202%29.mp4",
+    "episodeCode": "T4 E18: Un camarón gigante (parte 2)",
+    "hiddenCode": "T4 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E19: Una Aventura en Helicóptero",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lYbFg76UqKXgDQX2EVuKs3monOc.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg2MDFf/4x19-Una%20aventura%20en%20helic%C3%B3ptero.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg2MDFf/4x19-Una%20aventura%20en%20helic%C3%B3ptero.mp4",
+    "episodeCode": "T4 E19: Una Aventura en Helicóptero",
+    "hiddenCode": "T4 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E20: El Concurso de Baile",
+    "meta": "7+ · 27m · 2004",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yrVtuWJIndQDvt3HOUrjSx1ymHh.jpg",
+    "videoUrl": "https://od.lk/d/M18zMTQ4ODg2MDZf/4x20-El%20concurso%20de%20baile.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMTQ4ODg2MDZf/4x20-El%20concurso%20de%20baile.mp4",
+    "episodeCode": "T4 E20: El Concurso de Baile",
+    "hiddenCode": "T4 E20",
+    "intro": { "start": 0, "end": 0 }
+  }
+
+    ]
+  }
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

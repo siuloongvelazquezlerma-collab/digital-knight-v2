@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Supergirl Clone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top);
+  margin: 0;
+  font-family: 'Roboto', sans-serif; /* Cambié 'Arial' por 'Roboto' */
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden; /* Previene scroll horizontal */
+}
+    html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    #video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.3);
+    }
+    .container-hero {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-image: url('https://od.lk/s/M18zMTE4NTk1NzVf/dragon%20ball%20gt%20poster.png');
+  background-size: contain;
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-shadow: 0 0 10px black;
+  overflow-y: auto;
+  pointer-events: auto; /* Habilita clics */
+}
+
+
+    h1 {
+      font-size: 3rem;
+      color: #ff66e5;
+    }
+    .info {
+      font-size: 1rem;
+      margin: 5px 0 15px;
+    }
+    .btn-play {
+      background: white;
+      color: black;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+    .options {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    .options div {
+      text-align: center;
+    }
+    .description {
+      font-size: 0.95rem;
+      max-width: 600px;
+    }
+
+    .container {
+  min-height: 100vh; /* mínimo todo el alto de la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
+    .player {
+      position: relative;
+      width: 100%;
+      height: 70vh; /* Ajustamos para que haya espacio para la playlist */
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: black;
+    }
+
+    .controls {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 1;
+      transition: opacity 0.5s;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .controls.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .top-bar, .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      pointer-events: auto;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 0; width: 100%;
+    }
+
+    .bottom-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px;
+  pointer-events: auto;
+  margin-bottom: 15px; /* << sube toda la barra de progreso */
+}
+
+.progress {
+  flex: 1;
+  appearance: none;
+  height: 5px;
+  background: linear-gradient(
+    to right,
+    red var(--buffered, 0%),
+    #aaa var(--buffered, 0%)
+  );
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+
+
+    .title {
+      font-weight: bold;
+      font-size: 1.3em;
+      margin-bottom: 3px;
+    }
+
+    .subtitle {
+      font-size: 0.95em;
+      color: #ccc;
+    }
+
+    .center-controls {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      pointer-events: auto;
+    }
+
+    .btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn .material-icons {
+      font-size: 55px;
+    }
+
+    .progress-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .progress-container input[type="range"] {
+  background: linear-gradient(
+    to right,
+    #ff0202 var(--buffered, 0%),
+    rgba(201, 201, 201, 0.3) var(--buffered, 0%),
+    rgba(255,255,255,0.3) 100%
+  );
+}
+
+
+    .progress::-webkit-slider-thumb {
+      appearance: none;
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background: rgb(255, 255, 255);
+      border: none;
+    }
+
+    .time {
+      font-size: 0.9em;
+      color: #ccc;
+      white-space: nowrap;
+    }
+
+    .icon-btn {
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* Playlist dentro del overlay */
+    .playlist {
+  margin-top: 20px;
+  padding: 0;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 11;
+}
+
+
+.playlist-item {
+  display: flex;
+  gap: 10px;
+  background: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s;
+  padding: 8px;
+}
+
+.playlist-item:hover {
+  background: #333;
+}
+
+.playlist-item img {
+  width: 120px;
+  height: 70px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.playlist-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.playlist-title {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.playlist-subtitle {
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.overlay-gradient {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+  z-index: 10;
+  pointer-events: none;
+  border: 1px solid red;
+}
+  </style>
+</head>
+<body>
+  
+
+  <!-- Contenido superpuesto -->
+  <div class="container-hero">
+    <h1>SUPERGIRL</h1>
+    <div class="info">13+ &nbsp;&nbsp; 6 temporadas &nbsp;&nbsp; 2015</div>
+    <button class="btn-play" onclick="playEpisode()">▶ Mira T1 E1</button>
+    <div class="options">
+      <div>➕<br>Mi lista</div>
+      <div>🎬<br>Tráiler</div>
+      <div>🔗<br>Comparte</div>
+    </div>
+    <p class="description">
+      Con base en el personaje de DC, Supergirl (alias Kara Danvers) decide asumir sus capacidades sobrehumanas y convertirse en la heroína que debe ser.
+    </p>
+  </div>
+
+  <!-- Video de fondo -->
+  <div class="container">
+    <div class="player" id="player">
+      <video id="video" src="https://od.lk/s/M18zMTUyNjg4OTdf/S1%20E01%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4" poster="https://wallpapercave.com/wp/wp5415042.jpg" preload="metadata"></video>
+      <div class="dark-overlay" id="darkOverlay"></div>
+  
+      <div class="controls" id="controls">
+        <div class="top-bar">
+          <div class="icon-btn material-icons" onclick="goBack()">arrow_back</div>
+          <div style="display: flex; gap: 15px;">
+            <div class="icon-btn material-icons">cast</div>
+            <div class="icon-btn material-icons">chat_bubble_outline</div>
+          </div>
+        </div>
+  
+        <div class="center-controls">
+          <button class="btn" onclick="skip(-10)">
+            <span class="material-icons">replay_10</span>
+          </button>
+          <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+            <span class="material-icons">play_arrow</span>
+          </button>
+          <button class="btn" onclick="skip(10)">
+            <span class="material-icons">forward_10</span>
+          </button>
+        </div>
+  
+        <div class="bottom-bar">
+          <div>
+            <div class="title" id="videoTitle">The Big Bang Theory</div>
+            <div class="subtitle" id="videoSubtitle">T6 E21: The Closure Alternative</div>
+          </div>
+          <div class="progress-container">
+            <input type="range" class="progress" id="progress" value="0" max="100">
+            <div class="time" id="duration">- 00:00</div>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+
+  <!-- Playlist embebida como JSON -->
+  <script>
+    const video = document.getElementById('video');
+const controls = document.getElementById('controls');
+const player = document.getElementById('player');
+const progress = document.getElementById('progress');
+const duration = document.getElementById('duration');
+const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.material-icons');
+const videoTitle = document.getElementById('videoTitle');
+const videoSubtitle = document.getElementById('videoSubtitle');
+const playlist = document.getElementById('playlist');
+const darkOverlay = document.getElementById('darkOverlay');
+
+let hideControlsTimeout;
+let userActiveTimeout;
+let currentEpisodeIndex = 0;
+let animationFrameId; // <- agregado
+
+const episodes = [
+  {
+    src: "https://od.lk/s/M18zMTUyNjg4OTdf/S1%20E01%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4",
+    title: "Dragon ball GT",
+    subtitle: "E1 - Unas misteriosas esferas del dragón aparecen",
+    thumb: "https://image.tmdb.org/t/p/w300//fX9eQR90j3j4ln9E2jyfItq4od0.jpg"
+  },
+  {
+    src: "https://od.lk/s/M18zMTUyNjg5MDhf/S1%20E02%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4",
+    title: "Dragon ball GT",
+    subtitle: "E2 - Pan viaja en la nave espacial",
+    thumb: "https://image.tmdb.org/t/p/w300//9Cy9TSeMQorCa1PG5RFx5Z5L8Jp.jpg"
+  },
+  {
+    src: "https://od.lk/s/M18zMTUyNjg5MTNf/S1%20E03%20Dragon%20Ball%20Daima%20Temporada%201%20%282024%29%20mkv%20mp4.mp4",
+    title: "Dragon ball GT",
+    subtitle: "E3 - Los comerciantes del planeta Imega",
+    thumb: "https://image.tmdb.org/t/p/w300//7wVXmT0p6xT0JSNNW6pLFFcJkNO.jpg"
+  },
+];
+
+// Cargar progreso previo si existe
+const savedTime = localStorage.getItem('episode0_time');
+const introOverlay = document.getElementById('introOverlay');
+const startBtn = document.getElementById('startBtn');
+
+if (savedTime && parseFloat(savedTime) > 0) {
+  startBtn.textContent = '▶ Continuar';
+}
+
+startBtn.addEventListener('click', () => {
+  loadEpisode(0);
+  introOverlay.style.display = 'none';
+
+  if (savedTime && parseFloat(savedTime) > 0) {
+    video.currentTime = parseFloat(savedTime);
+  }
+
+  video.play();
+  playPauseBtn.textContent = 'pause';
+});
+
+// Guardar tiempo cada 3s
+setInterval(() => {
+  if (!video.paused && !video.ended) {
+    localStorage.setItem('episode0_time', video.currentTime.toString());
+  }
+}, 3000);
+
+// Mostrar overlay al terminar
+video.addEventListener('ended', () => {
+  introOverlay.style.display = 'flex';
+  startBtn.textContent = '▶ Continuar';
+});
+
+// También si el usuario sale de pantalla completa (opcional)
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    introOverlay.style.display = 'flex';
+    startBtn.textContent = '▶ Continuar';
+  }
+});
+
+
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function togglePlay() {
+  if (video.paused) {
+    video.play();
+    playPauseBtn.textContent = 'pause';
+  } else {
+    video.pause();
+    playPauseBtn.textContent = 'play_arrow';
+  }
+}
+
+function skip(seconds) {
+  video.currentTime += seconds;
+}
+
+function goBack() {
+  alert("Volver (funcionalidad pendiente)");
+}
+
+function updateProgressSmooth() {
+  if (!isNaN(video.duration)) {
+    const percent = (video.currentTime / video.duration) * 100;
+    progress.value = percent;
+
+    const timeLeft = video.duration - video.currentTime;
+    const mins = Math.floor(timeLeft / 60);
+    const secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
+    duration.textContent = `- ${mins}:${secs}`;
+  }
+  // Sigue actualizando en el próximo frame
+  animationFrameId = requestAnimationFrame(updateProgressSmooth);
+}
+
+function updateBuffered() {
+  if (video.buffered.length > 0) {
+    const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+    const bufferedPercent = (bufferedEnd / video.duration) * 100;
+    progress.style.setProperty('--buffered', `${bufferedPercent}%`);
+  }
+}
+
+// Eventos para manejar actualización continua con animationFrame
+video.addEventListener('play', () => {
+  cancelAnimationFrame(animationFrameId);
+  updateProgressSmooth();
+});
+
+video.addEventListener('pause', () => {
+  cancelAnimationFrame(animationFrameId);
+});
+
+video.addEventListener('ended', () => {
+  cancelAnimationFrame(animationFrameId);
+});
+
+// Seguimos escuchando 'progress' para el buffering
+video.addEventListener('progress', updateBuffered);
+
+// Mover el slider manualmente
+progress.addEventListener('input', () => {
+  if (!isNaN(video.duration)) {
+    const seekTime = (progress.value / 100) * video.duration;
+    video.currentTime = seekTime;
+    updateProgressSmooth(); // para que el progreso se actualice inmediato
+  }
+});
+
+function showControls() {
+  controls.classList.remove('hidden');
+  darkOverlay.classList.add('active');
+  clearTimeout(hideControlsTimeout);
+  clearTimeout(userActiveTimeout);
+  hideControlsTimeout = setTimeout(() => {
+    controls.classList.add('hidden');
+  }, 3000);
+  userActiveTimeout = setTimeout(() => {
+    if (!video.paused) {
+      darkOverlay.classList.remove('active');
+    }
+  }, 3000);
+}
+
+player.addEventListener('mousemove', showControls);
+player.addEventListener('click', showControls);
+player.addEventListener('touchstart', showControls);
+
+showControls(); // Mostrar controles al cargar
+
+// Llenar la playlist
+episodes.forEach((ep, index) => {
+  const item = document.createElement('div');
+  item.className = 'playlist-item';
+  item.innerHTML = `
+    <img src="${ep.thumb}" alt="thumb">
+    <div class="playlist-info">
+      <div class="playlist-title">${ep.title}</div>
+      <div class="playlist-subtitle">${ep.subtitle}</div>
+    </div>
+  `;
+  item.addEventListener('click', () => {
+    loadEpisode(index);
+  });
+  playlist.appendChild(item);
+});
+
+function loadEpisode(index) {
+  currentEpisodeIndex = index;
+  const ep = episodes[index];
+  video.src = ep.src;
+  videoTitle.textContent = ep.title;
+  videoSubtitle.textContent = ep.subtitle;
+  video.play();
+  playPauseBtn.textContent = 'pause';
+  requestFullScreen();
+}
+
+function requestFullScreen() {
+  if (player.requestFullscreen) {
+    player.requestFullscreen();
+  } else if (player.webkitRequestFullscreen) {
+    player.webkitRequestFullscreen();
+  } else if (player.msRequestFullscreen) {
+    player.msRequestFullscreen();
+  }
+}
+
+// Manejar salida de fullscreen
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    video.pause();
+    playPauseBtn.textContent = 'play_arrow';
+  }
+});
+
+// Autoplay siguiente episodio
+video.addEventListener('ended', () => {
+  if (currentEpisodeIndex + 1 < episodes.length) {
+    loadEpisode(currentEpisodeIndex + 1);
+  } else {
+    console.log('No hay más episodios.');
+  }
+});
+
+// Oscurecimiento al pausar/reproducir
+video.addEventListener('pause', () => {
+  darkOverlay.classList.add('active');
+});
+
+video.addEventListener('play', () => {
+  darkOverlay.classList.remove('active');
+});
+  </script>
+
+</body>
+</html>

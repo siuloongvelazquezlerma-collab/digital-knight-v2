@@ -1,0 +1,3943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Attack on Titan (2013)</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
+
+  <style>
+     * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+
+    }
+
+    :root {
+      --bg-color: #000;
+      --text-color: #fff;
+      --accent-color: #b722ff;
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top);
+  margin: 0;
+  font-family: 'Roboto', sans-serif; /* Cambié 'Arial' por 'Roboto' */
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden; /* Previene scroll horizontal */
+}
+
+html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  overflow-x: hidden; /* Previene scroll horizontal */
+}
+
+  /* Estilo general para el header */
+  #header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0); /* Fondo del header transparente al inicio */
+    display: flex;
+    justify-content: space-between; /* Mantiene espacio entre la flecha y otros elementos */
+    align-items: center;
+    padding: 10px;
+    z-index: 3000; /* Asegura que el header esté por encima de otros elementos */
+    transition: background-color 0.3s ease; /* Transición suave del fondo */
+}
+
+/* Estilo de los enlaces */
+.icon-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; /* Color del ícono */
+    text-decoration: none; /* Quitar subrayado */
+    z-index: 3001;
+}
+
+/* Flecha a la izquierda */
+#back-link .material-icons {
+    background-color: rgba(100, 100, 100, 0.2); /* Fondo semitransparente */
+    border-radius: 50%; /* Hace el fondo circular */
+    width: 36px; /* Tamaño del círculo */
+    height: 36px;
+    font-size: 35px!important; /* Tamaño del ícono */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#page-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    opacity: 0; /* Lo ocultamos por defecto */
+    transition: opacity 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+/* Hover efectos */
+.icon-link:hover {
+    opacity: 0.8; /* Ligera transparencia al hacer hover */
+}
+
+
+/* Imagen de fondo VERTICAL (por defecto) */
+.banner {
+  background: url('https://image.tmdb.org/t/p/original/cOemgMBvf1WuTnjcihfSmasRzrh.jpg') no-repeat center top;
+  background-size: contain;
+  background-position: center top;
+  position: relative;
+  padding-top: 100%;
+  z-index: 1;
+  overflow: hidden; /* Importante para que el before no se desborde */
+}
+
+.banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%; /* Ajusta según qué tanto fade quieres */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.938), rgba(0, 0, 0, 0.322), transparent);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Ocultar el ::before en landscape */
+@media (orientation: landscape) {
+  .banner::before {
+    display: none;
+  }
+}
+
+/* Overlay encima de la imagen vertical */
+.banner-overlay {
+  background: linear-gradient(to bottom, transparent 20%, rgba(0, 0, 0, 0.541), rgba(0, 0, 0, 0.932), rgba(0, 0, 0, 0.945) 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+/* Fondo horizontal que solo aparece en landscape */
+.landscape-banner {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  background-image:
+    linear-gradient(to bottom, #000000d0, #00000034, #00000000, #00000000, #00000000, 70%, #000000 100%), /* Degradado desde abajo */
+    linear-gradient(to right, #000000d8, #00000085 50%, transparent 100%), /* Degradado desde la izquierda */
+    url("https://image.tmdb.org/t/p/original/lTDtH9YnFWJdwOgNuB4dUAzGOQl.jpg"); /* Imagen horizontal */
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  filter: brightness(1.0);
+  z-index: -1;
+  transition: background-image 0.3s ease-in-out;
+}
+
+/* Solo en modo horizontal: mostrar landscape y ocultar fondo vertical */
+@media (orientation: landscape) {
+  .landscape-banner {
+    display: block;
+  }
+
+  .banner {
+    background: none; /* Ocultamos el fondo vertical */
+  }
+}
+
+
+/* Capa oscura adicional SOLO cuando está dimmed */
+.banner::after,
+.landscape-banner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0); /* Transparente por defecto */
+  transition: background 0.3s ease;
+  z-index: 1; /* Debajo del overlay y contenido */
+  pointer-events: none;
+}
+
+/* Cuando se aplica dimmed: oscurecer fondo */
+.banner.dimmed::after,
+.landscape-banner.dimmed::after {
+  background: rgba(0, 0, 0, 0.45); /* Ajusta la opacidad a gusto */
+}
+
+
+
+
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 70%;
+  max-width: 450px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.info {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.btn-play {
+  background-color: #fff;
+  color: #000;
+  padding: 16px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.btn-play {
+  position: relative;
+  z-index: 9999;
+}
+
+.btn-play:focus,
+.btn-play:active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  background-color: #fff; /* Reafirma color sin transición */
+  color: #000;
+}
+
+/* Efecto de destello en hover */
+.btn-play:hover {
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7), 0 0 20px 5px rgba(255, 255, 255, 0.5);
+}
+
+
+    .iconos {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  align-items: center;
+}
+
+.iconos button,
+.iconos .action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.iconos .material-icons-outlined {
+  font-size: 30px; /* Tamaño más grande para los íconos */
+  margin-bottom: 5px; /* Espacio entre el ícono y el texto */
+}
+
+.iconos button:focus {
+  outline: none;
+}
+
+
+
+    .desc {
+      max-width: 600px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #ddd;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #444;
+      margin-top: 30px;
+      gap: 20px;
+      padding-inline: 20px; /* Agrega espacio a la izquierda y derecha */
+    }
+
+
+    .tab.active {
+      border-bottom: 2px solid #fff;
+      padding-bottom: 5px; /* Antes estaba en 13px, esto la acerca más al texto */
+    }
+
+    .season-selector {
+  background-color: #1d3169;
+  color: #ffffff;
+  padding: 3px 50px; /* Espacio vertical y horizontal */
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 30px auto 20px;
+  width: 90%; /* Usar 100% para ocupar todo el ancho disponible */
+  max-width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  padding-inline: 20px; /* Añade espacio lateral */
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+
+    .season-selector .material-icons {
+      font-size: 40px; /* Más grande si quieres */
+      line-height: 1;
+      vertical-align: middle;
+      margin-left: auto;
+    }
+
+    @media (orientation: landscape) {
+  .content {
+    position: absolute;
+    top: 40px; /* Esta es la posición para mover todo hacia arriba */
+    left: 40px;
+    max-width: 60%;
+    padding: 0;
+    z-index: 3;
+  }
+
+  .logo {
+    max-width: 300px;
+    margin-bottom: 15px;
+  }
+
+  .info {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+
+  .btn-play {
+    padding: 12px 24px;
+    font-size: 16px;
+    max-width: 300px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .iconos {
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 15px;
+  }
+
+  .desc {
+    font-size: 14px;
+    max-width: 100%;
+    margin-bottom: 10px; /* Esto asegurará que las tabs estén justo debajo */
+  }
+
+   /* Aquí eliminamos el margen negativo y lo ajustamos */
+  .tabs {
+  position: absolute;
+  top: 470px; /* O el valor que tú necesites */
+  left: 40px;
+  z-index: 100;
+}
+
+
+.season-selector {
+    position: absolute;
+    top: 520px; /* Ajusta este valor como necesites */
+    left: 40px;
+    font-size: 15px;
+    padding: 8px 20px;
+    max-width: 300px;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .tab-content.active .suggestions-grid {
+  position: absolute;
+  top: 460px;
+  grid-auto-flow: column;
+  grid-template-columns: unset;
+  gap: 10px;
+  justify-content: start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100vw;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  z-index: 999;
+}
+
+
+.tab-content.active .suggestions-grid img {
+  width: 170px; /* Tamaño ligeramente más pequeño en horizontal */
+        height: 250px;
+}
+
+
+  .episodes {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; /* Scroll horizontal */
+    gap: 20px;
+    padding: 0 40px;
+    position: absolute;
+    top: 530px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  /* Ya no es necesario usar .episodes ni .episode con position absolute */
+.episode {
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 400px; /* aumentamos el tamaño */
+  margin-bottom: 0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Efecto suave */
+}
+
+.thumbnail-container img {
+  width: 260px !important;
+  height: 135px !important;
+  border-radius: 0px;
+  object-fit: cover;
+}
+
+.thumbnail-container {
+  position: relative;
+  display: inline-block;
+  width: 260px; /* Ancho de la imagen */
+  height: 135px; /* Altura de la imagen */
+  padding-right: 20px; /* Ajuste según tus necesidades */
+}
+
+
+
+  .episode-info {
+    padding-top: 6px;
+    position: relative;
+    width: 100%;
+  }
+
+  .episode-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+
+  .episode-meta {
+    font-size: 10px;
+    color: #aaa;
+    margin-bottom: 3px;
+  }
+
+/* Efecto hover para los episodios */
+.episode:hover {
+  transform: translateY(-5px); /* Sube ligeramente el episodio */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+.download-icon {
+  position: absolute;
+  top: 10px;
+  right: 0px; /* ya no limitado por padding del contenedor */
+  font-size: 18px;
+  z-index: 2;
+}
+
+
+
+  .download-icon .material-icons {
+    font-size: 16px;
+  }
+
+  .download-icon .line {
+    width: 12px;
+    height: 2px;
+    background-color: white;
+    margin-top: 2px;
+  }
+}
+
+
+    .episodes {
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.episode {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Efecto suave */
+}
+
+
+.episode-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative; /* Para poder posicionar el ícono dentro de este contenedor */
+  flex-grow: 1; /* Asegura que ocupe todo el espacio disponible */
+}
+
+.episode-title {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.episode-meta {
+  font-size: 10px;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+
+.download-icon {
+  position: absolute;
+  top: 70%;
+  right: 10px;
+  transform: translateY(-50%); /* Centra verticalmente */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.download-icon .material-icons {
+  font-size: 18px; /* Ícono más pequeño */
+}
+
+.download-icon .line {
+  width: 15px; /* Línea más pequeña */
+  height: 2px;
+  background-color: white;
+  margin-top: 2px;
+}
+
+
+
+    #video-player {
+  display: none; /* Inicialmente oculto */
+  width: 100%;
+  height: auto;
+}
+
+
+    /* Sugerencias */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .suggestions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      padding: 0 20px; /* Añade espacio a los lados */
+      margin-top: 20px;
+    }
+
+    .suggestions-grid a {
+      text-decoration: none;
+      display: block;
+    }
+
+    .suggestions-grid img {
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+
+    .suggestions-grid img:hover {
+      transform: scale(1.05);
+    }
+
+    .season-menu {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  background-color: #1b1b1b;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 16px;
+  transition: bottom 0.3s ease;
+  z-index: 9999;
+  max-height: 60%;
+  overflow-y: auto;
+  color: white;
+  font-family: sans-serif;
+}
+
+.season-menu.visible {
+  bottom: 0;
+}
+
+.drag-handle {
+  width: 40px;
+  height: 5px;
+  background-color: #555;
+  border-radius: 10px;
+  margin: 0 auto 16px;
+}
+
+#season-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#season-list li {
+  padding: 14px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#season-list li.selected {
+  background-color: #1d3169;
+  font-weight: bold;
+}
+
+#season-list li .check {
+  font-size: 18px;
+}
+
+/* 🔧 Responsive ajustes para móviles */
+@media (max-width: 600px) {
+  .logo {
+    max-width: 100%;
+  }
+
+  .btn-play {
+    font-size: 16px;
+    padding: 14px 20px;
+  }
+
+
+
+  .desc {
+    font-size: 14px;
+  }
+
+  .tabs {
+    gap: 10px;
+  }
+
+  .iconos {
+    gap: 1rem;
+  }
+
+  .suggestions-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+  }
+}
+
+.thumbnail-container {
+  position: relative;
+  display: inline-block;
+}
+
+.thumbnail-container img {
+  display: block;
+  width: 140px; /* Ancho fijo */
+  height: 75px; /* Altura fija, ajusta a tu preferencia */
+  border-radius: 0px; /* Redondear las esquinas */
+  object-fit: cover; /* Asegura que la imagen cubra el contenedor sin deformarse */
+  cursor: pointer;
+}
+
+
+.thumbnail-container .progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0 0 0px 0px;
+  overflow: hidden;
+}
+
+.thumbnail-container .progress-bar .fill {
+  height: 100%;
+  background-color: #e50914;
+  transition: width 0.3s ease;
+}
+
+
+
+.vjs-custom-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Estilo de los controles, asegurándonos que no se cambien los botones */
+.vjs-custom-controls button {
+  pointer-events: auto;
+  background: none;
+    border: none;
+    color: white;
+    font-size: 70px; /* Tamaño del icono */
+    cursor: pointer;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out; /* Animación suave */
+    transform: scale(2.5); /* Aumenta solo el icono */
+}
+
+/* Ajusta el tamaño solo de los iconos dentro de los botones */
+.vjs-custom-controls button .vjs-material-icon {
+  font-size: 150px; /* Aumenta el tamaño del icono */
+  line-height: 1; /* Esto asegura que el icono se mantenga centrado */
+}
+
+/* Asegúrate de que los botones se mantengan centrados */
+.custom-video-controls {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 120px; /* Aumenta el espacio entre los controles */
+  z-index: 12;
+}
+
+/* Controles de ajuste como volumen, brillo, etc. */
+.vjs-adjustment-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  z-index: 13;
+  display: none;
+}
+
+/* Asegurémonos que las otras configuraciones no interfieran */
+.vjs-material-icon {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-size: inherit; /* Asegura que el icono herede el tamaño del contenedor */
+}
+
+/* =================== Asegura que la control bar sea visible =================== */
+.video-js .vjs-control-bar {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto; /* Opcional si no quieres que sea tocable */
+}
+
+/* ======== Estilos BASE: se aplican siempre ======== */
+
+/* Barra de progreso */
+.vjs-progress-control {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 2100px; /* Más grande pero no full width */
+  z-index: 1000;
+  padding: 0;
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+.vjs-progress-holder {
+  height: 4px !important;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  position: relative;
+  pointer-events: auto !important;
+}
+
+.vjs-play-progress {
+  height: 100%;
+  background-color: #c02121 !important;
+}
+
+/* Tiempo restante alineado con la barra */
+.vjs-remaining-time {
+  position: absolute;
+  bottom: 70px;
+  right: 5%;
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+  z-index: 11;
+}
+
+
+
+/* =================== Responsivo: Tablet =================== */
+@media (max-width: 1023px) {
+  .vjs-progress-control {
+    width: 85%;
+    max-width: 800px;
+  }
+
+  .vjs-remaining-time {
+    right: calc((100% - 800px) / 2 + 10px);
+  }
+
+  /* MÁS SEPARACIÓN entre controles en tablet */
+  .custom-video-controls {
+    gap: 150px;
+  }
+
+  .vjs-custom-controls button {
+    font-size: 200px;
+    padding: 10px;
+  }
+}
+
+/* =================== Responsivo: Móviles =================== */
+@media (max-width: 767px) {
+  .vjs-progress-control {
+    width: 92%;
+    max-width: 100%;
+    bottom: 50px;
+  }
+
+  .vjs-remaining-time {
+    right: 4%;
+    bottom: 50px;
+  }
+
+  /* MÁS SEPARACIÓN entre controles en móvil */
+  .custom-video-controls {
+    gap: 120px;
+  }
+
+  .vjs-custom-controls button {
+    font-size: 150px;
+    padding: 8px;
+  }
+}
+
+/* =================== Responsivo: Tablet =================== */
+@media (max-width: 1023px) {
+  .vjs-episode-header {
+    bottom: 90px; /* Un poco arriba de la barra de tablet */
+    left: 5%;
+    max-width: 90%;
+  }
+
+  .vjs-episode-header .series-title {
+    font-size: 1.2rem;
+  }
+
+  .vjs-episode-header .episode-title {
+    font-size: 0.95rem;
+  }
+}
+
+/* =================== Responsivo: Móviles =================== */
+@media (max-width: 767px) {
+  .vjs-episode-header {
+    bottom: 50px; /* Ajustado a la posición de la barra en móvil */
+    left: 4%;
+    max-width: 92%;
+  }
+
+  .vjs-episode-header .series-title {
+    font-size: 1rem;
+  }
+
+  .vjs-episode-header .episode-title {
+    font-size: 0.85rem;
+  }
+}
+
+
+
+/* =================== Ajustes generales de la barra de controles =================== */
+.vjs-control-bar {
+  background-color: transparent !important;
+  border: none;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+}
+
+.video-js {
+  pointer-events: auto !important;
+}
+
+.vjs-episode-controls {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 200px;
+  z-index: 60;
+  padding-bottom: 20px;
+}
+
+.episode-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: row; /* fila: icono a la izquierda, texto a la derecha */
+  align-items: center; /* alinea verticalmente */
+  cursor: pointer;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.episode-btn .material-icons {
+  font-size: 28px;
+  position: relative;
+  top: 9px; /* ← esto baja solo el icono */
+}
+
+.episode-btn .label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.vjs-header-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 15;
+  pointer-events: none; /* permite clics solo a hijos con pointer-events: auto */
+}
+
+.vjs-header-controls button {
+  border: none;
+  color: white;
+  font-size: 22px;
+  padding: 8px;
+  margin-left: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  pointer-events: auto; /* habilita clics */
+}
+
+.vjs-header-controls-left,
+.vjs-header-controls-right {
+  display: flex;
+  align-items: center;
+}
+
+.vjs-adjustment-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+
+/* Forzar el fondo negro con CSS */
+#video-player .vjs-poster {
+    background-color: transparent !important;
+    background-image: url('https://wallpapercave.com/wp/wp5415042.jpg') !important;
+    background-size: cover !important;
+}
+
+.vjs-tech {
+    background-color: black !important;
+}
+
+
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+/* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9000; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+.vjs-episode-header {
+  position: absolute;
+  bottom: 80px; /* Un poco arriba de la barra (ajustable) */
+  left: 5%; /* A la izquierda */
+  width: auto;
+  max-width: 90%;
+  text-align: left;
+  color: white;
+  z-index: 50;
+  pointer-events: none;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* Título de la serie más grande */
+.vjs-episode-header .series-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  opacity: 1;
+  line-height: 1.2;
+}
+
+/* Título del episodio más pequeño */
+.vjs-episode-header .episode-title {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  line-height: 1.2;
+}
+
+/* === Controles iniciales === */
+.custom-video-controls,
+.vjs-progress-control,
+.vjs-time-control,
+.vjs-episode-header,
+.vjs-remaining-time,
+.close-button,
+.vjs-header-controls,
+.vjs-adjustment-label,
+.vjs-episode-controls { /* Agregado el episode-header */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+/* === Cuando el video empieza a reproducirse === */
+.video-js.vjs-playing .custom-video-controls,
+.video-js.vjs-playing .vjs-progress-control,
+.video-js.vjs-playing .vjs-time-control,
+.video-js.vjs-playing .vjs-episode-header,
+.video-js.vjs-playing .close-button,
+.video-js.vjs-playing .vjs-remaining-time,
+.video-js.vjs-playing .vjs-header-controls,
+.video-js.vjs-playing .vjs-adjustment-label,
+.video-js.vjs-playing .vjs-episode-controls { /* Agregado el episode-header */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* === Cuando el video está pausado === */
+.video-js.vjs-paused .custom-video-controls,
+.video-js.vjs-paused .vjs-progress-control,
+.video-js.vjs-paused .vjs-time-control,
+.video-js.vjs-paused .vjs-episode-header,
+.video-js.vjs-paused .close-button,
+.video-js.vjs-paused .vjs-remaining-time,
+.video-js.vjs-paused .vjs-header-controls,
+.video-js.vjs-paused .vjs-adjustment-label,
+.video-js.vjs-paused .vjs-episode-controls { /* Agregado el episode-header */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* === Desvanecer controles después de un tiempo de inactividad === */
+.video-js.vjs-playing .custom-video-controls,
+.video-js.vjs-playing .vjs-progress-control,
+.video-js.vjs-playing .vjs-time-control,
+.video-js.vjs-playing .vjs-episode-header,
+.video-js.vjs-playing .close-button,
+.video-js.vjs-playing .vjs-remaining-time,
+.video-js.vjs-playing .vjs-header-controls,
+.video-js.vjs-playing .vjs-adjustment-label,
+.video-js.vjs-playing .vjs-episode-controls {
+    animation: hideControls 5s forwards;
+    pointer-events: all; /* Permitir interacción aunque estén invisibles */
+}
+
+@keyframes hideControls {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+/* Cuando se tocan los controles durante la reproducción */
+.video-js.vjs-playing.show-controls .custom-video-controls,
+.video-js.vjs-playing.show-controls .vjs-progress-control,
+.video-js.vjs-playing.show-controls .vjs-time-control,
+.video-js.vjs-playing.show-controls .vjs-episode-header,
+.video-js.vjs-playing.show-controls .close-button,
+.video-js.vjs-playing.show-controls .vjs-remaining-time,
+.video-js.vjs-playing.show-controls .vjs-header-controls,
+.video-js.vjs-playing.show-controls .vjs-adjustment-label,
+.video-js.vjs-playing.show-controls .vjs-episode-controls {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: all !important;
+    animation: none !important;
+}
+
+.video-js .custom-video-controls,
+.video-js .vjs-progress-control,
+.video-js .vjs-time-control,
+.video-js .vjs-episode-header,
+.video-js .close-button,
+.video-js .vjs-remaining-time,
+.video-js .vjs-header-controls,
+.video-js .vjs-adjustment-label,
+.video-js .vjs-episode-controls {
+  transition: opacity 0.1s ease, visibility 0.1s ease;
+}
+
+
+
+.pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Oscurecimiento sutil */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 5;
+}
+
+.video-js.vjs-paused .pause-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+#season-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Oscurecimiento semitransparente */
+  z-index: 9998; /* Justo debajo del menú */
+  display: none;
+}
+
+.body-fixed {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
+#video-container {
+  position: relative; /* Esto es CLAVE para que el spinner se posicione bien */
+}
+
+ /* Deshabilitar selección de texto e interacciones */
+ body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+       /* Eliminar resaltado en todos los navegadores y dispositivos */
+a, button, select, textarea {
+    -webkit-tap-highlight-color: transparent; /* Safari */
+    outline: none; /* Elimina el contorno */
+    background: none; /* Elimina el fondo al hacer clic */
+}
+
+
+        /* Deshabilitar el arrastre de imágenes */
+        img {
+            pointer-events: none; /* Desactiva interacciones del puntero en imágenes */
+        }
+        /* Eliminar resaltado y fondo de los botones */
+.action-item {
+    -webkit-tap-highlight-color: transparent; /* Safari */
+    outline: none; /* Elimina el contorno al hacer clic */
+    background: none; /* Elimina el fondo de enfoque */
+    user-select: none; /* Evita que se seleccione el texto */
+    cursor: pointer; /* Asegura que se vea como un botón */
+}
+
+/* Para asegurar que el fondo no cambie al hacer clic */
+button, .action-item {
+    border: none; /* Asegura que no haya borde al presionar */
+}
+
+/* Desactivar cualquier enfoque visual */
+button:focus, .action-item:focus {
+    outline: none; /* Elimina el contorno al recibir el foco */
+    background: none; /* Elimina cualquier fondo */
+}
+
+/* Evitar cualquier resaltado en el texto */
+button:active, .action-item:active {
+    background: none; /* Elimina el fondo al presionar */
+}
+
+.notificacion {
+  position: fixed;
+  bottom: -100px; /* Oculto fuera de vista */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  transition: bottom 0.4s ease-in-out;
+  z-index: 9999;
+  pointer-events: none; /* para que no interfiera con clicks */
+}
+
+.notificacion-icono {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(49, 13, 250, 0.89);
+  border-radius: 50%;
+}
+
+#video-player .vjs-control-bar .vjs-remaining-time {
+  visibility: hidden !important;
+  width: 3.5em !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+/* === Desactivar selección de texto globalmente === */
+body, img, a, button, select, textarea {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge */
+}
+
+/* === Quitar resaltado al tocar elementos interactivos en móviles === */
+a, button, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* === Prevenir arrastre e interacciones con imágenes === */
+img {
+  pointer-events: none;
+  -webkit-user-drag: none; /* WebKit: desactiva arrastre de imágenes */
+  
+}
+
+html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+  touch-action: manipulation; /* Mejora la respuesta en botones en móviles */
+}
+
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+<div class="overlay"></div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+        <span class="material-icons">chevron_left</span>
+    </a>
+    <span id="page-title" class="page-title">Attack on Titan</span> <!-- Título oculto por defecto -->
+</header>
+<div class="landscape-banner"></div>
+  <div class="banner">
+    <div class="banner-overlay"></div>
+    <div class="content">
+      <img src="https://image.tmdb.org/t/p/original/eHMfVTIwen9anB4HuvQlFRGZFms.png" alt="Logo Attack on Titan" "class="logo">
+      <div class="info">16+&nbsp;&nbsp;6 temporada&nbsp;&nbsp;2013</div>
+      <button class="btn-play" onclick="playVideoFromButton()">▶ Mira T1 E1</button>
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Attack on Titan" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+      
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/3ovLDNykjQ3rD6TxL0Zsr0SbC9S.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Attack on Titan (2013).html"></a>
+          <span id="nombre">Attack on Titan (2013)</span>
+        </div>
+
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+      </div>
+      
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+      
+      <div class="desc">
+        Precuela épica del universo Saint Seiya que narra la Guerra Santa del siglo XVIII entre Atena y Hades, protagonizada por
+        Tenma, el Caballero de Pegaso, y su lucha contra el destino y la oscuridad.
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active">Episodios</div>
+    <div class="tab">Quizá también te guste</div>
+  </div>
+  <div class="tab-content active" id="episodes-container">
+    <button class="season-selector">
+      Temporada 1 <span class="material-icons">expand_more</span>
+    </button>
+
+    <div class="season-menu hidden" id="season-menu">
+      <div class="drag-handle"></div>
+      <ul id="season-list">
+        <!-- Se llenará dinámicamente -->
+      </ul>
+    </div>
+    
+    
+    <div class="episodes" id="episodes-list"></div>
+  </div>
+  
+
+  <div class="tab-content" id="suggestions-container">
+    <div class="suggestions-grid"></div>
+  </div>
+  <div id="video-container">
+    <video id="video-player" class="video-js custom-skin" controls preload="auto"
+      poster="https://wallpapercave.com/wp/wp5415042.jpg">
+      <source id="videoSource" src="https://od.lk/s/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4" type="video/mp4">
+      <p class="vjs-no-js">
+        Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+        <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+      </p>
+    </video>
+   
+  </div>
+  <div class="pause-overlay"></div>
+  <div id="season-overlay"></div>
+
+  
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+</footer>
+
+
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script>
+    
+window.addEventListener('load', function () {
+const overlay = document.querySelector('.overlay');
+const loader = document.getElementById('loader');
+
+// Se mantiene el loader visible por 1 segundo
+setTimeout(() => {
+// Hacer que el loader desaparezca rápidamente
+loader.style.opacity = '0'; // Desvanecer loader
+setTimeout(() => {
+    loader.style.display = 'none'; // Eliminarlo del flujo
+
+    // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+    overlay.classList.add('hidden');
+}, 300); // Tiempo de transición de 300ms para el loader
+}, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener('copy', function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "F12" || 
+        (event.ctrlKey && event.shiftKey && event.key === "I") || 
+        (event.ctrlKey && event.key === "U") || 
+        (event.ctrlKey && event.key === "C")) {
+        event.preventDefault();
+    }
+});
+
+document.addEventListener("dragstart", function(event) {
+    event.preventDefault();
+});
+
+  const playlist = [
+  {
+    season: "T1: Attack on Titan",
+    episodes: [
+    {
+    "title": "PV",
+    "meta": "",
+    "duration": 72,
+    "thumbnail": "https://od.lk/s/M18zMDk3MzM2ODlf/34325_75010_1737.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4",
+    "hiddenCode": "PV",
+    "episodeCode": "PV"
+  },
+  {
+    "title": "E1: A ti, 2,000 años en el futuro. La caída de Shiganshina - Parte 1",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//4Ucsb3p1dedDCjcFtnY25txxRpA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzgxNjZf/snk%201.mp4",
+    "hiddenCode": "T1 E1",
+    "episodeCode": "T1 E1: A ti, 2,000 años en el futuro. La caída de Shiganshina - Parte 1"
+  },
+  {
+    "title": "E2: Ese día. La caída de Shiganshina - Parte 2",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzgyNTNf/snk%202.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+    "hiddenCode": "T1 E2",
+    "episodeCode": "T1 E2: Ese día. La caída de Shiganshina - Parte 2"
+  },
+  {
+    "title": "E3: Una tenue luz en la desesperación. La humanidad se levanta de nuevo - Parte 1",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//vcjknjNEJ827dTL9PBebjp49q5Y.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzgzMTlf/SNK%203.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzgzMTlf/SNK%203.mp4",
+    "hiddenCode": "T1 E3",
+    "episodeCode": "T1 E3: Una tenue luz en la desesperación. La humanidad se levanta de nuevo - Parte 1"
+  },
+  {
+    "title": "E4: La noche de la ceremonia de graduación. La humanidad se levanta de nuevo - Parte 2",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//jsrRlhhfWbpMgqCHjgGUNamPbnC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4Mzg4NTZf/SNK%204.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4Mzg4NTZf/SNK%204.mp4",
+    "hiddenCode": "T1 E4",
+    "episodeCode": "T1 E4: La noche de la ceremonia de graduación. La humanidad se levanta de nuevo - Parte 2"
+  },
+  {
+    "title": "E5: Primera batalla. La batalla de Trost (1)",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//o1HKzfQjNqJHKuGuTwA3nbX1leU.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4MzkxMjFf/SNK%205.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4MzkxMjFf/SNK%205.mp4",
+    "hiddenCode": "T1 E5",
+    "episodeCode": "T1 E5: Primera batalla. La batalla de Trost (1)"
+  },
+  {
+    "title": "E6: El mundo a los ojos de la chica. La batalla de Trost (2)",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//m7Yzfqhvv3SAwiLwI0iWtj8px9v.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4Mzk0NDZf/SNK%206.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4Mzk0NDZf/SNK%206.mp4",
+    "hiddenCode": "T1 E6",
+    "episodeCode": "T1 E6: El mundo a los ojos de la chica. La batalla de Trost (2)"
+  },
+  {
+    "title": "E7: Una pequeña hoja. La batalla de Trost (3)",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//z2QHfSCLIO7PuVnI8hcVUAGgaJl.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDA4Mzk1MDZf/SNK%207.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDA4Mzk1MDZf/SNK%207.mp4",
+    "hiddenCode": "T1 E7",
+    "episodeCode": "T1 E7: Una pequeña hoja. La batalla de Trost (3)"
+  },
+  {
+    "title": "E8: Oigo sus latidos. La batalla de Trost (4)",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//poMQWaWoIHm6sbV1kLZhpFWNWsp.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDQyMjAzMjRf/SNK%208.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQyMjAzMjRf/SNK%208.mp4",
+    "hiddenCode": "T1 E8",
+    "episodeCode": "T1 E8: Oigo sus latidos. La batalla de Trost (4)"
+  },
+  {
+    "title": "E9: El paradero del brazo izquierdo. La batalla de Trost (5)",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//wnZ2XNmROpeYIdNVnQ7zz1Gsx5M.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDQyMjA2NTdf/SNK%209.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQyMjA2NTdf/SNK%209.mp4",
+    "hiddenCode": "T1 E9",
+    "episodeCode": "T1 E9: El paradero del brazo izquierdo. La batalla de Trost (5)"
+  },
+  {
+    "title": "E10: Respuesta. La batalla de Trost (6)",
+    "meta": "16+ · 24m · 2013",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//iM0ZnpWE0pzZdNh2dDF5f0O6jK1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDQyMjExODVf/SNK%2010.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDQyMjExODVf/SNK%2010.mp4",
+    "hiddenCode": "T1 E10",
+    "episodeCode": "T1 E10: Respuesta. La batalla de Trost (6)"
+  },
+  {
+  "title": "E11: Símbolo. La batalla de Trost (7)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//4Y8Xl6JQBUyYWd5hNWbgxlvB2yL.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjE3NDRf/SNK%2011.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjE3NDRf/SNK%2011.mp4",
+  "hiddenCode": "T1 E11",
+  "episodeCode": "T1 E11: Símbolo. La batalla de Trost (7)"
+},
+{
+  "title": "E12: Herida. La batalla de Trost (8)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//cBtdJdd921et4kxndc3neeCjKja.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjIxNzBf/SNK%2012.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjIxNzBf/SNK%2012.mp4",
+  "hiddenCode": "T1 E12",
+  "episodeCode": "T1 E12: Herida. La batalla de Trost (8)"
+},
+{
+  "title": "E13: Deseos primarios. La batalla de Trost (9)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//29704CwCHFPQvbjFJJmhMM6m0uG.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjI3MjNf/SNK%2013.mp4",
+  "downloadUrl": "https://od.lk/s/M18zMDQyMjI3MjNf/SNK%2013.mp4",
+  "hiddenCode": "T1 E13",
+  "episodeCode": "T1 E13: Deseos primarios. La batalla de Trost (9)"
+},
+{
+  "title": "E14: Todavía no puede mirar hacia adelante. La batalla de Trost (10)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//i5LwCRuHRuQxPVJPbOAIIkRKiQo.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjMyMzdf/SNK%2014.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjMyMzdf/SNK%2014.mp4",
+  "hiddenCode": "T1 E14",
+  "episodeCode": "T1 E14: Todavía no puede mirar hacia adelante. La batalla de Trost (10)"
+},
+{
+  "title": "E15: El mundo que ella vio. La batalla de Trost (11)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//zoXVaoSqxlXpUoq5g5opNCTGUSB.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjM2NTNf/SNK%2015.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjM2NTNf/SNK%2015.mp4",
+  "hiddenCode": "T1 E15",
+  "episodeCode": "T1 E15: El mundo que ella vio. La batalla de Trost (11)"
+},
+{
+  "title": "E16: El escuadrón de reconocimiento sale. La batalla de Trost (12)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//imyHAoRf7yeVMal0UCvmSQulovr.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjM3NzVf/SNK%2016.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjM3NzVf/SNK%2016.mp4",
+  "hiddenCode": "T1 E16",
+  "episodeCode": "T1 E16: El escuadrón de reconocimiento sale. La batalla de Trost (12)"
+},
+{
+  "title": "E17: Titán blindado. La batalla de Trost (13)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//hERw24rvwwyIhvBCnmX6VMLSJxq.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjQxMTdf/SNK%2017.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjQxMTdf/SNK%2017.mp4",
+  "hiddenCode": "T1 E17",
+  "episodeCode": "T1 E17: Titán blindado. La batalla de Trost (13)"
+},
+{
+  "title": "E18: El golpe del cañón. La batalla de Trost (14)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//qytiWM8NAn3EzdLaoigJTJgLuD5.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjQ2MzNf/SNK%2018.mp4",
+  "downloadUrl": "https://od.lk/s/M18zMDQyMjQ2MzNf/SNK%2018.mp4",
+  "hiddenCode": "T1 E18",
+  "episodeCode": "T1 E18: El golpe del cañón. La batalla de Trost (14)"
+},
+{
+  "title": "E19: Lluvia de fuego. La batalla de Trost (15)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//1Uxxm7lpMdHOQ8ebTdfCGQYBL5d.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjQ4NjJf/SNK%2019.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjQ4NjJf/SNK%2019.mp4",
+  "hiddenCode": "T1 E19",
+  "episodeCode": "T1 E19: Lluvia de fuego. La batalla de Trost (15)"
+},
+{
+  "title": "E20: Batalla final. La batalla de Trost (16)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//k5CjtyUxdfhlzyFhF4isJoY0855.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjUyMjdf/SNK%2020.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjUyMjdf/SNK%2020.mp4",
+  "hiddenCode": "T1 E20",
+  "episodeCode": "T1 E20: Batalla final. La batalla de Trost (16)"
+},
+{
+  "title": "E21: La promesa de un guerrero. La batalla de Trost (17)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//eN3cAd2hKITV7ZswnTjqHFMkVnV.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU2NThf/SNK%2021.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU2NThf/SNK%2021.mp4",
+  "hiddenCode": "T1 E21",
+  "episodeCode": "T1 E21: La promesa de un guerrero. La batalla de Trost (17)"
+},
+{
+  "title": "E22: Rugido del titán. La batalla de Trost (18)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//zvgLwsXPh2WMAfIQOyFhNUAhyx0.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU4NDlf/SNK%2022.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU4NDlf/SNK%2022.mp4",
+  "hiddenCode": "T1 E22",
+  "episodeCode": "T1 E22: Rugido del titán. La batalla de Trost (18)"
+},
+{
+  "title": "E23: Armadura perdida. La batalla de Trost (19)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//8M1VyncRhIXYn112ietpj3p33cb.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU4NzNf/SNK%2023.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU4NzNf/SNK%2023.mp4",
+  "hiddenCode": "T1 E23",
+  "episodeCode": "T1 E23: Armadura perdida. La batalla de Trost (19)"
+},
+{
+  "title": "E24: Táctica de combate. La batalla de Trost (20)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//36TL36zTiN4GnYuBgqCPfHjsrWE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU5MDNf/SNK%2024.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU5MDNf/SNK%2024.mp4",
+  "hiddenCode": "T1 E24",
+  "episodeCode": "T1 E24: Táctica de combate. La batalla de Trost (20)"
+},
+{
+  "title": "E25: Vientos del cambio. La batalla de Trost (21)",
+  "meta": "16+ · 24m · 2013",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2euk86Y2huYGUHuuAAczyLydNWE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDQyMjU5MzZf/SNK%2025.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMjU5MzZf/SNK%2025.mp4",
+  "hiddenCode": "T1 E25",
+  "episodeCode": "T1 E25: Vientos del cambio. La batalla de Trost (21)"
+}
+
+    ]
+  },
+  {
+    season: "T2: Attack on Titan Season 2",
+    episodes: [
+    {
+    "title": "E1: El titán bestia",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//2HUVf98JazA7bTmzk2Ngu0wneNd.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjY3NzVf/SNK.2-01HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjY3NzVf/SNK.2-01HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E1",
+    "episodeCode": "T2 E1: El titán bestia"
+  },
+  {
+    "title": "E2: Regreso a casa",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//hnkDhj5YUwqKxWuRviT874dRY0r.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjY4MTJf/SNK.2-02HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjY4MTJf/SNK.2-02HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E2",
+    "episodeCode": "T2 E2: Regreso a casa"
+  },
+  {
+    "title": "E3: Hacia el suroeste",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//darYJHQto349CxkYZmLPxWobnhK.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjY4NDZf/SNK.2-03HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjY4NDZf/SNK.2-03HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E3",
+    "episodeCode": "T2 E3: Hacia el suroeste"
+  },
+  {
+    "title": "E4: Soldado",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//ykAYnzBvVkFlb4uik0jb50HeHh9.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjY4ODNf/SNK.2-04HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjY4ODNf/SNK.2-04HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E4",
+    "episodeCode": "T2 E4: Soldado"
+  },
+  {
+    "title": "E5: Historia",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//ixW3tXUUK4RrEzFhWhLU0NVI0zn.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjY5Mjhf/SNK.2-05HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjY5Mjhf/SNK.2-05HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E5",
+    "episodeCode": "T2 E5: Historia"
+  },
+  {
+    "title": "E6: Guerrero",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//mGsGFFdkjXeLikNShJfBu81NVlD.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjY5Njdf/SNK.2-06HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjY5Njdf/SNK.2-06HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E6",
+    "episodeCode": "T2 E6: Guerrero"
+  },
+  {
+    "title": "E7: Golpea, arroja, somete",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//6iTiWI5zmMjnHwGQ4iHkL5sWN9T.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjcwMDhf/SNK.2-07HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjcwMDhf/SNK.2-07HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E7",
+    "episodeCode": "T2 E7: Golpea, arroja, somete"
+  },
+  {
+    "title": "E8: Perseguidores",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//mmmmxLuvyyApMqEECpjGFcqdxTC.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjcwNTJf/SNK.2-08HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjcwNTJf/SNK.2-08HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E8",
+    "episodeCode": "T2 E8: Perseguidores"
+  },
+  {
+    "title": "E9: Apertura",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//nk5iqPfIUXRTRWu5Ty9t7JN5yR.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjcwODdf/SNK.2-09HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjcwODdf/SNK.2-09HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E9",
+    "episodeCode": "T2 E9: Apertura"
+  },
+  {
+    "title": "E10: Niños",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//mXvMLRj2rlYdoOSoVe5oHZz7faZ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjcxMjJf/SNK.2-10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjcxMjJf/SNK.2-10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E10",
+    "episodeCode": "T2 E10: Niños"
+  },
+  {
+    "title": "E11: Asalto",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//bjeTC8ZHnb0Fsz4PiaCcIdbSSbn.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjcxNjRf/SNK.2-11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjcxNjRf/SNK.2-11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E11",
+    "episodeCode": "T2 E11: Asalto"
+  },
+  {
+    "title": "E12: Grito",
+    "meta": "16+ · 24m · 2017",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//3wjYUJLyYK16Qm70IonUAaroCde.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MjcyMDFf/SNK.2-12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MjcyMDFf/SNK.2-12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T2 E12",
+    "episodeCode": "T2 E12: Grito"
+  }
+    ]
+  },
+  {
+    season: "T3: Attack on Titan Season 3",
+    episodes: [
+    {
+    "title": "E1: Señal de humo",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//g5gdbz4MUxHYAakgFeHfAOQMIvs.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc1Mjhf/SNK3.1HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1Mjhf/SNK3.1HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E1",
+    "episodeCode": "T3 E1: Señal de humo"
+  },
+  {
+    "title": "E2: Dolor",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//5qFlHCtb82MWuMf72NgXltjnq96.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc1Mzlf/SNK3.2HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1Mzlf/SNK3.2HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E2",
+    "episodeCode": "T3 E2: Dolor"
+  },
+  {
+    "title": "E3: Historias del pasado",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//w6dI9fRyRXtvpvLSjGGGJ8VRaSt.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc1NzBf/SNK3.3HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1NzBf/SNK3.3HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E3",
+    "episodeCode": "T3 E3: Historias del pasado"
+  },
+  {
+    "title": "E4: Confianza",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//lfC5qqu0X1UwqbpCC8bql0y9xem.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc1OTRf/SNK3.4HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc1OTRf/SNK3.4HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E4",
+    "episodeCode": "T3 E4: Confianza"
+  },
+  {
+    "title": "E5: Respuesta",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//eE4eWhCOs6ADgqF2q7oStg7i50Q.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc2MTVf/SNK3.5HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2MTVf/SNK3.5HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E5",
+    "episodeCode": "T3 E5: Respuesta"
+  },
+  {
+    "title": "E6: Pecado",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//hvpRsObceOJgbCXhcnK8rf0HVk.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc2Mjdf/SNK3.6HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2Mjdf/SNK3.6HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E6",
+    "episodeCode": "T3 E6: Pecado"
+  },
+  {
+    "title": "E7: Deseo",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//yzRT9uzwBRO5Npio8yaAaZeClI1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc2NjZf/SNK3.7HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2NjZf/SNK3.7HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E7",
+    "episodeCode": "T3 E7: Deseo"
+  },
+  {
+    "title": "E8: La muralla exterior de Orvud",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//8Gm8GDMPsviXQJRzunQTTWlXnw1.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc2ODlf/SNK3.8HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2ODlf/SNK3.8HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E8",
+    "episodeCode": "T3 E8: La muralla exterior de Orvud"
+  },
+  {
+    "title": "E9: La reina de la muralla",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//a5HryZioGnROWRyona6uSjZQyq5.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc2OTdf/SNK3.9HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc2OTdf/SNK3.9HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E9",
+    "episodeCode": "T3 E9: La reina de la muralla"
+  },
+  {
+    "title": "E10: Amigo",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//oIqiOCiui0wBkGImdxma4XfWsnJ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc3MzRf/SNK3.10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc3MzRf/SNK3.10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E10",
+    "episodeCode": "T3 E10: Amigo"
+  },
+  {
+    "title": "E11: Espectador",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//qeISjI2nxqaaUvf4LcW9rlExGcY.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc3NjJf/SNK3.11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc3NjJf/SNK3.11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E11",
+    "episodeCode": "T3 E11: Espectador"
+  },
+  {
+    "title": "E12: La noche de la operación de reconquista",
+    "meta": "16+ · 24m · 2018",
+    "duration": 1440,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//88MIIgipuAsNL9jLKk9sK8YrqxS.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mjc3OTRf/SNK3.12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mjc3OTRf/SNK3.12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "hiddenCode": "T3 E12",
+    "episodeCode": "T3 E12: La noche de la operación de reconquista"
+  },
+  {
+  "title": "E13: La ciudad donde empezó todo",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//n5IBwDe5auoOFw0B0Lw3iwxec5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzQ0MzJf/Attack%20on%20Titan%20Season%203%20Episodio%2013%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzQ0MzJf/Attack%20on%20Titan%20Season%203%20Episodio%2013%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E13",
+  "episodeCode": "T3 E13: La ciudad donde empezó todo"
+},
+{
+  "title": "E14: Lanzas relámpago",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//2XX3Oq8VLE2khmISIvOtJgCOL19.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzQ2ODlf/Attack%20on%20Titan%20Season%203%20Episodio%2014%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzQ2ODlf/Attack%20on%20Titan%20Season%203%20Episodio%2014%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E14",
+  "episodeCode": "T3 E14: Lanzas relámpago"
+},
+{
+  "title": "E15: Descenso",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//9SLwCEPccFQaQabdoxDmjSIdDWU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzQ3NDhf/Attack%20on%20Titan%20Season%203%20Episodio%2015%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzQ3NDhf/Attack%20on%20Titan%20Season%203%20Episodio%2015%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E15",
+  "episodeCode": "T3 E15: Descenso"
+},
+{
+  "title": "E16: Juego perfecto",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//7ZrwZho2ovVaNpXp8Q4zz43eZuQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzIxNjlf/Attack%20on%20Titan%20Season%203%20Episodio%2016%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzIxNjlf/Attack%20on%20Titan%20Season%203%20Episodio%2016%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E16",
+  "episodeCode": "T3 E16: Juego perfecto"
+},
+{
+  "title": "E17: Héroe",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//osjtJwgfHr66m65Hnmb9qVqVn5s.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzI3MTBf/Attack%20on%20Titan%20Season%203%20Episodio%2017%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzI3MTBf/Attack%20on%20Titan%20Season%203%20Episodio%2017%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E17",
+  "episodeCode": "T3 E17: Héroe"
+},
+{
+  "title": "E18: Sol de medianoche",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//1IofclJNwYSb0hmDuv46s9XYdhZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzMwODFf/Attack%20on%20Titan%20Season%203%20Episodio%2018%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzMwODFf/Attack%20on%20Titan%20Season%203%20Episodio%2018%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E18",
+  "episodeCode": "T3 E18: Sol de medianoche"
+},
+{
+  "title": "E19: Sótano",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//6JT83J6bV4W4Yi9B1v1lrYsfMHy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzM0MDJf/Attack%20on%20Titan%20Season%203%20Episodio%2019%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzM0MDJf/Attack%20on%20Titan%20Season%203%20Episodio%2019%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E19",
+  "episodeCode": "T3 E19: Sótano"
+},
+{
+  "title": "E20: Aquel día",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//xEA1HweL2Qmnm2D0hVZMHSxZ8my.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzM2MDBf/Attack%20on%20Titan%20Season%203%20Episodio%2020%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzM2MDBf/Attack%20on%20Titan%20Season%203%20Episodio%2020%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E20",
+  "episodeCode": "T3 E20: Aquel día"
+},
+{
+  "title": "E21: Ataque a los titanes",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//s35qsjN0VzQCectjnG5f4SJEdtP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzM4MzRf/Attack%20on%20Titan%20Season%203%20Episodio%2021%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzM4MzRf/Attack%20on%20Titan%20Season%203%20Episodio%2021%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E21",
+  "episodeCode": "T3 E21: Ataque a los titanes"
+},
+{
+  "title": "E22: Al otro lado de las murallas",
+  "meta": "16+ · 24m · 2018",
+  "duration": 1440,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//yZpVxNd54ZhssthJ1b6Wp8eKGtg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQyMzQxNjhf/Attack%20on%20Titan%20Season%203%20Episodio%2022%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQyMzQxNjhf/Attack%20on%20Titan%20Season%203%20Episodio%2022%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+  "hiddenCode": "T3 E22",
+  "episodeCode": "T3 E22: Al otro lado de las murallas"
+}
+
+  
+
+    ]
+  },
+  {
+    season: "Temporada 4",
+    episodes: [
+    {
+    "title": "E1: Cruzada",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/6224c7b0-6785-3fb0-883d-f3f4dd2fa98c.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDU3NDU5NzRf/Smallville.4x01.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3NDU5NzRf/Smallville.4x01.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E1",
+    "episodeCode": "T4 E1: Cruzada"
+  },
+  {
+    "title": "E2: Desaparecida",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/0d52678c-25cf-3c85-801b-e8ed820f1635.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzI1NjJf/Smallville.4x02.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzI1NjJf/Smallville.4x02.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E2",
+    "episodeCode": "T4 E2: Desaparecida"
+  },
+  {
+    "title": "E3: Fachada",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/01114398-6174-3fd1-864b-e39ad45097e1.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzI3ODdf/Smallville.4x03.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzI3ODdf/Smallville.4x03.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E3",
+    "episodeCode": "T4 E3: Fachada"
+  },
+  {
+    "title": "E4: Devoted",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/312b1e33-eb90-3f5d-9a6a-6f1752f12b6a.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzMwMzJf/Smallville.4x04.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzMwMzJf/Smallville.4x04.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E4",
+    "episodeCode": "T4 E4: Devoted"
+  },
+  {
+    "title": "E5: Corre",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/a7dbd959-2513-3b5c-bae2-c9659f81b919.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzM0MzFf/Smallville.4x05.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzM0MzFf/Smallville.4x05.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E5",
+    "episodeCode": "T4 E5: Corre"
+  },
+  {
+    "title": "E6: Transferencia",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/18af0cb2-e78f-312e-a16b-5da119082c9a.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzM5OTZf/Smallville.4x06.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzM5OTZf/Smallville.4x06.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E6",
+    "episodeCode": "T4 E6: Transferencia"
+  },
+  {
+    "title": "E7: Jinx",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/ddc5ed77-988b-38ef-963b-a3b1d38c36a2.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzQ3MTBf/Smallville.4x07.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzQ3MTBf/Smallville.4x07.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E7",
+    "episodeCode": "T4 E7: Jinx"
+  },
+  {
+    "title": "E8: Spell",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/19e07c85-a2c4-3e00-bab6-bf1527b3acac.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzU0NDVf/Smallville.4x08.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzU0NDVf/Smallville.4x08.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E8",
+    "episodeCode": "T4 E8: Spell"
+  },
+  {
+    "title": "E9: Bound",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/969413b2-5482-3d8c-a269-a7c1768a6486.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzYxOTdf/Smallville.4x09.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzYxOTdf/Smallville.4x09.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E9",
+    "episodeCode": "T4 E9: Bound"
+  },
+  {
+    "title": "E10: Scare",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://images.cdn.prd.api.discomax.com/2023/12/07/4d565a85-4976-3c6a-99d5-46d4a0ffecc1.jpeg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzY2MzFf/Smallville.4x10.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzY2MzFf/Smallville.4x10.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E10",
+    "episodeCode": "T4 E10: Scare"
+  },
+  {
+    "title": "E11: Peligroso",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//iHgvKngP4DTD8XcnPovts8XB5mM.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzgzMDhf/Smallville.4x11.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzgzMDhf/Smallville.4x11.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E11",
+    "episodeCode": "T4 E11: Peligroso"
+  },
+  {
+    "title": "E12: Paria",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//nl1bKpLDkkryIwrYxXy4cxu6f7g.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mzg0MTVf/Smallville.4x12.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mzg0MTVf/Smallville.4x12.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E12",
+    "episodeCode": "T4 E12: Paria"
+  },
+  {
+    "title": "E13: Recruit",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//7hk8UATVXYIprI75rVS2KxzpDfA.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzE1OTdf/Smallville.4x13.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzE1OTdf/Smallville.4x13.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E13",
+    "episodeCode": "T4 E13: Recruit"
+  },
+  {
+    "title": "E14: Krypto",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//oWhFSYR1IrSbUJfkFmRSHWz89zv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzE4MTlf/Smallville.4x14.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzE4MTlf/Smallville.4x14.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E14",
+    "episodeCode": "T4 E14: Krypto"
+  },
+  {
+    "title": "E15: Sagrado",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//y1auMqqMRMffJbEA52ZCCfbhXnu.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzIwOTVf/Smallville.4x15.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzIwOTVf/Smallville.4x15.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E15",
+    "episodeCode": "T4 E15: Sagrado"
+  },
+  {
+    "title": "E16: Lucy",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//4TIRVwvHBXvNE9StP9ODVS6wCvv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3MzIzMTFf/Smallville.4x16.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3MzIzMTFf/Smallville.4x16.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E16",
+    "episodeCode": "T4 E16: Lucy"
+  },
+  {
+    "title": "E17: Onyx",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//4eoJHx8sNVQjJeQw4uErdJ6ICrv.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mzg1NTBf/Smallville.4x17.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mzg1NTBf/Smallville.4x17.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E17",
+    "episodeCode": "T4 E17: Onyx"
+  },
+  {
+    "title": "E18: Espíritu",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//6zM2n8okmpKg2FWPtgLQCFdpXQ4.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mzg2OTFf/Smallville.4x18.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mzg2OTFf/Smallville.4x18.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E18",
+    "episodeCode": "T4 E18: Espíritu"
+  },
+  {
+    "title": "E19: Blank",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//wcqA2pRWE6OWWLPGeC8sc2O01gb.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mzg5MDBf/Smallville.4x19.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mzg5MDBf/Smallville.4x19.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E19",
+    "episodeCode": "T4 E19: Blank"
+  },
+  {
+    "title": "E20: Ageless",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//1vv8p7LW65yBQrcMNjUUsmBfddl.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI3Mzk2MjVf/Smallville.4x20.HD1080p-lat.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDI3Mzk2MjVf/Smallville.4x20.HD1080p-lat.mp4",
+    "hiddenCode": "T4 E20",
+    "episodeCode": "T4 E20: Ageless"
+  },
+  {
+  "title": "E21: Para Siempre",
+  "meta": "13+ · 43m · 2004",
+  "duration": 2580,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//oW2wApJr59JMjXG5UzX1eP2a2A1.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI3Mzg0MzZf/Smallville.4x21.HD1080p-lat.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDI3Mzg0MzZf/Smallville.4x21.HD1080p-lat.mp4",
+  "hiddenCode": "T4 E21",
+  "episodeCode": "T4 E21: Para Siempre"
+},
+{
+  "title": "E22: Graduación",
+  "meta": "13+ · 43m · 2004",
+  "duration": 2580,
+  "thumbnail": "https://image.tmdb.org/t/p/w300//xfJatujpAwNGqzTyxAnjYMMquBD.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDU3NDY1MDJf/Smallville.4x22.HD1080p-lat.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3NDY1MDJf/Smallville.4x22.HD1080p-lat.mp4",
+  "hiddenCode": "T4 E22",
+  "episodeCode": "T4 E22: Graduación"
+}
+
+    ]
+  },
+  {
+    season: "Temporada 5",
+    episodes: [
+    {
+    "title": "E1: Episodio 1",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//fpkE0EGG9JprSGKv2wPFb2hLQqj.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E1",
+    "episodeCode": "T5 E1: Episodio 1"
+  },
+  {
+    "title": "E2: Episodio 2",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//ntMrI2PjqTF8QidhiGAiTn6d5tm.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E2",
+    "episodeCode": "T5 E2: Episodio 2"
+  },
+  {
+    "title": "E3: Episodio 3",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//xfdsLBmWjVXOZTwQcSj9lYSlaV2.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E3",
+    "episodeCode": "T5 E3: Episodio 3"
+  },
+  {
+    "title": "E4: Episodio 4",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//jZWBz7ygNurPMUQClf6U3YZiogl.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E4",
+    "episodeCode": "T5 E4: Episodio 4"
+  },
+  {
+    "title": "E5: Episodio 5",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//qqtUsjCeCVs6pBbW9e3QAEfpezm.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E5",
+    "episodeCode": "T5 E5: Episodio 5"
+  },
+  {
+    "title": "E6: Episodio 6",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//rS7a7M1EiSnTDXxpm5OScG7l6a7.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E6",
+    "episodeCode": "T5 E6: Episodio 6"
+  },
+  {
+    "title": "E7: Episodio 7",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//Ar8D8alZxxWjmRGPw7qj61OMOaM.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E7",
+    "episodeCode": "T5 E7: Episodio 7"
+  },
+  {
+    "title": "E8: Episodio 8",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//szxHsWybJXPpqW3eAYmBikUCpaO.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E8",
+    "episodeCode": "T5 E8: Episodio 8"
+  },
+  {
+    "title": "E9: Episodio 9",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//1nSRbYR7UtDlzioOJ3ywvT9xlJQ.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E9",
+    "episodeCode": "T5 E9: Episodio 9"
+  },
+  {
+    "title": "E10: Episodio 10",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//bxbvYKKxnwZQ3NrruM7WLYe9PP9.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E10",
+    "episodeCode": "T5 E10: Episodio 10"
+  },
+  {
+    "title": "E11: Episodio 11",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//lVx5MT94LBeuGOyBIKBxmjPYtK6.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E11",
+    "episodeCode": "T5 E11: Episodio 11"
+  },
+  {
+    "title": "E12: Episodio 12",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//9lq55IwxzBGrmhgpDnLNVpPFnaS.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E12",
+    "episodeCode": "T5 E12: Episodio 12"
+  },
+  {
+    "title": "E13: Episodio 13",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//ulX6o2yxkmFTAzWxio95ck7ntHF.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E13",
+    "episodeCode": "T5 E13: Episodio 13"
+  },
+  {
+    "title": "E14: Episodio 14",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//mdL57trQZjGIsUhqbSVKTvmjxWs.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E14",
+    "episodeCode": "T5 E14: Episodio 14"
+  },
+  {
+    "title": "E15: Episodio 15",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//adTztTM3MLxZ0m1SpVu4arZaopp.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E15",
+    "episodeCode": "T5 E15: Episodio 15"
+  },
+  {
+    "title": "E16: Episodio 16",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//e1zuF3WMJU4Ik1tAe5fbrsEDPWG.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E16",
+    "episodeCode": "T5 E16: Episodio 16"
+  },
+  {
+    "title": "E17: Episodio 17",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//awCoP3ioZSYmKvUhTP4oiJO1iOb.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E17",
+    "episodeCode": "T5 E17: Episodio 17"
+  },
+  {
+    "title": "E18: Episodio 18",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//xVp9MXjTaB73ZRWhNJMAY5BwT3E.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E18",
+    "episodeCode": "T5 E18: Episodio 18"
+  },
+  {
+    "title": "E19: Episodio 19",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//18b0Hxo9trxLCUc8jjtv98bLyEp.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E19",
+    "episodeCode": "T5 E19: Episodio 19"
+  },
+  {
+    "title": "E20: Episodio 20",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//c1nW5UwaY1czCuKFyBuaRxmWA1i.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E20",
+    "episodeCode": "T5 E20: Episodio 20"
+  },
+  {
+    "title": "E21: Episodio 21",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//6k9NAcaNyT6b2dNuLpQR7Pc4I3w.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E21",
+    "episodeCode": "T5 E21: Episodio 21"
+  },
+  {
+    "title": "E22: Episodio 22",
+    "meta": "13+ · 43m · 2004",
+    "duration": 2580,
+    "thumbnail": "https://image.tmdb.org/t/p/w300//qUzW5wPz6txROilc6J4IJdDIdge.jpg",
+    "videoUrl": "",
+    "downloadUrl": "",
+    "hiddenCode": "T5 E22",
+    "episodeCode": "T5 E22: Episodio 22"
+  
+  }
+    ]
+  }
+];
+
+const seriesId = "snk"; // 👈 Cámbialo por un ID único por serie
+
+
+const container = document.getElementById('episodes-list');
+const seasonSelectorBtn = document.querySelector('.season-selector');
+const seasonMenu = document.getElementById('season-menu');
+const seasonList = document.getElementById('season-list');
+
+// Leer temporada guardada o usar por defecto (usando seriesId)
+let currentSeason = localStorage.getItem(`selectedSeason_${seriesId}`) || "Temporada 1";
+
+function loadEpisodes(episodes) {
+  container.innerHTML = ''; // Limpia episodios actuales
+
+  episodes.forEach((ep, index) => {
+    const episodeKey = `progress_${seriesId}_${ep.videoUrl}`;
+    const savedProgress = parseFloat(localStorage.getItem(episodeKey)) || 0;
+
+    let durationInSeconds = parseInt(ep.duration);
+    if (isNaN(durationInSeconds) || durationInSeconds <= 0) {
+      durationInSeconds = 1800; // Fallback de 30 mins
+    }
+
+    const percent = Math.min((savedProgress / durationInSeconds) * 100, 100);
+
+    const episodeHTML = `
+    <div class="episode" onclick="selectEpisode(${index})">
+      <div class="thumbnail-container">
+        <img src="${ep.thumbnail}" alt="${ep.title}">
+        ${percent > 0 ? `<div class="progress-bar"><div class="fill" style="width: ${percent}%"></div></div>` : ""}
+      </div>
+      <div class="episode-info">
+        <div class="episode-title">${ep.title}</div>
+        <div class="episode-meta">${ep.meta}</div>
+        <div class="download-icon" onclick="event.stopPropagation(); downloadEpisode('${ep.downloadUrl}')">
+          <span class="material-icons">arrow_downward</span>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>`;
+
+    container.insertAdjacentHTML('beforeend', episodeHTML);
+  });
+}
+
+
+function downloadEpisode(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = ''; // Permite forzar la descarga
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+
+function populateSeasonMenu() {
+  seasonList.innerHTML = '';
+  playlist.forEach(seasonObj => {
+    const li = document.createElement('li');
+    li.textContent = seasonObj.season;
+    if (seasonObj.season === currentSeason) {
+      li.classList.add('selected');
+      const check = document.createElement('span');
+      check.className = 'check material-icons';
+      check.textContent = 'check';
+      li.appendChild(check);
+    }
+    li.addEventListener('click', () => {
+  currentSeason = seasonObj.season;
+  localStorage.setItem(`selectedSeason_${seriesId}`, currentSeason);
+  seasonSelectorBtn.innerHTML = `${seasonObj.season} <span class="material-icons">expand_more</span>`;
+  seasonMenu.classList.remove('visible');
+  loadEpisodes(seasonObj.episodes);
+  populateSeasonMenu();
+  updatePlayButton(); // ✅ Añadir esto
+});
+
+    seasonList.appendChild(li);
+  });
+}
+
+const seasonOverlay = document.getElementById('season-overlay');
+
+
+
+let scrollPosition = 0;
+let menuWasOpen = false; // ✅ Bandera para saber si el menú estuvo abierto
+
+seasonSelectorBtn.addEventListener('click', () => {
+  populateSeasonMenu();
+  seasonMenu.classList.toggle('visible');
+
+  const isVisible = seasonMenu.classList.contains('visible');
+  seasonOverlay.style.display = isVisible ? 'block' : 'none';
+
+  if (isVisible) {
+    // ✅ Guardar posición actual y fijar el body
+    scrollPosition = window.scrollY;
+    menuWasOpen = true;
+    document.body.classList.add('body-fixed');
+    document.body.style.top = `-${scrollPosition}px`;
+  } else {
+    // ✅ Restaurar solo si el menú fue abierto
+    closeSeasonMenu();
+  }
+});
+
+// ✅ Función para cerrar el menú y restaurar scroll si corresponde
+function closeSeasonMenu() {
+  seasonMenu.classList.remove('visible');
+  seasonOverlay.style.display = 'none';
+  document.body.classList.remove('body-fixed');
+  document.body.style.top = '';
+
+  if (menuWasOpen) {
+    window.scrollTo(0, scrollPosition);
+    menuWasOpen = false;
+  }
+}
+
+// ✅ Cerrar tocando fuera
+window.addEventListener('click', (e) => {
+  if (!seasonMenu.contains(e.target) && !seasonSelectorBtn.contains(e.target)) {
+    closeSeasonMenu();
+  }
+});
+
+seasonOverlay.addEventListener('click', () => {
+  closeSeasonMenu();
+});
+
+
+
+
+// Al iniciar, usar la temporada guardada (ya considera el seriesId)
+const initialSeason = playlist.find(s => s.season === currentSeason) || playlist[0];
+currentSeason = initialSeason.season;
+seasonSelectorBtn.innerHTML = `${initialSeason.season} <span class="material-icons">expand_more</span>`;
+loadEpisodes(initialSeason.episodes); // ✅ Carga inicial desde localStorage con seriesId
+updatePlayButton();
+
+
+function selectEpisode(episodeIndex, seasonName = currentSeason) {
+  currentSeason = seasonName;
+  const seasonObj = playlist.find(season => season.season === seasonName);
+  const episode = seasonObj.episodes[episodeIndex];
+
+  // Guardar última reproducción aquí ✅
+  localStorage.setItem(`lastPlayed_${seriesId}`, JSON.stringify({
+    season: seasonName,
+    episodeIndex
+  }));
+
+  localStorage.setItem(`selectedSeason_${seriesId}`, currentSeason);
+  localStorage.setItem(`currentEpisode_${seriesId}_${currentSeason}`, episodeIndex);
+
+  updatePlayButton(); // Actualiza el botón de "Continuar" o "Ver" antes de reproducir el episodio
+  playVideo(episode);
+}
+
+function updatePlayButton() {
+  const lastPlayed = JSON.parse(localStorage.getItem(`lastPlayed_${seriesId}`));
+
+  const playButton = document.querySelector('.btn-play');
+
+  if (lastPlayed) {
+    const { season, episodeIndex } = lastPlayed;
+    const seasonObj = playlist.find(s => s.season === season);
+    if (seasonObj) {
+      const episode = seasonObj.episodes[episodeIndex];
+      const hiddenCode = episode.hiddenCode || `T${season} E${episodeIndex + 1}`;
+      playButton.textContent = `▶ Continuar ${hiddenCode}`;
+      playButton.onclick = () => {
+        currentSeason = season;
+        localStorage.setItem(`selectedSeason_${seriesId}`, currentSeason);
+        loadEpisodes(seasonObj.episodes);
+        selectEpisode(episodeIndex, season); // Asegúrate de actualizar el episodio
+      };
+    }
+  } else {
+    // Si no hay un episodio guardado, muestra el primer episodio de la temporada actual
+    const seasonObj = playlist.find(s => s.season === currentSeason);
+    const firstEpisode = seasonObj ? seasonObj.episodes[0] : null;
+
+    if (firstEpisode) {
+      const hiddenCode = firstEpisode.hiddenCode || `T${currentSeason.slice(10, 11)} E1`;
+      playButton.textContent = `▶ Mira ${hiddenCode}`;
+      playButton.onclick = () => {
+        selectEpisode(0, currentSeason); // Jugar el primer episodio de la temporada
+      };
+    }
+  }
+}
+
+
+function saveProgress() {
+  const currentTime = player.currentTime();
+  const duration = player.duration() || currentEpisode.duration || 1;
+  const progressPercent = (currentTime / duration) * 100;
+
+  const videoUrl = currentEpisode.videoUrl;
+  const progressKey = `progress_${seriesId}_${videoUrl}`;
+  const durationKey = `duration_${seriesId}_${videoUrl}`;
+
+  const seriesLink = document.getElementById('favoritoEnlace')?.href || window.location.href;
+  const seriesTitle = document.getElementById('page-title')?.textContent || 'Serie';
+  const episodeCode = currentEpisode.episodeCode || 'Episodio';
+  const thumbnail = currentEpisode.thumbnail || '';
+
+  // ✅ Guarda solo el número para la barra de progreso
+  localStorage.setItem(progressKey, currentTime);
+  localStorage.setItem(durationKey, duration);
+
+  // ✅ Guarda objeto separado para "Continuar Viendo"
+  localStorage.setItem(`continue_${seriesId}`, JSON.stringify({
+    seriesId: seriesId,
+    seriesTitle: seriesTitle,
+    episodeTitle: episodeCode,
+    poster: thumbnail,
+    link: seriesLink,
+    progress: currentTime,
+    duration: duration,
+    videoUrl: videoUrl // 🟢 ESTE CAMPO ES CLAVE
+  }));
+}
+
+localStorage.setItem('justReturnedFromSeries', 'true');
+
+
+function playVideo(episode) {
+  currentEpisode = episode;
+
+  const url = episode.videoUrl;
+  const progressKey = `progress_${seriesId}_${url}`;
+  const durationKey = `duration_${seriesId}_${url}`;
+  let savedTime = parseFloat(localStorage.getItem(progressKey)) || 0;
+  const savedDuration = parseFloat(localStorage.getItem(durationKey)) || 0;
+  const effectiveDuration = episode.duration || savedDuration;
+
+  if (effectiveDuration && savedTime >= effectiveDuration * 0.9) {
+    savedTime = 0;
+  }
+
+  const player = videojs('video-player');
+  const videoPlayerElement = document.getElementById('video-player');
+  videoPlayerElement.style.display = 'block';
+  player.src({ type: 'video/mp4', src: url });
+
+  player.ready(() => {
+    player.currentTime(savedTime);
+
+    player.play().then(() => {
+      const playerEl = player.el();
+      if (playerEl.requestFullscreen) playerEl.requestFullscreen();
+      else if (playerEl.webkitRequestFullscreen) playerEl.webkitRequestFullscreen();
+      else if (playerEl.msRequestFullscreen) playerEl.msRequestFullscreen();
+    // Forzar rotación horizontal
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(err => {
+          console.warn('No se pudo forzar orientación horizontal:', err);
+        });
+      }
+
+    }).catch(err => {
+      console.warn('Autoplay bloqueado o pantalla completa denegada:', err);
+    });
+
+    // === Crear solo si no existen ya ===
+
+    // Overlay pausa
+    if (!document.querySelector('.pause-overlay')) {
+      const overlay = document.createElement('div');
+      overlay.className = 'pause-overlay';
+      player.el().appendChild(overlay);
+    }
+
+    // Header episodio
+    let episodeHeader = document.getElementById('episode-header');
+    if (!episodeHeader) {
+      episodeHeader = document.createElement('div');
+      episodeHeader.className = 'vjs-episode-header';
+      episodeHeader.id = 'episode-header';
+      episodeHeader.innerHTML = `
+        <div class="series-title">${document.getElementById('page-title')?.textContent || 'Serie'}</div>
+        <div class="episode-title"></div>
+      `;
+      player.el().appendChild(episodeHeader);
+    }
+    episodeHeader.querySelector('.episode-title').textContent = episode.episodeCode;
+
+    // Tiempo restante
+    let remainingDiv = document.getElementById('custom-remaining-time');
+    if (!remainingDiv) {
+      remainingDiv = document.createElement('div');
+      remainingDiv.className = 'vjs-remaining-time';
+      remainingDiv.id = 'custom-remaining-time';
+      player.el().appendChild(remainingDiv);
+    }
+
+    // Etiqueta ajuste temporal
+    if (!document.getElementById('adjustment-label')) {
+      const timeDisplay = document.createElement('div');
+      timeDisplay.className = 'vjs-adjustment-label';
+      timeDisplay.id = 'adjustment-label';
+      player.el().appendChild(timeDisplay);
+    }
+
+    // Botones personalizados
+    if (!document.querySelector('.vjs-custom-controls')) {
+      const controlWrapper = document.createElement('div');
+      controlWrapper.className = 'vjs-custom-controls custom-video-controls';
+
+      const rewindButton = document.createElement('button');
+      rewindButton.innerHTML = '<span class="material-icons">replay_10</span>';
+      rewindButton.title = "Retroceder 10 segundos";
+      rewindButton.onclick = () => {
+        const newTime = Math.max(0, player.currentTime() - 10);
+        player.currentTime(newTime);
+        showAdjustment("-10s");
+      };
+
+      const playPauseButton = document.createElement('button');
+      playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+      playPauseButton.title = "Reproducir / Pausar";
+      playPauseButton.onclick = () => {
+        if (player.paused()) {
+          player.play();
+        } else {
+          player.pause();
+        }
+        updatePlayPauseIcon();
+      };
+
+      const forwardButton = document.createElement('button');
+      forwardButton.innerHTML = '<span class="material-icons">forward_10</span>';
+      forwardButton.title = "Adelantar 10 segundos";
+      forwardButton.onclick = () => {
+        const newTime = Math.min(player.duration(), player.currentTime() + 10);
+        player.currentTime(newTime);
+        showAdjustment("+10s");
+      };
+
+      controlWrapper.appendChild(rewindButton);
+      controlWrapper.appendChild(playPauseButton);
+      controlWrapper.appendChild(forwardButton);
+      player.el().appendChild(controlWrapper);
+
+      function updatePlayPauseIcon() {
+        const icon = playPauseButton.querySelector('span');
+        icon.textContent = player.paused() ? "play_arrow" : "pause";
+      }
+
+      function showAdjustment(text) {
+        const label = document.getElementById("adjustment-label");
+        label.textContent = text;
+        label.style.display = "block";
+        setTimeout(() => {
+          label.style.display = "none";
+        }, 1000);
+      }
+
+      player.on("play", updatePlayPauseIcon);
+      player.on("pause", updatePlayPauseIcon);
+    }
+
+    // Guardar duración
+    player.on('loadedmetadata', () => {
+      const dur = player.duration();
+      if (!isNaN(dur) && dur > 0) {
+        localStorage.setItem(durationKey, dur);
+      }
+    });
+
+    player.off('timeupdate');
+    player.off('pause');
+    player.off('ended');
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `-${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    player.on('timeupdate', () => {
+      const current = player.currentTime();
+      const duration = player.duration();
+      if (!isNaN(duration) && duration > 0) {
+        localStorage.setItem(durationKey, duration);
+      }
+      localStorage.setItem(progressKey, current);
+      saveProgress();
+
+      const remaining = Math.max(0, duration - current);
+      const remainingDiv = document.getElementById('custom-remaining-time');
+      if (remainingDiv) {
+        remainingDiv.textContent = formatTime(remaining);
+      }
+
+      const currentSeasonData = playlist.find(s => s.season === currentSeason);
+      if (currentSeasonData) {
+        loadEpisodes(currentSeasonData.episodes); // Solo si es necesario para marcar progreso
+      }
+    });
+
+    player.on('pause', saveProgress);
+    window.addEventListener('beforeunload', saveProgress);
+
+    player.on('ended', () => {
+      saveProgress();
+      localStorage.setItem(progressKey, effectiveDuration || player.duration() || Number.MAX_SAFE_INTEGER);
+
+      const seasonIndex = playlist.findIndex(season => season.season === currentSeason);
+      const seasonObj = playlist[seasonIndex];
+      const currentIndex = seasonObj.episodes.findIndex(ep => ep.videoUrl === url);
+      const nextIndex = currentIndex + 1;
+
+      if (nextIndex < seasonObj.episodes.length) {
+        const nextEpisode = seasonObj.episodes[nextIndex];
+        localStorage.setItem(`lastPlayed_${seriesId}`, JSON.stringify({
+          season: currentSeason,
+          episodeIndex: nextIndex
+        }));
+        localStorage.setItem(`currentEpisode_${seriesId}_${currentSeason}`, nextIndex);
+
+        setTimeout(() => {
+          playVideo(nextEpisode);
+          updatePlayButton();
+        }, 2000);
+      } else {
+        localStorage.setItem('justReturnedFromSeries', 'true');
+        localStorage.removeItem(`continue_${seriesId}`);
+        setTimeout(() => {
+          player.pause();
+          videoPlayerElement.style.display = 'none';
+          updatePlayButton();
+        }, 1500);
+      }
+    });
+
+    updatePlayButton(episode, currentSeason);
+  });
+}
+
+
+
+
+// Pausar y ocultar al salir de pantalla completa
+function handleFullscreenExit() {
+  const player = videojs('video-player');
+  const isFullscreen =
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement;
+
+  if (!isFullscreen) {
+    player.pause();
+    document.getElementById('video-player').style.display = 'none';
+    updatePlayButton(); // Restaurar el botón de play al salir de pantalla completa
+   // Restaurar orientación libre
+   if (screen.orientation && screen.orientation.unlock) {
+      screen.orientation.unlock();
+    }
+  }
+}
+
+document.addEventListener('fullscreenchange', handleFullscreenExit);
+document.addEventListener('webkitfullscreenchange', handleFullscreenExit);
+document.addEventListener('msfullscreenchange', handleFullscreenExit);
+
+// TAB switching con scroll
+let episodeScroll = 0;
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+const episodesContainer = document.getElementById('episodes-container');
+const suggestionsContainer = document.getElementById('suggestions-container');
+
+tabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => {
+    // Guarda scroll antes de cambiar
+    if (episodesContainer.classList.contains('active')) {
+      episodeScroll = window.scrollY;
+    }
+
+    tabs.forEach(t => t.classList.remove('active'));
+    tabContents.forEach(tc => tc.classList.remove('active'));
+
+    tab.classList.add('active');
+    tabContents[index].classList.add('active');
+
+    // Restaura scroll si se vuelve a episodios
+    if (index === 0) {
+      window.scrollTo(0, episodeScroll);
+    }
+  });
+});
+
+// Recomendaciones
+const suggestions = [
+{
+    title: "Los Caballeros del Zodiaco: Saga de Hades (2002)",
+    poster: "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/ff3c9c19712caeef0698068b0ae6f5e2.jpe",
+    url: "Los Caballeros del Zodiaco Saga de Hades (2002).html"
+  },
+  {
+    title: "Saint Seiya Ω Omega (2012)",
+    poster: "https://image.tmdb.org/t/p/original/iHXOtxXcDarUOe2wZvouCl6WmTa.jpg",
+    url: "Saint Seiya Omega (2012).html"
+  },
+  {
+    title: "Attack on Titan (2013)",
+    poster: "https://image.tmdb.org/t/p/original/eJNAxUHVXXUSbuc6D1ojSYH6S1r.jpg",
+    url: "Los Guerreros del Zodiaco El Lienzo Perdido (2009).html"
+  },
+  {
+    title: "Los Caballeros del Zodiaco: Alma de Oro (2015)",
+    poster: "https://image.tmdb.org/t/p/original/yheIUZdnLEkCuzB4cHF6SCJBQiw.jpg",
+    url: "Los Caballeros del Zodiaco Alma de Oro (2015).html"
+  },
+  {
+    title: "Saint Seiya: Los Caballeros del Zodiaco (2019)",
+    poster: "https://image.tmdb.org/t/p/original/tuxfCX9IX70GJBV2JNn8gXlUJlj.jpg",
+    url: "Saint Seiya Los Caballeros del Zodiaco (2019).html"
+  },
+  {
+    title: "Saint Seiya Saintia Shō (2018)",
+    poster: "https://image.tmdb.org/t/p/original/k0lbN5i4USbSEdbEhjc0l0JwOs6.jpg",
+    url: "Saint Seiya Saintia Shō (2018).html"
+  }
+];
+
+
+const grid = document.querySelector('.suggestions-grid');
+
+suggestions.forEach(s => {
+  const itemHTML = `
+    <a href="${s.url}" title="${s.title}" target="_blank">
+      <img src="${s.poster}" alt="${s.title}">
+    </a>`;
+  grid.insertAdjacentHTML('beforeend', itemHTML);
+});
+
+document.addEventListener("scroll", () => {
+  const banner = document.querySelector(".banner");
+  const landscape = document.querySelector(".landscape-banner");
+
+  const scrollY = window.scrollY;
+
+  // Si ha hecho scroll más de 50px hacia abajo, oscurecer
+  if (scrollY > 50) {
+    banner?.classList.add("dimmed");
+    landscape?.classList.add("dimmed");
+  } else {
+    banner?.classList.remove("dimmed");
+    landscape?.classList.remove("dimmed");
+  }
+});
+/////////////////////////////////////custome controls///////////////////////////////////////////////////}}
+
+
+
+
+
+const player = videojs('video-player', {
+  controlBar: {
+    children: [
+      'progressControl',
+      'remainingTimeDisplay',
+      'currentTimeDisplay',
+      {
+        name: 'playToggle',
+        el: document.createElement('div')
+      },
+     
+    ],
+    playToggle: false,
+    volumePanel: false,
+    fullscreenToggle: false,
+    pipToggle: false,
+  },
+  poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+  preload: "auto",
+  loadingSpinner: true // Manténlo en true aunque lo ocultes por CSS
+});
+
+let hideTimeout;
+let episodeHeader; // Declarar aquí para que esté disponible globalmente
+
+document.getElementById('video-player').addEventListener('touchstart', function () {
+    const videoElement = document.getElementById('video-player');
+    const episodeHeader = document.querySelector('.episode-header');
+
+    // Mostrar controles manualmente
+    videoElement.classList.add('show-controls');
+
+    // Mostrar episode-header
+    if (episodeHeader) {
+        episodeHeader.style.opacity = '1';
+        episodeHeader.style.visibility = 'visible';
+    }
+
+    // Cancelar el anterior timeout si existe
+    clearTimeout(hideTimeout);
+
+    // Programar ocultar controles después de 5 segundos
+    hideTimeout = setTimeout(() => {
+        videoElement.classList.remove('show-controls');
+
+        if (episodeHeader) {
+            episodeHeader.style.opacity = '0';
+            episodeHeader.style.visibility = 'hidden';
+        }
+    }, 5000);
+});
+
+
+
+
+
+
+player.ready(function () {
+  const container = player.el(); // Esto es el contenedor .video-js
+
+  // === Overlay de pausa ===
+  const overlay = document.createElement('div');
+  overlay.className = 'pause-overlay';
+  container.appendChild(overlay);
+
+  // === Episode header ===
+  const episodeHeader = document.createElement("div");
+  episodeHeader.className = "vjs-episode-header";
+  episodeHeader.id = "episode-header";
+  episodeHeader.innerHTML = `
+    <div class="series-title">${document.getElementById('page-title')?.textContent || 'Serie'}</div>
+    <div class="episode-title"></div>
+  `;
+  container.appendChild(episodeHeader);
+
+  
+
+  
+  
+  // === Crear tiempo restante personalizado ===
+  const customRemainingTime = document.createElement("div");
+  customRemainingTime.className = "vjs-remaining-time";
+  customRemainingTime.id = "custom-remaining-time";
+  player.el().appendChild(customRemainingTime);
+
+  // === Función para formatear tiempo en -MM:SS ===
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `-${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  // === Actualizar tiempo restante en cada segundo ===
+  player.on('timeupdate', function () {
+    const duration = player.duration();
+    const current = player.currentTime();
+    if (!isNaN(duration)) {
+      const remaining = Math.max(0, duration - current);
+      customRemainingTime.textContent = formatTime(remaining);
+    }
+  });
+
+  
+
+
+
+  // === Etiqueta de ajuste temporal (retroceder/adelantar) ===
+  const timeDisplay = document.createElement('div');
+  timeDisplay.className = 'vjs-adjustment-label';
+  timeDisplay.id = 'adjustment-label';
+  player.el().appendChild(timeDisplay);
+
+  // === Controles personalizados ===
+  const controlWrapper = document.createElement('div');
+  controlWrapper.className = 'vjs-custom-controls custom-video-controls';
+
+  const rewindButton = document.createElement('button');
+  rewindButton.innerHTML = '<span class="material-icons">replay_10</span>';
+  rewindButton.title = "Retroceder 10 segundos";
+  rewindButton.onclick = function () {
+    const newTime = Math.max(0, player.currentTime() - 10);
+    player.currentTime(newTime);
+    showAdjustment("-10s");
+  };
+
+  const playPauseButton = document.createElement('button');
+  playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+  playPauseButton.title = "Reproducir / Pausar";
+  playPauseButton.onclick = function () {
+    if (player.paused()) {
+      player.play();
+    } else {
+      player.pause();
+    }
+    updatePlayPauseIcon();
+  };
+
+  const forwardButton = document.createElement('button');
+  forwardButton.innerHTML = '<span class="material-icons">forward_10</span>';
+  forwardButton.title = "Adelantar 10 segundos";
+  forwardButton.onclick = function () {
+    const newTime = Math.min(player.duration(), player.currentTime() + 10);
+    player.currentTime(newTime);
+    showAdjustment("+10s");
+  };
+
+  controlWrapper.appendChild(rewindButton);
+  controlWrapper.appendChild(playPauseButton);
+  controlWrapper.appendChild(forwardButton);
+  player.el().appendChild(controlWrapper);
+
+  function updatePlayPauseIcon() {
+    const icon = playPauseButton.querySelector('span');
+    icon.textContent = player.paused() ? "play_arrow" : "pause";
+  }
+
+  function showAdjustment(text) {
+    const label = document.getElementById("adjustment-label");
+    label.textContent = text;
+    label.style.display = "block";
+    setTimeout(() => {
+      label.style.display = "none";
+    }, 1000);
+  }
+
+  player.on("play", updatePlayPauseIcon);
+  player.on("pause", updatePlayPauseIcon);
+});
+
+  // === Controles de episodio abajo ===
+  const episodeControls = document.createElement('div');
+  episodeControls.className = 'vjs-episode-controls';
+
+  // Botón Reiniciar
+  const restartBtn = document.createElement('button');
+  restartBtn.className = 'episode-btn';
+  restartBtn.innerHTML = `
+    <span class="material-icons">skip_previous</span>
+    <span class="label">Reiniciar</span>
+  `;
+  restartBtn.onclick = function () {
+    player.currentTime(0);
+    player.play();
+  };
+
+  // Botón Episodio Siguiente
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'episode-btn';
+  nextBtn.innerHTML = `
+    <span class="material-icons">skip_next</span>
+    <span class="label">Epi. Sig.</span>
+  `;
+  nextBtn.onclick = function () {
+  const currentSrc = player.currentSrc();
+  let found = false;
+
+  for (let i = 0; i < playlist.length; i++) {
+    const season = playlist[i];
+    for (let j = 0; j < season.episodes.length; j++) {
+      if (season.episodes[j].videoUrl === currentSrc) {
+        let nextSeasonIndex = i;
+        let nextEpisodeIndex = j + 1;
+
+        if (nextEpisodeIndex >= season.episodes.length) {
+          nextSeasonIndex = i + 1;
+          nextEpisodeIndex = 0;
+        }
+
+        if (
+          nextSeasonIndex < playlist.length &&
+          playlist[nextSeasonIndex].episodes[nextEpisodeIndex]
+        ) {
+          const nextEpisode = playlist[nextSeasonIndex].episodes[nextEpisodeIndex];
+          const nextSeason = playlist[nextSeasonIndex].season;
+
+          player.src({ type: 'video/mp4', src: nextEpisode.videoUrl });
+          player.play();
+
+          // Guardar nuevo progreso
+          localStorage.setItem(`lastPlayed_${seriesId}`, JSON.stringify({
+            season: nextSeason,
+            episodeIndex: nextEpisodeIndex,
+            progress: 0
+          }));
+
+          currentSeason = nextSeason;
+
+// 👇 Guarda la temporada actual de forma consistente
+localStorage.setItem(`selectedSeason_${seriesId}`, currentSeason);
+
+// 👇 Actualiza el texto del botón del selector de temporada
+const seasonSelector = document.querySelector('.season-selector');
+if (seasonSelector) {
+  seasonSelector.innerHTML = ` ${nextSeason} <span class="material-icons">expand_more</span>`;
+}
+
+loadEpisodes(playlist[nextSeasonIndex].episodes);
+playVideo(nextEpisode);
+updatePlayButton();
+
+
+
+        }
+
+        found = true;
+        break;
+      }
+    }
+    if (found) break;
+  }
+};
+
+
+  episodeControls.appendChild(restartBtn);
+  episodeControls.appendChild(nextBtn);
+  player.el().appendChild(episodeControls);
+
+
+// === Controles de cabecera personalizados ===
+const headerControls = document.createElement('div');
+headerControls.className = 'vjs-header-controls';
+
+// Lado izquierdo: botón salir de pantalla completa
+const headerLeft = document.createElement('div');
+headerLeft.className = 'vjs-header-controls-left';
+
+const exitFullscreenBtn = document.createElement('button');
+exitFullscreenBtn.innerHTML = '<span class="material-icons-outlined">chevron_left</span>';
+exitFullscreenBtn.title = "Salir de pantalla completa";
+exitFullscreenBtn.onclick = function () {
+  if (player.isFullscreen()) {
+    player.exitFullscreen();
+  } else {
+    // Acción personalizada si ya no está en fullscreen (opcional)
+    console.log("Salir de modo reproducción");
+  }
+};
+
+headerLeft.appendChild(exitFullscreenBtn);
+
+// Lado derecho: botones aspect_ratio y cast
+const headerRight = document.createElement('div');
+headerRight.className = 'vjs-header-controls-right';
+
+const aspectRatioBtn = document.createElement('button');
+aspectRatioBtn.innerHTML = '<span class="material-icons-outlined">aspect_ratio</span>';
+aspectRatioBtn.title = "Ajustar pantalla";
+aspectRatioBtn.onclick = function () {
+  changeScreenAdjustment();
+};
+
+// Aquí puedes agregar tu lógica para el botón de cast (por ejemplo, con Web Video Caster)
+const castBtn = document.createElement('button');
+castBtn.innerHTML = '<span class="material-icons-outlined">cast</span>';
+castBtn.title = "Enviar a Web Video Caster";
+
+// Lógica para enviar al video actual usando Web Video Caster
+castBtn.onclick = function () {
+  // Obtener el src actual del reproductor
+  const currentSrc = player.currentSrc();
+  let videoUrl = null;
+
+  // Buscar en la playlist cuál episodio coincide con el video actual
+  for (let season of playlist) {
+    for (let episode of season.episodes) {
+      if (episode.videoUrl === currentSrc) {
+        videoUrl = episode.videoUrl;
+        break;
+      }
+    }
+    if (videoUrl) break;
+  }
+
+  // Si se encontró el video actual
+  if (videoUrl) {
+    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl);
+    const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
+
+    // Crear enlace temporal
+    const transmitButton = document.createElement('a');
+    transmitButton.setAttribute('href', appLink);
+    document.body.appendChild(transmitButton);
+
+    let appAbierta = false;
+    transmitButton.click();
+
+    setTimeout(function () {
+      if (!appAbierta) {
+        // Redirigir a la Play Store si la app no se abrió
+        window.location.href = storeLink;
+      }
+      document.body.removeChild(transmitButton);
+    }, 1000);
+
+    window.addEventListener("blur", function () {
+      appAbierta = true;
+    });
+  } else {
+    alert("No se pudo obtener la URL del episodio para transmitir.");
+  }
+};
+
+
+// Añadir los botones al contenedor derecho del header
+headerRight.appendChild(aspectRatioBtn);
+headerRight.appendChild(castBtn);
+
+// Agregar ambos lados al contenedor principal
+headerControls.appendChild(headerLeft);
+headerControls.appendChild(headerRight);
+player.el().appendChild(headerControls);
+
+// === Opciones de ajuste disponibles ===
+var currentAdjustmentIndex = 0;
+var adjustments = ['cover', 'fill', 'fit-height', 'fit-width', 'scaledown', 'contain'];
+
+// Mostrar el nombre del ajuste al centro de la pantalla
+function showAdjustmentLabel(label) {
+  var labelDiv = document.createElement('div');
+  labelDiv.classList.add('vjs-adjustment-label');
+  labelDiv.textContent = label;
+
+  var videoContainer = document.querySelector('.video-js');
+  videoContainer.appendChild(labelDiv);
+
+  setTimeout(() => {
+    labelDiv.remove();
+  }, 1500);
+}
+
+// Lógica para cambiar los ajustes de pantalla
+function changeScreenAdjustment() {
+  if (!player.isFullscreen()) {
+    console.log("El control de ajuste es funcional solo en pantalla completa.");
+    return;
+  }
+
+  currentAdjustmentIndex = (currentAdjustmentIndex + 1) % adjustments.length;
+  var selectedAdjustment = adjustments[currentAdjustmentIndex];
+
+  var videoElement = player.el().querySelector('video');
+  var videoContainer = player.el();
+
+  switch (selectedAdjustment) {
+    case 'cover':
+      videoElement.style.objectFit = 'cover';
+      break;
+    case 'fill':
+      videoElement.style.objectFit = 'fill';
+      break;
+    case 'fit-height':
+      videoElement.style.objectFit = 'contain';
+      videoElement.style.height = '100%';
+      videoElement.style.width = 'auto';
+      break;
+    case 'fit-width':
+      videoElement.style.objectFit = 'contain';
+      videoElement.style.width = '100%';
+      videoElement.style.height = 'auto';
+      break;
+    case 'scaledown':
+      videoElement.style.objectFit = 'contain';
+      videoElement.style.width = 'auto';
+      videoElement.style.height = 'auto';
+      videoContainer.style.display = 'flex';
+      videoContainer.style.justifyContent = 'center';
+      videoContainer.style.alignItems = 'center';
+      break;
+    case 'contain':
+      videoElement.style.objectFit = 'contain';
+      videoElement.style.width = '100%';
+      videoElement.style.height = '100%';
+      break;
+  }
+
+  // Mostrar el nombre del ajuste en pantalla
+  showAdjustmentLabel(selectedAdjustment);
+}
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    const favoritoBtn = document.getElementById('favoritoBtn');
+const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+async function toggleFavorito() {
+  const favoritoEnlace = document.getElementById('favoritoEnlace');
+  const imagen = document.getElementById('favoritoImagen');
+  const nombre = document.getElementById('nombre').textContent;
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+  const identificador = document.getElementById('favoritoBtn')?.getAttribute('data-identificador');
+  const favoritoIcon = document.getElementById('favoritoIcon');
+
+  const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+  // 📦 Importar Supabase y crear cliente
+  const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+  const supabase = createClient(
+    'https://eacgmqikpwzqdmgixtja.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhY2dtcWlrcHd6cWRtZ2l4dGphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1MjIwNzYsImV4cCI6MjA4MTA5ODA3Nn0.OUE0PYKVOUtIKQeMebxdy7ALWwHnjiVQPMEOlruPsXg' // tu anon key completa
+  );
+
+  // 🧑 Obtener sesión actual
+  const { data: { session }, error } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+
+  if (encontrado) {
+    // ❌ Eliminar de localStorage
+    const nuevosFavoritos = favoritos.filter(fav => fav.identificador !== identificador);
+    localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    favoritoIcon.innerText = 'add';
+    mostrarNotificacion('Se eliminó de favoritos');
+
+    // ❌ Eliminar de Supabase si hay sesión
+    if (userId) {
+      await supabase.from('favoritos')
+        .delete()
+        .eq('id', userId)
+        .eq('identificador', identificador);
+    }
+  } else {
+    // ✅ Agregar a localStorage
+    const nuevoFav = {
+      identificador,
+      imagen: imagen.outerHTML,
+      enlace: favoritoEnlace.href,
+      nombre
+    };
+    favoritos.push(nuevoFav);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    favoritoIcon.innerText = 'check';
+    mostrarNotificacion('Se añadió a favoritos');
+
+    // ✅ Agregar a Supabase si hay sesión
+    if (userId) {
+      await supabase.from('favoritos').upsert({
+        id: userId,
+        identificador,
+        nombre,
+        imagen: imagen.outerHTML,
+        enlace: favoritoEnlace.href
+      });
+    }
+  }
+
+  // 🔄 Lanzar evento personalizado por si estás en la página de favoritos
+  window.dispatchEvent(new Event("favoritosActualizados"));
+}
+
+
+// Función para cargar el estado inicial del botón de favoritos
+function cargarEstadoFavorito() {
+    const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+    const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+    if (encontrado) {
+        // Si está en favoritos, cambia solo el ícono
+        favoritoIcon.innerText = 'check';
+    } else {
+        // Si no está en favoritos, deja el ícono por defecto
+        favoritoIcon.innerText = 'add';
+    }
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', cargarEstadoFavorito);
+
+function mostrarNotificacion(mensaje) {
+  const notificacion = document.getElementById('notificacion');
+  const notificacionTexto = document.getElementById('notificacionTexto');
+
+  notificacionTexto.innerText = mensaje;
+  notificacion.style.bottom = "80px"; // Justo encima del footer
+
+  setTimeout(() => {
+    notificacion.style.bottom = "-200px"; // Oculta fuera del viewport
+  }, 3000);
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById('header');
+    const pageTitle = document.getElementById('page-title');
+
+    if (!header || !pageTitle) return;
+
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const maxScroll = 300;
+
+        const opacity = Math.min(scrollY / maxScroll, 1); // Gradiente del header
+        const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0; // El título aparece después de 150px
+
+        header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+        pageTitle.style.opacity = titleOpacity;
+    });
+});
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+    
+
+  </script>
+</body>
+</html>

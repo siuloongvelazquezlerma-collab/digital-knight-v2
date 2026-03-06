@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Superman y Lois</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/tASwl5ngiAfRJ0a1LzDneYZNU3F.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/sU6YDK3J1ZmQKQcaFohQPeCPdpe.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Superman y Lois</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/bdkk7wEEolDCvR8LG5lfVr0ZUGR.png" alt="Superman y Lois Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   4 temporadas   2021   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Superman y Lois" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/umgxjn3R95VSyyxyz9pjt9cFFv6.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="superman-y-lois.html"></a>
+          <span id="nombre">Superman y Lois</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Tras años de enfrentarse a supervillanos megalómanos, a monstruos que causan estragos en Metrópolis y a invasores alienígenas que pretenden acabar con la raza humana, el Hombre de Acero alias Clark Ke...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="dc39s-stargirl.html">
+          <img src="https://image.tmdb.org/t/p/w300/qbtwQpzZSmjbq9767KKHH1qoO5y.jpg" alt="DC&#39;s Stargirl" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">DC&#39;s Stargirl</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="batwoman.html">
+          <img src="https://image.tmdb.org/t/p/w300/uMOZ7VZwGbHcoiMksZjvyO5AFRT.jpg" alt="Batwoman" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Batwoman</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="SMALLVILLEnew.HTML">
+          <img src="https://od.lk/s/M18zMDI0Mzg4MTlf/Sin%20t%C3%ADtulo%2886%29.jpg" alt="Smallville" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Smallville</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="lois-clark-las-nuevas-aventuras-de-superman.html">
+          <img src="https://image.tmdb.org/t/p/original/1LbPs6i1h4BKjVUwK5S9GjPCydi.jpg" alt="Lois & Clark: Las nuevas aventuras de Superman" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Lois & Clark: Las nuevas aventuras de Superman</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDM2MTI1NDZf/T1%20E1-%20Piloto.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Superman y Lois</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+  <script src="../share.js"></script>
+<script>
+
+const seriesId = "superman-y-lois-95057";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+// --- PLAYLIST ---
+window.playlist = [
+  {
+    "season": "Temporada 1",
+    "episodes": [
+    {
+      "title": "E1: Piloto",
+      "meta": "13+ · 64m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/3TSEyrqaRN6jwTwnRbp8jUvpeHj.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI1NDZf/T1%20E1-%20Piloto.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI1NDZf/T1%20E1-%20Piloto.mp4",
+      "episodeCode": "T1 E1: Piloto",
+      "hiddenCode": "T1 E1",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E2: Herencia",
+      "meta": "13+ · 43m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qio46neIDQi9KxkmXBeE3l5baUu.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI1OTRf/T1%20E2%20-%20Herencia.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI1OTRf/T1%20E2%20-%20Herencia.mp4",
+      "episodeCode": "T1 E2: Herencia",
+      "hiddenCode": "T1 E2",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E3: Las ventajas de no ser un marginado",
+      "meta": "13+ · 44m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/ungDvMQ8KWumq6ZKC0zqHoxXDyF.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI3NzJf/T1%20E3%20-%20Las%20ventajas%20de%20no%20ser%20un%20marginado.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI3NzJf/T1%20E3%20-%20Las%20ventajas%20de%20no%20ser%20un%20marginado.mp4",
+      "episodeCode": "T1 E3: Las ventajas de no ser un marginado",
+      "hiddenCode": "T1 E3",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E4: Errático",
+      "meta": "13+ · 44m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/ApicPh8pXQb8jdOpdXULk1qPr1u.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4MzZf/T1%20E4%20-%20Err%C3%A1tico.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4MzZf/T1%20E4%20-%20Err%C3%A1tico.mp4",
+      "episodeCode": "T1 E4: Errático",
+      "hiddenCode": "T1 E4",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E5: Lo mejor de Smallville",
+      "meta": "13+ · 42m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cegH7Mm6AuaeVQAcds1yJObqQsS.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4NDlf/T1%20E5%20-%20Lo%20mejor%20de%20Smallville.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4NDlf/T1%20E5%20-%20Lo%20mejor%20de%20Smallville.mp4",
+      "episodeCode": "T1 E5: Lo mejor de Smallville",
+      "hiddenCode": "T1 E5",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E6: Confianza rota",
+      "meta": "13+ · 44m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/d8pgDI9ErtWGXrHI4Dpsi3mRotn.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4NTNf/T1%20E6%20-%20Confianza%20rota.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4NTNf/T1%20E6%20-%20Confianza%20rota.mp4",
+      "episodeCode": "T1 E6: Confianza rota",
+      "hiddenCode": "T1 E6",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E7: Hombre de Acero",
+      "meta": "13+ · 43m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/leNoTFhHHKWUSgBznVBS5U5Efde.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4NTZf/T1%20E7%20-%20Hombre%20de%20Acero.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4NTZf/T1%20E7%20-%20Hombre%20de%20Acero.mp4",
+      "episodeCode": "T1 E7: Hombre de acero",
+      "hiddenCode": "T1 E7",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E8: Verdad y consecuencias",
+      "meta": "13+ · 45m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/kkRYWgwJqHEVktKff23Gu2DvJIM.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4NTlf/T1%20E8%20-%20Verdad%20y%20consecuencias.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4NTlf/T1%20E8%20-%20Verdad%20y%20consecuencias.mp4",
+      "episodeCode": "T1 E8: Verdad y consecuencias",
+      "hiddenCode": "T1 E8",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E9: Sujetos leales",
+      "meta": "13+ · 44m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/g3Zy6aww3Y7QeiztqLcv99pPnJS.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4NjZf/T1%20E9%20-%20Sujetos%20leales.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4NjZf/T1%20E9%20-%20Sujetos%20leales.mp4",
+      "episodeCode": "T1 E9: Sujetos leales",
+      "hiddenCode": "T1 E9",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E10: Oh Madre, ¿Dónde estás?",
+      "meta": "13+ · 44m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/aBLOannUBHqKhZarsvwcyBPUIYi.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI4NzZf/T1%20E10%20-%20Oh%20Madre%20%C2%BFd%C3%B3nde%20est%C3%A1s.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI4NzZf/T1%20E10%20-%20Oh%20Madre%20%C2%BFd%C3%B3nde%20est%C3%A1s.mp4",
+      "episodeCode": "T1 E10: Oh madre, ¿Dónde estás?",
+      "hiddenCode": "T1 E10",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E11: Una breve reminiscencia entre eventos cataclísmicos",
+      "meta": "13+ · 42m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/jzhdGOIL7yrPSU0WVFBshZSQgct.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI5MDFf/T1%20E11%20-%20Una%20breve%20reminiscencia%20entre%20eventos%20catacl%C3%ADsmicos.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI5MDFf/T1%20E11%20-%20Una%20breve%20reminiscencia%20entre%20eventos%20catacl%C3%ADsmicos.mp4",
+      "episodeCode": "T1 E11: Una breve reminiscencia entre eventos cataclísmicos",
+      "hiddenCode": "T1 E11",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E12: Por el Valle de la Muerte",
+      "meta": "13+ · 43m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/A5j4Tpv8IYbxkzP9ztT4rsC7piJ.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI5MTVf/T1%20E12%20-%20Por%20el%20valle%20de%20la%20muerte.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI5MTVf/T1%20E12%20-%20Por%20el%20valle%20de%20la%20muerte.mp4",
+      "episodeCode": "T1 E12: Por el Valle de la Muerte",
+      "hiddenCode": "T1 E12",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E13: A prueba de errores",
+      "meta": "13+ · 45m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/6PaZkQH6Z4b3QjZw67kSV90Qefl.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI5MTZf/T1%20E13%20-%20A%20prueba%20de%20errores.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI5MTZf/T1%20E13%20-%20A%20prueba%20de%20errores.mp4",
+      "episodeCode": "T1 E13: A prueba de fallos",
+      "hiddenCode": "T1 E13",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E14: El Erradicador",
+      "meta": "13+ · 41m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1SQJ3naZU6d9MpwLCIDS6EKOK8q.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI5NDFf/T1%20E14%20-%20El%20erradicador.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI5NDFf/T1%20E14%20-%20El%20erradicador.mp4",
+      "episodeCode": "T1 E14: El Erradicador",
+      "hiddenCode": "T1 E14",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E15: Los últimos hijos de Kriptón",
+      "meta": "13+ · 46m · 2021",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/7e7rWunMqZoYBz1prynZvHfoSaJ.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM2MTI5NTBf/T1%20E15%20-%20Los%20%C3%BAltimos%20hijos%20de%20Krypton.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM2MTI5NTBf/T1%20E15%20-%20Los%20%C3%BAltimos%20hijos%20de%20Krypton.mp4",
+      "episodeCode": "T1 E15: Los últimos hijos de Kriptón",
+      "hiddenCode": "T1 E15",
+      "intro": { "start": 0, "end": 0 }
+    }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E1: Lo que hay debajo",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a8vuKaX4AAk8gICCLnoITZa9S5j.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYxNTJf/T2%20E1%20-%20Lo%20que%20hay%20debajo.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYxNTJf/T2%20E1%20-%20Lo%20que%20hay%20debajo.mp4",
+  "episodeCode": "T2 E1: Lo que hay debajo",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Lazos que unen",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/84u3Gvj9GMKC5uesBW2JBPZopCa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY4NDZf/T2%20E2%20-%20Lazos%20que%20unen.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY4NDZf/T2%20E2%20-%20Lazos%20que%20unen.mp4",
+  "episodeCode": "T2 E2: Lazos que unen",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: La cosa en las minas",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lPb7pNkwL7OnolSbxicHYPrKtLk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcyOTRf/T2%20E3%20-%20La%20cosa%20en%20las%20minas.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcyOTRf/T2%20E3%20-%20La%20cosa%20en%20las%20minas.mp4",
+  "episodeCode": "T2 E3: La cosa en las minas",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: El método inverso",
+  "meta": "13+ · 44m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tGWGrRvncKOcjP7gY1VkDDwJgKv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgyNDdf/T2%20E4%20-%20El%20m%C3%A9todo%20inverso.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgyNDdf/T2%20E4%20-%20El%20m%C3%A9todo%20inverso.mp4",
+  "episodeCode": "T2 E4: El método inverso",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Chica serás una mujer Pronto",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vc0EWjeZGjzYBDiODP1CMQwq1g7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg1ODRf/T2%20E5%20-%20Ni%C3%B1a%2C%20pronto%20te%20har%C3%A1s%20mujer.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg1ODRf/T2%20E5%20-%20Ni%C3%B1a%2C%20pronto%20te%20har%C3%A1s%20mujer.mp4",
+  "episodeCode": "T2 E5: Chica serás una mujer Pronto",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Probado y verdadero",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xUMi5pPUZL9miQYSTVokCul4iO7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkwOTJf/T2%20E6%20-%20Demostrado.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkwOTJf/T2%20E6%20-%20Demostrado.mp4",
+  "episodeCode": "T2 E6: Probado y verdadero",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Anti héroe",
+  "meta": "13+ · 44m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sVryngBFpsuFh639O2QZ0AcfVLG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk3MjJf/T2%20E7%20-%20Anti-H%C3%A9roe.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk3MjJf/T2%20E7%20-%20Anti-H%C3%A9roe.mp4",
+  "episodeCode": "T2 E7: Anti héroe",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: En el olvido",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oqP3CY9ozTVF4eh258NKsw492BN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODAxNTNf/T2%20E8%20-%20En%20el%20olvido.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODAxNTNf/T2%20E8%20-%20En%20el%20olvido.mp4",
+  "episodeCode": "T2 E8: En el olvido",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: 30 Días y 30 Noches",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mOHQ1rh9qfyV4pdlxBfw0TEAIic.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODA2NjNf/T2%20E9%20-%20Season%202.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODA2NjNf/T2%20E9%20-%20Season%202.mp4",
+  "episodeCode": "T2 E9: 30 Días y 30 Noches",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Bizarros en un mundo bizarro",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/y8x7K4sELhnRj5hntCJe4M40Jj7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODExOTRf/T2%20E10%20-%20Bizarros%20en%20un%20mundo%20bizarro.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODExOTRf/T2%20E10%20-%20Bizarros%20en%20un%20mundo%20bizarro.mp4",
+  "episodeCode": "T2 E10: Bizarros en un mundo bizarro",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Verdad y consecuencias",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q7gyq8qu5jCnyvucTGQkjfCpId2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3MDdf/T2%20E11%20-%20Verdad%20y%20consecuencias.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3MDdf/T2%20E11%20-%20Verdad%20y%20consecuencias.mp4",
+  "episodeCode": "T2 E11: Verdad y consecuencias",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Mentiras que atan",
+  "meta": "13+ · 42m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5f1ooRPyp1RRbDSF6JdskK3B9Qj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNDlf/T2%20E12%20-%20Mentiras%20que%20atan.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNDlf/T2%20E12%20-%20Mentiras%20que%20atan.mp4",
+  "episodeCode": "T2 E12: Mentiras que atan",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Todo está perdido",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iRGvH4m0kIlzfHnByQ16jvSSYH1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzU4Mzlf/T2%20E13%20-%20Todo%20est%C3%A1%20perdido.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzU4Mzlf/T2%20E13%20-%20Todo%20est%C3%A1%20perdido.mp4",
+  "episodeCode": "T2 E13: Todo está perdido",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+        "title": "E14: Guerra mundial bizarro",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/e3fLPfcloVv8zNcUPgi9lSF74gV.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjEwMzI0NTVf/superman%20y%20lois%20t2%20e14.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjEwMzI0NTVf/superman%20y%20lois%20t2%20e14.mp4",
+        "episodeCode": "T2 E14: Guerra mundial bizarro",
+        "hiddenCode": "T2 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Esperando a Superman",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dBon6wXRhzFJuB3iDtjFHFfsWbT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjEwMzI0NTJf/Superman%20y%20lois%20t2%20e15.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjEwMzI0NTJf/Superman%20y%20lois%20t2%20e15.mp4",
+        "episodeCode": "T2 E15: Esperando a Superman",
+        "hiddenCode": "T2 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+        "title": "E1: Cerca",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fIg2xkbdx9YS0WaKDPh2VmFZVTR.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDczNjlf/Superman%20y%20Lois%20%20M%C3%A1s%20cerca%20-%20Cap%C3%ADtulo%201%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDczNjlf/Superman%20y%20Lois%20%20M%C3%A1s%20cerca%20-%20Cap%C3%ADtulo%201%20Temporada%203.mp4",
+        "episodeCode": "T3 E1: Cerca",
+        "hiddenCode": "T3 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Fuerzas incontrolables",
+        "meta": "13+ · 42m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mdReaxUd6SGpHkCUUl5IsC3fsrh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDcwMzRf/Superman%20y%20Lois%20Fuerzas%20incontrolables%20-%20Cap%C3%ADtulo%202%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDcwMzRf/Superman%20y%20Lois%20Fuerzas%20incontrolables%20-%20Cap%C3%ADtulo%202%20Temporada%203.mp4",
+        "episodeCode": "T3 E2: Fuerzas incontrolables",
+        "hiddenCode": "T3 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: En sangre fria",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6rL9qW66zLg1fXdRGwhzZ48lDSQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDc1MjNf/Superman%20y%20Lois%20A%20sangre%20fr%C3%ADa%20-%20Cap%C3%ADtulo%203%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDc1MjNf/Superman%20y%20Lois%20A%20sangre%20fr%C3%ADa%20-%20Cap%C3%ADtulo%203%20Temporada%203.mp4",
+        "episodeCode": "T3 E3: En sangre fria",
+        "hiddenCode": "T3 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Demasiado cerca de casa",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gcfXB30CYMGu8Nd5JQrpYkNsK9e.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDcwMThf/Superman%20y%20Lois%20Demasiado%20cerca%20de%20casa%20-%20Cap%C3%ADtulo%204%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDcwMThf/Superman%20y%20Lois%20Demasiado%20cerca%20de%20casa%20-%20Cap%C3%ADtulo%204%20Temporada%203.mp4",
+        "episodeCode": "T3 E4: Demasiado cerca de casa",
+        "hiddenCode": "T3 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: De frente",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gO1VrHarrBZCCe03lkOCKaCDymE.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDY5OTRf/Superman%20y%20Lois%20De%20frente%20-%20Cap%C3%ADtulo%205%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDY5OTRf/Superman%20y%20Lois%20De%20frente%20-%20Cap%C3%ADtulo%205%20Temporada%203.mp4",
+        "episodeCode": "T3 E5: De frente",
+        "hiddenCode": "T3 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qr9TDAEia5dIrzrnRFuG5qhwGoV.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDcwMDFf/Superman%20y%20Lois%20De%20mente%20sana%20-%20Cap%C3%ADtulo%206%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDcwMDFf/Superman%20y%20Lois%20De%20mente%20sana%20-%20Cap%C3%ADtulo%206%20Temporada%203.mp4",
+        "episodeCode": "T3 E6: Episodio 6",
+        "hiddenCode": "T3 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cXw6NrdAaICCW2migrFJZdClNPK.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDcwNDJf/Superman%20y%20Lois%20Por%20siempre%20y%20para%20siempre%20-%20Cap%C3%ADtulo%207%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDcwNDJf/Superman%20y%20Lois%20Por%20siempre%20y%20para%20siempre%20-%20Cap%C3%ADtulo%207%20Temporada%203.mp4",
+        "episodeCode": "T3 E7: Episodio 7",
+        "hiddenCode": "T3 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5KRpGhduUdYSHLj0QjetGwk8LZk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDY5NjJf/Superman%20y%20Lois%20Adivina%20qui%C3%A9n%20viene%20a%20cenar%20-%20Cap%C3%ADtulo%208%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDY5NjJf/Superman%20y%20Lois%20Adivina%20qui%C3%A9n%20viene%20a%20cenar%20-%20Cap%C3%ADtulo%208%20Temporada%203.mp4",
+        "episodeCode": "T3 E8: Episodio 8",
+        "hiddenCode": "T3 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "13+ · 42m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/f7E4PDfTP76LJd5vS0XG16qP4gZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDcwMjRf/Superman%20y%20Lois%20El%20vestido%20-%20Cap%C3%ADtulo%209%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDcwMjRf/Superman%20y%20Lois%20El%20vestido%20-%20Cap%C3%ADtulo%209%20Temporada%203.mp4",
+        "episodeCode": "T3 E9: Episodio 9",
+        "hiddenCode": "T3 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "13+ · 42m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aRU8KSSFzZvyxR9R8CDIfn5wt1T.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDcxNDBf/Superman%20y%20Lois%20Rumbo%20de%20colisi%C3%B3n%20-%20Cap%C3%ADtulo%2010%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDcxNDBf/Superman%20y%20Lois%20Rumbo%20de%20colisi%C3%B3n%20-%20Cap%C3%ADtulo%2010%20Temporada%203.mp4",
+        "episodeCode": "T3 E10: Episodio 10",
+        "hiddenCode": "T3 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/67JVyR0vCnAXFJ3SArLwJN50ss0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDY5Nzlf/Superman%20y%20Lois%20Complicaciones%20-%20Cap%C3%ADtulo%2011%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDY5Nzlf/Superman%20y%20Lois%20Complicaciones%20-%20Cap%C3%ADtulo%2011%20Temporada%203.mp4",
+        "episodeCode": "T3 E11: Episodio 11",
+        "hiddenCode": "T3 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tKdoKMTq3tzJEDVQKfCFCiCs902.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDg2NTRf/Superman%20y%20Lois%20Injusticia%20-%20Cap%C3%ADtulo%2012%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDg2NTRf/Superman%20y%20Lois%20Injusticia%20-%20Cap%C3%ADtulo%2012%20Temporada%203.mp4",
+        "episodeCode": "T3 E12: Episodio 12",
+        "hiddenCode": "T3 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "13+ · 43m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nv1KShmLNtOD4iIIVuLxSWrtlQN.jpg",
+        "videoUrl": "https://od.lk/d/M18zMTk4MDkxMDlf/Superman%20y%20Lois%20Lo%20que%20te%20mata%20solo%20te%20hace%20m%C3%A1s%20fuerte%20-%20Cap%C3%ADtulo%2013%20Temporada%203.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTk4MDkxMDlf/Superman%20y%20Lois%20Lo%20que%20te%20mata%20solo%20te%20hace%20m%C3%A1s%20fuerte%20-%20Cap%C3%ADtulo%2013%20Temporada%203.mp4",
+        "episodeCode": "T3 E13: Episodio 13",
+        "hiddenCode": "T3 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+    {
+  "title": "E1: El fin y El Inicio",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kL2xXGMULYt89cSZyiZlECh1Cf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAzNjlf/Superman%20y%20Lois%20Episodio%201%20-%20Cap%C3%ADtulo%201%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAzNjlf/Superman%20y%20Lois%20Episodio%201%20-%20Cap%C3%ADtulo%201%20Temporada%204.mp4",
+  "episodeCode": "T4 E1: El fin y El Inicio",
+  "hiddenCode": "T4 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Un mundo sin Ti",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jfiJxE2iOUzX2uEjzlrJxlnl4sU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAzNDhf/Episodio%202%20-%20Cap%C3%ADtulo%202%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAzNDhf/Episodio%202%20-%20Cap%C3%ADtulo%202%20Temporada%204.mp4",
+  "episodeCode": "T4 E2: Un mundo sin Ti",
+  "hiddenCode": "T4 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Mi Héroe Siempre",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fjktNo6rKD9avMPnNcMsUdB7Wpc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAzNThf/Episodio%203%20-%20Cap%C3%ADtulo%203%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAzNThf/Episodio%203%20-%20Cap%C3%ADtulo%203%20Temporada%204.mp4",
+  "episodeCode": "T4 E3: Mi Héroe Siempre",
+  "hiddenCode": "T4 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Una boda perfecta",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kX6DzqRNTQXhGBmnFdVWBLgAcrR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTA1NjFf/Una%20boda%20perfectamente%20v%C3%A1lida%20-%20Cap%C3%ADtulo%204%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTA1NjFf/Una%20boda%20perfectamente%20v%C3%A1lida%20-%20Cap%C3%ADtulo%204%20Temporada%204.mp4",
+  "episodeCode": "T4 E4: Una boda perfecta",
+  "hiddenCode": "T4 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Rompe el ciclo",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4DwD4GfR17Jp8ZE3F89Gv90Hyb7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAzNjhf/Rompe%20el%20ciclo%20-%20Cap%C3%ADtulo%205%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAzNjhf/Rompe%20el%20ciclo%20-%20Cap%C3%ADtulo%205%20Temporada%204.mp4",
+  "episodeCode": "T4 E5: Rompe el ciclo",
+  "hiddenCode": "T4 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Cuando se enciende la luz",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q59dLUo2JrZkBq3rtvn5F6kGOUi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAyODlf/Cuando%20se%20enciende%20la%20luz%20-%20Cap%C3%ADtulo%206%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAyODlf/Cuando%20se%20enciende%20la%20luz%20-%20Cap%C3%ADtulo%206%20Temporada%204.mp4",
+  "episodeCode": "T4 E6: Cuando se enciende la luz",
+  "hiddenCode": "T4 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Un Hombre Normal",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5SLywz7zR8EeJ82nYyBkJJRQLcQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTA0MTdf/Un%20chico%20normal%20-%20Cap%C3%ADtulo%207%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTA0MTdf/Un%20chico%20normal%20-%20Cap%C3%ADtulo%207%20Temporada%204.mp4",
+  "episodeCode": "T4 E7: Un Hombre Normal",
+  "hiddenCode": "T4 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: El hombre Del Traje",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ArwFCLJmGEr4L3JaQjw9QNwnJGL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAzNjZf/Episodio%208%20-%20Cap%C3%ADtulo%208%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAzNjZf/Episodio%208%20-%20Cap%C3%ADtulo%208%20Temporada%204.mp4",
+  "episodeCode": "T4 E8: El hombre Del Traje",
+  "hiddenCode": "T4 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Morir y Vivir Otra Vez",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c2QtXsK9qBNwwfFNlGJQEKEuOL2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAyNTNf/Episodio%209%20-%20Cap%C3%ADtulo%209%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAyNTNf/Episodio%209%20-%20Cap%C3%ADtulo%209%20Temporada%204.mp4",
+  "episodeCode": "T4 E9: Morir y Vivir Otra Vez",
+  "hiddenCode": "T4 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Pasó Muy Rápido",
+  "meta": "13+ · 43m · 2021",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fKAvQrI1P3MmOObMZ8KwM2iDAyR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMTk4MTAxMjVf/Episodio%2010%20-%20Cap%C3%ADtulo%2010%20Temporada%204.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMTk4MTAxMjVf/Episodio%2010%20-%20Cap%C3%ADtulo%2010%20Temporada%204.mp4",
+  "episodeCode": "T4 E10: Pasó Muy Rápido",
+  "hiddenCode": "T4 E10",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  }
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

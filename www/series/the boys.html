@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>The Boys</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/jz1WfKTu8jcrsC2TudKdCqILzoV.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/n6vVs6z8obNbExdD3QHTr4Utu1Z.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content img.logo {
+    width: 200px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 180px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+
+
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">The Boys</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/xawDgfkBQaocXR9CljBMjkYpXNK.png" alt="The Boys Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">18+&nbsp;&nbsp;4 temporadas&nbsp;&nbsp;2019&nbsp;&nbsp;</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="The Boys" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/5Tw3bub39W2qEXeFTcwIw52ZR33.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="the boys.html"></a>
+          <span id="nombre">The Boys (2019)</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        La serie tiene lugar en un mundo en el que los superhéroes representan el lado oscuro de la celebridad y la fama.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+        <div class="suggested-item">
+            <a href="gen-v.html">
+              <img src="https://image.tmdb.org/t/p/w300/8WF2iRFbghWbE4kg0FzW5Q59bIr.jpg" alt="Gen V" oncontextmenu="return false" draggable="false">
+            </a>
+            <div class="suggested-info">
+              <div class="title">Gen V</div>
+              <div class="meta-row">
+                <span class="meta">Dob | Lat</span>
+              </div>
+            </div>
+          </div>
+    
+          <div class="suggested-item">
+            <a href="../Star wars/The mandalorian.html">
+              <img src="https://image.tmdb.org/t/p/w300/iLg3DzrwCDsHNovNaWx5JnQAsiV.jpg" alt="The Mandalorian" oncontextmenu="return false" draggable="false">
+            </a>
+            <div class="suggested-info">
+              <div class="title">The Mandalorian</div>
+              <div class="meta-row">
+                <span class="meta">Dob | Lat</span>
+              </div>
+            </div>
+          </div>
+    
+          <div class="suggested-item">
+            <a href="invencible.html">
+              <img src="https://image.tmdb.org/t/p/w300/zCgPbsPJ7d1qlXVn1cKvTlcob1H.jpg" alt="INVENCIBLE" oncontextmenu="return false" draggable="false">
+            </a>
+            <div class="suggested-info">
+              <div class="title">INVENCIBLE</div>
+              <div class="meta-row">
+                <span class="meta">Dob | Lat</span>
+              </div>
+            </div>
+          </div>
+    
+          <div class="suggested-item">
+            <a href="the-boys-diabolical.html">
+              <img src="https://image.tmdb.org/t/p/w300/bpviFMjnQQWL9nP3oIF1BQOJyi8.jpg" alt="The Boys: Diabolical" oncontextmenu="return false" draggable="false">
+            </a>
+            <div class="suggested-info">
+              <div class="title">The Boys: Diabolical</div>
+              <div class="meta-row">
+                <span class="meta">Dob | Lat</span>
+              </div>
+            </div>
+          </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTgwMzI0MTZf/E1%20Zapatero%20a%20Tus%20Zapatos.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">The Boys</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+
+const seriesId = "the-boys-76479";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+        "title": "E1: El Nombre del Juego",
+        "meta": "13+ · 60m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/83vFYTHtCqWwaDtZluSU8bmnFYG.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI1MDdf/T1%20E01.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI1MDdf/T1%20E01.mp4",
+        "episodeCode": "T1 E1: El Nombre del Juego",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Cherry",
+        "meta": "13+ · 59m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1XzqWHBFvddrO2sazXzaCTtFEeA.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI1MDZf/T1%20E02.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI1MDZf/T1%20E02.mp4",
+        "episodeCode": "T1 E2: Cherry",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Consigue Algo",
+        "meta": "13+ · 55m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mF7TK7LMbWhlLz1Q5M1662TiKvP.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI1MDNf/T1%20E03.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI1MDNf/T1%20E03.mp4",
+        "episodeCode": "T1 E3: Consigue Algo",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: La Hembra de la Especie",
+        "meta": "13+ · 56m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4wq1ZX7GYEFhSttQoTFJ4WyqV22.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI1MDJf/T1%20E04.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI1MDJf/T1%20E04.mp4",
+        "episodeCode": "T1 E4: La Hembra de la Especie",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Bueno para el Alma",
+        "meta": "13+ · 60m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1ST4xchcR2s1JQUV23ryOBVrWbN.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI0OTlf/T1%20E05.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI0OTlf/T1%20E05.mp4",
+        "episodeCode": "T1 E5: Bueno para el Alma",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Los Inocentes",
+        "meta": "13+ · 60m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pqz0Xvf7gpXwagUoaHxBqmyv6D5.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI0NDBf/T1%20E06.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI0NDBf/T1%20E06.mp4",
+        "episodeCode": "T1 E6: Los Inocentes",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: La Sociedad de la Supervivencia",
+        "meta": "13+ · 56m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cx7dCZVzCX9pAyC6zE6lC6jkuyF.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI0MzFf/T1%20E07_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTgxNzI0MzFf/T1%20E07_1.mp4",
+        "episodeCode": "T1 E7: La Sociedad de la Supervivencia",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Me Encontraste",
+        "meta": "13+ · 66m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vNYs1oSMXa1V3KKWLPvtOy6UQWC.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTgxNzI0MjRf/T1%20E08.mp4",
+        "downloadUrl": "https://od.lk/s/M18zMTgxNzI0MjRf/T1%20E08.mp4",
+        "episodeCode": "T1 E8: Me Encontraste",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: El gran paseo",
+        "meta": "13+ · 63m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iqdh1aITkP4BicsZmQLQ7MDMo1z.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDU4MTQwMDNf/theboys2.1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU4MTQwMDNf/theboys2.1.mp4",
+        "episodeCode": "T2 E1: El gran paseo",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Los preparativos y la planificación adecuados",
+        "meta": "13+ · 59m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/m6LSiAimRiST07sC0vsUDITojT3.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDU4MTQwNDZf/theboys2.2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU4MTQwNDZf/theboys2.2.mp4",
+        "episodeCode": "T2 E2: Los preparativos y la planificación adecuados",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Por la colina con las espadas de mil hombres",
+        "meta": "13+ · 61m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/k3LtS7Xj2qXlJz00lFIfBPpmjgD.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDU4MTQxMjlf/theboys2.3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU4MTQxMjlf/theboys2.3.mp4",
+        "episodeCode": "T2 E3: Por la colina con las espadas de mil hombres",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Nada igual en el mundo",
+        "meta": "13+ · 70m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6cAdAEomp2I0JwSYNcobAB1NIdm.jpg",
+        "videoUrl": "https://od.lk/s/M18zMDU4MTM5NDJf/theboys2.4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU4MTM5NDJf/theboys2.4.mp4",
+        "episodeCode": "T2 E4: Nada igual en el mundo",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Nos tenemos que ir",
+        "meta": "13+ · 63m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pn5adU2bTuMvBUZoEx2qDmSS8dv.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjQ4MDFf/The_Boys__Temp__2__5___We_Gotta_Go_Now__1169093.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjQ4MDFf/The_Boys__Temp__2__5___We_Gotta_Go_Now__1169093.mp4",
+        "episodeCode": "T2 E5: Nos tenemos que ir",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Volando las malditas puertas",
+        "meta": "13+ · 66m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5ZTRa0V3QFYX2ridnY9wh0FsvId.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjUyNDFf/The_Boys__Temp__2__6___Las_putas_puertas_abajo__1177781.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjUyNDFf/The_Boys__Temp__2__6___Las_putas_puertas_abajo__1177781.mp4",
+        "episodeCode": "T2 E6: Volando las malditas puertas",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Carnicero, panadero, eres un buen compañero",
+        "meta": "13+ · 56m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8OJpTYvdGaTkzxU9oZnx0TaTaOt.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjQ5MjNf/The_Boys__Temp__2__7___Carnicero__Panadero__Candelero__1183191.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjQ5MjNf/The_Boys__Temp__2__7___Carnicero__Panadero__Candelero__1183191.mp4",
+        "episodeCode": "T2 E7: Carnicero, panadero, eres un buen compañero",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Lo que sé",
+        "meta": "13+ · 70m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/w44GW7Zv808V1nsr1NY6Y3I8r8B.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjUwNTFf/The_Boys__Temp__2__8___Lo_que_yo_s___1190089.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjUwNTFf/The_Boys__Temp__2__8___Lo_que_yo_s___1190089.mp4",
+        "episodeCode": "T2 E8: Lo que sé",
+        "hiddenCode": "T2 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+        "title": "E1: Revancha",
+        "meta": "13+ · 64m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yeAHbQ11ExTFWg34gnP4dGNwfk5.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjYzMjhf/The%20boys%20S3E01.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjYzMjhf/The%20boys%20S3E01.mp4",
+        "episodeCode": "T3 E1: Revancha",
+        "hiddenCode": "T3 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: El único hombre en el cielo",
+        "meta": "13+ · 62m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nht3uPi9fjInTCa8JF45nCmETgt.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjY0OTFf/The%20boys%20S3E02.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjY0OTFf/The%20boys%20S3E02.mp4",
+        "episodeCode": "T3 E2: El único hombre en el cielo",
+        "hiddenCode": "T3 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Costa Bereber",
+        "meta": "13+ · 63m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/v0NmiGE6FntSSGN4RXDTd2ylMwF.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjY2MjZf/The%20boys%20S3E03.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjY2MjZf/The%20boys%20S3E03.mp4",
+        "episodeCode": "T3 E3: Costa Bereber",
+        "hiddenCode": "T3 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Un plan glorioso de cinco años",
+        "meta": "13+ · 62m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/adNh9TIlLKh0uUug3KOiuhFINAh.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjYxNzdf/The%20boys%20S3E04.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjYxNzdf/The%20boys%20S3E04.mp4",
+        "episodeCode": "T3 E4: Un plan glorioso de cinco años",
+        "hiddenCode": "T3 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Última oportunidad de ver este mundo de mentiras",
+        "meta": "13+ · 63m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/m5hFjth3uqHRdDQmFr4xDhMPyzc.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjY4MDlf/The%20boys%20S3E05.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjY4MDlf/The%20boys%20S3E05.mp4",
+        "episodeCode": "T3 E5: Última oportunidad de ver este mundo de mentiras",
+        "hiddenCode": "T3 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Herogasmo",
+        "meta": "13+ · 63m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xmGw9EVZ6jSeWz0K9vyfim3KvhZ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjY2OTVf/The%20boys%20S3E06.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjY2OTVf/The%20boys%20S3E06.mp4",
+        "episodeCode": "T3 E6: Herogasmo",
+        "hiddenCode": "T3 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Una vela para acompañarte a la cama",
+        "meta": "13+ · 67m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cG7G0XyW0KQ1oeYY06KnaP1n8PR.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjcwMDlf/The%20boys%20S3E07.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjcwMDlf/The%20boys%20S3E07.mp4",
+        "episodeCode": "T3 E7: Una vela para acompañarte a la cama",
+        "hiddenCode": "T3 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Salvaje y ardiente instantánemente",
+        "meta": "13+ · 64m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pxqOE021uJtQHOdT09WmFsXyy3V.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjY4OTdf/The%20boys%20S3E08.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjY4OTdf/The%20boys%20S3E08.mp4",
+        "episodeCode": "T3 E8: Salvaje y ardiente instantánemente",
+        "hiddenCode": "T3 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+        "title": "E1: Departamento de juegos sucios",
+        "meta": "13+ · 66m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7eGAjea8dawKURw6YJxMxC6qIm9.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4NzJf/852x480-seg-1-v1-a1_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4NzJf/852x480-seg-1-v1-a1_1.mp4",
+        "episodeCode": "T4 E1: Departamento de juegos sucios",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: La vida entre los sépticos",
+        "meta": "13+ · 62m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4IZ7Hb8SPbHoCqL9iUWtlnusvLw.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4NzZf/852x480-seg-1-v1-a1_2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4NzZf/852x480-seg-1-v1-a1_2.mp4",
+        "episodeCode": "T4 E2: La vida entre los sépticos",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Mantendremos la bandera roja ondeando",
+        "meta": "13+ · 61m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kcHBZHSYyj0eYSDzCUTze11c5RX.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4ODNf/1152x480-seg-1-v1-a1_3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4ODNf/1152x480-seg-1-v1-a1_3.mp4",
+        "episodeCode": "T4 E3: Mantendremos la bandera roja ondeando",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: La sabiduría de todos los tiempos",
+        "meta": "13+ · 67m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/n4xTP8x24KeKNhCOSuBAHrUPSNw.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4ODdf/952x480-seg-1-v1-a1_4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4ODdf/952x480-seg-1-v1-a1_4.mp4",
+        "episodeCode": "T4 E4: La sabiduría de todos los tiempos",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Cuidado con el Jabberwock, hijo mío",
+        "meta": "13+ · 69m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fN600zA2tu32y69sWnny1NorT2o.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4ODhf/960x480-seg-1-v1-a1_5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4ODhf/960x480-seg-1-v1-a1_5.mp4",
+        "episodeCode": "T4 E5: Cuidado con el Jabberwock, hijo mío",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Negocios sucios",
+        "meta": "13+ · 66m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8f9qvnazMUHazsGL2BfeIRNWAeb.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4OTBf/952x480-seg-1-v1-a1_6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4OTBf/952x480-seg-1-v1-a1_6.mp4",
+        "episodeCode": "T4 E6: Negocios sucios",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: El informante",
+        "meta": "13+ · 65m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xiR5QajJaM53KQDMgocMUDce4Yi.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4OTJf/952x480-seg-1-v1-a1_7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4OTJf/952x480-seg-1-v1-a1_7.mp4",
+        "episodeCode": "T4 E7: El informante",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Gran Final de la Cuarta Temporada",
+        "meta": "13+ · 69m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kv7DTgyuKz5gsSwfoH92Tnam0lA.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTA4OTNf/940x480-seg-1-v1-a1_8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTA4OTNf/940x480-seg-1-v1-a1_8.mp4",
+        "episodeCode": "T4 E8: Gran Final de la Cuarta Temporada",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    
+    ]
+  }
+
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

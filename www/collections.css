@@ -1,0 +1,733 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+        padding-top: env(safe-area-inset-top);
+    height: 100%;
+    overscroll-behavior-y: contain; /* bloquea el "pull-to-refresh" */
+  }
+  
+  body {
+        padding-top: env(safe-area-inset-top);
+    background-color: #01011d;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+  }
+  
+  /* Estilo general para el header */
+  #header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0); /* Fondo transparente al inicio */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    z-index: 3000;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Enlace de regreso */
+  .icon-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    z-index: 3001;
+  }
+  
+  #back-link {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Logo en el centro (reemplaza al título) */
+  #page-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 48px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none; /* Para evitar clics accidentales */
+  }
+  
+  /* Hover en el ícono */
+  .icon-link:hover {
+    opacity: 0.8;
+  }
+
+  .fondo-principal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.055), rgba(0, 0, 0, 0.178), rgb(1, 1, 29)),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.808), rgba(1, 1, 29, 0.767), rgba(1, 1, 29, 0.658));
+    pointer-events: none;
+    z-index: 0;
+  }
+  .contenedor-categorias {
+    margin-top: 5vh;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .categoria {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .titulo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 5px black;
+  }
+  
+  .scroll-poster {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  
+  .scroll-poster::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .scroll-poster::-webkit-scrollbar-thumb {
+    background:  #01011d;
+    border-radius: 4px;
+  }
+  
+  .poster {
+    flex: 0 0 auto;
+    width: 130px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 7px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  }
+  
+  @media (min-width: 1024px) and (orientation: landscape) {
+    .poster {
+      width: 200px;     /* Más ancho */
+      height: 300px;    /* Más alto */
+    }
+  
+    .scroll-poster {
+      gap: 1.5rem;      /* Un poco más de espacio entre posters */
+    }
+  }
+  
+  .scroll-container {
+    position: relative;
+  }
+  
+  .scroll-wrap {
+    position: relative; /* 👈 necesario para que las flechas se ubiquen dentro */
+    overflow: hidden;
+  }
+  
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    opacity: 0; /* por defecto ocultas */
+    transition: opacity 0.3s;
+    z-index: 10;
+  }
+  
+  /* 👀 al hacer hover sobre el contenedor aparecen */
+  .scroll-wrap:hover .arrow {
+    opacity: 1;
+  }
+  
+  .arrow.left {
+    left: 5px;
+  }
+  
+  .arrow.right {
+    right: 5px;
+  }
+  
+  
+  /* Mostrar flechas solo en pantallas grandes al pasar el mouse */
+  @media (min-width: 1024px) {
+    .scroll-container:hover .arrow {
+      opacity: 1;
+    }
+  }
+  
+  /* Estilo básico del scroll horizontal */
+  .scroll-poster {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+  }
+  
+  /* Scroll horizontal modificado para apaisados */
+  .scroll-container-horizontal {
+    position: relative;
+  }
+  
+  .scroll-poster-horizontal {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  
+  .scroll-poster-horizontal::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .scroll-poster-horizontal::-webkit-scrollbar-thumb {
+    background:  #01011d;
+    border-radius: 4px;
+  }
+  
+  /* Posters apaisados (horizontal) */
+  .poster-horizontal {
+    flex: 0 0 auto;
+    width: 320px;
+    height: 190px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  }
+  
+  /* Mejora en pantallas grandes */
+  @media (min-width: 1024px) and (orientation: landscape) {
+    .poster-horizontal {
+      width: 400px;
+      height: 225px;
+    }
+  
+    .scroll-poster-horizontal {
+      gap: 1.5rem;
+    }
+  }
+  
+  /* Mostrar flechas al hacer hover en el scroll horizontal */
+  @media (min-width: 1024px) {
+    .scroll-container-horizontal:hover .arrow {
+      opacity: 1;
+    }
+  }
+  
+  @media (max-width: 768px) and (orientation: landscape) {
+    .contenido-principal {
+      padding-top: 20vh; /* o el espacio que necesites según el logo/fondo */
+    }
+  }
+  
+  @media (max-width: 768px) and (orientation: landscape) {
+    .logo-dc {
+      margin-top: -250px; /* más seguro para móviles */
+      width: 215px;
+      max-width: 45vw;
+    }
+  }
+  
+  .footer {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #01011dcb;
+    padding: 10px 0;
+    height: 60px;
+    z-index: 1000;
+    justify-content: space-around;
+    transition: transform 0.3s ease-in-out;
+    }
+    
+    .footer.hidden {
+      transform: translateY(100%);
+    }
+    
+    .footer.hidden {
+      transform: translateY(100%);
+    }
+    
+    .footer-icon {
+      color: #bbb; /* Icono gris cuando está inactivo */
+      text-align: center;
+      text-decoration: none;
+      font-size: 35px; /* Tamaño aumentado para los iconos */
+      flex: 1; /* Ocupa el mismo espacio cada icono */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+    }
+    
+    /* Para asegurarnos de que los iconos aumenten correctamente */
+    .footer-icon .material-icons, .footer-icon .material-icons-outlined {
+      font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+      transition: font-size 0.3s ease;
+    }
+    
+    .footer-icon:hover {
+      color: #fff; /* Cambia a blanco al pasar el cursor */
+    }
+    
+    .footer-icon.active {
+      color: #fff; /* Cambiar a blanco cuando está activo */
+    }
+    
+    .footer-icon.active .material-icons-outlined {
+      display: none; /* Oculta el icono outline cuando está activo */
+    }
+    
+    .footer-icon.active .material-icons {
+      display: inline-block; /* Muestra el icono normal cuando está activo */
+    }
+    
+    /* Oculta los iconos normales por defecto */
+    .footer-icon .material-icons {
+      display: none;
+    }
+    
+    /* Iconos outline por defecto */
+    .footer-icon .material-icons-outlined {
+      display: inline-block;
+    }
+    
+    /* Estilos para el icono de perfil */
+    .profile-icon-footer {
+      width: 35px; /* Tamaño de la imagen de perfil */
+      height: 35px; /* Tamaño de la imagen de perfil */
+      border-radius: 50%; /* Hacer la imagen circular */
+      border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+      object-fit: cover; /* Asegura que la imagen se recorte bien */
+    }
+    
+    /* Cambiar color de iconos inactivos */
+    .footer-icon.inactive .material-icons-outlined,
+    .footer-icon.inactive .material-icons {
+      color: #bbb; /* Gris para iconos inactivos */
+    }
+    
+    .nav__icon {
+      font-size: 20px; /* Ajusta el tamaño del icono aquí */
+    }
+  
+  /* Overlay para oscurecer la página */
+  .overlay-loader-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:  #01011d; /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los Hotel Transylvania 4: Transformanía */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+  }
+  
+  /* Cuando se ocultará */
+  
+  .overlay-loader-page.hidden {
+      opacity: 0;
+      pointer-events: none;
+  }
+  
+  
+  /* Loader */
+  /* Loader de página */
+  #loader {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 90deg,
+          #0066ff21 0%,
+          #0066ff 60%,
+          #ffffff 80%,
+          #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: page-spin 1.2s linear infinite, page-shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000;
+  }
+  
+  /* Animaciones únicas para loader de página */
+  @keyframes page-spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  
+  @keyframes page-shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+  }
+  
+  .tabs-secondary {
+      display: none;
+      position: fixed;
+      top: 30px;
+      left: 0;
+      right: 0;
+      z-index: 3005;
+      background-color: rgba(0, 0, 0, 0); /* Transparente */
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 30px;
+      transition: background-color 0.4s ease;
+      border: none;
+    }
+    
+    .tabs-secondary.scrolled-up {
+      background-color: rgba(0, 0, 0, 0.85); /* Se oscurece al subir */
+    }
+    
+    
+    .tabs-secondary .logo {
+      height: 20px;
+      width: auto;
+    }
+    
+    .tabs-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+    
+    .tabs-secondary .tab {
+      color: rgba(255, 255, 255, 0.856);
+      text-decoration: none;
+      font-weight: bold;
+      padding: 12px 14px 8px;
+      transition: background 0.3s ease;
+      border-radius: 8px;
+      font-size: 20px;
+      white-space: nowrap;
+    }
+    
+    .tabs-secondary .tab:hover {
+      background-color: #81818179;
+    }
+    
+    .tabs-secondary .tab.active::after {
+      content: "";
+      display: block;
+      height: 4px;
+      background-color: white;
+      margin-top: 4px;
+      border-radius: 2px;
+    }
+    
+    .tabs-secondary .icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .tabs-secondary .icons span,
+    .header-only span {
+      font-size: 36px !important;
+      color: white;
+    }
+    
+    #headerProfileIcon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid white;
+      object-fit: cover;
+    }
+    
+    /* Mostrar solo en pantallas grandes */
+    @media screen and (min-width: 1024px) {
+      .tabs-secondary {
+        display: flex;
+      }
+    }
+    
+    
+    
+    @media screen and (min-width: 1024px) {
+      #header {
+        display: none;
+      }
+    }
+    
+    .tabs-secondary.scrolled-up {
+      background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro al subir */
+      transition: background-color 0.4s ease;
+    }
+  
+    .custom-top-bar {
+      background-color: #000;
+      color: white;
+      padding: 6px 20px;
+      display: flex;
+      justify-content: flex-start; /* <- Cambio aquí */
+      align-items: center;
+      gap: 12px; /* <- Espacio entre los botones */
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+    
+    .custom-top-bar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    
+    .custom-top-bar .material-icons {
+      font-size: 25px;
+    }
+    
+    /* Ocultar en pantallas pequeñas */
+    @media screen and (max-width: 1024px) {
+      .custom-top-bar {
+        display: none;
+      }
+    }
+  
+    /* Contenedor del botón: relativo para que el menú se posicione respecto a él */
+  #langBtnWrapper {
+    position: relative;
+  }
+  
+  .lang-menu {
+    position: absolute;
+    top: 40px;        /* debajo del botón */
+    left: -60px;      /* negativo mueve el menú a la izquierda */
+    background: rgba(20,20,20,0.95);
+    color: white;
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 180px;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  }
+  
+  
+  
+  .lang-option {
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .lang-option .check {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0);
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .lang-option.active .check::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    width: 6px;
+    height: 10px;
+    border: solid rgb(255, 255, 255);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    background: none;
+  }
+  
+  .lang-option:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  
+  /* Ocultar en pantallas mayores a 768px (tablets y computadoras) */
+  @media screen and (min-width: 768px) {
+    .footer {
+      display: none;
+    }
+  }
+  
+  /* Ocultar en pantallas mayores a 768px (tablets y computadoras) */
+  @media screen and (min-width: 768px) {
+    .footer {
+      display: none;
+    }
+  }
+
+  .princesa {
+    position: relative;
+    width: 100%;
+    max-width: 1280px; /* ancho máximo */
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  
+    /* Imagen de fondo */
+    background: url("https://od.lk/s/M18zMTk2MDA5ODVf/wp3453109-princesas-disney-wallpaper.jpg") no-repeat center center;
+    background-size: cover; /* se adapta al ancho y alto */
+    background-position: center;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  
+  /* Overlay con gradiente */
+  .princesa::before {
+    content: "";
+    position: absolute;
+    inset: 0; 
+    background: linear-gradient(
+      to top, 
+      #ff4eb2b7 0%, 
+      #ff4eb263 40%, 
+      #ff4eb20e 100%
+    );
+    z-index: 0;
+  }
+  
+  /* Logo */
+  .titulo-princesa {
+    width: 70%;   /* base */
+    max-width: 280px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    z-index: 1;
+    position: relative;
+    transition: width 0.3s ease;
+  }
+  
+  /* Botón */
+  .boton-princesa {
+    position: absolute;
+    bottom: 20px; 
+    left: 50%;
+    transform: translateX(-50%);
+    
+    background: linear-gradient(135deg, #ff4eb3, #ffb347);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.4);
+  }
+  
+  .boton-princesa:hover {
+    background: linear-gradient(135deg, #ffb347, #ff4eb3);
+    transform: translateX(-50%) scale(1.05);
+  }
+  
+  /* === 📱 Móviles === */
+  @media (max-width: 600px) {
+    .princesa {
+      padding: 15px;
+      background-size: cover; /* ocupa toda la caja */
+      background-position: center top;
+    }
+  
+    .titulo-princesa {
+      width: 80%;
+      max-width: 220px; /* más pequeño en móviles */
+    }
+  
+    .boton-princesa {
+      font-size: 15px;
+      padding: 8px 20px;
+      bottom: 10px;
+    }
+  }
+  
+  /* === 💻 Tablets === */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .princesa {
+      background-size: cover; /* ocupa ancho completo */
+      background-position: center center;
+    }
+  
+    .titulo-princesa {
+      width: 75%;
+      max-width: 260px;
+    }
+  
+    .boton-princesa {
+      font-size: 16px;
+      padding: 10px 25px;
+      bottom: 18px;
+    }
+  }
+  
+  /* === 🖥️ Pantallas grandes === */
+  @media (min-width: 1025px) {
+    .princesa {
+      background-size: cover; /* se estira al contenedor */
+      background-position: center;
+      padding: 250px;
+    }
+  
+    .titulo-princesa {
+      width: 60%; /* un poco más grande */
+      max-width: 450px;
+      top: 120px;
+    }
+  
+    .boton-princesa {
+      font-size: 20px;
+      padding: 14px 36px;
+      bottom: 70px; /* más separado del borde */
+    }
+  }
+  
+  
+  

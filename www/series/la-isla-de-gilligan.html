@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>La isla de Gilligan</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMjEwMDgyNDVf/la%20isla%20de%20gilligan%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/3heZcX0zrUGwthuy9ttlNok4UAb.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 200px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 100px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 300px;
+      width: 250px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">La isla de Gilligan</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/sypZrVySNqdcnt4qaYbDuljGHqp.png" alt="La isla de Gilligan Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   3 temporadas   1964   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="La isla de Gilligan" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/fubHQKfDf626AgF8O2U4CrwLE2H.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="la-isla-de-gilligan.html"></a>
+          <span id="nombre">La isla de Gilligan</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Disparatada comedia ambientada en una isla del Pacífico. Un crucero a bordo del S.S. Minnow se ve interrumpido al naufragar el barco debido a una tormenta. Los siete supervivientes se refugian en una...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="the-andy-griffith-show.html">
+          <img src="https://image.tmdb.org/t/p/w300/smOam7qXPnqlfDlMx4I0UxK5ULB.jpg" alt="The Andy Griffith Show" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">The Andy Griffith Show</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="gomer-pyle-usmc.html">
+          <img src="https://image.tmdb.org/t/p/w300/iBtGm3Dk2mdOftPeEtiOMhAy2lw.jpg" alt="Gomer Pyle, U.S.M.C." oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Gomer Pyle, U.S.M.C.</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="vivala-o-vendala.html">
+          <img src="https://image.tmdb.org/t/p/w300/itU2jGOa5ZxidqZEsHyKgI95Mvd.jpg" alt="Vívala o véndala" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Vívala o véndala</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="petticoat-junction.html">
+          <img src="https://image.tmdb.org/t/p/w300/2kTGzz870hmdmQ074CYTdKFRqSm.jpg" alt="Petticoat Junction" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Petticoat Junction</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDU2ODAxNjlf/LIG%20-%201x01%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">La isla de Gilligan</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+  <script src="../share.js"></script>
+<script>
+
+const seriesId = "la-isla-de-gilligan-1921";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+     {
+    "title": "E1: Dos en una Balsa",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/326wUOlKhXHz0amxk0i9KC9o5HF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODAxNjlf/LIG%20-%201x01%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODAxNjlf/LIG%20-%201x01%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E1: Dos en una Balsa",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Hogar, dulce choza",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5c4C7RZrFpOV1ePGTC9uD2igCAR.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODAyMTNf/LIG%20-%201x02%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODAyMTNf/LIG%20-%201x02%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E2: Hogar, dulce choza",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Que ladrón tan mono",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9oSOx6yIn5badOmd8aEptvfb8PB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODAyNThf/LIG%20-%201x03%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODAyNThf/LIG%20-%201x03%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E3: Que ladrón tan mono",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: El bello durmiente",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/2VN5Anc4SlLc2rDfAoukrq2cfHg.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODAyOTBf/LIG%20-%201x04%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODAyOTBf/LIG%20-%201x04%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E4: El bello durmiente",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Ala equivocada",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tzjuszK1GvsexRX2fvBysb6nDv2.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODAzMTlf/LIG%20-%201x05%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODAzMTlf/LIG%20-%201x05%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E5: Ala equivocada",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Gilligan para presidente",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ybWaEypbfcgXpBxX7WJRrdt3E9K.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODAzNjVf/LIG%20-%201x06%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODAzNjVf/LIG%20-%201x06%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E6: Gilligan para presidente",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: El sonido de un graznido",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yaDhmQ3lswobW1DU7HT2YcBLyIT.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA0MDRf/LIG%20-%201x07%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA0MDRf/LIG%20-%201x07%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E7: El sonido de un graznido",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Adios isla",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4Mrt0BO4d2iUOupVLcs5SfN58ye.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA0Mzhf/LIG%20-%201x08%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA0Mzhf/LIG%20-%201x08%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E8: Adios isla",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: La fiebre del oro",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lTnJSdfOI2T64CEzfFshKu99wu7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA0Nzdf/LIG%20-%201x09%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA0Nzdf/LIG%20-%201x09%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E9: La fiebre del oro",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: Esperando a Watubi",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8UodUBHd3PNWmdaQvAE9u28v6aZ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA2MTBf/LIG%20-%201x10%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA2MTBf/LIG%20-%201x10%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E10: Esperando a Watubi",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Ginger, la gran estrella",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dc1tpDthRf4Zr71z8D4NOKm5QC1.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA2NTNf/LIG%20-%201x11%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA2NTNf/LIG%20-%201x11%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E11: Ginger, la gran estrella",
+    "hiddenCode": "T1 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Gilligan, el magnate petrolero",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/a7qLhVOkBU0x6k4rcLHdxDJgu0k.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA2OTlf/LIG%20-%201x12%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA2OTlf/LIG%20-%201x12%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E12: Gilligan, el magnate petrolero",
+    "hiddenCode": "T1 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Gilligan, el magnate petrolero",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/sZRcuugsJcDNDLvWh1le6azCod8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA4MDhf/LIG%20-%201x13%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA4MDhf/LIG%20-%201x13%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E13: Gilligan, el magnate petrolero",
+    "hiddenCode": "T1 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Agua, agua por todas partes",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wZZvAt7jwiZcKXxSYzSABoczd2L.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA5NTNf/LIG%20-%201x14%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA5NTNf/LIG%20-%201x14%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E14: Agua, agua por todas partes",
+    "hiddenCode": "T1 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: El hijo del sol naciente",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5DUicfJQECoOPQx3clwbVPqR1m0.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODA5ODZf/LIG%20-%201x15%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODA5ODZf/LIG%20-%201x15%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E15: El hijo del sol naciente",
+    "hiddenCode": "T1 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: El cofre del tesoro",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3FLKjM2EisneOhRx4rjm9vgqr5J.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODEwMjVf/LIG%20-%201x16%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODEwMjVf/LIG%20-%201x16%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E16: El cofre del tesoro",
+    "hiddenCode": "T1 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E17: Gansters en la isla",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1AkA8d8Uw4cXIKB4bR4fUFwp97y.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODEwNjlf/LIG%20-%201x17%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODEwNjlf/LIG%20-%201x17%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E17: Gansters en la isla",
+    "hiddenCode": "T1 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E18: El blanco perfecto",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/RjwEwM9QpH5seJcrBuzCl6qkR2.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODEwOThf/LIG%20-%201x18%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODEwOThf/LIG%20-%201x18%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E18: El blanco perfecto",
+    "hiddenCode": "T1 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E19: Gilligan y el niño de la selva",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/rc7VnvxPnm9jViNF6UHL6WQf1dW.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODExMTNf/LIG%20-%201x19%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODExMTNf/LIG%20-%201x19%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E19: Gilligan y el niño de la selva",
+    "hiddenCode": "T1 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E20: Gilligan y el dragon",
+    "meta": "13+ · 25m · 1964",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5oXa8Pm6tYttzRSVqltQ7NKlvzq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODExMzdf/LIG%20-%201x20%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODExMzdf/LIG%20-%201x20%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E20: Gilligan y el dragon",
+    "hiddenCode": "T1 E20",
+    "intro": { "start": 0, "end": 0 }
+  },
+     {
+  "title": "E21: El conquistador de Hawaii",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6uimiTLxhchgLZbF3vhGQvjB1Q6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODExNTlf/LIG%20-%201x21-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODExNTlf/LIG%20-%201x21-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E21: El conquistador de Hawaii",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: El gorila enamorado",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g03XDhetGMRrn8QhUWmwzGDv4xn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODExODNf/LIG%20-%201x22-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODExODNf/LIG%20-%201x22-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E22: El gorila enamorado",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Como ser un héroe",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cs708m6D1Pqy9QR6S4YIZ0cJIbu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODEyMDhf/LIG%20-%201x23-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODEyMDhf/LIG%20-%201x23-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E23: Como ser un héroe",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: El regreso de Ala equivocada",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4jIKR0s0SsorauBBlxY7qhJKOas.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODEyNDFf/LIG%20-%201x24-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODEyNDFf/LIG%20-%201x24-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E24: El regreso de Ala equivocada",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: The Matchmaker",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/moNPtItMQC4PocW2tpTs31vptkc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODEyODVf/LIG%20-%201x25-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODEyODVf/LIG%20-%201x25-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E25: The Matchmaker",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: La música tiene encanto",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hnoygDlghqgbyfncd82J4452647.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODEzNjRf/LIG%20-%201x26-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODEzNjRf/LIG%20-%201x26-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E26: La música tiene encanto",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: El nuevo vecino Sam",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lNmjYwB35IFj1WNqxrtfr73geta.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1MDZf/LIG%20-%201x27-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1MDZf/LIG%20-%201x27-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E27: El nuevo vecino Sam",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E28: Están apagados y corriendo",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wTSFA7w4IJtwhCXOHO1lONVMZOL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1NjVf/LIG%20-%201x28-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1NjVf/LIG%20-%201x28-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E28: Están apagados y corriendo",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E29: Tres para prepararse",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4v3pFVnCWdMVDK7WEpI2w1CspcC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE2MjBf/LIG%20-%201x29-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE2MjBf/LIG%20-%201x29-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E29: Tres para prepararse",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E30: No me olvides",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mMxzjht01oaizTJuYtcOIVPBb6C.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE2OTBf/LIG%20-%201x30-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE2OTBf/LIG%20-%201x30-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E30: No me olvides",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E31: Diógenes, no puedes ir a casa",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7htMMV9MdmjTMgJuJZJVbXOve38.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3Mzdf/LIG%20-%201x31-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3Mzdf/LIG%20-%201x31-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E31: Diógenes, no puedes ir a casa",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E32: Adiposidad Física",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7uYoDZZxBZnYXPzQc5vp8xGYhvN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3OTRf/LIG%20-%201x32-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3OTRf/LIG%20-%201x32-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E32: Adiposidad Física",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E33: Por arte de magia",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pYT1XbI7Co0uzUnt1ZuJCqnl5Aa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4NjNf/LIG%20-%201x33-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4NjNf/LIG%20-%201x33-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E33: Por arte de magia",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E34: Adios, viejo cuadro",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3kUZCEcn5ZoPK5lKCwq94MAKncU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5MTVf/LIG%20-%201x34-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5MTVf/LIG%20-%201x34-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E34: Adios, viejo cuadro",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E35: Mi dulce Gilligan",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nQJ7Ggd8MycNxFjKvwULWeOScP1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwMDhf/LIG%20-%201x35-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwMDhf/LIG%20-%201x35-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E35: Mi dulce Gilligan",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E36: Una nariz con otro nombre",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/O4YwYcxIHEbjJ9Xw8N1bIu4ZSR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyMDRf/LIG%20-%201x36-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyMDRf/LIG%20-%201x36-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E36: Una nariz con otro nombre",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+  "title": "E1: Episodio 1",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v7AkJ6FFtej5aHzJK81lCsBMkwy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc2MTZf/LIG%20-%202x01%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MTZf/LIG%20-%202x01%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E1: Episodio 1",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Episodio 2",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9wbF1ZT6OciFLorjyKMG2FzAXSN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MjFf/LIG%20-%202x02%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MjFf/LIG%20-%202x02%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E2: Episodio 2",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Episodio 3",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qQAk4swCJw3iKmnwe9YT9sbUtnC.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MjZf/LIG%20-%202x03%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MjZf/LIG%20-%202x03%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E3: Episodio 3",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Episodio 4",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1FRyShaozlku8rrB7nGxtbN5laY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MzJf/LIG%20-%202x04%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MzJf/LIG%20-%202x04%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E4: Episodio 4",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Episodio 5",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/Ab8xNfBzxDTa9q0DcHfnl5qtChn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MzVf/LIG%20-%202x05%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MzVf/LIG%20-%202x05%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E5: Episodio 5",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Episodio 6",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7rwqOyoxWehX7ZdYwmkr9AHpQAs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6NDBf/LIG%20-%202x06%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6NDBf/LIG%20-%202x06%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E6: Episodio 6",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Episodio 7",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vPOR7gpou74Lrk8RIL74cvvaNUR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6NDRf/LIG%20-%202x07%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6NDRf/LIG%20-%202x07%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E7: Episodio 7",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Episodio 8",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cNKItEWpK8m5j6wSYgJf5XDCn6h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6NTJf/LIG%20-%202x08%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6NTJf/LIG%20-%202x08%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E8: Episodio 8",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Episodio 9",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/26YUvTXeJnTQggfY7UOuQrd5Wke.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6NjFf/LIG%20-%202x09%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6NjFf/LIG%20-%202x09%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E9: Episodio 9",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Episodio 10",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1mkq455R24GHJaFFqu2GJd4OMOb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6Nzdf/LIG%20-%202x10%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6Nzdf/LIG%20-%202x10%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E10: Episodio 10",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Episodio 11",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ezCWtymPxRpqWuxiqFHrnGfbhCT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6ODlf/LIG%20-%202x11%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6ODlf/LIG%20-%202x11%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E11: Episodio 11",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Episodio 12",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/brIhRKanaewXP0Hz9UhczlJRLHQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6OTZf/LIG%20-%202x12%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6OTZf/LIG%20-%202x12%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E12: Episodio 12",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: Episodio 13",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/edwehk3XVU2l9eRWVrTStRw6gEA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MDNf/LIG%20-%202x13%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MDNf/LIG%20-%202x13%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E13: Episodio 13",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Episodio 14",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xPebpy6YGKzdRjl6TTzl17DDaqJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MDVf/LIG%20-%202x14%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MDVf/LIG%20-%202x14%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E14: Episodio 14",
+  "hiddenCode": "T2 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Episodio 15",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tiqodGL0MoLwn3wx7KzhRzBg1dh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MDhf/LIG%20-%202x15%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MDhf/LIG%20-%202x15%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E15: Episodio 15",
+  "hiddenCode": "T2 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Episodio 16",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nWpCjQ4jdHRUnCxA8VhA1WZ6GMp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MTFf/LIG%20-%202x16%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MTFf/LIG%20-%202x16%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E16: Episodio 16",
+  "hiddenCode": "T2 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Episodio 17",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tCgWkwrlhPzXeP5GpoDrijCNTXs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MTZf/LIG%20-%202x17%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MTZf/LIG%20-%202x17%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E17: Episodio 17",
+  "hiddenCode": "T2 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Episodio 18",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wty5SnUcT3c1J76xIsOZC7u1h7y.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MThf/LIG%20-%202x18%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MThf/LIG%20-%202x18%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E18: Episodio 18",
+  "hiddenCode": "T2 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Episodio 19",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mxVVyGgGJJ8cPDfyY0HIc6YiBZW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6MjVf/LIG%20-%202x19%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6MjVf/LIG%20-%202x19%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E19: Episodio 19",
+  "hiddenCode": "T2 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Episodio 20",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/j0VRqUbI7idPPOmJZQCHzm2qqVs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc6Mjdf/LIG%20-%202x20%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc6Mjdf/LIG%20-%202x20%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E20: Episodio 20",
+  "hiddenCode": "T2 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E21: Episodio 21",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/faDrcNZCeDtZm4aszSBTth0c1WN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc3MzJf/LIG%20-%202x21%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7MzJf/LIG%20-%202x21%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E21: Episodio 21",
+  "hiddenCode": "T2 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Episodio 22",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gc5T7VyS4n0ShOw8hQx7Uuj36O5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7Mzdf/LIG%20-%202x22%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7Mzdf/LIG%20-%202x22%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E22: Episodio 22",
+  "hiddenCode": "T2 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Episodio 23",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/NmcbEfN1GS6pVUCkbEfIniaigW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NDNf/LIG%20-%202x23%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NDNf/LIG%20-%202x23%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E23: Episodio 23",
+  "hiddenCode": "T2 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Episodio 24",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mkAAhq2ar33HmcsBDme4ydhPfxu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NDlf/LIG%20-%202x24%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NDlf/LIG%20-%202x24%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E24: Episodio 24",
+  "hiddenCode": "T2 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: Episodio 25",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gA4T6O3yShVxRTV0sPWb6aJ2rvs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NTJf/LIG%20-%202x25%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NTJf/LIG%20-%202x25%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E25: Episodio 25",
+  "hiddenCode": "T2 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Episodio 26",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jYP6IUr8fJ8rkhTnKyemH4HqhMj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NTRf/LIG%20-%202x26%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NTRf/LIG%20-%202x26%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E26: Episodio 26",
+  "hiddenCode": "T2 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: Episodio 27",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sEyfruKHA2cWGDnFSdy9x48oONe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NjFf/LIG%20-%202x27%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NjFf/LIG%20-%202x27%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E27: Episodio 27",
+  "hiddenCode": "T2 E27",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E28: Episodio 28",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gGti6yzdA5vXEbIGabEpTQreZ7O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NjVf/LIG%20-%202x28.english%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NjVf/LIG%20-%202x28.english%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E28: Episodio 28",
+  "hiddenCode": "T2 E28",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E29: Episodio 29",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4Jz28OggfjPLsDbBOrwfcGu77vc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7Njhf/LIG%20-%202x29%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7Njhf/LIG%20-%202x29%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E29: Episodio 29",
+  "hiddenCode": "T2 E29",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E30: Episodio 30",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gJqp8UwLPqM8Fi9TC1ZJIe6cCb4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NzJf/LIG%20-%202x30%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NzJf/LIG%20-%202x30%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E30: Episodio 30",
+  "hiddenCode": "T2 E30",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E31: Episodio 31",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7IW3Td9FF87kigxt33RCoPWpv20.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7NzZf/LIG%20-%202x31%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7NzZf/LIG%20-%202x31%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E31: Episodio 31",
+  "hiddenCode": "T2 E31",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E32: Episodio 32",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/slAikKLzSVGwvA8lna8dREqbAFB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODc7ODRf/LIG%20-%202x32%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODc7ODRf/LIG%20-%202x32%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T2 E32: Episodio 32",
+  "hiddenCode": "T2 E32",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+  "title": "E1: Up at Bat",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xSF5JC7aTt5CCgXgeZb2xAmppMO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTMxNDBf/LIG%20-%20301-Up%20at%20Bat%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTMxNDBf/LIG%20-%20301-Up%20at%20Bat%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E1: Up at Bat",
+  "hiddenCode": "T3 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Gilligan vs. Gilligan",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kLnfVi8PiZGUH5BcqkvPHQZWTHX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTMyMjFf/LIG%20-%20302-Gilligan%20vs.%20Gilligan%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTMyMjFf/LIG%20-%20302-Gilligan%20vs.%20Gilligan%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E2: Gilligan vs. Gilligan",
+  "hiddenCode": "T3 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Pass the Vegetables, Please",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c1pqilrKCW97DvmALB2mfoRWeSp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTMzMzRf/LIG%20-%20303-Pass%20the%20Vegetables%2C%20Please%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTMzMzRf/LIG%20-%20303-Pass%20the%20Vegetables%2C%20Please%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E3: Pass the Vegetables, Please",
+  "hiddenCode": "T3 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: The Producer",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k36yCnZ1nrljyCVenvTRW32Ba7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM1MjNf/LIG%20-%20304-The%20Producer%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM1MjNf/LIG%20-%20304-The%20Producer%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E4: The Producer",
+  "hiddenCode": "T3 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Voodoo",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kIVWgTYx7oWJUBeSQkXxCEaj7XD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM3MDhf/LIG%20-%20305-Voodoo%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM3MDhf/LIG%20-%20305-Voodoo%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E5: Voodoo",
+  "hiddenCode": "T3 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Where There's a Will",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/twfKXlNmsGf1DjIabuxuKLNmopx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM3ODVf/LIG%20-%20306-Where%20Theres%20a%20Will%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM3ODVf/LIG%20-%20306-Where%20Theres%20a%20Will%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E6: Where There's a Will",
+  "hiddenCode": "T3 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Man with a Net",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3Mnkjx48NFi7nq5VjjsDVdkvBsM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM4MzBf/LIG%20-%20307-Man%20with%20a%20Net%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM4MzBf/LIG%20-%20307-Man%20with%20a%20Net%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E7: Man with a Net",
+  "hiddenCode": "T3 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Hair Today, Gone Tomorrow",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iTXaO288aMyt0XyhyeB8dyn9pyG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM4MzVf/LIG%20-%20308-Hair%20Today%2C%20Gone%20Tomorrow%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM4MzVf/LIG%20-%20308-Hair%20Today%2C%20Gone%20Tomorrow%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E8: Hair Today, Gone Tomorrow",
+  "hiddenCode": "T3 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Ring Around Gilligan",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4QFafWQsGp8crJ2XpF2B2yLatJF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM4NDlf/LIG%20-%20309-Ring%20Around%20Gilligan%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM4NDlf/LIG%20-%20309-Ring%20Around%20Gilligan%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E9: Ring Around Gilligan",
+  "hiddenCode": "T3 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Topsy-Turvy",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uAwhUvzNc8glCIuplpr0eYCzhRj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM4NzBf/LIG%20-%20310-Topsy-Turvy%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM4NzBf/LIG%20-%20310-Topsy-Turvy%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E10: Topsy-Turvy",
+  "hiddenCode": "T3 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: The Invasion",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k6VFimRdQCxNMeCAtedTZDmP3lh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTM5NTFf/LIG%20-%20311-The%20Invasion%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTM5NTFf/LIG%20-%20311-The%20Invasion%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E11: The Invasion",
+  "hiddenCode": "T3 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: The Kidnapper",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bEXLZoFdCKGc1ZhP2srts2WdMJg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQwMjFf/LIG%20-%20312-%20The%20Kidnapper%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQwMjFf/LIG%20-%20312-%20The%20Kidnapper%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E12: The Kidnapper",
+  "hiddenCode": "T3 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: And Then There Were None",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kI8SetXRoMulYMHHE3M3oQbXvlg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQxNDZf/LIG%20-%20313-And%20then%20There%20were%20none%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQxNDZf/LIG%20-%20313-And%20then%20There%20were%20none%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E13: And Then There Were None",
+  "hiddenCode": "T3 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: All About Eva",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yryHgLQKZII6vVfFnB7yWxksdQA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQyNzNf/LIG%20-%20314-All%20About%20Eva%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQyNzNf/LIG%20-%20314-All%20About%20Eva%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E14: All About Eva",
+  "hiddenCode": "T3 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Gilligan Goes Gung-Ho",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4Naup2I3uM5Qh1b5O9gF3ntaVlf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQzNTBf/LIG%20-%20315-Gilligan%20Goes%20Gung-Ho%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQzNTBf/LIG%20-%20315-Gilligan%20Goes%20Gung-Ho%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E15: Gilligan Goes Gung-Ho",
+  "hiddenCode": "T3 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E16: Take a dare",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nzuRODcFxEHcfBlXJr5MzezY41h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ0MjFf/LIG%20-%20316-Take%20a%20Dare%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ0MjFf/LIG%20-%20316-Take%20a%20Dare%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E16: Take a dare",
+  "hiddenCode": "T3 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Court-Martial",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7wsRI4vPcuZ9d7y9duAUnjDUebA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ1Mjdf/LIG%20-%20317-Court-Martial%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ1Mjdf/LIG%20-%20317-Court-Martial%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E17: Court-Martial",
+  "hiddenCode": "T3 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: The hunter",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zZ08Ua0iI5BuezKXK0EyggwKIKJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ2NTRf/LIG%20-%20318-The%20Hunter%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ2NTRf/LIG%20-%20318-The%20Hunter%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E18: The hunter",
+  "hiddenCode": "T3 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Lovey's secret admirer",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eeRgQT42iS0BL37yXXUkskayn4i.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ2OThf/LIG%20-%20319.Loveys%20Secret%20Admirer%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ2OThf/LIG%20-%20319.Loveys%20Secret%20Admirer%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E19: Lovey's secret admirer",
+  "hiddenCode": "T3 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Our vines have tender apes",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gRURFqzsshiRjohZ2hhOtRrtjNF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ3NjJf/LIG%20-%20320.Our%20Vines%20Have%20Tender%20Apes%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ3NjJf/LIG%20-%20320.Our%20Vines%20Have%20Tender%20Apes%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E20: Our vines have tender apes",
+  "hiddenCode": "T3 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Gilligan's personal magnetism",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1QA5vBR5tEqsoL48PurQOojNt3O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ4MzVf/LIG%20-%20321.Gilligans%20Personal%20Magnetism%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4MzVf/LIG%20-%20321.Gilligans%20Personal%20Magnetism%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E21: Gilligan's personal magnetism",
+  "hiddenCode": "T3 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Splashdown",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uflIgTkNvdQLy3sySe5dJmCnHXK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ4NDBf/LIG%20-%20322.Splashdown%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4NDBf/LIG%20-%20322.Splashdown%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E22: Splashdown",
+  "hiddenCode": "T3 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: High man on the Totem Pole",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4m13+Xw1AZlVBK6RI8kIFPsRq4xk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ4NTFf/LIG%20-%20323.High%20Man%20on%20the%20Totem%20Pole%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4NTFf/LIG%20-%20323.High%20Man%20on%20the%20Totem%20Pole%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E23: High man on the Totem Pole",
+  "hiddenCode": "T3 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: The second Ginger Grant",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/579rNUtxBynHWNZ5RDusByNLyHS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ4NTdf/LIG%20-%20324.The%20Second%20Ginger%20Grant%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4NTdf/LIG%20-%20324.The%20Second%20Ginger%20Grant%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E24: The second Ginger Grant",
+  "hiddenCode": "T3 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: The Secret of Gilligan's Island",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4rgWUGTDuTXvylAxIAiIoufVSk8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ4Njhf/LIG%20-%20325.The%20Secret%20of%20Gilligans%20Island%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4Njhf/LIG%20-%20325.The%20Secret%20of%20Gilligans%20Island%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E25: The Secret of Gilligan's Island",
+  "hiddenCode": "T3 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Slave girl",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xrMvhsI68nzdDTUf37V2MRIzzHS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MTFf/LIG%20-%20326.Slave%20Girl%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MTFf/LIG%20-%20326.Slave%20Girl%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E26: Slave girl",
+  "hiddenCode": "T3 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: It's a bird, it's a plane",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xhxJpHhIpepCZlz0qZLrOfdcTNM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MTZf/LIG%20-%20327.Its%20a%20Bird%2C%20Its%20a%20Plane%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MTZf/LIG%20-%20327.Its%20a%20Bird%2C%20Its%20a%20Plane%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E27: It's a bird, it's a plane",
+  "hiddenCode": "T3 E27",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E28: The pigeon",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iUfSbakBGfOHkPx5BZ8YXdNCkel.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MjRf/LIG%20-%20328.The%20Pigeon%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MjRf/LIG%20-%20328.The%20Pigeon%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E28: The pigeon",
+  "hiddenCode": "T3 E28",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E29: Bang! Bang! Bang!",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1d9r7cVBj8fs6BySfVhtUN3ojKD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MzFf/LIG%20-%20329.Bang%21%20Bang%21%20Bang%21%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MzFf/LIG%20-%20329.Bang%21%20Bang%21%20Bang%21%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E29: Bang! Bang! Bang!",
+  "hiddenCode": "T3 E29",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E30: Gilligan, the Goddess",
+  "meta": "13+ · 25m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nqlUMOFbPqTkp2aosVsNz4G9nIk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU3MTQ5Mzdf/LIG%20-%20330.Gilligan%2C%20the%20Goddess%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5Mzdf/LIG%20-%20330.Gilligan%2C%20the%20Goddess%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T3 E30: Gilligan, the Goddess",
+  "hiddenCode": "T3 E30",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

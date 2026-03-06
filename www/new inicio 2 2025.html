@@ -1,0 +1,553 @@
+
+
+<script>
+
+    // Prevenir gestos táctiles no deseados
+document.addEventListener('touchmove', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+       var lastScrollTop = 0; // Última posición de desplazamiento
+var header = document.querySelector('header');
+var tabs = document.querySelector('.tabs');
+var carouselItems = document.querySelectorAll('.carousel-item'); // Todos los elementos del carrusel
+
+window.addEventListener('scroll', function() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Si el desplazamiento es hacia abajo, oculta el header y las tabs
+    if (scrollTop > lastScrollTop) {
+        header.classList.add('hidden');
+        tabs.classList.add('hidden');
+        
+        // Quitar oscurecimiento de las imágenes al desplazarse hacia abajo
+        carouselItems.forEach(item => {
+            item.querySelector('.dark-overlay').style.opacity = '0';
+        });
+    } else {
+        // Si el desplazamiento es hacia arriba, muestra el header y las tabs
+        header.classList.remove('hidden');
+        tabs.classList.remove('hidden');
+        
+        // Aplicar oscurecimiento solo si se está desplazando hacia arriba
+        carouselItems.forEach(item => {
+            item.querySelector('.dark-overlay').style.opacity = '1'; // Oscurecer
+        });
+    }
+
+    // Actualiza la última posición de desplazamiento
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Evitar que sea un valor negativo
+});
+
+// Mostrar el loader al cargar la página
+window.addEventListener('load', function () {
+    const loader = document.getElementById('loader');
+
+    setTimeout(() => {
+        loader.style.opacity = '0'; // Transición para desaparecer
+        setTimeout(() => { loader.style.display = 'none'; }, 300); // Ocultar completamente después de la transición
+    }, 1000); // Mantén el loader visible durante 1 segundo
+
+    // Mostrar el contenido del body con la transición
+    document.body.classList.add('loaded');
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const tabsContainer = document.querySelector('.tabs');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-tab');
+
+            // Quitar la clase 'active' de todas las pestañas y contenidos
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(tc => {
+                tc.classList.remove('active');
+                tc.style.opacity = 0;
+                const track = tc.querySelector('.carousel-track');
+                if (track) {
+                    resetCarousel(track); // Reiniciar el carrusel al cambiar de pestaña
+                    track.stopAutoScroll(); // Detener auto-scroll del carrusel
+                }
+            });
+
+            // Agregar la clase 'active' a la pestaña y al contenido correspondiente
+            tab.classList.add('active');
+            const activeContent = document.getElementById(tabId);
+            activeContent.classList.add('active');
+            setTimeout(() => {
+                activeContent.style.opacity = 1;
+            }, 50);
+
+            // Inicia el desplazamiento hacia la pestaña activa
+            if (["tab3", "tab4", "tab5", "tab6"].includes(tabId)) {
+                scrollToActiveTab(tab);
+            }
+
+            // Reiniciar y activar el carrusel de la pestaña activa
+            const carouselTrack = activeContent.querySelector('.carousel-track');
+            if (carouselTrack) {
+                startCarouselForActiveTab(carouselTrack);
+            }
+        });
+    });
+
+    function scrollToActiveTab(activeTab) {
+        const tabRect = activeTab.getBoundingClientRect();
+        const containerRect = tabsContainer.getBoundingClientRect();
+
+        // Calcula el desplazamiento absoluto para centrar la pestaña activa en el contenedor
+        const offset = tabRect.left - containerRect.left + tabsContainer.scrollLeft
+            - (containerRect.width / 2) + (tabRect.width / 2);
+
+        // Ajusta el desplazamiento horizontal del contenedor
+        tabsContainer.scrollTo({
+            left: offset,
+            behavior: 'smooth'
+        });
+    }
+
+    // Configuración del carrusel en cada tab
+    const carousels = document.querySelectorAll('.carousel-track');
+    carousels.forEach((track, index) => {
+        let currentIndex = 0;
+        const totalImages = track.children.length;
+        const indicators = document.querySelectorAll(`#tab${index + 1} .indicator`);
+        let autoScrollInterval;
+        let isAtEnd = false; // Verifica si el carrusel llegó al final
+        let startX = 0;
+        let currentTranslate = 0;
+        let previousTranslate = 0;
+
+        const updateCarousel = () => {
+            const offset = -currentIndex * 100;
+            track.style.transition = 'transform 0.5s ease';
+            track.style.transform = `translateX(${offset}%)`;
+            indicators.forEach((indicator, ind) => {
+                indicator.classList.toggle('active', ind === currentIndex);
+            });
+
+            // Verifica si estamos en la última imagen
+            isAtEnd = currentIndex >= totalImages - 1;
+        };
+
+        const startAutoScroll = () => {
+            autoScrollInterval = setInterval(() => {
+                if (!isAtEnd) {
+                    currentIndex++;
+                    if (currentIndex >= totalImages) {
+                        currentIndex = totalImages - 1; // Detener en la última imagen
+                        clearInterval(autoScrollInterval); // Detener el auto-scroll
+                        isAtEnd = true;
+                    }
+                    updateCarousel();
+                }
+            }, 6000); // Cambiar cada 6 segundos
+        };
+
+        const stopAutoScroll = () => {
+            clearInterval(autoScrollInterval);
+        };
+
+        // Vincular métodos al track para facilitar el control
+        track.startAutoScroll = startAutoScroll;
+        track.stopAutoScroll = stopAutoScroll;
+
+        // Detener carrusel al principio, ya que no debe estar activo hasta que la tab esté activa
+        track.stopAutoScroll();
+
+        // Lógica para movimiento manual
+        const touchStart = (e) => {
+            startX = e.touches[0].clientX;
+            stopAutoScroll();
+            track.style.transition = 'none'; // Desactivar transición durante el movimiento manual
+        };
+
+        const touchMove = (e) => {
+            const currentX = e.touches[0].clientX;
+            const deltaX = currentX - startX;
+            currentTranslate = previousTranslate + deltaX;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        };
+
+        const touchEnd = () => {
+            const movedBy = currentTranslate - previousTranslate;
+
+            // Determinar si el usuario deslizó lo suficiente
+            if (movedBy < -50 && currentIndex < totalImages - 1) {
+                currentIndex++;
+            }
+            if (movedBy > 50 && currentIndex > 0) {
+                currentIndex--;
+            }
+
+            updateCarousel();
+            previousTranslate = -currentIndex * track.offsetWidth;
+
+            // Si el carrusel no está al final, reiniciar auto-scroll
+            if (!isAtEnd) {
+                startAutoScroll();
+            }
+        };
+
+        // Vinculación de eventos táctiles
+        track.addEventListener('touchstart', touchStart);
+        track.addEventListener('touchmove', touchMove);
+        track.addEventListener('touchend', touchEnd);
+
+        // Reiniciar el carrusel a su estado inicial
+        track.resetCarousel = () => {
+            currentIndex = 0;
+            previousTranslate = 0;
+            currentTranslate = 0;
+            isAtEnd = false;
+            updateCarousel();
+        };
+    });
+
+    // Reinicia el carrusel a la primera imagen
+    function resetCarousel(track) {
+        track.resetCarousel();
+    }
+
+    // Activar el carrusel solo cuando la tab correspondiente esté activa
+    function startCarouselForActiveTab(track) {
+        track.stopAutoScroll(); // Detener el carrusel antes de iniciarlo
+        track.startAutoScroll(); // Iniciar el carrusel activo
+    }
+
+    // Inicia el carrusel del primer tab automáticamente al cargar la página
+    const firstTabCarousel = document.querySelector('.tab-content.active .carousel-track');
+    if (firstTabCarousel) {
+        startCarouselForActiveTab(firstTabCarousel);
+    }
+});
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const footerIcons = document.querySelectorAll('.footer-icon');
+
+    footerIcons.forEach(icon => {
+        icon.addEventListener('click', () => {
+            footerIcons.forEach(i => i.classList.remove('active')); // Elimina la clase activa de todos los iconos
+            icon.classList.add('active'); // Añade la clase activa solo al icono seleccionado
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab'); // Selector para las pestañas
+    const loader = document.getElementById('loader');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', (event) => {
+            event.preventDefault();
+            loader.style.display = 'block'; // Asegura que esté visible para la transición
+            setTimeout(() => { loader.style.opacity = '1'; }, 20); // Inicia transición con un pequeño retardo
+
+            setTimeout(() => {
+                // Aquí puedes añadir la lógica para cambiar de pestaña
+
+                loader.style.opacity = '0'; // Oculta el loader con transición
+                setTimeout(() => { loader.style.display = 'none'; }, 300); // Desactiva después de la transición
+            }, 3000); // Ajusta el tiempo según la transición real
+        });
+    });
+});
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+// Simula datos de notificaciones
+const mockNotifications = [
+{
+        header: "Nuevo Contenido",
+        title: "Cool World: Mundo Cool",
+        body: "Un caricaturista queda atrapado en su propia creación...",
+        image: "https://image.tmdb.org/t/p/original/bJkxddZ4OhJa88TeH28pByJhkTM.jpg",
+        link: "go:cool"
+    },
+    {
+        header: "Nuevo Contenido",
+        title: "Sonic: La pelicula",
+        body: "Tom Wachowski, el sheriff de la ciudad de Green Hills, viajará a San Francisco para ayudar a Sonic.",
+        image: "https://image.tmdb.org/t/p/original/gmMNvS6GfpyRqnoR1uNp0gJK1YE.jpg",
+        link: "go:sonic"
+    },
+    {
+        header: "Nuevo Contenido",
+        title: "Sonic 2",
+        body: "Sonic está ansioso por demostrar que tiene lo que se necesita para ser un verdadero héroe.",
+        image: "https://image.tmdb.org/t/p/original/pedH8nEpJ29TQ4rHFLGmWRS9qY4.jpg",
+        link: "go:sonic2"
+    },
+   
+    
+];
+
+// Simula la llamada a un servidor con setTimeout
+function fetchNotifications() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(mockNotifications); // Simula la respuesta del servidor
+        }, 1000); // Simula un retraso de 1 segundo
+    });
+}
+
+// Función para cargar notificaciones
+async function loadNotifications() {
+    try {
+        const notifications = await fetchNotifications();
+
+        const notificationsContainer = document.getElementById("notificationsContainer");
+        notificationsContainer.innerHTML = ""; // Limpia las notificaciones actuales
+
+        if (notifications.length === 0) {
+            notificationsContainer.innerHTML = "<p>No hay notificaciones nuevas.</p>";
+            return;
+        }
+
+        notifications.forEach(notification => {
+            const notificationElement = createNotificationElement(notification);
+            notificationsContainer.appendChild(notificationElement);
+        });
+
+        updateNotificationBadge(); // Actualiza el badge
+    } catch (error) {
+        console.error("Error al cargar notificaciones:", error);
+    }
+}
+
+// Crear el elemento HTML de la notificación
+function createNotificationElement(notification) {
+    const notificationItem = document.createElement("a");
+    notificationItem.href = notification.link || "#"; // Enlace por defecto
+    notificationItem.className = "notification-item";
+
+    notificationItem.innerHTML = `
+        <img src="${notification.image}" alt="${notification.title}" class="notification-image">
+        <div class="notification-text">
+            <h2>${notification.header || "Notificación"}</h2>
+            <h3>${notification.title}</h3>
+            <p>${notification.body}</p>
+        </div>
+    `;
+    return notificationItem;
+}
+
+// Función para mostrar la sección de notificaciones
+function showNotifications() {
+    const notificationsPage = document.getElementById("notificationsPage");
+    notificationsPage.classList.remove("hidden");
+    updateNotificationBadge(); // Actualiza el badge al abrir la página
+}
+
+// Función para cerrar las notificaciones
+function closeNotifications() {
+    const notificationsPage = document.getElementById("notificationsPage");
+    notificationsPage.classList.add("hidden");
+    updateNotificationBadge(); // Actualiza el badge al cerrar la página
+}
+
+// Función para actualizar el punto rojo en el ícono de notificaciones
+function updateNotificationBadge() {
+    const notificationsContainer = document.getElementById("notificationsContainer");
+    const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
+    const notificationBadge = document.getElementById("notificationBadge");
+
+    if (notificationItems.length > 0) {
+        notificationBadge.style.display = "flex"; // Muestra el badge
+        notificationBadge.textContent = notificationItems.length; // Muestra el número de notificaciones
+    } else {
+        notificationBadge.style.display = "none"; // Oculta el badge si no hay notificaciones
+    }
+}
+
+// Inicializa las notificaciones al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    loadNotifications();
+    updateNotificationBadge();
+});
+
+
+// Contenedor de la sección "Continuar Viendo"
+var container = document.getElementById('continueWatchingContainer');
+var continueWatchingSection = document.querySelector('.movie-section.continue-watching');
+
+// Ocultar la sección inicialmente
+continueWatchingSection.style.display = 'none';
+
+// Variable para rastrear si hay películas incompletas
+var hasIncompleteMovies = false;
+
+// Crear una lista temporal para ordenar y mostrar las películas más recientes primero
+var moviesToRender = [];
+
+// Iterar sobre los datos de localStorage
+for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    try {
+        var movieData = JSON.parse(localStorage.getItem(key));
+
+        // Verificar que el objeto tenga los datos necesarios
+        if (movieData && movieData.title && movieData.poster && movieData.link && movieData.progress !== undefined) {
+            if (movieData.progress < 100) {
+                hasIncompleteMovies = true; // Marcar que hay películas incompletas
+                moviesToRender.push({ key: key, data: movieData }); // Guardar para renderizar después
+            }
+        }
+    } catch (e) {
+        console.error('Error parsing movie data:', e);
+    }
+}
+
+// Ordenar las películas por clave (esto simula agregar las más nuevas primero)
+moviesToRender.reverse(); // Revertimos el orden para que las últimas películas se muestren primero
+
+// Renderizar las películas en el DOM
+moviesToRender.forEach(function (movie) {
+    var key = movie.key;
+    var movieData = movie.data;
+
+    // Crear el contenedor para cada película
+    var movieDiv = document.createElement('div');
+    movieDiv.classList.add('movie-item');
+
+    // Crear la imagen del póster
+    var img = document.createElement('img');
+    img.src = movieData.poster;
+    img.alt = movieData.title;
+    img.classList.add('poster');
+
+    // Crear el enlace
+    var link = document.createElement('a');
+    link.href = movieData.link;
+    link.appendChild(img);
+
+    // Agregar el enlace al contenedor
+    movieDiv.appendChild(link);
+
+    // Crear el contenedor de la barra de progreso
+    var progressBarContainer = document.createElement('div');
+    progressBarContainer.classList.add('progress-bar-container');
+
+    // Crear la barra de progreso
+    var progressBar = document.createElement('div');
+    progressBar.classList.add('progress-bar');
+    progressBar.style.width = movieData.progress + '%'; // Progreso dinámico basado en localStorage
+    progressBarContainer.appendChild(progressBar);
+
+    // Agregar la barra de progreso al contenedor de la película
+    movieDiv.appendChild(progressBarContainer);
+
+    // Crear el título de la película
+    var movieTitle = document.createElement('div');
+    movieTitle.classList.add('movie-title');
+    movieTitle.textContent = movieData.title;
+
+    // Agregar el título debajo de la barra de progreso
+    movieDiv.appendChild(movieTitle);
+
+    // Crear el botón para eliminar la película
+    var deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-button');
+    deleteButton.textContent = 'X';
+
+    // Agregar evento para eliminar la película
+    deleteButton.addEventListener('click', function () {
+        // Eliminar el contenedor del DOM
+        movieDiv.remove();
+
+        // Eliminar la película de localStorage
+        localStorage.removeItem(key);
+
+        // Verificar si quedan películas incompletas
+        if (container.children.length === 0) {
+            continueWatchingSection.style.display = 'none'; // Ocultar la sección si está vacía
+        }
+    });
+
+    // Agregar el botón de eliminar al contenedor de la película
+    movieDiv.appendChild(deleteButton);
+
+    // Agregar el contenedor de la película al inicio del contenedor principal
+    container.prepend(movieDiv);
+});
+
+// Mostrar la sección si hay películas incompletas
+if (hasIncompleteMovies) {
+    continueWatchingSection.style.display = 'block';
+}
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

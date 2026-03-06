@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="loader.min.js"></script>
+<script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+ 
+  
+  <title>Iniciar sesión – Digital Knight</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top);
+      background: linear-gradient(135deg, #000013, #0a0a2a);
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+      padding: 0 10px;
+    }
+
+    .top-image {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://od.lk/s/M18zMjA1NjYyOTJf/APK%20FONDO.jpg");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  z-index: 0;
+}
+
+@media (orientation: landscape), (min-width: 1024px) {
+  .top-image {
+    background-image: url("https://od.lk/s/M18zMjA1NjYzNDBf/APK%20FONDO%202.jpg");
+  }
+}
+
+
+    /* Overlay para oscurecer desde abajo hacia arriba */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(to top, #0a0a2a, #0a0a2a, #0a0a2ab6, transparent);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Logo centrado sobre la imagen */
+    .logo-center {
+      position: absolute;
+      top: 240px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .logo-center img {
+      height: 20px;
+    }
+
+    .login-box {
+  background: #111111;
+  padding: 1px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 60px #00f7ff41;
+  max-width: 300px;
+  width: 100%;
+  z-index: 3;
+  margin-top: 300px;
+}
+
+.login-box h2 {
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: none;
+  border-radius: 8px;
+  background: #222222;
+  color: white;
+  font-size: 14px;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #00f7ff;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-box button:hover {
+  background: #00dbe3;
+}
+
+.toggle-mode,
+.forgot-password {
+  text-align: center;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #9b9898;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle svg {
+  width: 100%;
+  height: 100%;
+  stroke: #666565;
+}
+
+.password-toggle:hover svg {
+  stroke: #00f7ff;
+}
+
+
+    .forgot-password:hover,
+    .toggle-mode:hover {
+      color: #00f7ff;
+    }
+
+    .error-msg {
+      color: #ff6666;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (min-width: 1024px) {
+    .login-box {
+      max-width: 480px;
+    }
+    .footer-link {
+      bottom: 60px; /* más arriba en pantallas grandes */
+    }
+  }
+
+  .footer-link {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #4ab3ff;
+    text-decoration: none;
+    z-index: 3;
+  }
+
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+
+  .intro-text {
+  position: absolute;
+  top: 280px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+  z-index: 2;
+  max-width: 340px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+@media (min-width: 1024px) {
+  .intro-text {
+    max-width: 480px;
+  }
+}
+
+.intro-text h1 {
+  font-size: 17px;
+  font-weight: bold;
+  margin: 10px 0 6px;
+}
+
+.intro-text p {
+  font-size: 14px;
+  color: #ccc;
+  margin: 0;
+  padding: 0;
+}
+
+.logo-up {
+  top: 120px !important;
+  transition: top 0.3s ease;
+}
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+/* Layout horizontal y pantallas grandes */
+@media (orientation: landscape), (min-width: 1024px) {
+  .logo-center {
+    left: 60px;
+    top: 60px;
+    transform: none;
+    transition: all 0.4s ease;
+  }
+
+  .intro-text {
+    top: 130px;
+    left: 60px;
+    transform: none;
+    text-align: left;
+    max-width: 400px;
+    transition: all 0.4s ease;
+  }
+
+  .login-box {
+    position: absolute;
+    top: 250px;
+    left: 60px;
+    margin: 0;
+    transition: all 0.4s ease;
+  }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  body {
+      padding-top: env(safe-area-inset-top);
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px;
+  }
+
+  .logo-center {
+    top: 30px;
+    left: 30px;
+    transform: none;
+  }
+
+  .intro-text {
+    position: absolute;
+    top: 70px;
+    left: 30px;
+    transform: none;
+    text-align: left;
+    max-width: 500px;
+  }
+
+  .login-box {
+    position: absolute;
+    top: 170px;
+    left: 30px;
+    max-width: 500px;
+    margin-top: 0;
+  }
+
+  .footer-link {
+    left: 30px;
+    bottom: 20px;
+    transform: none;
+    font-size: 12px;
+    max-width: calc(100% - 60px);
+    text-align: left;
+  }
+}
+
+ /* Deshabilitar selección de texto e interacciones */
+ body, img, a, button, select, textarea {
+              -webkit-user-select: none; /* Safari */
+              -moz-user-select: none; /* Firefox */
+              -ms-user-select: none; /* IE10+/Edge */
+              user-select: none; /* estándar */
+          }
+  
+          /* Deshabilitar resaltado en elementos interactivos */
+          a, button, select, textarea {
+              -webkit-tap-highlight-color: transparent; /* Safari */
+          
+          }
+  
+          /* Deshabilitar el arrastre de imágenes */
+          img {
+              pointer-events: none; /* Desactiva interacciones del puntero en imágenes */
+          }
+
+          .login-box,
+.login-box * {
+  pointer-events: auto !important;
+  user-select: auto;
+}
+
+#togglePassword {
+  pointer-events: auto !important;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Imagen decorativa -->
+  <div class="top-image" id="topImage"></div>
+  <div class="overlay"></div>
+
+  <!-- Logo centrado -->
+  <div class="logo-center">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" alt="Logo Digital Knight" />
+  </div>
+
+  <!-- Texto promocional -->
+<div class="intro-text">
+  <h1>Empieza a disfrutar con Digital Knight</h1>
+  <p>Prepárate para sumergirte en las historias más épicas del cine, series y anime.</p>
+</div>
+
+
+  <!-- Caja de login -->
+  <div class="login-box">
+    <h2 id="mode-title">Iniciar Sesión</h2>
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <div style="position: relative;">
+      <input type="password" id="password" placeholder="Contraseña" style="padding-right: 40px;" />
+      <span id="togglePassword"
+      class="password-toggle"
+      role="button"
+      aria-label="Mostrar u ocultar contraseña"></span>
+
+
+    </div>
+    
+    <button id="actionBtn">Ingresar</button>
+    <p class="forgot-password" id="forgotPassword">¿Olvidaste tu contraseña?</p>
+    <p class="toggle-mode" id="toggleMode">¿No tienes cuenta? Regístrate gratis</p>
+    <p class="error-msg" id="errorMsg"></p>
+  </div>
+
+  <!-- Link de privacidad -->
+  <a class="footer-link" href="privacidad.html">Privacidad y Contenido</a>
+  <script src="nav.html"></script>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    
+/* =======================
+   ICONOS SVG (PRIMERO)
+======================= */
+const eyeOpen = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+  <path stroke-linecap="round" stroke-linejoin="round"
+    d="M2.25 12s3.75-7.5 9.75-7.5S21.75 12 21.75 12s-3.75 7.5-9.75 7.5S2.25 12 2.25 12z" />
+  <circle cx="12" cy="12" r="3.5" />
+</svg>
+`;
+
+const eyeClosed = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+  <path stroke-linecap="round" stroke-linejoin="round"
+    d="M3 3l18 18M10.58 10.58A3 3 0 0012 15a3 3 0 002.42-4.42M6.73 6.73C4.2 8.7 2.25 12 2.25 12s3.75 7.5 9.75 7.5c2.1 0 3.97-.6 5.55-1.57" />
+</svg>
+`;
+
+
+    const supabase = createClient(
+      'https://wplyrhcszuoordgaphax.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+    );
+    
+    // ELEMENTOS
+    const modeTitle = document.getElementById("mode-title");
+    const toggleMode = document.getElementById("toggleMode");
+    const actionBtn = document.getElementById("actionBtn");
+    const errorMsg = document.getElementById("errorMsg");
+    const forgotPassword = document.getElementById("forgotPassword");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    
+    let mode = "login"; // login | register | reset
+    
+    // =======================
+    // RENDER MODOS
+    // =======================
+    function renderMode() {
+      errorMsg.textContent = "";
+      errorMsg.style.color = "#ff6666";
+    
+      if (mode === "login") {
+        modeTitle.textContent = "Iniciar Sesión";
+        actionBtn.textContent = "Ingresar";
+        toggleMode.textContent = "¿No tienes cuenta? Regístrate gratis";
+        forgotPassword.style.display = "block";
+        passwordInput.style.display = "block";
+        togglePassword.style.display = "block";
+        togglePassword.innerHTML = eyeOpen;
+    passwordInput.type = "password";
+  }
+    
+      if (mode === "register") {
+        modeTitle.textContent = "Crear Cuenta";
+        actionBtn.textContent = "Registrarse";
+        toggleMode.textContent = "¿Ya tienes cuenta? Inicia sesión";
+        forgotPassword.style.display = "none";
+        passwordInput.style.display = "block";
+        togglePassword.style.display = "block";
+        togglePassword.innerHTML = eyeOpen;
+    passwordInput.type = "password";
+  }
+    
+      if (mode === "reset") {
+        modeTitle.textContent = "Recuperar contraseña";
+        actionBtn.textContent = "Enviar correo";
+        toggleMode.textContent = "← Volver a iniciar sesión";
+        forgotPassword.style.display = "none";
+        passwordInput.style.display = "none";
+        togglePassword.style.display = "none";
+      }
+    }
+    
+    // =======================
+    // ACCIÓN PRINCIPAL
+    // =======================
+    actionBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+    
+      if (!email || (mode !== "reset" && !password)) {
+        errorMsg.textContent = "Completa los campos requeridos";
+        return;
+      }
+    
+      try {
+        if (mode === "login") {
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    if (error.message.includes("Email not confirmed")) {
+      errorMsg.textContent = "⚠️ Debes confirmar tu correo antes de iniciar sesión.";
+      return;
+    }
+    throw error;
+  }
+
+  window.location.href = "main.html";
+}
+
+    
+        if (mode === "register") {
+          const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: "https://digital-knight-v2.netlify.app/welcome/welcome.html"
+            }
+          });
+          if (error) throw error;
+    
+          errorMsg.style.color = "lightgreen";
+          errorMsg.textContent = "📩 Revisa tu correo para confirmar tu cuenta.";
+        }
+    
+        if (mode === "reset") {
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: "https://digital-knight-v2.netlify.app/reset/reset-password.html"
+          });
+          if (error) throw error;
+    
+          errorMsg.style.color = "lightgreen";
+          errorMsg.textContent = "📩 Revisa tu correo para restablecer tu contraseña.";
+        }
+    
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    });
+
+    /* =======================
+   MOSTRAR / OCULTAR PASSWORD
+======================= */
+togglePassword.addEventListener("click", () => {
+  const isPassword = passwordInput.type === "password";
+  passwordInput.type = isPassword ? "text" : "password";
+  togglePassword.innerHTML = isPassword ? eyeClosed : eyeOpen;
+});
+    
+    // =======================
+    // CAMBIO DE MODO
+    // =======================
+    toggleMode.addEventListener("click", () => {
+      mode = mode === "login" ? "register" : "login";
+      renderMode();
+    });
+    
+    forgotPassword.addEventListener("click", () => {
+      mode = "reset";
+      renderMode();
+    });
+    
+    // =======================
+    // SESIÓN ACTIVA
+    // =======================
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) window.location.href = "main.html";
+    });
+    
+    
+
+    
+    // =======================
+    renderMode();
+
+    
+    </script>
+    
+  
+</body>
+</html>

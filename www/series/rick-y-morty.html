@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Rick y Morty</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/bGmwH0H7rsMH4xuhchj141Mabtp.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/Ao5pBFuWY32cVuh6iYjEjZMEscN.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Rick y Morty</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/t3oZCMhjnCWKI1U3WNZNsyt1M69.png" alt="Rick y Morty Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+    8 temporadas    2013    Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Rick y Morty" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/pdOiUN6oboZY2NDhWvUbsSjznPm.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="rick-y-morty.html"></a>
+          <span id="nombre">Rick y Morty</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Rick Sánchez es un genio científico alcohólico. Él pasa el tiempo con su nieto adolescente Morty en aventuras peligrosas y surrealistas.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="bojack-horseman.html">
+          <img src="https://image.tmdb.org/t/p/w300/6JFWzlChcGgLiIUo2COgNlWGFKy.jpg" alt="BoJack Horseman" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">BoJack Horseman</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="sherlock.html">
+          <img src="https://image.tmdb.org/t/p/w300/cIfGAkpvWD2zxHrXzhv3uptYbyV.jpg" alt="Sherlock" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Sherlock</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="south-park.html">
+          <img src="https://image.tmdb.org/t/p/w300/dqAKFEjPEu7vWkVBkMdhGu9ifxU.jpg" alt="South Park" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">South Park</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="breaking-bad.html">
+          <img src="https://image.tmdb.org/t/p/w300/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg" alt="Breaking Bad" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Breaking Bad</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMTgwMzI0MTZf/E1%20Zapatero%20a%20Tus%20Zapatos.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Rick y Morty</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "rick-y-morty-60625";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+        "title": "E1: Buscando las semillas",
+        "meta": "16+ · 22m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oWaKdUeMOlVZem3v9DWsdDGlTuY.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjYyMzJf/T1%20E1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjYyMzJf/T1%20E1.mp4",
+        "episodeCode": "T1 E1: Buscando las semillas",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 128,
+          "end": 155
+        }
+      },
+      {
+        "title": "E2: Invasión canina",
+        "meta": "16+ · 22m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zsO5ylZLn7ihplZFqPmOz2v87R7.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjYzMzZf/T1%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjYzMzZf/T1%20E2.mp4",
+        "episodeCode": "T1 E2: Invasión canina",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 5,
+          "end": 30
+        }
+      },
+      {
+        "title": "E3: Parque anatómico",
+        "meta": "16+ · 22m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3cp6QrExDBQUFGcOu43NBtaugNY.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkwNjYyODVf/T1%20E3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkwNjYyODVf/T1%20E3.mp4",
+        "episodeCode": "T1 E3: Parque anatómico",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 5,
+          "end": 30
+        }
+      },
+      {
+        "title": "E4: La simulación alienígena",
+        "meta": "16+ · 21m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9hbDdbHeHIuquiwQ5zdux57nYTk.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIwNDZf/T1%20E4_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIwNDZf/T1%20E4_1.mp4",
+        "episodeCode": "T1 E4: La simulación alienígena",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 5,
+          "end": 30
+        }
+      },
+      {
+        "title": "E5: Meeseeks destructores",
+        "meta": "16+ · 21m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9nh9ZpxOyCJMD73biS2h3CvHfm2.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIwMzhf/T1%20E5_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIwMzhf/T1%20E5_1.mp4",
+        "episodeCode": "T1 E5: Meeseeks destructores",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 5,
+          "end": 30
+        }
+      },
+      {
+        "title": "E6: La poción de Rick",
+        "meta": "16+ · 22m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hY750JVvL7K9KQN9lcqPTqcUEkN.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIwMjJf/T1%20E6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIwMjJf/T1%20E6.mp4",
+        "episodeCode": "T1 E6: La poción de Rick",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 5,
+          "end": 30
+        }
+      },
+      {
+        "title": "E7: Criando un Gazorpazorp",
+        "meta": "16+ · 22m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/j7qn7TIOSQOHZBgVi4NKnTpIcgM.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTE5OTdf/T1%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTE5OTdf/T1%20E7.mp4",
+        "episodeCode": "T1 E7: Criando un Gazorpazorp",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 70,
+          "end": 98
+        }
+      },
+      {
+        "title": "E8: Televisión interdimensional",
+        "meta": "16+ · 23m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/HaTpHoQw2DWFAtHgGKn4gLOEaX.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTE5NzZf/T1%20E8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTE5NzZf/T1%20E8.mp4",
+        "episodeCode": "T1 E8: Televisión interdimensional",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 90,
+          "end": 118
+        }
+      },
+      {
+        "title": "E9: Cosas necesarias",
+        "meta": "16+ · 23m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/daA9q3U3ibIcm5OGuklySeIsQWV.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTE5NTVf/T1%20E9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTE5NTVf/T1%20E9.mp4",
+        "episodeCode": "T1 E9: Cosas necesarias",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 65,
+          "end": 93
+        }
+      },
+      {
+        "title": "E10: Encuentros cercanos a lo Rick",
+        "meta": "16+ · 23m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8gOouaPQhfB8cC01sYyFLYgTcRq.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTE5MDlf/T1%20E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTE5MDlf/T1%20E10.mp4",
+        "episodeCode": "T1 E10: Encuentros cercanos a lo Rick",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 29,
+          "end": 58
+        }
+      },
+      {
+        "title": "E11: Es hora de la fiesta",
+        "meta": "16+ · 23m · 2013",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8zhyqhx7JU00FGEZPWOSotEHaiF.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTE4OThf/T1%20E11.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTE4OThf/T1%20E11.mp4",
+        "episodeCode": "T1 E11: Es hora de la fiesta",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 80,
+          "end": 108
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: Rupturas en el tiempo",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/49kPj1L8KkJAnhnqJIftr3fdXHt.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTI0NDBf/1920x1078-seg-1-f3-v1-a1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTI0NDBf/1920x1078-seg-1-f3-v1-a1.mp4",
+        "episodeCode": "T2 E1: Rupturas en el tiempo",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 150,
+          "end": 178
+        }
+      },
+      {
+        "title": "E2: Morty escapa en la noche",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zsrtewu4jJPh4vB5ZDB9oW36tm8.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTI0NTJf/T2%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTI0NTJf/T2%20E2.mp4",
+        "episodeCode": "T2 E2: Morty escapa en la noche",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Asimilación autoerótica",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6zOHPMTvduupyEDqL8FnLGt6fxq.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzODVf/1920x1080-seg-1-f3-v1-a1_3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzODVf/1920x1080-seg-1-f3-v1-a1_3.mp4",
+        "episodeCode": "T2 E3: Asimilación autoerótica",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Rick vengador del futuro",
+        "meta": "16+ · 22m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xVQqoLFSCzFtKp0OkW4PGPc7NtB.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzNzZf/1920x1080-seg-1-f3-v1-a1_4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzNzZf/1920x1080-seg-1-f3-v1-a1_4.mp4",
+        "episodeCode": "T2 E4: Rick vengador del futuro",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 103,
+          "end": 131
+        }
+      },
+      {
+        "title": "E5: Ponte Ricoso",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jBUDahgRdHQUrDGcd44ju2AllbV.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzNzFf/1920x1080-seg-1-f3-v1-a1_5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzNzFf/1920x1080-seg-1-f3-v1-a1_5.mp4",
+        "episodeCode": "T2 E5: Ponte Ricoso",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 54,
+          "end": 82
+        }
+      },
+      {
+        "title": "E6: Los Ricks deben estar locos",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9T5ZiW2qhqMRdx79q800SBYbxDv.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzNTdf/1920x1078-seg-1-f3-v1-a1_6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzNTdf/1920x1078-seg-1-f3-v1-a1_6.mp4",
+        "episodeCode": "T2 E6: Los Ricks deben estar locos",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 107,
+          "end": 134
+        }
+      },
+      {
+        "title": "E7: Problemas con mini Rick",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mmGdga7NBsz7CCZNVJrZ7bvzuOe.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTI0NDRf/1920x1078-seg-1-f3-v1-a1_7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTI0NDRf/1920x1078-seg-1-f3-v1-a1_7.mp4",
+        "episodeCode": "T2 E7: Problemas con mini Rick",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 124,
+          "end": 152
+        }
+      },
+      {
+        "title": "E8: Televisión interdimensional 2",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fm5rzPCXTLr1SlSmylBkNkZhF1P.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzNDdf/1920x1080-seg-1-f3-v1-a1_8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzNDdf/1920x1080-seg-1-f3-v1-a1_8.mp4",
+        "episodeCode": "T2 E8: Televisión interdimensional 2",
+        "hiddenCode": "T2 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: El día de la purga",
+        "meta": "16+ · 22m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uK0bpV9Oc07FfCsPk6BISqKj7bS.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzNDNf/1920x1080-seg-1-f3-v1-a1_9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzNDNf/1920x1080-seg-1-f3-v1-a1_9.mp4",
+        "episodeCode": "T2 E9: El día de la purga",
+        "hiddenCode": "T2 E9",
+        "intro": {
+          "start": 83,
+          "end": 111
+        }
+      },
+      {
+        "title": "E10: La Squanch-boda",
+        "meta": "16+ · 23m · 2015",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tdH0b9klzjxUc93J2h4HY7hnWHo.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMTIzMzBf/1920x1080-seg-1-f3-v1-a1_10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMTIzMzBf/1920x1080-seg-1-f3-v1-a1_10.mp4",
+        "episodeCode": "T2 E10: La Squanch-boda",
+        "hiddenCode": "T2 E10",
+        "intro": {
+          "start": 84,
+          "end": 111
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+        "title": "E1: La redencion de Ricl",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xwxRcQRpTpUlWN34mP0SpQCbfvs.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAzNTZf/1920x1080-seg-1-f3-v1-a1_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAzNTZf/1920x1080-seg-1-f3-v1-a1_1.mp4",
+        "episodeCode": "T3 E1: La redencion de Ricl",
+        "hiddenCode": "T3 E1",
+        "intro": {
+          "start": 83,
+          "end": 110
+        }
+      },
+      {
+        "title": "E2: Rickusando la piedra",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2uXVtyVMsQ4ju9Ts4Fhnj5IXFdr.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAzMzBf/1920x1080-seg-1-f3-v1-a1_2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAzMzBf/1920x1080-seg-1-f3-v1-a1_2.mp4",
+        "episodeCode": "T3 E2: Rickusando la piedra",
+        "hiddenCode": "T3 E2",
+        "intro": {
+          "start": 97,
+          "end": 125
+        }
+      },
+      {
+        "title": "E3: Pepinillo Rick",
+        "meta": "16+ · 24m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lzNb4JsebI3JXQ6k73rWddrKkuV.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAzNDRf/1920x1080-seg-1-f3-v1-a1_3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAzNDRf/1920x1080-seg-1-f3-v1-a1_3.mp4",
+        "episodeCode": "T3 E3: Pepinillo Rick",
+        "hiddenCode": "T3 E3",
+        "intro": {
+          "start": 63,
+          "end": 91
+        }
+      },
+      {
+        "title": "E4: Los vindicadores: El regreso del destructor de Mundos",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/c1BdCiPvk13xWalDrm2VT4wFEBw.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAzMjBf/1920x1080-seg-1-f3-v1-a1_4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAzMjBf/1920x1080-seg-1-f3-v1-a1_4.mp4",
+        "episodeCode": "T3 E4: Los vindicadores: El regreso del destructor de Mundos",
+        "hiddenCode": "T3 E4",
+        "intro": {
+          "start": 56,
+          "end": 88
+        }
+      },
+      {
+        "title": "E5: La conspiracion de Whirly Dirly",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sGWF8xQH6OtCk6m7WxBG8kztma9.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAzMDhf/1920x1080-seg-1-f3-v1-a1_5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAzMDhf/1920x1080-seg-1-f3-v1-a1_5.mp4",
+        "episodeCode": "T3 E5: La conspiracion de Whirly Dirly",
+        "hiddenCode": "T3 E5",
+        "intro": {
+          "start": 41,
+          "end": 70
+        }
+      },
+      {
+        "title": "E6: Descanso y Ricklajación",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kBlUIclFyabFCzaubgot6hUyQii.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAyOTdf/1920x1080-seg-1-f3-v1-a1_6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAyOTdf/1920x1080-seg-1-f3-v1-a1_6.mp4",
+        "episodeCode": "T3 E6: Descanso y Ricklajación",
+        "hiddenCode": "T3 E6",
+        "intro": {
+          "start": 146,
+          "end": 175
+        }
+      },
+      {
+        "title": "E7: Cuentos de la Ciudadela",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qaQewfpan7KdMLVkAzBQoWPO1fY.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAyODRf/1920x1080-seg-1-f3-v1-a1_7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAyODRf/1920x1080-seg-1-f3-v1-a1_7.mp4",
+        "episodeCode": "T3 E7: Cuentos de la Ciudadela",
+        "hiddenCode": "T3 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Los recuerdos de Morty",
+        "meta": "16+ · 22m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/htGYT3DrkEqT1ZB7lgLCEyUH2EF.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAyNzFf/1920x1080-seg-1-f3-v1-a1_8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAyNzFf/1920x1080-seg-1-f3-v1-a1_8.mp4",
+        "episodeCode": "T3 E8: Los recuerdos de Morty",
+        "hiddenCode": "T3 E8",
+        "intro": {
+          "start": 64,
+          "end": 92
+        }
+      },
+      {
+        "title": "E9: ABC de Beth",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qGwRWniPFiFsXE1Y13PxP71tnSW.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAyNjRf/1920x1080-seg-1-f3-v1-a1_9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAyNjRf/1920x1080-seg-1-f3-v1-a1_9.mp4",
+        "episodeCode": "T3 E9: ABC de Beth",
+        "hiddenCode": "T3 E9",
+        "intro": {
+          "start": 81,
+          "end": 109
+        }
+      },
+      {
+        "title": "E10: Dia de Rick y Morty",
+        "meta": "16+ · 23m · 2017",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ej2Y8gRkOllPF5dRMG0nS7HKy6w.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjAyNTJf/1920x1080-seg-1-f3-v1-a1_10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjAyNTJf/1920x1080-seg-1-f3-v1-a1_10.mp4",
+        "episodeCode": "T3 E10: Dia de Rick y Morty",
+        "hiddenCode": "T3 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+        "title": "E1: Aprovechando el mortymento: Vive, muere, Rickpeat",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/z0qw504V0rkLKGviNsBnq1HOnXR.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ5NDJf/e1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ5NDJf/e1.mp4",
+        "episodeCode": "T4 E1: Aprovechando el mortymento: Vive, muere, Rickpeat",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 70,
+          "end": 98
+        }
+      },
+      {
+        "title": "E2: El anciano y el trono",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3QrhXUMAtmNvtlJy3XLDWvr2Xk7.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ5MDlf/e2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ5MDlf/e2.mp4",
+        "episodeCode": "T4 E2: El anciano y el trono",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 88,
+          "end": 116
+        }
+      },
+      {
+        "title": "E3: Una pandilla para el patético de Morty",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/etaGJvYnUNN7Hrs5ddNIkKxuXFn.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ4NjVf/e3_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ4NjVf/e3_1.mp4",
+        "episodeCode": "T4 E3: Una pandilla para el patético de Morty",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 83,
+          "end": 111
+        }
+      },
+      {
+        "title": "E4: Ley y el dragorden",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xG2DlQB8amHLCiiDohheCpjjUrd.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ4NDBf/e4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ4NDBf/e4.mp4",
+        "episodeCode": "T4 E4: Ley y el dragorden",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 76,
+          "end": 104
+        }
+      },
+      {
+        "title": "E5: Rattlestar Rickláctica",
+        "meta": "16+ · 22m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/po6Uuzz17eFcGFgiB2f6n7v0chL.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ4MTdf/e5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ4MTdf/e5.mp4",
+        "episodeCode": "T4 E5: Rattlestar Rickláctica",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Un tren de antologías",
+        "meta": "16+ · 22m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zAUbOurESu3aWQazYkdVbhlKoVp.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ3ODhf/e6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ3ODhf/e6.mp4",
+        "episodeCode": "T4 E6: Un tren de antologías",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Alienígenas",
+        "meta": "16+ · 22m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cgtHF7rqaac6ZhJp94orTFnNHgJ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ3NjVf/e7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ3NjVf/e7.mp4",
+        "episodeCode": "T4 E7: Alienígenas",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 66,
+          "end": 94
+        }
+      },
+      {
+        "title": "E8: El episodio del tanque de ácido",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fN6d00et55OzeVSqq34Ww2wGQxR.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ3MDVf/e8_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ3MDVf/e8_1.mp4",
+        "episodeCode": "T4 E8: El episodio del tanque de ácido",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 164,
+          "end": 192
+        }
+      },
+      {
+        "title": "E9: Childrick of Morta",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h5QkB2nmmBwPhNhPN2FNTj3bm2I.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ3MjNf/e9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ3MjNf/e9.mp4",
+        "episodeCode": "T4 E9: Childrick of Morta",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 117,
+          "end": 145
+        }
+      },
+      {
+        "title": "E10: El rickgreso del Jerri",
+        "meta": "16+ · 23m · 2019",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6TemRqYYm1JQDEqf2sc6jRD5uXH.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMjQ2ODFf/E010_3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMjQ2ODFf/E010_3.mp4",
+        "episodeCode": "T4 E10: El rickgreso del Jerri",
+        "hiddenCode": "T4 E10",
+        "intro": {
+          "start": 108,
+          "end": 136
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+        "title": "E1: Mi cena con Andre a la Morty",
+        "meta": "16+ · 23m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/w864XNoMFjrR8dP0lfDkH8uYBym.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5OTVf/T5%20E1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5OTVf/T5%20E1.mp4",
+        "episodeCode": "T5 E1: Mi cena con Andre a la Morty",
+        "hiddenCode": "T5 E1",
+        "intro": {
+          "start": 117,
+          "end": 145
+        }
+      },
+      {
+        "title": "E2: Mortyplicidad",
+        "meta": "16+ · 22m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wzKkvUbWMso3bceAwJRXDDdMzNI.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzMwMDZf/T5%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzMwMDZf/T5%20E2.mp4",
+        "episodeCode": "T5 E2: Mortyplicidad",
+        "hiddenCode": "T5 E2",
+        "intro": {
+          "start": 53,
+          "end": 81
+        }
+      },
+      {
+        "title": "E3: Una Mortyandad Conveniente",
+        "meta": "16+ · 23m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nUP1i4LregRWkwMZTITmI26NgZA.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5ODJf/T5%20E3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5ODJf/T5%20E3.mp4",
+        "episodeCode": "T5 E3: Una Mortyandad Conveniente",
+        "hiddenCode": "T5 E3",
+        "intro": {
+          "start": 127,
+          "end": 155
+        }
+      },
+      {
+        "title": "E4: Día de la Rickdependencia",
+        "meta": "16+ · 22m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kZEv3526Omec597J6NIpP2GAa7n.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5NjVf/T5%20E4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5NjVf/T5%20E4.mp4",
+        "episodeCode": "T5 E4: Día de la Rickdependencia",
+        "hiddenCode": "T5 E4",
+        "intro": {
+          "start": 152,
+          "end": 180
+        }
+      },
+      {
+        "title": "E5: Grickfitti Amortycano",
+        "meta": "16+ · 23m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5nCh9wrr93WdYhquBFEMjZrDgFq.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5NThf/T5%20E5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5NThf/T5%20E5.mp4",
+        "episodeCode": "T5 E5: Grickfitti Amortycano",
+        "hiddenCode": "T5 E5",
+        "intro": {
+          "start": 158,
+          "end": 186
+        }
+      },
+      {
+        "title": "E6: El increible día de Explota-acción de Gracias",
+        "meta": "16+ · 24m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/n3U2G3QOrfU3vQTpo42q23OwJKa.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5NDlf/T5%20E6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5NDlf/T5%20E6.mp4",
+        "episodeCode": "T5 E6: El increible día de Explota-acción de Gracias",
+        "hiddenCode": "T5 E6",
+        "intro": {
+          "start":56,
+          "end": 84
+        }
+      },
+      {
+        "title": "E7: Gotron Jerrysis Rickvangelion",
+        "meta": "16+ · 22m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yehrEI2y5y1smocmeMNWeWigboA.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5MzVf/T5%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5MzVf/T5%20E7.mp4",
+        "episodeCode": "T5 E7: Gotron Jerrysis Rickvangelion",
+        "hiddenCode": "T5 E7",
+        "intro": {
+          "start": 91,
+          "end": 119
+        }
+      },
+      {
+        "title": "E8: Rickterno amisplandor del Mort sin recuerdos",
+        "meta": "16+ · 22m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oKf0YQVIQFYVIO2bgsDtxXLYLLJ.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5MTVf/T5%20E8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5MTVf/T5%20E8.mp4",
+        "episodeCode": "T5 E8: Rickterno amisplandor del Mort sin recuerdos",
+        "hiddenCode": "T5 E8",
+        "intro": {
+          "start": 72,
+          "end": 100
+        }
+      },
+      {
+        "title": "E9: Olvidando a Sarick Mortshall",
+        "meta": "16+ · 22m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4ZU8vX420Tm2yilkmXejf7NKjL6.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI5MDFf/T5%20E9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI5MDFf/T5%20E9.mp4",
+        "episodeCode": "T5 E9: Olvidando a Sarick Mortshall",
+        "hiddenCode": "T5 E9",
+        "intro": {
+          "start": 101,
+          "end": 129
+        }
+      },
+      {
+        "title": "E10: Rickmurai Jack",
+        "meta": "16+ · 22m · 2021",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6yPSy0ipNQfFUAX3tHSEf75rCdu.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzI4OTJf/T5%20E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzI4OTJf/T5%20E10.mp4",
+        "episodeCode": "T5 E10: Rickmurai Jack",
+        "hiddenCode": "T5 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 6",
+    "episodes": [
+      {
+        "title": "E1: Solaricks",
+        "meta": "16+ · 23m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5tiOEjp03nvaGiKT73knretU8e8.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM3MzJf/T6%20E1_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM3MzJf/T6%20E1_1.mp4",
+        "episodeCode": "T6 E1: Solaricks",
+        "hiddenCode": "T6 E1",
+        "intro": {
+          "start": 108,
+          "end": 136
+        }
+      },
+      {
+        "title": "E2: Rick: Una Morty Vida",
+        "meta": "16+ · 23m · 202",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ezzPXWo8zAKl8eW2FivYRfng0jq.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2OTNf/T6%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2OTNf/T6%20E2.mp4",
+        "episodeCode": "T6 E2: Rick: Una Morty Vida",
+        "hiddenCode": "T6 E2",
+        "intro": {
+          "start":115,
+          "end": 143
+        }
+      },
+      {
+        "title": "E3: Instinto Béthico",
+        "meta": "16+ · 22m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8ZCNAxkDo67GtcBJBDIERdywnar.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU1MjVf/E3_2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU1MjVf/E3_2.mp4",
+        "episodeCode": "T6 E3: Instinto Béthico",
+        "hiddenCode": "T6 E3",
+        "intro": {
+          "start":115,
+          "end": 143
+        }
+      },
+      {
+        "title": "E4: Familia Nocturna",
+        "meta": "16+ · 21m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/d3FSuQC3SKLnVcb4zbyeqYUSM6X.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM3MDVf/T6%20E4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM3MDVf/T6%20E4.mp4",
+        "episodeCode": "T6 E4: Familia Nocturna",
+        "hiddenCode": "T6 E4",
+        "intro": {
+          "start": 155,
+          "end": 183
+        }
+      },
+      {
+        "title": "E5: DeSmithno final",
+        "meta": "16+ · 23m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ziMNDO6UMjDAbUV2zbV5TxgH537.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2ODBf/T6%20E5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2ODBf/T6%20E5.mp4",
+        "episodeCode": "T6 E5: DeSmithno final",
+        "hiddenCode": "T6 E5",
+        "intro": {
+          "start": 74,
+          "end": 102
+        }
+      },
+      {
+        "title": "E6: Mundo JuRícksico",
+        "meta": "16+ · 23m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bj56DAGeH3vAMnBDXCObto8KCsK.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2NjVf/T6%20E6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2NjVf/T6%20E6.mp4",
+        "episodeCode": "T6 E6: Mundo JuRícksico",
+        "hiddenCode": "T6 E6",
+        "intro": {
+          "start": 121,
+          "end": 149
+        }
+      },
+      {
+        "title": "E7: La Meta Naricktiva",
+        "meta": "16+ · 22m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lG890UhNqGtdsq9nJWxI31IQU2t.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2NTdf/T6%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2NTdf/T6%20E7.mp4",
+        "episodeCode": "T6 E7: La Meta Naricktiva",
+        "hiddenCode": "T6 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Analízame",
+        "meta": "16+ · 23m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iEz4PBtbs2TU0r4fq3gkZ01Mxl2.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2NDZf/T6%20E8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2NDZf/T6%20E8.mp4",
+        "episodeCode": "T6 E8: Analízame",
+        "hiddenCode": "T6 E8",
+        "intro": {
+          "start": 105,
+          "end": 133
+        }
+      },
+      {
+        "title": "E9: El Sacrificio del Rey Morturo",
+        "meta": "16+ · 21m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xiPSthi7ZF5xosfEqvAp6bl0sFu.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2MzZf/T6%20E9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2MzZf/T6%20E9.mp4",
+        "episodeCode": "T6 E9: El Sacrificio del Rey Morturo",
+        "hiddenCode": "T6 E9",
+        "intro": {
+          "start": 143,
+          "end": 171
+        }
+      },
+      {
+        "title": "E10: Rickaciones de Mortyvidad",
+        "meta": "16+ · 22m · 2022",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zoCeFhTwzeO15h5BdhzlprFJzF1.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzM2MjVf/T6%20E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzM2MjVf/T6%20E10.mp4",
+        "episodeCode": "T6 E10: Rickaciones de Mortyvidad",
+        "hiddenCode": "T6 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 7",
+    "episodes": [
+      {
+        "title": "E1: La Nueva Vida del Señor Pantalones de Popo",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rLrNq2fd4khvwYspPXL5e41QVcK.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQxODZf/T7%20E1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQxODZf/T7%20E1.mp4",
+        "episodeCode": "T7 E1: La Nueva Vida del Señor Pantalones de Popo",
+        "hiddenCode": "T7 E1",
+        "intro": {
+          "start": 100,
+          "end": 128
+        }
+      },
+      {
+        "title": "E2: Juego de Jerrycky",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nPcoJ8K1TPhFwCDTZRIKBPv8IyH.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQxNzBf/T7%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQxNzBf/T7%20E2.mp4",
+        "episodeCode": "T7 E2: Juego de Jerrycky",
+        "hiddenCode": "T7 E2",
+        "intro": {
+          "start": 134,
+          "end": 162
+        }
+      },
+      {
+        "title": "E3: Air Force Wong",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lPTEES0yrLn5RnQRN1k3jFsx0GB.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQxNTFf/T7%20E3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQxNTFf/T7%20E3.mp4",
+        "episodeCode": "T7 E3: Air Force Wong",
+        "hiddenCode": "T7 E3",
+        "intro": {
+          "start": 102,
+          "end": 130
+        }
+      },
+      {
+        "title": "E4: Es Amorte",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/b5KOiBYZxYnfl4wL2IlvpqtU3tC.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQxNTlf/T7%20E4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQxNTlf/T7%20E4.mp4",
+        "episodeCode": "T7 E4: Es Amorte",
+        "hiddenCode": "T7 E4",
+        "intro": {
+          "start": 58,
+          "end": 86
+        }
+      },
+      {
+        "title": "E5: Inmortrickable",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/86ARgAvOKFHOvq9Y0wkmiMSJj4o.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQxNDJf/T7%20E5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQxNDJf/T7%20E5.mp4",
+        "episodeCode": "T7 E5: Inmortrickable",
+        "hiddenCode": "T7 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Rickfender tu Mort",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xdsjTPUF6eBf6YJhVbzARkeaXP3.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzYxMTlf/1280x720-seg-1-f2-v1-a1_1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzYxMTlf/1280x720-seg-1-f2-v1-a1_1.mp4",
+        "episodeCode": "T7 E6: Rickfender tu Mort",
+        "hiddenCode": "T7 E6",
+        "intro": {
+          "start": 103,
+          "end": 132
+        }
+      },
+      {
+        "title": "E7: Wet Kuat Amortican Summer",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wgfl1QwjxPtng5m02ix26yjCjLM.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQwOThf/T7%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQwOThf/T7%20E7.mp4",
+        "episodeCode": "T7 E7: Wet Kuat Amortican Summer",
+        "hiddenCode": "T7 E7",
+        "intro": {
+          "start": 104,
+          "end": 132
+        }
+      },
+      {
+        "title": "E8: El ascenso de los íconos numéricos: La película",
+        "meta": "16+ · 23m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8xmc22qIVtn1MSZM5C8pAb94QO8.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQwNjZf/T7%20E8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQwNjZf/T7%20E8.mp4",
+        "episodeCode": "T7 E8: El ascenso de los íconos numéricos: La película",
+        "hiddenCode": "T7 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Mort: Ragnarick",
+        "meta": "16+ · 22m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fICBDuGjmSZc5OH8yOwTAKdQgYA.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQxMTJf/T7%20E9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQxMTJf/T7%20E9.mp4",
+        "episodeCode": "T7 E9: Mort: Ragnarick",
+        "hiddenCode": "T7 E9",
+        "intro": {
+          "start": 99,
+          "end": 127
+        }
+      },
+      {
+        "title": "E10: No temas Mort",
+        "meta": "16+ · 24m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4kKiVFbRxAPxcPDi7rPrUJjyMf6.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzQwODBf/T7%20E10.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzQwODBf/T7%20E10.mp4",
+        "episodeCode": "T7 E10: No temas Mort",
+        "hiddenCode": "T7 E10",
+        "intro": {
+          "start": 5,
+          "end": 33
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 8",
+    "episodes": [
+      {
+        "title": "E1: La \"Summer\" de Todos los Miedos",
+        "meta": "16+ · 24m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/t7arWMclhZ8Kub48ymLvbDUN5Qg.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU5MTRf/T8%20E1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU5MTRf/T8%20E1.mp4",
+        "episodeCode": "T8 E1: La \"Summer\" de Todos los Miedos",
+        "hiddenCode": "T8 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: ValquiRick",
+        "meta": "16+ · 22m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wJNBw6mTV38fdMSpqbb4j4DnlMy.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU5MDVf/T8%20E2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU5MDVf/T8%20E2.mp4",
+        "episodeCode": "T8 E2: ValquiRick",
+        "hiddenCode": "T8 E2",
+        "intro": {
+          "start": 123,
+          "end": 151
+        }
+      },
+      {
+        "title": "E3: El Rick, el Mort y el Feo",
+        "meta": "16+ · 22m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gRPXyICt6nDeHYpIOsezqbx4qid.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU4ODdf/T8%20E3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU4ODdf/T8%20E3.mp4",
+        "episodeCode": "T8 E3: El Rick, el Mort y el Feo",
+        "hiddenCode": "T8 E3",
+        "intro": {
+          "start": 5,
+          "end": 30
+        }
+      },
+      {
+        "title": "E4: La Última Tentación de Jerry",
+        "meta": "16+ · 23m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bvaJhvaBHHuiMZb80ErCCSuRRDz.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU4NzZf/T8%20E4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU4NzZf/T8%20E4.mp4",
+        "episodeCode": "T8 E4: La Última Tentación de Jerry",
+        "hiddenCode": "T8 E4",
+        "intro": {
+          "start": 122,
+          "end": 150
+        }
+      },
+      {
+        "title": "E5: Cryo Mort a Rickver",
+        "meta": "16+ · 22m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eHkk2VxIKofHESBH1JcahnyAJT1.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzY1MTdf/1920x1080-seg-1-f3-v1-a1_8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzY1MTdf/1920x1080-seg-1-f3-v1-a1_8.mp4",
+        "episodeCode": "T8 E5: Cryo Mort a Rickver",
+        "hiddenCode": "T8 E5",
+        "intro": {
+          "start": 121,
+          "end": 149
+        }
+      },
+      {
+        "title": "E6: El CuRickoso Caso de Bethjamin Button",
+        "meta": "16+ · 22m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9L5sjRTSmV75YRh6IpIdngmYYZF.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU4NTRf/T8%20E6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU4NTRf/T8%20E6.mp4",
+        "episodeCode": "T8 E6: El CuRickoso Caso de Bethjamin Button",
+        "hiddenCode": "T8 E6",
+        "intro": {
+          "start": 100,
+          "end": 128
+        }
+      },
+      {
+        "title": "E7: Más Rick que la Ficción",
+        "meta": "16+ · 23m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/A8lJdG8eSdvXRRp8f9kiBoHFktz.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU4NDRf/T8%20E7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU4NDRf/T8%20E7.mp4",
+        "episodeCode": "T8 E7: Más Rick que la Ficción",
+        "hiddenCode": "T8 E7",
+        "intro": {
+          "start": 167,
+          "end": 195
+        }
+      },
+      {
+        "title": "E8: Nomortland",
+        "meta": "16+ · 23m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8hVPCPuYVRTkG5DV3buLVTRhePU.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU4MzZf/T8%20E8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU4MzZf/T8%20E8.mp4",
+        "episodeCode": "T8 E8: Nomortland",
+        "hiddenCode": "T8 E8",
+        "intro": {
+          "start": 75,
+          "end": 103
+        }
+      },
+      {
+        "title": "E9: Morty Daddy",
+        "meta": "16+ · 22m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eZEJkJS2vyaIXTeloGvADUsIJs5.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzU4MzJf/T8%20E9.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzU4MzJf/T8%20E9.mp4",
+        "episodeCode": "T8 E9: Morty Daddy",
+        "hiddenCode": "T8 E9",
+        "intro": {
+          "start": 94,
+          "end": 122
+        }
+      },
+      {
+        "title": "E10: Rick Caliente",
+        "meta": "16+ · 24m · 2025",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qwfGBFu2QrPm1BrkvSb9TNRXwXm.jpg",
+        "videoUrl": "https://od.lk/s/M18zMTkxMzY1Njdf/Rick%20and%20Morty%208x10%20%5BFinal%20de%20Temporada%5D.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMTkxMzY1Njdf/Rick%20and%20Morty%208x10%20%5BFinal%20de%20Temporada%5D.mp4",
+        "episodeCode": "T8 E10: Rick Caliente",
+        "hiddenCode": "T8 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  }
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

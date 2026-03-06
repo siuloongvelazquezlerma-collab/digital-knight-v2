@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Clon HBO Max</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      padding-top: env(safe-area-inset-top); background-color: #000; color: #fff; font-family: sans-serif; }
+    header {
+      position: fixed; width: 100%; top: 0; left: 0; padding: 1rem;
+      backdrop-filter: blur(10px); background: rgba(0, 0, 0, 0.6);
+      display: flex; align-items: center; justify-content: space-between; z-index: 10;
+    }
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    .tabs { display: flex; gap: 1.5rem; margin-left: 2rem; }
+    .tab { cursor: pointer; font-weight: bold; opacity: 0.7; }
+    .tab.active { opacity: 1; border-bottom: 2px solid #fff; }
+    .iconos { display: flex; gap: 1rem; align-items: center; }
+
+    .tab-content { display: none; margin-top: 5rem; }
+    .tab-content.active { display: block; }
+
+    .carousel {
+      position: relative; overflow: hidden;
+      height: 500px;
+    }
+    .carousel-track {
+      display: flex; transition: transform 0.5s ease;
+      width: 500%;
+    }
+    .carousel-item {
+      position: relative; flex: 0 0 100%; height: 500px;
+    }
+    .carousel-item img.portrait {
+  height: 85%;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+}
+
+    .carousel-item img.landscape { display: none; }
+    @media (orientation: landscape) {
+      .carousel-item img.portrait { display: none; }
+      .carousel-item img.landscape {
+        display: block; width: 100%; height: 100%; object-fit: cover;
+      }
+    }
+    .overlay {
+      position: absolute; bottom: 0; padding: 2rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent); width: 100%;
+    }
+    .overlay img.logo {
+      max-width: 250px; margin-bottom: 1rem;
+    }
+    .meta { font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .desc { font-size: 0.95rem; max-width: 600px; }
+
+    .section { padding: 1rem; }
+    .section h2 { font-size: 1.2rem; margin-bottom: 1rem; }
+    .items {
+      display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;
+    }
+    .item { min-width: 140px; flex-shrink: 0; }
+    .item img { width: 100%; border-radius: 8px; }
+    .item small { display: block; margin-top: 0.3rem; font-size: 0.85rem; }
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+
+  <header>
+    <div "class="logo">max</div>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab(0)">Inicio</div>
+      <div class="tab" onclick="showTab(1)">Series</div>
+      <div class="tab" onclick="showTab(2)">Películas</div>
+    </div>
+    <div class="iconos">
+      🔔 <img src="https://www.w3schools.com/howto/img_avatar.png" width="30" style="border-radius:50%;">
+    </div>
+  </header>
+
+  <!-- Tab 1 -->
+  <div class="tab-content active">
+    <div class="carousel">
+      <div class="carousel-track">
+        <div class="carousel-item">
+          <img class="portrait" src="https://image.tmdb.org/t/p/original/k0lbN5i4USbSEdbEhjc0l0JwOs6.jpg" alt="">
+          <img class="landscape" src="img1_land.jpg" alt="">
+          <div class="overlay">
+            <img "class="logo" src="https://image.tmdb.org/t/p/original/6SDguKNVHA5jZrm7ln72D1FLIcx.png" alt="">
+            <div class="meta">+18 · 2023 · Acción</div>
+            <div class="desc">Descripción 1</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="portrait" src="img2.jpg" alt="">
+          <img class="landscape" src="img2_land.jpg" alt="">
+          <div class="overlay">
+            <img "class="logo" src="logo2.png" alt="">
+            <div class="meta">+13 · 2022 · Drama</div>
+            <div class="desc">Descripción 2</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="portrait" src="img3.jpg" alt="">
+          <img class="landscape" src="img3_land.jpg" alt="">
+          <div class="overlay">
+            <img "class="logo" src="logo3.png" alt="">
+            <div class="meta">+16 · 2021 · Suspenso</div>
+            <div class="desc">Descripción 3</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="portrait" src="img4.jpg" alt="">
+          <img class="landscape" src="img4_land.jpg" alt="">
+          <div class="overlay">
+            <img "class="logo" src="logo4.png" alt="">
+            <div class="meta">+7 · 2024 · Animación</div>
+            <div class="desc">Descripción 4</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="portrait" src="img5.jpg" alt="">
+          <img class="landscape" src="img5_land.jpg" alt="">
+          <div class="overlay">
+            <img "class="logo" src="logo5.png" alt="">
+            <div class="meta">ATP · 2020 · Comedia</div>
+            <div class="desc">Descripción 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2 -->
+  <div class="tab-content">
+    <div class="carousel">
+      <div class="carousel-track">
+        <!-- 5 imágenes más aquí -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3 -->
+  <div class="tab-content">
+    <div class="carousel">
+      <div class="carousel-track">
+        <!-- 5 imágenes más aquí -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const carousels = document.querySelectorAll('.carousel');
+    const intervals = [];
+
+    function showTab(index) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        t.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.tab-content').forEach((c, i) => {
+        c.classList.toggle('active', i === index);
+        if (i === index) startCarousel(i);
+        else stopCarousel(i);
+      });
+    }
+
+    function startCarousel(index) {
+      const track = carousels[index].querySelector('.carousel-track');
+      const items = track.children.length;
+      let current = 0;
+      clearInterval(intervals[index]);
+      intervals[index] = setInterval(() => {
+        current = (current + 1) % items;
+        track.style.transform = `translateX(-${100 * current}%)`;
+      }, 7000);
+    }
+
+    function stopCarousel(index) {
+      clearInterval(intervals[index]);
+    }
+
+    // Inicia el carrusel activo al cargar
+    window.onload = () => startCarousel(0);
+  </script>
+</body>
+</html>

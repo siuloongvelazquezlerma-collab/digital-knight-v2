@@ -1,0 +1,19 @@
+[build]
+publish = "www"
+
+[[headers]]
+for = "/.well-known/assetlinks.json"
+[headers.values]
+Content-Type = "application/json"
+Cache-Control = "no-cache"
+
+[[redirects]]
+from = "/.well-known/*"
+to = "/.well-known/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200

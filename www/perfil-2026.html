@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Perfil</title>
+  <!-- BOOTSTRAP 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+  <link rel="stylesheet" href="perfil-2026.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
+  <script src="loader.min.js"></script>
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="manifest" href="manifest.json">
+      <link rel="manifest" href="/manifest.json">
+      
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+
+  
+<div id="profile-page">
+
+  <!-- ================= PERFIL PRINCIPAL ================= -->
+  <section id="profile-view" class="view active">
+    <div class="container-md px-0">
+  
+      <header class="profile-header text-center" id="mainCover">
+        <div class="avatar-wrapper mx-auto">
+          <img class="profile-avatar" id="avatarMain" src="logo-2025.png">
+        </div>
+        <h2 id="profileName" class="mt-3">Usuario</h2>
+      </header>
+  
+      <div class="profile-options container py-3">
+
+        <div class="option-item" onclick="openView('manage-profile-view')">
+          <span>Editar perfil</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      
+        <div class="option-item" onclick="openView('notifications-view')">
+          <span>Notificaciones</span>
+        
+          <div class="right-icons">
+            <span id="menuNotificationBadge" class="notification-badge" style="display:none;">0</span>
+            <span class="material-icons-outlined">chevron_right</span>
+          </div>
+        </div>
+        
+      
+        <div class="option-item" onclick="openView('tv-view')">
+          <span>Cómo transmitir a TV</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      
+        <div class="option-item" onclick="openView('support-view')">
+          <span>Sugerencias y soporte</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      
+        <div class="option-item" onclick="openView('share-view')">
+          <span>Compartir Digital Knight</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      
+        <div class="option-item" onclick="openView('opendrive-view')">
+          <span>Descubre OpenDrive</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      
+        <div class="option-item" onclick="openDeleteProgressModal()">
+          <span>Borrar progreso de reproducción</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+        
+      
+        <div class="option-item" onclick="openView('privacy-view')">
+          <span>Privacidad y contenido</span>
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+
+        <div class="option-item logout-item" id="logoutButton">
+          <span>Cerrar sesión</span>
+          <span class="material-icons-outlined">logout</span>
+        </div>
+        
+      
+      </div>
+      
+  </section>
+  
+
+  <!-- ================= ADMINISTRAR PERFIL ================= -->
+  <section id="manage-profile-view" class="view scroll-view">
+    <div class="container-md px-0">
+  
+      <header class="edit-header">
+        <button class="icon-btn" onclick="openView('profile-view')">
+          <span class="material-icons-outlined">chevron_left</span>
+        </button>
+        
+        <h2 class="m-0">Administrar perfil</h2>
+        <span></span>
+      </header>
+  
+      <div class="edit-cover editable text-center" id="manageCover">
+  
+        <button class="edit-icon cover-icon" onclick="openCoverEdit()">
+          <span class="material-icons-outlined">edit</span>
+        </button>
+        
+        <button class="edit-cover-btn" onclick="openCoverEdit()">Cambiar fondo</button>
+      
+        <div class="avatar-wrapper editable mx-auto mt-3">
+          <img id="manageAvatar" class="edit-avatar" src="logo-2025.png">
+          <button class="edit-icon" onclick="openAvatarEdit()">
+            <span class="material-icons-outlined">edit</span>
+          </button>
+          
+          <button class="edit-avatar-btn" onclick="openAvatarEdit()">Cambiar avatar</button>
+        </div>
+      
+        <!-- NOMBRE DEL USUARIO -->
+        <h3 id="manageProfileName" class="mt-2">Usuario</h3>
+      
+      </div>
+      
+  
+      <div class="form-section container">
+        <label>Nombre de perfil</label>
+        <input type="text" id="profileNameInput">
+        <button 
+  id="saveProfileBtn"
+  class="btn w-100 mt-3 btn-secondary"
+  disabled
+  onclick="saveFullProfile()"
+>
+  Guardar
+</button>
+
+      </div>
+  
+    </div>
+  </section>
+
+   <!-- ================= NOTIFICACIONES ================= -->
+<section id="notifications-view" class="view scroll-view">
+  <header class="edit-header">
+    <button class="icon-btn" onclick="openView('profile-view')">
+      <span class="material-icons-outlined">chevron_left</span>
+    </button>
+    <h2>Notificaciones</h2>
+
+  <button class="icon-btn danger" onclick="clearNotifications()">
+    <span class="material-icons-outlined">delete</span>
+  </button>
+</header>
+
+  <div class="container py-3">
+    <!-- CONTADOR (opcional dentro de la vista) -->
+    <span id="notificationCounter" style="display:none;"></span>
+
+    <!-- AQUÍ SE RENDERIZA TODO -->
+    <div id="notificationsContainer"></div>
+  </div>
+</section>
+
+
+  <!-- ================= TV ================= -->
+<section id="tv-view" class="view scroll-view">
+  <header class="edit-header">
+    <button class="icon-btn" onclick="openView('profile-view')">
+      <span class="material-icons-outlined">chevron_left</span>
+    </button>
+    <h2>Cómo transmitir a TV</h2>
+    <span></span>
+  </header>
+
+  <div class="container py-3">
+
+    <p>
+      Para transmitir a tu TV necesitas la aplicación
+      <strong>Web Video Caster</strong>. Sigue estos pasos:
+    </p>
+
+    <ol class="mt-3">
+      <li>
+        Descarga <strong>Web Video Caster</strong> en tu móvil Android desde
+        <a href="https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo"
+           target="_blank">
+          Google Play Store
+        </a>.
+      </li>
+      <li class="mt-2">
+        Instala <strong>Web Video Caster Receiver</strong> en tu TV desde la tienda
+        de aplicaciones correspondiente.
+      </li>
+      <li class="mt-2">
+        Abre ambas aplicaciones y sincronízalas siguiendo las instrucciones.
+      </li>
+    </ol>
+
+    <div class="mt-4">
+      <p>También puedes ver el tutorial en YouTube:</p>
+      <a href="https://www.youtube.com/watch?v=hjhJTU76V64"
+         target="_blank"
+         style="color:#1a73e8; text-decoration:none;">
+        <strong>Ver tutorial en YouTube</strong>
+      </a>
+    </div>
+
+    <p class="mt-4">
+      A continuación, te mostramos un video explicativo:
+    </p>
+
+    <!-- VIDEO -->
+    <div class="text-center mt-3 mb-4">
+      <video
+        controls
+        style="
+          width:100%;
+          max-width:600px;
+          border-radius:12px;
+          box-shadow:0 4px 8px rgba(0,0,0,.3);
+        ">
+        <source
+          src="https://od.lk/s/M18zMTc4NDg0ODNf/video_2025-05-29_01-26-19.mp4"
+          type="video/mp4">
+        Tu navegador no soporta video.
+      </video>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- ================= SOPORTE ================= -->
+<section id="support-view" class="view scroll-view">
+  <header class="edit-header">
+    <button class="icon-btn" onclick="openView('profile-view')">
+      <span class="material-icons-outlined">chevron_left</span>
+    </button>
+    <h2>Sugerencias y soporte</h2>
+    <span></span>
+  </header>
+
+  <div class="container py-3">
+
+    <p>
+      Si tienes sugerencias de contenido o necesitas ayuda,
+      puedes contactarnos por los siguientes medios:
+    </p>
+
+    <!-- TELEGRAM -->
+    <div class="mt-4 d-flex align-items-center gap-3">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
+        alt="Telegram"
+        style="width:32px; height:32px;">
+      <a
+        href="https://t.me/+beqjOs9cwWtjOGQx"
+        target="_blank"
+        style="color:#1a73e8; text-decoration:none;">
+        <strong>Únete a nuestro canal de Telegram</strong>
+      </a>
+    </div>
+
+    <ul class="mt-4">
+      <li>Enviar sugerencias de películas o series.</li>
+      <li>Reportar contenido que no funcione.</li>
+      <li>Recibir ayuda con cualquier problema.</li>
+      <li>Solicitar nuevo contenido.</li>
+    </ul>
+
+    <p class="mt-4">
+      ¡Con gusto te ayudaremos!
+    </p>
+
+    <!-- EMAIL -->
+    <div class="mt-4">
+      <p>También puedes escribirnos por correo:</p>
+      <a
+        href="mailto:dragonplusapp@gmail.com"
+        style="color:#1a73e8; text-decoration:none;">
+        <strong>dragonplusapp@gmail.com</strong>
+      </a>
+      <p class="mt-2 text-muted" style="font-size: 0.9rem;">
+        Al tocar el enlace se abrirá tu app de correo.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- ================= COMPARTIR ================= -->
+<section id="share-view" class="view scroll-view">
+  <header class="edit-header">
+    <button class="icon-btn" onclick="openView('profile-view')">
+      <span class="material-icons-outlined">chevron_left</span>
+    </button>
+    <h2>Compartir Digital Knight</h2>
+    <span></span>
+  </header>
+
+  <div class="container py-3">
+
+    <p>
+      Comparte <strong>Digital Knight</strong> con tus amigos y familiares:
+    </p>
+
+    <!-- WHATSAPP -->
+    <a
+      href="https://wa.me/?text=¡Echa%20un%20vistazo%20a%20Digital%20Knight%20App!%20Es%20increíble:%20http://www.appcreator24.com/app3515594-dgsla4"
+      target="_blank"
+      class="d-flex align-items-center gap-3 mt-4"
+      style="text-decoration:none; color:white;">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+        style="width:32px; height:32px;"
+        alt="WhatsApp">
+      <strong>Compartir por WhatsApp</strong>
+    </a>
+
+    <!-- TELEGRAM -->
+    <a
+      href="https://t.me/share/url?url=http://www.appcreator24.com/app3515594-dgsla4&text=¡Echa%20un%20vistazo%20a%20Digital%20Knight%20App!"
+      target="_blank"
+      class="d-flex align-items-center gap-3 mt-4"
+      style="text-decoration:none; color:white;">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
+        style="width:32px; height:32px;"
+        alt="Telegram">
+      <strong>Compartir por Telegram</strong>
+    </a>
+
+    <!-- FACEBOOK -->
+    <a
+      href="https://www.facebook.com/sharer/sharer.php?u=http://www.appcreator24.com/app3515594-dgsla4"
+      target="_blank"
+      class="d-flex align-items-center gap-3 mt-4"
+      style="text-decoration:none; color:white;">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+        style="width:32px; height:32px;"
+        alt="Facebook">
+      <strong>Compartir por Facebook</strong>
+    </a>
+
+  </div>
+</section>
+
+
+  <!-- ================= OPENDRIVE ================= -->
+  <section id="opendrive-view" class="view scroll-view">
+    <header class="edit-header">
+      <button class="icon-btn" onclick="openView('profile-view')">
+        <span class="material-icons-outlined">chevron_left</span>
+      </button>
+  
+      <h2>Descubre OpenDrive</h2>
+      <span></span>
+    </header>
+  
+    <div class="container py-3 text-center">
+  
+      <p style="margin-bottom: 1em;">
+        ¿Buscas una solución confiable para almacenar tus archivos, proyectos o aplicaciones?
+      </p>
+  
+      <div
+        style="
+          background-color: #2d2d2d;
+          padding: 1.2em;
+          border-radius: 12px;
+          margin: 0 auto;
+          max-width: 420px;
+          text-align: center;
+        "
+      >
+        <p style="margin-bottom: 1em; font-size: 0.95em; color: #ccc;">
+          <strong>OpenDrive</strong> es mucho más que una nube: es una herramienta potente para
+          <strong>programadores, creadores de contenido</strong> y cualquier persona que necesite:
+        </p>
+  
+        <ul
+          style="
+            list-style: disc;
+            margin: 0 auto 1em auto;
+            padding-left: 1.2em;
+            text-align: left;
+            font-size: 0.95em;
+            color: #ccc;
+          "
+        >
+          <li>Almacenar archivos personales (fotos, documentos, videos).</li>
+          <li>Subir y gestionar proyectos de desarrollo o apps completas.</li>
+          <li>Compartir enlaces directos a tus archivos.</li>
+          <li>Reproducir multimedia directamente desde la nube.</li>
+          <li>Disfrutar de <strong>espacio ilimitado</strong> con planes premium.</li>
+        </ul>
+  
+        <a
+          href="https://www.opendrive.com/?od=65ee2c2be4049"
+          target="_blank"
+          style="
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+          "
+        >
+          Regístrate en OpenDrive
+        </a>
+      </div>
+  
+      <p style="margin-top: 1.5em; font-size: 0.9em; color: #aaa;">
+        Al registrarte mediante este enlace, estarás apoyando el desarrollo de nuestros proyectos
+        y la creación de más herramientas para la comunidad.
+      </p>
+  
+    </div>
+  </section>
+
+  <!-- Overlay y Modal personalizado -->
+<div id="deleteProgressOverlay" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h3>¿Borrar progreso?</h3>
+    <p>
+      Se eliminará el historial de reproducción de todas las películas y series.
+      ¿Estás seguro?
+    </p>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" onclick="closeDeleteProgressModal()">
+        Cancelar
+      </button>
+      <button class="modal-btn confirm" onclick="confirmDeleteProgress()">
+        Aceptar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Notificación flotante -->
+<div id="notificacion" class="notificacion-toast">
+  <span id="notificacionTexto"></span>
+</div>
+
+  
+
+  
+
+  <!-- ================= PRIVACIDAD ================= -->
+<section id="privacy-view" class="view scroll-view">
+
+  <header class="edit-header">
+    <button class="icon-btn" onclick="openView('profile-view')">
+      <span class="material-icons-outlined">chevron_left</span>
+    </button>
+    <h2>Privacidad y contenido</h2>
+    <span></span>
+  </header>
+
+  <div class="container py-3 privacy-policy-content">
+
+    <p><strong>Digital Knight</strong></p>
+    <br>
+
+    <p><strong>POLÍTICA DE PRIVACIDAD Y CONTENIDO</strong></p>
+    <br>
+
+    <p>
+      · La app no recoge ningún dato de carácter personal del usuario como,
+      por ejemplo, nombre, fotografías o localización.
+    </p>
+    <br>
+
+    <p>
+      · En consecuencia, la app no comparte ningún dato personal con ninguna
+      otra entidad o terceras personas.
+    </p>
+    <br>
+
+    <p>
+      · Las imágenes y los videos introducidos por el usuario son enviados al
+      servidor de la app con el fin de poder ser recuperados posteriormente por
+      el propio usuario, y con el fin de que la app pueda ofrecer las
+      funcionalidades según su descripción.
+    </p>
+    <br>
+
+    <p>
+      · Permitimos que terceras compañías publiquen anuncios y recopilen cierta
+      información anónima cuando visite nuestra aplicación. Estas empresas
+      pueden utilizar información anónima, como su ID de publicidad de Google,
+      el tipo y la versión de su dispositivo, la actividad de navegación, la
+      ubicación y otros datos técnicos relacionados con su dispositivo, a fin
+      de proporcionar anuncios.
+    </p>
+
+  </div>
+
+</section>
+
+  
+
+  <!-- ================= EDITAR AVATAR ================= -->
+  <section id="edit-avatar-view" class="view fixed-view">
+
+
+    <header class="edit-header">
+      <button class="icon-btn" onclick="openView('profile-view')">
+        <span class="material-icons-outlined">chevron_left</span>
+      </button>
+      <h2>Editar imagen de perfil</h2>
+      <button onclick="saveAvatar()">Listo</button>
+    </header>
+
+    <div class="edit-cover" id="avatarEditCover">
+      <div class="cover-content">
+        <img id="avatarPreview" class="edit-avatar" src="logo-2025.png">
+        <h3 id="editName">Usuario</h3>
+      </div>
+    </div>
+    
+
+    <div class="scroll-content">
+    <div class="avatar-section">
+      <h4>Digital Knight</h4>
+      <div class="avatar-grid">
+        <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" onclick="selectAvatar(this)">
+        <img src="https://od.lk/s/M18zMjQwMTY5MzRf/knight1.png" onclick="selectAvatar(this)">
+        <img src="https://od.lk/s/M18zMjQwMTY5Mzlf/knight%202.png" onclick="selectAvatar(this)">
+        <img src="https://od.lk/s/M18zMjQwMTY5Mzhf/knight%203.png" onclick="selectAvatar(this)">
+        <img src="https://od.lk/s/M18zMjQwMTY5Mzdf/knight%204.png" onclick="selectAvatar(this)">
+        <img src="https://od.lk/s/M18zMjQwMTY5MzZf/knight%205.png" onclick="selectAvatar(this)">
+        <img src="https://od.lk/s/M18zMjQwMTY5MzVf/knight%206.png" onclick="selectAvatar(this)">
+      </div>
+
+      <h4>DC</h4>
+<div class="avatar-grid">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDdf/01d9c7f5c5ad0f82109e9a507196c0b9.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTBf/1c4595f7d33b20717231c4e31e3fc645.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTNf/4902187.webp" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTVf/725b106124ec4020275a88bde7660691.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDhf/9c3e7721e7ae5548def51077651a1591.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDJf/b320ef3a7c7adb39d5fbbda50bf10311.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTRf/batman-ben-affleck-justice-league.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDlf/cab6c0d3a1b6b71ed42556cf9dccc2cd.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDVf/e772984b77943c6a9485ea38525a9d9f--heath-ledger-joker-makeup-heath-joker.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDRf/maxresdefault.jpg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTJf/OIP%20%285%29.jpeg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTZf/OIP%20%286%29.jpeg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDNf/R%20%283%29.jpeg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMDZf/R%20%284%29.jpeg" loading="lazy" onclick="selectAvatar(this)">
+  <img src="https://od.lk/s/M18zMTAzMzYwMTFf/wp5572704.webp" loading="lazy" onclick="selectAvatar(this)">
+</div>
+
+
+<h4>Marvel</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNzlf/ANTMAN%20AVATAR%20%28icon%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzODJf/daredevil%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDcwODFf/descarga%20%283%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNTdf/descarga%20%284%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNzdf/Disney%2B%20_%20Pel%C3%ADculas%20y%20series%20%281%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzODRf/Disney%2B%20_%20Pel%C3%ADculas%20y%20series%20%282%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDcwODRf/Disney%2B%20_%20Pel%C3%ADculas%20y%20series%20%283%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNjNf/Disney%2B%20_%20Pel%C3%ADculas%20y%20series.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzODlf/Disney%2B%20_%20Ver%20Disney%2C%20Marvel%2C%20Pixar%2C%20Star%20Wars%2C%20National%20Geographic%20y%20mucho%20m%C3%A1s%20%281%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNzRf/Disney%2B%20_%20Ver%20Disney%2C%20Marvel%2C%20Pixar%2C%20Star%20Wars%2C%20National%20Geographic%20y%20mucho%20m%C3%A1s.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzODFf/doctor%20strange%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDcwNzlf/falcon%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDcwODZf/groot%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNjhf/hawkeye%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNjVf/Iniciar%20sesi%C3%B3n%20_%20Disney%2B.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNjBf/iron%20man%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzOTJf/ms_%20marvel%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzODdf/rocket%20raccoon%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNzJf/thanos%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDcwODlf/vision%20avatar.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDUzNzBf/WINTER%20SOLDIER%28Bucky%29%20AVATAR%20%28icon%29.jpg" onclick="selectAvatar(this)">
+</div>
+
+<h4>Dragon Ball</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNDdf/%E2%8D%9F%20%281%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNDhf/%E2%8D%9F%20%282%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNDNf/%E2%8D%9F.jpeg" onclick="selectAvatar(this)">
+
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTFf/%E2%9C%B6%20%281%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNjFf/%E2%9C%B6%20%2810%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNjNf/%E2%9C%B6%20%2811%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNjRf/%E2%9C%B6%20%2812%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTNf/%E2%9C%B6%20%282%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTRf/%E2%9C%B6%20%283%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTVf/%E2%9C%B6%20%284%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTZf/%E2%9C%B6%20%285%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTdf/%E2%9C%B6%20%286%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNThf/%E2%9C%B6%20%287%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTlf/%E2%9C%B6%20%288%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNjBf/%E2%9C%B6%20%289%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNDlf/%E2%9C%B6.jpeg" onclick="selectAvatar(this)">
+
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyODFf/0ff29e7e-9468-4dc6-bef8-36f7064842cb.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNzBf/1300a570-2e87-4277-a8a9-7cd829f2c39f.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyODJf/14ce68f6-a8ae-4ee4-ac41-81db326e0c23.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyOTZf/21d751ae-c2a1-48bd-89ad-d0c4888632c3.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyODhf/2654f470-d57c-416d-bdc2-80a0b81471f0.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyODNf/ba873300-365f-4b1e-9c2a-5c59a71ff325.jpeg" onclick="selectAvatar(this)">
+
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMzMjFf/BULMA.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMzMDdf/Butter%20Fan%20Art%20-%20Ginew%20special%20team%20-%20Dragon%20Ball%20Z%2C%20Dhemo%20Noriaki.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyMzdf/c4ac40ad-fadf-4d82-aeb3-fa8a7971c0eb.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNzVf/ce3baff1-cea1-4e8f-8b4d-0e51704e9e23.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyNTBf/Cell%20%C2%B7%20Dragon%20Ball%20FighterZ.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDMyODdf/Cell%20Max%20icon%20%28DBL%29.jpeg" onclick="selectAvatar(this)">
+</div>
+
+
+
+<h4>Disney</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDcwMTZf/00dfa5bb094e32e15bb332e904d6dfcf.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODdf/1c00105d9dc5fd91e74c4ea08e59b798.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1Nzlf/1f8aaf6bacdf7fbef7150373f41b795a.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzJf/3921857d0cfa9a747a43fe0bbb65c1c3.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODFf/490b5c86bf01510e5af5b5ae3549fd7c.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzBf/5c239685ecbea2c12fcb8ee661a04d0a9098e141.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzRf/5e178a193ea3fe26066e94babd385d55.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODhf/6rIxaSE.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODBf/b29089e28c04e8ce9934607fe91f4bbc.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzVf/cb85859622e44d1d732bcc4ceb4967b2.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzZf/d501368a00f5c4dbdb97c808b8b727b3.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1Nzdf/f25b4ccaeb33eafd3999da4947927d15.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODJf/fafa4da84d9fddb87eb3066282bc5526.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODNf/OIP%20%287%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODVf/OIP%20%288%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzFf/OIP%20%289%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1ODZf/R%20%285%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1NzNf/R%20%286%29.jpeg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzNDY1Nzhf/R%20%287%29.jpeg" onclick="selectAvatar(this)">
+</div>
+
+
+<h4>Los Simpson</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0NjVf/46975e78f00a97bd15e642b6f5ccf8c6.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0Njdf/8684e09af00b87d94d73dbbb87bc6e4e.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0NzZf/descarga%20%281%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0NjNf/descarga%20%282%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0NzJf/descarga.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0NzRf/Imprimible_docx%20%281%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0NzVf/Imprimible_docx%20%282%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0Nzlf/Imprimible_docx%20%283%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0ODFf/Imprimible_docx%20%284%29.jpg" onclick="selectAvatar(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTE0NDI0Njlf/Imprimible_docx.jpg" onclick="selectAvatar(this)">
+</div>
+
+    </div>
+  </div>
+  </section>
+
+  <!-- ================= EDITAR PERFIL COMPLETO ================= -->
+  <section id="edit-profile-view" class="view scroll-view">
+
+    <header class="edit-header">
+      <button class="icon-btn" onclick="openView('profile-view')">
+        <span class="material-icons-outlined">chevron_left</span>
+      </button>
+      <h2>Editar nombre</h2>
+      <button onclick="saveFullProfile()">Guardar</button>
+    </header>
+
+    <div class="form-section">
+      <label>Nombre de perfil</label>
+      <input type="text" id="profileNameInput">
+    </div>
+
+  </section>
+
+  <!-- ================= EDITAR FONDO ================= -->
+  <section id="edit-cover-view" class="view fixed-view">
+
+
+    <header class="edit-header">
+      <button class="icon-btn" onclick="openView('profile-view')">
+        <span class="material-icons-outlined">chevron_left</span>
+      </button>
+      <h2>Editar fondo</h2>
+      <button onclick="saveCover()">Listo</button>
+    </header>
+
+    <div class="edit-cover" id="coverPreviewTemp">
+      <img class="edit-avatar" id="avatarCoverPreview" src="avatar.jpg">
+      <h3 id="editNameCover">Usuario</h3>
+    </div>
+
+    <div class="scroll-content">
+    <div class="avatar-section">
+      <h4>Digital Knight</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk4MDdf/colorful-gradient-digital-art-abstract-tn.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk4MTNf/dLB5ai0.webp" onclick="selectCover(this)">
+
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTJf/fondo%201.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTNf/fondo%202.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTRf/fondo%203.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTVf/fondo%204.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTZf/fondo%205.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTdf/fondo%206.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NThf/fondo%207.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMjQwMTY5NTlf/fondo%208.png" onclick="selectCover(this)">
+
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk4MTJf/OIP%20%285%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk4MTVf/OIP%20%286%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk4MTRf/R%20%286%29.jpeg" onclick="selectCover(this)">
+</div>
+
+<h4>DC</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2Mjdf/1245135.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MjNf/155917.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MzNf/463476.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTNf/8ae01662d94b48e17cab2b7c18140b7f.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2Mjlf/batman_gotham_skyline_artwork.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MzFf/gGQAsC.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTJf/HD-wallpaper-amazing-view-space-scenery-horizon-planet.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTZf/KryptonKandor1.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MzJf/LyzkjE.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MjFf/Metropolis-Comic-Art-Credit-DC-Entertainment-2.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MjBf/OIP%20%281%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MjJf/OIP%20%283%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MjZf/OIP%20%284%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTlf/OIP.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTdf/R%20%281%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MThf/R%20%282%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MjVf/R%20%283%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTFf/R%20%285%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTVf/R.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2MTRf/wp2467632.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMjk2Mjhf/wp2640243.webp" onclick="selectCover(this)">
+</div>
+
+<h4>Marvel</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NzVf/1164342.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NzNf/68391fe4f7f1dbefa63479111ea9eaef.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4Njlf/A1331-Architecture-of-Marvel-Movies-Image-1.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NjVf/black-panther2.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NjNf/main-qimg-57d99982fa98ccf820abd398976d7942.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NzRf/OIP%20%281%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NjJf/OIP.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NzJf/tumblr_moi7roOAAv1rjavnlo5_1280.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NjFf/wp2436484.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4NjZf/wp4884745.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzM4Njhf/wp4884757.jpg" onclick="selectCover(this)">
+</div>
+
+<h4>Dragon Ball</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTlf/4da8ad87-6b36-4778-910f-79c724685800.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDVf/59a21ff7-3213-4525-94d4-b6b369ee1d14.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMjBf/descarga%20%2829%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMjFf/descarga%20%2830%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDBf/descarga%20%2831%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDJf/descarga%20%2832%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDNf/descarga%20%2833%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDRf/descarga%20%2834%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDZf/descarga%20%2835%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDdf/descarga%20%2836%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDhf/descarga%20%2837%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTFf/descarga%20%2838%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTJf/descarga%20%2839%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTNf/descarga%20%2840%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTRf/descarga%20%2841%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTVf/descarga%20%2842%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTZf/descarga%20%2843%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTdf/descarga%20%2844%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMThf/descarga%20%2845%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMDlf/Dragon%20Ball%20Z%20_%20Revival%20Of%20F.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTIwMDYzMTBf/f390b28b-1c1d-45ea-9776-1cc14667668b.jpeg" onclick="selectCover(this)">
+</div>
+
+
+<h4>Disney</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDhf/25ef34ab2e728e5035c1a61acd351624.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDVf/4b572a4c5213364d2068da8a956ea3ab.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MTNf/51rhZOyLcEL._AC_SS450_.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDRf/76d0fad6227dbc5a0983d004a236d8ec.png" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MTFf/bfa456dc0119be38185a4ecf5e12ea79.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDlf/c31d52848154a3812f0d09237236b6ab.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDNf/HD-wallpaper-tangled-castle-tangled-disney-castle-painting-rapunzel.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MTJf/Motunui_29.webp" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDJf/OIP%20%283%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDZf/OIP%20%284%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MTBf/R%20%282%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU5MDdf/wp1896501.webp" onclick="selectCover(this)">
+</div>
+
+<h4>Los Simpson</h4>
+<div class="avatar-grid">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4Nzlf/22c106dfd7fb38a24db39492c1cb7f2c.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4NzRf/591067.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4NzZf/bcd48940348908f96e968a561011b5a3.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4Nzhf/d313b427f3197255e816764177bda749.jpg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4Nzdf/OIP%20%281%29.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4NzNf/OIP.jpeg" onclick="selectCover(this)">
+  <img loading="lazy" src="https://od.lk/s/M18zMTAzMzU4NzVf/R%20%281%29.jpeg" onclick="selectCover(this)">
+</div>
+
+
+    </div>
+  </div>
+  </section>
+
+</div>
+
+<!-- ================= LOGOUT MODAL ================= -->
+<div id="logoutOverlay" class="logout-overlay hidden">
+  <div class="logout-modal">
+    <h3>¿Cerrar sesión?</h3>
+    <p>Tu sesión actual se cerrará.</p> 
+
+    <div class="logout-actions">
+      <button onclick="closeLogoutModal()" class="btn-cancel">
+        Cancelar
+      </button>
+
+      <button onclick="confirmLogout()" class="btn-confirm">
+        Cerrar sesión
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<footer class="footer">
+  <a href="main.html" class="footer-icon">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="new favoritos 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="New search page 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="perfil digital Knight 2025.html" class="footer-icon active">
+      
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+
+<script src="perfil-2026.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  
+  const supabase = createClient(
+    'https://wplyrhcszuoordgaphax.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+  );
+  
+
+  const logoutButton = document.getElementById("logoutButton");
+const logoutOverlay = document.getElementById("logoutOverlay");
+
+// Abrir modal
+logoutButton.addEventListener("click", () => {
+  logoutOverlay.classList.remove("hidden");
+});
+
+// Cerrar modal
+window.closeLogoutModal = function () {
+  logoutOverlay.classList.add("hidden");
+};
+
+// Confirmar cierre de sesión
+window.confirmLogout = async function () {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Error al cerrar sesión:", error.message);
+    alert("Error al cerrar sesión");
+    return;
+  }
+
+  // Redirigir al login
+  window.location.href = "login.html";
+};
+</script>
+
+</body>
+</html>

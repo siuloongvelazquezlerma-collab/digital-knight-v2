@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Saint Seiya: Saga de Hades</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTcyMTEzOTBf/hades%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMTcyMTEzODlf/hades%20fondo.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Saint Seiya: Saga de Hades</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/xRYfTI6FUS3snqlrXnPry3RKjMP.png" alt="Saint Seiya: Saga de Hades Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada 3 Sagas&nbsp;&nbsp;2002&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Saint Seiya: Saga de Hades" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTcyMTEzOTFf/hades%20wallpaper.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Saint Seiya Saga de Hades.html"></a>
+          <span id="nombre">Saint Seiya: Saga de Hades (2002)</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Seiya y los caballeros de bronce enfrentan al dios Hades en una batalla final llena de oscuridad, sacrificios y batallas
+        épicas para proteger a Atenea y al mundo.      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://od.lk/s/M18zMTcyMTY2OTlf/sain%20seiya%20poster%201.jpg" alt="Los Caballeros del Zodiaco" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Omega (2012).html">
+          <img src="https://image.tmdb.org/t/p/original/iHXOtxXcDarUOe2wZvouCl6WmTa.jpg" alt="Saint Seiya Ω Omega (2012)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya Ω Omega (2012)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Guerreros del Zodiaco El Lienzo Perdido (2009).html">
+          <img src="https://image.tmdb.org/t/p/original/eJNAxUHVXXUSbuc6D1ojSYH6S1r.jpg" alt="Los Guerreros del Zodiaco: El Lienzo Perdido (2009)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Guerreros del Zodiaco: El Lienzo Perdido (2009)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco Alma de Oro (2015).html">
+          <img src="https://image.tmdb.org/t/p/original/yheIUZdnLEkCuzB4cHF6SCJBQiw.jpg" alt="Los Caballeros del Zodiaco: Alma de Oro (2015)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco: Alma de Oro (2015)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Los Caballeros del Zodiaco (2019).html">
+          <img src="https://image.tmdb.org/t/p/original/tuxfCX9IX70GJBV2JNn8gXlUJlj.jpg" alt="Saint Seiya: Los Caballeros del Zodiaco (2019)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya: Los Caballeros del Zodiaco (2019)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Saint Seiya Saintia Shō (2018).html">
+          <img src="https://image.tmdb.org/t/p/original/k0lbN5i4USbSEdbEhjc0l0JwOs6.jpg" alt="Saint Seiya Saintia Shō (2018)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Saint Seiya Saintia Shō (2018)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDA3NTQ3OTZf/SAL-01x001%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Saint Seiya: Saga de Hades</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: Cómo una niña miedosa se convierte en Sailor Scout"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "saga-hades";
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Santuario",
+    "episodes": [
+    {
+  "title": "E1: El comienzo de una nueva guerra santa",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dkRONeqEpjIcPyXdKQDG72aNyl6.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDQ5MDVf/115%20El%20comienzo%20de%20una%20nueva%20guerra%20sagrada%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDQ5MDVf/115%20El%20comienzo%20de%20una%20nueva%20guerra%20sagrada%20BD1080p.mkv",
+  "episodeCode": "T1 E1: El comienzo de una nueva guerra santa",
+  "hiddenCode": "T1 E1",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E2: Una estrella flotante en la estatua de Atena",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wDMM38PhB7MFgDaOPgSpM38sIUy.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDQ5NDhf/116%20Una%20estrella%20flotante%20en%20la%20estatua%20de%20Atena%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDQ5NDhf/116%20Una%20estrella%20flotante%20en%20la%20estatua%20de%20Atena%20BD1080p.mkv",
+  "episodeCode": "T1 E2: Una estrella flotante en la estatua de Atena",
+  "hiddenCode": "T1 E2",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E3: La sombra de los muertos",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dFTNhGQHCgXkTUEOsG0C3Atng6W.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDQ5NzZf/117%20La%20sombra%20de%20los%20muertos%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDQ5NzZf/117%20La%20sombra%20de%20los%20muertos%20BD1080p.mkv",
+  "episodeCode": "T1 E3: La sombra de los muertos",
+  "hiddenCode": "T1 E3",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E4: Expiación de culpas",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iSqA4LHDQsfqFANktnMgcHHjy0x.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUwMDFf/118%20Expiaci%C3%B3n%20de%20culpas%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUwMDFf/118%20Expiaci%C3%B3n%20de%20culpas%20BD1080p.mkv",
+  "episodeCode": "T1 E4: Expiación de culpas",
+  "hiddenCode": "T1 E4",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E5: Deudas del pasado",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pYkBoS1EHdMSBIfNleQvuMlAfPh.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUwNDZf/119%20Deudas%20del%20pasado%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUwNDZf/119%20Deudas%20del%20pasado%20BD1080p.mkv",
+  "episodeCode": "T1 E5: Deudas del pasado",
+  "hiddenCode": "T1 E5",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E6: El antiguo guerrero",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kjEtDRgKTN1bJXtXa27r5Wh5P9k.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUwNTFf/120%20El%20antiguo%20guerrero%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUwNTFf/120%20El%20antiguo%20guerrero%20BD1080p.mkv",
+  "episodeCode": "T1 E6: El antiguo guerrero",
+  "hiddenCode": "T1 E6",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E7: El ataque de los espectros",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rpfScNFbODaPa1NJ1FxUzt3rvKw.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUwNTRf/121%20El%20ataque%20de%20los%20espectros%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUwNTRf/121%20El%20ataque%20de%20los%20espectros%20BD1080p.mkv",
+  "episodeCode": "T1 E7: El ataque de los espectros",
+  "hiddenCode": "T1 E7",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E8: Hora de incertidumbre",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/caP5FVuIWFKQcah7oTNd3jwypby.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUxMDNf/122%20Hora%20de%20incertidumbre%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUxMDNf/122%20Hora%20de%20incertidumbre%20BD1080p.mkv",
+  "episodeCode": "T1 E8: Hora de incertidumbre",
+  "hiddenCode": "T1 E8",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E9: Más allá del honor",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/z2OT0RsBO2WbfP3qo8V3GVgLOXl.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUxNTZf/123%20M%C3%A1s%20all%C3%A1%20del%20honor%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUxNTZf/123%20M%C3%A1s%20all%C3%A1%20del%20honor%20BD1080p.mkv",
+  "episodeCode": "T1 E9: Más allá del honor",
+  "hiddenCode": "T1 E9",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E10: La colisión dorada",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bLzf0NEIJLzDYBbukGjKxP3ATqR.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUxNjNf/124%20La%20colisi%C3%B3n%20dorada%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUxNjNf/124%20La%20colisi%C3%B3n%20dorada%20BD1080p.mkv",
+  "episodeCode": "T1 E10: La colisión dorada",
+  "hiddenCode": "T1 E10",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E11: Tiembla el Santuario",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gJG1x9T7pPzqLQmfYC3KT0jQs8p.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUxNzBf/125%20Luto%20en%20el%20Santuario%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUxNzBf/125%20Luto%20en%20el%20Santuario%20BD1080p.mkv",
+  "episodeCode": "T1 E11: Tiembla el Santuario",
+  "hiddenCode": "T1 E11",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E12: La armadura de Atenea",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2jn9si3aLAQLa3hxCy6Ya2RLPcE.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUxODFf/126%20La%20armadura%20de%20Athena%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUxODFf/126%20La%20armadura%20de%20Athena%20BD1080p.mkv",
+  "episodeCode": "T1 E12: La armadura de Atenea",
+  "hiddenCode": "T1 E12",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+},
+{
+  "title": "E13: La mañana de la determinación",
+  "meta": "13+ · 24m · 2002",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nRkRdGy4DutJEkgXoZC0f58mAwj.jpg",
+  "videoUrl": "https://od.lk/s/M18zMDI4MDUxODZf/127%20La%20ma%C3%B1ana%20de%20la%20decisi%C3%B3n%20final%20BD1080p.mkv",
+  "downloadUrl": "https://od.lk/s/M18zMDI4MDUxODZf/127%20La%20ma%C3%B1ana%20de%20la%20decisi%C3%B3n%20final%20BD1080p.mkv",
+  "episodeCode": "T1 E13: La mañana de la determinación",
+  "hiddenCode": "T1 E13",
+  "intro": {
+    "start": 5,
+    "end": 180
+  }
+}
+
+    ]
+  },
+  {
+    "season": "Inframundo",
+    "episodes": [
+    {
+    "title": "E1: ¡Atravesadlo! El río Aqueronte",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wnrRH2EVKMdcI1JDxFtblQgZMNW.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDUzMDZf/128%20Crucen%20el%20r%C3%ADo%20Aqueronte%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDUzMDZf/128%20Crucen%20el%20r%C3%ADo%20Aqueronte%20BD1080p.mkv",
+    "episodeCode": "T2 E1: ¡Atravesadlo! El río Aqueronte",
+    "hiddenCode": "T2 E1",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E2: El tribunal silencioso",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/eII8k696BQRIK3NhayMsWzEBP7R.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDUzNTBf/129%20La%20Corte%20del%20Silencio%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDUzNTBf/129%20La%20Corte%20del%20Silencio%20BD1080p.mkv",
+    "episodeCode": "T2 E2: El tribunal silencioso",
+    "hiddenCode": "T2 E2",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E3: ¡Orfeo! El caballero legendario",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/aXldzedAzQhkxvcH87FHV8sLxND.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDUzNzhf/130%20%C2%A1Orfeo%21%20El%20Caballero%20Legendario%20BD1080.pmkv.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDUzNzhf/130%20%C2%A1Orfeo%21%20El%20Caballero%20Legendario%20BD1080.pmkv.mkv",
+    "episodeCode": "T2 E3: ¡Orfeo! El caballero legendario",
+    "hiddenCode": "T2 E3",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E4: Orfeo, el réquiem trágico",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9WEyDRUr3rvvVigTZzFwbl8G6bV.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU0MTVf/131%20%C2%A1Orfeo%21%20El%20Triste%20R%C3%A9quiem%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU0MTVf/131%20%C2%A1Orfeo%21%20El%20Triste%20R%C3%A9quiem%20BD1080p.mkv",
+    "episodeCode": "T2 E4: Orfeo, el réquiem trágico",
+    "hiddenCode": "T2 E4",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E5: ¡Hades! La posesión sorprendente",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1ODis9QeUD92CWGgBvcQxgQToar.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU0Mzhf/132%20%C2%A1Hades%21%2C%20La%20Sorprendente%20Posesi%C3%B3n%20del%20Miedo%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU0Mzhf/132%20%C2%A1Hades%21%2C%20La%20Sorprendente%20Posesi%C3%B3n%20del%20Miedo%20BD1080p.mkv",
+    "episodeCode": "T2 E5: ¡Hades! La posesión sorprendente",
+    "hiddenCode": "T2 E5",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E6: ¡Combate encarnizado! Camino de Giudecca",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lubcW2dmingHWSuxktZ2V7RKLXg.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU0ODRf/133%20%C2%A1La%20Violenta%20Batalla%21%2C%20El%20Camino%20Hacia%20Giudecca%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU0ODRf/133%20%C2%A1La%20Violenta%20Batalla%21%2C%20El%20Camino%20Hacia%20Giudecca%20BD1080p.mkv",
+    "episodeCode": "T2 E6: ¡Combate encarnizado! Camino de Giudecca",
+    "hiddenCode": "T2 E6",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E7: ¡Castigo divino! El último eclipse",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/16FketZT1VvB1gLrYRsYXt4mr6R.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU1NTVf/134%20%C2%A1El%20castigo%20divino%21%20El%20Gran%20Eclipse%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU1NTVf/134%20%C2%A1El%20castigo%20divino%21%20El%20Gran%20Eclipse%20BD1080p.mkv",
+    "episodeCode": "T2 E7: ¡Castigo divino! El último eclipse",
+    "hiddenCode": "T2 E7",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E8: ¡Ikki! El puño de la lamentación",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/rEHrIrTx7pDSGwc9SA4N67QtXQQ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU2MTdf/135%20%C2%A1Ikki%21%20El%20golpe%20de%20la%20tristeza%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU2MTdf/135%20%C2%A1Ikki%21%20El%20golpe%20de%20la%20tristeza%20BD1080p.mkv",
+    "episodeCode": "T2 E8: ¡Ikki! El puño de la lamentación",
+    "hiddenCode": "T2 E8",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E9: ¡Atenea! Arriesga su propia vida",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/a1AtslzJTvvsUTsKZZTs10gwskc.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU2OTJf/136%20%C2%A1Atena%21%20Arriesga%20su%20vida%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU2OTJf/136%20%C2%A1Atena%21%20Arriesga%20su%20vida%20BD1080p.mkv",
+    "episodeCode": "T2 E9: ¡Atenea! Arriesga su propia vida",
+    "hiddenCode": "T2 E9",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E10: ¡Desesperación! El Muro de las Lamentaciones",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/84J49LjkIPfPojxDNtYCqss3gzw.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU4MDZf/137%20%C2%A1Desesperaci%C3%B3n%21El%20muro%20de%20los%20lamentos%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU4MDZf/137%20%C2%A1Desesperaci%C3%B3n%21El%20muro%20de%20los%20lamentos%20BD1080p.mkv",
+    "episodeCode": "T2 E10: ¡Desesperación! El Muro de las Lamentaciones",
+    "hiddenCode": "T2 E10",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E11: ¡Reunión! Las armaduras de oro",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/a642s9xOI7UBXQbvZjlPCDKFfv3.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDU5Mzdf/138%20Re%C3%BAnanse%20armaduras%20doradas%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDU5Mzdf/138%20Re%C3%BAnanse%20armaduras%20doradas%20BD1080p.mkv",
+    "episodeCode": "T2 E11: ¡Reunión! Las armaduras de oro",
+    "hiddenCode": "T2 E11",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E12: ¡Adiós! Caballeros de Oro...",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3NG4MpcDYQFBuaHxBLWVLckmAPD.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDYwMzRf/139%20Adi%C3%B3s%20caballeros%20dorados%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDYwMzRf/139%20Adi%C3%B3s%20caballeros%20dorados%20BD1080p.mkv",
+    "episodeCode": "T2 E12: ¡Adiós! Caballeros de Oro...",
+    "hiddenCode": "T2 E12",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  }
+    ]
+  },
+  {
+    "season": "Campos Eliseos",
+    "episodes": [
+    {
+    "title": "E1: Lucha a muerte hacia los Elíseos",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/b9z8BT4sWxnpsJlmMd8gW4P6eGd.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDYzMTZf/140%20El%20Arduo%20Camino%20Hacia%20los%20Campos%20El%C3%ADseos%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDYzMTZf/140%20El%20Arduo%20Camino%20Hacia%20los%20Campos%20El%C3%ADseos%20BD1080p.mkv",
+    "episodeCode": "T3 E1: Lucha a muerte hacia los Elíseos",
+    "hiddenCode": "T3 E1",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E2: Los dioses de la muerte y el sueño",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/gINU0je6aBidOLQSEWiT0q7Wewb.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDcyMzNf/141%20Los%20Dioses%20Hypnos%20y%20Thanatos%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDcyMzNf/141%20Los%20Dioses%20Hypnos%20y%20Thanatos%20BD1080p.mkv",
+    "episodeCode": "T3 E2: Los dioses de la muerte y el sueño",
+    "hiddenCode": "T3 E2",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E3: Refuerzos de oro",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/gYNQdVnxTQ6IAlPLnC337wONvWQ.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDc2MTRf/142%20Las%20Armaduras%20Doradas%20al%20Rescate%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDc2MTRf/142%20Las%20Armaduras%20Doradas%20al%20Rescate%20BD1080p.mkv",
+    "episodeCode": "T3 E3: Refuerzos de oro",
+    "hiddenCode": "T3 E3",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E4: Las legendarias armaduras divinas",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/e0Ks0KSLloT0tyyNiJSvfrKCAHd.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDc2ODRf/143%20La%20Armadura%20Divina%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDc2ODRf/143%20La%20Armadura%20Divina%20BD1080p.mkv",
+    "episodeCode": "T3 E4: Las legendarias armaduras divinas",
+    "hiddenCode": "T3 E4",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E5: El despertar de la mitología",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cdKXn2BJnXv8OoDj1YeeQy4D1Jh.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDc3NDdf/144%20El%20Despertar%20m%C3%ADtico%20de%20Hades%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDc3NDdf/144%20El%20Despertar%20m%C3%ADtico%20de%20Hades%20BD1080p.mkv",
+    "episodeCode": "T3 E5: El despertar de la mitología",
+    "hiddenCode": "T3 E5",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  },
+  {
+    "title": "E6: Hacia un mundo radiante de luz",
+    "meta": "13+ · 24m · 2002",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qMobeMgvcCltYUse1C7Wx1gjgH9.jpg",
+    "videoUrl": "https://od.lk/s/M18zMDI4MDc4MDVf/145%20Rumbo%20a%20un%20mundo%20lleno%20de%20Luz%20BD1080p.mkv",
+    "downloadUrl": "https://od.lk/s/M18zMDI4MDc4MDVf/145%20Rumbo%20a%20un%20mundo%20lleno%20de%20Luz%20BD1080p.mkv",
+    "episodeCode": "T3 E6: Hacia un mundo radiante de luz",
+    "hiddenCode": "T3 E6",
+    "intro": {
+    "start": 5,
+    "end": 180
+  }
+  }
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

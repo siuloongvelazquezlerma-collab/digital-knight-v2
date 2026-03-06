@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Mikami La cazafantasmas</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/w500/4ajmgm9d0CewrUeyUSRsoRc68Eb.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/gNBBFRCPXeAiEVpAhUbGPQBSaVa.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Mikami La cazafantasmas</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/cPlk3GEPdyhJuZQuJxVVFdAeAgS.png" alt="Mikami La cazafantasmas Logo" class="logo">
+    <div class="meta">13+    1 temporada    1993    Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Mikami La cazafantasmas" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTgxODA5NTdf/mikami%20fondo%20poister.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Mikami La cazafantasmas.html"></a>
+          <span id="nombre">Mikami La cazafantasmas</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Japón forzó a muchos espíritus y fantasmas en pena a abandonar sus hogares de manera forzada.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="my-hero-academia.html">
+          <img src="https://image.tmdb.org/t/p/w300/phuYuzqWW9ru8EA3HVjE9W2Rr3M.jpg" alt="My Hero Academia" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">My Hero Academia</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="attack-on-titan.html">
+          <img src="https://image.tmdb.org/t/p/original/yNI1GpgU3BH4fljGNsTCWTcVuwS.jpg" alt="Attack on Titan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Attack on Titan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+  
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+  id="video"
+  class="video-js vjs-default-skin"
+  preload="auto"
+  width="100%"
+  height="100%"
+  poster="https://wallpapercave.com/wp/wp5415042.jpg"
+  data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+  <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+</video>
+  <!-- Loader -->
+<div class="video-loader hidden" id="videoLoader">
+  <div class="spinner"></div>
+</div>
+
+    <!-- Aspect Ratio Label -->
+    <div id="aspectLabel" style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      display: none;
+      z-index: 9999;
+    ">
+      cover
+    </div>
+  
+   <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+  
+    <!-- Botón Omitir Intro -->
+    <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+      <span class="material-icons">fast_forward</span>
+      <span class="label">Omitir intro</span>
+    </div>
+  
+    <!-- Botón Siguiente Episodio -->
+    <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+      <div class="icon-container">
+        <svg class="circle-timer" viewBox="0 0 36 36">
+          <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+          <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+            a 15.9155 15.9155 0 1 1 0 31.831
+            a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        </svg>
+        <span class="material-icons play-icon">play_arrow</span>
+      </div>
+      <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+    </div>
+  
+    <div class="controls" id="controls">
+      <div class="top-bar">
+        <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+        <div style="display: flex; gap: 15px;">
+  
+         <!-- Botón de idioma con mini menú -->
+<!--
+<div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+  <span class="material-icons" id="langIcon">chat</span>
+  
+  <div id="langMenu" class="lang-menu">
+    <div class="lang-option" data-lang="latino">
+      <span class="check"></span> Español (Latino)
+    </div>
+    <div class="lang-option" data-lang="ingles">
+      <span class="check"></span> Inglés (Subtitulada)
+    </div>
+    <button id="langConfirmBtn">Listo</button>
+  </div>
+</div>
+-->
+  
+  <!-- Botón Cast -->
+  <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+  
+  <!-- Botón Aspect Ratio -->
+  <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+  </div>
+  </div>
+  
+      <div class="center-controls">
+        <button class="btn" onclick="skip(-10)">
+          <span class="material-icons">replay_10</span>
+        </button>
+        <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        <button class="btn" onclick="skip(10)">
+          <span class="material-icons">forward_10</span>
+        </button>
+      </div>
+  
+      <div class="bottom-bar">
+        <div id="episodeHeader">
+          <div class="title">Mikami La cazafantasmas</div>
+          <div class="subtitle" id="episodeSubtitle"></div>
+        </div>
+  
+        <div class="progress-container">
+          <div class="buffer-bar"></div>  <!-- ✅ Agrega esto -->
+          <input type="range" class="progress" id="progress" value="0" max="100">
+          <div class="time" id="duration">- 00:00</div>
+        </div>
+  
+        <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+        <div class="extra-controls">
+          <button class="btn" onclick="restartVideo()">
+            <span class="material-icons">skip_previous</span>
+            <span class="label">Reiniciar</span>
+          </button>
+          <button class="btn" onclick="playNextEpisode()">
+            <span class="material-icons">skip_next</span>
+            <span class="label">Sig. Epi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon">
+        
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "mikami-la-cazafantasmas-46390"; // 👈 Cámbialo por un ID único por serie
+
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: Aquí llega una bella exorcista",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cHK6W3XRSM7dfIavQ8Vrd1AN9yS.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E1: Aquí llega una bella exorcista",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Mikami la Cazafantasmas 1x2",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6l6ojrP71kHIIswoxty3rh1Oan2.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E2: Mikami la Cazafantasmas 1x2",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: La maldición de las muñecas",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7XsZWbX4UTHZCKHaNZcCjGJbTyo.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E3: La maldición de las muñecas",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: En contra del fantasma espacial",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1gtlk9Tj3KYcxzbRr3pmJfgijI6.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E4: En contra del fantasma espacial",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: El aullido de la casa embrujada",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hIxZgaMeRCsSRLdtLghIENUjdVO.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E5: El aullido de la casa embrujada",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: ¿Ah?¿Otra cazafantasmas?",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fvNoLMzKW9fFnLoHfTjQLvbUExn.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E6: ¿Ah?¿Otra cazafantasmas?",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: El desafío del Dr. Caos",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/j0p4ey0BYckspzPSQQdFTtbmBNT.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E7: El desafío del Dr. Caos",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Veneno mágico",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/a4n65Lvl7pZknCdUvMbMiHx1r4b.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E8: Veneno mágico",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Bésame",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5l8bJSJzxbPYwNCAyVE2jNfomLz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E9: Bésame",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Ha desaparecido un shiki-shin",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/b5CyOGD6Za8S9uYF8nu3AWoOoHI.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E10: Ha desaparecido un shiki-shin",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: El tren fantasma ¡Vámonos!",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7DkirQtTHuZGxeNTyB6qvhntsH6.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E11: El tren fantasma ¡Vámonos!",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Cuidado con el Yakuchin",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/x3JKMRR0MdfbrY6N9HPLBnd71qi.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E12: Cuidado con el Yakuchin",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: La trampa de una antigua enemiga",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/elAtwpRPE8VOGvEGjSQRwqngeIV.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E13: La trampa de una antigua enemiga",
+        "hiddenCode": "T1 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Un verano peligroso",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/v1bOeAxBAFFn3CC8HrcSUsxkv1g.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E14: Un verano peligroso",
+        "hiddenCode": "T1 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Pesadilla en el mediterráneo",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3rCrluZYnSdh2QGkQIzjiSxgIoy.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E15: Pesadilla en el mediterráneo",
+        "hiddenCode": "T1 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Muerdan al vampiro",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/p68zTjrbaWLMNCcH5lVhFH1TdiE.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E16: Muerdan al vampiro",
+        "hiddenCode": "T1 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Misterio en el mar",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/d77optfibPvWpWxPfnIbcjyS9Rr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E17: Misterio en el mar",
+        "hiddenCode": "T1 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: La diminuta mikami",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/blHGQBAYtIPEH6tp4uC5olJCYlY.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E18: La diminuta mikami",
+        "hiddenCode": "T1 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: El submarino fantasma",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nyR8Dv09A5h3EPSIcEbjNLU0ND3.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E19: El submarino fantasma",
+        "hiddenCode": "T1 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Madam elefante",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zFTAqeA7LkfdTQSGwWozRaXmTg4.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E20: Madam elefante",
+        "hiddenCode": "T1 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Niños otra vez",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9lvEHrOxgS6FaAsvILDJDNwnus9.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E21: Niños otra vez",
+        "hiddenCode": "T1 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: El flautista diabólico contraataca",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/waWlG99BvIZqnt9dl9OGOa5PeeA.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E22: El flautista diabólico contraataca",
+        "hiddenCode": "T1 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: Camino al Dragón",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bGXQunLRtoAmnzh3H6SBQlpd3kM.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E23: Camino al Dragón",
+        "hiddenCode": "T1 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: El regreso del Dragón",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/A4j1E60LyaKuegvR10LuuUbZktm.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E24: El regreso del Dragón",
+        "hiddenCode": "T1 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E25: Convocando a Himiko",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xR14e1XJXgPqFyc3wmB8c9cAKp8.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E25: Convocando a Himiko",
+        "hiddenCode": "T1 E25",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E26: Las aventuras de la valiente Mikami",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eovd7q7sTKJAU7pBb6XexZE9QJX.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E26: Las aventuras de la valiente Mikami",
+        "hiddenCode": "T1 E26",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E27: El inocente amor de Maria",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3phhsyXQg6dQHByxGnjqqEkkpxB.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E27: El inocente amor de Maria",
+        "hiddenCode": "T1 E27",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E28: El príncipe Ten-Ryu",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zo75gVq0rnsLrdb1efapRMPnhLa.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E28: El príncipe Ten-Ryu",
+        "hiddenCode": "T1 E28",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E29: El poder divino de Ten-Ryu",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/c8Y9mDb23ReeFRB9UZR1c1KWBs8.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E29: El poder divino de Ten-Ryu",
+        "hiddenCode": "T1 E29",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E30: El cortador maldito",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fYAx5EpRMzhVfnr42XGrdZkXuM5.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E30: El cortador maldito",
+        "hiddenCode": "T1 E30",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E31: Las escobas mágicas",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xswrhNKKIYtMaQDXStWEnEfkDs5.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E31: Las escobas mágicas",
+        "hiddenCode": "T1 E31",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E32: Matrimonio para Mikami",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/okCsjezPMHPz3xi4jsbLy1YdycM.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E32: Matrimonio para Mikami",
+        "hiddenCode": "T1 E32",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E33: El fabricante de maniquíes",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/psNLixmCp4qBqKjScT8t29rn6tq.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E33: El fabricante de maniquíes",
+        "hiddenCode": "T1 E33",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E34: El duende de la escuela",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mSx6SKWam7jeIVFkb5waGLdM8hX.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E34: El duende de la escuela",
+        "hiddenCode": "T1 E34",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E35: ¡Santa Claus, regresa!",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/naHCjHvARj3WPDJ10RGbBF926CP.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E35: ¡Santa Claus, regresa!",
+        "hiddenCode": "T1 E35",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E36: La navidad de Okinu",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4l9yF4Xvm9Sp9h3czAQOKdFYOwN.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E36: La navidad de Okinu",
+        "hiddenCode": "T1 E36",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E37: La carrera del año nuevo",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oSqMWXUDalOrEnQnvyFqOhduvex.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E37: La carrera del año nuevo",
+        "hiddenCode": "T1 E37",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E38: Huí Yuyui,¡El examen!",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2o1ICtcqTslxGUfDvKtTjcLwhrU.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E38: Huí Yuyui,¡El examen!",
+        "hiddenCode": "T1 E38",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E39: La hermana de María",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kVko9Ib1g1MzTTlz24PySfSPYDi.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E39: La hermana de María",
+        "hiddenCode": "T1 E39",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E40: María Vs Teresa",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/GlhFCrKQCmr4fRmrXsLv8h7cML.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E40: María Vs Teresa",
+        "hiddenCode": "T1 E40",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E41: Guerra contra la reina de las nieves",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9IGNxdNcKRzCi1tTSwIN9L4zr0v.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E41: Guerra contra la reina de las nieves",
+        "hiddenCode": "T1 E41",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E42: Chocolate fobia",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y4Jwi3YAv3rztI8KiwcVR8tbwb4.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E42: Chocolate fobia",
+        "hiddenCode": "T1 E42",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E43: En tus sueños",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/49e1eS4wLFMX1dBz8ird7WdXCp2.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E43: En tus sueños",
+        "hiddenCode": "T1 E43",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E44: Cuatro Mikamis y una pesadilla",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/arDT9mXL2glmsMej3KnZgYWwZdN.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E44: Cuatro Mikamis y una pesadilla",
+        "hiddenCode": "T1 E44",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E45: El fantasma del cine",
+        "meta": "13+ · 24m · 1993",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gR3B7CGsvAYMdw3AUg1P0Ulkvsf.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T1 E45: El fantasma del cine",
+        "hiddenCode": "T1 E45",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  }
+]`);
+    console.log(playlist);
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+
+</script>
+
+</body>
+</html>

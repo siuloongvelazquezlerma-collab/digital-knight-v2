@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Heidi</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+    
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTc5Mjg0NTNf/haidi%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/cafsMt9cQlaRCNVqf5KXtTUQP6V.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Heidi</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/qZH2QOc39Tj0BbJaByV1cc9TBJM.png" alt="Heidi Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">7+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;1974&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Heidi" onclick="toggleFavorito()" tabindex="4">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/w500/lVyCXYC6itDcfr5u4rfsavXtvOS.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="heidi.html"></a>
+          <span id="nombre">Heidi</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+
+      </div>
+  
+      <div class="description">
+        Descubre las aventuras de Heidi, una niña encantadora que vive en las montañas con su abuelo y donde compartirá su amor
+        por la naturaleza.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')" tabindex="7">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')" tabindex="8">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()" tabindex="9"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="candy-candy.html">
+          <img src="https://image.tmdb.org/t/p/original/uO9V1FkqLTJdAodHn9Sdg3Nwy1.jpg" alt="Candy  Candy (1976)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Candy  Candy (1976)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDU2ODEzOTRf/HDI-01%20-%20SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Heidi</div>
+        <div class="subtitle" id="episodeSubtitle">T1 E1: Hacia la montaña"</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "heidi-alpes";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: Hacia la montaña",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yak5ceilT597Rkic9dBRm5UyIYF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODEzOTRf/HDI-01%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODEzOTRf/HDI-01%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E1: Hacia la montaña",
+    "hiddenCode": "T1 E1",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E2: En casa del abuelo",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/78g1zFgv9eyjInnbYsVTyzNvCBo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE0MzZf/HDI-02%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE0MzZf/HDI-02%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E2: En casa del abuelo",
+    "hiddenCode": "T1 E2",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E3: Hacia los pastos",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8ex2iqW1CnByLXEnyLQD87xEmM3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE0ODBf/HDI-03%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE0ODBf/HDI-03%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E3: Hacia los pastos",
+    "hiddenCode": "T1 E3",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E4: Uno mas en la familia",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8csJOFU5DSPiWzC1G2DKVTLUNvS.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE1MjRf/HDI-04%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE1MjRf/HDI-04%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E4: Uno mas en la familia",
+    "hiddenCode": "T1 E4",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E5: La carta quemada",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uZ52bSwRq71bJVrnC6OXt6QuJUh.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE1NjRf/HDI-05%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE1NjRf/HDI-05%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E5: La carta quemada",
+    "hiddenCode": "T1 E5",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E6: Silba mas fuerte",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lXaBwut6T8WD164f3KzvisGfhwf.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE1OTZf/HDI-06%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE1OTZf/HDI-06%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E6: Silba mas fuerte",
+    "hiddenCode": "T1 E6",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E7: El susurro de los abetos",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9F86lP0tlZ2pJ5AWEzYCsNKJVpV.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE2MjRf/HDI-07%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE2MjRf/HDI-07%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E7: El susurro de los abetos",
+    "hiddenCode": "T1 E7",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E8: A donde ha ido Pitchi",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tsk2FohNQoeHCEW3n507qQsjLmB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE2NThf/HDI-08%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE2NThf/HDI-08%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E8: A donde ha ido Pitchi",
+    "hiddenCode": "T1 E8",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E9: Los alpes nevados",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cKyJuXxCXQZDrUngjghtVCFviwl.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE3MjFf/HDI-09%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE3MjFf/HDI-09%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E9: Los alpes nevados",
+    "hiddenCode": "T1 E9",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+    "title": "E10: Una visita a casa de la abuelita",
+    "meta": "13+ · 25m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/omu91okMDTPGRYdfh7MKFfbQZ0P.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODE3NDlf/HDI-10%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODE3NDlf/HDI-10%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T1 E10: Una visita a casa de la abuelita",
+    "hiddenCode": "T1 E10",
+    "intro": {
+      "start": 5,
+      "end": 75
+    }
+  },
+  {
+  "title": "E11: Tempestad de nieve",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1RP8OR6lPmQ4emTslCddwD2yITW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3ODdf/HDI-11%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3ODdf/HDI-11%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E11: Tempestad de nieve",
+  "hiddenCode": "T1 E11",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E12: El sonido de primavera",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AaswIhvwglzYwLFLllyFpOdLwYb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4MzJf/HDI-12%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4MzJf/HDI-12%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E12: El sonido de primavera",
+  "hiddenCode": "T1 E12",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E13: Regreso a los prados",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jUeyCbPYQ9hU5eiNlXJjYHTrgqJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4NzNf/HDI-13%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4NzNf/HDI-13%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E13: Regreso a los prados",
+  "hiddenCode": "T1 E13",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E14: Una noticia triste",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1WRpaG8KdPmStGxgIYs7oetZTkf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5MjZf/HDI-14%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5MjZf/HDI-14%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E14: Una noticia triste",
+  "hiddenCode": "T1 E14",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E15: Copo de nieve",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wq24NnlY43xzPvPgEOcFh8W1MOU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5Nzhf/HDI-15%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5Nzhf/HDI-15%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E15: Copo de nieve",
+  "hiddenCode": "T1 E15",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E16: El pueblo de Dorfli",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aK2N9gpDhSHufbZGKtprTHamFRS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwMzVf/HDI-16%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwMzVf/HDI-16%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E16: El pueblo de Dorfli",
+  "hiddenCode": "T1 E16",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E17: Visitas inesperadas",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/q3A6adpnypzqO97hU66KNFGbaH2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwODNf/HDI-17%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwODNf/HDI-17%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E17: Visitas inesperadas",
+  "hiddenCode": "T1 E17",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E18: La partida",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4lR6BFfIdbc5ZdMeE1nap7jg3vE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxMjFf/HDI-18%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxMjFf/HDI-18%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E18: La partida",
+  "hiddenCode": "T1 E18",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E19: Camino de Frankfurt",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6SIz9H819nHTxJG7WNLZFc4107d.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxODdf/HDI-19%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxODdf/HDI-19%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E19: Camino de Frankfurt",
+  "hiddenCode": "T1 E19",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E20: Una nueva vida",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6VbVFsc757TOKSqNk2jQPyCmYc7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyMjFf/HDI-20%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyMjFf/HDI-20%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E20: Una nueva vida",
+  "hiddenCode": "T1 E20",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E21: Quiero volar",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/plnVUnTiFkJnQu72ZvDc80JGKLv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNDdf/HDI-21%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNDdf/HDI-21%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E21: Quiero volar",
+  "hiddenCode": "T1 E21",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E22: Donde está la montaña",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g6REd4fvAwyRgjcyDEY1X8m4ulQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNjRf/HDI-22%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNjRf/HDI-22%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E22: Donde está la montaña",
+  "hiddenCode": "T1 E22",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E23: Un gran alboroto",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wSUUGiMUzzT21jmPgrEWGnG1Q5W.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyODFf/HDI-23%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyODFf/HDI-23%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E23: Un gran alboroto",
+  "hiddenCode": "T1 E23",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E24: El gato abandonado",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tMvMvHGwLrtcnluQo2vWBj9sZNV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMDBf/HDI-24%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMDBf/HDI-24%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E24: El gato abandonado",
+  "hiddenCode": "T1 E24",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E25: Los panecillos blancos",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/x3QZ83AblUkUJufBRv7UzVp7kcY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMTZf/HDI-25%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMTZf/HDI-25%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E25: Los panecillos blancos",
+  "hiddenCode": "T1 E25",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E26: El regreso del Sr. Seseman",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rzH1cQaCBKvB3XFtXeOHmBs8Bat.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNDBf/HDI-26%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNDBf/HDI-26%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E26: El regreso del Sr. Seseman",
+  "hiddenCode": "T1 E26",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E27: La abuelita de Clara",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/watESbSEwv6TxaJ9pHaVN83rDlo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNTlf/HDI-27%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNTlf/HDI-27%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E27: La abuelita de Clara",
+  "hiddenCode": "T1 E27",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E28: Una excursión al bosque",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mfp09AXCts4LiPbiJrRUofit5HR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzODRf/HDI-28%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzODRf/HDI-28%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E28: Una excursión al bosque",
+  "hiddenCode": "T1 E28",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E29: Dos corazones",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uQUDSq9w9slpysPdUCKPrZV6Vlp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0MDhf/HDI-29%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0MDhf/HDI-29%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E29: Dos corazones",
+  "hiddenCode": "T1 E29",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E30: Quiero coger al sol",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDdf/30.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0MzNf/HDI-30%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0MzNf/HDI-30%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E30: Quiero coger al sol",
+  "hiddenCode": "T1 E30",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E31: Adios abuelita",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDZf/31.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0NTdf/HDI-31%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0NTdf/HDI-31%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E31: Adios abuelita",
+  "hiddenCode": "T1 E31",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E32: Una noche agitada",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDVf/32.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0ODBf/HDI-32%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0ODBf/HDI-32%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E32: Una noche agitada",
+  "hiddenCode": "T1 E32",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E33: Fantasmas",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDRf/33.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1MDNf/HDI-33%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1MDNf/HDI-33%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E33: Fantasmas",
+  "hiddenCode": "T1 E33",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E34: El regreso",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDNf/34.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1Mjhf/HDI-34%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1Mjhf/HDI-34%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E34: El regreso",
+  "hiddenCode": "T1 E34",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E35: El cielo de los Alpes",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDJf/35.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI1NjFf/HDI-35%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI1NjFf/HDI-35%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E35: El cielo de los Alpes",
+  "hiddenCode": "T1 E35",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E36: Regreso a los Alpes",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDFf/36.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI2MTBf/HDI-36%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI2MTBf/HDI-36%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E36: Regreso a los Alpes",
+  "hiddenCode": "T1 E36",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E37: El cabritillo",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDBf/37.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI2NDVf/HDI-37%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI2NDVf/HDI-37%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E37: El cabritillo",
+  "hiddenCode": "T1 E37",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E38: La nueva casa",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwMzlf/38.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI2ODhf/HDI-38%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI2ODhf/HDI-38%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E38: La nueva casa",
+  "hiddenCode": "T1 E38",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E39: Carrera de trineos",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwMzhf/39.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3MjRf/HDI-39%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3MjRf/HDI-39%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E39: Carrera de trineos",
+  "hiddenCode": "T1 E39",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E40: Quiero ir a los Alpes",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNjBf/40.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3NTZf/HDI-40%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3NTZf/HDI-40%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E40: Quiero ir a los Alpes",
+  "hiddenCode": "T1 E40",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E41: La promesa del doctor",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTlf/41.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI3ODlf/HDI-41%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI3ODlf/HDI-41%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E41: La promesa del doctor",
+  "hiddenCode": "T1 E41",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E42: Que alegría volverte a ver",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNThf/42.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNDNf/HDI-42%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNDNf/HDI-42%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E42: Que alegría volverte a ver",
+  "hiddenCode": "T1 E42",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E43: El deseo de Clara",
+  "meta": "13+ · 24m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTdf/43.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNTVf/HDI-43%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNTVf/HDI-43%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E43: El deseo de Clara",
+  "hiddenCode": "T1 E43",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E44: El proyecto de Pedro",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTZf/44.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyNjlf/HDI-44%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNjlf/HDI-44%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E44: El proyecto de Pedro",
+  "hiddenCode": "T1 E44",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E45: Vamos a ver las flores",
+  "meta": "13+ · 24m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTVf/45.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyODBf/HDI-45%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyODBf/HDI-45%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E45: Vamos a ver las flores",
+  "hiddenCode": "T1 E45",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E46: El descubrimiento",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTRf/46.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODcyOTdf/HDI-46%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODcyOTdf/HDI-46%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E46: El descubrimiento",
+  "hiddenCode": "T1 E46",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E47: Hola abuelita",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTNf/47.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczMTJf/HDI-47%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczMTJf/HDI-47%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E47: Hola abuelita",
+  "hiddenCode": "T1 E47",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E48: Una ligera esperanza",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTJf/48.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNDJf/HDI-48%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNDJf/HDI-48%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E48: Una ligera esperanza",
+  "hiddenCode": "T1 E48",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E49: Te lo prometo abuelita",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTFf/49.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNTNf/HDI-49%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNTNf/HDI-49%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E49: Te lo prometo abuelita",
+  "hiddenCode": "T1 E49",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E50: Clara se tiene de pie",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNTBf/50.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNjZf/HDI-50%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNjZf/HDI-50%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E50: Clara se tiene de pie",
+  "hiddenCode": "T1 E50",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E51: Clara ya puede andar",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDlf/51.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczNzZf/HDI-51%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczNzZf/HDI-51%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E51: Clara ya puede andar",
+  "hiddenCode": "T1 E51",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+},
+{
+  "title": "E52: Hasta pronto",
+  "meta": "13+ · 25m · 1974",
+  "thumbnail": "https://od.lk/s/M18zMTc5MzQwNDhf/52.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODczOTJf/HDI-52%20-%20SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODczOTJf/HDI-52%20-%20SeriesRetro.com.mp4",
+  "episodeCode": "T1 E52: Hasta pronto",
+  "hiddenCode": "T1 E52",
+  "intro": {
+      "start": 5,
+      "end": 75
+    }
+}
+
+
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Paso a paso</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/s8n8fPnMu8d0YWwmojuw2s3pU97.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/8maXTkh1uFO3jE3TQwVXUHRrSrT.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Paso a paso</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/9ugG4YYd9uRnVSdjNnziv1lYCm2.png" alt="Paso a paso Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">7+   7 temporadas   1991   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Paso a paso" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/pBE0EXVXstP7gEjtRR0jX8FKepo.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="paso-a-paso.html"></a>
+          <span id="nombre">Paso a paso</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Serie de TV (1991-1998). 160 episodios. Frank Lambert (Patrick Duffy) y Carol Foster (Suzanne Somers) son un padre y una madre, con tres hijos cada uno, que deciden casarse e irse a vivir todos juntos...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="clarissa-explains-it-all.html">
+          <img src="https://image.tmdb.org/t/p/w300/7cWvpbCMiYHLvn8ra5YooOAfigc.jpg" alt="Clarissa Explains It All" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Clarissa Explains It All</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="jane-la-inmortal.html">
+          <img src="https://image.tmdb.org/t/p/w300/4fm2MBCpIqL3Be4TsFXNelIkbiw.jpg" alt="Jane la Inmortal" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Jane la Inmortal</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="still-standing.html">
+          <img src="https://image.tmdb.org/t/p/w300/iMZNlCtkdJx9q0Z04thVwSQ6Y9t.jpg" alt="Still Standing" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Still Standing</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="sweet-valley-high.html">
+          <img src="https://image.tmdb.org/t/p/w300/rkdEnsWEJu7+EP1DUFNqy6zKbmk.jpg" alt="Sweet Valley High" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Sweet Valley High</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDMwMDI0NDhf/SBS%20-%201x01%20-%20Piloto.SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Paso a paso</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+  <script src="../share.js"></script>
+<script>
+
+const seriesId = "paso-a-paso-2617";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+window.playlist = [
+  {
+    "season": "Temporada 1",
+    "episodes": [
+    {
+    "title": "E1: Piloto",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1dEi9e3ZGsDV5cXBjnHYzNUHAHv.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI0NDhf/SBS%20-%201x01%20-%20Piloto.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI0NDhf/SBS%20-%201x01%20-%20Piloto.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E1: Piloto",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: El Baile",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7f0yeKImEkoj4oxc3CGnLq6qE0k.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI0OTFf/SBS%20-%201x02%20-%20El%20Baile.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI0OTFf/SBS%20-%201x02%20-%20El%20Baile.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E2: El Baile",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Las Reglas de la Casa",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/54zSbCVq3ZM0zHlLvGgYKSW76xO.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI1NDJf/SBS%20-%201x03%20-%20Las%20Reglas%20de%20la%20Casa.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI1NDJf/SBS%20-%201x03%20-%20Las%20Reglas%20de%20la%20Casa.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E3: Las Reglas de la Casa",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Primer Aniversario",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/t5vxa9xB6gQrKniCAyNZVxk8bNe.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI1OTRf/SBS%20-%201x04%20-%20Primer%20Aniversario.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI1OTRf/SBS%20-%201x04%20-%20Primer%20Aniversario.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E4: Primer Aniversario",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Frank e Hijo",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/o6K8hC0pnLM6pQEpiafio1YqZQb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI2NDBf/SBS%20-%201x05%20-%20Frank%20e%20Hijo.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI2NDBf/SBS%20-%201x05%20-%20Frank%20e%20Hijo.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E5: Frank e Hijo",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Integrando a la Familia",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/aEhmRxQaWI6frT8MY8iJlqQXtP4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI3MDVf/SBS%20-%201x06%20-%20Integrando%20a%20la%20Familia.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI3MDVf/SBS%20-%201x06%20-%20Integrando%20a%20la%20Familia.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E6: Integrando a la Familia",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: La Boda de Yo-Yo",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/e3GVw1esVk1xaDcVsl8tXtcR8u7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI3NTVf/SBS%20-%201x07%20-%20La%20Boda%20de%20Yo-Yo.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI3NTVf/SBS%20-%201x07%20-%20La%20Boda%20de%20Yo-Yo.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E7: La Boda de Yo-Yo",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Solo por los Chicos",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dE4DWP60Scb8h6IHLe0DCBRsscO.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI4MjJf/SBS%20-%201x08%20-%20Solo%20por%20los%20Chicos.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI4MjJf/SBS%20-%201x08%20-%20Solo%20por%20los%20Chicos.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E8: Solo por los Chicos",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: En el Bosque",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ydA8bvxfH1IkDVVzzexTcCeRqRB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI4ODJf/SBS%20-%201x09%20-%20En%20el%20Bosque.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI4ODJf/SBS%20-%201x09%20-%20En%20el%20Bosque.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E9: En el Bosque",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E10: Confusión de Mensajes",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jpfqQalf8nEvTkfqR0rXCWDyai5.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI5NDBf/SBS%20-%201x10%20-%20Confusión%20de%20Mensajes.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI5NDBf/SBS%20-%201x10%20-%20Confusión%20de%20Mensajes.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E10: Confusión de Mensajes",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E11: Un Día Como Cualquier Otro",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/f888cpV44FgOlPGsUpEdZXPNhWB.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDI5Njlf/SBS%20-%201x11%20-%20Un%20Día%20Como%20Cualquier%20Otro.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDI5Njlf/SBS%20-%201x11%20-%20Un%20Día%20Como%20Cualquier%20Otro.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E11: Un Día Como Cualquier Otro",
+    "hiddenCode": "T1 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E12: El Auto Nuevo",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fD2Y82EaKSA8sugMmLPmdBRSQF5.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwMDNf/SBS%20-%201x12%20-%20El%20Auto%20Nuevo.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwMDNf/SBS%20-%201x12%20-%20El%20Auto%20Nuevo.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E12: El Auto Nuevo",
+    "hiddenCode": "T1 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E13: Vamos a Organizarnos",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jLGcBxf459YdgZv23vMgDv7tG3x.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwMzRf/SBS%20-%201x13%20-%20Vamos%20a%20Organizarnos.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwMzRf/SBS%20-%201x13%20-%20Vamos%20a%20Organizarnos.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E13: Vamos a Organizarnos",
+    "hiddenCode": "T1 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E14: Solos en Casa",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fC7UYBDq0NbUy5ZluhwSKyOO0jy.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwNTNf/SBS%20-%201x14%20-%20Solos%20en%20Casa.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwNTNf/SBS%20-%201x14%20-%20Solos%20en%20Casa.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E14: Solos en Casa",
+    "hiddenCode": "T1 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E15: Él Dijo «Maneja»",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6MwC5ZA0GDH8lXw1Q92hDfrQZOu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwNjFf/SBS%20-%201x15%20-%20El%20Dijo%20Maneja.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwNjFf/SBS%20-%201x15%20-%20El%20Dijo%20Maneja.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E15: Él Dijo Maneja",
+    "hiddenCode": "T1 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E16: El Enemigo de Mark",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dGu0pysneApVl1JJYrbGDlCAmiN.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwNjdf/SBS%20-%201x16%20-%20El%20Enemigo%20de%20Mark.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwNjdf/SBS%20-%201x16%20-%20El%20Enemigo%20de%20Mark.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E16: El Enemigo de Mark",
+    "hiddenCode": "T1 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E17: Los Chicos de la Banda",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bnP6xJl3zjDFvGcoU8HHc0MfqXj.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwODBf/SBS%20-%201x17%20-%20Los%20chicos%20de%20la%20banda.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwODBf/SBS%20-%201x17%20-%20Los%20chicos%20de%20la%20banda.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E17: Los Chicos de la Banda",
+    "hiddenCode": "T1 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E18: Días de Escuela",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/2oyuztUzOqcOcKwRq0gOYH3daq3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMwOThf/SBS%20-%201x18%20-%20Días%20de%20Escuela.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMwOThf/SBS%20-%201x18%20-%20Días%20de%20Escuela.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E18: Días de Escuela",
+    "hiddenCode": "T1 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E19: El Club Campestre",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4ROFUxMy0EOA1rjdj8hi1XSZMqy.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMxMjVf/SBS%20-%201x19%20-%20El%20Club%20Campestre.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMxMjVf/SBS%20-%201x19%20-%20El%20Club%20Campestre.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E19: El Club Campestre",
+    "hiddenCode": "T1 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E20: La Pequeña de Papá",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bMWvkFRUXRjyyo9tZPIJApxJqvE.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMxNDJf/SBS%20-%201x20%20-%20La%20Pequeña%20de%20Papá.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMxNDJf/SBS%20-%201x20%20-%20La%20Pequeña%20de%20Papá.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E20: La Pequeña de Papá",
+    "hiddenCode": "T1 E20",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E21: Quería Alas",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1zfHgHHVsm1YVACKfyWevuwfcgf.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMxNjNf/SBS%20-%201x21%20-%20Quería%20Alas.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMxNjNf/SBS%20-%201x21%20-%20Quería%20Alas.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E21: Quería Alas",
+    "hiddenCode": "T1 E21",
+    "intro": { "start": 0, "end": 0 }
+  },
+
+  {
+    "title": "E22: El Concurso de Belleza",
+    "meta": "7+ · 23m · 1991",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tP2QzbfS0hjUk398XonI743fYPY.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDMwMDMxOTRf/SBS%20-%201x22%20-%20El%20Concurso%20de%20Belleza.SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDMwMDMxOTRf/SBS%20-%201x22%20-%20El%20Concurso%20de%20Belleza.SeriesRetro.com.mp4",
+    "episodeCode": "T1 E22: El Concurso de Belleza",
+    "hiddenCode": "T1 E22",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+      "title": "E1: Examen reñido",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/8vcl7UziFqW3lD7LotEMORx2X7F.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTEzMTFf/SBS%20-%202x01%20-%20Examen%20re%C3%B1ido.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTEzMTFf/SBS%20-%202x01%20-%20Examen%20re%C3%B1ido.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E1: Examen reñido",
+      "hiddenCode": "T2 E1",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E2: Ser o no ser",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/z4k6iTd3ag5knwtCL1OcALnuHlX.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTE2NDlf/SBS%20-%202x02%20-%20Ser%20o%20no%20ser.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTE2NDlf/SBS%20-%202x02%20-%20Ser%20o%20no%20ser.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E2: Ser o no ser",
+      "hiddenCode": "T2 E2",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E3: El salto mortal",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/lmTiEwS0yut5CN3DUIYFlIszbvI.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTI1MzBf/SBS%20-%202x03%20-%20El%20salto%20mortal.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTI1MzBf/SBS%20-%202x03%20-%20El%20salto%20mortal.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E3: El salto mortal",
+      "hiddenCode": "T2 E3",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E4: El mundo de J.T.",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/5ojRHbZurEjt23UbN2cIUjTw3ld.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTM2MjBf/SBS%20-%202x04%20-%20El%20mundo%20de%20J.T..SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTM2MjBf/SBS%20-%202x04%20-%20El%20mundo%20de%20J.T..SeriesRetro.com.mp4",
+      "episodeCode": "T2 E4: El mundo de J.T.",
+      "hiddenCode": "T2 E4",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E5: Vida de perro",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/7MCRGdR71FDDbWhzmSiuN52Qsv4.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTQ3MTdf/SBS%20-%202x05%20-%20Vida%20de%20perro.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTQ3MTdf/SBS%20-%202x05%20-%20Vida%20de%20perro.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E5: Vida de perro",
+      "hiddenCode": "T2 E5",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E6: La jefa",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/goLMrlS4pO8nikTM5VuZRw2hnc7.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTU0NzNf/SBS%20-%202x06%20-%20La%20jefa.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTU0NzNf/SBS%20-%202x06%20-%20La%20jefa.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E6: La jefa",
+      "hiddenCode": "T2 E6",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E7: Hija modelo",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/elz85O3Sbgnv4TC42kg298B76Xl.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTU4NjFf/SBS%20-%202x07%20-%20Hija%20modelo.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTU4NjFf/SBS%20-%202x07%20-%20Hija%20modelo.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E7: Hija modelo",
+      "hiddenCode": "T2 E7",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E8: Alguien que me cuide",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/5SNMXyCRiCQM1xCtEVOkBKxT5yv.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTYzNTRf/SBS%20-%202x08%20-%20Alguien%20que%20me%20cuide.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTYzNTRf/SBS%20-%202x08%20-%20Alguien%20que%20me%20cuide.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E8: Alguien que me cuide",
+      "hiddenCode": "T2 E8",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E9: La preparación del presidente",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/iBgFPN0Ia4Pzl92TP8zJ7S8Q0GH.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM4OTcwMzdf/SBS%20-%202x09%20-%20La%20preparaci%C3%B3n%20del%20presidente.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM4OTcwMzdf/SBS%20-%202x09%20-%20La%20preparaci%C3%B3n%20del%20presidente.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E9: La preparación del presidente",
+      "hiddenCode": "T2 E9",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E10: Territorio virgen",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/s48Med4d9FJyiQCM3ntMiXye0qy.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDQ5MThf/SBS%20-%202x10%20-%20Territorio%20virgen.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDQ5MThf/SBS%20-%202x10%20-%20Territorio%20virgen.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E10: Territorio virgen",
+      "hiddenCode": "T2 E10",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E11: Necesidades básicas",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vJXiQpCWxMmVvxg3o77yBf9a2N2.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDQ5NzNf/SBS%20-%202x11%20-%20Necesidades%20b%C3%A1sicas.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDQ5NzNf/SBS%20-%202x11%20-%20Necesidades%20b%C3%A1sicas.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E11: Necesidades básicas",
+      "hiddenCode": "T2 E11",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E12: Los viejos tiempos",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vO1LgaYonfV5fUz46wvowvW6Dt8.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDUwNDdf/SBS%20-%202x12%20-%20Los%20viejos%20tiempos.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDUwNDdf/SBS%20-%202x12%20-%20Los%20viejos%20tiempos.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E12: Los viejos tiempos",
+      "hiddenCode": "T2 E12",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E13: Si yo fuera rico",
+      "meta": "7+ · 25m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/h8St4qY8Sw1Zf5OI5CVUIyvgMB8.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDUxMjlf/SBS%20-%202x13%20-%20Si%20yo%20fuera%20rico.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDUxMjlf/SBS%20-%202x13%20-%20Si%20yo%20fuera%20rico.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E13: Si yo fuera rico",
+      "hiddenCode": "T2 E13",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E14: Feliz cumpleaños, bebé",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/eo5IiRH9RpSYx7FE2KeEzeo3nQ7.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDUyMDFf/SBS%20-%202x14%20-%20Feliz%20cumplea%C3%B1os%2C%20beb%C3%A9.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDUyMDFf/SBS%20-%202x14%20-%20Feliz%20cumplea%C3%B1os%2C%20beb%C3%A9.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E14: Feliz cumpleaños, bebé",
+      "hiddenCode": "T2 E14",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E15: Uno de los chicos",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/dBvNmSJO9BGc80JVf7U7HuZZzzg.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDUyOTBf/SBS%20-%202x15%20-%20Uno%20de%20los%20chicos.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDUyOTBf/SBS%20-%202x15%20-%20Uno%20de%20los%20chicos.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E15: Uno de los chicos",
+      "hiddenCode": "T2 E15",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E16: Nada como el espectáculo",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/2mVCA9l1XofUknuHy1GCi17sUMv.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU0Mjlf/SBS%20-%202x16%20-%20Nada%20como%20el%20espect%C3%A1culo.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU0Mjlf/SBS%20-%202x16%20-%20Nada%20como%20el%20espect%C3%A1culo.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E16: Nada como el espectáculo",
+      "hiddenCode": "T2 E16",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E17: El Día de San Valentín",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/luzZoCxCDhu1J8Or2YRPlWothtA.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU1MjRf/SBS%20-%202x17%20-%20El%20D%C3%ADa%20de%20San%20Valent%C3%ADn.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU1MjRf/SBS%20-%202x17%20-%20El%20D%C3%ADa%20de%20San%20Valent%C3%ADn.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E17: El Día de San Valentín",
+      "hiddenCode": "T2 E17",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E18: Aloha (Parte 1)",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/zE1JjD2dTPoCwKpmGMH9MCD6VJH.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU1OTFf/SBS%20-%202x18%20-%20Aloha%20(Parte%201).SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU1OTFf/SBS%20-%202x18%20-%20Aloha%20(Parte%201).SeriesRetro.com.mp4",
+      "episodeCode": "T2 E18: Aloha (Parte 1)",
+      "hiddenCode": "T2 E18",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E19: Aloha (Parte 2)",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/75n0PMpCoimoavVjqj5TAGqJVnz.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU2NTBf/SBS%20-%202x19%20-%20Aloha%20(Parte%202).SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU2NTBf/SBS%20-%202x19%20-%20Aloha%20(Parte%202).SeriesRetro.com.mp4",
+      "episodeCode": "T2 E19: Aloha (Parte 2)",
+      "hiddenCode": "T2 E19",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E20: No es la forma de tratar a una dama",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/7vFUYZ3NUhSEIacpOq1lTdR56Lj.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU3MTdf/SBS%20-%202x20%20-%20No%20es%20la%20forma%20de%20tratar%20a%20una%20dama.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU3MTdf/SBS%20-%202x20%20-%20No%20es%20la%20forma%20de%20tratar%20a%20una%20dama.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E20: No es la forma de tratar a una dama",
+      "hiddenCode": "T2 E20",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E21: El imparable",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/5M9WUXkfBevQX2NdRZbZe7R4s9o.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU4MjFf/SBS%20-%202x21%20-%20El%20imparable.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU4MjFf/SBS%20-%202x21%20-%20El%20imparable.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E21: El imparable",
+      "hiddenCode": "T2 E21",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E22: La psíquica",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/eDVvPX7b7ZkDHfUrqrmUAx7C5by.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU5MTlf/SBS%20-%202x22%20-%20La%20ps%C3%ADquica.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU5MTlf/SBS%20-%202x22%20-%20La%20ps%C3%ADquica.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E22: La psíquica",
+      "hiddenCode": "T2 E22",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E23: Esta vieja casa",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vTnJj7bxnlwNNnWjMUEnNf4aDzf.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDU5OTJf/SBS%20-%202x23%20-%20Esta%20vieja%20casa.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDU5OTJf/SBS%20-%202x23%20-%20Esta%20vieja%20casa.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E23: Esta vieja casa",
+      "hiddenCode": "T2 E23",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E24: Doble cita",
+      "meta": "7+ · 22m · 1991",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/4KoiRaGoZlUQAmDf7nHZffqQuGX.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDM5MDYwNjZf/SBS%20-%202x24%20-%20Doble%20cita.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDM5MDYwNjZf/SBS%20-%202x24%20-%20Doble%20cita.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E24: Doble cita",
+      "hiddenCode": "T2 E24",
+      "intro": { "start": 0, "end": 0 }
+    }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+        "title": "E1: El espectáculo debe continuar",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9m4Rt8baA1lqhBXZ3aYlHTNexWg.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTE5NzZf/SBS%20-%203x01%20-%20El%20espect%C3%A1culo%20debe%20continuar.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTE5NzZf/SBS%20-%203x01%20-%20El%20espect%C3%A1culo%20debe%20continuar.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E1: El espectáculo debe continuar",
+        "hiddenCode": "T3 E1",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E2: El departamento",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oqsjJUpkWzN0P95PBlNiZWLaCzH.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTI5NDBf/SBS%20-%203x02%20-%20El%20departamento.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTI5NDBf/SBS%20-%203x02%20-%20El%20departamento.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E2: El departamento",
+        "hiddenCode": "T3 E2",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E3: Nunca en domingo",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nyuUtQDcwFPS9mCsvHVKA36cswb.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTQxMDlf/SBS%20-%203x03%20-%20Nunca%20en%20domingo.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTQxMDlf/SBS%20-%203x03%20-%20Nunca%20en%20domingo.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E3: Nunca en domingo",
+        "hiddenCode": "T3 E3",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E4: A la caza de exámenes",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aTN6skiXAjgpamOf2ttmWjyTRAd.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTUxNjJf/SBS%20-%203x04%20-%20A%20la%20caza%20de%20ex%C3%A1menes.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTUxNjJf/SBS%20-%203x04%20-%20A%20la%20caza%20de%20ex%C3%A1menes.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E4: A la caza de exámenes",
+        "hiddenCode": "T3 E4",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E5: Yo, en tu lugar",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vvmbqWgJBLfOlwVRT0mURx3B06N.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTU4NDZf/SBS%20-%203x05%20-%20Yo%2C%20en%20tu%20lugar.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTU4NDZf/SBS%20-%203x05%20-%20Yo%2C%20en%20tu%20lugar.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E5: Yo, en tu lugar",
+        "hiddenCode": "T3 E5",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E6: Los juegos de video",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/d9v94mLA50UXSEGGGIE2mhTS1Uy.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTYyNTJf/SBS%20-%203x06%20-%20Los%20juegos%20de%20video.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTYyNTJf/SBS%20-%203x06%20-%20Los%20juegos%20de%20video.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E6: Los juegos de video",
+        "hiddenCode": "T3 E6",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E7: Competencia de amor",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cStWEug6vsPGzKfAYS8HJEh5zQ4.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM4OTcwMzBf/SBS%20-%203x07%20-%20Competencia%20de%20amor.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM4OTcwMzBf/SBS%20-%203x07%20-%20Competencia%20de%20amor.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E7: Competencia de amor",
+        "hiddenCode": "T3 E7",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E8: Derrotado en Port Washington",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/maeZtXtj1VCBCSEz0cwD2utFVbC.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDQ5MjRf/SBS%20-%203x08%20-%20Derrotado%20en%20Port%20Washington.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDQ5MjRf/SBS%20-%203x08%20-%20Derrotado%20en%20Port%20Washington.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E8: Derrotado en Port Washington",
+        "hiddenCode": "T3 E8",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E9: El comprometido",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ft8MHp1YyJ6m4CcTiEWtLPWiPUs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDUwMDFf/SBS%20-%203x09%20-%20El%20comprometido.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDUwMDFf/SBS%20-%203x09%20-%20El%20comprometido.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E9: El comprometido",
+        "hiddenCode": "T3 E9",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E10: El que la hace, la paga",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pfeRtVxNBIllI3tqvkq16v4qJvp.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDUwNzlf/SBS%20-%203x10%20-%20El%20que%20la%20hace%2C%20la%20paga.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDUwNzlf/SBS%20-%203x10%20-%20El%20que%20la%20hace%2C%20la%20paga.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E10: El que la hace, la paga",
+        "hiddenCode": "T3 E10",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E11: Historia de Navidad",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wdNftJCizKDrXyjvnFsqcXN6k9B.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDUxNjZf/SBS%20-%203x11%20-%20Historia%20de%20Navidad.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDUxNjZf/SBS%20-%203x11%20-%20Historia%20de%20Navidad.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E11: Historia de Navidad",
+        "hiddenCode": "T3 E11",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E12: Encuentros cercanos de tipo marita",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fdO3ajAGXN7sYXiFUnj8XnIP3c0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDUyNDdf/SBS%20-%203x12%20-%20Encuentros%20cercanos%20de%20tipo%20marita.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDUyNDdf/SBS%20-%203x12%20-%20Encuentros%20cercanos%20de%20tipo%20marita.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E12: Encuentros cercanos de tipo marita",
+        "hiddenCode": "T3 E12",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E13: Chicas malas",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jWMTRmcKXEwLGi22IV4sKNsFFEM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDUzMzhf/SBS%20-%203x13%20-%20Chicas%20malas.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDUzMzhf/SBS%20-%203x13%20-%20Chicas%20malas.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E13: Chicas malas",
+        "hiddenCode": "T3 E13",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E14: Tiempo de lectura",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xFezwikDK3No4nUfseQ3VEs5WCX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU0OTVf/SBS%20-%203x14%20-%20Tiempo%20de%20lectura.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU0OTVf/SBS%20-%203x14%20-%20Tiempo%20de%20lectura.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E14: Tiempo de lectura",
+        "hiddenCode": "T3 E14",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E15: La difícil edad de los 13 años",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2yqRsB8n6cKdQ9j8uAzx9JY21fU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU1NDhf/SBS%20-%203x15%20-%20La%20dif%C3%ADcil%20edad%20de%20los%2013%20a%C3%B1os.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU1NDhf/SBS%20-%203x15%20-%20La%20dif%C3%ADcil%20edad%20de%20los%2013%20a%C3%B1os.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E15: La difícil edad de los 13 años",
+        "hiddenCode": "T3 E15",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E16: Mi guardaespaldas",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sDV9ciFXrEou7er9LFDqavvGcwl.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU2MTNf/SBS%20-%203x16%20-%20Mi%20guardaespaldas.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU2MTNf/SBS%20-%203x16%20-%20Mi%20guardaespaldas.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E16: Mi guardaespaldas",
+        "hiddenCode": "T3 E16",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E17: Mujer bonita",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jAhHNZQD0iuGY0uQZqzmvgxYodB.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU2NzRf/SBS%20-%203x17%20-%20Mujer%20bonita.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU2NzRf/SBS%20-%203x17%20-%20Mujer%20bonita.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E17: Mujer bonita",
+        "hiddenCode": "T3 E17",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E18: Tormentoso fin de semana",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qg9otgySxMsybA2vRp5onzx7UiZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU3Mjhf/SBS%20-%203x18%20-%20Tormentoso%20fin%20de%20semana.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU3Mjhf/SBS%20-%203x18%20-%20Tormentoso%20fin%20de%20semana.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E18: Tormentoso fin de semana",
+        "hiddenCode": "T3 E18",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E19: Nace un vendedor",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AphwekAPQxn1jYayFRr3lkeOz1V.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU4MjBf/SBS%20-%203x19%20-%20Nace%20un%20vendedor.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU4MjBf/SBS%20-%203x19%20-%20Nace%20un%20vendedor.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E19: Nace un vendedor",
+        "hiddenCode": "T3 E19",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E20: Los temidos 40",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xbh8B0CMJQAb6r43pMK8QIZY7ae.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU5MTZf/SBS%20-%203x20%20-%20Los%20temidos%2040.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU5MTZf/SBS%20-%203x20%20-%20Los%20temidos%2040.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E20: Los temidos 40",
+        "hiddenCode": "T3 E20",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E21: El caso del diario desaparecido",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qTczizY4q1y6p9ZOOm3YCBGzFc0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDU5ODRf/SBS%20-%203x21%20-%20El%20caso%20del%20diario%20desaparecido.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDU5ODRf/SBS%20-%203x21%20-%20El%20caso%20del%20diario%20desaparecido.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E21: El caso del diario desaparecido",
+        "hiddenCode": "T3 E21",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E22: Grandes expectativas",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zA6tMJbfdzKTSXlODac1ot7vyti.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDYwNTFf/SBS%20-%203x22%20-%20Grandes%20expectativas.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDYwNTFf/SBS%20-%203x22%20-%20Grandes%20expectativas.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E22: Grandes expectativas",
+        "hiddenCode": "T3 E22",
+        "intro": { "start": 0, "end": 0 }
+},
+{
+        "title": "E23: Noche de baile",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4o2yBFooMcLLqMeRCSbUN2E1csq.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDM5MDYwOTlf/SBS%20-%203x23%20-%20Noche%20de%20baile.SeriesRetro.com.mkv",
+        "downloadUrl": "https://od.lk/d/M18zMDM5MDYwOTlf/SBS%20-%203x23%20-%20Noche%20de%20baile.SeriesRetro.com.mkv",
+        "episodeCode": "T3 E23: Noche de baile",
+        "hiddenCode": "T3 E23",
+        "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xcLcn542qPCXi9xR7p70XThcyRq.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E1: Episodio 1",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/14afSKU3zmMfeFOpGp2V6jMwUHr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E2: Episodio 2",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8AHy11wP9ThthF9oQlF8fJcO5oA.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E3: Episodio 3",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/md1Fok4ZfjPdXwdSBJOMY9QIcIM.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E4: Episodio 4",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9YCMWmjhznt721P3YK4V3gGIoNw.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E5: Episodio 5",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/y2e7H5KJcwD3S7E4n5298ayBGRn.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E6: Episodio 6",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tJl5V4uUEIZN4lKdmhJxADca8pd.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E7: Episodio 7",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iCO5G1OeeCvKCyAoBLbfpimanLR.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E8: Episodio 8",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ekjPbQWyfUGZ5hDWpY7kbJMNJmd.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E9: Episodio 9",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/d1y7cHnKHNnh4VGG2AIa2s7dUEl.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E10: Episodio 10",
+        "hiddenCode": "T4 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/VsNLQdNE1JMA3YhEnSBc8EWdWS.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E11: Episodio 11",
+        "hiddenCode": "T4 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4Y9WqtTd3DjzWAP7+3aI3RHJN6o.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E12: Episodio 12",
+        "hiddenCode": "T4 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hi3tQ2LuI63EAe3adF78juaEGjO.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E13: Episodio 13",
+        "hiddenCode": "T4 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sm1dPzgi5BzWWszW8sYqsqSq3U1.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E14: Episodio 14",
+        "hiddenCode": "T4 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1NBulbrzX8H1Qk8Qhhr2KXlwcW0.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E15: Episodio 15",
+        "hiddenCode": "T4 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2a91VAFw74VvC2YO8r7bj1nzRE5.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E16: Episodio 16",
+        "hiddenCode": "T4 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yyYkja5JMGc3AKUAX33Xl3k38vj.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E17: Episodio 17",
+        "hiddenCode": "T4 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xtkf942rEGsG50lLIy4kAnYtKxz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E18: Episodio 18",
+        "hiddenCode": "T4 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/95Hj8wWw7ZbHbYbFDHeDGPFDDdI.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E19: Episodio 19",
+        "hiddenCode": "T4 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Episodio 20",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9AdNsYUBN4qBfxOtvY8MovtBddY.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E20: Episodio 20",
+        "hiddenCode": "T4 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Episodio 21",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uOoBNMooquExxqCeeqij343YFxm.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E21: Episodio 21",
+        "hiddenCode": "T4 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Episodio 22",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rXdOYzBKrBgn2BDukr3hT139obN.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E22: Episodio 22",
+        "hiddenCode": "T4 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: Episodio 23",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rC9ML1nB6ytYOxcx1fmGchhgXo1.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E23: Episodio 23",
+        "hiddenCode": "T4 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: Episodio 24",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/deizDHzgOpN3jeYiFBF92JmXZTY.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T4 E24: Episodio 24",
+        "hiddenCode": "T4 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/21axWyHzMqfvnowqD06m1Bw69kM.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E1: Episodio 1",
+        "hiddenCode": "T5 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6EX6VkOT8tIF9m5OwqUcV6NB9Ir.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E2: Episodio 2",
+        "hiddenCode": "T5 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vaD4vnY2GgDEhe16EzRxz1dBnGG.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E3: Episodio 3",
+        "hiddenCode": "T5 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gVefEnxmUNV4by3A5wRlZmr5AEF.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E4: Episodio 4",
+        "hiddenCode": "T5 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8fwr2bg5g2e6eWpnoLwz5cej2w1.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E5: Episodio 5",
+        "hiddenCode": "T5 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/88rnX0ulwzFYOjAhLmjjo10NVjz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E6: Episodio 6",
+        "hiddenCode": "T5 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5WW22JETbuagNTKQpNMDwu0cOOY.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E7: Episodio 7",
+        "hiddenCode": "T5 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ysPg6GZV55SUb9gPjmlOZ3NkOjW.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E8: Episodio 8",
+        "hiddenCode": "T5 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aX0A9zpJh5S1HjlNBQXKgVaY9S1.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E9: Episodio 9",
+        "hiddenCode": "T5 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/icNs87Gs3RU59HLxxhVq5RTJvaR.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E10: Episodio 10",
+        "hiddenCode": "T5 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7NggSLT8sWEccgv8sG9NyYRfPzR.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E11: Episodio 11",
+        "hiddenCode": "T5 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/faCGEyY9hHhTocSZ7cit6I44AS5.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E12: Episodio 12",
+        "hiddenCode": "T5 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3yFjgvqIruNccTWMaFPLFtaR5H3.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E13: Episodio 13",
+        "hiddenCode": "T5 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gjHfOebQmo4Fpfk9EbijtIrbyGv.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E14: Episodio 14",
+        "hiddenCode": "T5 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vE3cXtxkjgSypB3rgGtGedxlt7g.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E15: Episodio 15",
+        "hiddenCode": "T5 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5u5Um2jUPynMKCDJFZ2DzDb9H49.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E16: Episodio 16",
+        "hiddenCode": "T5 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2KUSfll3BEV2eFjPAinIE14kG2L.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E17: Episodio 17",
+        "hiddenCode": "T5 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7qJ6A1S08idqmZN3BDoOka317vF.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E18: Episodio 18",
+        "hiddenCode": "T5 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/25hZAnq8OO5jSxMdJAQkapmMqrt.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E19: Episodio 19",
+        "hiddenCode": "T5 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Episodio 20",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7s5uDyALcIqsRtSRz1m0svhWoEy.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E20: Episodio 20",
+        "hiddenCode": "T5 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Episodio 21",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tJURDBjUn9pagvy5j6D9x4FfZ2s.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E21: Episodio 21",
+        "hiddenCode": "T5 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Episodio 22",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/c5BXcf12uEegvuKiDHYv8QLh0BM.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E22: Episodio 22",
+        "hiddenCode": "T5 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: Episodio 23",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mUrKp6mv9hM9r6IeF8ofyB2cIFa.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E23: Episodio 23",
+        "hiddenCode": "T5 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: Episodio 24",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qxS271iHyjXY9J78CeF4CkqXike.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T5 E24: Episodio 24",
+        "hiddenCode": "T5 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 6",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bMguqFZbtx9bNa7pC2KECIWo3Y7.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E1: Episodio 1",
+        "hiddenCode": "T6 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/o6nRUGnrZH5AfyZ9YsSjEENUNuv.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E2: Episodio 2",
+        "hiddenCode": "T6 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tPsDWZKP7oy27BPMgjKYfrO2C4X.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E3: Episodio 3",
+        "hiddenCode": "T6 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ffrwlnxeFWHUKY09qYZd1fohq8.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E4: Episodio 4",
+        "hiddenCode": "T6 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wrw1yqZbKNjIBzYUCQwv2lgdwrz.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E5: Episodio 5",
+        "hiddenCode": "T6 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mDpJ2ubriJ6Fy81UQpDPFzlwgC6.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E6: Episodio 6",
+        "hiddenCode": "T6 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iv70B1YbaJhAgcckvHVzeKjmG3f.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E7: Episodio 7",
+        "hiddenCode": "T6 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aavaGghZxtyKqhkXCq6Z5mGBw2V.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E8: Episodio 8",
+        "hiddenCode": "T6 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/g2Sxsj51fm4Gs5rs5M7l7IeHo7n.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E9: Episodio 9",
+        "hiddenCode": "T6 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eVzywo8pc6CECeeLw3VqjfO2Tky.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E10: Episodio 10",
+        "hiddenCode": "T6 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/c4eSxBngJzVh66OTYfI29HubiQW.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E11: Episodio 11",
+        "hiddenCode": "T6 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cp1aCKnUhkVYQ7+aUeyLAFjJlO8.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E12: Episodio 12",
+        "hiddenCode": "T6 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yaH5pmvZs01zpulu3WHszSczvl0.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E13: Episodio 13",
+        "hiddenCode": "T6 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/11OtqX52YUftZq7FGjQkPIgSwb6.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E14: Episodio 14",
+        "hiddenCode": "T6 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2Lnpv6201wTGwaaVNCvYOKrccJa.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E15: Episodio 15",
+        "hiddenCode": "T6 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uCrbEcMDlrYwnkr1jGfZrv6DTnl.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E16: Episodio 16",
+        "hiddenCode": "T6 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bXiyTKkbCNh8zSfFnY4pcEhwyE3.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E17: Episodio 17",
+        "hiddenCode": "T6 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qBroxLyk86jdp2pvE2aNSzeFoMb.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E18: Episodio 18",
+        "hiddenCode": "T6 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vEDq5WMt6Dsc0JII3zgZNarwntU.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E19: Episodio 19",
+        "hiddenCode": "T6 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Episodio 20",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/anvk6B5Slsi8cwOxeGd8WmaB8cr.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E20: Episodio 20",
+        "hiddenCode": "T6 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Episodio 21",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/i5yw9vpyllSRLfCpOMwvYi90vge.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E21: Episodio 21",
+        "hiddenCode": "T6 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Episodio 22",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xDd6rzp0iD7fuedl5mJOrh4eGpV.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E22: Episodio 22",
+        "hiddenCode": "T6 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: Episodio 23",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xPGG0OYXOjoyVU9KcNpICnLmHXR.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E23: Episodio 23",
+        "hiddenCode": "T6 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: Episodio 24",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4tDyjs6cvsufwJabdyUBh5IVZoo.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T6 E24: Episodio 24",
+        "hiddenCode": "T6 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 7",
+    "episodes": [
+      {
+        "title": "E1: Episodio 1",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9zdnelZPcjEI308VCdcpLfYRF64.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E1: Episodio 1",
+        "hiddenCode": "T7 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Episodio 2",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/YNu3MCp8v2SykR9WrDWUWohm80.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E2: Episodio 2",
+        "hiddenCode": "T7 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Episodio 3",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ovSR9e8ixckNPIBhjz8t8o0PE1c.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E3: Episodio 3",
+        "hiddenCode": "T7 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Episodio 4",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/PvxPSOd4RGVE7eiagQCD4TjmqW.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E4: Episodio 4",
+        "hiddenCode": "T7 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Episodio 5",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tWSLdVrC5PWmoPPJ57wrtlNnaKH.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E5: Episodio 5",
+        "hiddenCode": "T7 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Episodio 6",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zhvP5vxOQlRBPCMQad4XAHA1zO.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E6: Episodio 6",
+        "hiddenCode": "T7 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Episodio 7",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jAIR8zyCruoJd75NlkhWLhr4A16.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E7: Episodio 7",
+        "hiddenCode": "T7 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Episodio 8",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9Mu18Wl0zPXYHGSpbLZVkZ01S8N.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E8: Episodio 8",
+        "hiddenCode": "T7 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Episodio 9",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pXry9n78Mhl0lnKCZSP5AhUmITg.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E9: Episodio 9",
+        "hiddenCode": "T7 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Episodio 10",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/krN5kgdH7utTVDABK7kitWyAQrU.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E10: Episodio 10",
+        "hiddenCode": "T7 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Episodio 11",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vCuGpV5NnGCP8ECnzGHtebO6JWX.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E11: Episodio 11",
+        "hiddenCode": "T7 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Episodio 12",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7yhdL3iFoGLYIa8LPkeDnxMAQJ1.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E12: Episodio 12",
+        "hiddenCode": "T7 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Episodio 13",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9PRJktvI81y0L9R9Z1xWlKNFsxp.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E13: Episodio 13",
+        "hiddenCode": "T7 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Episodio 14",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bMuNbIO5bQd2PRMbgsevgEIZHXm.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E14: Episodio 14",
+        "hiddenCode": "T7 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Episodio 15",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zHEwB9KpZWn4hXCp5LZyrTHrNTQ.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E15: Episodio 15",
+        "hiddenCode": "T7 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Episodio 16",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7EJYbIC7KSuqxeEBfpfFH7V4Lu2.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E16: Episodio 16",
+        "hiddenCode": "T7 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Episodio 17",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gknWhDlrbqTZnta6KQ8qWKKxNtN.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E17: Episodio 17",
+        "hiddenCode": "T7 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Episodio 18",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fMP5clEhCu1peFeixOwGNwBsAoR.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E18: Episodio 18",
+        "hiddenCode": "T7 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Episodio 19",
+        "meta": "7+ · 22m · 1991",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5Lm6rJGozaJJyg3lVM9guqtv0fd.jpg",
+        "videoUrl": "",
+        "downloadUrl": "",
+        "episodeCode": "T7 E19: Episodio 19",
+        "hiddenCode": "T7 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+    ]
+  }
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

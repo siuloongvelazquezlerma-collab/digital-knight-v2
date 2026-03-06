@@ -1,0 +1,547 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+  }
+  
+  html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+margin: 0;
+padding: 0;
+height: 100%;
+width: 100%;
+font-family: 'Roboto', Arial, sans-serif; /* Fuente cambiada a Roboto */
+background: linear-gradient(135deg, #000010, #000023); /* Fondo con colores similares a la imagen */
+color: white;
+overflow-x: auto;
+}
+
+html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+overscroll-behavior-y: contain; /* bloquea el "pull-to-refresh" */
+}
+
+
+.search-header {
+display: flex;
+align-items: center;
+background-color: #000010;
+padding: 15px 20px;
+position: fixed; /* Hace que el encabezado esté fijo */
+top: 0; /* Colócalo en la parte superior de la página */
+left: 0;
+right: 0;
+z-index: 1000; /* Asegura que el encabezado esté por encima de otros elementos */
+}
+
+.search-container {
+display: flex;
+align-items: center;
+width: 100%;
+position: relative;
+}
+
+.search-icon {
+color: #ffffff;
+font-size: 25px;
+margin-left: 10px;
+position: absolute;
+left: 15px;  /* Mueve el ícono a la izquierda del input */
+}
+
+.search-header input[type="text"] {
+flex: 1;
+background-color: #292941;
+border: none;
+border-radius: 6px;
+padding: 20px 15px;
+color: #ffffff;
+outline: none;
+padding-left: 60px; /* Da espacio para el ícono dentro del input */
+}
+
+.search-header input[type="text"]::placeholder {
+color: #b0b0b0;
+}
+
+.clear-icon {
+position: absolute;
+right: 10px;
+color: #ffffff;
+font-size: 25px;
+cursor: pointer;
+visibility: hidden;
+}
+
+.clear-icon.visible {
+visibility: visible;
+}
+@media screen and (min-width: 1024px) and (orientation: landscape) {
+.search-header {
+  transform: translateY(80px);
+}
+
+
+.search-header input[type="text"] {
+  padding: 25px 20px;
+  padding-left: 60px;
+  font-size: 18px;
+}
+
+.search-icon {
+  font-size: 28px;
+  top: 20px; /* Baja el ícono si es necesario */
+}
+
+.clear-icon {
+  font-size: 28px;
+  top: 20px;
+}
+}
+
+
+/* Estilos para contenedor de resultados */
+#movieContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px; /* antes 10px — demasiado */
+  padding: 8px;
+}
+
+
+/* Para pantallas grandes o landscape: mostrar 3 columnas */
+@media screen and (min-width: 1024px), screen and (orientation: landscape) {
+#movieContainer {
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 100px;
+}
+
+.movie-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover; /* o 'contain' si prefieres */
+}
+
+.movie-title {
+  font-size: 16px;
+}
+
+.movie-details {
+  font-size: 14px;
+}
+}
+
+
+
+.movie-item {
+  display: flex;
+  align-items: center;
+  background-color: #1f1f1f00;
+  border-radius: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+
+  /* 🔥 NUEVO — sin separación exagerada */
+  margin: 4px 0;      /* antes tenías 10px y 20px */
+  padding: 4px;       /* reduce el padding interno */
+}
+
+
+.movie-item:hover {
+transform: scale(1.02);
+}
+
+.movie-item img {
+width: 140px;
+height: 80px;
+object-fit: contain;
+border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;
+max-width: 100%; /* Asegura que la imagen no se desborde horizontalmente */
+max-height: 100%; /* Asegura que la imagen no se desborde verticalmente */
+}
+
+.movie-info {
+padding: 15px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+overflow: hidden; /* Evita el desbordamiento del contenido de texto */
+}
+
+.movie-title {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
+
+  /* 🔥 NUEVO: títulos largos ya NO se cortan */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+
+  line-height: 1.3;   /* se ve mejor si hay 2-3 líneas */
+}
+
+
+.movie-details {
+font-size: 10px;
+color: #b0b0b0;
+overflow: hidden; /* Evita que el texto se desborde */
+text-overflow: ellipsis; /* Añade "..." cuando el texto se corta */
+white-space: nowrap; /* Impide que el texto se divida en varias líneas */
+}
+
+
+  .no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #6c757d;
+    margin-top: 50px;
+  }
+
+  /* Estilo para el contenedor de Género */
+  .genre-container {
+    padding: 20px;
+    background-color: #1f1f1f00;
+  }
+
+  .genre-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .genre-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .genre-item {
+    width: 120px;
+    height: 120px;
+    background-color: #33333300;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .genre-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  
+
+  .footer {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #01011dcb;
+    padding: 10px 0;
+    height: 60px;
+    z-index: 1000;
+    justify-content: space-around;
+    transition: transform 0.3s ease-in-out;
+    }
+    
+    .footer.hidden {
+      transform: translateY(100%);
+    }
+    
+    .footer.hidden {
+      transform: translateY(100%);
+    }
+    
+    .footer-icon {
+      color: #bbb; /* Icono gris cuando está inactivo */
+      text-align: center;
+      text-decoration: none;
+      font-size: 35px; /* Tamaño aumentado para los iconos */
+      flex: 1; /* Ocupa el mismo espacio cada icono */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+    }
+    
+    /* Para asegurarnos de que los iconos aumenten correctamente */
+    .footer-icon .material-icons, .footer-icon .material-icons-outlined {
+      font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+      transition: font-size 0.3s ease;
+    }
+    
+    .footer-icon:hover {
+      color: #fff; /* Cambia a blanco al pasar el cursor */
+    }
+    
+    .footer-icon.active {
+      color: #fff; /* Cambiar a blanco cuando está activo */
+    }
+    
+    .footer-icon.active .material-icons-outlined {
+      display: none; /* Oculta el icono outline cuando está activo */
+    }
+    
+    .footer-icon.active .material-icons {
+      display: inline-block; /* Muestra el icono normal cuando está activo */
+    }
+    
+    /* Oculta los iconos normales por defecto */
+    .footer-icon .material-icons {
+      display: none;
+    }
+    
+    /* Iconos outline por defecto */
+    .footer-icon .material-icons-outlined {
+      display: inline-block;
+    }
+    
+    /* Estilos para el icono de perfil */
+    .profile-icon-footer {
+      width: 35px; /* Tamaño de la imagen de perfil */
+      height: 35px; /* Tamaño de la imagen de perfil */
+      border-radius: 50%; /* Hacer la imagen circular */
+      border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+      object-fit: cover; /* Asegura que la imagen se recorte bien */
+    }
+    
+    /* Cambiar color de iconos inactivos */
+    .footer-icon.inactive .material-icons-outlined,
+    .footer-icon.inactive .material-icons {
+      color: #bbb; /* Gris para iconos inactivos */
+    }
+    
+    .nav__icon {
+      font-size: 20px; /* Ajusta el tamaño del icono aquí */
+    }
+    .footer.hidden {
+      transform: translateY(100%);
+    }
+
+
+  /* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+
+        /* Deshabilitar el arrastre de imágenes */
+        img {
+            pointer-events: none; /* Desactiva interacciones del puntero en imágenes */
+        }
+
+      /* Overlay para oscurecer la página */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 16, 29); /* Oscurecimiento semitransparente */
+  z-index: 9999; /* Asegura que esté encima de todos los Hotel Transylvania 4: Transformanía */
+  opacity: 1;
+  transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+  display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+  opacity: 0; /* Se desvanece */
+  pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+      #loader {
+  display: block; /* Cambiado de 'none' a 'block' para que sea visible al cargar */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(
+  from 90deg,
+      #0066ff21 0%,
+      #0066ff 60%,
+      #ffffff 80%,
+      #afafaf00 30%
+  ); /* Gradiente para el efecto cometa */
+  mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+  animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite; /* Animación continua */
+  opacity: 1; /* Asegúrate de que sea visible inicialmente */
+  transition: opacity 0.3s ease;
+  z-index: 5000000;
+}
+
+
+  /* Animación de rotación */
+  @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Animación de brillo */
+  @keyframes shine {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.8); } /* Aumenta el brillo */
+  }
+
+
+
+  .tabs-secondary {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 3005;
+    background-color: rgb(0, 0, 0); /* Transparente */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    transition: background-color 0.4s ease;
+    border: none;
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgb(0, 0, 0); /* Se oscurece al subir */
+  }
+  
+  
+  .tabs-secondary .logo {
+    height: 20px;
+    width: auto;
+  }
+  
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  
+  .tabs-secondary .tab {
+    color: rgba(255, 255, 255, 0.856);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 14px 8px;
+    transition: background 0.3s ease;
+    border-radius: 8px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+  .tabs-secondary .tab:hover {
+    background-color: #81818179;
+  }
+  
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+  
+  .tabs-secondary .icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .tabs-secondary .icons span,
+  .header-only span {
+    font-size: 36px !important;
+    color: white;
+  }
+  
+  #headerProfileIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+  }
+  
+  /* Mostrar solo en pantallas grandes */
+  @media screen and (min-width: 1024px) {
+    .tabs-secondary {
+      display: flex;
+    }
+  }
+  
+  
+  
+  @media screen and (min-width: 1024px) {
+    #header {
+      display: none;
+    }
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgb(0, 0, 0); /* Fondo oscuro al subir */
+    transition: background-color 0.4s ease;
+  }
+
+  .custom-top-bar {
+    background-color: #000;
+    color: white;
+    padding: 6px 20px;
+    display: flex;
+    justify-content: flex-start; /* <- Cambio aquí */
+    align-items: center;
+    gap: 12px; /* <- Espacio entre los botones */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  
+  .custom-top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-top-bar .material-icons {
+    font-size: 25px;
+  }
+  
+  /* Ocultar en pantallas pequeñas */
+  @media screen and (max-width: 1024px) {
+    .custom-top-bar {
+      display: none;
+    }
+  }
+
+  
+  

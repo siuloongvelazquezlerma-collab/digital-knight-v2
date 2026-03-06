@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Ver Más</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+     <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+    }
+    body {
+      padding-top: env(safe-area-inset-top);
+            font-family: 'Roboto', sans-serif;
+            background: url('https://od.lk/s/M18zMTIyNTE0NTJf/fondo%20aniamcion.jpg') no-repeat center center fixed;
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+  /* Estilo para el header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0); /* Fondo transparente al inicio */
+  padding: 10px 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 1s ease; /* Transición suave para el fondo */
+}
+
+/* Título en el header */
+.movie-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            opacity: 0; /* Inicialmente oculto */
+            transform: translateY(-100%); /* Inicialmente desplazado hacia arriba */
+            transition: opacity 1s ease, transform 1s ease, left 1s ease;
+            position: absolute;
+            left: 150px; /* Posición inicial */
+            top: 15px;
+        }
+
+        /* Título centrado */
+        .movie-title.centered {
+            transform: translateY(0); /* Baja a su posición original */
+            opacity: 1;
+            left: 50%; /* Mueve el título al centro */
+            transform: translateX(-50%); /* Asegura que quede centrado horizontalmente */
+        }
+
+/* Estilo para el link de la flecha */
+.chevron-link {
+  color: white; /* Flecha en blanco */
+  font-size: 40px; /* Tamaño más grande de la flecha */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-flex; /* Asegura que el fondo se adapte al tamaño de la flecha */
+  align-items: center;
+  justify-content: center;
+  width: 30px; /* Tamaño del círculo */
+  height: 30px; /* Tamaño del círculo */
+  border-radius: 50%; /* Círculo perfecto */
+  background-color: rgba(0, 0, 0, 0.288); /* Fondo negro transparente */
+  padding: 10px; /* Padding dentro del círculo */
+}
+
+/* Alineación del ícono */
+.chevron-link i {
+  vertical-align: middle;
+  font-size: 30px; /* Ajustar tamaño de la flecha dentro del círculo */
+}
+
+
+
+/* Evitar que los íconos estén pegados a los bordes */
+.chevron-link {
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+
+.icons i {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+
+.container {
+    margin-top: 80px; /* Para que no quede cubierto por el header */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Tres columnas */
+    gap: 10px;
+    padding: 10px;
+}
+
+.movie {
+    text-align: center;
+}
+
+.movie a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.movie img {
+    width: 100%; /* Ajusta el ancho al contenedor */
+    height: 250px; /* Establece una altura fija para todas las imágenes */
+    object-fit: cover; /* Recorta la imagen para que encaje en el tamaño establecido */
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.movie img:hover {
+    transform: scale(1.05);
+}
+
+
+        .footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 30px; /* Tamaño de la imagen de perfil */
+  height: 30px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #696969; /* Borde blanco por defecto */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+  transition: border-color 0.3s ease; /* Transición suave para el borde */
+}
+
+/* Cambiar el color del borde cuando el icono esté activo */
+.footer-icon.active .profile-icon-footer {
+  border-color: #ffffff; /* Cambiar el borde a azul cuando esté activo */
+}
+
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #929292; /* Gris para iconos inactivos */
+}
+
+         /* Esta media query asegura que las imágenes se mantengan consistentes en cualquier orientación */
+         @media (orientation: landscape) {
+            .container {
+                grid-template-columns: repeat(3, 1fr); /* Mantiene las tres columnas incluso en horizontal */
+            }
+
+            .movie img {
+                width: auto; /* Mantiene la proporción de las imágenes */
+                height: 200px; /* Mantiene la altura fija */
+                object-fit: cover; /* Sigue asegurando la proporción correcta */
+            }
+        }
+
+/* Ocultar el nombre de la película */
+#nombrePelicula {
+  display: none; /* Este es el estilo que lo oculta */
+}
+
+/* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los Hotel Transylvania 4: Transformanía */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+    /* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+
+       
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+  <header class="header">
+    <!-- Flecha Chevron en la parte superior izquierda -->
+    <a class="chevron-link" href="javascript:history.back();">
+    <i class="material-icons chevron-icon">chevron_left</i>
+</a>
+
+  
+    <!-- Título que aparecerá -->
+    <div class="movie-title">
+      Animación 
+    </div>
+  
+   
+</header>
+
+<div class="container">
+    <div class="movie">
+        <a href="peliculas/Una Pareja de Idiotas (1994).html">
+            <img src="https://od.lk/s/M18zMTUxNDk3Njdf/dcddb3aad2e37bdc90e2ec4075c1ca615b05de29898587eaae13db2f43452373._RI_TTW_%20%281%29.jpg" alt="Una Pareja de Idiotas (1994)" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/¡Cuidado Bebé suelto! (1994).html">
+            <img src="https://image.tmdb.org/t/p/original/bxGoMGwxXyixPq9nBM5R6WRYElM.jpg" alt="¡Cuidado: Bebé suelto! (1994)" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/American Pie 2 Tu Segunda Vez Es Mejor (2001).html">
+            <img src="https://image.tmdb.org/t/p/original/72FAU4WJF6nZyexe0OJYishiEbP.jpg" alt="American Pie 2: Tu Segunda Vez Es Mejor (2001)" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/Quien Engaño a Roger Rabbit (1988).html">
+            <img src="https://image.tmdb.org/t/p/original/nXqhkF0tJ1K2fglVMgimVZd5kMH.jpg" alt="¿Quién Engañó a Roger Rabbit? (1988)" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/El Retorno de Los Thundermans (2024).html">
+            <img src="https://image.tmdb.org/t/p/original/u9F0QlZwwecGE9eHaaGKzx3pSS0.jpg" alt="El Retorno de Los Thundermans" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="Disney/Mi Encuentro Conmigo (2000).html">
+            <img src="https://image.tmdb.org/t/p/original/nrcOxPhdWYSScRn6Fj6nEnHma8P.jpg" alt="Mi Encuentro Conmigo" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/Magic Mike El último baile (2023).html">
+            <img src="https://image.tmdb.org/t/p/original/xbkA5mZXwuT4sT1COCChrWGYExv.jpg" alt="Magic Mike: El último baile" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/Un Lobo Adolescente (1985).html">
+            <img src="https://image.tmdb.org/t/p/original/5cKky9Cu3JZ2KTqOUgjRFH6F6tj.jpg" alt="Un Lobo Adolescente" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/Zoolander 2 (2016).html">
+            <img src="https://image.tmdb.org/t/p/original/e0sHfnIDANQtuqgn7UIupdJni3O.jpg" alt="Zoolander 2" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/Zoolander (2001).html">
+            <img src="https://image.tmdb.org/t/p/original/1IOLMlNKSoo3FToVGYV1PjE3ehn.jpg" alt="Zoolander" loading="lazy">
+        </a>
+    </div>
+    <div class="movie">
+        <a href="peliculas/Zapatero a tus zapatos (2014).html">
+            <img src="https://image.tmdb.org/t/p/original/l0wKdgEJNRgrA3eet4dCkBPtXOE.jpg" alt="Zapatero a tus zapatos" loading="lazy">
+        </a>
+    </div>
+    
+    
+</div>
+
+<br><br><br>
+
+    <footer class="footer">
+      <a href="../main.html" class="footer-icon">
+          <span class="material-icons-outlined">home</span>
+          <span class="material-icons">home</span>
+      </a>
+      <a href="go:favoritos" class="footer-icon">
+          <span class="material-icons-outlined">bookmark_border</span>
+          <span class="material-icons">bookmark</span>
+      </a>
+      <a href="go:search" class="footer-icon">
+          <span class="material-icons-outlined">search</span>
+          <span class="material-icons">search</span>
+      </a>
+      <a href="go:perfil" class="footer-icon">
+          
+          <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+      </a>
+  </footer>
+
+  <script>
+
+    // Prevenir gestos táctiles no deseados
+    document.addEventListener('touchmove', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        var header = document.querySelector(".header");
+var movieTitle = document.querySelector(".movie-title");
+
+window.addEventListener("scroll", function () {
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+  // Ajusta la opacidad del header
+  var opacity = Math.min(scrollTop / 100, 1); // Aseguramos que no sobrepase 1
+  header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+
+  // Muestra el título de la película cuando el header se oscurece
+  if (scrollTop > 50) { // Cuando el desplazamiento es mayor a 50px
+    movieTitle.style.opacity = 1;
+    movieTitle.style.transform = "translateX(0)"; // El título vuelve a su lugar
+  } else {
+    movieTitle.style.opacity = 0;
+    movieTitle.style.transform = "translateX(100%)"; // El título desaparece
+  }
+});
+
+window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+    // Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+  </script>
+</body>
+</html>

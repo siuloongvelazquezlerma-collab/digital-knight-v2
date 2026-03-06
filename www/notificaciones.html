@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <title>Notificaciones</title>
+    <style>
+        /* Estilos para la página de Notificaciones */
+        .notifications-page {
+            background-color: black;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: block;
+            overflow: hidden;
+        }
+
+        .notifications-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background-color: #111;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+        }
+
+        .notifications-header .back-icon {
+            cursor: pointer;
+            margin-right: 8px;
+            font-size: 24px;
+        }
+
+        .notifications-container {
+            padding: 20px;
+            max-height: calc(100% - 60px); /* Ajusta la altura para permitir el scroll */
+            overflow-y: auto; /* Habilita el scroll vertical */
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .notification-image {
+            width: 60px;
+            height: 60px;
+            margin-right: 12px;
+            border-radius: 8px;
+        }
+
+        .notification-text h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .notification-text p {
+            margin: 4px 0 0;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 15px;
+            right: 40px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2em 0.5em;
+            font-size: 14px;
+            display: inline-block;
+        }
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Página de Notificaciones -->
+    <div id="notificationsPage" class="notifications-page">
+        <!-- Header de Notificaciones -->
+        <div class="notifications-header">
+            <span class="material-icons back-icon" onclick="closeNotifications()">arrow_back</span>
+            <h2>Notificaciones</h2>
+        </div>
+
+        <!-- Contenido de Notificaciones -->
+        <div id="notificationsContainer" class="notifications-container">
+            <!-- Las notificaciones se agregarán dinámicamente aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir la página de notificaciones
+        function openNotifications() {
+            document.getElementById('notificationsPage').style.display = 'block';
+        }
+
+        // Función para cerrar la página de notificaciones
+        function closeNotifications() {
+            document.getElementById('notificationsPage').style.display = 'none';
+        }
+
+        // Agregar una notificación solo si no existe
+        function addNotification(message) {
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+
+            // Comprobar si la notificación ya existe usando un identificador único
+            if (!notifications.some(notification => notification.link === message.link)) {
+                notifications.push(message);
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                loadNotifications(); // Recargar las notificaciones
+            }
+        }
+
+        // Función para cargar las notificaciones almacenadas en localStorage
+        function loadNotifications() {
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            const notificationContainer = document.getElementById('notificationsContainer');
+            notificationContainer.innerHTML = ''; // Limpiar las notificaciones actuales
+
+            if (notifications.length === 0) {
+                notificationContainer.innerHTML = '<p>No tienes ninguna notificación nueva.</p>';
+            } else {
+                notifications.forEach(notification => {
+                    let notificationElement = document.createElement('a');
+                    notificationElement.href = notification.link;
+                    notificationElement.classList.add('notification-item');
+                    notificationElement.innerHTML = `
+                        <img src="${notification.image}" alt="Nuevo Contenido" class="notification-image">
+                        <div class="notification-text">
+                            <h2>${notification.title}</h2>
+                            <h3>${notification.subtitle}</h3>
+                            <p>${notification.description}</p>
+                        </div>
+                    `;
+                    notificationContainer.appendChild(notificationElement);
+                });
+            }
+        }
+
+        // Función para simular la adición de una notificación de ejemplo
+        function testAddNotification() {
+            const newNotification = {
+                title: 'Nuevo Contenido',
+                subtitle: 'Venom: El último baile (2024)',
+                description: 'Eddie y Venom están huyendo...',
+                image: 'https://image.tmdb.org/t/p/original/jiWlhrR0jAQPy0zwfIYa2gqgMuA.jpg',
+                link: 'go:venom3'  // Link único para esta notificación
+            };
+            addNotification(newNotification);
+        }
+
+        // Llamar a la función de carga de notificaciones cuando la página cargue
+        window.onload = function() {
+            loadNotifications();  // Cargar notificaciones
+            // Simular una notificación solo una vez (puedes descomentar esto para probar)
+            // testAddNotification();
+        };
+    </script>
+
+</body>
+</html>

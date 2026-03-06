@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <title>Cuenta Verificada</title>
+  <style>
+    body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #0a0a2a;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    img {
+      height: 30px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #00f7ff;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo pequeño -->
+  <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" alt="Logo Digital Knight">
+  
+  <h1>✅ ¡Cuenta Verificada!</h1>
+  <p>Gracias por confirmar tu correo.</p>
+  <p>Ya puedes cerrar esta pestaña y volver a la app.</p>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  
+    const supabase = createClient(
+      'https://wplyrhcszuoordgaphax.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+    );
+  
+    const hash = window.location.hash;
+    const params = new URLSearchParams(hash.substring(1));
+    const access_token = params.get('access_token');
+    const refresh_token = params.get('refresh_token');
+  
+    if (access_token && refresh_token) {
+      supabase.auth.setSession({
+        access_token,
+        refresh_token
+      }).then(({ error }) => {
+        if (error) {
+          console.error("Error al establecer sesión:", error.message);
+        } else {
+          console.log("✅ Sesión establecida correctamente.");
+  
+          // ✅ MARCAR CORREO COMO VERIFICADO
+          localStorage.setItem("emailVerified", "true");
+  
+          // ✅ CERRAR LA PESTAÑA AUTOMÁTICAMENTE (ideal para PWA)
+          setTimeout(() => {
+            window.close();
+          }, 2000);
+        }
+      });
+    } else {
+      console.warn("⚠️ No se encontraron tokens en la URL.");
+    }
+  </script>
+  
+  
+</body>
+</html>

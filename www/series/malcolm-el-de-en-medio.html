@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Malcolm el de en Medio</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/ulNEwX4Sk5zC8INsU1MqM3eKc63.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/b8RrQO3Nk79E1jcNB4NPjcIu0Fa.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Malcolm el de en Medio</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/6hiYL01ApffP15U2W6YPMRri3FX.png" alt="Malcolm el de en Medio Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   7 temporadas   2000   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Malcolm el de en Medio" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/skt8aI0zgnBGctHS9gZwWnBlSoW.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="malcolm-el-de-en-medio.html"></a>
+          <span id="nombre">Malcolm el de en Medio</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Sitcom familiar que aborda los divertidos problemas y situaciones de una familia americana de clase media en la que el
+        hijo Malcolm (Frankie Muniz) parece ser el único sensato... o al menos el único que da señales de cordura. La familia
+        está compuesta por sus neuróticos padres Hal (Bryan Cranston) y Lois (Jane Kaczmarek), el hermano mayor Francis
+        (Christopher Kennedy Masterson) y sus otros dos hermanos, Reese (Justin Berfield) y Dewey (Erik Per Sullivan). </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="drake-y-josh.html">
+          <img src="https://image.tmdb.org/t/p/w300/udCvGctktHvvf8w51XyTPfcmzDa.jpg" alt="Drake y Josh" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Drake y Josh</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="la-teoria-del-big-bang.html">
+          <img src="https://image.tmdb.org/t/p/original/nfUYfGOGPNgAFy07wawngSNpixo.jpg" alt="La Teoría del Big Bang" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">La Teoría del Big Bang</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="el-show-de-los-7039s.html">
+          <img src="https://image.tmdb.org/t/p/original/laEZvTqM80UaplUaDSCCbWhlyEV.jpg" alt="El Show de los 70&#39;s" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">El Show de los 70&#39;s</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="manual-de-supervivencia-escolar-de-ned.html">
+          <img src="https://image.tmdb.org/t/p/w300/zwBbJX7oimIQT0JQq9eqzQVPOHm.jpg" alt="Manual de supervivencia escolar de Ned" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Manual de supervivencia escolar de Ned</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDU3MjI5ODRf/cap1.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Malcolm el de en Medio</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "malcolm-el-de-en-medio-2004";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+      {
+  "title": "E1: Piloto",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/c4RC8fo5DilQjAKqsyCbJIdwjKX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzM3NDRf/01x01MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzM3NDRf/01x01MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E1: Piloto",
+  "hiddenCode": "T1 E1",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E2: El vestido rojo",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iGfnUx7MDlzRS9NiGSfkxFr1ceW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzM3OTFf/01x02MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzM3OTFf/01x02MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E2: El vestido rojo",
+  "hiddenCode": "T1 E2",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E3: Mis pobres angelitos",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8TqukoBM1ECGpWlzFjFSqeFlZaO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzM4NTRf/01x03MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzM4NTRf/01x03MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E3: Mis pobres angelitos",
+  "hiddenCode": "T1 E3",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E4: Vergüenza",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4YurZvzGZzpWywnvekZyvGXJezY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzM5MDNf/01x04MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzM5MDNf/01x04MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E4: Vergüenza",
+  "hiddenCode": "T1 E4",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E5: Malcolm niñera",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hWAGDzM55U3y4wd1ponmZqtBENQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzM5NTJf/01x05MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzM5NTJf/01x05MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E5: Malcolm niñera",
+  "hiddenCode": "T1 E5",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E6: Pijamada",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rOOXLtOSSLqoKm6JYPN6yu4pxFa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQwMDNf/01x06MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQwMDNf/01x06MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E6: Pijamada",
+  "hiddenCode": "T1 E6",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E7: Francis se escapa",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ycfgBl2zpYL0OtE7z8I9jht13+NT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQwNTVf/01x07MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQwNTVf/01x07MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E7: Francis se escapa",
+  "hiddenCode": "T1 E7",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E8: El día de campo",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/68vqeQGKQ4TpkUsG6lfEuGdUEnA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQxMDVf/01x08MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQxMDVf/01x08MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E8: El día de campo",
+  "hiddenCode": "T1 E8",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E9: Lois contra el mal",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vPSfBwN7EZZ1PXt0uoSwBzMd19W.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQxMzFf/01x09MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQxMzFf/01x09MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E9: Lois contra el mal",
+  "hiddenCode": "T1 E9",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E10: Las carreras",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/j0gzpjLY9OIaIzqNcPc4ayC2mIF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQxODBf/01x10MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQxODBf/01x10MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E10: Las carreras",
+  "hiddenCode": "T1 E10",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E11: El funeral",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wece2iZ82uWYUFunjxX4Ren6kNc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQyMjhf/01x11MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQyMjhf/01x11MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E11: El funeral",
+  "hiddenCode": "T1 E11",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E12: El animador",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2fXW1C6qk1fxapHiU5gC0sN7hQY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQyNzhf/01x12MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQyNzhf/01x12MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E12: El animador",
+  "hiddenCode": "T1 E12",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E13: Los patinadores",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xh0JLNkGF6ELdIt2uxmRkBKPJDp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQzMjdf/01x13MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQzMjdf/01x13MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E13: Los patinadores",
+  "hiddenCode": "T1 E13",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E14: De Robots y Abejas",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/osSujKaea8L9MsNPgUHPwsVDe0P.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQzODdf/01x14MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQzODdf/01x14MAL_www.SeriesDeMrPunkskap.Blogspot.Mx_.mp4",
+  "episodeCode": "T1 E14: De Robots y Abejas",
+  "hiddenCode": "T1 E14",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E15: Domingo lunes",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b46Lh2ZjDjsPhwNf3tZ0HQsZm0b.jpg",
+  "videoUrl": "https://od.lk/s/M18zMjA1MzQ4NDNf/MM-01x15.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQ4NDNf/MM-01x15.SeriesRetro.com.mp4",
+  "episodeCode": "T1 E15: Domingo lunes",
+  "hiddenCode": "T1 E15",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E16: Parque Acuático",
+  "meta": "13+ · 22m · 2000",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iZjRrhEmZEdey2MR3vVZAKXjrig.jpg",
+  "videoUrl": "https://od.lk/d/M18zMjA1MzQ4Mzhf/MM-01x16.SeriesRetro.com.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMjA1MzQ4Mzhf/MM-01x16.SeriesRetro.com.mp4",
+  "episodeCode": "T1 E16: Parque Acuático",
+  "hiddenCode": "T1 E16",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: El Embotellamiento",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gcPziAGvOF8SB1RaTyiv70aoU6X.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxMzFf/MM-02x01.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxMzFf/MM-02x01.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E1: El Embotellamiento",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Un Día de brujas retrasado",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/lDegDokMxZZFysChaFm6YIqOE3G.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxMzJf/MM-02x02.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxMzJf/MM-02x02.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E2: Un Día de brujas retrasado",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: El Cumpleaños de Lois",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sDF7Z4MgfuhHlhrEgBqeXZfWHwS.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxMzNf/MM-02x03.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxMzNf/MM-02x03.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E3: El Cumpleaños de Lois",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: La Invitación a Cenar",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/f8G03BD80GJ2m16WHlo10T0aelF.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxMzhf/MM-02x04.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxMzhf/MM-02x04.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E4: La Invitación a Cenar",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Casino",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7EVP7pS90nKJVk1onMLXRgcRSKG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNDNf/MM-02x05.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNDNf/MM-02x05.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E5: Casino",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: La Convención",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5xiOHaJICfifsWt15UYra7epQLb.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNDhf/MM-02x06.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNDhf/MM-02x06.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E6: La Convención",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: El Robo",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jtTTxACojfNpyGcK8Mw6hV5iKM6.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTJf/MM-02x07.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTJf/MM-02x07.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E7: El Robo",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Terapia",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/q0ntvGvxIJ5ugaelxyzHk0s41ZD.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTRf/MM-02x08.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTRf/MM-02x08.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E8: Terapia",
+        "hiddenCode": "T2 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: La Obra de Teatro",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dbNYggcClzfQerWDiCGhJupdGDX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTZf/MM-02x09.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTZf/MM-02x09.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E9: La Obra de Teatro",
+        "hiddenCode": "T2 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: El Golpeador",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/16zKqtJR8XJ4w0H2U3o4sYnEedn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNjFf/MM-02x10.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNjFf/MM-02x10.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E10: El Golpeador",
+        "hiddenCode": "T2 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: La Vieja Señora Vieja",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h0jjJNnNl6FIGWV1oOZmaXRAKve.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNjZf/MM-02x11.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNjZf/MM-02x11.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E11: La Vieja Señora Vieja",
+        "hiddenCode": "T2 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: La Niña",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qyf4ajqEGiIOVY8WPdrOfdj42Js.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjQxNjBf/MM-02x12.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjQxNjBf/MM-02x12.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E12: La Niña",
+        "hiddenCode": "T2 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Nuevos Vecinos",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dqviW23QEEU61oCIxQ4m0KnES12.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNzRf/MM-02x13.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNzRf/MM-02x13.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E13: Nuevos Vecinos",
+        "hiddenCode": "T2 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Hal Renuncia",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/Zngjfpzk3U9KC3wS5k2vpItHtE.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNzlf/MM-02x14.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNzlf/MM-02x14.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E14: Hal Renuncia",
+        "hiddenCode": "T2 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Los Abuelos",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dCuly8FkcW84DwQdCM99pY3PpPm.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxODFf/MM-02x15.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxODFf/MM-02x15.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E15: Los Abuelos",
+        "hiddenCode": "T2 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: La Infracción de Tránsito",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AiZ8I700vrRGnQceKsQqYPuL4I3.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxODRf/MM-02x16.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxODRf/MM-02x16.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E16: La Infracción de Tránsito",
+        "hiddenCode": "T2 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Cirugía",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fIGWbLK7XplKa1gGk4hd82GtSPl.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxODhf/MM-02x17.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxODhf/MM-02x17.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E17: Cirugía",
+        "hiddenCode": "T2 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Reese Cocina",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4lzdmBlCft4zKX7yjOhZFVx3m0k.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyMDBf/MM-02x18.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyMDBf/MM-02x18.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E18: Reese Cocina",
+        "hiddenCode": "T2 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Educando a Reese",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eNffPgH02DmI5xJpAFkArUsxogT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyMzNf/MM-02x19.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyMzNf/MM-02x19.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E19: Educando a Reese",
+        "hiddenCode": "T2 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: El Boliche",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rvyMTmMn6C7nSqyGeQOCk2Yh5oJ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyNThf/MM-02x20.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyNThf/MM-02x20.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E20: El Boliche",
+        "hiddenCode": "T2 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Malcolm Contra Reese",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2ntG5eCsZF9inQShfDMPw8JL9E0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyNzFf/MM-02x21.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyNzFf/MM-02x21.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E21: Malcolm Contra Reese",
+        "hiddenCode": "T2 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: La Minimoto",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vFqRTkzJGR4BWuIO63TwuviWptF.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyOTRf/MM-02x22.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyOTRf/MM-02x22.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E22: La Minimoto",
+        "hiddenCode": "T2 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: La Feria",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sv2lIPXYKPrSzriS7DCVoPgsAyO.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzMDJf/MM-02x23.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzMDJf/MM-02x23.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E23: La Feria",
+        "hiddenCode": "T2 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: La Evacuación",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kDyKMnKLVNZkI4RvGJNB86AoEqg.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzMjRf/MM-02x24.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzMjRf/MM-02x24.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E24: La Evacuación",
+        "hiddenCode": "T2 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E25: Recuerdos",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hHHNnQMeBl1R12ZjButrqvU5GtS.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzNTlf/MM-02x25.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzNTlf/MM-02x25.SeriesRetro.com.mp4",
+        "episodeCode": "T2 E25: Recuerdos",
+        "hiddenCode": "T2 E25",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+        "title": "E1: Vacaciones",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zR1cRugB7jYUHWALgXSvSwNeS4P.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNDJf/MM-03x01.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNDJf/MM-03x01.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E1: Vacaciones",
+        "hiddenCode": "T3 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Emancipación",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tVkRbwfpC1dr5CdG2PapALHMTFV.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNDdf/MM-03x02.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNDdf/MM-03x02.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E2: Emancipación",
+        "hiddenCode": "T3 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: El Club de Lectura",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mVoM6v1JyAS4DrRXNI7CWsgZaor.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTFf/MM-03x03.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTFf/MM-03x03.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E3: El Club de Lectura",
+        "hiddenCode": "T3 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: La Novia de Malcolm",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/u7Xmd9l9YRjpavzbrDD4yWSmDBk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTNf/MM-03x04.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTNf/MM-03x04.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E4: La Novia de Malcolm",
+        "hiddenCode": "T3 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Caridad",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/55YCB3EWJGv1fRZflIfB9TLrNwA.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTVf/MM-03x05.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTVf/MM-03x05.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E5: Caridad",
+        "hiddenCode": "T3 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Susto de Muerte",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4lJNs3AV2T6sG5PRMRNFp48eCNs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNTdf/MM-03x06.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNTdf/MM-03x06.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E6: Susto de Muerte",
+        "hiddenCode": "T3 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Navidad",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9hpmQtyfHRISKqB9EPWfNBwotje.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNjJf/MM-03x07.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNjJf/MM-03x07.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E7: Navidad",
+        "hiddenCode": "T3 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Poker",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qq9DLusSDmcYmWMn9fJMtzY3SBg.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNjhf/MM-03x08.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNjhf/MM-03x08.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E8: Poker",
+        "hiddenCode": "T3 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: El Empleo de Reese",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/HFJ2WUvdSfyY9ESySFEjbs5WMX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNzJf/MM-03x09.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNzJf/MM-03x09.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E9: El Empleo de Reese",
+        "hiddenCode": "T3 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: El Maquillaje de Lois",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oUwJqXyXxmqv4rFwhD6Zcp93xwQ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxNzZf/MM-03x10.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxNzZf/MM-03x10.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E10: El Maquillaje de Lois",
+        "hiddenCode": "T3 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: El día de campo 1ª Parte",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1zXFQY3XfnKRHH6zwdPagTlPxgv.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxODJf/MM-03x11.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxODJf/MM-03x11.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E11: El día de campo 1ª Parte",
+        "hiddenCode": "T3 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: El día de campo 2ª Parte",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cBi1Nue2RukozY266OXGhEMvTKF.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxODdf/MM-03x12.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxODdf/MM-03x12.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E12: El día de campo 2ª Parte",
+        "hiddenCode": "T3 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Reese al Volante",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qeC7Dhonbv0xnG1PV2o8O3P5EKj.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkxODlf/MM-03x13.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkxODlf/MM-03x13.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E13: Reese al Volante",
+        "hiddenCode": "T3 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: El Regreso de Cynthia",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7HPSr2nA0Wqayr8MCl0UUYUU5PC.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyMTdf/MM-03x14.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyMTdf/MM-03x14.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E14: El Regreso de Cynthia",
+        "hiddenCode": "T3 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: El Cumpleaños de Hal",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/A7cfqpQs1xUn6lQCA3OZXXhCsVU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyNDVf/MM-03x15.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyNDVf/MM-03x15.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E15: El Cumpleaños de Hal",
+        "hiddenCode": "T3 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Hal Entrenador",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yPSkktqArzqicJUNx31uU6nBrlh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyNjJf/MM-03x16.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyNjJf/MM-03x16.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E16: Hal Entrenador",
+        "hiddenCode": "T3 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Dewey y su Perro",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/T4pjcdMeMKLSjAsfM19XmrBARJ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyNzhf/MM-03x17.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyNzhf/MM-03x17.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E17: Dewey y su Perro",
+        "hiddenCode": "T3 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Poker II",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wQwaxUv2PWJaWdDDur3bmt2ooW0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkyOTZf/MM-03x18.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkyOTZf/MM-03x18.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E18: Poker II",
+        "hiddenCode": "T3 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Escenas Pasadas",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vwTQDVRJUOA8NhuOoP73FDsirCo.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzMDZf/MM-03x19.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzMDZf/MM-03x19.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E19: Escenas Pasadas",
+        "hiddenCode": "T3 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: El Jurado",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/57wiViwBkWf781RZA7SxsfQYAXo.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzMzJf/MM-03x20.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzMzJf/MM-03x20.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E20: El Jurado",
+        "hiddenCode": "T3 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Pandillas",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yLeiSDXIE8vcOQKHbqFvBcAv4jk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzNThf/MM-03x21.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzNThf/MM-03x21.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E21: Pandillas",
+        "hiddenCode": "T3 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: El Mono",
+        "meta": "13+ · 22m · 2001",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/voevY92fpk8vZGOwcxNMoFVeEjB.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTkzNjhf/MM-03x22.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTkzNjhf/MM-03x22.SeriesRetro.com.mp4",
+        "episodeCode": "T3 E22: El Mono",
+        "hiddenCode": "T3 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+        "title": "E1: El Zoológico",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/x0TP4RJejFmnKuaGRRHK3RXipUM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0MThf/MM-04x01.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0MThf/MM-04x01.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E1: El Zoológico",
+        "hiddenCode": "T4 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Maratón de la Humildad",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yvQJxU1feayIHeMEHl1izpdQbKU.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0MzRf/MM-04x02.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0MzRf/MM-04x02.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E2: Maratón de la Humildad",
+        "hiddenCode": "T4 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: La Reunión Familiar",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iI5a80fwndlI2eg7tjZKGVIz6lX.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NDhf/MM-04x03.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NDhf/MM-04x03.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E3: La Reunión Familiar",
+        "hiddenCode": "T4 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: La Niña Tonta",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/o0fZRny8WTpc54oUWSgjZCMxNFx.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NjRf/MM-04x04.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NjRf/MM-04x04.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E4: La Niña Tonta",
+        "hiddenCode": "T4 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Hacia Adelante, Hacia Atrás",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r1QPjjta02So1RCnegCWHvmvXax.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0Nzlf/MM-04x05.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0Nzlf/MM-04x05.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E5: Hacia Adelante, Hacia Atrás",
+        "hiddenCode": "T4 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Novia Prohibida",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zZXk7h924ll4qJz0T1JyKy1LNeT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0OTBf/MM-04x06.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0OTBf/MM-04x06.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E6: Novia Prohibida",
+        "hiddenCode": "T4 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Malcolm se Queda Callado",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/f0DPf3ew2kQtB1HcmFSIdJpIy8m.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MDhf/MM-04x07.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MDhf/MM-04x07.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E7: Malcolm se Queda Callado",
+        "hiddenCode": "T4 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Los Chicos al Rancho",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uSbdMPbPPsmPD6P5AOBoebFQXO4.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MTdf/MM-04x08.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MTdf/MM-04x08.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E8: Los Chicos al Rancho",
+        "hiddenCode": "T4 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: La Abuela Demanda",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2NSUMZrEy4zUGVTR1GZRb5bWFDt.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MzZf/MM-04x09.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MzZf/MM-04x09.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E9: La Abuela Demanda",
+        "hiddenCode": "T4 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Si los Niños Fueran Niñas",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rng1c2asF9YqQXd0VNBZ6kTWemz.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NTJf/MM-04x10.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NTJf/MM-04x10.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E10: Si los Niños Fueran Niñas",
+        "hiddenCode": "T4 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: El Largo Camino",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xghlj4eOeriTHJszJfQctFsXeyu.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NjVf/MM-04x11.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NjVf/MM-04x11.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E11: El Largo Camino",
+        "hiddenCode": "T4 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Echado de Casa",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8msk863RBSL2yS8Gq6Tx0hT9Twl.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1Nzlf/MM-04x12.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1Nzlf/MM-04x12.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E12: Echado de Casa",
+        "hiddenCode": "T4 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: La Tienda de Electrónica",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/c8GwT6ZJaPzz3kTmP7uPl14SnQG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1OTBf/MM-04x13.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1OTBf/MM-04x13.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E13: La Tienda de Electrónica",
+        "hiddenCode": "T4 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: El Amigo de Hal",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tBNG8oDkmb91mIsBpv4aqt8Hutf.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MDBf/MM-04x14.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MDBf/MM-04x14.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E14: El Amigo de Hal",
+        "hiddenCode": "T4 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: La Venta de Cochera",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/fK9lVPRpQl12vJaSWdUJ5AFxz8L.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MTFf/MM-04x15.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MTFf/MM-04x15.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E15: La Venta de Cochera",
+        "hiddenCode": "T4 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: El Optatlón Académico",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/WfD201VetLHutaZ5IncGzRpWTI.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MThf/MM-04x16.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MThf/MM-04x16.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E16: El Optatlón Académico",
+        "hiddenCode": "T4 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Escenas Pasadas II",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2nCEBzjSMALpdPKNFc6TVi90PoT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2Mjlf/MM-04x17.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2Mjlf/MM-04x17.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E17: Escenas Pasadas II",
+        "hiddenCode": "T4 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: La Fiesta de Reese",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/96NAqWhYKZJnfLaoKpEBNuv1GiB.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2Mzhf/MM-04x18.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2Mzhf/MM-04x18.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E18: La Fiesta de Reese",
+        "hiddenCode": "T4 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: El Malcolm del Futuro",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uMQ15kB01h7VkHTcw5NPj3cangP.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NjNf/MM-04x19.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NjNf/MM-04x19.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E19: El Malcolm del Futuro",
+        "hiddenCode": "T4 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: El Bebé 1ª Parte",
+        "meta": "13+ · 23m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1WbjIOgb933f25VSBYy0M2G162t.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NzZf/MM-04x20.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NzZf/MM-04x20.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E20: El Bebé 1ª Parte",
+        "hiddenCode": "T4 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: El Bebé 2ª Parte",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gf7UBXldCJ2FU4EKtdbj7aMi2Lb.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2ODJf/MM-04x21.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2ODJf/MM-04x21.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E21: El Bebé 2ª Parte",
+        "hiddenCode": "T4 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: La Guardería",
+        "meta": "13+ · 22m · 2002",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bq0LwGQPDEmz8kOugNN24xZ4F9v.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2OTJf/MM-04x22.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2OTJf/MM-04x22.SeriesRetro.com.mp4",
+        "episodeCode": "T4 E22: La Guardería",
+        "hiddenCode": "T4 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+      {
+        "title": "E1: Las Vegas",
+        "meta": "13+ · 23m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yG9bTe30UmSWoBSZQhrpQ2BRM4X.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0MzNf/MM-05x01.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0MzNf/MM-05x01.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E1: Las Vegas",
+        "hiddenCode": "T5 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Cuidando al Bebé",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jqiBjPLrV3Oqt7Vj4OX9kMNfvwA.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NDVf/MM-05x02.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NDVf/MM-05x02.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E2: Cuidando al Bebé",
+        "hiddenCode": "T5 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Adiós Kitty",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/on0t7A0dcgcOdivVTuJUTw5Q37I.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NTlf/MM-05x03.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NTlf/MM-05x03.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E3: Adiós Kitty",
+        "hiddenCode": "T5 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Día de Acción de Gracias",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/80MlvKrLUmmPFkqZuBlAL8i09QT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NzRf/MM-05x04.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NzRf/MM-05x04.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E4: Día de Acción de Gracias",
+        "hiddenCode": "T5 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Malcolm Filma a Reese",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qJXLXlLQv4Mv3ktDPIJ7xZt5gBr.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0ODJf/MM-05x05.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0ODJf/MM-05x05.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E5: Malcolm Filma a Reese",
+        "hiddenCode": "T5 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: El Empleo de Malcolm",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wrkLgL6Ff4ckfRz7Gjw7RG0bPZs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0OTFf/MM-05x06.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0OTFf/MM-05x06.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E6: El Empleo de Malcolm",
+        "hiddenCode": "T5 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Árboles de Navidad",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/j72YkQfZ8TfodKq4H4h2uUclvBR.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MDZf/MM-05x07.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MDZf/MM-05x07.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E7: Árboles de Navidad",
+        "hiddenCode": "T5 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: La Fiesta del Vecindario",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xlVknKXpfE3xk3gJfoGWSMG65S.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MjJf/MM-05x08.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MjJf/MM-05x08.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E8: La Fiesta del Vecindario",
+        "hiddenCode": "T5 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: La Revista Obscena",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7DvnFH2Zu2GglFEs5QeWSWiLiul.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NDFf/MM-05x09.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NDFf/MM-05x09.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E9: La Revista Obscena",
+        "hiddenCode": "T5 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: La Tina de Hidromasaje",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8L3ZYxNAcSzqFljXNOYHMo3i6bG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NTFf/MM-05x10.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NTFf/MM-05x10.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E10: La Tina de Hidromasaje",
+        "hiddenCode": "T5 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: El Novio de Aida",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vhqbsBAhWaPeB8i7NEPWCT2ilzp.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NjRf/MM-05x11.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NjRf/MM-05x11.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E11: El Novio de Aida",
+        "hiddenCode": "T5 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Softball",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/clvokONdVTAJWWOVGszYRr1aPJs.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1Nzhf/MM-05x12.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1Nzhf/MM-05x12.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E12: Softball",
+        "hiddenCode": "T5 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: La Hermana de Loise",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AnBk8YuGPX6lxJ7au3RXjWDxOge.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1ODdf/MM-05x13.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1ODdf/MM-05x13.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E13: La Hermana de Loise",
+        "hiddenCode": "T5 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Malcolm Sale con una Familia",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bxEiGSXZe5bSaZSZ8elKXpRqtoT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1OThf/MM-05x14.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1OThf/MM-05x14.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E14: Malcolm Sale con una Familia",
+        "hiddenCode": "T5 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: El Departamento de Reese",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nGeMQWKvhGRsSLeRorUahHdmcX9.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MDVf/MM-05x15.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MDVf/MM-05x15.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E15: El Departamento de Reese",
+        "hiddenCode": "T5 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Malcolm Visita la Universidad",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1LBXqVhNzBab3lotb5Tjgw8Vwup.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MTJf/MM-05x16.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MTJf/MM-05x16.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E16: Malcolm Visita la Universidad",
+        "hiddenCode": "T5 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Polly la de en Medio",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bCi6h0lyIcqR8UTCt9Llim8psWt.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MjFf/MM-05x17.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MjFf/MM-05x17.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E17: Polly la de en Medio",
+        "hiddenCode": "T5 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: El Experimento",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9jpyfHMQy3KKd0aPGeg5EFbh0xb.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MzRf/MM-05x18.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MzRf/MM-05x18.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E18: El Experimento",
+        "hiddenCode": "T5 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: La Clase Especial de Dewey",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iMO90dwaKaWuwclwhqec155Mqi7.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NDhf/MM-05x19.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NDhf/MM-05x19.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E19: La Clase Especial de Dewey",
+        "hiddenCode": "T5 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: La Otra Familia de Victor",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hJHq1qRoXflFaO9Y8atzNe9WSbt.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NjJf/MM-05x20.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NjJf/MM-05x20.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E20: La Otra Familia de Victor",
+        "hiddenCode": "T5 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Reese se Enlista en el Ejercito 1ª Parte",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wBBVO0Xdv2WJkxB8EZRA4tcmKiE.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NzJf/MM-05x21.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NzJf/MM-05x21.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E21: Reese se Enlista en el Ejercito 1ª Parte",
+        "hiddenCode": "T5 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Reese se Enlista en el Ejercito 2ª Parte",
+        "meta": "13+ · 22m · 2003",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cKKpgJtEnIn6lYjTX7YWZgKaXGJ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2ODFf/MM-05x22.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2ODFf/MM-05x22.SeriesRetro.com.mp4",
+        "episodeCode": "T5 E22: Reese se Enlista en el Ejercito 2ª Parte",
+        "hiddenCode": "T5 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 6",
+    "episodes": [
+      {
+        "title": "E1: Reese Vuelve a Casa",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vOM99CPiApTQREmszJmQOwsRN9w.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NDNf/MM-06x01.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NDNf/MM-06x01.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E1: Reese Vuelve a Casa",
+        "hiddenCode": "T6 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: La Fuga de la Clase Especial",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/isvutRMhs4kd2BodMexQCzkP7Ew.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NThf/MM-06x02.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NThf/MM-06x02.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E2: La Fuga de la Clase Especial",
+        "hiddenCode": "T6 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: El Muñeco de Cartón",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/yedJz4OGx6x54WVgzCx1GbYKcrL.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0NzFf/MM-06x03.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0NzFf/MM-06x03.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E3: El Muñeco de Cartón",
+        "hiddenCode": "T6 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Pearl Harbor",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rIVuApr4ruRLFdrGTCtbSDVNz5e.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0ODFf/MM-06x04.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0ODFf/MM-06x04.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E4: Pearl Harbor",
+        "hiddenCode": "T6 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Kitty Regresa",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ubSEVcL6Y471n2dNAOrKxu5myk2.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk0ODlf/MM-06x05.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk0ODlf/MM-06x05.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E5: Kitty Regresa",
+        "hiddenCode": "T6 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: El Regalo de Navidad de Hal",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dLTkm1Zsleb5hSqOAH3tWhY1Eh2.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MDJf/MM-06x06.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MDJf/MM-06x06.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E6: El Regalo de Navidad de Hal",
+        "hiddenCode": "T6 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Hal Sonámbulo",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ybHFVCzVsXYmqNqrNmhLTcDHi17.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MTBf/MM-06x07.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MTBf/MM-06x07.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E7: Hal Sonámbulo",
+        "hiddenCode": "T6 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Lois Contra Jamie",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nNTF6NbASI2tTqj3dgruufv6rV9.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1MjFf/MM-06x08.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1MjFf/MM-06x08.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E8: Lois Contra Jamie",
+        "hiddenCode": "T6 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: El Auto de Malcolm",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nfgLYp4fQjD4WpKxOqhZubPRanK.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1Mzdf/MM-06x09.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1Mzdf/MM-06x09.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E9: El Auto de Malcolm",
+        "hiddenCode": "T6 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: El Anuncio",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nYIL8mmMeRZiSea2I59bA05uMrn.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NTBf/MM-06x10.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NTBf/MM-06x10.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E10: El Anuncio",
+        "hiddenCode": "T6 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: Ópera",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/e0Go7W9IwGUiBqr0UYdOU01XCAf.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NTdf/MM-06x11.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NTdf/MM-06x11.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E11: Ópera",
+        "hiddenCode": "T6 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: El Testamento",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/61QWIRDBrhPNZ7ZEffcISx9CGtG.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1NzFf/MM-06x12.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1NzFf/MM-06x12.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E12: El Testamento",
+        "hiddenCode": "T6 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: La Cabaña Ticky",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/exIvTHRESIvp3V6NTS2INpoQ9ZY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1ODJf/MM-06x13.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1ODJf/MM-06x13.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E13: La Cabaña Ticky",
+        "hiddenCode": "T6 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Aida Pierde una Pierna",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6znLTdSrnRfR1YuoVArBHir2GQY.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1OTJf/MM-06x14.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1OTJf/MM-06x14.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E14: Aida Pierde una Pierna",
+        "hiddenCode": "T6 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Chad se Queda a Dormir",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3QMolfGwR9btOJa6xFf027DVYpS.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk1OTlf/MM-06x15.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk1OTlf/MM-06x15.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E15: Chad se Queda a Dormir",
+        "hiddenCode": "T6 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Motocicletas Prohibidas",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hGIIvk5oZdBAjVZSAx6ihiUELu5.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MDhf/MM-06x16.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MDhf/MM-06x16.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E16: Motocicletas Prohibidas",
+        "hiddenCode": "T6 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: Mariposas",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/tD10r5mDKbB4FhVvIcyv1x2G5ci.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MTdf/MM-06x17.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MTdf/MM-06x17.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E17: Mariposas",
+        "hiddenCode": "T6 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: El Baile de Aida",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2bM71Rmi6MSJvK23gXA8nHtWnAK.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MjRf/MM-06x18.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MjRf/MM-06x18.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E18: El Baile de Aida",
+        "hiddenCode": "T6 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Orador Motivador",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1Uq7QOB3Tm3oMDTeYOgUF3rVSUO.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2MzJf/MM-06x19.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2MzJf/MM-06x19.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E19: Orador Motivador",
+        "hiddenCode": "T6 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Zancos",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/r8Ei5lKfdyNXq2xuNgDqnyve490.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2Mzdf/MM-06x20.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2Mzdf/MM-06x20.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E20: Zancos",
+        "hiddenCode": "T6 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Los Especiales Toman un Rehén",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dR3r3qXeQwKFhAJhyMCh7vha4AZ.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NDZf/MM-06x21.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NDZf/MM-06x21.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E21: Los Especiales Toman un Rehén",
+        "hiddenCode": "T6 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Señora Tres Condados",
+        "meta": "13+ · 22m · 2004",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nbZSmancbT0pbY3Kyrdiqs0Ud98.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk2NThf/MM-06x22.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk2NThf/MM-06x22.SeriesRetro.com.mp4",
+        "episodeCode": "T6 E22: Señora Tres Condados",
+        "hiddenCode": "T6 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  },
+  {
+    "season": "Temporada 7",
+    "episodes": [
+      {
+        "title": "E1: El Hombre en Llamas",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/909T3DX6NTMdKbz17V43otS3lCv.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk3NDJf/MM-07x01.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk3NDJf/MM-07x01.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E1: El Hombre en Llamas",
+        "hiddenCode": "T7 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Seguro Médico",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h5cEGGWe25iatwE1eWzyRl2cpsu.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk3NzNf/MM-07x02.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk3NzNf/MM-07x02.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E2: Seguro Médico",
+        "hiddenCode": "T7 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Reese Contra Stevie",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/u989nRZtwv5rz0MUnESQrmqlpXt.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk3NzRf/MM-07x03.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk3NzRf/MM-07x03.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E3: Reese Contra Stevie",
+        "hiddenCode": "T7 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: Noche de Brujas",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aREiBwcPDxrhQp5EqAqZNM8nwJT.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk3OTdf/MM-07x04.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk3OTdf/MM-07x04.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E4: Noche de Brujas",
+        "hiddenCode": "T7 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: Jessica se Queda en Casa",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cyVp3xPXnEhVH5fTUxA9CrIRxHH.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4Mjdf/MM-07x05.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4Mjdf/MM-07x05.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E5: Jessica se Queda en Casa",
+        "hiddenCode": "T7 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: El Novio Secreto",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zh92lqkPbyfZwNgeJo23lComNYh.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4Mjlf/MM-07x06.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4Mjlf/MM-07x06.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E6: El Novio Secreto",
+        "hiddenCode": "T7 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Apagón",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wEdmZanQNNSzGyLc8VljEyatIR5.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4Mzhf/MM-07x07.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4Mzhf/MM-07x07.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E7: Apagón",
+        "hiddenCode": "T7 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: La Amiga del Ejercito",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2LaGecHM1q1HFGCjCKf4atLbtEt.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4NDFf/MM-07x08.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4NDFf/MM-07x08.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E8: La Amiga del Ejercito",
+        "hiddenCode": "T7 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Malcolm Defiende a Reese",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1kcGEhSJwwHuHqbBiKGMhc3owSq.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4NDZf/MM-07x09.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4NDZf/MM-07x09.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E9: Malcolm Defiende a Reese",
+        "hiddenCode": "T7 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: El Dinero de Malcolm",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7m7mkew8qRYyb3ozc2RtA5uKUhM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4NTBf/MM-07x10.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4NTBf/MM-07x10.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E10: El Dinero de Malcolm",
+        "hiddenCode": "T7 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: La Novia de Aida",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hGezFkfG8GV4YYoZnUtwnJg4pfw.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk4Nzdf/MM-07x11.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk4Nzdf/MM-07x11.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E11: La Novia de Aida",
+        "hiddenCode": "T7 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Reclutadores Universitarios",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/k8Wv4NiYrlT3E0rLkreou6nyNQc.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk5MTBf/MM-07x12.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk5MTBf/MM-07x12.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E12: Reclutadores Universitarios",
+        "hiddenCode": "T7 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Mononucleosis",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mibyD4GwkT0RByxbq540Bbz1w8K.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MTk5NjVf/MM-07x13.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MTk5NjVf/MM-07x13.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E13: Mononucleosis",
+        "hiddenCode": "T7 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: Hal de Luto",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rJIof2UCw6LWYwKW9f22BMDxztF.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjAwNjdf/MM-07x14.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjAwNjdf/MM-07x14.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E14: Hal de Luto",
+        "hiddenCode": "T7 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: Alcohólicos Anónimos",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pEAHfKqY4cxNgQXGpkw6qwwLJig.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjAxNTlf/MM-07x15.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjAxNTlf/MM-07x15.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E15: Alcohólicos Anónimos",
+        "hiddenCode": "T7 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: Lois Contraataca",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/4wHWM2AFj73shXt16QQcspaTHQu.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjAyNDFf/MM-07x16.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjAyNDFf/MM-07x16.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E16: Lois Contraataca",
+        "hiddenCode": "T7 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: El Dentista de Hal",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6lDoydBB9YGBGoVxSqfdpb8xHLD.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjA0NzJf/MM-07x17.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjA0NzJf/MM-07x17.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E17: El Dentista de Hal",
+        "hiddenCode": "T7 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: El Refugio Antibomba",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/s05a2gWUFJIo3nxjh1xWWXTDXjS.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjA1OTdf/MM-07x18.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjA1OTdf/MM-07x18.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E18: El Refugio Antibomba",
+        "hiddenCode": "T7 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Stevie Está en el Hospital",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/72GuVoS8u8QvMcYvUTAZP5ev7ts.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjA2MzZf/MM-07x19.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjA2MzZf/MM-07x19.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E19: Stevie Está en el Hospital",
+        "hiddenCode": "T7 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: El Juicio del Ganado",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bdBEyjqfcVCZDBiVptYiB8ojAWL.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjA3MThf/MM-07x20.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjA3MThf/MM-07x20.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E20: El Juicio del Ganado",
+        "hiddenCode": "T7 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Parodia",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AjhlNXB1RJFFn7vKB9gHFv4G5Y0.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjA3NDhf/MM-07x21.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjA3NDhf/MM-07x21.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E21: Parodia",
+        "hiddenCode": "T7 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: Graduación",
+        "meta": "13+ · 22m · 2005",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/9EArpqGEqAStdHXbedCFjtjpkXM.jpg",
+        "videoUrl": "https://od.lk/d/M18zMDU3MjA4MDBf/MM-07x22.SeriesRetro.com.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMDU3MjA4MDBf/MM-07x22.SeriesRetro.com.mp4",
+        "episodeCode": "T7 E22: Graduación",
+        "hiddenCode": "T7 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <title>Favoritos</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+  <style>
+     body {
+      padding-top: env(safe-area-inset-top);
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
+      margin: 14px;
+      background-color: #000000;
+      color: white;
+      font-size: 10px;
+    }
+ 
+
+
+    /* ... otros estilos ... */
+
+    .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #202127;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+.footer-btn:hover,
+.footer-btn.active { /* Color naranja al estar activo */
+  color: #ff5e00; 
+}
+
+.footer-btn  {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 0; 
+    font-size: 0.6em;
+    transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+    font-size: 30px;
+    margin-bottom: 1px;
+}
+.footer-btn p {
+  margin: 1px 6px 9px; /* Ajusta el margen superior del texto */
+  
+ 
+}
+
+    #favoritoInfo {
+      display: flex;
+      flex-direction: column; /* Mostrar los favoritos en una sola columna */
+      gap: 10px;            /* Espacio entre los favoritos */
+    }
+
+    .favorito-item {
+      display: flex;
+      align-items: center;  /* Alinear verticalmente la imagen y el nombre */
+    }
+
+    .favorito-item img {
+      width: 100px;         /* Ajustar el tamaño de la imagen */
+      height: auto;
+      margin-right: 10px;   /* Espacio entre la imagen y el nombre */
+      border-radius: 5px;
+    }
+
+    .favorito-item .nombre {
+      font-size: 16px;      /* Ajustar el tamaño del nombre */
+    }
+   
+
+    .eliminar-btn {
+      margin-left: auto;    /* Mover el botón a la derecha */
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+
+    #borrarFavoritosBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;  
+      background-color: #ff5e00;        /* Mover el botón a la esquina superior derecha */
+      /* ... otros estilos ... */
+    }
+  *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+
+<body>
+ 
+
+  <div class="container">
+    <h1>Mis Favoritos</h1>
+    <button id="borrarFavoritosBtn" onclick="borrarFavoritos()">Borrar Favoritos</button>
+    <br><br>
+
+    <div id="favoritoInfo">
+      </div>
+  </div>
+
+  <footer class="footer">
+    <a href="go:Inicio" class="footer-btn" id="homeBtn">
+      <span class="material-icons-outlined">home</span>
+      <p>Inicio</p>
+    </a>
+    <a href="go:favoritos" class="footer-btn active" id="favoritosBtn"> <span class="material-icons-outlined">bookmark</span>
+      <p>Favoritos</p>
+    </a>
+    <a href="go:explorar" class="footer-btn" id="explorarBtn">
+      <span class="material-icons-outlined">grid_view</span>
+      <p>Explorar</p>
+    </a>
+    <a href="http://action_profile" class="footer-btn" id="cuentaBtn">
+      <span class="material-icons-outlined">account_circle</span>
+      <p>Cuenta</p>
+    </a>
+  </footer>
+
+  <script>
+    window.onload = function() {
+      mostrarFavoritos();
+
+      window.addEventListener('favoritosActualizados', function() {
+        mostrarFavoritos();
+      });
+    }
+
+    function mostrarFavoritos() {
+      const favoritoInfo = document.getElementById('favoritoInfo');
+      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+      favoritoInfo.innerHTML = ''; 
+
+      favoritos.forEach(function(favorito, index) {
+        const favoritoItem = document.createElement('div');
+        favoritoItem.classList.add('favorito-item');
+
+        const a = document.createElement('a');
+        a.href = favorito.enlace;
+        a.innerHTML = favorito.imagen; // Insertar la imagen en el enlace
+
+        const nombreSpan = document.createElement('span');
+        nombreSpan.textContent = favorito.nombre;
+        nombreSpan.classList.add('nombre');
+
+        // Botón para eliminar el favorito
+        const eliminarBtn = document.createElement('button');
+        eliminarBtn.classList.add('eliminar-btn');
+        eliminarBtn.innerHTML = '<span class="material-icons">delete</span>';
+        eliminarBtn.addEventListener('click', (event) => {
+          event.stopPropagation(); // Evitar que el enlace se abra al eliminar
+          eliminarFavorito(favorito.identificador);
+          mostrarFavoritos(); // Actualizar la lista de favoritos
+        });
+
+        favoritoItem.appendChild(a);        // Agregar el enlace al item
+        favoritoItem.appendChild(nombreSpan); // Agregar el nombre al item
+        favoritoItem.appendChild(eliminarBtn); // Agregar el botón al item
+
+        favoritoInfo.appendChild(favoritoItem);
+      });
+    }
+
+    function eliminarFavorito(identificador) {
+      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+      const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+      localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    }
+
+    function borrarFavoritos() {
+      localStorage.removeItem('favoritos');
+      mostrarFavoritos();
+    }
+  </script>
+</body>
+</html>

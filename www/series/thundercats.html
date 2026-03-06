@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>ThunderCats</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/g9roe1QfUHzM4WopfW2dCnSp5Ix.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/lWsof34OJY8VV691mZxNq97cKkX.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">ThunderCats</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/aaYWUqfBlIK4gAocUNFq7QsQIFd.png" alt="ThunderCats Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">7+   4 temporadas   1985   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="ThunderCats" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/f4SGkfEI1AUZiZ4wbxfqNeKWumN.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="thundercats.html"></a>
+          <span id="nombre">ThunderCats</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Sigue las aventuras del equipo de héroes los ThunderCats, que es un grupo de felinos humanoides extraterrestres, muy
+        avanzados tecnológicamente pero involucran al misticismo y a fuerzas sobrenaturales, llegando a vivir en un planeta azul
+        que ellos llamaron Tercer Planeta. </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="thundercats.html">
+          <img src="https://image.tmdb.org/t/p/w300/5mGZGczkXwc6XfS0VWm1KapQL51.jpg" alt="ThunderCats" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">ThunderCats</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="las-aventuras-de-los-super-hermanos-mario.html">
+          <img src="https://image.tmdb.org/t/p/w300/eY8zJX8SjzAVyGV19YsJzK186Md.jpg" alt="Las Aventuras De Los Super Hermanos Mario" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Aventuras De Los Super Hermanos Mario</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="mazinger-z.html">
+          <img src="https://image.tmdb.org/t/p/w300/39g6N0Zlc12Z1El08fMVJFjyIpx.jpg" alt="Mazinger Z" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Mazinger Z</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="he-man-y-los-amos-del-universo.html">
+          <img src="https://image.tmdb.org/t/p/w300/tawmMe0D3ncyzEmmfMraGucXBCA.jpg" alt="He-Man y los Amos del Universo" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">He-Man y los Amos del Universo</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">ThunderCats</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "thundercats-1988";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+     {
+  "title": "E1: Éxodo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a1w7tyduuUaadPbSHSDZW2E5xjf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE0Mjhf/01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE0Mjhf/01.mp4",
+  "episodeCode": "T1 E1: Éxodo",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: La alianza profana",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nCFyzOC9p2113z3QqKExrbqIrGD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE0NDVf/02.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE0NDVf/02.mp4",
+  "episodeCode": "T1 E2: La alianza profana",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: La ayuda de los Berbils",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9l63djwzSczob1qBqx4XOpWcj7D.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE0Njlf/03.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE0Njlf/03.mp4",
+  "episodeCode": "T1 E3: La ayuda de los Berbils",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Los esclavos del castillo Plun-Darr",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/elKNXJni8nW1jvhBes9TnkD2a5o.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE0ODJf/04.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE0ODJf/04.mp4",
+  "episodeCode": "T1 E4: Los esclavos del castillo Plun-Darr",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Pumm-Ra",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vcFm37Pp5P9IVuEuG6CRidSNa6k.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE0OThf/05.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE0OThf/05.mp4",
+  "episodeCode": "T1 E5: Pumm-Ra",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: El terror de Martimano",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/20UdEkAUvgnn9hPXncH4yJn1q30.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1MTNf/06.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1MTNf/06.mp4",
+  "episodeCode": "T1 E6: El terror de Martimano",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Cuestión de tiempo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/x5AFsl8sV4V3JHWyZZ7up2JAe57.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1MzFf/07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1MzFf/07.mp4",
+  "episodeCode": "T1 E7: Cuestión de tiempo",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: El torreón de las trampas",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/boL2u2qLOpNu3w9dcUnWZfHrKwS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1NDhf/08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1NDhf/08.mp4",
+  "episodeCode": "T1 E8: El torreón de las trampas",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: El jardín de las delicias",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f1SHNl7lFfut0jPz7o7HvXw5hyT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1NjFf/09.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1NjFf/09.mp4",
+  "episodeCode": "T1 E9: El jardín de las delicias",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Mandora: La combatiente del mal",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/58OWSiz5BwGzNgjXiPlRdh4JjnM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE1ODJf/010.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE1ODJf/010.mp4",
+  "episodeCode": "T1 E10: Mandora: La combatiente del mal",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: El guerrero fantasma",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hY4R1HeN4BqEV6kYQeBQLiASRhs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE2MDJf/011.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE2MDJf/011.mp4",
+  "episodeCode": "T1 E11: El guerrero fantasma",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: La mirada de Tashe",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ozAXydDVgBRMxLA0TqQzl2ziyDI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE2MThf/012.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE2MThf/012.mp4",
+  "episodeCode": "T1 E12: La mirada de Tashe",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: El señor de las nieves",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ciL3Op4adZ8wt4oOEfoU971A0vn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE2MzVf/013.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE2MzVf/013.mp4",
+  "episodeCode": "T1 E13: El señor de las nieves",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: El rescate de la nave mutante",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/m3MWRTfedzZPy395wWXpMLgj6Vo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE2NTdf/014.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE2NTdf/014.mp4",
+  "episodeCode": "T1 E14: El rescate de la nave mutante",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: La cápsula del tiempo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tbRQPCMayACBybZBnSXtV8nTMFO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3MDZf/015.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3MDZf/015.mp4",
+  "episodeCode": "T1 E15: La cápsula del tiempo",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E16: Las bolas de fuego de Plun-Darr",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8Wq7vuIot6m3br6WmVHMH5kB30C.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3MTRf/016.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3MTRf/016.mp4",
+  "episodeCode": "T1 E16: Las bolas de fuego de Plun-Darr",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Esa basura que brilla",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tFAAg8ClXHSAGS5TzuLDwc48CtY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3MzNf/017.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3MzNf/017.mp4",
+  "episodeCode": "T1 E17: Esa basura que brilla",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Doble personalidad",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3QYMLprKaPZ9QtUHoaNgvjxZA4H.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3NTNf/018.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3NTNf/018.mp4",
+  "episodeCode": "T1 E18: Doble personalidad",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Mongor",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zcqOAoV1vr6SzsQuxRMLESJE0Bq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3NzNf/019.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3NzNf/019.mp4",
+  "episodeCode": "T1 E19: Mongor",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Regreso a Thundera",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f4gaPNzaAhpD1VLrN82N63GmOeO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE3ODhf/020.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE3ODhf/020.mp4",
+  "episodeCode": "T1 E20: Regreso a Thundera",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: El doctor observador",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uRbiQqFVl1h1Yf5IFRzhnPNTCnv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4MTNf/021.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4MTNf/021.mp4",
+  "episodeCode": "T1 E21: El doctor observador",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: La prisión astral",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rlpgSr3at7j5PIKCogK9b7k8lZf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4MzVf/022.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4MzVf/022.mp4",
+  "episodeCode": "T1 E22: La prisión astral",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: La reina de cristal",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aK4XVw2YRhCTGYYOCB3LeMI1Wlb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4NTdf/023.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4NTdf/023.mp4",
+  "episodeCode": "T1 E23: La reina de cristal",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Safari Joe",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6ouvrUeJziRT0faPzvvUvPjyGbF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE4NzJf/024.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE4NzJf/024.mp4",
+  "episodeCode": "T1 E24: Safari Joe",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: Snarf al rescate",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/l1XyKLCeSxMxWNq9nS81vgW9KEa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5MDNf/025.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5MDNf/025.mp4",
+  "episodeCode": "T1 E25: Snarf al rescate",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Sexto sentido",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/izggdAl5vVvwkeps3dNhL6Arucp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5Mjlf/026.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5Mjlf/026.mp4",
+  "episodeCode": "T1 E26: Sexto sentido",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: El honor del samurái",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b3MUwNbvP2oLWwP6Rs9SuKcXZdj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5NjBf/027.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5NjBf/027.mp4",
+  "episodeCode": "T1 E27: El honor del samurái",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E28: La rata lobo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1dPDmMdmmK7Nn3yTC1NW5x4SRgK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODE5OTJf/028.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODE5OTJf/028.mp4",
+  "episodeCode": "T1 E28: La rata lobo",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E29: La estrella rata (Parte 1)",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lK3aVLiwJgDk4725Z7N66DkVIVH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwMjlf/029.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwMjlf/029.mp4",
+  "episodeCode": "T1 E29: La estrella rata (Parte 1)",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E30: La estrella rata (Parte 2)",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iBkMfxhQx6eoG9SAyGety6HW2It.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwNTZf/030.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwNTZf/030.mp4",
+  "episodeCode": "T1 E30: La estrella rata (Parte 2)",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E31: Mandora y los piratas",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wS7cM1pX17i9iadphEpUZnrvC2t.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIwODZf/031.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIwODZf/031.mp4",
+  "episodeCode": "T1 E31: Mandora y los piratas",
+  "hiddenCode": "T1 E31",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E32: El regreso de Barreno",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pQ6DJAUSlIywTSkAL2WmdwfC0p3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxMDlf/032.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxMDlf/032.mp4",
+  "episodeCode": "T1 E32: El regreso de Barreno",
+  "hiddenCode": "T1 E32",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E33: La séptima dimensión",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rKrMUeFsWpcLsK2C0E4m7D0ykKE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxMjNf/033.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxMjNf/033.mp4",
+  "episodeCode": "T1 E33: La séptima dimensión",
+  "hiddenCode": "T1 E33",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E34: La reina de 8 patas",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vhVpcVchnAPtE64rBd11BjNa8Fq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxMzlf/034.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxMzlf/034.mp4",
+  "episodeCode": "T1 E34: La reina de 8 patas",
+  "hiddenCode": "T1 E34",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E35: La espada en el hoyo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kg6wvQQfDjyoI5lHec3omcu2Cv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxNTJf/035.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxNTJf/035.mp4",
+  "episodeCode": "T1 E35: La espada en el hoyo",
+  "hiddenCode": "T1 E35",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E36: El arpa maligna de Charr-Nin",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9clv6HKBBaaa3IRbCZ0YOOFqsA2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxNzJf/036.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxNzJf/036.mp4",
+  "episodeCode": "T1 E36: El arpa maligna de Charr-Nin",
+  "hiddenCode": "T1 E36",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E37: Prueba de fuerza",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7Z3xVawCKOEpgL86u8NMtBAZzJO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIxOTVf/037.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIxOTVf/037.mp4",
+  "episodeCode": "T1 E37: Prueba de fuerza",
+  "hiddenCode": "T1 E37",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E38: El demoledor",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lfGOAXyd0GSBrIZ44OoIeInsdOX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyMTVf/038.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyMTVf/038.mp4",
+  "episodeCode": "T1 E38: El demoledor",
+  "hiddenCode": "T1 E38",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E39: El trato con Mandrilok",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aE1EYDX8O6o2Fjmc7mwiK8IN4jN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyMzdf/039.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyMzdf/039.mp4",
+  "episodeCode": "T1 E39: El trato con Mandrilok",
+  "hiddenCode": "T1 E39",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E40: Situación apretada",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ebQWR5WyT5LvsbnMPf1eWzySLv7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNTFf/040.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNTFf/040.mp4",
+  "episodeCode": "T1 E40: Situación apretada",
+  "hiddenCode": "T1 E40",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E41: Los micro-seres",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aJZagd8KBWs0kiQCiW5o09MDzwQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNTlf/041.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNTlf/041.mp4",
+  "episodeCode": "T1 E41: Los micro-seres",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E42: La unción de Lion-O Segundo día: Prueba de Velocidad",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6hieJaO845deURysVXA2xQdXAyp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyNzBf/042.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyNzBf/042.mp4",
+  "episodeCode": "T1 E42: La unción de Lion-O Segundo día: Prueba de Velocidad",
+  "hiddenCode": "T1 E42",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E43: El gigante de roca",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/b7vXmjEfz2ZrZEgQEXGzCSJ2SFi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyODBf/043.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyODBf/043.mp4",
+  "episodeCode": "T1 E43: El gigante de roca",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E44: La rebelión de Chacal-lo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2FNiSt1pAYG4VuoHZv7ZDBW5jN4.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyODlf/044.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyODlf/044.mp4",
+  "episodeCode": "T1 E44: La rebelión de Chacal-lo",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E45: Turmagar el Tuska",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rBBIz6gQmsKCMj930ui2LnRJmJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIyOThf/045.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIyOThf/045.mp4",
+  "episodeCode": "T1 E45: Turmagar el Tuska",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E46: El Tercer Día de Ungimiento de Lion-O: Prueba de Astucia",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/moTY2pbpnefbu5LRgGe6gM0wJ1h.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMDZf/046.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMDZf/046.mp4",
+  "episodeCode": "T1 E46: El Tercer Día de Ungimiento de Lion-O: Prueba de Astucia",
+  "hiddenCode": "T1 E46",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E47: El falso Berbil",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e0TKSp53cKdYRhxbqLDHQUwYHJG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMTVf/047.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMTVf/047.mp4",
+  "episodeCode": "T1 E47: El falso Berbil",
+  "hiddenCode": "T1 E47",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E48: La plaga mecánica",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uexmnc1Uhck218A31eMH02l2gRk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMjFf/048.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMjFf/048.mp4",
+  "episodeCode": "T1 E48: La plaga mecánica",
+  "hiddenCode": "T1 E48",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E49: Atrapados",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gBwwnvHzvKgb2j6kdc6uiiXR24O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzMzFf/049.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzMzFf/049.mp4",
+  "episodeCode": "T1 E49: Atrapados",
+  "hiddenCode": "T1 E49",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E50: El Cuarto Día de Ungimiento de Lion-O: Prueba de Poder Mental",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6e5zEwK7Q7Ztc4aVWk2y2O6dL7t.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNDVf/050.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNDVf/050.mp4",
+  "episodeCode": "T1 E50: El Cuarto Día de Ungimiento de Lion-O: Prueba de Poder Mental",
+  "hiddenCode": "T1 E50",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E51: El duelo de las espadas",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/re2N1uxVCyYCTbYsbAQpkOb7Ohe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNTJf/051.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNTJf/051.mp4",
+  "episodeCode": "T1 E51: El duelo de las espadas",
+  "hiddenCode": "T1 E51",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E52: El secreto del rey de hielo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yDKwitTG0rjHRzNxjsvXQmf8AHu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNjNf/052.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNjNf/052.mp4",
+  "episodeCode": "T1 E52: El secreto del rey de hielo",
+  "hiddenCode": "T1 E52",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E53: Bueno y feo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8uQURBO4H7svT8JSswAdaBdyQDK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzNzFf/053.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzNzFf/053.mp4",
+  "episodeCode": "T1 E53: Bueno y feo",
+  "hiddenCode": "T1 E53",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E54: El traslado",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8BkWgfYnzynnTf6aG5k2BhnRJMO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzODFf/054.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzODFf/054.mp4",
+  "episodeCode": "T1 E54: El traslado",
+  "hiddenCode": "T1 E54",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E55: Divide y vencerás",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6qmF7AJRFOHtxliSuuehOAN6O1H.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzOTFf/055.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzOTFf/055.mp4",
+  "episodeCode": "T1 E55: Divide y vencerás",
+  "hiddenCode": "T1 E55",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E56: El Amo de los Sueños",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pR3JDPNPW7lk7T4b1cekzk7KEVI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODIzOThf/056.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODIzOThf/056.mp4",
+  "episodeCode": "T1 E56: El Amo de los Sueños",
+  "hiddenCode": "T1 E56",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E57: La desaparición de Willa",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3hmoOX8B1FDerKevM8VzLY4w6OA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0MDlf/057.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0MDlf/057.mp4",
+  "episodeCode": "T1 E57: La desaparición de Willa",
+  "hiddenCode": "T1 E57",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E58: La montaña",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g9vo0XQp1UZf6snpLE8xaWGGvxJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0MjFf/058.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0MjFf/058.mp4",
+  "episodeCode": "T1 E58: La montaña",
+  "hiddenCode": "T1 E58",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E59: La pócima de los súper-poderes",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mqQfKX205sMURj8AhRAjSwDdYJN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0Mjhf/059.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0Mjhf/059.mp4",
+  "episodeCode": "T1 E59: La pócima de los súper-poderes",
+  "hiddenCode": "T1 E59",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E60: La falsa espada del augurio",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/166H0o6H36tXwABDYjEptvPJ7pz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0Mzhf/060.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0Mzhf/060.mp4",
+  "episodeCode": "T1 E60: La falsa espada del augurio",
+  "hiddenCode": "T1 E60",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E61: El Último Día de Ungimiento de Lion-O: La Prueba de Maldad",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nYe3dXzpP4EwSsA4u2DBlBNtgI1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0NDdf/061.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0NDdf/061.mp4",
+  "episodeCode": "T1 E61: El Último Día de Ungimiento de Lion-O: La Prueba de Maldad",
+  "hiddenCode": "T1 E61",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E62: El problema con los felinos",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fpdqAtbiXcl5NadDeGtFqnXHi3n.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0NTZf/062.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0NTZf/062.mp4",
+  "episodeCode": "T1 E62: El problema con los felinos",
+  "hiddenCode": "T1 E62",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E63: Mumm-Rana",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6bdYW7wvZMrqOxyzqlt1IjY0Zcb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0Njlf/063.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0Njlf/063.mp4",
+  "episodeCode": "T1 E63: Mumm-Rana",
+  "hiddenCode": "T1 E63",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E64: El transmutador",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kfCuMb564JmrXVzDRVwiaMMeutH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0ODFf/064.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0ODFf/064.mp4",
+  "episodeCode": "T1 E64: El transmutador",
+  "hiddenCode": "T1 E64",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E65: Un afectuoso recuerdo",
+  "meta": "7+ · 22m · 1985",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2itEnWAP6NS10a1BhVUDB3G70nG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2ODI0OTZf/065.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2ODI0OTZf/065.mp4",
+  "episodeCode": "T1 E65: Un afectuoso recuerdo",
+  "hiddenCode": "T1 E65",
+  "intro": { "start": 0, "end": 0 }
+}
+
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+    "title": "E1: ¡ThunderCats Ho! (Parte 1)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oDOtp74T7L6YqPP3SOwUoMG8HxF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1MDVf/066.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1MDVf/066.mp4",
+    "episodeCode": "T2 E1: ¡ThunderCats Ho! (Parte 1)",
+    "hiddenCode": "T2 E1",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E2: ¡ThunderCats Ho! (Parte 2)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/gv0LLjvedDLOLX9Vk5dK74EkBnu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1MTVf/067.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1MTVf/067.mp4",
+    "episodeCode": "T2 E2: ¡ThunderCats Ho! (Parte 2)",
+    "hiddenCode": "T2 E2",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E3: ¡ThunderCats Ho! (Parte 3)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/36RSeu5sJDXD4tu5m9NeQNfvFxA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1MjVf/068.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1MjVf/068.mp4",
+    "episodeCode": "T2 E3: ¡ThunderCats Ho! (Parte 3)",
+    "hiddenCode": "T2 E3",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E4: ¡ThunderCats Ho! (Parte 4)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lNB4e4l3EBSMQlFSbK7nzTNbD2k.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1Mzlf/069.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1Mzlf/069.mp4",
+    "episodeCode": "T2 E4: ¡ThunderCats Ho! (Parte 4)",
+    "hiddenCode": "T2 E4",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E5: ¡ThunderCats Ho! (Parte 5)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fovrppaTHT0Pkk0RxsyGQPq4o0c.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1NTZf/070.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1NTZf/070.mp4",
+    "episodeCode": "T2 E5: ¡ThunderCats Ho! (Parte 5)",
+    "hiddenCode": "T2 E5",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E6: Mumm-Ra Vive - Parte 1",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wFjYzEZpL9nRLox4RohDepCDoiN.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1NzNf/071.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1NzNf/071.mp4",
+    "episodeCode": "T2 E6: Mumm-Ra Vive - Parte 1",
+    "hiddenCode": "T2 E6",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E7: Mumm-Ra vive (Parte 2)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/c1jdOOIQ7TMQsozHlsXc2T6JekA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI1OTZf/072.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI1OTZf/072.mp4",
+    "episodeCode": "T2 E7: Mumm-Ra vive (Parte 2)",
+    "hiddenCode": "T2 E7",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E8: Mumm-Ra vive (Parte 3)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/w0BiiXTqKmHuCLPJAqqUxoCKIH.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI2MTFf/073.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI2MTFf/073.mp4",
+    "episodeCode": "T2 E8: Mumm-Ra vive (Parte 3)",
+    "hiddenCode": "T2 E8",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E9: Mumm-Ra vive (Parte 4)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xTK0mDVgqlj2ASAa9wKAIC6lNDO.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI2MjVf/074.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI2MjVf/074.mp4",
+    "episodeCode": "T2 E9: Mumm-Ra vive (Parte 4)",
+    "hiddenCode": "T2 E9",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E10: Mumm-Ra vive (Parte 5)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1VxQ9FClLMX8CKXVRj424Mo4bvE.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI2NDZf/075.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI2NDZf/075.mp4",
+    "episodeCode": "T2 E10: Mumm-Ra vive (Parte 5)",
+    "hiddenCode": "T2 E10",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E11: Riña gatuna",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/h5Od2DeupaD0QTnWeWq7JiklFEs.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI2NjVf/076.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI2NjVf/076.mp4",
+    "episodeCode": "T2 E11: Riña gatuna",
+    "hiddenCode": "T2 E11",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E12: Dominados",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/sSp0nvMulpsCeqxSPABGFQxeCMp.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI2Nzdf/077.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI2Nzdf/077.mp4",
+    "episodeCode": "T2 E12: Dominados",
+    "hiddenCode": "T2 E12",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E13: La máscara de Gorgona",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mRUTA1MFA4jedfx3nY1AwnHCApw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI2OTVf/078.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI2OTVf/078.mp4",
+    "episodeCode": "T2 E13: La máscara de Gorgona",
+    "hiddenCode": "T2 E13",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E14: El monstruo burbuja",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6DCMM6KCulEtRX0z9K23DpA5KBA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3MDhf/079.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3MDhf/079.mp4",
+    "episodeCode": "T2 E14: El monstruo burbuja",
+    "hiddenCode": "T2 E14",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E15: Siempre unidos",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nWKLGlfNeP7rq7smgUyftUovTji.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3MTdf/080.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3MTdf/080.mp4",
+    "episodeCode": "T2 E15: Siempre unidos",
+    "hiddenCode": "T2 E15",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E16: Isla del mal",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3Nk30XMaujPsePIUAJfcE0Hrc6E.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3MjZf/081.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3MjZf/081.mp4",
+    "episodeCode": "T2 E16: Isla del mal",
+    "hiddenCode": "T2 E16",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E17: Cápsula del tiempo",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4WQdZ6TcTrzrLKGcze2cKiShrFO.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3NDJf/082.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3NDJf/082.mp4",
+    "episodeCode": "T2 E17: Cápsula del tiempo",
+    "hiddenCode": "T2 E17",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E18: Las piedras de sonido",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mwV5ptNYwxF7uAbB9XWyAaIQb66.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3NTJf/083.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3NTJf/083.mp4",
+    "episodeCode": "T2 E18: Las piedras de sonido",
+    "hiddenCode": "T2 E18",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E19: El día del eclipse",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uwU5DDajdINHnWQsblhiIJJG0MD.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3NjJf/ThunderCats%20084.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3NjJf/ThunderCats%20084.mp4",
+    "episodeCode": "T2 E19: El día del eclipse",
+    "hiddenCode": "T2 E19",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E20: El arresto",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lpXh1QTZaXQSjC6wuL7RPuRRe3p.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3NzRf/ThunderCats%20085.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3NzRf/ThunderCats%20085.mp4",
+    "episodeCode": "T2 E20: El arresto",
+    "hiddenCode": "T2 E20",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E21: El cinturón de Mumm-Rana",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oxkJDJ2qiYFZxEbBEktk3eqhZLb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI3OTBf/ThunderCats%20086.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI3OTBf/ThunderCats%20086.mp4",
+    "episodeCode": "T2 E21: El cinturón de Mumm-Rana",
+    "hiddenCode": "T2 E21",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E22: El honor de Hachiman",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5fTmQqY6jtCetE35l3aEMieE5Cp.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODI4MDFf/ThunderCats%20087.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODI4MDFf/ThunderCats%20087.mp4",
+    "episodeCode": "T2 E22: El honor de Hachiman",
+    "hiddenCode": "T2 E22",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E23: Los fugitivos",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/AuRKOclN7Ayi8liRrAMm1glFY2J.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyMzVf/ThunderCats%20088.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyMzVf/ThunderCats%20088.mp4",
+    "episodeCode": "T2 E23: Los fugitivos",
+    "hiddenCode": "T2 E23",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E24: Ma-Mutt en acción",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/h415IElpAp4vZ0B8883AQdrxdfv.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyMzdf/ThunderCats%20089.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyMzdf/ThunderCats%20089.mp4",
+    "episodeCode": "T2 E24: Ma-Mutt en acción",
+    "hiddenCode": "T2 E24",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E25: La venganza de Buitro",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1z02QCc5fBoxAyptL38aCfNfJP8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNDRf/ThunderCats%20090.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNDRf/ThunderCats%20090.mp4",
+    "episodeCode": "T2 E25: La venganza de Buitro",
+    "hiddenCode": "T2 E25",
+    "intro": {"start":0,"end":0}
+  }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+    "title": "E1: ThunderCachorros (Parte 1)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7oNE8FZYH5jR5Y3XbcMa8GGvlv8.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNDZf/ThunderCats%20091.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNDZf/ThunderCats%20091.mp4",
+    "episodeCode": "T3 E1: ThunderCachorros (Parte 1)",
+    "hiddenCode": "T3 E1",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E2: ThunderCachorros (Parte 2)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3IqADlS2y23ax8tI3deQzYiJxoQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNTNf/ThunderCats%20092.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNTNf/ThunderCats%20092.mp4",
+    "episodeCode": "T3 E2: ThunderCachorros (Parte 2)",
+    "hiddenCode": "T3 E2",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E3: ThunderCachorros (Parte 3)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/GJElW2snpGPg6bLazRlBqya0Pq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNThf/ThunderCats%20093.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNThf/ThunderCats%20093.mp4",
+    "episodeCode": "T3 E3: ThunderCachorros (Parte 3)",
+    "hiddenCode": "T3 E3",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E4: ThunderCachorros (Parte 4)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jiom9FNaKEzZk0bwDQLWpnhdmQm.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNjFf/ThunderCats%20094.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNjFf/ThunderCats%20094.mp4",
+    "episodeCode": "T3 E4: ThunderCachorros (Parte 4)",
+    "hiddenCode": "T3 E4",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E5: ThunderCachorros (Parte 5)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/g12WSuKB7mDAkRCqQfTxTi1MKWF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNjZf/ThunderCats%20095.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNjZf/ThunderCats%20095.mp4",
+    "episodeCode": "T3 E5: ThunderCachorros (Parte 5)",
+    "hiddenCode": "T3 E5",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E6: El tótem de Dera",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yOg9pFbqG9B19RWFl7SpnI8pML7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNzBf/ThunderCats%20096.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNzBf/ThunderCats%20096.mp4",
+    "episodeCode": "T3 E6: El tótem de Dera",
+    "hiddenCode": "T3 E6",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E7: La cadena de la lealtad",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/okdOvxbvwAsGjl4PAZiAtch7mKd.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNzVf/ThunderCats%20097.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNzVf/ThunderCats%20097.mp4",
+    "episodeCode": "T3 E7: La cadena de la lealtad",
+    "hiddenCode": "T3 E7",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E8: El cañón de cristal",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/2oKHFyrLgPOOqs4vq7SRC3EAQ0T.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyNzhf/ThunderCats%20098.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyNzhf/ThunderCats%20098.mp4",
+    "episodeCode": "T3 E8: El cañón de cristal",
+    "hiddenCode": "T3 E8",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E9: El rayo telepático",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iLpmfJnA59tZDRcw98Qbv5Z8W3P.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyODVf/ThunderCats%20099.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyODVf/ThunderCats%20099.mp4",
+    "episodeCode": "T3 E9: El rayo telepático",
+    "hiddenCode": "T3 E9",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E10: La isla del exilio",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mvS108At5kwsYfY6E8zH2iy7vPw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyODdf/ThunderCats%20100.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyODdf/ThunderCats%20100.mp4",
+    "episodeCode": "T3 E10: La isla del exilio",
+    "hiddenCode": "T3 E10",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E11: La llave de Thundera",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1c5d9mhLDod5aIP3PV3JYytNazy.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyOTRf/ThunderCats%20101.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyOTRf/ThunderCats%20101.mp4",
+    "episodeCode": "T3 E11: La llave de Thundera",
+    "hiddenCode": "T3 E11",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E12: El regreso de los ThunderCachorros",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wGM23R4XSB6mxd65w1AuauM7BAx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODcyOThf/ThunderCats%20102.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODcyOThf/ThunderCats%20102.mp4",
+    "episodeCode": "T3 E12: El regreso de los ThunderCachorros",
+    "hiddenCode": "T3 E12",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E13: La fórmula",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qgOb9FRwuZ9NMGXYd6O6hjI53RD.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczMDRf/ThunderCats%20103.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczMDRf/ThunderCats%20103.mp4",
+    "episodeCode": "T3 E13: La fórmula",
+    "hiddenCode": "T3 E13",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E14: El medallón del engaño",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/QMyEPHebQDre94M8mxEc9RfcjR.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczMTFf/ThunderCats%20104.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczMTFf/ThunderCats%20104.mp4",
+    "episodeCode": "T3 E14: El medallón del engaño",
+    "hiddenCode": "T3 E14",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E15: El brazalete del poder",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/te5HoynqAUX8btTZbzfxUHLhCbj.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczMThf/ThunderCats%20105.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczMThf/ThunderCats%20105.mp4",
+    "episodeCode": "T3 E15: El brazalete del poder",
+    "hiddenCode": "T3 E15",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E16: Tras el tesoro de Thundera",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nXyZGevRwj1CGnp06iMPNrcz5zx.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczMjhf/ThunderCats%20106.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczMjhf/ThunderCats%20106.mp4",
+    "episodeCode": "T3 E16: Tras el tesoro de Thundera",
+    "hiddenCode": "T3 E16",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E17: El ThunderScopio",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6zq4MBBgywM3bS89eNu7bEkFKbJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNDRf/ThunderCats%20107.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNDRf/ThunderCats%20107.mp4",
+    "episodeCode": "T3 E17: El ThunderScopio",
+    "hiddenCode": "T3 E17",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E18: El dragón de Jade",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wCrbPA5KUbwxCJSu7SdRB6ZUNz6.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNDVf/ThunderCats%20108.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNDVf/ThunderCats%20108.mp4",
+    "episodeCode": "T3 E18: El dragón de Jade",
+    "hiddenCode": "T3 E18",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E19: El tren de circo",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ubsEzKZcTGEDlI7KIAxQILMHvZg.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNTFf/ThunderCats%20109.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNTFf/ThunderCats%20109.mp4",
+    "episodeCode": "T3 E19: El tren de circo",
+    "hiddenCode": "T3 E19",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E20: El último día",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1k08dGEY7WcWvg7Vkb1DmaHH1Hi.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNTVf/ThunderCats%20110.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNTVf/ThunderCats%20110.mp4",
+    "episodeCode": "T3 E20: El último día",
+    "hiddenCode": "T3 E20",
+    "intro": {"start":0,"end":0}
+  }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+    "title": "E1: Regreso a Thundera (Parte 1)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/kQq8u8GOQy52EKs5SmIMZCuIpOq.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNjBf/ThunderCats%20111.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNjBf/ThunderCats%20111.mp4",
+    "episodeCode": "T4 E1: Regreso a Thundera (Parte 1)",
+    "hiddenCode": "T4 E1",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E2: Regreso a Thundera (Parte 2)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5UafgGeyE3fZ2QkOYG8FEg9C9b3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNjRf/ThunderCats%20112.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNjRf/ThunderCats%20112.mp4",
+    "episodeCode": "T4 E2: Regreso a Thundera (Parte 2)",
+    "hiddenCode": "T4 E2",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E3: Regreso a Thundera (Parte 3)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5w9AsZ3ontiBYuVTJceYe700xUZ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNjhf/ThunderCats%20113.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNjhf/ThunderCats%20113.mp4",
+    "episodeCode": "T4 E3: Regreso a Thundera (Parte 3)",
+    "hiddenCode": "T4 E3",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E4: Regreso a Thundera (Parte 4)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yOAkAWenQMWkkp9k8kPyoQUEXI4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNzRf/ThunderCats%20114.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNzRf/ThunderCats%20114.mp4",
+    "episodeCode": "T4 E4: Regreso a Thundera (Parte 4)",
+    "hiddenCode": "T4 E4",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E5: Regreso a Thundera (Parte 5)",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jyz34JgdLJwDL3aUGTbTxVL4wyA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczNzlf/ThunderCats%20115.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczNzlf/ThunderCats%20115.mp4",
+    "episodeCode": "T4 E5: Regreso a Thundera (Parte 5)",
+    "hiddenCode": "T4 E5",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E6: Leah",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/g5uMQn19CuqhIhstSgiG3ofm4oK.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczODVf/ThunderCats%20116.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczODVf/ThunderCats%20116.mp4",
+    "episodeCode": "T4 E6: Leah",
+    "hiddenCode": "T4 E6",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E7: El hombre rana",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/rZvn2yaEB4Yc6Z1zvwYizzNV6IQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczOTRf/ThunderCats%20117.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczOTRf/ThunderCats%20117.mp4",
+    "episodeCode": "T4 E7: El hombre rana",
+    "hiddenCode": "T4 E7",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E8: La herencia",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cNTVYVsqaFNoilsQvdJZEgaQmrw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODczOTlf/ThunderCats%20118.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODczOTlf/ThunderCats%20118.mp4",
+    "episodeCode": "T4 E8: La herencia",
+    "hiddenCode": "T4 E8",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E9: Tornillo suelto",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5JvIpCojXdXZBe7Dwx3drOYUfPa.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MDRf/ThunderCats%20119.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MDRf/ThunderCats%20119.mp4",
+    "episodeCode": "T4 E9: Tornillo suelto",
+    "hiddenCode": "T4 E9",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E10: Malcar",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4wJTIZ9NYmpHvjrdaw6v0TEWmUF.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MDlf/ThunderCats%20120.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MDlf/ThunderCats%20120.mp4",
+    "episodeCode": "T4 E10: Malcar",
+    "hiddenCode": "T4 E10",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E11: Risa sin control",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jTdqIQLBpqND7Y8oy4gGXG0b5Oc.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MTJf/ThunderCats%20121.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MTJf/ThunderCats%20121.mp4",
+    "episodeCode": "T4 E11: Risa sin control",
+    "hiddenCode": "T4 E11",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E12: La venganza del pirata",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/yfeF0Ec4jKsOoH82FQrSGsDx2iy.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MTdf/ThunderCats%20122.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MTdf/ThunderCats%20122.mp4",
+    "episodeCode": "T4 E12: La venganza del pirata",
+    "hiddenCode": "T4 E12",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E13: El monstruo verde",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pxkMWfXeYITVcT8vRDC6mgddA5B.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MjBf/ThunderCats%20123.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MjBf/ThunderCats%20123.mp4",
+    "episodeCode": "T4 E13: El monstruo verde",
+    "hiddenCode": "T4 E13",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E14: Ma-Mutt se confunde",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oWMlEDBxTTezC3a23DnDzsgDP7C.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MjVf/ThunderCats%20124.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MjVf/ThunderCats%20124.mp4",
+    "episodeCode": "T4 E14: Ma-Mutt se confunde",
+    "hiddenCode": "T4 E14",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E15: El amo de las sombras",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pSAa0Z8aMkl4z74KQC6FW8yYXyD.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MzBf/ThunderCats%20125.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MzBf/ThunderCats%20125.mp4",
+    "episodeCode": "T4 E15: El amo de las sombras",
+    "hiddenCode": "T4 E15",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E16: Doble reto",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7tJ9fsY3f2RIfIUevS0RTDgIIVG.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0MzVf/ThunderCats%20126.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0MzVf/ThunderCats%20126.mp4",
+    "episodeCode": "T4 E16: Doble reto",
+    "hiddenCode": "T4 E16",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E17: El toque de amortus",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5ktdO6648rHTnghy8ryfPQY2M8u.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0Mzlf/ThunderCats%20127.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0Mzlf/ThunderCats%20127.mp4",
+    "episodeCode": "T4 E17: El toque de amortus",
+    "hiddenCode": "T4 E17",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E18: El medallón del mal",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qAMyU9cP2jVbvKg3Dfw3vKBG2U.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0NDlf/ThunderCats%20128.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NDlf/ThunderCats%20128.mp4",
+    "episodeCode": "T4 E18: El medallón del mal",
+    "hiddenCode": "T4 E18",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E19: La fuente de las dudas",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/q2Sf3WgOTKLfEFl6nXH6xHhqmvm.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0NTVf/ThunderCats%20129.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NTVf/ThunderCats%20129.mp4",
+    "episodeCode": "T4 E19: La fuente de las dudas",
+    "hiddenCode": "T4 E19",
+    "intro": {"start":0,"end":0}
+  },
+  {
+    "title": "E20: El libro del Augurio",
+    "meta": "7+ · 22m · 1985",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/inPs816cbdjzpgsfCtRtg6G9wjW.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU2ODc0NjFf/ThunderCats%20130.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU2ODc0NjFf/ThunderCats%20130.mp4",
+    "episodeCode": "T4 E20: El libro del Augurio",
+    "hiddenCode": "T4 E20",
+    "intro": {"start":0,"end":0}
+  }
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

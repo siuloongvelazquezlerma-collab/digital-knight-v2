@@ -1,0 +1,2567 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Dr.STONE — Clon (fondo fullscreen + logo arriba)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="crunchy roll logo.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+   :root {
+  --bg:#000;
+  --accent:#ff6a00;
+  --muted:#9aa1a6;
+  --white:#fff;
+
+  /* 👇 importante */
+  --overlay-opacity: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- COVER: fullscreen detrás de todo --- */
+.cover {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  background: url("https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=840,height=1260/keyart/GYEXQKJG6-backdrop_tall") 
+              no-repeat top center;
+  background-size: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* efecto superior fijo */
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0%,
+    rgb(0, 0, 0) -50%,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.767) 60%,
+    rgb(0, 0, 0) 80%,
+    rgb(0, 0, 0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 👇 este es el dinámico */
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,var(--overlay-opacity));
+  z-index: 2;
+  pointer-events: none;
+  transition: background 0.1s linear;
+}
+
+
+
+/* --- layout (contenido encima del cover) --- */
+.page {
+  max-width: 720px; /* Aumentado de 420px a 720px */
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  padding: 0 12px; /* Un poco de respiro lateral */
+  color: #fff; /* empieza blanco */
+  transition: color 0.2s ease; /* transición suave al cambiar color */
+}
+
+/* Header: lo hacemos fixed y centrado al ancho de .page */
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 720px;
+  max-width: calc(100% - 24px);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* separación entre izquierda y derecha */
+  padding: 0 12px;
+  z-index: 50;
+  background: rgba(0,0,0,0);
+  transition: background 0.3s ease;
+}
+
+/* Agrupamos icono + título a la izquierda */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* espacio entre icono y título */
+}
+
+.header-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Icono cerrar más pequeño */
+.icon-close {
+  font-size: 23px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none; /* quita subrayado */
+  border-bottom: none;   /* quita cualquier línea inferior */
+  font-weight: bold;
+}
+
+
+
+/* Iconos derecha */
+.header-right {
+  display: flex;
+  gap: 6px;
+  position: absolute;
+  right: 1px; /* distancia desde el borde derecho de la pantalla */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 24px;
+  opacity: 0.95;
+}
+
+
+
+
+
+/* HERO */
+.hero {
+  height: 68vh;
+  position: relative;
+  display:block;
+  z-index: 10;
+}
+
+/* Fondo negro dinámico al hacer scroll */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, var(--overlay-opacity, 0.9)) 0%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  transition: background 0.15s linear;
+  z-index: 10;
+  pointer-events: none;
+}
+/* Logo */
+.logo-img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100px; /* un poco más arriba */
+  z-index: 40;
+  max-width: 70%; /* más ancho */
+  width: 220px;
+  height: auto;
+  display: block;
+  pointer-events: auto;
+}
+
+/* Contenedor principal centrado y absoluto */
+.meta {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -40px;
+  z-index: 32;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  opacity: 0.95;
+  color: #e4e3e3;
+}
+
+.meta .info-meta {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.meta .edad {
+  background: linear-gradient(180deg, rgba(60,60,60,0.9), rgba(60,60,60,0.9));
+  color: #e4e3e3;
+  font-weight: 600;
+  padding: 2px 4px;
+  font-size: 12px;
+  display: inline-block;
+  transform: skew(-10deg);
+  border-radius: 3px;
+}
+
+.meta .edad span {
+  display: inline-block;
+  transform: skew(10deg);
+}
+
+.meta .separador::before {
+  content: "◆";
+  font-size: 6px;
+  margin: 0 6px;
+  color: #e4e3e3;
+  opacity: 0.85;
+}
+
+/* Rating */
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  font-size: 22px;
+}
+
+.rating { 
+  font-weight: 70; 
+  font-size: 2px; 
+}
+
+.rating small { 
+  font-weight: 40; 
+  color: var(--muted); 
+  font-size: 1px; 
+  margin-left: 6px; 
+}
+
+.rating-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e4e3e3;
+}
+
+.rating-text strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 3px;
+}
+
+.rating-text span {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+.rating-text .arrow {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+  opacity: 0.85;
+}
+
+/* Acciones */
+.actions {
+  display: flex;
+  gap: 20px; /* un poco más de espacio */
+  margin-top: 12px;
+  color: #ff6600;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.action-btn .material-icons-outlined {
+  font-size: 25px;
+  margin-bottom: 6px;
+}
+
+
+
+main {
+  position: relative;
+  z-index: 1; /* contenido por encima */
+}
+
+/* Overlay global detrás de TODO el main */
+main::before {
+  content: "";
+  position: fixed; /* se queda fijo en la pantalla */
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, var(--overlay-opacity, 0.9)) 0%,
+    rgba(0, 0, 0, 0.973) 60%,
+    
+   
+  );
+  z-index: 1; /* detrás del main */
+  pointer-events: none;
+  transition: background 0.15s linear;
+}
+
+.episodes-header .right,
+.episodes-subheader {
+  position: relative; /* permite usar z-index */
+  z-index: 20;        /* mayor que el overlay */
+}
+
+
+
+/* Descripción */
+.desc {
+  margin-top: 60px;
+  padding: 0 1px;
+  width: 100%;
+  max-width: 96%;
+  color: #fffefe;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 32;
+  font-weight: 600; /* esto lo hace bold */
+}
+
+.episodes-header .right .material-icons,
+.episodes-subheader,
+.download-all,
+.sort-icon svg {
+  color: #fff !important;  /* fuerza blanco siempre */
+}
+
+.episodes-header .right {
+  position: relative; /* ya lo tienes, asegúrate */
+  z-index: 200;       /* más alto que download-all */
+  font-size: 2px;
+}
+
+
+/* Link Detalles */
+.details-link {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 0 6px;
+  display: block;
+  text-decoration: none;
+  z-index: 32;
+}
+
+/* CTA Row */
+.cta-row {
+  display:flex;
+  gap:14px;
+  padding:10px 20px 100px;
+  align-items:center;
+  justify-content:center;
+}
+
+.continue {
+  flex:1;
+  background:var(--accent);
+  color:#0b0b0b;
+  font-weight:900;
+  border-radius:6px;
+  padding:20px 18px;
+  font-size:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+}
+
+.bookmark {
+  width:70px;
+  height:70px;
+  border:3px solid var(--accent);
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+
+/* Footer */
+/* Footer */
+footer {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 720px;
+  max-width: 100%;
+  padding: 14px 20px 10px;
+  /* Fondo negro con degradado desde arriba */
+  background: linear-gradient(
+    to top, 
+    rgba(0,0,0,1) 0%,       /* negro sólido abajo */
+    rgb(0, 0, 0) 20%,    /* un poco transparente hacia arriba */
+    rgb(0, 0, 0) 50%,    /* degradado hacia el top */
+    rgba(0, 0, 0, 0.774) 80%,
+    rgba(0,0,0,0) 100%       /* transparente arriba */
+  );
+  z-index: 50;
+}
+
+
+/* Botones del footer */
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+}
+
+.play {
+  flex: 1;
+  text-align: center;
+  background: #ff5d00;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  text-shadow: 0 0 0.1px currentColor, 0 0 0.1px currentColor;
+  padding: 8px;
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: -0.2px;
+  box-sizing: border-box;
+}
+
+.play .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.play .icon svg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.save {
+  width: 40px;
+  height: 43px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: 2px solid #ff5d00;
+  color: #ff5d00;
+  border-radius: 0px;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.save.saved {
+  background: #ff5d00;
+  color: #000;
+}
+
+
+.episodes {
+  margin-top: -10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.episode {
+  display: flex;
+  background: #000;
+  gap: 10px;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Miniatura */
+.ep-thumb-wrapper {
+  position: relative;
+  width: 160px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.ep-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ep-thumb-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  background: rgba(0, 0, 0, 0.541);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ep-thumb-overlay .material-icons {
+  font-size: 32px;
+  color: #fff;
+}
+
+.ep-duration {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.692);
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Detalles */
+.ep-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.ep-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.3;
+}
+
+/* Acciones */
+.ep-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  height: 90px;
+}
+
+.ep-actions .material-icons-outlined {
+  font-size: 20px;
+  color: #fff;
+  opacity: 0.9;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Línea solo debajo de la flecha de descarga */
+.ep-download::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 1px;
+  background: #fff;
+  border-radius: 1px;
+}
+
+/* 🔹 Menú de los tres puntos */
+.more-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #24242c; /* fondo sólido opaco */
+  border-radius: 0px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+
+.more-menu .menu-item {
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.more-menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+/* Mostrar menú activo */
+.more-menu.show {
+  display: flex;
+}
+
+/* 🔹 Episodio marcado como visto */
+.episode.completed .ep-thumb-overlay {
+  background: rgba(255, 165, 0, 0.5);
+}
+
+.episode.completed .ep-duration {
+  background: orange;
+  color: #000;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+    /* Tabs */
+/* 🔹 Tabs */
+.tabs {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06); /* más delgada y sutil */
+  margin-top: 16px;
+}
+
+.tab {
+  flex: 0 0 auto;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #aaa;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab.active {
+  color: #fff;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;          /* ocupa el ancho completo del botón */
+  right: 0;
+  bottom: -1px;     /* exactamente sobre la línea gris */
+  height: 2px;
+  background: var(--accent, #f47521);
+  border-radius: 1px;
+}
+
+/* 🔹 Header debajo tabs */
+/* 🔹 Header debajo tabs */
+.episodes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 14px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0);
+}
+
+/* 🔹 Subheader ordenar/descargar */
+.episodes-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0);
+}
+
+.season-select {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.season-select .material-icons-outlined {
+  font-size: 8px;         /* un poco más pequeño que el texto */
+  transform: translateY(2px); /* bajarlo un pelín para alinearlo */
+  color: #ffffff;             /* gris como el texto inactivo */
+}
+
+.episodes-header .material-icons,
+.episodes-header .material-icons-outlined {
+  font-size: 23px;
+  cursor: pointer;
+}
+
+
+
+.sort-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: currentColor;
+}
+
+.download-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.download-all .download-icon {
+  font-size: 22px;
+  position: relative; /* necesario para la línea */
+  color: var(--white);
+}
+
+/* Línea debajo del icono de descarga */
+.download-all .download-icon::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; /* ajusta la separación */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;   /* ancho de la línea */
+  height: 2px;  /* grosor */
+  background: var(--white);
+  border-radius: 1px;
+}
+
+
+/* 🔹 Contenido tabs */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.divider {
+  border: none; 
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.144); /* línea ultra fina */
+  margin: 0; /* sin espacios extras */
+}
+
+/* 🔹 Overlay full screen */
+.season-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  z-index: 2000;
+  display: none; /* oculto al inicio */
+  flex-direction: column;
+}
+
+.season-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.overlay-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  font-size: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  gap: 8px; /* separa un poco el icono del texto */
+}
+
+.overlay-close {
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.overlay-title {
+  font-size: 22px;
+  font-weight: bold; /* 🔹 solo el título "Temporadas" */
+}
+
+.overlay-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+
+.season-item {
+  padding: 14px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: normal; /* sin bold */
+}
+
+.season-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.season-item.active span:first-child {
+  color: #f47521; /* 🔹 solo el nombre de temporada en naranja */
+}
+
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Contenedor de la mini barra */
+.ep-progress-container {
+  position: absolute;
+  bottom: 0px; 
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.062); /* transparente por defecto */
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Barra de progreso real */
+.ep-progress-bar {
+  height: 100%;
+  width: 0;
+  background: #ff6600;
+  border-radius: 0px;
+  transition: width 0.3s;
+}
+
+
+/* Tiempo restante sigue igual */
+.ep-duration {
+  position: absolute;
+  bottom: 4px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.692);
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+
+/* 🔹 Overlay cuando se completa */
+.ep-thumb-wrapper.completed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.541);
+  border-radius: 0px;
+  pointer-events: none;
+  z-index: 1; /* oscuro detrás */
+}
+
+/* 🔹 Contenedor del ícono */
+.ep-thumb-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  background: rgba(0, 0, 0, 0.541);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; /* 🔹 ahora sí por encima del overlay */
+}
+
+/* 🔹 Ícono dentro */
+.ep-thumb-overlay span.material-icons {
+  font-size: 32px;
+  color: #fff;
+}
+
+/* mark-all-menu.css */
+
+/* 🔹 Menú “Marcar todos como vistos” */
+.mark-all-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #24242c; /* fondo sólido opaco */
+  border-radius: 0px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100; /* seguro arriba de todo */
+  
+}
+
+/* Items del menú */
+.mark-all-menu .menu-item {
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 14px;
+  transition: background 0.2s;
+  cursor: pointer;
+  font-size: 12px; /* tamaño de texto por defecto */
+}
+
+.mark-all-menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Mostrar menú activo */
+.mark-all-menu.show {
+  display: flex;
+}
+
+
+
+body, img, a, button, select, textarea {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+button:active, a:active, span:active {
+    background: transparent;
+    color: inherit;
+}
+
+img {
+    pointer-events: none;
+}
+
+
+
+
+  </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <section class="cover" aria-hidden="true"></section>
+
+  <div class="page">
+    <header>
+      <div class="header-left">
+        <!-- Icono cerrar -->
+        <a href="#" class="icon-close">✕</a>
+        <!-- Título al lado del icono -->
+        <div class="header-title">Dr.STONE</div>
+      </div>
+    
+      <!-- Iconos derecha -->
+      <div class="header-right">
+        <div class="icon-btn">
+          <span class="material-icons">cast</span>
+        </div>
+        <div class="icon-btn">
+          <span class="material-icons">more_vert</span>
+        </div>
+      </div>
+    </header>
+    
+    
+
+      <main>
+        <section class="hero">
+          <img class="logo-img" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=320/keyart/GYEXQKJG6-title_logo-en-us" alt="Dr.STONE logo">
+      
+          <div class="meta">
+            <div class="info-meta">
+              <span class="edad"><span>16+</span></span>
+              <span class="separador"></span>
+              Sub | Dob
+            </div>
+      
+            <!-- 🔹 Estrellas + Media -->
+            <div class="rating-row">
+              <div class="stars">
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+              </div>
+              <div class="rating-text">
+                Media: <strong>4.8</strong> <span>(185K)</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
+              </div>
+            </div>
+      
+            <!-- 🔹 FILA DE ICONOS -->
+            <div class="actions">
+              <button class="action-btn">
+                <span class="material-icons-outlined">add</span>
+                <span>Mi lista</span>
+              </button>
+              <button class="action-btn">
+                <span class="material-icons-outlined">share</span>
+                <span>Compartir</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      
+        <!-- 🔹 Descripción -->
+        <section class="desc">
+          Senku es un joven extremadamente inteligente con un gran don para la ciencia y una ácida personalidad, y su mejor amigo es Taiju, que es mucho más fuerte que él pero también muy ingenuo...
+        </section>
+      
+              <!-- 🔹 Link Detalles -->
+      <a class="details-link" href="#">DETALLES DE LA SERIE</a>
+    </main>
+
+    <!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" data-tab="episodes">EPISODIOS</button>
+  <button class="tab" data-tab="more">MÁS COMO ESTO</button>
+</div>
+<hr class="divider">
+
+<!-- Header temporada -->
+<!-- Botón ya lo tienes dentro de .episodes-header -->
+<div class="episodes-header">
+  <div class="left">
+    <div class="season-select">
+      <span class="material-icons-outlined">arrow_drop_down</span>
+      <span>Gachiakuta</span>
+    </div>
+  </div>
+  <div class="right">
+    <span id="markAllBtn" class="material-icons">more_vert</span>
+  </div>
+  
+</div>
+
+<!-- 🔹 Overlay de temporadas -->
+<div id="seasonOverlay" class="season-overlay">
+  <div class="overlay-header">
+    <span class="material-icons overlay-close">close</span>
+    <span class="overlay-title">Temporadas</span>
+  </div>
+  <div class="overlay-content"></div>
+</div>
+
+
+<hr class="divider">
+
+<!-- Subheader ordenar/descargar -->
+<div class="episodes-subheader">
+  <span class="sort-icon">
+    <!-- SVG de tres líneas más delgadas -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="3" y="5" width="14" height="1.2" rx="0.6"></rect>
+      <rect x="3" y="10" width="10" height="1.2" rx="0.6"></rect>
+      <rect x="3" y="15" width="6" height="1.2" rx="0.6"></rect>
+    </svg>
+  </span>
+  <div class="download-all">
+    <span>DESCARGAR TODO</span>
+    <span class="material-icons download-icon">arrow_downward</span>
+  </div>  
+</div>
+
+    <!-- Contenido Tabs -->
+    <div class="tab-content active" id="episodes">
+      <section class="episodes" id="episode-list"></section>
+    </div>
+
+    <div class="tab-content" id="more">
+      <div class="suggested" id="suggested-list">
+        <!-- aquí irán los pósters sugeridos -->
+      </div>
+    </div>
+
+    <!-- Footer solo con botones -->
+   <!-- HTML Footer -->
+<footer>
+  <div class="buttons">
+    <a href="#" id="playBtn" class="play">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="6 3 20 12 6 21 6 3"></polygon>
+        </svg>
+      </span>
+      COMENZAR A VER E1
+    </a>
+    <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+  </div>
+</footer>
+  </div>
+
+  
+    
+
+  <!-- 🔹 JSON embebido -->
+<script type="application/json" id="playlist-data">
+  {
+    "seriesId": "dr-stone",
+    "seriesTitle": "Dr.STONE",
+    "age": "16+",
+    "subDob": "Sub | Dob",
+    "seasons": [
+      {
+        "season": "T1: Dr.STONE",
+        "episodes": [
+          {
+            "number": 1,
+            "title": "Mundo de piedra",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NjVf/21541d70937190257665b196caf9973b%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzU0Nzhf/1%20Dr.%20stone%20_1.mp4",
+            "hiddenCode": "T1 E1",
+            "description": "Senku despierta después de miles de años y descubre que la humanidad ha sido petrificada. Con su conocimiento científico, comienza a reconstruir el mundo.",
+            "intro": { "start": 0, "end": 0 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 2,
+            "title": "Rey del mundo de piedra",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODFf/9db8947dc18f0f2d3fdef6c43319cca4%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzU1ODlf/2%20Dr.%20stone_1.mp4",
+            "hiddenCode": "T1 E2",
+            "description": "Senku y sus amigos continúan explorando el mundo petrificado y enfrentan los primeros desafíos.",
+            "intro": { "start": 135, "end": 225 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 3,
+            "title": "Armas de la ciencia",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzJf/fabbdcc9eef959b89e8ad87fba87ce96%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzU3NjZf/3%20Dr.%20stone_1.mp4",
+            "hiddenCode": "T1 E3",
+            "description": "Senku construye armas y herramientas usando conocimientos científicos para proteger al grupo.",
+            "intro": { "start": 115, "end": 205 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 4,
+            "title": "Dispara la señal de humo",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5Nzhf/4b2edc141e5c71c4226d0e04541c0906%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzU4ODhf/4%20Dr.%20stone%20_1.mp4",
+            "hiddenCode": "T1 E4",
+            "description": "Senku crea una señal de humo para comunicarse con otros sobrevivientes y coordinar esfuerzos.",
+            "intro": { "start": 135, "end": 225 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 5,
+            "title": "El principio del mundo de piedra",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5Njlf/d8b195d00b1eee0e2ab301434900291d%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzYwMzVf/5%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E5",
+            "description": "Senku comienza a reconstruir la civilización, enseñando a otros los principios básicos de la ciencia.",
+            "intro": { "start": 135, "end": 225 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 6,
+            "title": "Dos países del mundo de piedra",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODZf/84d9f997ef1a3115114f579e608b4a43%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzYxNTNf/6%20Dr.stone%20%20_1.mp4",
+            "hiddenCode": "T1 E6",
+            "description": "Se revela la división del mundo en dos facciones: Senku y Tsukasa, cada uno con su visión para la humanidad.",
+            "intro": { "start": 0, "end": 0 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 7,
+            "title": "El paradero de dos millones de años",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzFf/e4451a5b540fe32d19d671df5e1e44c1%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI2NzYzNzhf/7%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E7",
+            "description": "Senku explora los restos de la antigua civilización para encontrar recursos y tecnologías perdidas.",
+            "intro": { "start": 130, "end": 225 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 8,
+            "title": "Camino de piedra",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5Njdf/88713b70e2bed18db0ad6dfa11c0b4c8%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDc3NzZf/8%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E8",
+            "description": "Senku y sus compañeros enfrentan los peligros del mundo primitivo mientras avanzan en su misión científica.",
+            "intro": { "start": 215, "end": 305 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 9,
+            "title": "Que se haga la luz de la ciencia",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODNf/24ab805b95a76597ddbed658cecb209c%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDc4Mzhf/9%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E9",
+            "description": "La primera chispa de electricidad y el descubrimiento de la ciencia avanzada en la piedra despiertan la curiosidad de todos.",
+            "intro": { "start": 195, "end": 285 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 10,
+            "title": "Una tenue alianza",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzZf/3c179f2950a33687b379b9491cf1fea5%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDc5MTlf/10%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E10",
+            "description": "Senku y Tsukasa forman temporalmente una alianza para enfrentar un peligro común que amenaza a todos.",
+            "intro": { "start": 110, "end": 200 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 11,
+            "title": "Mundo claro",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzNf/fd28148aa7e4d773750c08c606b5c736%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDgwMTNf/11%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E11",
+            "description": "El equipo descubre un lugar seguro y aprende a recolectar y procesar recursos naturales.",
+            "intro": { "start": 105, "end": 195 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 12,
+            "title": "Compañeros espalda con espalda",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5Nzlf/6cfab8574124d37394a34cbb5e5a73a4%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDgwODlf/12%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E12",
+            "description": "Senku y su equipo trabajan juntos para avanzar en sus experimentos y protegerse de Tsukasa.",
+            "intro": { "start": 135, "end": 225 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 13,
+            "title": "Guerrero enmascarado",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODdf/603febc7745a5ae508a3f22125c6e1b3%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDgxOTRf/13%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E13",
+            "description": "El misterioso guerrero enmascarado se enfrenta a Senku y plantea un nuevo desafío para el grupo.",
+            "intro": { "start": 53, "end": 143 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 14,
+            "title": "Amo de la llama",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODBf/8efd377a874bb4fbd299cb6fbec280a9%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDgyODhf/14%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E14",
+            "description": "Senku descubre nuevas fuentes de energía y experimenta con fuego y electricidad.",
+            "intro": { "start": 130, "end": 220 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 15,
+            "title": "La culminación de dos millones de años",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODhf/736a3effd63cf0d2ad6986d838192fee%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDgzNjhf/15%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E15",
+            "description": "Senku avanza en sus experimentos y demuestra cómo la ciencia puede cambiar la vida de todos.",
+            "intro": { "start": 265, "end": 355 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 16,
+            "title": "Una historia para la eternidad",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzRf/01b8fa3b63f126394e5496f12f8ebc62%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDg0NjNf/16%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E16",
+            "description": "Senku y sus aliados comparten historias y conocimientos, reforzando la unión del grupo.",
+            "intro": { "start": 135, "end": 225 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 17,
+            "title": "Cien noches y mil cielos",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODJf/9e94d0dd448384dbbfa12547200b957e%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDg1NTlf/17%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E17",
+            "description": "Senku explora el cielo y la naturaleza, aplicando la ciencia para predecir fenómenos y sobrevivir.",
+            "intro": { "start": 90, "end": 180 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 18,
+            "title": "Guerra de piedra",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzVf/1cd752a6b8b18b110cd5d74454425404%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDg2NzNf/18%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E18",
+            "description": "Las tensiones entre Senku y Tsukasa escalan y se produce un enfrentamiento entre las facciones.",
+            "intro": { "start": 153, "end": 243 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 19,
+            "title": "A la modernidad",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NzBf/da556811fbc9342a74a0b834867fc255%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDg3ODRf/19%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E19",
+            "description": "Senku inicia la construcción de tecnologías modernas para preparar a la humanidad para el futuro.",
+            "intro": { "start": 365, "end": 455 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 20,
+            "title": "La era de la energía",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODRf/59d4a2225cdf8945dcee1bb2dbcc781b%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDg4OTBf/20%20Dr.stone_1.mp4",
+            "hiddenCode": "T1 E20",
+            "description": "Senku descubre nuevas fuentes de energía y las utiliza para mejorar la vida de su comunidad.",
+            "intro": { "start": 200, "end": 290 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 21,
+            "title": "Club de manualidades pesadas",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5Njhf/a8725f0ef6a27fa7874f8570a09c4641%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDg5NThf/21%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E21",
+            "description": "Senku y sus amigos crean inventos avanzados para mejorar la supervivencia del grupo.",
+            "intro": { "start": 95, "end": 185 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 22,
+            "title": "El tesoro",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5ODlf/837ce041137d9c1b63aa393d05b7a447%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MDkwMjJf/22%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E22",
+            "description": "Se descubren recursos escondidos que permiten avances significativos en la ciencia y tecnología.",
+            "intro": { "start": 115, "end": 205 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 23,
+            "title": "Ola de ciencia",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5Nzdf/3e7119d9650fd45a7d6a082fe8c728f0%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MTI4Njlf/23%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E23",
+            "description": "Senku expande sus experimentos y comparte conocimientos científicos con más personas.",
+            "intro": { "start": 110, "end": 200 },
+            "credits": { "start": 1300, "end": 1440 }
+          },
+          {
+            "number": 24,
+            "title": "Oído a distancias infinitas",
+            "duration": "24m",
+            "thumbnail": "https://od.lk/s/M18zMjAwMDM5NjZf/28771f79e377304dfe44982a2d19aaea%281%29.jpg",
+            "source": "https://od.lk/d/M18zMDI3MTI5Mzlf/24%20Dr.stone%20_1.mp4",
+            "hiddenCode": "T1 E24",
+            "description": "El grupo alcanza un nivel avanzado de comunicación y coordinación usando principios científicos.",
+            "intro": { "start": 15, "end": 105 },
+            "credits": { "start": 1300, "end": 1440 }
+          }
+        ]
+      },
+      {
+        "season": "T2: Dr.STONE Season 2",
+        "episodes": [
+        {
+          "number": 1,
+          "title": "Comienza la Stone Wars",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/cW1XaeCWJya4PIgoDjijM2Qk3Vc.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+          "hiddenCode": "T2 E1",
+          "description": "Senku y sus aliados inician oficialmente la guerra contra el Imperio de Tsukasa, preparando estrategias para ganar sin violencia.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 2,
+          "title": "Línea directa",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/kyRkW4ICLl1AZwvWk5lo9IAJwQj.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+          "hiddenCode": "T2 E2",
+          "description": "Senku y su grupo intentan instalar un teléfono en el territorio enemigo mientras Homura sigue de cerca sus movimientos.",
+          "intro": { "start": 40, "end": 130 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 3,
+          "title": "Los muertos llaman",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/fOM5gNKdSaFAOtetiZpUUP2ZZaW.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+          "hiddenCode": "T2 E3",
+          "description": "Chrome, Gen y Magma avanzan con su misión mientras Senku usa la ciencia para crear una ilusión que impacta a los enemigos.",
+          "intro": { "start": 190, "end": 280 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 4,
+          "title": "Marcha de todas las unidades",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/7W3gH6WhfPED2iCimeI5zOI7yZQ.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+          "hiddenCode": "T2 E4",
+          "description": "Ambos bandos mueven sus piezas. Tsukasa moviliza a su ejército, mientras Senku prepara una nueva arma de ciencia pura.",
+          "intro": { "start": 180, "end": 270 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 5,
+          "title": "Gorila de vapor",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/xdDdZDajj5l0o7sOnovnGEi7Sov.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+          "hiddenCode": "T2 E5",
+          "description": "El Reino de la Ciencia despliega su nueva creación: un tanque de vapor diseñado para irrumpir en las líneas enemigas.",
+          "intro": { "start": 130, "end": 220 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 6,
+          "title": "Escapar de prisión",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/5wtdap5BlXlgmIIseNTSFFFhgEo.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+          "hiddenCode": "T2 E6",
+          "description": "Chrome es capturado por Tsukasa, pero demuestra su ingenio científico al intentar escapar usando solo materiales básicos.",
+          "intro": { "start": 120, "end": 210 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 7,
+          "title": "Misión secreta",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/dLDk4u9n6aXCmP2TDgS4BodHYRo.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+          "hiddenCode": "T2 E7",
+          "description": "Senku y sus aliados ejecutan una operación encubierta para infiltrar el campamento enemigo y contactar a sus amigos.",
+          "intro": { "start": 225, "end": 315 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 8,
+          "title": "Batalla final",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/oZusPVxwvyvnbwfPXQAlWUox8OB.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+          "hiddenCode": "T2 E8",
+          "description": "El enfrentamiento decisivo comienza. El Reino de la Ciencia lanza su ofensiva para acabar con el dominio de Tsukasa.",
+          "intro": { "start": 275, "end": 365 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 9,
+          "title": "El que destruye, el que salva",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/1pMkShY92cz8P4nrWAd3MlkKo9V.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+          "hiddenCode": "T2 E9",
+          "description": "El conflicto alcanza su clímax. La ciencia y la fuerza se enfrentan por el futuro de la humanidad.",
+          "intro": { "start": 60, "end": 150 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 10,
+          "title": "El dúo más fuerte de la humanidad",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/8Na2zGSLtavAygx3MuAeOj651QS.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+          "hiddenCode": "T2 E10",
+          "description": "Senku y Tsukasa unen fuerzas en una alianza inesperada para salvar a alguien muy importante.",
+          "intro": { "start": 260, "end": 350 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 11,
+          "title": "Prólogo de Dr. Stone",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/1ZAvZGt0teLnh4R0W9yhS3EjwK3.jpg",
+          "source": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+          "hiddenCode": "T2 E11",
+          "description": "La guerra termina y un nuevo viaje comienza. El Reino de la Ciencia apunta ahora hacia el mar y el descubrimiento del mundo.",
+          "intro": { "start": 110, "end": 200 },
+          "credits": { "start": 1380, "end": 1440 }
+        }
+        ]
+      },
+      {
+        "season": "Dr. STONE Special Episode - RYUSUI",
+        "episodes": [
+        {
+          "number": 1,
+          "title": "Episodio Especial: Ryusui",
+          "duration": "55m",
+          "thumbnail": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iYLB5J6Z5g4NyHQ9cwmR07B2PtQ.jpg",
+          "source": "https://od.lk/s/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+          "hiddenCode": "RYUSUI",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1300, "end": 1440 },
+          "description": "Después de la derrota del Imperio de Tsukasa, el Reino de la Ciencia se prepara para embarcarse en un viaje hacia el otro lado del mundo para descubrir el origen de la petrificación. Para ello, construyen un gran barco y reviven a Ryusui Nanami, un joven y extremadamente hábil marinero heredero del poderoso conglomerado Nanami. Sin embargo, deben encontrar un equilibrio entre sus exigentes demandas y mantener bajo control sus deseos. Se crean dinero, tela y un globo aerostático en la búsqueda de los campos petroleros de Sagara."
+        }
+        
+        ]
+      },
+      {
+        "season": "T3: Dr.STONE NEW WORLD",
+        "episodes": [
+        {
+          "number": 1,
+          "title": "Un nuevo mapamundi",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/x3hrsz8A6WX1crKV5WLiMkvUuvo.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDYzNzJf/drstonesitoseasonss3-01.mp4",
+          "hiddenCode": "T3 E1",
+          "description": "Senku despierta en una nueva era donde el mundo ha cambiado y el mapa global se ha redibujado. El descubrimiento de tierras lejanas enciende la chispa de la exploración.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 2,
+          "title": "Lo quiero = Virtud",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/o15nnT0jmjhMfxLPn00PgkSisR7.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDYzNTRf/drrsstonsitosseasonss3-02.mp4",
+          "hiddenCode": "T3 E2",
+          "description": "Senku y su equipo reflexionan sobre lo que verdaderamente valoran. Descubren que más allá de ciencia y poder, hay ideales que motivan cada decisión.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 3,
+          "title": "Primer contacto",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/7uRDjro0Z42MHQFT5AyFaUxvY6M.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDYzNjRf/drssstonsitoseasons3-03.mp4",
+          "hiddenCode": "T3 E3",
+          "description": "Un encuentro inesperado con otra civilización pone en tensión los ideales de coexistencia y confrontación. Senku negocia con ciencia y astucia.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 4,
+          "title": "Los ojos de la ciencia",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/aVA397LlFUhOTIrEt9k3F7OKk6M.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDYzOTlf/drstonsitossseason333-04.mp4",
+          "hiddenCode": "T3 E4",
+          "description": "La observación se vuelve arma: Senku aplica nuevas tecnologías para ver lo invisible y anticiparse a movimientos hostiles.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 5,
+          "title": "El barco científico Perseo",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/3IjMInLbkq1mygdPzWSmj6Mrdp8.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDYzODJf/drstonsitosoooseasonsss3-05.mp4",
+          "hiddenCode": "T3 E5",
+          "description": "Construyen el barco Perseo, una maravilla científica que permitirá navegar hacia lo desconocido. El mar será su nuevo campo de pruebas.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 6,
+          "title": "Cofre del tesoro",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/v8hh3pmeXKH4MtPFajLqOQ3Hvqr.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDY0Mjlf/stonsitonodrstonseasons3-06.mp4",
+          "hiddenCode": "T3 E6",
+          "description": "Descubren un cofre con artefactos antiguos que revelan secretos del pasado y potenciales avances para el futuro del Reino Científico.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 7,
+          "title": "La luz de la esperanza y la desesperación",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/4fgL5cLY8SqjUOyO3KC1ycPSBaB.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg5MjFf/stoneeedrseasonsss3-07.mp4",
+          "hiddenCode": "T3 E7",
+          "description": "Entre la esperanza y la adversidad, surge la luz del descubrimiento en medio de la oscuridad. El equipo enfrenta pérdidas y revela su fortaleza.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 8,
+          "title": "El as está en el barco científico",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/n1yumf39DunOziTGMZWcCkgkS4b.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg5MjRf/stonesitosdrseasons3-08.mp4",
+          "hiddenCode": "T3 E8",
+          "description": "La clave para vencer al enemigo está oculta dentro del Perseo. Se desarrolla una misión clandestina entre los pasillos del barco.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 9,
+          "title": "Ciencia hermosa",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/7LhbWIVc3mJf0cjshNwpVWJDLAQ.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDY0NDJf/stonsitosdrseasonss3-09.mp4",
+          "hiddenCode": "T3 E9",
+          "description": "Exploran descubrimientos científicos que combinan estética y funcionalidad. La belleza de la ciencia inspira nuevas soluciones.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 10,
+          "title": "Guerras científicas",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/7OeCecH8SqkaKXDV9aS9vyMyKQz.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg5MjZf/stoneeesdrsitoseasons3-10.mp4",
+          "hiddenCode": "T3 E10",
+          "description": "Empiezan batallas tácticas donde no solo se lucha con armas, sino con ciencia, inteligencia y anticipación. Cada decisión cuenta.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 11,
+          "title": "Haremos un milagro",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/b577K4Y15J2zop96edjtQRjeG5S.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDY0MTVf/stonsitodrtositoeason3-11.mp4",
+          "hiddenCode": "T3 E11",
+          "description": "La fe en lo imposible se mezcla con la ciencia: Seguros de su valor, intentan realizar algo que pareciera milagroso.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 12,
+          "title": "El reino científico contraataca",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/wK4bbwqbPk1PbLljcazH6KzWVvx.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NzVf/drstunsitosss23partss2-01.mp4",
+          "hiddenCode": "T3 E12",
+          "description": "Después de la ofensiva enemiga, el Reino Científico responde con innovaciones estratégicas para retomar la iniciativa.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 13,
+          "title": "El verdadero rostro de Medusa",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/gTfHFLH8RN",
+          "source": "https://od.lk/d/M18zMDk3NDg4NTZf/drrstunsitosseason22part22-02.mp4",
+          "hiddenCode": "T3 E13",
+          "description": "Se revela quién o qué es Medusa, desencadenando sorpresas que cambian la percepción de aliados y enemigos por igual.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 14,
+          "title": "Maniobras intelectuales",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/mHFWnsigkolhX6GyhV8Z4wb9rtp.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4ODZf/stonesssdrstosqsss3nse-03.mp4",
+          "hiddenCode": "T3 E14",
+          "description": "La guerra se traslada al plano mental: enfrentamientos estratégicos, engaños y movimientos de piezas en juego científico.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 15,
+          "title": "Batalla decisiva tridimensional",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/i5WrLPDOESOxntDuoJ1AqVgYR9I.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4Nzlf/drsutisosstunsitoss3seausnss-04.mp4",
+          "hiddenCode": "T3 E15",
+          "description": "El escenario de batalla se expande en tres dimensiones: cielo, tierra y mar combaten en simultáneo, con ciencia como arma principal.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 16,
+          "title": "Refriega por todo el territorio",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/uJGNLytepCwHWmUXl7MjPfOtZAa.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NDZf/stunsitoodrass3seasunsss-05.mp4",
+          "hiddenCode": "T3 E16",
+          "description": "El conflicto se dispersa por múltiples frentes. Cada rincón del territorio se convierte en campo de batalla científico.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 17,
+          "title": "Joker",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/6v7V8kljFknyT2NhVRsHK9tESC1.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4ODRf/druustonsitos3seas-06.mp4",
+          "hiddenCode": "T3 E17",
+          "description": "Aparece una figura impredecible: Joker entra al juego con planes propios que complican alianzas ya establecidas.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 18,
+          "title": "El resplandor de la ruina",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/93wkryYnttiGIYLbBpfK1ZsRtWV.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NDFf/stuneecurouseseasunss2-07.mp4",
+          "hiddenCode": "T3 E18",
+          "description": "En medio del caos, descubren que incluso la ruina brilla con oportunidades para reconstruir con ciencia y audacia.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 19,
+          "title": "The last man standing",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/4PlCnfRS4V6Ij8RR7qLtK2akqKW.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NzNf/drstunsitonewrowlcours2-08.mp4",
+          "hiddenCode": "T3 E19",
+          "description": "Solo uno prevalecerá. Las alianzas se quiebran mientras cada personaje lucha por su visión del futuro.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 20,
+          "title": "Primer sueño",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/8nhV9hoZ1k6qcUVHMZ5MV8jc0TJ.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NTNf/drrrstunsitoseasuns3-09.mp4",
+          "hiddenCode": "T3 E20",
+          "description": "Un sueño inspira una nueva visión global: Senku explora posibilidades que podrían cambiar el rumbo del mundo científico.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 21,
+          "title": "La isla del tesoro",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/r2YtNnc9wgcbC6pZTrFhi5LBHpm.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NTBf/stunsitossdrsseasunpartsss2-10.mp4",
+          "hiddenCode": "T3 E21",
+          "description": "Encuentran una isla cuyo legado de ciencia y riquezas desafía lo conocido. Se desatan conflictos por el control de sus secretos.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 22,
+          "title": "Más allá del nuevo mundo",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/2GB1NNoz7KsQC6yaMOpQs8xvVZO.jpg",
+          "source": "https://od.lk/d/M18zMDk3NDg4NTJf/stunnneepartwordlseasunss3-1.mp4",
+          "hiddenCode": "T3 E22",
+          "description": "El final de la temporada abre un horizonte inmenso: nuevas rutas, alianzas inciertas y el deseo de explorar lo desconocido.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        }
+        ]
+      
+      },
+      {
+        "season": "T4: DR.STONE SCIENCE FUTURE",
+        "episodes": [
+        {
+          "number": 1,
+          "title": "E1: Ryusui contra Senku",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/nEe13H2dzeMLZsKgxoZWtMLsN5y.jpg",
+          "source": "",
+          "hiddenCode": "T4 E1",
+          "description": "Senku y Ryusui se enfrentan en una competencia científica para determinar quién liderará la próxima expedición científica.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 2,
+          "title": "E2: Science Journey",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/9g0A6XVGIkXNXz56w9xjCp3zVOq.jpg",
+          "source": "",
+          "hiddenCode": "T4 E2",
+          "description": "El Reino de la Ciencia se embarca en un viaje hacia América en busca de recursos para su misión lunar.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 3,
+          "title": "E3: Trampa de luz en la oscuridad",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/jroZEcETT7etBtv03Kf1SsydZ4.jpg",
+          "source": "",
+          "hiddenCode": "T4 E3",
+          "description": "El equipo enfrenta desafíos en la oscuridad mientras intentan superar obstáculos científicos y naturales.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 4,
+          "title": "E4: Dr. X",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/ttjeTBt1ZLIUjhaOu1PO6S74Zw0.jpg",
+          "source": "",
+          "hiddenCode": "T4 E4",
+          "description": "El equipo se enfrenta a un nuevo enemigo, el Dr. X, quien representa una amenaza para sus planes.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 5,
+          "title": "E5: Doctor VS. Doctor",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/w0Cf0omdaTfnxKikdLOHTLCeKtB.jpg",
+          "source": "",
+          "hiddenCode": "T4 E5",
+          "description": "Un enfrentamiento entre dos brillantes científicos pone a prueba las habilidades y la ética del Reino de la Ciencia.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 6,
+          "title": "E6: Science is elegant",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/lLFi5q8mRqS48TXOQdxc8VG9Tpl.jpg",
+          "source": "",
+          "hiddenCode": "T4 E6",
+          "description": "La ciencia demuestra su elegancia al resolver problemas complejos con soluciones simples y efectivas.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 7,
+          "title": "E7: Dos científicos",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/53oHxXkmiPselcrT9A74SGItjt4.jpg",
+          "source": "",
+          "hiddenCode": "T4 E7",
+          "description": "Dos científicos con visiones diferentes colaboran para avanzar en la misión científica del Reino.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 8,
+          "title": "E8: Lock on",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/8QuD8JwRQKVutOVNCQi6cP0wHrV.jpg",
+          "source": "",
+          "hiddenCode": "T4 E8",
+          "description": "El equipo se prepara para un enfrentamiento decisivo mientras se acercan a su objetivo.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 9,
+          "title": "E9: La luz de la ciencia",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/hG4fOlbgdt7EmD54N3AxjLmkouI.jpg",
+          "source": "",
+          "hiddenCode": "T4 E9",
+          "description": "La ciencia ilumina el camino hacia la solución de los problemas más oscuros y complejos.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 10,
+          "title": "E10: Un camino de tierra",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/m8JSOafuanBZHm5AvYc5qzKZ7hO.jpg",
+          "source": "",
+          "hiddenCode": "T4 E10",
+          "description": "El equipo enfrenta desafíos en un terreno difícil mientras avanzan hacia su objetivo.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 11,
+          "title": "E11: Quien conoce y quien hace las reglas",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/m41G97oBvIzc6eTfH8vXZdKo8Vh.jpg",
+          "source": "",
+          "hiddenCode": "T4 E11",
+          "description": "Se cuestiona quién tiene el derecho de establecer las reglas en un mundo reconstruido por la ciencia.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 12,
+          "title": "E12: Reencuentro",
+          "duration": "24m",
+          "thumbnail": "https://image.tmdb.org/t/p/w300/4f8yWqwIz2nu0XTaH8wPzjP8KCz.jpg",
+          "source": "",
+          "hiddenCode": "T4 E12",
+          "description": "Personajes del pasado regresan, trayendo consigo nuevas perspectivas y desafíos para el Reino de la Ciencia.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        },
+        {
+          "number": 13,
+          "title": "E13: Episodio 13",
+          "duration": "24m",
+          "thumbnail": "",
+          "source": "",
+          "hiddenCode": "T4 E13",
+          "description": "Un episodio especial que ofrece una visión más profunda de los personajes y sus motivaciones.",
+          "intro": { "start": 0, "end": 0 },
+          "credits": { "start": 1380, "end": 1440 }
+        }
+        ]
+      }
+    ]
+  }
+
+  </script>
+  
+    
+
+
+<!-- Script dinámico del botón -->
+<script>
+  // Prevenir gestos táctiles no deseados
+document.addEventListener('touchmove', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+  const playBtn = document.getElementById('playBtn');
+const jsonData = JSON.parse(document.getElementById('playlist-data').textContent);
+
+// 🔹 Buscar último episodio guardado
+let lastEpisode = JSON.parse(localStorage.getItem('currentEpisode')) || null;
+
+// 🔹 Función para actualizar solo el texto del botón sin tocar el icono
+function setButtonText(text) {
+  const icon = playBtn.querySelector('.icon');
+  playBtn.innerHTML = '';            // vaciamos
+  playBtn.appendChild(icon);         // agregamos el icono de nuevo
+  playBtn.insertAdjacentText('beforeend', ' ' + text); // agregamos el texto después del icono
+}
+
+// 🔹 Determinar qué mostrar en el botón
+if (lastEpisode && lastEpisode.seriesId === jsonData.seriesId) {
+  // Buscamos el episodio correspondiente en el JSON para obtener el hiddenCode
+  const season = jsonData.seasons.find(s => s.season === lastEpisode.season) || jsonData.seasons[0];
+  const epJSON = season.episodes.find(ep => parseInt(ep.number) === parseInt(lastEpisode.number)) || season.episodes[0];
+  const code = epJSON.hiddenCode || 'E' + lastEpisode.number;
+  setButtonText(`CONTINUAR ${code}`);
+} else {
+  const firstEp = jsonData.seasons[0].episodes[0];
+  setButtonText(`COMENZAR A VER ${firstEp.hiddenCode || 'E' + firstEp.number}`);
+}
+
+// 🔹 Click en el botón
+playBtn.addEventListener('click', e => {
+  e.preventDefault();
+  let episodeToPlay;
+
+if (lastEpisode && lastEpisode.seriesId === jsonData.seriesId) {
+  const season = jsonData.seasons.find(s => s.season === lastEpisode.season) || jsonData.seasons[0];
+  const epJSON = season.episodes.find(ep => parseInt(ep.number) === parseInt(lastEpisode.number)) || season.episodes[0];
+
+  episodeToPlay = {
+    ...lastEpisode,
+    description: lastEpisode.description || epJSON.description || ''
+  };
+} else {
+  const firstEp = jsonData.seasons[0].episodes[0];
+  episodeToPlay = {
+    ...firstEp,
+    seriesId: jsonData.seriesId,
+    season: jsonData.seasons[0].season,
+    number: firstEp.number,
+    currentTime: 0,
+    replay: false,
+    description: firstEp.description || ''
+  };
+}
+
+  // antes de redirigir al player, guarda también la info completa de la serie
+localStorage.setItem('currentSeriesData', JSON.stringify(jsonData)); // <- NUEVO
+localStorage.setItem('currentPlaylist', JSON.stringify(jsonData.seasons[currentSeasonIndex].episodes));
+localStorage.setItem('currentSeasonIndex', currentSeasonIndex); // asegúrate de guardar temporada activa
+localStorage.setItem('currentEpisode', JSON.stringify(episodeToPlay));
+window.location.href = 'crunchyroll-player.html';
+
+});
+
+</script>
+
+<script>
+  // 🔹 Función para generar una clave única de progreso por episodio
+  function buildProgressKey({ seriesId, season, number }) {
+  const seasonKey = (season || '').replace(/[^a-z0-9]+/gi, '_'); 
+  return `${seriesId}_${seasonKey}_ep${parseInt(number)}`;
+}
+
+
+</script>
+
+  <!-- 🔹 Script para renderizar episodios -->
+  <script>
+  
+// 🔹 Referencia al contenedor y header
+const container = document.getElementById('episode-list');
+const seasonHeader = document.querySelector('.episodes-header .season-select');
+
+// ------------------------------------------
+// ✅ Manejo de temporada activa persistente
+// ------------------------------------------
+let currentSeasonIndex = 0;
+const savedSeason = localStorage.getItem('currentSeasonIndex');
+
+// Si hay una temporada guardada, la usamos (y validamos que exista)
+if (savedSeason !== null) {
+  const parsedIndex = parseInt(savedSeason);
+  if (!isNaN(parsedIndex) && jsonData.seasons[parsedIndex]) {
+    currentSeasonIndex = parsedIndex;
+  }
+}
+
+// 🔹 Actualizar el texto del header
+seasonHeader.querySelector('span:last-child').textContent =
+  jsonData.seasons[currentSeasonIndex].season;
+
+// 🟠 Renderizar episodios de la temporada correcta
+if (container) {
+  container.innerHTML = ''; // limpiar residuos del primer render
+  renderEpisodes(currentSeasonIndex);
+}
+
+// 🔹 Guardar automáticamente cuando se cambia desde el overlay
+// (Esto ya lo tienes en renderSeasonsOverlay)
+
+
+// 🔹 Overlay de temporadas
+const seasonOverlay = document.getElementById('seasonOverlay');
+const overlayContent = seasonOverlay.querySelector('.overlay-content');
+const closeBtn = seasonOverlay.querySelector('.overlay-close');
+
+// 🔹 Función que llena el overlay con temporadas
+function renderSeasonsOverlay() {
+  overlayContent.innerHTML = '';
+  jsonData.seasons.forEach((season, index) => {
+    const item = document.createElement('div');
+    item.className = 'season-item';
+    if (index === currentSeasonIndex) {
+      item.classList.add('active'); // 🔹 marcar temporada actual
+    }
+    item.innerHTML = `
+      <span>${season.season}</span>
+      <span style="opacity:.6; font-size:14px;">${season.episodes.length} episodios</span>
+    `;
+    item.addEventListener('click', () => {
+      currentSeasonIndex = index;
+      seasonHeader.querySelector('span:last-child').textContent = season.season;
+      renderEpisodes(currentSeasonIndex);
+      seasonOverlay.classList.remove('active');
+
+      // 🔹 Guardar temporada seleccionada
+      localStorage.setItem('currentSeasonIndex', currentSeasonIndex);
+    });
+    overlayContent.appendChild(item);
+  });
+}
+
+// 🔹 Abrir overlay al presionar el header de temporada
+// Abrir overlay al presionar el header de temporada
+seasonHeader.addEventListener('click', (e) => {
+  e.stopPropagation();
+  renderSeasonsOverlay();
+  seasonOverlay.classList.add('active');
+
+  // 🔹 Agregar estado al historial para interceptar botón atrás
+  history.pushState({overlayOpen: true}, '');
+});
+
+// Cerrar overlay con botón
+closeBtn.addEventListener('click', () => {
+  seasonOverlay.classList.remove('active');
+
+  // 🔹 Remover estado del historial (opcional)
+  if (history.state && history.state.overlayOpen) {
+    history.back(); // o history.replaceState({}, '') para no crear nuevo registro
+  }
+});
+
+// 🔹 Detectar botón atrás en móvil
+window.addEventListener('popstate', (event) => {
+  if (seasonOverlay.classList.contains('active')) {
+    // Solo cerramos el overlay y prevenimos que vaya hacia atrás
+    seasonOverlay.classList.remove('active');
+
+    // 🔹 Evitamos doble popstate si hay historial
+    history.pushState({}, '');
+  } else {
+    // Overlay no activo, comportamiento normal del botón atrás
+    // No hacemos nada y se retrocede en la página
+  }
+});
+
+
+
+// 🔹 Función para renderizar episodios según temporada
+// 🔹 Función para renderizar episodios según temporada
+function renderEpisodes(seasonIndex = 0) {
+  container.innerHTML = '';
+  const episodes = jsonData.seasons[seasonIndex].episodes;
+
+  episodes.forEach((ep, index) => {
+    const div = document.createElement('div');
+    div.className = 'episode';
+    div.innerHTML = `
+      <div class="ep-thumb-wrapper">
+        <img class="ep-thumb" src="${ep.thumbnail}" alt="${ep.title}">
+        <div class="ep-thumb-overlay">
+          <span class="material-icons">play_arrow</span>
+        </div>
+
+        <!-- 🔹 Barra de progreso sobre la miniatura -->
+        <div class="ep-progress-container">
+          <div class="ep-progress-bar"></div>
+        </div>
+
+        <!-- 🔹 Tiempo en la esquina inferior derecha -->
+        <div class="ep-duration">${ep.duration}</div>
+      </div>
+      <div class="ep-details">
+        <div class="ep-title">${ep.number}. ${ep.title}</div>
+      </div>
+      <div class="ep-actions">
+        <span class="material-icons-outlined ep-download">arrow_downward</span>
+        <span class="material-icons-outlined">more_vert</span>
+      </div>
+    `;
+
+    
+
+   // 🔹 Menú contextual de los tres puntos
+const moreBtn = div.querySelector('.material-icons-outlined:nth-child(2)'); // more_vert
+
+// Crear menú
+const menu = document.createElement('div');
+menu.className = 'more-menu'; // usamos la clase CSS
+menu.innerHTML = `
+  <div class="menu-item mark-seen">Marcar como visto</div>
+  <div class="menu-item share-episode">Compartir</div>
+`;
+
+// Posicionar menú relativo al botón
+moreBtn.parentElement.style.position = 'relative'; // contenedor relativo
+moreBtn.parentElement.appendChild(menu);
+
+// Mostrar/ocultar menú al hacer click
+moreBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  
+  // Alternar visibilidad
+  menu.classList.toggle('show');
+
+  // Solo ajustamos la posición vertical
+  const rect = moreBtn.getBoundingClientRect();
+  menu.style.top = `${moreBtn.offsetTop + moreBtn.offsetHeight + 4}px`;
+
+  // Posicionar hacia la izquierda usando CSS right
+  menu.style.right = '0px';
+  menu.style.left = 'auto'; // aseguramos que no haya left definido
+});
+
+
+// Cerrar menú al hacer click fuera
+document.addEventListener('click', () => {
+  menu.classList.remove('show');
+});
+
+// 🔹 Marcar como visto
+const markSeen = menu.querySelector('.mark-seen');
+markSeen.addEventListener('click', e => {
+  e.stopPropagation();
+
+  // Cambiar texto y color del menú
+  markSeen.textContent = 'Visto';
+  markSeen.style.color = 'orange';
+
+  // Marcar episodio como visto en localStorage
+  // Marcar episodio como visto en localStorage
+const videoId = buildProgressKey({
+  seriesId: jsonData.seriesId || 'serie',
+  season: jsonData.seasons[currentSeasonIndex].season,
+  number: ep.number
+});
+
+// Guardamos un valor alto para marcar como completado
+localStorage.setItem(`progress_${videoId}`, 9999);
+
+
+
+  
+
+  // Actualizar visual del episodio
+  thumbWrapper.classList.add('completed');
+  overlayIcon.textContent = 'replay';
+  progressBar.style.width = '0';
+  durationEl.textContent = 'Visto';
+
+  menu.classList.remove('show');
+});
+
+
+
+// 🔹 Compartir episodio
+const shareBtn = menu.querySelector('.share-episode');
+shareBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const shareData = {
+    title: `${jsonData.seriesTitle} - ${seasonHeader.textContent}`,
+    text: `Mira el episodio ${ep.number}: ${ep.title}`,
+    url: ep.source
+  };
+  if (navigator.share) {
+    navigator.share(shareData).catch(console.error);
+  } else {
+    prompt('Copia el enlace del episodio:', ep.source);
+  }
+  menu.classList.remove('show');
+});
+
+
+
+    const thumbWrapper = div.querySelector('.ep-thumb-wrapper');
+    const progressBar = div.querySelector('.ep-progress-bar');
+    const durationEl = div.querySelector('.ep-duration');
+    const overlayIcon = div.querySelector('.ep-thumb-overlay span.material-icons');
+
+    const videoId = buildProgressKey({
+  seriesId: jsonData.seriesId || 'serie',
+  season: jsonData.seasons[currentSeasonIndex].season,
+  number: ep.number
+});
+
+const savedTime = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+
+const durationMatch = ep.duration.match(/(\d+)\s*m/);
+const totalMinutes = durationMatch ? parseInt(durationMatch[1]) : 0;
+const totalSeconds = totalMinutes * 60;
+
+let percent = Math.min((savedTime / totalSeconds) * 100, 100);
+
+if (percent >= 100) {
+  // Episodio completado
+  thumbWrapper.classList.add('completed');
+  overlayIcon.textContent = "replay"; 
+  progressBar.style.width = '0';
+  progressBar.parentElement.style.background = 'rgba(0,0,0,0)'; // ocultar barra de fondo
+  durationEl.textContent = "Visto";
+} else if (savedTime > 0) {
+  // Episodio en progreso
+  thumbWrapper.classList.remove('completed');
+  progressBar.style.width = percent + '%';
+  progressBar.parentElement.style.background = 'rgba(255,255,255,0.2)'; // fondo semitransparente
+  const remainingSeconds = Math.max(totalSeconds - savedTime, 0);
+  const remainingMinutes = Math.ceil(remainingSeconds / 60);
+  durationEl.textContent = `${remainingMinutes}m restantes`;
+  overlayIcon.textContent = "play_arrow";
+} else {
+  // Episodio no reproducido
+  thumbWrapper.classList.remove('completed');
+  progressBar.style.width = '0';
+  progressBar.parentElement.style.background = 'rgba(0,0,0,0)'; // ocultar barra
+  durationEl.textContent = ep.duration;
+  overlayIcon.textContent = "play_arrow";
+}
+
+
+
+// 🔹 Click para reproducir/reiniciar
+div.addEventListener('click', () => {
+  const payload = {
+    ...ep,
+    seriesId: jsonData.seriesId || 'serie',
+    seriesTitle: jsonData.seriesTitle || jsonData.seriesId || '',
+    season: jsonData.seasons[currentSeasonIndex].season,
+    age: jsonData.age || '',
+    subDob: jsonData.subDob || '',
+    number: parseInt(ep.number) || index + 1,
+    replay: percent >= 100, // 🔑 si estaba completado, marcamos replay
+    description: ep.description || '' // ✅ aquí se asegura que la descripción exista
+  };
+
+  payload.currentTime = percent >= 100 ? 0 : savedTime;
+
+  localStorage.setItem('currentSeriesData', JSON.stringify(jsonData)); // NUEVO
+  localStorage.setItem('currentSeasonIndex', currentSeasonIndex);     // asegúrate la temporada está guardada
+  localStorage.setItem('currentPlaylist', JSON.stringify(jsonData.seasons[currentSeasonIndex].episodes));
+  localStorage.setItem('currentEpisode', JSON.stringify(payload));
+  window.location.href = 'crunchyroll-player.html';
+});
+
+
+
+
+    // 🔹 Descargar episodio
+    const downloadBtn = div.querySelector('.ep-download');
+    downloadBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const a = document.createElement('a');
+      a.href = ep.source;
+      a.download = "";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+
+    container.appendChild(div);
+  });
+}
+
+
+// Renderizar primera temporada por defecto
+renderEpisodes(currentSeasonIndex);
+
+
+
+    document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+const cover = document.querySelector('.cover');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const maxScroll = 400; // hasta dónde quieres que oscurezca
+  const opacity = Math.min(scrollTop / maxScroll, 1); // 0 → 1
+
+  // actualizamos sólo el overlay (::after) usando CSS custom property
+  cover.style.setProperty('--overlay-opacity', opacity);
+});
+
+
+
+const page = document.querySelector('.page');
+const maxScroll = 300; // hasta dónde queremos que el contenido se vuelva negro
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  // Normalizamos scroll entre 0 y 1
+  const progress = Math.min(scrollTop / maxScroll, 1);
+  // Interpolamos entre blanco (rgb(255,255,255)) y negro (rgb(0,0,0))
+  const colorValue = Math.round(255 * (1 - progress));
+  page.style.color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+});
+
+// Efecto scroll: header se oscurece y título aparece
+const header = document.querySelector('header');
+const title = document.querySelector('.header-title');
+
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const opacity = Math.min(scrollTop / maxScroll, 1); // hasta 1 (100%)
+  header.style.background = `rgba(0,0,0,${opacity})`;
+
+  // Título aparece proporcional al scroll
+  title.style.opacity = Math.min(scrollTop / maxScroll, 1);
+});
+
+// download all
+document.addEventListener("DOMContentLoaded", () => {
+  const downloadAllBtn = document.querySelector(".download-all");
+  const playlistData = JSON.parse(document.getElementById("playlist-data").textContent);
+
+  downloadAllBtn.addEventListener("click", () => {
+    const seasonIndex = 0; // Cambia según la temporada activa
+    const season = playlistData.seasons[seasonIndex];
+    const episodes = season.episodes;
+
+    for (let ep of episodes) {
+      try {
+        const a = document.createElement("a");
+        a.href = ep.source; // enlace directo al archivo
+        a.download = `${playlistData.seriesTitle} - ${season.season} - Ep${ep.number} - ${ep.title}.mp4`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (err) {
+        console.error("No se pudo iniciar la descarga del episodio:", ep.number, err);
+      }
+    }
+
+    alert(`Se han iniciado las descargas de los episodios de ${season.season}.`);
+  });
+});
+
+// 🔹 Menú global "Marcar todos como vistos"
+document.addEventListener('DOMContentLoaded', () => {
+  const markAllBtn = document.getElementById('markAllBtn');
+  if (!markAllBtn) return;
+
+  // Crear menú
+  const markAllMenu = document.createElement('div');
+  markAllMenu.id = 'markAllMenu';
+  markAllMenu.className = 'more-menu mark-all-menu';
+  markAllMenu.innerHTML = `
+    <div class="menu-item mark-all-seen">Marcar como visto</div>
+  `;
+
+  // Contenedor relativo
+  markAllBtn.parentElement.style.position = 'relative';
+  markAllBtn.parentElement.appendChild(markAllMenu);
+
+  // Mostrar/ocultar menú
+  markAllBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    markAllMenu.classList.toggle('show');
+  });
+
+  document.addEventListener('click', () => {
+    markAllMenu.classList.remove('show');
+  });
+
+  // 🔹 Actualizar texto según progreso de episodios
+  const markAllItem = markAllMenu.querySelector('.mark-all-seen');
+  const allEpisodes = document.querySelectorAll('.episode');
+  let allSeen = true;
+
+  allEpisodes.forEach(epDiv => {
+    const epNumber = epDiv.querySelector('.ep-title').textContent.split('.')[0];
+    const videoId = `${jsonData.seriesId || 'serie'}_ep${epNumber}`;
+    const savedTime = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+    if (savedTime < 9999) allSeen = false;
+  });
+
+  if (allSeen) {
+    markAllItem.textContent = 'Visto';
+    markAllItem.style.color = 'orange';
+  } else {
+    markAllItem.textContent = 'Marcar como visto';
+    markAllItem.style.color = '';
+  }
+
+  // Acción: marcar todos como vistos
+  markAllItem.addEventListener('click', e => {
+    e.stopPropagation();
+
+    const episodes = document.querySelectorAll('.episode');
+    episodes.forEach(epDiv => {
+  const thumbWrapper = epDiv.querySelector('.ep-thumb-wrapper');
+  const overlayIcon = epDiv.querySelector('.ep-thumb-overlay span.material-icons');
+  const progressBar = epDiv.querySelector('.ep-progress-bar');
+  const durationEl = epDiv.querySelector('.ep-duration');
+
+  // Cambiar visual
+  thumbWrapper.classList.add('completed');
+  overlayIcon.textContent = 'replay';
+  progressBar.style.width = '0';
+  progressBar.parentElement.style.background = 'rgba(0,0,0,0)'; 
+  durationEl.textContent = 'Visto';
+
+  // Guardar en localStorage
+  const epNumber = epDiv.querySelector('.ep-title').textContent.split('.')[0];
+  const videoId = `${jsonData.seriesId || 'serie'}_ep${epNumber}`;
+  localStorage.setItem(`progress_${videoId}`, 9999); // ✅ Este era el paso que faltaba
+});
+
+
+    // Cambiar texto del menú
+    markAllItem.textContent = 'Visto';
+    markAllItem.style.color = 'orange';
+
+    markAllMenu.classList.remove('show');
+  });
+});
+
+
+
+
+  </script>
+
+
+</body>
+</html>

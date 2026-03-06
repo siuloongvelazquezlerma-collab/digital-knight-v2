@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>The Storm Riders</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../peliculas.css">
+  
+  <style>
+   .cover::before {
+  background: linear-gradient(to bottom,  #01011d, transparent 20%);
+}
+
+.cover::after {
+  background: linear-gradient(to top,  #01011d, #01011d,  #010118,  #000000, rgba(0, 0, 0, 0.664), transparent 60%);
+}
+
+    .cover {
+      position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTk3MDc1NTdf/storm%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/cWpjusDpWCpzRvXA3QRp7gGBP54.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .cover-content {
+    padding-top: 70px; /* Ajusta según el tamaño de tu #header */
+  }
+}
+
+
+.cover-content img.logo {
+    width: 280px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 190px;
+      margin-bottom: 4px;
+    }
+  
+    
+  }
+  
+  @media (min-width: 1024px) {
+    
+  
+    .cover-content img.logo {
+      margin-top:550px;
+      width: 400px;
+      margin-bottom: -10px;
+    }
+  
+    
+  } 
+
+
+/* General: espacio para header fijo en pantallas pequeñas */
+@media screen and (max-width: 1024px) {
+  .cover-content {
+    padding-top: 80px; /* deja espacio para el header fijo */
+  }
+}
+
+/* Móviles en portrait */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .cover-content {
+    padding-top: 90px; /* un poco más de espacio en modo vertical */
+  }
+
+  .cover {
+    padding-top: 0; /* el padding se maneja dentro de .cover-content */
+  }
+}
+
+/* Móviles en landscape (horizontal) */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .cover-content {
+    padding-top: 60px;
+  }
+}
+
+/* Tablets en cualquier orientación */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .cover-content {
+    padding-top: 70px;
+  }
+}
+
+/* PC: sin padding adicional */
+@media screen and (min-width: 1025px) {
+  .cover-content {
+    padding-top: 0;
+  }
+}
+
+
+</style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader"></div>
+
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+  <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link">
+        <span class="material-icons">chevron_left</span>
+    </a>
+    <span id="page-title" class="page-title">The Storm Riders</span> <!-- Título oculto por defecto -->
+</header>
+
+<!-- Tabs para pantallas grandes -->
+<!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+    <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+    <div class="cover-landscape">
+      <div class="cover-landscape-shadow-left"></div>
+    </div>
+  
+    <div class="cover-content">
+      <img src="https://od.lk/s/M18zMTk3MDgxNDNf/storm%20logo.png" alt="The Storm Riders"class="logo" tabindex="2">
+      <div class="meta">13+   2h 8min   1998   Sub</div>
+   
+  
+      <div class="bloque-botones">
+        <div id="video-controls">
+          <button id="watchButton" class="watch-button" onclick="showPlayer()">
+            <span id="watchButtonIcon" class="material-icons">play_arrow</span>
+            <div class="watch-text-wrapper">
+              <span id="watchButtonText">Ver ahora</span>
+              <div id="watchProgressBar" class="watch-progress-bar">
+                <div></div>
+              </div>
+            </div>
+          </button>
+          
+          <button id="restartButton" class="restart-button" onclick="restartMovie()"> 
+            <span class="material-icons">replay</span> Reiniciar
+          </button>
+       
+          <!-- Espacio opcional si quieres animar la separación (no obligatorio) -->
+          <!-- <div id="restartSpacer" style="height: 0px; transition: height 0.3s ease;"></div> -->
+        </div>
+      
+        <div class="iconos">
+          <!-- Botón de Favoritos -->
+          <button id="favoritoBtn" data-identificador="The Storm Riders" onclick="toggleFavorito()">
+            <span id="favoritoIcon" class="material-icons-outlined">add</span>
+            <p id="favoritoText">Favoritos</p>
+          </button>
+          
+      
+         <!-- Info oculta para localStorage -->
+          <!-- Info oculta para localStorage -->
+          <div id="favoritoData" style="display: none;">
+            <img id="favoritoImagen" class="poster" src="https://od.lk/s/M18zMTk3MDgxNDVf/storm%20wallpaper.jpg" alt="Poster de la Película">
+            <a id="favoritoEnlace" href="the-storm-riders.html"></a>
+            <span id="nombre">The Storm Riders</span>
+          </div>
+
+      
+          <!-- Notificación tipo "añadido a favoritos" -->
+          <div id="notificacion" class="notificacion" style="bottom: -100px;">
+            <span id="notificacionTexto">Añadido a favoritos</span>
+            <span class="notificacion-icono material-icons-outlined">check</span>
+          </div>
+      
+          <!-- Botón de Compartir -->
+          <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      
+          <!-- Botón de Descargar -->
+<div class="download-action">
+  <a href="https://od.lk/d/M18zMTk3MDcxMzNf/The%20Storm%20Riders%201998%201080P%20%20%20Movie%20Hunter%28720P_HD%29.mp4" download>
+    <i class="material-icons">arrow_downward</i>
+    <span class="underline"></span>
+    Descargar
+  </a>
+</div>
+
+        </div>
+      </div>
+      
+      <div class="description">
+        Siguiendo una profecía, un señor de la guerra entrena a dos huérfanos tras matar a sus padres, sin imaginar que sus enseñanzas podrían causar su caída.
+
+      </div>
+    </div>
+  </div>
+
+ <!-- QUIZÁ TAMBIÉN TE GUSTE -->
+<div class="sugerencias-section">
+  <div class="sugerencias-header">
+    <h2 class="sugerencias-titulo">Quizá también te guste</h2>
+    <div class="sugerencias-tabs-line"></div>
+  </div>
+  <div class="sugerencias-grid">
+    
+      
+    <a href="el-invencible.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/wAAt2gvbkbeefzjd06GPfkdfUho.jpg" alt="El Invencible">
+      <p class="sugerencia-titulo">El Invencible</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+        
+          <a href="historia-policiaca.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/h2wxvGUK0ops0R3A7AA1QSXGOqV.jpg" alt="Historia Policiaca">
+      <p class="sugerencia-titulo">Historia Policiaca</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+        
+          <a href="masacre-en-nueva-york.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/731ZKdwmVVIp2VL7S9CdILeVI5y.jpg" alt="Masacre en Nueva York">
+      <p class="sugerencia-titulo">Masacre en Nueva York</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  
+        
+    <a href="El Maestro Borracho II (1994).html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/1ay4svLHJBgSjz05FOfGAMQbbxS.jpg" alt="El Maestro Borracho II">
+      <p class="sugerencia-titulo">El Maestro Borracho II</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+  </div>
+</div>
+
+
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+
+    <!-- ✅ Video -->
+    <source id="videoSource" src="https://od.lk/s/M18zMTk3MDcxMzNf/The%20Storm%20Riders%201998%201080P%20%20%20Movie%20Hunter%28720P_HD%29.mp4" type="video/mp4" />
+
+    <!-- ✅ Subtítulos en español (activados por defecto) -->
+    <track
+      src="https://od.lk/s/M18zMTk3MDgxNTBf/%5BSubtitleTools.com%5D%20Stormriders%20%5B1998%5D%5B720p%5D%5BBluRay%5D-EPiK.esp.vtt"
+      kind="subtitles"
+      srclang="es"
+      label="Español"
+      default>
+
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">The Storm Riders</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon">
+        
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ 
+<script>
+
+window.movieId = "the-storm-riders-2137";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // ✅ Obtener instancia de Video.js
+  const player = video?.player || (videojs.getPlayer ? videojs.getPlayer("video") : null);
+
+  if (!player) {
+    alert("No se encontró el reproductor.");
+    return;
+  }
+
+  const currentSrc = player.currentSrc();
+  if (!currentSrc) {
+    alert("No se encontró el enlace del video.");
+    return;
+  }
+
+  // ✅ Buscar subtítulos en el <video>
+  const track = video.querySelector("track[kind='subtitles']");
+  let subtitleUrl = "";
+  let subtitleLang = "es";
+
+  if (track) {
+    subtitleUrl = track.src;
+    subtitleLang = track.srclang || "es";
+  }
+
+  // ✅ Construir link con subtítulos (si existen)
+  let appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
+
+  if (subtitleUrl) {
+  appLink +=
+    "&subtitles_url=" + encodeURIComponent(subtitleUrl) +
+    "&subtitles_lang=" + encodeURIComponent(subtitleLang) +
+    "&subtitles_label=" + encodeURIComponent("Español") +
+    "&subtitles_default=true";
+}
+
+  const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
+
+  const transmitLink = document.createElement("a");
+  transmitLink.href = appLink;
+  transmitLink.style.display = "none";
+  document.body.appendChild(transmitLink);
+
+  let appOpened = false;
+  transmitLink.click();
+
+  setTimeout(() => {
+    if (!appOpened) {
+      window.location.href = storeLink;
+    }
+    document.body.removeChild(transmitLink);
+  }, 1000);
+
+  window.addEventListener("blur", () => {
+    appOpened = true;
+  }, { once: true });
+}
+
+
+
+const mainTitle = document.querySelector(".title").textContent.trim();
+const subTitle = document.getElementById("episodeSubtitle").textContent.trim();
+const moviePoster = document.getElementById("favoritoImagen").src;
+const movieLink = document.getElementById("favoritoEnlace").href;
+
+
+
+
+
+</script>
+
+<script src="../share.js"></script>
+<script type="module" src="../player-peliculas-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

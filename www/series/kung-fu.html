@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Kung Fu</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMjA5NDA1MDRf/kung%20fu%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMjA5NDA1MTRf/kung%20fu%20fondo.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Kung Fu</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/5NpvS6gy30qW8b0I7ayNzUrfdyw.png" alt="Kung Fu Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+   3 temporadas   1972   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Kung Fu" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/e3JxqeCqI59a0Dy8T8AJeqkhKGg.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="kung-fu.html"></a>
+          <span id="nombre">Kung Fu</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Las aventuras de un monje shaolín que viaja través del Viejo Oeste de los Estados Unidos usando como únicas armas su destreza en artes marciales y la fuerza interior de su filosofía de vida.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="kung-fu-la-leyenda-continua.html">
+          <img src="https://image.tmdb.org/t/p/w300/ncY99oMyS8kZvFcloSV4WNxqYjE.jpg" alt="Kung Fu: la leyenda continúa" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Kung Fu: la leyenda continúa</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="back.html">
+          <img src="https://image.tmdb.org/t/p/w300/aQW08vw2nmKJUng3jqWGSAp7Esg.jpg" alt="Back" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Back</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="paper-moon.html">
+          <img src="https://image.tmdb.org/t/p/w300/i87ywDMKZMKh1gAWwTkmAKAjExG.jpg" alt="Paper Moon" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Paper Moon</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="close-to-the-enemy.html">
+          <img src="https://image.tmdb.org/t/p/w300/6rNoOXWkLSashLBghm85Yf46Kht.jpg" alt="Close to the Enemy" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Close to the Enemy</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDU2NzkyMTRf/Kung%2BFu%2BT01E01.SeriesRetro.com.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Kung Fu</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+  <script src="../share.js"></script>
+<script>
+
+const seriesId = "kung-fu-1472";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+  {
+    "season": "Temporada 1",
+    "episodes": [
+    {
+      "title": "E1: Episodio 1",
+      "meta": "13+ · 48m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xWvQXLZMP5a4amAsTKtbethcrHk.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2NzkyMTRf/Kung%2BFu%2BT01E01.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2NzkyMTRf/Kung%2BFu%2BT01E01.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E1: Episodio 1",
+      "hiddenCode": "T1 E1",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E2: Episodio 2",
+      "meta": "13+ · 51m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/vzFLoAOpuCn6fVfLzokYKkEW7Cy.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2Nzk1NzBf/Kung%2BFu%2BT01E02.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2Nzk1NzBf/Kung%2BFu%2BT01E02.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E2: Episodio 2",
+      "hiddenCode": "T1 E2",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E3: Episodio 3",
+      "meta": "13+ · 50m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/oNGT87pnH8KzGOjF3Oh0MBV0GYS.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2Nzk3MTBf/Kung%2BFu%2BT01E03.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2Nzk3MTBf/Kung%2BFu%2BT01E03.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E3: Episodio 3",
+      "hiddenCode": "T1 E3",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E4: Episodio 4",
+      "meta": "13+ · 50m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/6jRs8uRM02IsRdecPhLslowuAJ.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2Nzk5NDRf/Kung%2BFu%2BT01E04.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2Nzk5NDRf/Kung%2BFu%2BT01E04.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E4: Episodio 4",
+      "hiddenCode": "T1 E4",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E5: Episodio 5",
+      "meta": "13+ · 49m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xP2fmjKF0Iy0UWbsWP47J9akWB7.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODAwMzBf/Kung%2BFu%2BT01E05.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODAwMzBf/Kung%2BFu%2BT01E05.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E5: Episodio 5",
+      "hiddenCode": "T1 E5",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E6: Episodio 6",
+      "meta": "13+ · 49m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/524aChC8n0uZxXcMaUP6aQaT3D0.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODAxMTVf/Kung%2BFu%2BT01E06.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODAxMTVf/Kung%2BFu%2BT01E06.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E6: Episodio 6",
+      "hiddenCode": "T1 E6",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E7: Episodio 7",
+      "meta": "13+ · 50m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/wz1lCRqmCpIavuV72PJ2rdnXpdx.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODAyNDRf/Kung%2BFu%2BT01E07.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODAyNDRf/Kung%2BFu%2BT01E07.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E7: Episodio 7",
+      "hiddenCode": "T1 E7",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E8: Episodio 8",
+      "meta": "13+ · 50m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qbeQb7yqngTHsKkVoRYNBtlJfPH.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODAzNzVf/Kung%2BFu%2BT01E08.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODAzNzVf/Kung%2BFu%2BT01E08.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E8: Episodio 8",
+      "hiddenCode": "T1 E8",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E9: Episodio 9",
+      "meta": "13+ · 50m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xkxNtMdjHhb5pELKC4hJrOKPo0I.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODA1NjNf/Kung%2BFu%2BT01E09.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODA1NjNf/Kung%2BFu%2BT01E09.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E9: Episodio 9",
+      "hiddenCode": "T1 E9",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E10: Episodio 10",
+      "meta": "13+ · 48m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cf9BBWRmyowCxnzr8s6SzV1IDhW.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODA4MDJf/Kung%2BFu%2BT01E10.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODA4MDJf/Kung%2BFu%2BT01E10.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E10: Episodio 10",
+      "hiddenCode": "T1 E10",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E11: Episodio 11",
+      "meta": "13+ · 49m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/d1UfFx2YC8yWQwAq6Y480xc95Wi.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODEwMjBf/Kung%2BFu%2BT01E11.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODEwMjBf/Kung%2BFu%2BT01E11.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E11: Episodio 11",
+      "hiddenCode": "T1 E11",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E12: Episodio 12",
+      "meta": "13+ · 51m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xx4rPjnTqsjf6OTjSLfXKD0RpRz.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODExMjVf/Kung%2BFu%2BT01E12.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODExMjVf/Kung%2BFu%2BT01E12.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E12: Episodio 12",
+      "hiddenCode": "T1 E12",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E13: Episodio 13",
+      "meta": "13+ · 49m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/2EhOg968QyVB5dZvJ1GFS4pbxiY.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODEyMDdf/Kung%2BFu%2BT01E13.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODEyMDdf/Kung%2BFu%2BT01E13.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E13: Episodio 13",
+      "hiddenCode": "T1 E13",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E14: Episodio 14",
+      "meta": "13+ · 50m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/wYYQjBSN00Alcs0qJgrboH2LShU.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODEzNzVf/Kung%2BFu%2BT01E14.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODEzNzVf/Kung%2BFu%2BT01E14.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E14: Episodio 14",
+      "hiddenCode": "T1 E14",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E15: Episodio 15",
+      "meta": "13+ · 51m · 1972",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/4JFpKeOfnzHkKbnSp7CMcLHotLh.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU2ODE1NzFf/Kung%2BFu%2BT01E15.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU2ODE1NzFf/Kung%2BFu%2BT01E15.SeriesRetro.com.mp4",
+      "episodeCode": "T1 E15: Episodio 15",
+      "hiddenCode": "T1 E15",
+      "intro": { "start": 0, "end": 0 }
+    }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+      "title": "E1: Episodio 1",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/6Nytct2pitBvWq1GMl5BW5FvKJI.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTMyOTZf/KF.2X1.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTMyOTZf/KF.2X1.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E1: Episodio 1",
+      "hiddenCode": "T2 E1",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E2: Episodio 2",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/3RXVxY3EBCl2aQHnMASeGSp5rs1.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM0NDNf/KF.2X2.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM0NDNf/KF.2X2.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E2: Episodio 2",
+      "hiddenCode": "T2 E2",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E3: Episodio 3",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/lj7F4EpJYPVSyDuR3ZEJbGSfKCv.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM2NDFf/KF.2X3.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM2NDFf/KF.2X3.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E3: Episodio 3",
+      "hiddenCode": "T2 E3",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E4: Episodio 4",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1En7ETZDZVOPhGqNqjGesvyb4D9.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM3NTBf/KF.2X4.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM3NTBf/KF.2X4.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E4: Episodio 4",
+      "hiddenCode": "T2 E4",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E5: Episodio 5",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/thRMsWPNogRGGQdS1YlITWC7YCF.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM3OTBf/KF.2X5.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM3OTBf/KF.2X5.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E5: Episodio 5",
+      "hiddenCode": "T2 E5",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E6: Episodio 6",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/k6He2WsdGZ7We7NLJlEiizePL0z.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM4MzJf/KF.2X6.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM4MzJf/KF.2X6.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E6: Episodio 6",
+      "hiddenCode": "T2 E6",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E7: Episodio 7",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/oxasBBdEpjyB42yzB0mFPPNDFvv.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM4Mzlf/KF.2X7.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM4Mzlf/KF.2X7.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E7: Episodio 7",
+      "hiddenCode": "T2 E7",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E8: Episodio 8",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/jHEEFNPqoMinwxwLW7AvISdK7Nr.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM4NDhf/KF.2X8.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM4NDhf/KF.2X8.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E8: Episodio 8",
+      "hiddenCode": "T2 E8",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E9: Episodio 9",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/4DZrjQuxcYuPz9ARlcclWKRlGRz.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM4NjVf/KF.2X9.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM4NjVf/KF.2X9.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E9: Episodio 9",
+      "hiddenCode": "T2 E9",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E10: Episodio 10",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/sZLqynUnLiG680sWpXwVM48XhCN.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM5NDFf/KF.2X10.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM5NDFf/KF.2X10.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E10: Episodio 10",
+      "hiddenCode": "T2 E10",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E11: Episodio 11",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/g4Ali31yABlTRnQL9jOYEud4jjX.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTM5ODBf/KF.2X11.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTM5ODBf/KF.2X11.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E11: Episodio 11",
+      "hiddenCode": "T2 E11",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E12: Episodio 12",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/2Z1dmpZpIgcxPT3u9FHWmdUT9Dw.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQwNTBf/KF.2X12.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQwNTBf/KF.2X12.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E12: Episodio 12",
+      "hiddenCode": "T2 E12",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E13: Episodio 13",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cDYgNKHU6VxSGxMnXDROhov6akN.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQxNDlf/KF.2X13.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQxNDlf/KF.2X13.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E13: Episodio 13",
+      "hiddenCode": "T2 E13",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E14: Episodio 14",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cKUqRuzpG0gisJ3RLdQjX4WX5pQ.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQyNDFf/KF.2X14.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQyNDFf/KF.2X14.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E14: Episodio 14",
+      "hiddenCode": "T2 E14",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E15: Episodio 15",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/wP40Hi8gCP9shoNrj8C61YCbOj3.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQzMTNf/KF.2X15.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQzMTNf/KF.2X15.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E15: Episodio 15",
+      "hiddenCode": "T2 E15",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E16: Episodio 16",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/srDfNHMgOmh9PdQEPxmuXEr2fES.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ0MDdf/KF.2X16.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ0MDdf/KF.2X16.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E16: Episodio 16",
+      "hiddenCode": "T2 E16",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E17: Episodio 17",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/bAkumn5WmPJw4QDzgCYbKk0Ycji.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ0NjBf/KF.2X17.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ0NjBf/KF.2X17.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E17: Episodio 17",
+      "hiddenCode": "T2 E17",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E18: Episodio 18",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/q5l28J8G8GiepSjmTuDUhfW1elx.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ1NDVf/KF.2X18.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ1NDVf/KF.2X18.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E18: Episodio 18",
+      "hiddenCode": "T2 E18",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E19: Episodio 19",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/iaNmF3RW3ENWhXeOGp4JsmbHBvq.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ2NTJf/KF.2X19.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ2NTJf/KF.2X19.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E19: Episodio 19",
+      "hiddenCode": "T2 E19",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E20: Episodio 20",
+      "meta": "13+ · 60m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/dt8S3Kuw1uzzotwcrRJLEuODMwE.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ2OTdf/KF.2X20.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ2OTdf/KF.2X20.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E20: Episodio 20",
+      "hiddenCode": "T2 E20",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E21: Episodio 21",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/9tilxeweSYMyI29MMsFOWt5wZih.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ3MDRf/KF.2X21.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ3MDRf/KF.2X21.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E21: Episodio 21",
+      "hiddenCode": "T2 E21",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E22: Episodio 22",
+      "meta": "13+ · 50m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/he6d7h2Tjqn51mlTg9USBPzmIRm.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ4MTVf/KF.2X22.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4MTVf/KF.2X22.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E22: Episodio 22",
+      "hiddenCode": "T2 E22",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E23: Episodio 23",
+      "meta": "13+ · 60m · 1973",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/mop6yU3ByDJpid5ggynX1bUfaPh.jpg",
+      "videoUrl": "https://od.lk/d/M18zMDU3MTQ4Mzhf/KF.2X23.SeriesRetro.com.mp4",
+      "downloadUrl": "https://od.lk/d/M18zMDU3MTQ4Mzhf/KF.2X23.SeriesRetro.com.mp4",
+      "episodeCode": "T2 E23: Episodio 23",
+      "hiddenCode": "T2 E23",
+      "intro": { "start": 0, "end": 0 }
+    }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+    "title": "E1: Episodio 1",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iYbAUQyFjvQaslyfxchjz6nOpLI.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MTBf/KF%20-%203x01%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MTBf/KF%20-%203x01%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E1: Episodio 1",
+    "hiddenCode": "T3 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Episodio 2",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/gJRYdwdPLAq3EfBtk2YCbUZf7ml.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MTRf/KF%20-%203x02%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MTRf/KF%20-%203x02%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E2: Episodio 2",
+    "hiddenCode": "T3 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Episodio 3",
+    "meta": "13+ · 49m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tT4UaPjPAH1EGjo396iFCmoI2EM.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MjJf/KF%20-%203x03%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MjJf/KF%20-%203x03%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E3: Episodio 3",
+    "hiddenCode": "T3 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Episodio 4",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lQgej1KU4334wBKGxRPIxeZFDXU.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5Mjdf/KF%20-%203x04%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5Mjdf/KF%20-%203x04%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E4: Episodio 4",
+    "hiddenCode": "T3 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Episodio 5",
+    "meta": "13+ · 46m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ySunwL8PdEJ3KN1gfbPBTrd9Po4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5MzNf/KF%20-%203x05%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5MzNf/KF%20-%203x05%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E5: Episodio 5",
+    "hiddenCode": "T3 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Episodio 6",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/A1xkI1lJLZkTcu1xCeoTDiw70MD.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5Mzlf/KF%20-%203x06%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5Mzlf/KF%20-%203x06%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E6: Episodio 6",
+    "hiddenCode": "T3 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Episodio 7",
+    "meta": "13+ · 49m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/q8g3fGW9ak3FVwzQvqSZhpkOgej.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NDJf/KF%20-%203x07%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NDJf/KF%20-%203x07%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E7: Episodio 7",
+    "hiddenCode": "T3 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Episodio 8",
+    "meta": "13+ · 51m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fLJFMFztnAY0vsVEuGg9Ul0Bn9U.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NDZf/KF%20-%203x08%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NDZf/KF%20-%203x08%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E8: Episodio 8",
+    "hiddenCode": "T3 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Episodio 9",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/krGLK6mVUkciE7NjodMUTcwZVtz.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NTFf/KF%20-%203x09%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NTFf/KF%20-%203x09%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E9: Episodio 9",
+    "hiddenCode": "T3 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: Episodio 10",
+    "meta": "13+ · 46m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oXQ6HOG8VsKM4n9aWLgW602H9v2.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NTdf/KF%20-%203x10%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NTdf/KF%20-%203x10%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E10: Episodio 10",
+    "hiddenCode": "T3 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Episodio 11",
+    "meta": "13+ · 49m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/8ucT5KIlgtYntqfOTyQFS41Arly.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NTlf/KF%20-%203x11%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NTlf/KF%20-%203x11%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E11: Episodio 11",
+    "hiddenCode": "T3 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Episodio 12",
+    "meta": "13+ · 51m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iNVsG05MdMSrenrLedBt5byWqKs.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NjRf/KF%20-%203x12%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NjRf/KF%20-%203x12%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E12: Episodio 12",
+    "hiddenCode": "T3 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Episodio 13",
+    "meta": "13+ · 46m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/q9lpheQ9I7aiUc5KV3Jm0AB49ov.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5NzJf/KF%20-%203x13%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5NzJf/KF%20-%203x13%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E13: Episodio 13",
+    "hiddenCode": "T3 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Episodio 14",
+    "meta": "13+ · 49m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oKq6C2VZ1D2TyEfbNCYA2C4XHao.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5Nzdf/KF%20-%203x14%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5Nzdf/KF%20-%203x14%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E14: Episodio 14",
+    "hiddenCode": "T3 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: Episodio 15",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/72NPZYAKPXFhDor65MOtWxNBIeG.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5ODBf/KF%20-%203x15%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5ODBf/KF%20-%203x15%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E15: Episodio 15",
+    "hiddenCode": "T3 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: Episodio 16",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/afbGhTYxn1UiYJuuvuodpd2xV3m.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5ODVf/KF%20-%203x16%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5ODVf/KF%20-%203x16%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E16: Episodio 16",
+    "hiddenCode": "T3 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E17: Episodio 17",
+    "meta": "13+ · 51m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ksaS2V5uTJdj4gMJRRU1nFb4lMf.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5ODlf/KF%20-%203x17%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5ODlf/KF%20-%203x17%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E17: Episodio 17",
+    "hiddenCode": "T3 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E18: Episodio 18",
+    "meta": "13+ · 49m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dPmGNfiNNIoEivGUBP39T30n14l.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5OTRf/KF%20-%203x18%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5OTRf/KF%20-%203x18%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E18: Episodio 18",
+    "hiddenCode": "T3 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E19: Episodio 19",
+    "meta": "13+ · 50m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/j5RlMeN8IDadNnoxSCXpR9qJT6x.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTQ5OTlf/KF%20-%203x19%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTQ5OTlf/KF%20-%203x19%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E19: Episodio 19",
+    "hiddenCode": "T3 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E20: Episodio 20",
+    "meta": "13+ · 46m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zZPC0gFTuyxAFc7xe9rnn047rVW.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTUwMDJf/KF%20-%203x20%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTUwMDJf/KF%20-%203x20%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E20: Episodio 20",
+    "hiddenCode": "T3 E20",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E21: Episodio 21",
+    "meta": "13+ · 49m · 1974",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lFwTzRIKJImktovARAxDmD4Nn78.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTUwMjVf/KF%20-%203x21%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTUwMjVf/KF%20-%203x21%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E21: Episodio 21",
+    "hiddenCode": "T3 E21",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E22: Episodio 22",
+    "meta": "13+ · 50m · 1975",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bwDP9yvo3mlUFMCDoPuCZooII2k.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjA5NDA3NjFf/KF%20-%203x22%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjA5NDA3NjFf/KF%20-%203x22%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E22: Episodio 22",
+    "hiddenCode": "T3 E22",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E23: Episodio 23",
+    "meta": "13+ · 50m · 1975",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/fGBu8Mm8V1Ttkm7R33bexO7LBGk.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTUwMjhf/KF%20-%203x23%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTUwMjhf/KF%20-%203x23%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E23: Episodio 23",
+    "hiddenCode": "T3 E23",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E24: Episodio 24",
+    "meta": "13+ · 50m · 1975",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jt5anWq3ycbTqTQ03ijjYg8jKB0.jpg",
+    "videoUrl": "https://od.lk/d/M18zMDU3MTUwMzVf/KF%20-%203x24%20-%20SeriesRetro.com.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMDU3MTUwMzVf/KF%20-%203x24%20-%20SeriesRetro.com.mp4",
+    "episodeCode": "T3 E24: Episodio 24",
+    "hiddenCode": "T3 E24",
+    "intro": { "start": 0, "end": 0 }
+  }
+    
+    ]
+  }
+
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

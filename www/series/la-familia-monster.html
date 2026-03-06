@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>La familia Monster</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/klkP1FSKU7LPctzej1lbIKK8YW.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/cNgZbUkqhIxb2yrEKusHPOaAb4d.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">La familia Monster</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/A0R9EqWT47iL4T1iOsocY9sjWF6.png" alt="La familia Monster Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">7+    2 temporadas    1964   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="La familia Monster" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/jN2lGqCWuHkFKCJmWXg5vTs8llY.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="la-familia-monster.html"></a>
+          <span id="nombre">La familia Monster</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Una familia de monstruos amigables sufren constantes desventuras, sin entender por qué la gente reacciona de manera tan extraña con ellos </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="la-isla-de-gilligan.html">
+          <img src="https://image.tmdb.org/t/p/w300/7PjIzzCh43hNU77C8oKLdL7XXge.jpg" alt="La isla de Gilligan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">La isla de Gilligan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="los-locos-addams.html">
+          <img src="https://image.tmdb.org/t/p/w300/9eqmCtAY9d2WwafLBYXRKYepgeA.jpg" alt="Los locos Addams" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los locos Addams</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="punky-brewster.html">
+          <img src="https://image.tmdb.org/t/p/w300/zvzhXpcJhTBR2f189ZdQkemk3SS.jpg" alt="Punky Brewster" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Punky Brewster</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="the-man-from-uncle.html">
+          <img src="https://image.tmdb.org/t/p/w300/a0nMOwNZXyJrMTPoaCzJJZeT0Yl.jpg" alt="The Man from U.N.C.L.E." oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">The Man from U.N.C.L.E.</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMDU2NzYwMjlf/1x01.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">La familia Monster</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "la-familia-monster-1712";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+  "title": "E1: El baile de disfraces",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dhcDLXdz7QGg55kr8ygBelYBifJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYwMjlf/1x01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYwMjlf/1x01.mp4",
+  "episodeCode": "T1 E1: El baile de disfraces",
+  "hiddenCode": "T1 E1",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E2: Amor a primera vista",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cXbNdcqK5b6moZxOEMqUQ3FNhTM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYwNjJf/1x02..mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYwNjJf/1x02..mp4",
+  "episodeCode": "T1 E2: Amor a primera vista",
+  "hiddenCode": "T1 E2",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E3: El monstruo del parque",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2wdrgEALlwn1NoPxzRlD9elMTRL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYwNzlf/1x03..mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYwNzlf/1x03..mp4",
+  "episodeCode": "T1 E3: El monstruo del parque",
+  "hiddenCode": "T1 E3",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E4: Canción de Cuna",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4ZxckvI7W0tkznnN2EMJfHzaWbO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYxMDBf/1x04..mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYxMDBf/1x04..mp4",
+  "episodeCode": "T1 E4: Canción de Cuna",
+  "hiddenCode": "T1 E4",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E5: El pique del señor Pike",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/eL6uuXT0oTAtftkz6n1MNDZ3HzS.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYxNDdf/1x05..mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYxNDdf/1x05..mp4",
+  "episodeCode": "T1 E5: El pique del señor Pike",
+  "hiddenCode": "T1 E5",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E6: La dieta de Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/original/pYoxRcJhmGxOTc9kj2gNRyCOvSB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYxODJf/1x06..mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYxODJf/1x06..mp4",
+  "episodeCode": "T1 E6: La dieta de Herman",
+  "hiddenCode": "T1 E6",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E7: El hombre de lata",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2DwV7H4gncdC4HdA44RVoyzTttg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYyMjRf/1x07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYyMjRf/1x07.mp4",
+  "episodeCode": "T1 E7: El hombre de lata",
+  "hiddenCode": "T1 E7",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E8: El enmascarado misterioso",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gUpF77GlrxS5F0a0E8eI3MffGNl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYyOTJf/1x08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYyOTJf/1x08.mp4",
+  "episodeCode": "T1 E8: El enmascarado misterioso",
+  "hiddenCode": "T1 E8",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E9: El hermano gemelo de Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/1WKu97n18X8mPFhN96DAspYmvBi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzYzNThf/1x09.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzYzNThf/1x09.mp4",
+  "episodeCode": "T1 E9: El hermano gemelo de Herman",
+  "hiddenCode": "T1 E9",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E10: El abuelo se enamora",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jRFwe3QIWBesrKtpTAEQz1GjCEG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY0NTFf/1x10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY0NTFf/1x10.mp4",
+  "episodeCode": "T1 E10: El abuelo se enamora",
+  "hiddenCode": "T1 E10",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E11: El paseo nocturno de Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ploW3NkgzntZSCQtNpbu2x38h7V.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY0NzVf/1x11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY0NzVf/1x11.mp4",
+  "episodeCode": "T1 E11: El paseo nocturno de Herman",
+  "hiddenCode": "T1 E11",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E12: La bella durmiente",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fXKApTFruDLhZckoRQnlvIW0IWQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY0OThf/1x12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY0OThf/1x12.mp4",
+  "episodeCode": "T1 E12: La bella durmiente",
+  "hiddenCode": "T1 E12",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E13: La familia ideal",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/boaKxb9NfDCs0stMNchOQYxVodh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY1MTlf/1x13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY1MTlf/1x13.mp4",
+  "episodeCode": "T1 E13: La familia ideal",
+  "hiddenCode": "T1 E13",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E14: El abuelo se vá de casa.",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/irgGKHY41X7hKlgSx8QpWf2CWVl.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY1NTBf/1x14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY1NTBf/1x14.mp4",
+  "episodeCode": "T1 E14: El abuelo se vá de casa.",
+  "hiddenCode": "T1 E14",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E15: El rival de Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cC9u2HXCWILLTWmcx0vdU6ZGGY8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY2MTJf/1x15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY2MTJf/1x15.mp4",
+  "episodeCode": "T1 E15: El rival de Herman",
+  "hiddenCode": "T1 E15",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E16: El abuelo y el llamado de la selva",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gjx2DVaMP1j1zOU4vKa5U0xXwiF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY2NjJf/1x16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY2NjJf/1x16.mp4",
+  "episodeCode": "T1 E16: El abuelo y el llamado de la selva",
+  "hiddenCode": "T1 E16",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E17: Estrella de Basketball",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mQ4WMeYZglH0WwCitF6tj862gUI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY3MTlf/1x17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY3MTlf/1x17.mp4",
+  "episodeCode": "T1 E17: Estrella de Basketball",
+  "hiddenCode": "T1 E17",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E18: Si llama un marciano, no le contestes",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lqmMr3mZVwTVndoVpGBWzg20ZUB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY3NDVf/1x18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY3NDVf/1x18.mp4",
+  "episodeCode": "T1 E18: Si llama un marciano, no le contestes",
+  "hiddenCode": "T1 E18",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E19: El mote de Eddie",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/efvEvgbATNFyxiRHYiKliNEwyrb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY4MTVf/1x19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY4MTVf/1x19.mp4",
+  "episodeCode": "T1 E19: El mote de Eddie",
+  "hiddenCode": "T1 E19",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E20: La mascota de Eddie",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/oq6BxEvDYYLvDU3VquZj2rhFIcs.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY4NzFf/1x20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY4NzFf/1x20.mp4",
+  "episodeCode": "T1 E20: La mascota de Eddie",
+  "hiddenCode": "T1 E20",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E21: Herman no debe ir al Banco.",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/t3rKqx5Ef8nXBLqwxiQpaxnKnBh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY4OTJf/1x21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY4OTJf/1x21.mp4",
+  "episodeCode": "T1 E21: Herman no debe ir al Banco.",
+  "hiddenCode": "T1 E21",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E22: Baila conmigo Herman.",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yuNSdaiiGLeBVdFKs2UQKCC3vrR.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY5MDVf/1x22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY5MDVf/1x22.mp4",
+  "episodeCode": "T1 E22: Baila conmigo Herman.",
+  "hiddenCode": "T1 E22",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E23: Siga a ese Monster.",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7cLf619TrbN3thSCQ2hWKapY9UZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY5NjBf/1x23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY5NjBf/1x23.mp4",
+  "episodeCode": "T1 E23: Siga a ese Monster.",
+  "hiddenCode": "T1 E23",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E24: Riña entre tortólos",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p0PXNyx9a8llDoADVPCPFS8y7ok.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY5NzNf/1x24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY5NzNf/1x24.mp4",
+  "episodeCode": "T1 E24: Riña entre tortólos",
+  "hiddenCode": "T1 E24",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E25: Googie, déjate de monadas",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/41Lu7l3EiaBmGA7i8Uhiy8OfdOV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzY5ODlf/1x25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzY5ODlf/1x25.mp4",
+  "episodeCode": "T1 E25: Googie, déjate de monadas",
+  "hiddenCode": "T1 E25",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E26: Hogar dulce Hogar",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nnMFmmI10S7VFz1nxCPkuJbiE72.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcwMDFf/1x26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcwMDFf/1x26.mp4",
+  "episodeCode": "T1 E26: Hogar dulce Hogar",
+  "hiddenCode": "T1 E26",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E27: La mudanza de los Monster",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hqIgzC7PvhohfSov0Y9MWFayYnt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcwMDlf/1x27.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcwMDlf/1x27.mp4",
+  "episodeCode": "T1 E27: La mudanza de los Monster",
+  "hiddenCode": "T1 E27",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E28: Herman estrella de cine",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8IOt7jpLTz6C8tMmLlTc0TTF1CV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcwMjJf/1x28.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcwMjJf/1x28.mp4",
+  "episodeCode": "T1 E28: Herman estrella de cine",
+  "hiddenCode": "T1 E28",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E29: Herman el novato",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zBQmVl7SmAytxjJLDSjXZ8NLyEx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcwMzZf/1x29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcwMzZf/1x29.mp4",
+  "episodeCode": "T1 E29: Herman el novato",
+  "hiddenCode": "T1 E29",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E30: Los Monster del Club Campestre",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kpFQaVq10H54CLRtOGHUJo65nIp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcwNDVf/1x30.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcwNDVf/1x30.mp4",
+  "episodeCode": "T1 E30: Los Monster del Club Campestre",
+  "hiddenCode": "T1 E30",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E31: El amor llega a Mockinbird Heights",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5VVOH8dt4ksPnPpspqqOicgwuuY.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcwOTdf/1x31.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcwOTdf/1x31.mp4",
+  "episodeCode": "T1 E31: El amor llega a Mockinbird Heights",
+  "hiddenCode": "T1 E31",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E32: Herman la momia",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sC9uqwxDit6xT9gwIaUYXht0AzA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcxNTJf/1x32.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcxNTJf/1x32.mp4",
+  "episodeCode": "T1 E32: Herman la momia",
+  "hiddenCode": "T1 E32",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E33: Lyly Monster la Modelo",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jEk6gyV1JgbkVaaidjkNQqmMzan.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcxOTBf/1x33.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcxOTBf/1x33.mp4",
+  "episodeCode": "T1 E33: Lyly Monster la Modelo",
+  "hiddenCode": "T1 E33",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E34: Monster el magnífico",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jgiRGMJBnPwiAFqZRK3yv4yYEfH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzcyMzlf/1x34.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzcyMzlf/1x34.mp4",
+  "episodeCode": "T1 E34: Monster el magnífico",
+  "hiddenCode": "T1 E34",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E35: El valle verde de Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rTDGgbMhZ2fnhQrCUish19iFsCA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzczNDJf/1x35.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzczNDJf/1x35.mp4",
+  "episodeCode": "T1 E35: El valle verde de Herman",
+  "hiddenCode": "T1 E35",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E36: Herman el corredor de autos.",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sIxde5TEWyoZZrlplYfMtFnPLWo.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzc0MjFf/1x36.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzc0MjFf/1x36.mp4",
+  "episodeCode": "T1 E36: Herman el corredor de autos.",
+  "hiddenCode": "T1 E36",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E37: El aumento de sueldo de Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/72cMTX9776ODcImYks8iIfhj4Dh.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzc2MDJf/1x37.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzc2MDJf/1x37.mp4",
+  "episodeCode": "T1 E37: El aumento de sueldo de Herman",
+  "hiddenCode": "T1 E37",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E38: Galen, tienes razón, si existe tío Herman",
+  "meta": "7+ · 30m · 1964",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sy8K1taSOifchjOk4nTxCi5n8el.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzc4MzZf/1x38.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzc4MzZf/1x38.mp4",
+  "episodeCode": "T1 E38: Galen, tienes razón, si existe tío Herman",
+  "hiddenCode": "T1 E38",
+  "intro": {"start":0,"end":0}
+}
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+  "title": "E1: La psicología Infantil de Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4OeQ5ghmyLKco27FeCCjEh6sMYb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzc5NTRf/2x01.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzc5NTRf/2x01.mp4",
+  "episodeCode": "T2 E1: La psicología Infantil de Herman",
+  "hiddenCode": "T2 E1",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E2: Herman el espía",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6qXe5y4H2rFoadi1trqcixjqczN.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgwMTJf/2x02.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgwMTJf/2x02.mp4",
+  "episodeCode": "T2 E2: Herman el espía",
+  "hiddenCode": "T2 E2",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E3: Herman concurso de caballos",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5UMddWqCMFgbzpA0eBfr5iG3tbT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgxMDVf/2x03.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgxMDVf/2x03.mp4",
+  "episodeCode": "T2 E3: Herman concurso de caballos",
+  "hiddenCode": "T2 E3",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E4: Herman y el gusanillo de la fotografía",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nvpW1TlfUKnMpqb6WJQSr0n6ABX.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgxMzRf/2x04.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgxMzRf/2x04.mp4",
+  "episodeCode": "T2 E4: Herman y el gusanillo de la fotografía",
+  "hiddenCode": "T2 E4",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E5: Herman el entrenador del año",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/r3zWgoMd3EPZ4Mm5wfBPjuSNSyK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgxNTNf/2x05.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgxNTNf/2x05.mp4",
+  "episodeCode": "T2 E5: Herman el entrenador del año",
+  "hiddenCode": "T2 E5",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E6: Feliz 100 aniversario",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xSUDIE2LFMJrA1nyEUkf7gI3Fpy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgxODdf/2x06.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgxODdf/2x06.mp4",
+  "episodeCode": "T2 E6: Feliz 100 aniversario",
+  "hiddenCode": "T2 E6",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E7: Operación Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/47d6cJguQufQlKcUtTANEhaOlQb.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgyMTVf/2x07.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgyMTVf/2x07.mp4",
+  "episodeCode": "T2 E7: Operación Herman",
+  "hiddenCode": "T2 E7",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E8: El pillo de Lily",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/izzDzie8uoLhtkGlGiUDhopvZPP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgyNDNf/2x08.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgyNDNf/2x08.mp4",
+  "episodeCode": "T2 E8: El pillo de Lily",
+  "hiddenCode": "T2 E8",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E9: John Doe Monster",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a2RypB9M7db4QQZGHBi5M2N3jD5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgyNjBf/2x09.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgyNjBf/2x09.mp4",
+  "episodeCode": "T2 E9: John Doe Monster",
+  "hiddenCode": "T2 E9",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E10: Un hombre para Marilyn",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a6Lu6oR1UnkiBXtA1nrvBQbNU2e.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgyOTlf/2x10.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgyOTlf/2x10.mp4",
+  "episodeCode": "T2 E10: Un hombre para Marilyn",
+  "hiddenCode": "T2 E10",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E11: El exámen de conducir de Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/n4FDmodF3SzpQdpfUL3snHu79cK.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzgzMjlf/2x11.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzgzMjlf/2x11.mp4",
+  "episodeCode": "T2 E11: El exámen de conducir de Herman",
+  "hiddenCode": "T2 E11",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E12: Acabará el éxito con Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yk7KKf2N6RSlzzshSReobcR1xi7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg0MTNf/2x12.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg0MTNf/2x12.mp4",
+  "episodeCode": "T2 E12: Acabará el éxito con Herman",
+  "hiddenCode": "T2 E12",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E13: Monster bajo el suelo",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/liZIHztc4GQtyB2SKEBN9MxbB9g.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg0Nzdf/2x13.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg0Nzdf/2x13.mp4",
+  "episodeCode": "T2 E13: Monster bajo el suelo",
+  "hiddenCode": "T2 E13",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E14: El tesoro del pájaro burlón",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nMU58xnGR6WOPIvPaLCqCGv6ZeG.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg0OTlf/2x14.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg0OTlf/2x14.mp4",
+  "episodeCode": "T2 E14: El tesoro del pájaro burlón",
+  "hiddenCode": "T2 E14",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E15: La paz ofensiva de Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cUU54Qs0VIDQSIElSIWkCGNSZnJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg1Nzdf/2x15.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg1Nzdf/2x15.mp4",
+  "episodeCode": "T2 E15: La paz ofensiva de Herman",
+  "hiddenCode": "T2 E15",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E16: Herman acierta a un ganador",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uVmNh584YzBy6svloT5XkM4Pxbv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg2NTFf/2x16.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg2NTFf/2x16.mp4",
+  "episodeCode": "T2 E16: Herman acierta a un ganador",
+  "hiddenCode": "T2 E16",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E17: Otra cara bonita",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ropQTb1yZuRveSBxPHMjv6hOsAj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg3MzJf/2x17.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg3MzJf/2x17.mp4",
+  "episodeCode": "T2 E17: Otra cara bonita",
+  "hiddenCode": "T2 E17",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E18: El gran jefe Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3zjAoU5x8IzmksKRaa7yvMm3Fhj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg3NzJf/2x18.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg3NzJf/2x18.mp4",
+  "episodeCode": "T2 E18: El gran jefe Herman",
+  "hiddenCode": "T2 E18",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E19: La vampireza más guapa del mundo",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gWoeHixFlTadVlAXJeCvjIKeeFr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg4NzFf/2x19.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg4NzFf/2x19.mp4",
+  "episodeCode": "T2 E19: La vampireza más guapa del mundo",
+  "hiddenCode": "T2 E19",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E20: La esposa perdida del abuelo",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wOW4gGRtiW1ApGWfZCecDUs12CI.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg5MzZf/2x20.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg5MzZf/2x20.mp4",
+  "episodeCode": "T2 E20: La esposa perdida del abuelo",
+  "hiddenCode": "T2 E20",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E21: La esmeralda de Fregosi",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gqSPJjY3IlZD5thtf2RZTsinbCm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg5Nzdf/2x21.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg5Nzdf/2x21.mp4",
+  "episodeCode": "T2 E21: La esmeralda de Fregosi",
+  "hiddenCode": "T2 E21",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E22: Zombo",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/624ML5ifBnYasoU2B8ZdUJfqg9E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzg5OTdf/2x22.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzg5OTdf/2x22.mp4",
+  "episodeCode": "T2 E22: Zombo",
+  "hiddenCode": "T2 E22",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E23: Cyrano de Monster",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3HJEFMAHf52d75RlHxcTBuVEOqg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkwMzNf/2x23.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkwMzNf/2x23.mp4",
+  "episodeCode": "T2 E23: Cyrano de Monster",
+  "hiddenCode": "T2 E23",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E24: Músico",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/GyJKBiSqxdvaGnLGmEKfUJSSBT.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkxMDNf/2x24.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkxMDNf/2x24.mp4",
+  "episodeCode": "T2 E24: Músico",
+  "hiddenCode": "T2 E24",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E25: Monster prehistórico",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2YnbzrWMkFrvu7luTOzyNP3RRgV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkxODVf/2x25.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkxODVf/2x25.mp4",
+  "episodeCode": "T2 E25: Monster prehistórico",
+  "hiddenCode": "T2 E25",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E26: La visita de Johann",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5wM2AmQh7gAFQP6e2KbICcdFdDD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2NzkyMThf/2x26.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2NzkyMThf/2x26.mp4",
+  "episodeCode": "T2 E26: La visita de Johann",
+  "hiddenCode": "T2 E26",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E27: El hermano de Eddie",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/32QMhRS4ngtv8YfvVAyT6mExXw6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk0MTNf/2x27.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk0MTNf/2x27.mp4",
+  "episodeCode": "T2 E27: El hermano de Eddie",
+  "hiddenCode": "T2 E27",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E28: Herman el rompe llantas",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nlQfSclQxQVbrKKtHDSTuYFKWP7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk1NTVf/2x28.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk1NTVf/2x28.mp4",
+  "episodeCode": "T2 E28: Herman el rompe llantas",
+  "hiddenCode": "T2 E28",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E29: Una casa dividida",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8YnIKS5RnuEwrOe7Mf25Q3KDc2F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk2MDBf/2x29.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk2MDBf/2x29.mp4",
+  "episodeCode": "T2 E29: Una casa dividida",
+  "hiddenCode": "T2 E29",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E30: Herman y la hermandad femenina",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5hwIle52fcx3hf8dHsuO5zFXlaW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk2MjNf/2x30.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk2MjNf/2x30.mp4",
+  "episodeCode": "T2 E30: Herman y la hermandad femenina",
+  "hiddenCode": "T2 E30",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E31: El pleito de Herman",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2PZxBz1nDT659Y52v5Grmphfx4M.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk3NzFf/2x31.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk3NzFf/2x31.mp4",
+  "episodeCode": "T2 E31: El pleito de Herman",
+  "hiddenCode": "T2 E31",
+  "intro": {"start":0,"end":0}
+},
+{
+  "title": "E32: La visita de la profesora",
+  "meta": "7+ · 30m · 1965",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qGeHT0oHky8Buj8gGRPP9a3eZso.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDU2Nzk4OThf/2x32.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDU2Nzk4OThf/2x32.mp4",
+  "episodeCode": "T2 E32: La visita de la profesora",
+  "hiddenCode": "T2 E32",
+  "intro": {"start":0,"end":0}
+}
+
+    ]
+  }
+];
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Super Campeones</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMTgxODEwNDBf/supercampeones%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/p9F1T7FQwbS9Jppv0QpmI8a575d.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Super Campeones</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://od.lk/s/M18zMTgxODExMDNf/campeones%20logo.png" alt="Super Campeones Logo" class="logo">
+    <div class="meta">13+    5 temporadas    1983    Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Super Campeones" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/onWQpt1fmu8pr0M1rsgFjtzMvsR.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="super-campeones.html"></a>
+          <span id="nombre">Super Campeones</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Oliver Atom es un joven con grandes ambiciones en el mundo futbolístico; su más grande anhelo es jugar en la Copa del Mundo con su selección.
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="super-campeones-rumbo-al-mundial-2002.html">
+          <img src="https://image.tmdb.org/t/p/w300/vN3UriDKOYWSPMOeodgHOqUBUJZ.jpg" alt="Super Campeones: Rumbo al mundial 2002" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Super Campeones: Rumbo al mundial 2002</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="super-campeones-j.html">
+          <img src="https://image.tmdb.org/t/p/w300/rhRh0tw9yML8JosqsYqQD1LoSKE.jpg" alt="Super Campeones J" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Super Campeones J</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Las Guerreras Mágicas.html">
+          <img src="https://image.tmdb.org/t/p/original/pm3hODqtNDLqucDVvakky8FrhMx.jpg" alt="Las Guerreras Mágicas (1994)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Las Guerreras Mágicas (1994)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+  id="video"
+  class="video-js vjs-default-skin"
+  preload="auto"
+  width="100%"
+  height="100%"
+  poster="https://wallpapercave.com/wp/wp5415042.jpg"
+  data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+  <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+</video>
+  <!-- Loader -->
+<div class="video-loader hidden" id="videoLoader">
+  <div class="spinner"></div>
+</div>
+
+    <!-- Aspect Ratio Label -->
+    <div id="aspectLabel" style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      display: none;
+      z-index: 9999;
+    ">
+      cover
+    </div>
+  
+   <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+  
+    <!-- Botón Omitir Intro -->
+    <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+      <span class="material-icons">fast_forward</span>
+      <span class="label">Omitir intro</span>
+    </div>
+  
+    <!-- Botón Siguiente Episodio -->
+    <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+      <div class="icon-container">
+        <svg class="circle-timer" viewBox="0 0 36 36">
+          <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+          <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+            a 15.9155 15.9155 0 1 1 0 31.831
+            a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        </svg>
+        <span class="material-icons play-icon">play_arrow</span>
+      </div>
+      <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+    </div>
+  
+    <div class="controls" id="controls">
+      <div class="top-bar">
+        <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+        <div style="display: flex; gap: 15px;">
+  
+         <!-- Botón de idioma con mini menú -->
+<!--
+<div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+  <span class="material-icons" id="langIcon">chat</span>
+  
+  <div id="langMenu" class="lang-menu">
+    <div class="lang-option" data-lang="latino">
+      <span class="check"></span> Español (Latino)
+    </div>
+    <div class="lang-option" data-lang="ingles">
+      <span class="check"></span> Inglés (Subtitulada)
+    </div>
+    <button id="langConfirmBtn">Listo</button>
+  </div>
+</div>
+-->
+  
+  <!-- Botón Cast -->
+  <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+  
+  <!-- Botón Aspect Ratio -->
+  <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+  </div>
+  </div>
+  
+      <div class="center-controls">
+        <button class="btn" onclick="skip(-10)">
+          <span class="material-icons">replay_10</span>
+        </button>
+        <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        <button class="btn" onclick="skip(10)">
+          <span class="material-icons">forward_10</span>
+        </button>
+      </div>
+  
+      <div class="bottom-bar">
+        <div id="episodeHeader">
+          <div class="title">Super Campeones</div>
+          <div class="subtitle" id="episodeSubtitle"></div>
+        </div>
+  
+        <div class="progress-container">
+          <div class="buffer-bar"></div>  <!-- ✅ Agrega esto -->
+          <input type="range" class="progress" id="progress" value="0" max="100">
+          <div class="time" id="duration">- 00:00</div>
+        </div>
+  
+        <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+        <div class="extra-controls">
+          <button class="btn" onclick="restartVideo()">
+            <span class="material-icons">skip_previous</span>
+            <span class="label">Reiniciar</span>
+          </button>
+          <button class="btn" onclick="playNextEpisode()">
+            <span class="material-icons">skip_next</span>
+            <span class="label">Sig. Epi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon">
+        
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "super-campeones-25707"; // 👈 Cámbialo por un ID único por serie
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+       {
+  "title": "E1: Ōzora e habatake (El desafío)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/azQ8xfv2KPaEQz98tpQdGTgb6E2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2NDBf/CT%20001-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2NDBf/CT%20001-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E1: Ōzora e habatake (El desafío)",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: Moero sakkā kozō (Las 2 escuelas rivales)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zpRQwa77YPLIjqober7KBoYxNmv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2NzJf/CT%20002-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2NzJf/CT%20002-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E2: Moero sakkā kozō (Las 2 escuelas rivales)",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Ashita e mukatte kikku-ofu (El nuevo equipo)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o4SOx8AkhWqZR4a1mk5Uh3isx1q.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2ODJf/CT%20003-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2ODJf/CT%20003-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E3: Ashita e mukatte kikku-ofu (El nuevo equipo)",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Bōru wa tomodachi (Mi mejor amigo)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/p5QwMD3LCypCbqHZjYa0tlzNIf8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY2OTZf/CT%20004-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY2OTZf/CT%20004-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E4: Bōru wa tomodachi (Mi mejor amigo)",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Raibaru wa doko da (Empieza el torneo)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jOZ6WNYwtWmli9bR5saJHVDeCgk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3MDdf/CT%20005-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3MDdf/CT%20005-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E5: Raibaru wa doko da (Empieza el torneo)",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: Gōru o katamero (El regreso de papá)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/lpd263I9qMcxWpEobfewup4Oka.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3MjJf/CT%20006-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3MjJf/CT%20006-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E6: Gōru o katamero (El regreso de papá)",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Unmei no rongu shuuto (El espectáculo sigue)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bgxYdocnLSZJiHae5yZIxRHxfir.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3Mzdf/CT%20007-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3Mzdf/CT%20007-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E7: Unmei no rongu shuuto (El espectáculo sigue)",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Sawayaka konbi tanjō (Un dúo perfecto)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9ICGCRFwyUqyCGRVCo6hoehNYlz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3NTFf/CT%20008-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3NTFf/CT%20008-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E8: Sawayaka konbi tanjō (Un dúo perfecto)",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Rasuto chansu ni kakero (La última oportunidad)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xN9RcMbaGF6mRVORNgyRhNg3CEL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3NjVf/CT%20009-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3NjVf/CT%20009-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E9: Rasuto chansu ni kakero (La última oportunidad)",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Yume wa Burajiru he (Llevaremos a Oliver a Brasil)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7XlJWByd88HoztTQUCNDrHyJ2kH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3Nzhf/CT%20010-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3Nzhf/CT%20010-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E10: Yume wa Burajiru he (Llevaremos a Oliver a Brasil)",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Hagure ōkami Kojirō arawaru (Episodio 11)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gUIfHDVZpkenAPWvs0WEl9GVGDZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY3OTBf/CT%20011-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY3OTBf/CT%20011-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E11: Hagure ōkami Kojirō arawaru (Episodio 11)",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: The goalkeeper (Episodio 12)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/a2Oi37CgcpssGf2GPAeNsBkWHOZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4MDJf/CT%20012-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4MDJf/CT%20012-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E12: The goalkeeper (Episodio 12)",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: The star of the 10-shirt (Episodio 13)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/AcCPcbyJKlfBiFrmV4y6b8qkSnF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4MTdf/CT%20013-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4MTdf/CT%20013-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E13: The star of the 10-shirt (Episodio 13)",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Final! Nankatsu vs. Toho (Episodio 14)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sTGwVMPCr8JqE6xab0b3rgnLm2R.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4Mjdf/CT%20014-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4Mjdf/CT%20014-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E14: Final! Nankatsu vs. Toho (Episodio 14)",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: The revenge shot (Episodio 15)",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xIsNiNsop9GPekawUHsEU0hOpLa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4MzZf/CT%20015-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como Bix-Contenido Digital en Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4MzZf/CT%20015-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como Bix-Contenido Digital en Facebook.mp4",
+  "episodeCode": "T1 E15: The revenge shot (Episodio 15)",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+     {
+  "title": "E16: El día del gran partido",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v7rytWlf4vfX5YQ9fYFElrAX2uc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4NTFf/CT%20016-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4NTFf/CT%20016-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E16: El día del gran partido",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Inicia el campeonato nacional",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/160iAnH1jgCxLzPTqhePUSlDcld.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4NjJf/CT%20017-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4NjJf/CT%20017-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E17: Inicia el campeonato nacional",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Encuentro entre capitanes",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xPHwyTHZLxbMLIf9yYx9GPUsNw5.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4NzFf/CT%20018-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4NzFf/CT%20018-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E18: Encuentro entre capitanes",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: El contraataque de Nankatsu",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/naOwccARz7PfsMoXXJ40QdU6n6G.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4ODJf/CT%20019-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4ODJf/CT%20019-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E19: El contraataque de Nankatsu",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: El disparo milagroso",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aed9VJEGhMp0GoJDw2IOUc44ITp.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY4OTBf/CT%20020-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY4OTBf/CT%20020-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E20: El disparo milagroso",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: ¡Adelante, Nankatsu!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pGqSXh4nJPAeoX8tFCsbOX7zeQx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5MDBf/CT%20021-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5MDBf/CT%20021-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E21: ¡Adelante, Nankatsu!",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: El muro impenetrable",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ovLtcJ2j7I9NOsPGUgPz2jC1QP9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5MTVf/CT%20022-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5MTVf/CT%20022-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E22: El muro impenetrable",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: ¡Corre, Tsubasa!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gwOvE4tN0yd7Jd5fNM4QcUuGWJm.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5Mjhf/CT%20023-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5Mjhf/CT%20023-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E23: ¡Corre, Tsubasa!",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Una promesa entre amigos",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8LfGnxMEWd5hiNwFtXeo1yqCxvn.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5MzZf/CT%20024-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5MzZf/CT%20024-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E24: Una promesa entre amigos",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: ¡La final del torneo!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qkR7dH5QLJwF0JyiSlVKiFjFUe1.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5NDdf/CT%20025-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5NDdf/CT%20025-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E25: ¡La final del torneo!",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Adiós, Wakabayashi",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jn3JZsJoNXOi8Z4ZGDGWBeTUxBy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzY5ODVf/CT%20026-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzY5ODVf/CT%20026-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T1 E26: Adiós, Wakabayashi",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+  "title": "E1: ¡Un nuevo desafío!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aBw4s6dzPWyV3xkVIZ2ubBqdXzW.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzcwNDlf/CT%20027-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzcwNDlf/CT%20027-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E1: ¡Un nuevo desafío!",
+  "hiddenCode": "T2 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: El regreso de Hyuga",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nBTMsGbC2n57qhPeFfHW5FnujeQ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzcwNjVf/CT%20028-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzcwNjVf/CT%20028-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E2: El regreso de Hyuga",
+  "hiddenCode": "T2 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: El espíritu del balón",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fffF5CtI15qiZcIkXJ6iMPsHvFu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzcxNjlf/CT%20029-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzcxNjlf/CT%20029-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E3: El espíritu del balón",
+  "hiddenCode": "T2 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: ¡Comienza el torneo juvenil!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3Qo59S3pesnSa71WuHIRA9ZNN0B.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzcyOTVf/CT%20030-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzcyOTVf/CT%20030-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E4: ¡Comienza el torneo juvenil!",
+  "hiddenCode": "T2 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: ¡El disparo del tigre!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qkFdNDHQkEwT8ReLBqLxav1o8O6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMDVf/CT%20031-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMDVf/CT%20031-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E5: ¡El disparo del tigre!",
+  "hiddenCode": "T2 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: El duelo continúa",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jbGN7edzgXdKkUyQbNnUVwqRZCg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMTNf/CT%20032-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMTNf/CT%20032-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E6: El duelo continúa",
+  "hiddenCode": "T2 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: ¡Victoria para Nankatsu!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2EFtTUuF6PRPNQXrwmLDIT78PBi.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMjBf/CT%20033-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMjBf/CT%20033-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E7: ¡Victoria para Nankatsu!",
+  "hiddenCode": "T2 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: La revancha",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sayZhUtVmc2GL8XsoeMhp6MQy52.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMjlf/CT%20034-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMjlf/CT%20034-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E8: La revancha",
+  "hiddenCode": "T2 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: El último gol",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fbmVil8ZOFqpEWeKfZgSPBjYRj3.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczMzRf/CT%20035-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczMzRf/CT%20035-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E9: El último gol",
+  "hiddenCode": "T2 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: ¡Hacia nuevos horizontes!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dQ64Y0gVfRBwiCsAjwVewAoL1sZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczNDdf/CT%20036-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczNDdf/CT%20036-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E10: ¡Hacia nuevos horizontes!",
+  "hiddenCode": "T2 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Un rival inesperado",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xKvgMP0Mp8FEo3EbmnH1AJuAd8o.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczNjBf/CT%20037-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczNjBf/CT%20037-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E11: Un rival inesperado",
+  "hiddenCode": "T2 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: ¡Una nueva meta!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sgmgal7nqoeFMH03Iygdh1OWiUa.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczNjZf/CT%20038-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczNjZf/CT%20038-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E12: ¡Una nueva meta!",
+  "hiddenCode": "T2 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: El sueño continúa",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vB1QHeh8Hjr0igEQhGarDM5UkUA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczNzdf/CT%20039-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczNzdf/CT%20039-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E13: El sueño continúa",
+  "hiddenCode": "T2 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: ¡Una promesa cumplida!",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kB41qVJxc0F5yi0902JluJ84eIe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczODdf/CT%20040-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczODdf/CT%20040-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E14: ¡Una promesa cumplida!",
+  "hiddenCode": "T2 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: El renacer de un campeón",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rcxWsXUUD2Z37KBWzliBZMT8461.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0MzczOTlf/CT%20041-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0MzczOTlf/CT%20041-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E15: El renacer de un campeón",
+  "hiddenCode": "T2 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+      {
+  "title": "E16: Ganaremos su beca capitán",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dNaBz7GKd89rsMtBrJ57drmuu87.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0MDhf/CT%20042-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0MDhf/CT%20042-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E16: Ganaremos su beca capitán",
+  "hiddenCode": "T2 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: Una nueva esperanza",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/k0qmAuJlO9I1pM39QnzWOfaJ3K0.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0MThf/CT%20043-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0MThf/CT%20043-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E17: Una nueva esperanza",
+  "hiddenCode": "T2 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Una promesa de hombre a hombre",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rPoJiHIN5mBx5ncygqDxQVRjebx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0MzJf/CT%20044-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0MzJf/CT%20044-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E18: Una promesa de hombre a hombre",
+  "hiddenCode": "T2 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: Una escuadra diezmada",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dt1DNUUFjhJuCKkTgUeHsnZJ7pE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0NDJf/CT%20045-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0NDJf/CT%20045-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E19: Una escuadra diezmada",
+  "hiddenCode": "T2 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Bruce encara el peligro",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hvv1HO4F4ov7zGoH8yJPGleDWxD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0NTNf/CT%20046-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0NTNf/CT%20046-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E20: Bruce encara el peligro",
+  "hiddenCode": "T2 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: La victoria de Steve",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iIgfrVzpfiXt8OD4fSdzsEsiVMg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0NjNf/CT%20047-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0NjNf/CT%20047-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E21: La victoria de Steve",
+  "hiddenCode": "T2 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Benji se arriesga",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5znuW8DAeA7RuGmCpNRponLd0VF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0NzNf/CT%20048-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0NzNf/CT%20048-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E22: Benji se arriesga",
+  "hiddenCode": "T2 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Tiempo extra bajo el sol",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/we9XCsoZHmoLnn6U91LoLKdNcfZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0ODRf/CT%20049-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0ODRf/CT%20049-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E23: Tiempo extra bajo el sol",
+  "hiddenCode": "T2 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: El gol anulado",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7R8b5nXZu2DDgPu7BPkKsCVFZAH.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc0OTZf/CT%20050-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc0OTZf/CT%20050-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E24: El gol anulado",
+  "hiddenCode": "T2 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: No vamos a perder",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8emlBYTR82AuyUXiY8ZNh4kqA8o.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1MDVf/CT%20051-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1MDVf/CT%20051-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E25: No vamos a perder",
+  "hiddenCode": "T2 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: El New Pie se defiende",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/xYnqo8uUPGqPRGRXG8yik06P62j.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1MTRf/CT%20052-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1MTRf/CT%20052-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T2 E26: El New Pie se defiende",
+  "hiddenCode": "T2 E26",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+  "title": "E1: Two Are Better Than One",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ni0KP5I1Zm4gINLKyCmfe1V2tSE.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1MjRf/CT%20053-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1MjRf/CT%20053-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E1: Two Are Better Than One",
+  "hiddenCode": "T3 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: The Duel of the Strikers",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ujjgYvnH0VZIXSMzz8PeHCZWyN7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1MzNf/CT%20054-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1MzNf/CT%20054-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E2: The Duel of the Strikers",
+  "hiddenCode": "T3 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Tears Despite Success",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/y9DDPpsJ3yGAakKTPMBLPczgZvk.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1Mzdf/CT%20055-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1Mzdf/CT%20055-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E3: Tears Despite Success",
+  "hiddenCode": "T3 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Great Departures",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i06INxOByIbehueb3y6mh06BE5J.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1NDNf/CT%20056-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1NDNf/CT%20056-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E4: Great Departures",
+  "hiddenCode": "T3 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: The New Rival",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mX1JggrfluB3KF76rLmysVCG3qg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1NDhf/CT%20057-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1NDhf/CT%20057-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E5: The New Rival",
+  "hiddenCode": "T3 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: The Shooting of the Hawk",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/Ab7b0kfA7NqmLD9eDtMZQfngu5m.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1NTRf/CT%20058-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1NTRf/CT%20058-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E6: The Shooting of the Hawk",
+  "hiddenCode": "T3 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Nankatsu vs. Otomo",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/2owYWfPcPNMIj3dHY7t1tDUxQ4I.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1NTlf/CT%20059-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1NTlf/CT%20059-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E7: Nankatsu vs. Otomo",
+  "hiddenCode": "T3 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Tsubasa vs. Nitta",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g6FiHWIOz1EHumvIKXTxPEuPIIf.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1NjVf/CT%20060-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1NjVf/CT%20060-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E8: Tsubasa vs. Nitta",
+  "hiddenCode": "T3 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: A Hard Comparison",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iuA8zGLJQ53WKRG2UQYyhmu7cQr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1NzJf/CT%20061-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1NzJf/CT%20061-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E9: A Hard Comparison",
+  "hiddenCode": "T3 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: The Challenge",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7Nz8ORotC22MdN0i5yIw2ZlXhMx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1ODBf/CT%20062-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1ODBf/CT%20062-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E10: The Challenge",
+  "hiddenCode": "T3 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Decisions",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/v9TtBszs9vgU73pN8woAZqBTuih.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1ODZf/CT%20063-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1ODZf/CT%20063-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E11: Decisions",
+  "hiddenCode": "T3 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: Race Against Time",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tfU39awvgCYptBmFkmm9SUSxZUe.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1OTFf/CT%20064-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1OTFf/CT%20064-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E12: Race Against Time",
+  "hiddenCode": "T3 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: The Journey to Europe",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g96cxddUNIZQyCdkkKjK3Rym0SF.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc1OTlf/CT%20065-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc1OTlf/CT%20065-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E13: The Journey to Europe",
+  "hiddenCode": "T3 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: The Duel",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5mexQbbmgwh6nP5lIrsXNtkM6iO.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc2MDJf/CT%20066-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc2MDJf/CT%20066-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E14: The Duel",
+  "hiddenCode": "T3 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: A King Resigns",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sKuv6MPfimpElSBfp7z7MU4k1Gg.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Mzc2MTVf/CT%20067-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Mzc2MTVf/CT%20067-%E2%9A%94%EF%B8%8F-Encu%C3%A9ntranos%20como%20Bix-Contenido%20Digital%20en%20Facebook.mp4",
+  "episodeCode": "T3 E15: A King Resigns",
+  "hiddenCode": "T3 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+     {
+  "title": "E16: The Letter",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ogWqvPWbEQdzR5oA7KMMHst1K42.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E16: The Letter",
+  "hiddenCode": "T3 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: The National Championship",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/74Tqfw89RYcKQWkl66tv3GT7QHr.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E17: The National Championship",
+  "hiddenCode": "T3 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: A Strong Enemy",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dsXvpxKYjW65QvBxVkAkHLfZmWj.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E18: A Strong Enemy",
+  "hiddenCode": "T3 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: The Shot From a Distance",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bOZasn7cfeXLWvPexvN5m4WcUyE.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E19: The Shot From a Distance",
+  "hiddenCode": "T3 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Letter From Wakabayashi",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/99VGw6WN11O6JVCQI2KpIkE9k0w.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E20: Letter From Wakabayashi",
+  "hiddenCode": "T3 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Sharpen the Fangs, Ferocious Tiger – Kojirō",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/f6AZ4u6IKU1EenTKqKOIaEUDG9v.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E21: Sharpen the Fangs, Ferocious Tiger – Kojirō",
+  "hiddenCode": "T3 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Aim for V3! The Turbulent Opening",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/o0kVDSUvRTiv53Ux9O5ZKuWbWLK.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E22: Aim for V3! The Turbulent Opening",
+  "hiddenCode": "T3 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Decide It! Drive Shoot",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/s9NXkcbnBdr5ERgQXX2EkRXVTXy.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E23: Decide It! Drive Shoot",
+  "hiddenCode": "T3 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: Prevent It! The Deadly Razor Shoot",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6D7dGnNtif4bgpdnxgrnYhiYa0L.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E24: Prevent It! The Deadly Razor Shoot",
+  "hiddenCode": "T3 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: It's Out! Sky Love Hurricane",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cmWbyMPSw5EbfaEqrtcuSJ7Yr44.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E25: It's Out! Sky Love Hurricane",
+  "hiddenCode": "T3 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Tsubasa, Fly Higher Than Anyone",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wgy9zuz225xjKxUMTDKLloqNEcE.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T3 E26: Tsubasa, Fly Higher Than Anyone",
+  "hiddenCode": "T3 E26",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+      "title": "E1: An Uneventful Match",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/m9i6PSa18KN3BaJHaL1orMP1BAX.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E1: An Uneventful Match",
+      "hiddenCode": "T4 E1",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E2: Tsugito's Trick Box",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/xnEPkyXPm0txGSqQ0OAflQy7ltk.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E2: Tsugito's Trick Box",
+      "hiddenCode": "T4 E2",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E3: A Falcon with Lame Wings",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/ioE3gI8y4rnDW1CQtf4j40ygrN7.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E3: A Falcon with Lame Wings",
+      "hiddenCode": "T4 E3",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E4: A Special Shot",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/b9V57V8qabI8jytFQsJAMTjVFu9.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E4: A Special Shot",
+      "hiddenCode": "T4 E4",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E5: The Fight Continues",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/87aVxxkeKnb7iiO6ayswTBo26qx.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E5: The Fight Continues",
+      "hiddenCode": "T4 E5",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E6: Teamwork",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/pvjnCvzBhAKGaktJzR7yYfBsE9O.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E6: Teamwork",
+      "hiddenCode": "T4 E6",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E7: Match Preparations",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/mvg1EiPZcApYAoX3vHczXbVo9OB.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E7: Match Preparations",
+      "hiddenCode": "T4 E7",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E8: Help Cry to the Substitutes’ Bench",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/wsvz8MKzynp7vfYALCCFDr7TKeZ.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E8: Help Cry to the Substitutes’ Bench",
+      "hiddenCode": "T4 E8",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E9: The Present for the Captain",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/bOYqd5VyWxqKxqhR8rd1R0HbNXC.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E9: The Present for the Captain",
+      "hiddenCode": "T4 E9",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E10: Top Performance",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/z071vlJmF3YzBiGw6lsR8BLc8R2.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E10: Top Performance",
+      "hiddenCode": "T4 E10",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E11: The Letter from Europe",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cadWx9nTAt9PWolkKMPA2XrgWDW.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E11: The Letter from Europe",
+      "hiddenCode": "T4 E11",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E12: Who Will Be Chosen",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/cIBebi3wfXXMnbbwVt8RjIxs3qh.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E12: Who Will Be Chosen",
+      "hiddenCode": "T4 E12",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E13: Where Love Falls",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/isy04TgFGgPGx2T5K9iFLFZteyC.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E13: Where Love Falls",
+      "hiddenCode": "T4 E13",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E14: The Attack Headlong",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/q4pwpEDeLjrITUnxevvlWmkcNN2.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E14: The Attack Headlong",
+      "hiddenCode": "T4 E14",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E15: Fairness Goes First",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/lpjRAcvZyhiWTGa7JjAzDZGGQoK.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E15: Fairness Goes First",
+      "hiddenCode": "T4 E15",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E16: The Attack",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/trr0RKIoxOIQ5FVgvX447GvH2t7.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E16: The Attack",
+      "hiddenCode": "T4 E16",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E17: A Captain as Hero",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/8g1QnDeJl0qE35seoSav1qlX24j.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E17: A Captain as Hero",
+      "hiddenCode": "T4 E17",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E18: Bitter Tears",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/2gX7hiIvxTZRSQomgOZoL6T4IE.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E18: Bitter Tears",
+      "hiddenCode": "T4 E18",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E19: Hyuga's Challenge",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1bCwNnRULRRCYWUPO5H8UnfzBHL.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E19: Hyuga's Challenge",
+      "hiddenCode": "T4 E19",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E20: Feverish Ravings",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/8v5jwUYEn0Ce4WWmlE0Z8ngdmgT.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E20: Feverish Ravings",
+      "hiddenCode": "T4 E20",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E21: Matchwinner Tsubasa",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/s79G4fWbM57SmHt1KRxG9AglQIG.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E21: Matchwinner Tsubasa",
+      "hiddenCode": "T4 E21",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E22: Surprise in Field",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/qmBaWdqCClSmexlh8ErCG2fkFxR.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E22: Surprise in Field",
+      "hiddenCode": "T4 E22",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E23: Tsubasa vs. Pierre, a Fair Fight",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/sukvMcPjGfCX840t0bAcJA1sRJ3.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E23: Tsubasa vs. Pierre, a Fair Fight",
+      "hiddenCode": "T4 E23",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E24: The Might of the Kaiser",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/7gb3vY5CCsl5eAJbr9bq5VKmyr5.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E24: The Might of the Kaiser",
+      "hiddenCode": "T4 E24",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E25: Unexpected Visit",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/17lscpIGyho4kqDPBBYyEYKjbWQ.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E25: Unexpected Visit",
+      "hiddenCode": "T4 E25",
+      "intro": { "start": 0, "end": 0 }
+    },
+    {
+      "title": "E26: An Impossible Recovery",
+      "meta": "NR · 25m · 1983",
+      "thumbnail": "https://image.tmdb.org/t/p/w300/1N36OeYuhsAaP7NQyWJr9r5riSd.jpg",
+      "videoUrl": "",
+      "downloadUrl": "",
+      "episodeCode": "T4 E26: An Impossible Recovery",
+      "hiddenCode": "T4 E26",
+      "intro": { "start": 0, "end": 0 }
+    }
+    ]
+  },
+  {
+    "season": "Temporada 5",
+    "episodes": [
+     {
+  "title": "E1: The Last Fight Begins",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/yXSM1lhtR0igd6QaTJ0vzaZkd6k.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E1: The Last Fight Begins",
+  "hiddenCode": "T5 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: The Great Final",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3J33OgpdIo2bO7NB1JdNFjd2pek.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E2: The Great Final",
+  "hiddenCode": "T5 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: Nankatsu Is Down",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nOM4VyMHUguZvTTwQbjwzp17pml.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E3: Nankatsu Is Down",
+  "hiddenCode": "T5 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Don’t Give Up",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9LKaXO17gHDJ35gLcXHtCb0CKdo.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E4: Don’t Give Up",
+  "hiddenCode": "T5 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: The Tiger Fights Alone",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/65BF4YXKDt9uyvuqRt35uHUH8Ao.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E5: The Tiger Fights Alone",
+  "hiddenCode": "T5 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: A Desperate Fight",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/hFrKM6vXxVOn6qmTsy3bNnUzYzl.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E6: A Desperate Fight",
+  "hiddenCode": "T5 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Miraculous Drive Shoot",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vgytvbkBsnfI961vmwbWew0q8a5.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E7: Miraculous Drive Shoot",
+  "hiddenCode": "T5 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: Hyuga & Kojirō’s Counter-attack",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/npNYelcTWoFq6YQoUK0RXAub6Pd.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E8: Hyuga & Kojirō’s Counter-attack",
+  "hiddenCode": "T5 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Thrill",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/g8Gf1QOw77nCfDQ0o7jtLWDBHJp.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E9: Thrill",
+  "hiddenCode": "T5 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: Keep on Fighting",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9zCdJgTKWOfAJ0gtO1ZySESRSA.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E10: Keep on Fighting",
+  "hiddenCode": "T5 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: Dream Goal",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ejvTBY8xB1zZhtAQnygJUqVkbmj.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E11: Dream Goal",
+  "hiddenCode": "T5 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: On Knife’s Edge",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5Xc0Cl5KEKWIo1So9MXHr2TCs6Q.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E12: On Knife’s Edge",
+  "hiddenCode": "T5 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: With All Power",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/53rExPUlV5s6M54i3H0RX6wEjmh.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E13: With All Power",
+  "hiddenCode": "T5 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: It’s Getting Exciting",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/gx8k1QGtzzU0q2vC1CKmSBa0a6H.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E14: It’s Getting Exciting",
+  "hiddenCode": "T5 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: The Unsuccessful Tiger Shot",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6XvIrAZNiatXGtJdfNEBg30Go0t.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E15: The Unsuccessful Tiger Shot",
+  "hiddenCode": "T5 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Still Tied",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vJtNaNXy0Rgr8qgmudyFlK6aGkM.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E16: Still Tied",
+  "hiddenCode": "T5 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: To the Last Gasp",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i5WDmlUOIJziRLD0Xxth9QWRWd9.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E17: To the Last Gasp",
+  "hiddenCode": "T5 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: Just 10 Minutes Left",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/I4s4oq1exx1e8SVUNjMDcvV1ZX.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E18: Just 10 Minutes Left",
+  "hiddenCode": "T5 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: All or Nothing",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kTqToK2dp7NEKmGGhIhwgxO2z3J.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E19: All or Nothing",
+  "hiddenCode": "T5 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: In Last Minute",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fZJSBz68OL6dResmsD8ZXhnJG9J.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E20: In Last Minute",
+  "hiddenCode": "T5 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Shared Victory",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/5RrPAA8buDWqDSfesXrLLK9ARvk.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E21: Shared Victory",
+  "hiddenCode": "T5 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: Memories",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/tzEg6qqKvJI223MzbV8aktUVY0X.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E22: Memories",
+  "hiddenCode": "T5 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: Hoping for Europe",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/rcntjr7dFJiAMq792vb5ficaS7h.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E23: Hoping for Europe",
+  "hiddenCode": "T5 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: The 17 Best",
+  "meta": "NR · 25m · 1983",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/kuwpJYICOgjrAAGS3iSea6KRZKy.jpg",
+  "videoUrl": "",
+  "downloadUrl": "",
+  "episodeCode": "T5 E24: The 17 Best",
+  "hiddenCode": "T5 E24",
+  "intro": { "start": 0, "end": 0 }
+}
+    ]
+  }
+]`);
+    console.log(playlist);
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+
+</script>
+
+</body>
+</html>

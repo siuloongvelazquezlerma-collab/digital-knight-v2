@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Dr. Stone</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Ajusta la altura según sea necesario */
+    background-color: black; /* Fondo negro */
+}
+
+#black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10; /* Asegúrate de que esté por encima del video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+        .video-js {
+            width: 100%;
+            height: 100%; /* Asegura que el video ocupe todo el contenedor */
+        }
+
+        .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background: linear-gradient(to bottom, #00000069, #00000000, #00000000, #00000000, #00000000, #0000003b ),
+    url('https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+
+  
+        }
+        .horizontal-overlay {
+    display: none; /* Oculta por defecto */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(to bottom, #000000c4, #00000000, #00000000, #00000000, #00000086, #000000),
+    url('https://image.tmdb.org/t/p/original/px8w8DstjI8AOaWYqLc6BQngUvL.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+    transition: background 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+
+@media (orientation: landscape) {
+    .overlay {
+        display: none; /* Oculta la imagen principal */
+    }
+    .horizontal-overlay {
+        display: flex; /* Muestra la segunda imagen */
+    }
+}
+
+/* Media query para modo vertical */
+@media (orientation: portrait) {
+    .overlay {
+        display: flex; /* Muestra la imagen principal */
+    }
+    .horizontal-overlay {
+        display: none; /* Oculta la segunda imagen */
+    }
+}
+
+
+   
+
+
+        .container {
+    max-width: 100%;
+}
+
+.logo-container {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%; /* Cubre todo el ancho de la página */
+    background: linear-gradient(to bottom, #00000000, #00000075, #000000 ); /* Degradado lineal */
+    padding: 10px; /* Espaciado interno para que el degradado sea visible alrededor del logo */
+    text-align: center; /* Centra el logo dentro del fondo */
+}
+
+.logo {
+    width: 250px; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+    opacity: 0.0; /* Transparencia total */
+}
+
+
+
+        .tabs {
+            display: flex;
+    justify-content: flex-start; /* Alinear hacia la izquierda */
+    margin-top: 10px;
+    border-bottom: 1px solid #ffffff38;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #ff5e00; /* Borde blanco para la pestaña activa */
+            
+    font-weight: bold;
+    color: #fff; /* Color de fuente blanco */
+
+            
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .episode {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            border-left: 5px solid transparent;
+        }
+
+        .episode.watched {
+    border-left: 5px solid #ff5e00; /* Change the color as needed */
+}
+.episode.watched img {
+    filter: brightness(50%);
+}
+
+
+        .episode img {
+            width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+        
+        }
+
+        .duration-label {
+            position: absolute;
+            bottom: 3px;
+            right: 190px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .episode-description {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+            font-weight: bold;
+            top: -15px;
+        }
+        .episode-title {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+        }
+        .download-button, .mark-watched-button {
+            padding-bottom: 10px;
+            right: 10px;
+            bottom: 0px;
+            color: white;
+            font-size: 17px;
+            padding: 5px 10px 5px;
+            cursor: pointer;
+            position: absolute;
+        }
+        .duration, .remaining-time {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+        .season-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    position: relative;
+    border-bottom: 1px solid #ffffff38;
+    bottom: 10px;
+}
+
+.season-dropdown select {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.season-dropdown .material-icons {
+    margin-left: -215px; /* Ajusta la posición del icono */
+    pointer-events: none;
+    
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px; /* Espacio entre el dropdown de temporadas y el menú desplegable */
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0; /* Despliega hacia abajo a la izquierda */
+}
+
+.menu-dropdown button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-dropdown button:hover {
+    background-color: #575757;
+}
+
+        .download-all-button {
+    margin-left: 220px;
+    background: none;
+    color: white; /* Texto blanco para el botón de descarga */
+    font-size: 13px; /* Tamaño del texto del botón */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.download-all-button .material-icons {
+    margin-left: 20px; /* Espaciado entre el texto y el icono */
+    font-size: 17px;
+    border-bottom: 0.5px solid white; /* Grosor de la línea */
+  width: 17px; /* Ajusta el ancho de la línea */
+  text-align: center;
+}
+.suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre las imágenes */
+        }
+        .suggestion-item {
+            position: relative;
+        }
+        .suggestion-item img {
+            width: 100%;
+            height: auto;
+        }
+        .suggestion-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .suggestion-item:hover a {
+            opacity: 1;
+        }
+
+        /* Estilos para la animación de deslizamiento */
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, #000000, #00000069, #00000000);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .header.scrolled {
+            background: linear-gradient(to bottom, #000000, #000000, #000000 );
+        }
+        .header .back-arrow, .header .cast-button {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        .header .title {
+            display: none;
+            font-size: 18px;
+            color: white;
+            margin-left: 10px;
+        }
+        .header.scrolled .title {
+            display: block;
+        }
+        .content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        .season-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        .season-navigation .material-icons {
+            margin: 10px 10px; /* Space between text and arrow */
+            align-items: center;
+        }
+        .previous-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+           
+        }
+        .next-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding-right: 10px;
+        }
+        .favorito-container {
+    display: flex;
+    justify-content: flex-start; /* Mover el botón a la izquierda */
+    align-items: center;
+    margin-top: 2px; /* Espacio superior para separar del contenido anterior */
+}
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#favoritoIcon {
+    margin-right: 5px;
+}
+
+.favorito-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.serie-descripcion {
+    margin: 20px;
+    text-align: left;
+}
+
+#detallesBtn {
+    background: none;
+    border: none;
+    color: #ff5e00;
+    padding: 0;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: bold;
+    
+}
+
+
+
+.detalles-slider {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 40px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    transition: bottom 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.detalles-slider.active {
+    bottom: 0;
+}
+
+.detalles-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    bottom: -10px;
+    top: 30%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.heading-line {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 16px;
+    font-size: 11px;
+    z-index: 1000;
+}
+
+.age-rating {
+    padding: 5px 0; /* Quitar el fondo de color general */
+    margin-top: 10px; /* Espacio entre el título y la clasificación por edad */
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.rating {
+    background-color: rgba(92, 98, 129, 0.7); /* Fondo de color solo para el número 12 y el signo de más */
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.series-text {
+    color: #78f1d3; /* Color para el texto "Series" */
+    font-size: 13px;
+    padding: 3px;
+}
+
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #202127;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+.footer-btn:hover,
+.footer-btn.active { /* Color naranja al estar activo */
+  color: #ff5e00; 
+}
+
+.footer-btn  {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 0; 
+    font-size: 0.6em;
+    transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+    font-size: 30px;
+    margin-bottom: 1px;
+}
+.footer-btn p {
+  margin: 1px 6px 9px; /* Ajusta el margen superior del texto */
+  
+ 
+}
+.notificacion {
+  position: fixed;
+  bottom: 48px; /* Ajusta la posición para que aparezca arriba del footer */
+  width: 100%;       /* La notificación ocupa todo el ancho */
+  left: 0;
+  transform: translateX(0);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1001; /* Asegúrate de que esté por encima del footer */
+  display: none; /* Inicialmente oculta */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  align-items: center;   /* Centra verticalmente */
+  justify-content: flex-start; /* Centra horizontalmente */
+  margin: 10px;
+
+}
+
+.notificacion.mostrar {
+  display: block;
+  opacity: 1;
+}
+
+.check-icon {
+  color: #4CAF50; 
+  margin-left: 10px; /* Espacio a la IZQUIERDA del icono */
+}
+
+
+
+     
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <div style="display: flex; align-items: center;">
+            <a href="go:inicio" class="back-arrow material-icons">arrow_back</a>
+            <span class="title" id="page-title">Dr. Stone</span>
+        </div>
+        <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMDk3MzM4MjFf/new%20snk%20page.html" class="cast-button material-icons">cast</a>
+    </div>
+    <div class="video-container">
+        <div id="black-overlay"></div>
+        <video id="my-video" class="video-js" controls preload="auto" data-setup="{}">
+            <source id="videoSource" src="https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4" type="video/mp4" id="video-source">
+            <p class="vjs-no-js">
+                Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+                <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+            </p>
+        </video>
+     
+        <div class="overlay" id="overlay">
+            <div class="logo-container">
+                <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+            </div>
+    </div>
+    <div class="horizontal-overlay">
+        <!-- Contenido de la segunda imagen -->
+        <div class="logo-container">
+            <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br><br>
+<div class="heading-line">
+    <h1 class="heading title">Dr. Stone</h1>
+    <div class="age-rating">
+        <span class="rating">14+</span> • <span class="series-text">Series</span> • Dob
+    </div>
+</div>
+
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="sailormoon" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="go:stone"></a>
+        <span id="nombre">Dr. Stone</span>
+    </div>
+</div>
+<div id="notificacion" class="notificacion">
+    <span class="material-icons check-icon">check_circle</span> <span id="mensajeNotificacion"></span> 
+  </div>
+<div class="serie-descripcion">
+    <p id="descripcion-texto">La historia de Dr. Stone comienza con un misterioso fenómeno que convierte a toda la humanidad
+        en piedra durante miles de años. El protagonista, Senku Ishigami, un joven prodigio en ciencias, despierta en este
+        mundo petrificado después de 3.700 años. </p>
+        <br>
+    <center><button id="detallesBtn" onclick="toggleDetalles()">DETALLES DE LA SERIE</button></center>
+</div>
+<div id="detallesSlider" class="detalles-slider">
+    <div class="detalles-content">
+        <button class="close-btn" onclick="toggleDetalles()">X</button>
+        <h2>Dr. Stone</h2>
+        <br>
+        <p>La historia de Dr. Stone comienza con un misterioso fenómeno que convierte a toda la humanidad en piedra durante
+            miles de años. El protagonista, Senku Ishigami, un joven prodigio en ciencias, despierta en este mundo petrificado
+            después de 3.700 años. Con su vasto conocimiento científico, Senku decide reconstruir la civilización desde cero,
+            partiendo de la Edad de Piedra, utilizando la ciencia para desatar los secretos del mundo y restaurar la humanidad.
+        </p>
+            <br>
+            <p> A lo largo de la serie, Senku se enfrenta a múltiples desafíos, incluyendo la naturaleza misma, la búsqueda de
+                recursos, y un conflicto con Tsukasa Shishio, un joven fuerte y carismático que tiene una visión diferente para el
+                renacimiento de la humanidad. Mientras Senku busca revivir a todas las personas, Tsukasa cree que solo los jóvenes
+                fuertes y puros deberían renacer, lo que lleva a una lucha entre ciencia y fuerza bruta.</p>
+            <br>
+
+            <p>Título: Dr. Stone</p>
+            <br>
+            <p>Género: Aventura, Ciencia ficción, Post-apocalíptico, Shonen</p>
+            <br>
+            <p>Estudio: TMS Entertainment</p>
+            <br>
+            <p>Director: Shinya Iino</p>
+            <br>
+            <p>Guionista: Yuichiro Kido (adaptación del manga escrito por Riichiro Inagaki e ilustrado por Boichi)</p>
+            <br>
+            <p>Música: Tatsuya Kato, Hiroaki Tsutsumi, Yuki Kanesaka</p>
+            <br>
+            <p>Emisión original: 5 de julio de 2019 – 13 de diciembre de 2019</p>
+            <br>
+            
+ 
+<p>Senku no está solo en su misión. Junto a él, otros personajes como Taiju Oki, su amigo de la infancia, y Yuzuriha
+    Ogawa, se unen para ayudar a reconstruir la sociedad utilizando el poder de la ciencia. La serie explora conceptos
+    científicos de manera entretenida y educativa, a la vez que presenta intensas aventuras y desafíos.</p>
+ <br>
+ <p>Personajes principales:</p>
+ <br>
+ <p>Senku Ishigami: El protagonista, un joven genio de las ciencias que tiene como objetivo restaurar la civilización humana utilizando su vasto conocimiento científico.</p>
+ <br>
+ <p>Taiju Oki: Amigo de Senku, un joven fuerte y entusiasta que ayuda a Senku con el trabajo físico.</p>
+ <br>
+ <p>Yuzuriha Ogawa: Amiga de Taiju y Senku, es hábil en las artes manuales y tiene un papel clave en las misiones del equipo.</p>
+ <br>
+ <p>Tsukasa Shishio: El principal antagonista, un poderoso luchador que tiene una visión opuesta a Senku sobre el renacimiento de la humanidad.</p>
+ <br>
+ <p>Gen Asagiri: Un mentalista que inicialmente es un espía de Tsukasa, pero que se une a Senku gracias a su astucia y habilidad para manipular.</p>
+ <br>
+ <p>Temas principales:</p>
+ <br>
+<p>La serie se centra en el poder del conocimiento, la importancia de la ciencia en el desarrollo de la civilización, y
+    el conflicto entre la evolución tecnológica y la preservación de la naturaleza. A través de sus personajes y tramas,
+    Dr. Stone ofrece una aventura única llena de enseñanzas sobre la historia de la humanidad y el impacto de los
+    descubrimientos científicos en la sociedad.
+ </p>
+ <br>
+ <p>Popularidad y críticas:
+ </p>
+ <br>
+<p>Dr. Stone ha sido elogiada por su enfoque educativo al incorporar elementos de la ciencia real en su narrativa, lo
+    que la convierte en una serie única dentro del género shonen. Los fanáticos han destacado la inteligencia de su
+    protagonista y la forma en que la serie hace que los experimentos científicos sean emocionantes y accesibles para el
+    público joven.
+ </p>
+
+ <br><br><br><br>
+            <br><br><br>
+        <!-- Agrega más detalles aquí -->
+    </div>
+</div>
+
+
+<div class="tabs slide-up">
+    <div class="tab active" data-tab="episodes">EPISODIOS</div>
+    
+    <div class="tab" data-tab="suggestions">MÁS COMO ESTO</div>
+</div>
+
+<div id="episodes" class="tab-content active">
+
+    <div class="season-dropdown">
+            <label for="season-select"></label>
+            <select id="season-select">
+                <option value="1">T1: Dr. Stone</option>
+                <option value="2">T2: Dr. Stone Season 2</option>
+                <option value="3">Special Episode - RYUSUI</option>
+                <option value="4">T3: Dr. Stone New World</option>
+              
+              
+            </select>
+            
+            <span class="material-icons">arrow_drop_down</span>
+            
+            <button class="download-all-button" id="download-all">
+                Descargar Todos <span class="material-icons">arrow_downward</span>
+            </button>
+            
+            
+        </div>
+        <div id="playlist"></div>
+    </div>
+      
+
+    <div id="suggestions" class="tab-content">
+       
+        <div class="suggestions-grid">
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/6VKOfL6ihwTiB5Vibq6QTfzhxA6.jpg" alt="dragon ball z">
+                <a href="https://od.lk/s/M18zMDk0NDMzMThf/DB%20SAGAS.html" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <!-- Agrega más sugerencias aquí -->
+        </div>
+    </div>
+    <div class="season-navigation">
+        <div class="previous-season">
+            <i class="material-icons">arrow_back</i>
+            Temporada Anterior
+        </div>
+        <div class="next-season">
+            Siguiente Temporada
+            <i class="material-icons">arrow_forward</i>
+        </div>
+    </div>
+   
+    <footer class="footer">
+        <a href="go:Inicio" class="footer-btn" id="homeBtn">
+            <span class="material-icons-outlined">home</span>
+            <p>Inicio</p>
+        </a>
+        <a href="go:favoritos" class="footer-btn" id="favoritosBtn">
+            <span class="material-icons-outlined">bookmark_outline</span>
+            <p>Favoritos</p>
+        </a>
+        <a href="go:explorar" class="footer-btn" id="explorarBtn">
+            <span class="material-icons-outlined">grid_view</span>
+            <p>Explorar</p>
+        </a>
+        <a href="http://action_profile" class="footer-btn" id="cuentaBtn">
+            <span class="material-icons-outlined">account_circle</span>
+            <p>Cuenta</p>
+        </a>
+    </footer>
+
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+    <script>
+         const playlists = {
+            1: [
+            {
+        "title": "",
+        "description": "E1: Mundo de piedra",
+        "image": "https://image.tmdb.org/t/p/w300//jNdIdz4cKsAvxJRh0QWocGaKN66.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzU0Nzhf/1%20Dr.%20stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzU0Nzhf/1%20Dr.%20stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E2: Rey del mundo de piedra",
+        "image": "https://image.tmdb.org/t/p/w300//l7BW5GPY9EcnoxBZKHXWZfEKeOA.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzU1ODlf/2%20Dr.%20stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzU1ODlf/2%20Dr.%20stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E3: Armas de la ciencia",
+        "image": "https://image.tmdb.org/t/p/w300//n5lpLE1e4njZIn0d6jmb55OWwKH.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzU3NjZf/3%20Dr.%20stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzU3NjZf/3%20Dr.%20stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E4: Dispara la señal de humo",
+        "image": "https://image.tmdb.org/t/p/w300//30pMZkqgpxvpxysB1nlOuKWWTgA.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzU4ODhf/4%20Dr.%20stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzU4ODhf/4%20Dr.%20stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E5: El principio del mundo de piedra",
+        "image": "https://image.tmdb.org/t/p/w300//mM4UPEQJhUcFp3oTAYgQW90nQDz.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzYwMzVf/5%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzYwMzVf/5%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E6: Dos países del mundo de piedra",
+        "image": "https://image.tmdb.org/t/p/w300//71MPjVE59eUssTmByfFBYC5p8ad.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzYxNTNf/6%20Dr.stone%20%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzYxNTNf/6%20Dr.stone%20%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E7: El paradero de dos millones de años",
+        "image": "https://image.tmdb.org/t/p/w300//w3Ybj8vPIEViNhvCjqmyGCj67ZT.jpg",
+        "video": "https://od.lk/s/M18zMDI2NzYzNzhf/7%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI2NzYzNzhf/7%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E8: Camino de piedra",
+        "image": "https://image.tmdb.org/t/p/w300//vgeIE6xvK8wTDH345bBsz6eMIOO.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDc3NzZf/8%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDc7NzZf/8%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E9: Que se haga la luz de la ciencia",
+        "image": "https://image.tmdb.org/t/p/w300//kVRz1t86UbFH6ILg9Lw9z1sqxL1.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDc4Mzhf/9%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDc4Mzhf/9%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E10: Una tenue alianza",
+        "image": "https://image.tmdb.org/t/p/w300//sxqp8JCFDumCKbyQvX9hgGHqxsN.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDc5MTlf/10%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDc5MTlf/10%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E11: Mundo claro",
+        "image": "https://image.tmdb.org/t/p/w300//bTpVChtIatCqNywNRdKMo1q612Z.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDgwMTNf/11%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDgwMTNf/11%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E12: Compañeros espalda con espalda",
+        "image": "https://image.tmdb.org/t/p/w300//yRZzEHHNfA9ZrxzgcxD0TS6ANJ6.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDgwODlf/12%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDgwODlf/12%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E13: Guerrero enmascarado",
+        "image": "https://image.tmdb.org/t/p/w300//9gbwAqikwaXPcOUoe9Xbr4WjlJE.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDgxOTRf/13%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDgxOTRf/13%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E14: Amo de la llama",
+        "image": "https://image.tmdb.org/t/p/w300//mtoDxCqcZJGk2tDZZlMQrOLpwaI.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDgyODhf/14%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDgyODhf/14%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E15: La culminación de 2 millones de años",
+        "image": "https://image.tmdb.org/t/p/w300//b4JdwngG7o59Pp3fOXO0oC1vZD3.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDgzNjhf/15%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDgzNjhf/15%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E16: Una historia para la eternidad",
+        "image": "https://image.tmdb.org/t/p/w300//28Yz2QuiXD0Y9QmwnumXx82Xa2t.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDg0NjNf/16%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDg0NjNf/16%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E17: Cien noches y mil cielos",
+        "image": "https://image.tmdb.org/t/p/w300//qBxFPTtuh1jIBR9SXHuKeA4Lgxq.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDg1NTlf/17%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDg1NTlf/17%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E18: Guerra de piedra",
+        "image": "https://image.tmdb.org/t/p/w300//ojACONcUoDGtDTAGdjeRhyNM38g.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDg2NzNf/18%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDg2NzNf/18%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E19: A la modernidad",
+        "image": "https://image.tmdb.org/t/p/w300//pflOejXjo7Sv6M30ONwpnR9hAzd.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDg3ODRf/19%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDg3ODRf/19%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E20: La era de la energía",
+        "image": "https://image.tmdb.org/t/p/w300//r4CvVy6gVY7WBPbZic2IPrV8Wcs.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDg4OTBf/20%20Dr.stone_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDg4OTBf/20%20Dr.stone_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E21: Club de manualidades pesadas",
+        "image": "https://image.tmdb.org/t/p/w300//vKq2lSipWkHjwz6dtzAKIiZYTya.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDg5NThf/21%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDg5NThf/21%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E22: El tesoro",
+        "image": "https://image.tmdb.org/t/p/w300//pzYT1Dynwqp99Md54mch3l9HLzE.jpg",
+        "video": "https://od.lk/s/M18zMDI3MDkwMjJf/22%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MDkwMjJf/22%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E23: Ola de ciencia",
+        "image": "https://image.tmdb.org/t/p/w300//fmsDl2bBSCy6g2WyQ6ecTjkIeOY.jpg",
+        "video": "https://od.lk/s/M18zMDI3MTI4Njlf/23%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MTI4Njlf/23%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E24: Oído a distancias infinitas",
+        "image": "https://image.tmdb.org/t/p/w300//asefdjjj0dJC5M2CpEPFLEhcCA3.jpg",
+        "video": "https://od.lk/s/M18zMDI3MTI5Mzlf/24%20Dr.stone%20_1.mp4",
+        "download": "https://od.lk/d/M18zMDI3MTI5Mzlf/24%20Dr.stone%20_1.mp4",
+        "duration": "24m"
+    }
+            ],
+            2: [
+            {
+      "title": "",
+      "description": "E1: Comienza la Stone Wars",
+      "image": "https://image.tmdb.org/t/p/w300//1sRPbZNMdbbWiZ8rjKTsLiNyYVR.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E2: Línea directa",
+      "image": "https://image.tmdb.org/t/p/w300//kyRkW4ICLl1AZwvWk5lo9IAJwQj.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E3: Los muertos llaman",
+      "image": "https://image.tmdb.org/t/p/w300//fOM5gNKdSaFAOtetiZpUUP2ZZaW.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E4: Marcha de todas las unidades",
+      "image": "https://image.tmdb.org/t/p/w300//7W3gH6WhfPED2iCimeI5zOI7yZQ.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E5: Gorila de vapor",
+      "image": "https://image.tmdb.org/t/p/w300//xdDdZDajj5l0o7sOnovnGEi7Sov.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E6: Escapar de prisión",
+      "image": "https://image.tmdb.org/t/p/w300//5wtdap5BlXlgmIIseNTSFFFhgEo.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E7: Misión secreta",
+      "image": "https://image.tmdb.org/t/p/w300//dLDk4u9n6aXCmP2TDgS4BodHYRo.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E8: Batalla final",
+      "image": "https://image.tmdb.org/t/p/w300//oZusPVxwvyvnbwfPXQAlWUox8OB.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E9: El que destruye, el que salva",
+      "image": "https://image.tmdb.org/t/p/w300//1pMkShY92cz8P4nrWAd3MlkKo9V.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E10: El dúo más fuerte de la humanidad",
+      "image": "https://image.tmdb.org/t/p/w300//8Na2zGSLtavAygx3MuAeOj651QS.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E11: Prólogo de Dr. Stone",
+      "image": "https://image.tmdb.org/t/p/w300//1ZAvZGt0teLnh4R0W9yhS3EjwK3.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+      "duration": "24m"
+    }
+        
+           ],
+           3: [
+           {
+    "title": "",
+    "description": "Dr.Stone Special episode - RYUSUI",
+    "image": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iYLB5J6Z5g4NyHQ9cwmR07B2PtQ.jpg",
+    "video": "https://od.lk/s/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+    "download": "https://od.lk/d/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+    "duration": "55m"
+  }
+        
+           ],
+           4: [
+           {
+        "title": "",
+        "description": "E1. Un nuevo mapamundi",
+        "image": "https://image.tmdb.org/t/p/w300//x3hrsz8A6WX1crKV5WLiMkvUuvo.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDYzNzJf/drstonesitoseasonss3-01.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDYzNzJf/drstonesitoseasonss3-01.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E2. Lo quiero = Virtud",
+        "image": "https://image.tmdb.org/t/p/w300//o15nnT0jmjhMfxLPn00PgkSisR7.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDYzNTRf/drrsstonsitosseasonss3-02.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDYzNTRf/drrsstonsitosseasonss3-02.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E3. Primer contacto",
+        "image": "https://image.tmdb.org/t/p/w300//7uRDjro0Z42MHQFT5AyFaUxvY6M.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDYzNjRf/drssstonsitoseasons3-03.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDYzNjRf/drssstonsitoseasons3-03.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E4. Los ojos de la ciencia",
+        "image": "https://image.tmdb.org/t/p/w300//aVA397LlFUhOTIrEt9k3F7OKk6M.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDYzOTlf/drstonsitossseason333-04.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDYzOTlf/drstonsitossseason333-04.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E5. El barco científico Perseo",
+        "image": "https://image.tmdb.org/t/p/w300//3IjMInLbkq1mygdPzWSmj6Mrdp8.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDYzODJf/drstonsitosoooseasonsss3-05.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDYzODJf/drstonsitosoooseasonsss3-05.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E6. Cofre del tesoro",
+        "image": "https://image.tmdb.org/t/p/w300//v8hh3pmeXKH4MtPFajLqOQ3Hvqr.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDY0Mjlf/stonsitonodrstonseasons3-06.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDY0Mjlf/stonsitonodrstonseasons3-06.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E7. La luz de la esperanza y la desesperación",
+        "image": "https://image.tmdb.org/t/p/w300//4fgL5cLY8SqjUOyO3KC1ycPSBaB.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDg5MjFf/stoneeedrseasonsss3-07.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDg5MjFf/stoneeedrseasonsss3-07.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E8. El as está en el barco científico",
+        "image": "https://image.tmdb.org/t/p/w300//n1yumf39DunOziTGMZWcCkgkS4b.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDg5MjRf/stonesitosdrseasons3-08.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDg5MjRf/stonesitosdrseasons3-08.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E9. Ciencia hermosa",
+        "image": "https://image.tmdb.org/t/p/w300//7LhbWIVc3mJf0cjshNwpVWJDLAQ.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDY0NDJf/stonsitosdrseasonss3-09.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDY0NDJf/stonsitosdrseasonss3-09.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E10. Guerras científicas",
+        "image": "https://image.tmdb.org/t/p/w300//7OeCecH8SqkaKXDV9aS9vyMyKQz.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDg5MjZf/stoneeesdrsitoseasons3-10.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDg5MjZf/stoneeesdrsitoseasons3-10.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E11. Haremos un milagro",
+        "image": "https://image.tmdb.org/t/p/w300//b577K4Y15J2zop96edjtQRjeG5S.jpg",
+        "video": "https://od.lk/d/M18zMDk3NDY0MTVf/stonsitodrtositoeason3-11.mp4",
+        "download": "https://od.lk/d/M18zMDk3NDY0MTVf/stonsitodrtositoeason3-11.mp4",
+        "duration": "24m"
+    },
+    {
+  "title": "",
+  "description": "E12. El reino científico contraataca",
+  "image": "https://image.tmdb.org/t/p/w300//wK4bbwqbPk1PbLljcazH6KzWVvx.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NzVf/drstunsitosss23partss2-01.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NzVf/drstunsitosss23partss2-01.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E13. El verdadero rostro de Medusa",
+  "image": "https://image.tmdb.org/t/p/w300//gTfHFLH8RNvq2KirV7aPemhzXW8.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NTZf/drrstunsitosseason22part22-02.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NTZf/drrstunsitosseason22part22-02.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E14. Maniobras intelectuales",
+  "image": "https://image.tmdb.org/t/p/w300//mHFWnsigkolhX6GyhV8Z4wb9rtp.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4ODZf/stonesssdrstosqsss3nse-03.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4ODZf/stonesssdrstosqsss3nse-03.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E15. Batalla decisiva tridimensional",
+  "image": "https://image.tmdb.org/t/p/w300//i5WrLPDOESOxntDuoJ1AqVgYR9I.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4Nzlf/drsutisosstunsitoss3seausnss-04.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4Nzlf/drsutisosstunsitoss3seausnss-04.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E16. Refriega por todo el territorio",
+  "image": "https://image.tmdb.org/t/p/w300//uJGNLytepCwHWmUXl7MjPfOtZAa.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NDZf/stunsitoodrass3seasunsss-05.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NDZf/stunsitoodrass3seasunsss-05.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E17. Joker",
+  "image": "https://image.tmdb.org/t/p/w300//6v7V8kljFknyT2NhVRsHK9tESC1.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4ODRf/druustonsitos3seas-06.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4ODRf/druustonsitos3seas-06.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E18. El resplandor de la ruina",
+  "image": "https://image.tmdb.org/t/p/w300//93wkryYnttiGIYLbBpfK1ZsRtWV.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NDFf/stuneecurouseseasunss2-07.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NDFf/stuneecurouseseasunss2-07.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E19. The last man standing",
+  "image": "https://image.tmdb.org/t/p/w300//4PlCnfRS4V6Ij8RR7qLtK2akqKW.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NzNf/drstunsitonewrowlcours2-08.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NzNf/drstunsitonewrowlcours2-08.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E20. Primer sueño",
+  "image": "https://image.tmdb.org/t/p/w300//8nhV9hoZ1k6qcUVHMZ5MV8jc0TJ.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NTNf/drrrstunsitoseasuns3-09.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NTNf/drrrstunsitoseasuns3-09.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E21. La isla del tesoro",
+  "image": "https://image.tmdb.org/t/p/w300//r2YtNnc9wgcbC6pZTrFhi5LBHpm.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NTBf/stunsitossdrsseasunpartsss2-10.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NTBf/stunsitossdrsseasunpartsss2-10.mp4",
+  "duration": "24m"
+},
+{
+  "title": "",
+  "description": "E22. Más allá del nuevo mundo",
+  "image": "https://image.tmdb.org/t/p/w300//2GB1NNoz7KsQC6yaMOpQs8xvVZO.jpg",
+  "video": "https://od.lk/d/M18zMDk3NDg4NTJf/stunnneepartwordlseasunss3-1.mp4",
+  "download": "https://od.lk/d/M18zMDk3NDg4NTJf/stunnneepartwordlseasunss3-1.mp4",
+  "duration": "24m"
+}
+        
+          
+        
+           ]
+        };
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const episodio = urlParams.get('episodio');
+  const playlist = playlists[1];
+  if (playlist && playlist.length > 0) {
+    // Reproducir el primer episodio
+    const primerEpisodio = playlist[0];
+    const videoSource = document.getElementById('video-source');
+    videoSource.src = primerEpisodio.video;
+    player.load();
+    player.play();
+  }
+});
+window.addEventListener('popstate', (event) => {
+  // Aquí puedes agregar código para manejar el evento "popstate"
+  // y cambiar a la página anterior
+  // ...
+});
+
+        const notificacion = document.getElementById('notificacion');
+const mensajeNotificacion = document.getElementById('mensajeNotificacion');
+
+function mostrarNotificacion(mensaje) {
+  mensajeNotificacion.textContent = mensaje;
+  notificacion.classList.add('mostrar');
+
+  setTimeout(() => {
+    notificacion.classList.remove('mostrar');
+  }, 3000); // Ocultar la notificación después de 3 segundos
+}
+
+        let lastScrollTop = 0;
+
+   
+        function toggleDetalles() {
+    const detallesSlider = document.getElementById('detallesSlider');
+    detallesSlider.classList.toggle('active');
+}
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+function toggleFavorito() {
+const favoritoEnlace = document.getElementById('favoritoEnlace');
+const imagen = document.getElementById('favoritoImagen');
+const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontrado) {
+const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+favoritoBtn.textContent = 'Agregar a Favoritos';
+localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+mostrarNotificacion('Se eliminó de favoritos');
+} else {
+favoritos.push({
+identificador: identificador,
+imagen: imagen.outerHTML,
+enlace: favoritoEnlace.href,
+nombre: nombre, // Agregar el nombre al objeto
+});
+
+favoritoBtn.textContent = 'Borrar de Favoritos';
+localStorage.setItem('favoritos', JSON.stringify(favoritos));
+mostrarNotificacion('Se añadió a favoritos');
+}
+}
+
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontradoInicial) {
+    favoritoIcon.innerText = 'check';
+    favoritoText.innerText = 'Se añadió a Favoritos';
+    
+} else {
+    favoritoIcon.innerText = 'add';
+    favoritoText.innerText = 'Añadir a Favoritos';
+}
+
+
+        const header = document.getElementById('header');
+        const pageTitle = document.getElementById('page-title');
+
+        window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let maxScroll = 500; // Ajusta este valor según sea necesario
+    let opacity = Math.min(scrollTop / maxScroll, 1);
+
+    overlay.style.opacity = 1 - opacity;
+
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+
+
+});
+
+        // Función para agregar la clase de animación
+function slideUpElements() {
+    document.querySelector('.tabs').classList.add('slide-up');
+    document.querySelector('.season-dropdown').classList.add('slide-up');
+    document.querySelector('.download-all-button').classList.add('slide-up');
+    document.querySelector('#playlist').classList.add('slide-up');
+}
+
+// Llamar a la función cuando sea necesario
+slideUpElements();
+
+        const playlistContainer = document.getElementById('playlist');
+        const overlay = document.getElementById('overlay');
+        const player = videojs('my-video');
+        let currentEpisodeIndex = 0;
+        let currentSeasonIndex = 0; // Índice de la temporada actual
+
+        function loadPlaylist(season) {
+    playlistContainer.innerHTML = '';
+    const playlist = playlists[season];
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+    playlist.forEach((episode, index) => {
+        const episodeElement = document.createElement('div');
+        episodeElement.className = 'episode';
+        if (watchedEpisodes[episode.video]) {
+            episode.watched = true;
+            episodeElement.classList.add('watched');
+        }
+
+                const img = document.createElement('img');
+                img.src = episode.image;
+                episodeElement.appendChild(img);
+
+                const durationLabel = document.createElement('div');
+        durationLabel.className = 'duration-label';
+        durationLabel.innerText = episode.duration;
+        episodeElement.appendChild(durationLabel);
+
+                const description = document.createElement('div');
+                description.className = 'episode-description';
+                description.innerHTML = `<h2>${episode.title}</h2><p>${episode.description}</p>`;
+                episodeElement.appendChild(description);
+
+                const downloadButton = document.createElement('a');
+                downloadButton.href = episode.download;
+                downloadButton.className = 'material-icons download-button';
+                downloadButton.innerText = 'arrow_downward';
+                downloadButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+                episodeElement.appendChild(downloadButton);
+
+                episodeElement.addEventListener('click', () => {
+            currentEpisodeIndex = index;
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = episode.video;
+            player.load();
+            player.play();
+            player.requestFullscreen();
+            episode.watched = true; // Mark as watched
+            episodeElement.classList.add('watched'); // Update the style
+            watchedEpisodes[episode.video] = true;
+            localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+        });
+
+        playlistContainer.appendChild(episodeElement);
+    });
+    // Create a container for the navigation buttons
+    const seasonNavigation = document.createElement('div');
+    seasonNavigation.className = 'season-navigation';
+
+    // Add the previous season button
+    if (parseInt(season) > 1) {
+        const previousSeasonButton = document.createElement('div');
+        previousSeasonButton.className = 'previous-season';
+        previousSeasonButton.innerHTML = '<span class="material-icons">chevron_left</span> Temporada Anterior';
+        previousSeasonButton.addEventListener('click', () => {
+            const previousSeason = parseInt(season) - 1;
+            if (playlists[previousSeason]) {
+                document.getElementById('season-select').value = previousSeason;
+                loadPlaylist(previousSeason);
+            } else {
+                alert('No more previous seasons available.');
+            }
+        });
+        seasonNavigation.appendChild(previousSeasonButton);
+    }
+
+    // Add the next season button
+    // Add the next season button
+    const nextSeasonButton = document.createElement('div');
+    nextSeasonButton.className = 'next-season';
+    nextSeasonButton.innerHTML = 'Próxima temporada <span class="material-icons">chevron_right</span>';
+    nextSeasonButton.addEventListener('click', () => {
+        const nextSeason = parseInt(season) + 1;
+        if (playlists[nextSeason]) {
+            document.getElementById('season-select').value = nextSeason;
+            loadPlaylist(nextSeason);
+        } else {
+            alert('No more seasons available.');
+        }
+    });
+    seasonNavigation.appendChild(nextSeasonButton);
+
+    // Append the navigation container to the playlist
+    playlistContainer.appendChild(seasonNavigation);
+}
+
+document.getElementById('season-select').addEventListener('change', (event) => {
+    const season = event.target.value;
+    loadPlaylist(season);
+});
+
+
+
+        document.getElementById('download-all').addEventListener('click', () => {
+    const season = document.getElementById('season-select').value;
+    const episodes = playlists[season];
+    episodes.forEach(episode => {
+        const link = document.createElement('a');
+        link.href = episode.download;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+});
+
+
+        document.getElementById('season-select').addEventListener('change', (event) => {
+            const season = event.target.value;
+            loadPlaylist(season);
+        });
+        const blackOverlay = document.getElementById('black-overlay');
+
+player.on('play', () => {
+    blackOverlay.style.display = 'none'; // Ocultar el fondo negro cuando el video comience a reproducirse
+});
+
+player.on('pause', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video se pausa
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video se pausa
+    
+});
+
+player.on('ended', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video termine
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video termine
+});
+
+
+        player.on('play', () => {
+            overlay.style.display = 'none';
+        });
+
+        player.on('ended', () => {
+            currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+            const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = nextEpisode.video;
+            player.load();
+            player.play();
+        });
+
+        player.on('fullscreenchange', () => {
+            if (!player.isFullscreen()) {
+                player.pause();
+                overlay.style.display = 'flex';
+            }
+        });
+
+        player.on('fullscreenchange', () => {
+    if (player.isFullscreen()) {
+        // Solicitar orientación horizontal
+        screen.orientation.lock('landscape').catch(err => {
+            console.error('Error al cambiar la orientación:', err);
+        });
+    } else {
+        // Desbloquear la orientación
+        screen.orientation.unlock();
+    }
+});
+
+
+        player.on('touchstart', () => {
+            if (!player.paused()) {
+                player.pause();
+            } else {
+                player.play();
+            }
+        });
+
+
+        // Crear el botón "Next"
+        const Button = videojs.getComponent('Button');
+        const nextButton = videojs.extend(Button, {
+            constructor: function() {
+                Button.apply(this, arguments);
+                this.controlText('Next');
+                this.addClass('vjs-next-button');
+                this.el().innerHTML = '<span class="material-icons">skip_next</span>';
+            },
+            handleClick: function() {
+                currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+                const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+                const videoSource = document.getElementById('video-source');
+                videoSource.src = nextEpisode.video;
+                player.load();
+                player.play();
+            }
+        });
+
+        videojs.registerComponent('NextButton', nextButton);
+        player.getChild('controlBar').addChild('NextButton', {}, 2); // Añadir el botón "Next" al lado derecho del botón "Play"
+
+        // Manejar las pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const target = tab.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        
+       
+
+        // Cargar la primera temporada por defecto
+        loadPlaylist(1);
+        
+    </script>
+</body>
+</html>

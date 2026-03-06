@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>IT: Bienvenidos a Derry</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://od.lk/s/M18zMjA3MTg5NjJf/derry%20poster.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://od.lk/s/M18zMjA3MTg3OTNf/c_Is12x9VkIRzvzNw.jpeg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 300px;
+      width: 300px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">IT: Bienvenidos a Derry</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/5NHDerXZVJSiGKfWT5o6a8EH2vE.png" alt="IT: Bienvenidos a Derry Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta"><strong>Final de temporada ya disponible</strong></div>
+    <div class="meta">18+   1 temporada   2025   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="IT: Bienvenidos a Derry" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/ybyObMOWerS5DgzaFbslvGi1ND3.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="it-bienvenidos-a-derry.html"></a>
+          <span id="nombre">IT: Bienvenidos a Derry</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        En 1958, un grupo de siete amigos están empezando a ver cosas extrañas en el tranquilo pueblito Derry. Con el tiempo,
+        descubren que todos estaban viendo lo mismo: un ser sobrenatural y malvado que puede adoptar muchas formas. </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="eso.html">
+          <img src="https://image.tmdb.org/t/p/w300/uuTYA9LIlIRCFMgFlxWb1KznfEx.jpg" alt="Eso" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Eso</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="breaking-bad.html">
+          <img src="https://image.tmdb.org/t/p/w300/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg" alt="Breaking Bad" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Breaking Bad</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="brooklyn-nine-nine.html">
+          <img src="https://image.tmdb.org/t/p/w300/hgRMSOt7a1b8qyQR68vUixJPang.jpg" alt="Brooklyn Nine-Nine" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Brooklyn Nine-Nine</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="stranger-things.html">
+          <img src="https://image.tmdb.org/t/p/w300/1sRJ8D1vpXE5WQBGrUBky3uUwvX.jpg" alt="Stranger Things" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Stranger Things</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/s/M18zMjA1NDU5ODRf/Derry%20t1%20e1.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+  
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <!-- 🌐 Botón de idioma con mini menú -->
+        <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+          <span class="material-icons" id="langIcon">chat</span>
+  
+          <div id="langMenu" class="lang-menu">
+            <div class="lang-option" data-lang="latino">
+              <span class="check"></span> Español (Latino)
+            </div>
+            <div class="lang-option" data-lang="sub">
+              <span class="check"></span> Inglés (Subtítulos)
+            </div>
+            <button id="langConfirmBtn">Listo</button>
+          </div>
+        </div>
+        <!-- 🌐 Fin menú de idioma -->
+  
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">IT: Bienvenidos a Derry</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "it-bienvenidos-a-derry-200875";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+window.playlist = [
+  {
+    season: "Temporada 1",
+    episodes: [
+      {
+        title: "E1: El Piloto",
+        meta: "18+ · 54m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/uwKrKvprzNW9ACtSB27MlzOpIHL.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjA1NDU5ODRf/Derry%20t1%20e1.mp4",
+          sub: "https://od.lk/s/M18zMjA3MjAxMDdf/Derry%20E1%20sub.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/hk6vjk0x9295",
+        episodeCode: "T1 E1: El Piloto",
+        hiddenCode: "T1 E1",
+        intro: { start: 0, end: 0 }
+      },
+      {
+        title: "E2: La Cosa en la Oscuridad",
+        meta: "18+ · 66m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/h01SCynd4gk7dtgQ6m6iIUpHdrZ.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjA2MDQ3Nzhf/Derry%20e2.mp4",
+          sub: "https://od.lk/s/M18zMjA3MjYwNDRf/Derry%20E2%20sub.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/0iyoykupubrz",
+        episodeCode: "T1 E2: La Cosa en la Oscuridad",
+        hiddenCode: "T1 E2",
+        intro: { start: 0, end: 0 }
+      },
+      {
+        title: "E3: Ahora Lo Ves",
+        meta: "18+ · 58m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/n4BGtiqwoFYd5ZX3UmdupeENcq.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjA3MTY5OTdf/derry%20e3.mp4",
+          sub: "https://od.lk/s/M18zMjA3MjAwNjJf/Derry%20E3%20sub.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/ihu9920aolwe",
+        episodeCode: "T1 E3: Ahora lo ves",
+        hiddenCode: "T1 E3",
+        intro: { start: 0, end: 0 },
+        
+      },
+      {
+        title: "E4: El gran Mecanismo Giratorio del Funcionamiento de Nuestro Planeta ",
+        meta: "18+ · 63m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/hBKG3nQJ8NzE9U0U5uKQfQD88XY.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjA5MTU3MjFf/Derry%20t1%20e4.mp4",
+          sub: "https://od.lk/s/M18zMjA5MTU3NzFf/Derry%20t1%20e4%20sub.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/6o94gp8ve6ca",
+        episodeCode: "T1 E4: El gran Mecanismo Giratorio del Funcionamiento de Nuestro Planeta",
+        hiddenCode: "T1 E4",
+        intro: { start: 0, end: 0 },
+      },
+      {
+        title: "E5: Calle Neibolt 29 ",
+        meta: "18+ · 55m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/wDTjvS7dTnIko5JukSzgYSa3QQW.jpg",
+        videos: {
+          latino: "https://od.lk/d/M18zMjEwODExMjhf/Derry%20t1%20e5.mp4",
+          sub: "https://od.lk/d/M18zMjEwODE3NTBf/Derry%20t1%20e5%20eng.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/10lhmn9cb7w7",
+        episodeCode: "T1 E5: Calle Neibolt 29",
+        hiddenCode: "T1 E5",
+        intro: { start: 0, end: 0 },
+      },
+      {
+        title: "E6: En el Nombre del Padre ",
+        meta: "18+ · 63m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/6phQvyEMeX84oeRznxnJWAM91dz.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjEyOTg1NDVf/Derry%20t1%20e6.mp4",
+          sub: "https://od.lk/s/M18zMjEyOTkzMDVf/Derry%20t1e6%20eng.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/0zxv50buo2w3",
+        episodeCode: "T1 E6: En el Nombre del Padre",
+        hiddenCode: "T1 E6",
+        intro: { start: 0, end: 0 },
+      },
+      {
+        title: "E7: El Black Spot",
+        meta: "18+ · 62m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/zOAW0v0WLV7vv636Cx8VfSYSktu.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjEzNjcxODdf/Derry%20t1%20e7.mp4",
+          sub: "https://od.lk/s/M18zMjEzNjcxOTBf/Derry%20t1%20e7%20eng.mp4"
+        },
+        downloadUrl: "https://dintezuvio.com/download/jasn175v3wpb",
+        episodeCode: "T1 E7: El Black Spot",
+        hiddenCode: "T1 E7",
+        intro: { start: 0, end: 0 },
+      },
+      {
+        title: "E8: Fuego de invierno",
+        meta: "18+ · 69m · 2025",
+        thumbnail: "https://image.tmdb.org/t/p/w300/8gqmWZUs4GAH1QfqR2u3aXxX5Q2.jpg",
+        videos: {
+          latino: "https://od.lk/s/M18zMjE1ODE5ODRf/derry%20t1%20e8.mp4",
+          sub: "https://od.lk/s/M18zMjE1ODE5ODhf/derry%20t1%20e8%20eng.mp4"
+        },
+        downloadUrl: "https://minochinos.com/download/vfduanzbawv0",
+        episodeCode: "T1 E8: Fuego de invierno",
+        hiddenCode: "T1 E8",
+        intro: { start: 0, end: 0 },
+        isNew: true
+      }
+    ]
+  }
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
+
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+</body>
+</html>

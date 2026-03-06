@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Digimon: Data Squad</title>
+   <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://image.tmdb.org/t/p/original/aPwSUmwRPVmAzOZGB59kUBI22XH.jpg") no-repeat center top;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/szVERsTFAv2GzmonVNIuJTVA0DO.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+
+
+
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay-loader-page"></div>
+    <div class="custom-top-bar">
+      <button onclick="window.history.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button onclick="location.reload()">
+        <span class="material-icons">refresh</span>
+      </button>
+    </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Digimon: Data Squad</span> <!-- Título oculto por defecto -->
+    </header>
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/qlHPQyvpELegSOmqGdl4uU3eKlE.png" alt="Digimon: Data Squad Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">13+&nbsp;&nbsp;1 temporada&nbsp;&nbsp;2002&nbsp;&nbsp;Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Digimon: Data Squad" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/qyW8hm5CkUg0Q4WD6Y8IhukDGhk.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="Digimon savers.html"></a>
+          <span id="nombre">Digimon: Data Squad</span>
+        </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
+      </div>
+  
+      <div class="description">
+        Digimon Savers ​​​es una serie de anime producida por Toei Animation. Es la quinta serie de la franquicia Digimon. 
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Digimon.html">
+          <img src="https://image.tmdb.org/t/p/original/vFJAiBNUlzEVa54mXgHGumr1z1s.jpg" alt="Digimon" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Adventures</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Tamers.html">
+          <img src="https://image.tmdb.org/t/p/original/r8MYNECZkwprDATctOc8rDFQ8at.jpg" alt="Digimon Tamers" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Tamers</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Frontier.html">
+          <img src="https://image.tmdb.org/t/p/original/tunJi5ABO1fYJp9J4FZkrTpqQd3.jpg" alt="Digimon Frontier" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Frontier</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Digimon Xros Wars.html">
+          <img src="https://image.tmdb.org/t/p/w154/4jX2k06hM9p489ML1byyBQHEKl5.jpg" alt="Digimon Xros Wars " oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Digimon Xros Wars </div>
+          <div class="meta-row">
+            <span class="meta">Sub | Jap</span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="https://od.lk/d/M18zMDQ0NjU1MDVf/DDS%2001%20%5Bwww.animemf.net%5D%20Seba_767.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Digimon: Data Squad</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+ 
+
+ <script src="../share.js"></script>
+
+ 
+<script>
+
+const seriesId = "digimon-savers";
+
+
+
+
+
+// --- PLAYLIST ---
+const playlist = [
+{
+    "season": "Temporada 1",
+    "episodes": [
+    {
+  "title": "E1: Hay monstruos entre nosotros",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ieni0HkNXXqfryE8NB8nmhKf1JP.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjU1MDVf/DDS%2001%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjU1MDVf/DDS%2001%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E1: Hay monstruos entre nosotros",
+  "hiddenCode": "T1 E1",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E2: La fuerza interior de Marcus",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pyuGE5bIZKUP10ZzWpsTJD4bkOJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjU2MTlf/DDS%2002%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjU2MTlf/DDS%2002%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E2: La fuerza interior de Marcus",
+  "hiddenCode": "T1 E2",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E3: El nuevo equipo de Marcus y Thomas",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/i8TK4TSrz8QCBwzpp1MDUW1NN1R.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjU3MzJf/DDS%2003%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjU3MzJf/DDS%2003%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E3: El nuevo equipo de Marcus y Thomas",
+  "hiddenCode": "T1 E3",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E4: Entrada al digimundo ¡Aquí vamos!",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/4TiYZCed9qCdAqor1hyYfYBUL0J.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjU4ODlf/DDS%2004%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjU4ODlf/DDS%2004%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E4: Entrada al digimundo ¡Aquí vamos!",
+  "hiddenCode": "T1 E4",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E5: Digimundo ¡Aquí Vamos!",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sZBhWEIQJIvDHuSRgxPcUtURxGM.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjYwNDhf/DDS%2005%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjYwNDhf/DDS%2005%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E5: Digimundo ¡Aquí Vamos!",
+  "hiddenCode": "T1 E5",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E6: ¿El fin de la amistad de Marcus y Agumon?",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/qUGbGs6ZmEUqMrJp5pLJLkTJjy8.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjYyMjNf/DDS%2006%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjYyMjNf/DDS%2006%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E6: ¿El fin de la amistad de Marcus y Agumon?",
+  "hiddenCode": "T1 E6",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E7: Un cumpleaños que Kristy nunca olvidará",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/mNTbfJF6Gha6snvZQVLSojS55K2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjYzMzlf/DDS%2007%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjYzMzlf/DDS%2007%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E7: Un cumpleaños que Kristy nunca olvidará",
+  "hiddenCode": "T1 E7",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E8: El secreto del cantante",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wdyl4LfjrvcCpdTQDh7pHS2N2ft.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjY0Njdf/DDS%2008%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjY0Njdf/DDS%2008%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E8: El secreto del cantante",
+  "hiddenCode": "T1 E8",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E9: Nunca sabes quien es tu heroé",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cHb1eSlJI0Co9hU7HI46F8vPo1p.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjY1Nzlf/DDS%2009%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjY1Nzlf/DDS%2009%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E9: Nunca sabes quien es tu heroé",
+  "hiddenCode": "T1 E9",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E10: El peor día en la vida de Marcus",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fLhU1Cv4Pp8UD4fyc2arkba90Tt.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjY3MTJf/DDS%2010%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjY3MTJf/DDS%2010%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E10: El peor día en la vida de Marcus",
+  "hiddenCode": "T1 E10",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E11: El Perverso Vilemon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7He71GskeFTsrBvbeqvi8Wlie8F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjY4Nzhf/DDS%2011%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjY4Nzhf/DDS%2011%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E11: El Perverso Vilemon",
+  "hiddenCode": "T1 E11",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E12: ¡El Digi-Huevo que cayó a la Tierra!",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/uQh9pfOsdLlOFgRdHWH1FLIvdlD.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjY5Nzhf/DDS%2012%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjY5Nzhf/DDS%2012%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E12: ¡El Digi-Huevo que cayó a la Tierra!",
+  "hiddenCode": "T1 E12",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E13: El Nuevo poder de Marcus",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8m5cszC4KSyQVCbyKiWsB6cF5qu.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjcwNzZf/DDS%2013%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjcwNzZf/DDS%2013%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E13: El Nuevo poder de Marcus",
+  "hiddenCode": "T1 E13",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E14: Keenan y el guardián de la selva",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/ppKmEsZ85UUJdG3K1jKq9TlyxVA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjcxNzJf/DDS%2014%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjcxNzJf/DDS%2014%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E14: Keenan y el guardián de la selva",
+  "hiddenCode": "T1 E14",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E15: Los recuerdos de Thomas",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zscuXlp9IBRJyk0MycTT88D9Ua2.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjcyMjVf/DDS%2015%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjcyMjVf/DDS%2015%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E15: Los recuerdos de Thomas",
+  "hiddenCode": "T1 E15",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E16: Falcomon, ¿Amigo o Enemigo?",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7PaC0lySamaCNkxCXR74jKgQiz7.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjczMDNf/DDS%2016%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjczMDNf/DDS%2016%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E16: Falcomon, ¿Amigo o Enemigo?",
+  "hiddenCode": "T1 E16",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E17: La digievolución de Lalamon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/isLJu1cwM8dt2YdSZhnWySbINtc.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjczNThf/DDS%2017%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjczNThf/DDS%2017%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E17: La digievolución de Lalamon",
+  "hiddenCode": "T1 E17",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E18: El ataque a Merukimon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cpkjFyuiH3LD6oAQz4V3g9CD1cJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc0Mjhf/DDS%2018%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc0Mjhf/DDS%2018%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E18: El ataque a Merukimon",
+  "hiddenCode": "T1 E18",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E19: La Conspiración de Gotsumon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8BJQmayJrhscVMJSAMm6sZBtEBB.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc0OTBf/DDS%2019%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc0OTBf/DDS%2019%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E19: La Conspiración de Gotsumon",
+  "hiddenCode": "T1 E19",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E20: Una reunión familiar",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/pYguuWKFv3d5temz7XjHkVr5Jc9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc1NDZf/DDS%2020%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc1NDZf/DDS%2020%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E20: Una reunión familiar",
+  "hiddenCode": "T1 E20",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E21: Un ataque del ejército Digimon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/dBIPwsl3MCOas54zc7HwjlZDa1D.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc2Mjlf/DDS%2021%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc2Mjlf/DDS%2021%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E21: Un ataque del ejército Digimon",
+  "hiddenCode": "T1 E21",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E22: La ira de SaberLeomon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/wvvcUSbg8FT0lrpkQUILq2rAB7E.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc3MDdf/DDS%2022%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc3MDdf/DDS%2022%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E22: La ira de SaberLeomon",
+  "hiddenCode": "T1 E22",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E23: El regreso al Digimundo",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/aFZzzbbPLu7SbKYBhN6oIgUaXrx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc3ODJf/DDS%2023%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc3ODJf/DDS%2023%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E23: El regreso al Digimundo",
+  "hiddenCode": "T1 E23",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E24: El Pasado al descubierto",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bjO6o0LxSpKg6TXtpuDNIipXN0F.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc4NjRf/DDS%2024%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc4NjRf/DDS%2024%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E24: El Pasado al descubierto",
+  "hiddenCode": "T1 E24",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E25: La venganza de Kurata",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/zf2Fat3zZnr6QRYLjqPavYDqEYv.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njc5NDJf/DDS%2025%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njc5NDJf/DDS%2025%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E25: La venganza de Kurata",
+  "hiddenCode": "T1 E25",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E26: Memoria en blanco",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vj2MGG9ROlDkrdnWojbV8P5Facd.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjgwNDhf/DDS%2026%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjgwNDhf/DDS%2026%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E26: Memoria en blanco",
+  "hiddenCode": "T1 E26",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E27: El principio del Fin",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iQwjXxWngfeMjXtotRIz5HD7MHw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjgxMzNf/DDS%2027%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjgxMzNf/DDS%2027%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E27: El principio del Fin",
+  "hiddenCode": "T1 E27",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E28: Digivices Destruidos",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/sM8SvekeuiWuKaSVmYICmXKvCuU.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjgyMThf/DDS%2028%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjgyMThf/DDS%2028%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E28: Digivices Destruidos",
+  "hiddenCode": "T1 E28",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E29: ¿Cómo arreglar un Digivice?",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bK2kIw8tpOlRuRyVJFd1b62jcOj.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjgyNzlf/DDS%2029%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjgyNzlf/DDS%2029%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E29: ¿Cómo arreglar un Digivice?",
+  "hiddenCode": "T1 E29",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E30: Trampa en la Ciudad Sagrada",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/9JuDr8esJ0GPNJqkc9lqkIBo4TV.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjgzMjZf/DDS%2030%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjgzMjZf/DDS%2030%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E30: Trampa en la Ciudad Sagrada",
+  "hiddenCode": "T1 E30",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E31: Lucha entre genios, Thomas vs Nanami",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cwgJw3JMqnrWvQ02bB1W2qBEwf6.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjgzNjZf/DDS%2031%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjgzNjZf/DDS%2031%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E31: Lucha entre genios, Thomas vs Nanami",
+  "hiddenCode": "T1 E31",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E32: La última parada es la Ciudad Sagrada",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e8NIvp7xGmj1WI32ZfAkigDLxIz.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg0Mjhf/DDS%2032%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg0Mjhf/DDS%2032%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E32: La última parada es la Ciudad Sagrada",
+  "hiddenCode": "T1 E32",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E33: La batalla final",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/fdmUqlyrN0iMTxDaMyIZ4UE49qZ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg1MTZf/DDS%2033%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg1MTZf/DDS%2033%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E33: La batalla final",
+  "hiddenCode": "T1 E33",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E34: Los Peores Enemigos",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/cC19dxJgrc2UnDMNpKODf2gQBYy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg1NzZf/DDS%2034%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg1NzZf/DDS%2034%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E34: Los Peores Enemigos",
+  "hiddenCode": "T1 E34",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E35: La Falta de ShineGreymon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/jxOexbVNCZGp2KvwNxatDoRj2Yx.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg2Mjlf/DDS%2035%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg2Mjlf/DDS%2035%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E35: La Falta de ShineGreymon",
+  "hiddenCode": "T1 E35",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E36: El despertar de Belphemon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/iIF4SptScgDdNUdWz0SRbr6owY9.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg2ODlf/DDS%2036%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg2ODlf/DDS%2036%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E36: El despertar de Belphemon",
+  "hiddenCode": "T1 E36",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E37: ¡Despierta Agumon!",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/u4CSx5UoWXBBLvSGm8XyC06ssjA.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg3ODFf/DDS%2037%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg3ODFf/DDS%2037%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E37: ¡Despierta Agumon!",
+  "hiddenCode": "T1 E37",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E38: Ataque explosivo",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vTPK34P2HtNIBmvwpoMZxSV4xnr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg4NDVf/DDS%2038%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg4NDVf/DDS%2038%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E38: Ataque explosivo",
+  "hiddenCode": "T1 E38",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E39: La destruccion del mundo humano",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/6fuv3C8acR2ZVU0E9dcE0bRBhqq.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg5MTRf/DDS%2039%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg5MTRf/DDS%2039%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E39: La destruccion del mundo humano",
+  "hiddenCode": "T1 E39",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E40: Caballeros Reales",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/nR53oX8E3xSs417eeQHQpa4Mlie.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0Njg5OTBf/DDS%2040%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0Njg5OTBf/DDS%2040%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E40: Caballeros Reales",
+  "hiddenCode": "T1 E40",
+  "intro": {
+    "start": 0,
+    "end": 0
+  }
+},
+{
+  "title": "E41: El sentimiento de Spencer",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/bcTHXkrh6ZVGf7QVThibxXE4x0O.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjkwNTJf/DDS%2041%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjkwNTJf/DDS%2041%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E41: El sentimiento de Spencer",
+  "hiddenCode": "T1 E41",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E42: El ataque explosivo de Thomas",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8JEvSjC4Fv8SBhuHDm6YB1mMKdy.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjQ1Mjlf/DDS%2042%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjQ1Mjlf/DDS%2042%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E42: El ataque explosivo de Thomas",
+  "hiddenCode": "T1 E42",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E43: Leopardmon, un caballero real",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/3tdmUUTBeXsMGG26GUEoiKsl0Jr.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjUyODZf/DDS%2043%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjUyODZf/DDS%2043%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E43: Leopardmon, un caballero real",
+  "hiddenCode": "T1 E43",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E44: El escudo indestructible de Craniamon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/vdETwbd6XzPdTyKHAV839gB89yw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjEwNTNf/DDS%2044%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjEwNTNf/DDS%2044%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E44: El escudo indestructible de Craniamon",
+  "hiddenCode": "T1 E44",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E45: Una disputa familiar",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/8iP9sedDKm7DwXkvw2vSvaWCBNL.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjE0NzZf/DDS%2045%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjE0NzZf/DDS%2045%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E45: Una disputa familiar",
+  "hiddenCode": "T1 E45",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E46: La revelacion de BanchouLeomon",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/e1IcQnVI8dP4ZHCWWXIW2ML1Z0m.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjE2OTZf/DDS%2046%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjE2OTZf/DDS%2046%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E46: La revelacion de BanchouLeomon",
+  "hiddenCode": "T1 E46",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E47: La Última Batalla de DATS",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/apijhYdEuo722iVW9EWuHCjcePw.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjIxOTNf/DDS%2047%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjIxOTNf/DDS%2047%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E47: La Última Batalla de DATS",
+  "hiddenCode": "T1 E47",
+  "intro": { "start": 0, "end": 0 }
+},
+{
+  "title": "E48: Adiós, rey de la pelea",
+  "meta": "13+ · 22m · 2006",
+  "thumbnail": "https://image.tmdb.org/t/p/w300/7Bvw5nlLJvbJYW6RdcLOMSz2ApJ.jpg",
+  "videoUrl": "https://od.lk/d/M18zMDQ0NjI4NjVf/DDS%2048%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "downloadUrl": "https://od.lk/d/M18zMDQ0NjI4NjVf/DDS%2048%20%5Bwww.animemf.net%5D%20Seba_767.mp4",
+  "episodeCode": "T1 E48: Adiós, rey de la pelea",
+  "hiddenCode": "T1 E48",
+  "intro": { "start": 0, "end": 0 }
+}
+
+
+    ]
+  }
+
+];
+
+
+
+
+</script>
+
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+
+
+
+</script>
+
+</body>
+</html>

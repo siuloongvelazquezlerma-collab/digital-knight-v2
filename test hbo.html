@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crunchyroll</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="crunchy roll logo.png">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* HEADER */
+/* HEADER PORTRAIT (el que ya tenías) */
+.site-header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 200;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.719), rgba(0,0,0,0.527), rgba(0,0,0,0.37), rgba(0,0,0,0));
+  transition: background 0.4s ease;
+}
+.site-header.scrolled { background: rgb(0,0,0); }
+.site-header .logo { height: 35px; margin-top: 6px; }
+.site-header .header-right { display: flex; gap: 20px; }
+.site-header .material-icons-outlined { font-size: 25px; cursor: pointer; color: #fff; margin-top: 6px; }
+
+/* HEADER LANDSCAPE */
+.landscape-header {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 12px 20px;
+  background: #292929;
+  color: rgb(221, 218, 218);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 201;
+}
+.landscape-header .logo { height: 32px; }
+.landscape-header .land-nav { display: flex; gap: 20px; }
+.landscape-header .land-nav a {
+  color: #d8d5d5;
+  text-decoration: none;
+  font-weight: 500;
+}
+.landscape-header .land-right {
+  display: flex;
+  gap: 15px;
+}
+.landscape-header .material-icons-outlined {
+  color: rgb(219, 219, 219);
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* MEDIA QUERY: portrait vs landscape */
+@media (orientation: portrait) {
+  .site-header { display: flex; }
+  .landscape-header { display: none; }
+}
+
+@media (orientation: landscape) {
+  .site-header { display: none; }
+  .landscape-header { display: flex; }
+}
+
+:root {
+  --accent: #ff7a18; /* naranja tipo Crunchyroll */
+}
+
+/* Container derecho (buscar - bookmark - avatar) */
+.landscape-header .land-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* estilo base para cada botón/icono del header */
+.landscape-header .nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background .18s, transform .08s;
+}
+
+/* iconos material */
+.landscape-header .nav-item .material-icons-outlined {
+  font-size: 26px;
+  color: #d6d6d6;
+  line-height: 1;
+}
+
+/* avatar */
+.landscape-header .icon-perfil img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid transparent;
+}
+
+/* hover / foco / active: naranja */
+.landscape-header .nav-item:hover,
+.landscape-header .nav-item:focus {
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-1px);
+}
+.landscape-header .nav-item.active .material-icons-outlined,
+.landscape-header .nav-item:hover .material-icons-outlined,
+.landscape-header .nav-item:focus .material-icons-outlined {
+  color: var(--accent);
+}
+.landscape-header .nav-item.active .icon-perfil img,
+.landscape-header .nav-item:hover .icon-perfil img,
+.landscape-header .nav-item:focus .icon-perfil img {
+  border-color: var(--accent);
+}
+
+/* pequeña clase accesible para textos ocultos (sr-only) */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* mantiene layout responsive (ya tenías los media queries para mostrar/ocultar) */
+@media (orientation: portrait) {
+  .landscape-header { display: none; }
+}
+@media (orientation: landscape) {
+  .landscape-header { display: flex; }
+}
+
+/* Agrupar logo + menú en la izquierda */
+.landscape-header .land-left {
+  display: flex;
+  align-items: center;
+  gap: 28px; /* separación entre logo y nav */
+}
+
+.landscape-header .land-nav {
+  display: flex;
+  gap: 22px; /* separación entre links */
+}
+
+.landscape-header .land-nav a {
+  color: #dddcdc;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: color .2s;
+}
+
+.landscape-header .land-nav a:hover {
+  color: var(--accent); /* naranja */
+}
+
+
+  
+  body {
+  background: #000;
+  color: #fff;
+  display: block;        /* ya no forzar flex */
+  min-height: 100vh;     /* altura mínima */
+  overflow-x: hidden;    /* bloquea scroll lateral */
+  overflow-y: auto;      /* permite scroll vertical */
+  padding-bottom: 60px; /* mismo alto que el footer */
+}
+
+  
+  /* Swiper */
+  .swiper {
+  width: 100%;
+  height: 100vh;          /* vuelve a ocupar pantalla completa */
+  position: relative;
+  margin-bottom: -130px;    /* 👈 deja hueco para bullets y secciones */
+}
+
+  
+  .swiper-slide {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top; /* 👈 asegura que se pegue al top */
+  }
+
+  .swiper-slide img {
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  will-change: opacity, transform;
+}
+
+  
+  
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgb(0, 0, 0), rgb(0, 0, 0),rgba(0, 0, 0, 0.39), rgba(0,0,0,0));
+  }
+
+  .img-portrait {
+    display: block;
+  }
+  
+  .img-landscape {
+    display: none;
+  }
+
+ /* Estilos para pantallas horizontales (landscape) */
+@media (orientation: landscape) {
+  /* Ocultar overlays y portrait */
+  .overlay {
+    display: none;
+  }
+  .img-portrait {
+    display: none;
+  }
+
+  /* Imagen landscape */
+  .img-landscape {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+  }
+
+  /* Overlay abajo */
+  .overlay-bottom {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0));
+    z-index: 15;
+    pointer-events: none;
+  }
+
+  /* Overlay izquierda (más ancho que antes) */
+  .overlay-left {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%; /* antes 25%, ahora cubre más */
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,0.95),
+      rgba(0,0,0,0.7),
+      rgba(0,0,0,0.3),
+      rgba(0,0,0,0)
+    );
+    z-index: 15;
+    pointer-events: none;
+  }
+
+  /* Info */
+  /* Info */
+.info {
+  position: absolute;
+  top: 45%;         /* posición fija respecto al alto del slide */
+  left: 5%;
+  max-width: 35%;
+  z-index: 20;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* mantiene alineado todo a la izquierda */
+  gap: 10px; /* espacio fijo entre bloques */
+}
+
+.info .title {
+  position: relative;
+  width: 100%;
+}
+
+.info .title img {
+    width: auto !important;   /* ignora el width fijo del HTML */
+    max-width: 22vw;          /* límite adaptable */
+    height: auto;
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    left: 45px;
+  }
+
+
+.meta, 
+.desc, 
+.buttons {
+  position: relative; /* siempre relativo, no se mueven con el logo */
+  margin: 0;
+  left: 45px;
+}
+
+
+
+  .meta {
+    font-size: 15px;
+    margin: 10px 0;
+  }
+
+  .desc {
+    font-size: 16px !important;
+    margin-bottom: 12px;
+    
+    /* clamp a 4 líneas */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .buttons .play {
+  font-size: 14px;
+  padding: 10px 38px;  /* menos ancho */
+  border-radius: 0px;
+  white-space: nowrap; /* evita que se parta en dos líneas */
+}
+
+
+  /* 🔹 NO se toca la paginación, se queda como tienes */
+  .swiper-pagination {
+    position: absolute;
+    bottom: 220px !important;
+    left: -38% !important;
+    text-align: left !important;
+    
+  }
+}
+
+  
+  
+  
+  /* Info sobre la imagen */
+  .info {
+    position: absolute;
+    bottom: 200px;
+    left: 15px;
+    right: 15px;
+  }
+  
+  .title {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+  
+  
+  
+  .meta {
+    font-size: 11px;
+    margin: 6px 0;
+    opacity: 0.9;
+    margin-bottom: 12px;
+    color: #e4e3e3;
+  }
+  
+  .meta .edad {
+  background: linear-gradient(180deg, rgba(60,60,60,0.9));
+  color: #e4e3e3;
+  font-weight: 600;
+  padding: 2px 4px;
+  font-size: 11px;
+  display: inline-block;
+  transform: skew(-10deg); /* efecto romboide */
+  border-radius: 2px;
+}
+
+.meta .edad span {
+  display: inline-block;
+  transform: skew(10deg); /* endereza el texto */
+}
+
+
+.meta .separador::before {
+  content: "◆"; /* rombo sólido */
+  font-size: 7px;
+  margin: 0 6px;
+  color: #e4e3e3;
+  opacity: 0.8;
+}
+
+  
+  
+.desc {
+  font-size: 13px;
+  color: #ddd;
+  margin-bottom: 25px;
+
+  /* ✅ grosor */
+  font-weight: 500;   /* prueba 500, 600 o bold */
+
+  /* ✅ más espacio entre líneas */
+  line-height: 1.5;   /* default es ~1.2 → más aire entre renglones */
+
+  /* ✅ estándar moderno */
+  line-clamp: 3;
+  block-overflow: ellipsis;
+  overflow: hidden;
+
+  /* ✅ fallback */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+
+
+  
+  /* Botones */
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .play {
+  flex: 1;
+  text-align: center;
+  background: #ff5d00;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  text-shadow: 
+    0 0 0.1px currentColor,
+    0 0 0.1px currentColor; /* duplica el contorno un poco */
+  padding: 10px;
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: -0.2px; /* antes tenías 0.5px, ahora se acercan un poco */
+  box-sizing: border-box; /* 👈 asegura que padding no deforme */
+}
+
+.play .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;   /* tamaño fijo del contenedor */
+  height: 24px;  /* tamaño fijo del contenedor */
+  flex-shrink: 0; /* 👈 evita que se achique */
+}
+
+.play .icon svg {
+  max-width: 100%;   /* 👈 se adapta al contenedor */
+  max-height: 100%;  /* 👈 no rebasa */
+  width: auto;
+  height: auto;
+  stroke: currentColor;
+  stroke-width: 2;   /* puedes ajustar el grosor aquí sin deformar */
+}
+
+
+
+
+
+  
+  .save {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: 2px solid #ff5d00;
+    color: #ff5d00;
+    border-radius: 0px;
+    text-decoration: none;
+    font-size: 19px;
+    transition: all 0.3s ease;
+  }
+  
+  .save.saved {
+    background: #ff5d00;
+    color: #000;
+  }
+  
+  
+/* stacking / z-index: overlay debajo, info encima, pagination más arriba */
+.overlay {
+  z-index: 10;
+  pointer-events: none; /* 🔹 para que no bloquee clicks de bullets */
+}
+
+.info {
+  z-index: 20;
+  position: absolute;
+}
+/* paginación global */
+.swiper-pagination {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+/* Bullets */
+.swiper-pagination-bullet {
+  width: 40px;
+  height: 8px;
+  background: #e6e4e4 !important;
+  opacity: 1;
+  border-radius: 3px; /* más oval */
+  margin: 0 4px !important;
+  position: relative;
+  overflow: hidden; /* para que ::after no sobresalga */
+}
+
+/* Barra interna animada solo en bullet activa */
+.swiper-pagination-bullet::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--progress, 0);
+  background: #ff5d00;
+  border-radius: 0px;
+  transition: none; /* por defecto no hay animación */
+}
+
+/* Animación solo cuando está activa */
+.swiper-pagination-bullet-active::after {
+  transition: width 7s linear;
+}
+
+/* Bullets móviles / portrait */
+.swiper-pagination-bullet {
+  width: 40px;
+  height: 8px;
+}
+
+
+
+ /* Footer */
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #202427;
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0; /* compacto */
+  z-index: 100;
+}
+
+/* Nav items */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+/* 🔹 Caja uniforme solo para íconos (menos perfil) */
+.nav-item span:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;   /* íconos más grandes */
+  height: 35px;  /* íconos más grandes */
+  margin-bottom: 0px; /* pequeño espacio entre ícono y texto */
+  line-height: 1;
+}
+
+/* Material Icons más grandes */
+.nav-item .material-icons,
+.nav-item .material-icons-outlined {
+  font-size: 26px; /* un poco más grande */
+  line-height: 1;
+}
+
+/* SVG explorar y simulcast más grandes */
+.icon-explorar svg,
+.icon-simulcast svg {
+  width: 26px;  
+  height: 26px;
+  stroke: currentColor;
+}
+
+/* SVG simulcast con rotación */
+.icon-simulcast svg {
+  transform: rotate(90deg);
+}
+
+/* Imagen de perfil (casi igual) */
+.icon-perfil {
+  width: 30px;  /* ligero aumento */
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-perfil img {
+  width: 22px;  
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.3s ease;
+}
+
+/* Highlight activo */
+.nav-item.active {
+  color: #ff5d00;
+}
+.nav-item.active .icon-perfil img {
+  border: 1px solid #ff5d00;
+  padding: 1px;
+}
+
+/* Ocultar footer en landscape */
+@media (orientation: landscape) {
+  footer {
+    display: none;
+  }
+}
+
+
+
+
+.extra-section {
+  margin-top: 0;
+  padding: 0 20px;
+  color: #fff;
+  position: relative;
+  z-index: 5;
+  margin-bottom: 20px;
+}
+
+.extra-section h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+
+.poster-row {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory; /* 🔹 activar snap horizontal */
+  -webkit-overflow-scrolling: touch; /* 🔹 scroll suave en iOS */
+  padding-bottom: 10px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.poster-row .poster {
+  flex: 0 0 auto;
+  scroll-snap-align: start; /* 🔹 cada póster se “engancha” */
+  margin-right: 5px;
+}
+
+.poster-row .poster:last-child {
+  margin-right: 0;
+}
+
+/* ocultar scrollbar */
+.poster-row::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+.poster {
+  flex: 0 0 auto;
+  text-decoration: none;
+  color: #fff;
+  scroll-snap-align: start;
+}
+
+.poster p {
+    font-size: 12px;
+    margin: 8px 0 2px;
+    font-weight: 600;
+  }
+
+.poster span {
+    font-size: 12px;
+    color: #ccc;
+  }
+/* --- Landscape --- */
+@media (orientation: landscape) {
+  .extra-section {
+    margin-top: 60px;
+  }
+  .poster {
+    width: 280px;   /* más ancho */
+  }
+
+  .poster img {
+    width: 100%;
+    height: 400px;  /* más alto, casi como en la captura */
+    border-radius: 0px;
+    object-fit: cover;
+  }
+
+  .poster p {
+    font-size: 16px;
+    margin: 8px 0 2px;
+    font-weight: 600;
+  }
+
+  .poster span {
+    font-size: 14px;
+    color: #ccc;
+  }
+}
+
+/* --- Portrait (por si quieres mantener la vista compacta) --- */
+@media (orientation: portrait) {
+  .poster {
+    width: 130px;
+  }
+
+  .poster img {
+    height: 190px;
+  }
+}
+
+
+/* Landscape: mostrar flechas */
+@media (orientation: landscape) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;             
+    width: 28px;              /* más angosto */
+    height: 60px;             /* más alto → rectángulo vertical */
+    background: rgba(0, 0, 0, 0.4); /* fondo rectangular */
+    border-radius: 6px;       /* esquinas suaves, ya no círculo */
+    font-size: 10px;          /* flecha más chica */
+    font-weight: bold;        /* más gruesa */
+    transition: background 0.3s ease, opacity 0.3s ease;
+    top: 40%;
+  }
+
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover {
+    background: rgba(0,0,0,0.7);
+  }
+
+  /* posición lateral centrada */
+  .swiper-button-prev {
+    left: 10px;
+  }
+  .swiper-button-next {
+    right: 10px;
+  }
+}
+
+
+.poster-row-wrapper {
+  position: relative;
+}
+
+
+
+.poster-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Flechas */
+.arrow.small {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  font-size: 18px;   /* más pequeñas */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.3s ease, opacity 0.3s ease;
+}
+
+.arrow.small:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.arrow.small.left {
+  left: 4px;
+}
+.arrow.small.right {
+  right: 4px;
+}
+
+/* 🔹 Ocultar flechas por defecto */
+.arrow.small {
+  display: none;
+}
+
+/* 🔹 Mostrar solo en landscape */
+@media (orientation: landscape) {
+  .arrow.small {
+    display: flex;
+  }
+}
+/* Ocultar flechas en portrait */
+@media (orientation: portrait) {
+  .arrow.small {
+    display: none !important;
+  }
+}
+
+/* 🔹 Por defecto ocultar las flechas del swiper */
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}
+
+/* 🔹 Solo en landscape mostrar flechas del swiper */
+@media (orientation: landscape) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: flex !important;
+  }
+}
+
+/* 🔹 Asegurar que no aparezcan en portrait */
+@media (orientation: portrait) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}
+
+
+</style>
+<body>
+
+    <!-- HEADER -->
+<!-- HEADER PERSONALIZADO (solo se ve en portrait) -->
+<header class="site-header">
+  <div class="header-left">
+    <img src="https://od.lk/s/M18zMTk5MzU1ODVf/crunchy%20roll%20logo.png" 
+         alt="Crunchyroll" class="logo">
+  </div>
+  <div class="header-right">
+    <span class="material-icons-outlined">cast</span>
+    <span class="material-icons-outlined">search</span>
+  </div>
+</header>
+
+<!-- HEADER LANDSCAPE -->
+<header class="landscape-header">
+  <div class="land-left">
+    <!-- Logo -->
+    <img src="https://od.lk/s/M18zMTk5MzYzNDRf/crunchy%20roll%20logo2.png" 
+         alt="Crunchyroll" class="logo">
+
+    <!-- Navegación pegada al logo -->
+    <nav class="land-nav">
+      <a href="#">Novedades</a>
+      <a href="#">Popular</a>
+      <a href="#">Simulcast</a>
+      <a href="#">Categorías</a>
+    </nav>
+  </div>
+
+  <div class="land-right">
+    <!-- Buscar -->
+    <a href="buscar.html" class="nav-item nav-search" title="Buscar">
+      <span class="material-icons-outlined" aria-hidden="true">search</span>
+      <span class="sr-only">Buscar</span>
+    </a>
+
+    <!-- Bookmark -->
+    <a href="listas.html" class="nav-item nav-bookmark" title="Mis listas">
+      <span class="material-icons-outlined" aria-hidden="true">bookmark_border</span>
+      <span class="sr-only">Mis listas</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="cuenta.html" class="nav-item nav-account" title="Cuenta">
+      <span class="icon-perfil">
+        <img src="https://od.lk/s/M18zMTk5MzU1ODVf/crunchy%20roll%20logo.png" alt="Perfil">
+      </span>
+      <span class="sr-only">Cuenta</span>
+    </a>
+  </div>
+</header>
+
+
+
+  
+
+  <!-- Swiper -->
+<div class="swiper">
+    <div class="swiper-wrapper">
+  
+      <!-- Slide 1 -->
+      <div class="swiper-slide">
+      <!-- Imagen vertical (móvil) -->
+      <img class="img-portrait" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=94,width=840/CurationAssets/Gachiakuta/SEASON%201/ULTRA-WIDE/Gachiakuta-S1C1-KV1-(Character)-UW-Tall-Cropped.png" alt="poster">
+
+      <!-- Imagen horizontal (desktop/landscape) -->
+      <img class="img-landscape" src="https://od.lk/s/M18zMTk5MzU1NjFf/Gachiakuta-S1C1-KV1-UW-LTR%281%29.png" alt="poster horizontal">
+        <div class="overlay"></div>
+        <div class="overlay overlay-bottom"></div>
+<div class="overlay overlay-left"></div>
+        <div class="info">
+            <div class="title">
+                <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=600/CurationAssets/Gachiakuta/SEASON%201/ULTRA-WIDE/Gachiakuta-S1C1-KV1-UW-Logo-ENG.png" alt="Logo Serie 1" style="width:330px; height:auto;">
+              </div>
+              
+              <div class="meta">
+                <span class="edad">16+</span>
+                <span class="separador"></span>
+                Sub | Dob
+              </div>
+              
+              
+          <p class="desc">
+            En una ciudad flotante donde los ricos se deshacen de su basura y de las personas, a Ludo lo acusan de asesinato y lo arrojan al Abismo, un infierno habitado por las bestias de la basura. Para sobrevivir, deberá hacer uso de un nuevo poder y unirse a los Limpiadores. El objetivo de Ludo no es solo acabar con los monstruos, sino también con aquellos que lo arrojaron al Infierno.
+          </p>
+          <div class="buttons">
+            <a href="go:gachia" class="play">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                </svg>
+              </span>
+              COMENZAR A VER E1
+            </a>
+            
+              
+              
+            <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Slide 2 -->
+      <div class="swiper-slide">
+        <img class="img-portrait" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=840,height=1260/keyart/GYEXQKJG6-backdrop_tall" alt="poster">
+        <!-- Imagen horizontal (desktop/landscape) -->
+      <img class="img-landscape" src="https://image.tmdb.org/t/p/original/lN13BPAEnc5iXmoxxBQHOZ1ScfZ.jpg" alt="poster horizontal">
+        <div class="overlay"></div>
+        <div class="overlay overlay-bottom"></div>
+<div class="overlay overlay-left"></div>
+        <div class="info">
+            <div class="title">
+                <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=320/keyart/GYEXQKJG6-title_logo-en-us" alt="Logo Serie 1" style="width:250px; height:auto;">
+              </div>
+              
+              <div class="meta">
+                <span class="edad">16+</span>
+                <span class="separador"></span>
+                Sub | Dob
+              </div>
+              
+          <p class="desc">La sangre de Shiki Ichinose es Oni, y la de su padre es Momotaro. Normalmente, los que tienen sangre Momotaro cazan a los Oni, pero el padre de Shiki se negó a matarlo cuando era un bebé. En cambio, adoptó a Shiki y lo crió a pesar de la actitud rebelde y el temperamento peligroso que viene con la sangre Oni. Cuando un miembro de la Agencia Momotaro mata al padre de Shiki, jura vengarlo. </p>
+          <div class="buttons">
+            <a href="go:stone" class="play">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                </svg>
+              </span>
+              COMENZAR A VER E1
+            </a>
+
+            <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Slide 3 -->
+      <div class="swiper-slide">
+        <img class="img-portrait" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=94,width=840/CurationAssets/I%20Was%20Reincarnated%20as%20the%207th%20Prince%20so%20I%20Can%20Take%20My%20Time%20Perfecting%20My%20Magical%20Ability/SEASON%202/ULTRA-WIDE/IWasReincarnatedAsThe7thPrince-S2C1-KV1-(Teaser)-UW-Tall-Cropped.png" alt="poster">
+        <img class="img-landscape" src="https://od.lk/s/M18zMTk5MzU1NjNf/IWasReincarnatedAsThe7thPrince-S2C1-KV1-%28Teaser%29-UW-LTR%281%29.png" alt="poster horizontal">
+        <div class="overlay"></div>
+        <div class="overlay overlay-bottom"></div>
+<div class="overlay overlay-left"></div>
+        <div class="info">
+            <div class="title">
+                <img src="https://od.lk/s/M18zMTk5MzU1NjRf/IWasReincarnatedAsThe7thPrince-S2C1-UW-Logo-ENG.png" alt="Logo Serie 1" style="width:200px; height:auto;">
+              </div>
+              
+              <div class="meta">
+                <span class="edad">16+</span>
+                <span class="separador"></span>
+                Sub | Dob
+              </div>
+              
+          <p class="desc">Las cualidades más valoradas en el estudio de la magia son el linaje, el nivel de habilidad y el esfuerzo. Existió un hechicero que, pese a su profundo amor por la magia, nació siendo un plebeyo, es decir, sin el linaje ni el nivel de habilidad necesarios. Cuando muere por causas no naturales, su último pensamiento fue que desearía haber estudiado más la magia cuando tuvo la oportunidad. Entonces despierta reencarnado como Lloyd, el séptimo príncipe del Reino de Saloum, parte de un linaje mágico muy poderoso. ¡Al reencarnarse con todos sus recuerdos intactos, se dispone a disfrutar de su nueva vida aprovechando sus extraordinarias habilidades mágicas para dominar los estudios de la magia que en su anterior vida estaban fuera de su alcance!</p>
+          <div class="buttons">
+            <a href="serie5.html" class="play">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                </svg>
+              </span>
+              COMENZAR A VER E1
+            </a>
+
+            <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Slide 4 -->
+      <div class="swiper-slide">
+        <img class="img-portrait" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=94,width=840/CurationAssets/Demon%20Slayer%20/MOVIE%20-%20INFINITY%20CASTLE/ULTRA-WIDE/DemonSlayer-InfinityMovie-UW-TallCropped.png" alt="poster">
+        <img class="img-landscape" src="https://od.lk/s/M18zMTk5MzU1NDVf/DemonSlayer-InfinityMovie-UW-LTR%281%29.png" alt="poster horizontal">
+        <div class="overlay"></div>
+        <div class="overlay overlay-bottom"></div>
+<div class="overlay overlay-left"></div>
+        <div class="info">
+            <div class="title">
+                <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=600/CurationAssets/Demon%20Slayer%20/MOVIE%20-%20INFINITY%20CASTLE/ULTRA-WIDE/DemonSlayer-InfinityMovie-UW-Logo-Cropped-LATAM.png" alt="Logo Serie 1" style="width:120px; height:auto;">
+              </div>
+              
+              <div class="meta">
+                <span class="edad">14+</span>
+                <span class="separador"></span>
+                Sub | Dob
+              </div>
+              
+          <p class="desc">Exclusivamente en cines en 2025</p>
+          <div class="buttons">
+            <a href="serie5.html" class="play">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                </svg>
+              </span>
+              COMENZAR A VER E1
+            </a>
+
+            <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Slide 5 -->
+<div class="swiper-slide">
+    <!-- 👇 aquí agregué la clase extra y el object-fit cover -->
+    <img class="img-portrait special-cover" 
+         src="https://od.lk/s/M18zMTk5MzYyMzlf/ApothecaryDiaries-S2-KV1-UW-Tall.avif" 
+         alt="poster" 
+         style="object-fit: cover;">
+  
+    <img class="img-landscape" 
+         src="https://od.lk/s/M18zMTk5MzU1MzFf/ApothecaryDiaries-S2-KV1-UW-LTR%281%29.png" 
+         alt="poster horizontal">
+  
+    <div class="overlay"></div>
+    <div class="overlay overlay-bottom"></div>
+    <div class="overlay overlay-left"></div>
+  
+    <div class="info">
+      <div class="title">
+        <img src="https://od.lk/s/M18zMTk5MzU1MzBf/ApothecaryDiaries-S2-KV1-UW-Logo-EN.png" 
+             alt="Logo Serie 1" style="width:230px; height:auto;">
+      </div>
+      
+      <div class="meta">
+        <span class="edad">14+</span>
+        <span class="separador"></span>
+        Sub | Dob
+      </div>
+      
+      <p class="desc">
+        Maomao llevaba una vida tranquila ayudando a su padre, un boticario. Todo cambia el día que la venden como sirvienta al palacio del emperador, pero la vida entre nobles y realeza no es para ella. Cuando la familia imperial enferma, ella decide intervenir para encontrar una cura, lo que llama la atención de Jinshi, un guapo oficial de palacio que decide ascenderla como dama de compañía de una de las concubinas del emperador. ¡Su habilidad con la medicina la hará conocida en el palacio por ayudar a resolver muchos misterios!
+      </p>
+      
+      <div class="buttons">
+        <a href="serie5.html" class="play">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="6 3 20 12 6 21 6 3"></polygon>
+            </svg>
+          </span>
+          COMENZAR A VER E1
+        </a>
+        <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+      </div>
+    </div>
+  </div>
+  
+  
+      <!-- Slide 6 -->
+      <div class="swiper-slide">
+        <img class="img-portrait" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=94,width=840/CurationAssets/Secrets%20of%20the%20Silent%20Witch/SEASON%201/ULTRA-WIDE/SecretsOfTheSilentWitch-S1C1-KV1-(Teaser)-UW-Tall-Cropped.png" alt="poster">
+        <img class="img-landscape" src="https://od.lk/s/M18zMTk5MzU0ODBf/SecretsOfTheSilentWitch-S1C1-KV1-%28Teaser%29-UW-LTR%281%29.png" alt="poster horizontal">
+        <div class="overlay"></div>
+        <div class="overlay overlay-bottom"></div>
+<div class="overlay overlay-left"></div>
+        <div class="info">
+            <div class="title">
+                <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=600/CurationAssets/Secrets%20of%20the%20Silent%20Witch/SEASON%201/ULTRA-WIDE/SecretsOfTheSilentWitch-S1C1-UW-Logo-ENG.png" alt="Logo Serie 1" style="width:300px; height:auto;">
+              </div>
+              
+              <div class="meta">
+                <span class="edad">14+</span>
+                <span class="separador"></span>
+                Sub | Dob
+              </div>
+              
+          <p class="desc">Monica Everett, la Bruja Silenciosa, es la única practicante del mundo de la Magia sin Voz, una auténtica heroína que, sin ayuda de nadie, combatió contra el Dragón Negro de la leyenda. Sin embargo, la joven portento es en realidad... ¡supertímida! Sí, resulta que aprendió Magia Sin Voz para evitar hablar en público. Sin saberlo, los Siete Sabios le han encomendado una misión secreta para proteger al Segundo Príncipe. ¿Podrá Mónica mantener la compostura mientras se enfrenta tanto a la vida social como a los males que acechan al joven miembro de la realeza?</p>
+          <div class="buttons">
+            <a href="serie5.html" class="play">
+  <span class="icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+         viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+    </svg>
+  </span>
+  COMENZAR A VER E1
+</a>
+
+            <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="swiper-slide">
+        <img class="img-portrait" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=94,width=840/CurationAssets/BLUE%20LOCK/SEASON%202/ULTRA-WIDE/BLUELOCK-S2-KV1-UW-Tall-Cropped.png" alt="poster">
+        <img class="img-landscape" src="https://od.lk/s/M18zMTk5MzU1MzZf/BLUELOCK-S2-KV1-UW-LTR%281%29.png" alt="poster horizontal">
+        <div class="overlay"></div>
+        <div class="overlay overlay-bottom"></div>
+<div class="overlay overlay-left"></div>
+        <div class="info">
+            <div class="title">
+                <img src="https://od.lk/s/M18zMTk5MzU1MzVf/BLUELOCK-S2-KV1-UW-Logo.png" alt="Logo Serie 1" style="width:280px; height:auto;">
+              </div>
+              
+              <div class="meta">
+                <span class="edad">14+</span>
+                <span class="separador"></span>
+                Sub | Dob
+              </div>
+              
+          <p class="desc">Tras una desastrosa derrota en la Copa Mundial de 2018, el equipo japonés está pasando por un mal momento. ¿Qué es lo que les falta? Un delantero que sea el mejor, alguien que pueda guiarles hasta la victoria. La federación japonesa está decidida a crear un jugador con una sed de gol única, alguien "egoísta" con el balón, un jugador que pueda ser capaz de dar la vuelta a un partido que está por perderse... Y para ello reúnen a 300 de las mejores jóvenes promesas de Japón. ¿Quién resultará el elegido como futuro líder del equipo? ¿Quién será capaz de plantar cara con su fuerza y su ego a cualquiera que se ponga en su camino? ¿Quién será ese jugador más egoísta que nadie?</p>
+          <div class="buttons">
+            <a href="serie5.html" class="play">
+  <span class="icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+         viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+    </svg>
+  </span>
+  COMENZAR A VER E1
+</a>
+
+            <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+    <!-- Bullets -->
+    <div class="swiper-pagination"></div>
+
+    <!-- Flechas -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+
+  <!-- Sección 1 -->
+<div class="extra-section">
+    <h2>Muestra de la temporada de julio de 2025</h2>
+    <div class="poster-row-wrapper">
+      <button class="arrow small left">❮</button>
+    <div class="poster-row">
+      <a href="anime1.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1Mzlf/cc8654d9219c3cfe5429a84c81c45796%281%29.jpg" alt="86 Eighty-Six">
+        <p>86 EIGHTY-SIX</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime2.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MzJf/b98bcac9724e403d78a0e5bb2a4ded7c%281%29.jpg" alt="Assassination Classroom">
+        <p>Assassination Classroom</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime3.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MDlf/323c82257b2f6567fabbb7bd55bfa753%281%29.jpg" alt="Attack on Titan">
+        <p>Attack on Titan</p>
+        <span>Dob Español | Sub</span>
+      </a>
+
+      <a href="anime1.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1Mzlf/cc8654d9219c3cfe5429a84c81c45796%281%29.jpg" alt="86 Eighty-Six">
+        <p>86 EIGHTY-SIX</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime2.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MzJf/b98bcac9724e403d78a0e5bb2a4ded7c%281%29.jpg" alt="Assassination Classroom">
+        <p>Assassination Classroom</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime3.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MDlf/323c82257b2f6567fabbb7bd55bfa753%281%29.jpg" alt="Attack on Titan">
+        <p>Attack on Titan</p>
+        <span>Dob Español | Sub</span>
+      </a>
+
+      <a href="anime1.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1Mzlf/cc8654d9219c3cfe5429a84c81c45796%281%29.jpg" alt="86 Eighty-Six">
+        <p>86 EIGHTY-SIX</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime2.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MzJf/b98bcac9724e403d78a0e5bb2a4ded7c%281%29.jpg" alt="Assassination Classroom">
+        <p>Assassination Classroom</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime3.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MDlf/323c82257b2f6567fabbb7bd55bfa753%281%29.jpg" alt="Attack on Titan">
+        <p>Attack on Titan</p>
+        <span>Dob Español | Sub</span>
+      </a>
+    </div>
+    <button class="arrow small right">❯</button>
+  </div>
+</div>
+  
+  <!-- Sección 2 -->
+  <div class="extra-section">
+    <h2>Populares ahora</h2>
+    <div class="poster-row-wrapper">
+      <button class="arrow small left">❮</button>
+    <div class="poster-row">
+      <a href="anime4.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU1MjNf/8532171bec0d05bfe45769a330fbab82%281%29.jpg" alt="Naruto Shippuden">
+        <p>Naruto Shippuden</p>
+        <span>Sub</span>
+      </a>
+  
+      <a href="anime5.html" class="poster">
+        <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Demon Slayer">
+        <p>Demon Slayer</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime6.html" class="poster">
+        <img src="https://image.tmdb.org/t/p/original/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg" alt="Jujutsu Kaisen">
+        <p>Jujutsu Kaisen</p>
+        <span>Dob Español | Sub</span>
+      </a>
+    </div>
+    <button class="arrow small right">❯</button>
+  </div>
+</div>
+  
+  <!-- Sección 3 -->
+  <div class="extra-section">
+    <h2>Recomendados para ti</h2>
+    <div class="poster-row-wrapper">
+      <button class="arrow small left">❮</button>
+    <div class="poster-row">
+      <a href="anime7.html" class="poster">
+        <img src="https://od.lk/s/M18zMTk5MzU0OTNf/6e008ad5211c3998b8f3e4bc166821cd%281%29.jpg" alt="My Hero Academia">
+        <p>My Hero Academia</p>
+        <span>Dob Español | Sub</span>
+      </a>
+  
+      <a href="anime8.html" class="poster">
+        <img src="https://image.tmdb.org/t/p/original/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg" alt="One Piece">
+        <p>One Piece</p>
+        <span>Sub</span>
+      </a>
+  
+      <a href="anime9.html" class="poster">
+        <img src="https://image.tmdb.org/t/p/original/arB3L9pZZBSzUPSC8BEv8c3X0bF.jpg" alt="Tokyo Revengers">
+        <p>Tokyo Revengers</p>
+        <span>Dob Español | Sub</span>
+      </a>
+    </div>
+    <button class="arrow small right">❯</button>
+  </div>
+</div>
+  
+  
+  
+
+  <!-- Footer -->
+  <!-- Footer -->
+  <footer>
+    <a href="go:home" class="nav-item active">
+      <span class="material-icons-outlined">home</span>
+      <span>Inicio</span>
+    </a>
+    <a href="listas.html" class="nav-item">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span>Mis listas</span>
+    </a>
+    <a href="explorar.html" class="nav-item">
+      <span class="icon-explorar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+        </svg>
+      </span>
+      <span>Explorar</span>
+    </a>
+    <a href="simulcasts.html" class="nav-item">
+      <span class="icon-simulcast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"></path>
+          <path d="M6 14l.8 2.2L9 17l-2.2.8L6 20l-.8-2.2L3 17l2.2-.8L6 14z"></path>
+        </svg>
+      </span>
+      <span>Simulcasts</span>
+    </a>
+    <a href="cuenta.html" class="nav-item">
+      <span class="icon-perfil">
+        <img src="https://od.lk/s/M18zMTk5MzU1ODVf/crunchy%20roll%20logo.png" alt="Perfil">
+      </span>
+      <span>Cuenta</span>
+    </a>
+  </footer>
+  
+  
+  
+  
+  
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
+  <script>
+
+    // JS para cambiar gradiente al hacer scroll
+window.addEventListener("scroll", () => {
+  const header = document.querySelector(".site-header");
+  if (window.scrollY > 50) {
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
+  }
+});
+
+    // Inicializar Swiper
+    
+  // Inicializar Swiper
+  const swiper = new Swiper('.swiper', {
+  loop: true,
+  effect: "fade",   // 👈 fade en lugar de slide
+  fadeEffect: {
+    crossFade: true // 👈 transición más suave
+  },
+  speed: 200,       // 👈 duración de transición (ms)
+  autoplay: {
+    delay: 7000,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
+
+
+
+document.querySelectorAll('.poster-row-wrapper').forEach(wrapper => {
+  const row = wrapper.querySelector('.poster-row');
+  const btnLeft = wrapper.querySelector('.arrow.left');
+  const btnRight = wrapper.querySelector('.arrow.right');
+
+  // función que revisa la posición del scroll
+  const updateArrows = () => {
+    const maxScroll = row.scrollWidth - row.clientWidth;
+
+    if (row.scrollLeft <= 0) {
+      btnLeft.style.display = "none";   // oculta flecha izq
+    } else {
+      btnLeft.style.display = "flex";   // muestra flecha izq
+    }
+
+    if (row.scrollLeft >= maxScroll - 5) {
+      btnRight.style.display = "none";  // oculta flecha der
+    } else {
+      btnRight.style.display = "flex";  // muestra flecha der
+    }
+  };
+
+  // Inicializar
+  updateArrows();
+
+  // Al hacer scroll manual
+  row.addEventListener('scroll', updateArrows);
+
+  // Botones
+  btnLeft.addEventListener('click', () => {
+    row.scrollBy({ left: -220, behavior: 'smooth' });
+  });
+
+  btnRight.addEventListener('click', () => {
+    row.scrollBy({ left: 220, behavior: 'smooth' });
+  });
+});
+
+
+
+  // Referencia a la paginación DOM
+  function positionPagination() {
+  const paginationEl = document.querySelector('.swiper-pagination');
+  const swiperEl = document.querySelector('.swiper');
+  const activeSlide = document.querySelector('.swiper-slide-active');
+  const info = activeSlide?.querySelector('.info');
+
+  if (!paginationEl || !swiperEl) return;
+
+  const isLandscape = window.innerWidth > window.innerHeight;
+
+  if (info) {
+    const swiperRect = swiperEl.getBoundingClientRect();
+    const infoRect = info.getBoundingClientRect();
+
+    // 20px debajo de la info
+    const bottomOffset = swiperRect.bottom - infoRect.bottom + -30;
+
+    if (isLandscape) {
+      paginationEl.style.left = '5%';
+      paginationEl.style.bottom = `${bottomOffset}px`;
+      paginationEl.style.textAlign = 'left';
+      paginationEl.style.transform = 'none';
+    } else {
+      paginationEl.style.left = '50%';
+      paginationEl.style.bottom = `${bottomOffset}px`;
+      paginationEl.style.textAlign = 'center';
+      paginationEl.style.transform = 'translateX(-50%)';
+    }
+  } else {
+    // Fallback
+    paginationEl.style.bottom = isLandscape ? '20px' : '40px';
+    paginationEl.style.left = isLandscape ? '5%' : '50%';
+    paginationEl.style.transform = isLandscape ? 'none' : 'translateX(-50%)';
+    paginationEl.style.textAlign = isLandscape ? 'left' : 'center';
+  }
+}
+
+// Escuchar cambios de tamaño y orientación
+window.addEventListener('resize', positionPagination);
+window.addEventListener('orientationchange', positionPagination);
+
+// Ejecutar al cargar y al cambiar slide
+swiper.on('init', positionPagination);
+swiper.on('slideChangeTransitionEnd', positionPagination);
+window.addEventListener('load', () => setTimeout(positionPagination, 50));
+
+
+
+
+
+
+  // Animación de barra interna: reset / start
+  function resetBulletsProgress() {
+    document.querySelectorAll('.swiper-pagination-bullet').forEach(bullet => {
+      bullet.style.setProperty('--progress', '0');
+    });
+  }
+  function startActiveBulletProgress() {
+    const active = document.querySelector('.swiper-pagination-bullet-active');
+    if (active) active.style.setProperty('--progress', '100%');
+  }
+
+  // Eventos Swiper
+  swiper.on('init', () => {
+    positionPagination();
+    startActiveBulletProgress();
+  });
+
+  swiper.on('slideChangeTransitionStart', () => {
+    resetBulletsProgress();
+  });
+
+  swiper.on('slideChangeTransitionEnd', () => {
+    positionPagination();
+    startActiveBulletProgress();
+  });
+
+  // También reaccionar a resize y a carga
+  window.addEventListener('resize', positionPagination);
+  window.addEventListener('load', () => {
+    // small delay para que se renderice todo
+    setTimeout(() => {
+      positionPagination();
+      startActiveBulletProgress();
+    }, 50);
+  });
+
+  // Si el swiper ya está creado (normal), forzamos una primera posición
+  setTimeout(positionPagination, 60);
+
+
+
+
+  
+  document.querySelectorAll(".save").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      const slide = btn.closest(".swiper-slide");
+      const playBtn = slide.querySelector(".play");
+  
+      const href = playBtn ? playBtn.getAttribute("href") : "#";
+      const img = slide.querySelector("img") ? slide.querySelector("img").src : "";
+  
+      let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+      const existe = favs.some(fav => fav.href === href);
+  
+      const icon = btn.querySelector("i");
+  
+      if (existe) {
+        // Quitar de favoritos
+        favs = favs.filter(fav => fav.href !== href);
+        localStorage.setItem("favoritos", JSON.stringify(favs));
+  
+        // Icono vacío
+        icon.classList.remove("fa-solid");
+        icon.classList.add("fa-regular");
+  
+      } else if (href !== "#") {
+        // Agregar a favoritos
+        favs.push({ href, img });
+        localStorage.setItem("favoritos", JSON.stringify(favs));
+  
+        // Icono lleno
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+      }
+    });
+  });
+  
+  // Restaurar estado al cargar
+  window.addEventListener("DOMContentLoaded", () => {
+    let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+    document.querySelectorAll(".save").forEach(btn => {
+      const slide = btn.closest(".swiper-slide");
+      const playBtn = slide.querySelector(".play");
+      const href = playBtn ? playBtn.getAttribute("href") : "#";
+      const icon = btn.querySelector("i");
+  
+      if (favs.some(fav => fav.href === href)) {
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+      }
+    });
+  });
+  
+  function handlePosterRows() {
+  const isPortrait = window.innerHeight > window.innerWidth;
+
+  document.querySelectorAll('.poster-row-wrapper').forEach(wrapper => {
+    const row = wrapper.querySelector('.poster-row');
+    const leftBtn = wrapper.querySelector('.arrow.left');
+    const rightBtn = wrapper.querySelector('.arrow.right');
+
+    if (leftBtn && rightBtn) {
+      if (isPortrait) {
+        leftBtn.style.display = "none";
+        rightBtn.style.display = "none";
+      } else {
+        leftBtn.style.display = "flex";
+        rightBtn.style.display = "flex";
+      }
+    }
+
+    // 🔹 Flechas landscape
+    if (!isPortrait) {
+      if (leftBtn) leftBtn.onclick = () => row.scrollBy({ left: -row.clientWidth * 0.8, behavior: "smooth" });
+      if (rightBtn) rightBtn.onclick = () => row.scrollBy({ left: row.clientWidth * 0.8, behavior: "smooth" });
+    }
+  });
+}
+
+window.addEventListener("load", handlePosterRows);
+window.addEventListener("resize", handlePosterRows);
+
+
+
+  
+  </script>
+</body>
+</html>
