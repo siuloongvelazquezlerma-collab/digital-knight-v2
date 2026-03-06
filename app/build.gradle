@@ -21,17 +21,17 @@ plugins {
 }
 
 def twaManifest = [
-    applicationId: 'app.netlify.digital_knight_v2.twa',
-    hostName: 'digital-knight-v2.netlify.app', // The domain being opened in the TWA.
+    applicationId: 'app.digitalknight.v2',
+    hostName: 'digital-knight-v2.vercel.app', // The domain being opened in the TWA.
     launchUrl: '/index.html', // The start path for the TWA. Must be relative to the domain.
     name: 'Digital Knight', // The application name.
-    launcherName: 'Digit Knight', // The name shown on the Android Launcher.
-    themeColor: '#000000', // The color used for the status bar.
-    themeColorDark: '#000000', // The color used for the dark status bar.
-    navigationColor: '#000000', // The color used for the navigation bar.
-    navigationColorDark: '#000000', // The color used for the dark navbar.
-    navigationDividerColor: '#000000', // The navbar divider color.
-    navigationDividerColorDark: '#000000', // The dark navbar divider color.
+    launcherName: 'Digital Knight', // The name shown on the Android Launcher.
+    themeColor: '#01011D', // The color used for the status bar.
+    themeColorDark: '#01011D', // The color used for the dark status bar.
+    navigationColor: '#01011D', // The color used for the navigation bar.
+    navigationColorDark: '#01011D', // The color used for the dark navbar.
+    navigationDividerColor: '#01011D', // The navbar divider color.
+    navigationDividerColorDark: '#01011D', // The dark navbar divider color.
     backgroundColor: '#000000', // The color used for the splash screen background.
     enableNotifications: true, // Set to true to enable notification delegation.
     // Every shortcut must include the following fields:
@@ -41,7 +41,7 @@ def twaManifest = [
     // - icon: Name of the resource in the drawable folder to use as an icon.
     shortcuts: [],
     // The duration of fade out animation in milliseconds to be played when removing splash screen.
-    splashScreenFadeOutDuration: 300,
+    splashScreenFadeOutDuration: 0,
     generatorApp: 'bubblewrap-cli', // Application that generated the Android Project
     // The fallback strategy for when Trusted Web Activity is not available. Possible values are
     // 'customtabs' and 'webview'.
@@ -52,13 +52,13 @@ def twaManifest = [
 
 android {
     compileSdkVersion 36
-    namespace "app.netlify.digital_knight_v2.twa"
+    namespace "app.digitalknight.v2"
     defaultConfig {
-        applicationId "app.netlify.digital_knight_v2.twa"
+        applicationId "app.digitalknight.v2"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 1          // <-- actualiza manualmente
-    versionName "1.0.0"    // <-- actualiza manualmente
+        versionCode 29
+        versionName "10"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -76,12 +76,12 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS and Meta Quest to open the Web version of the PWA instead of
             // the TWA, as it will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://digital-knight-v2.netlify.app/manifest.json'
+            resValue "string", "webManifestUrl", 'https://digital-knight-v2.vercel.app/manifest.json'
         
 
         
             // This is used by Meta Quest.
-            resValue "string", "fullScopeUrl", 'https://digital-knight-v2.netlify.app/'
+            resValue "string", "fullScopeUrl", 'https://digital-knight-v2.vercel.app/'
         
 
         
@@ -150,21 +150,9 @@ android {
 
         
     }
-    signingConfigs {
-    release {
-        storeFile file("../new-release-key.keystore")
-        storePassword "DKapp2024"
-        keyAlias "digitalknight"
-        keyPassword "DKapp2024"
-    }
-}
-
-
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled true  // o false si quieres saltar minificación
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
         }
     }
     compileOptions {
@@ -219,18 +207,7 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.1'
-    implementation 'com.google.android.material:material:1.12.0' // ✅ agrega esta
+    
+        implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.1'
+    
 }
-
-android.applicationVariants.all { variant ->
-    if (variant.buildType.name == "release") {
-        variant.outputs.all { output ->
-            def appName = "Digital-Knight"
-            def versionName = variant.versionName
-            def newApkName = "${appName}-v${versionName}.apk"
-            output.outputFileName = newApkName
-        }
-    }
-}
-

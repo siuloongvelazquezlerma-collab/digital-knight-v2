@@ -22,9 +22,9 @@
      the abbreviated format.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.netlify.digital_knight_v2.twa"
-    android:versionCode="1"
-    android:versionName="1.0.0" >
+    package="app.digitalknight.v2"
+    android:versionCode="29"
+    android:versionName="10" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -43,13 +43,13 @@
     </queries>
 
     <permission
-        android:name="app.netlify.digital_knight_v2.twa.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="app.digitalknight.v2.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="app.netlify.digital_knight_v2.twa.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="app.digitalknight.v2.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
-        android:name="app.netlify.digital_knight_v2.twa.Application"
+        android:name="app.digitalknight.v2.Application"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:extractNativeLibs="true"
@@ -57,7 +57,7 @@
         android:label="@string/appName"
         android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         <meta-data
             android:name="asset_statements"
             android:resource="@string/assetStatements" />
@@ -74,10 +74,10 @@
                 android:value="@string/launchUrl" />
         </activity>
         <activity
-            android:name="app.netlify.digital_knight_v2.twa.LauncherActivity"
+            android:name="app.digitalknight.v2.LauncherActivity"
             android:alwaysRetainTaskState="true"
             android:exported="true"
-            android:label="@string/appName" >
+            android:label="@string/launcherName" >
             <meta-data
                 android:name="android.support.customtabs.trusted.DEFAULT_URL"
                 android:value="@string/launchUrl" />
@@ -100,6 +100,9 @@
                 android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR_DARK"
                 android:resource="@color/navigationDividerColorDark" />
             <meta-data
+                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
+                android:resource="@drawable/splash" />
+            <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
                 android:resource="@color/backgroundColor" />
             <meta-data
@@ -114,9 +117,6 @@
             <meta-data
                 android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
                 android:value="@string/fallbackType" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.DISPLAY_MODE"
-                android:value="standalone" />
             <meta-data
                 android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
                 android:value="@string/orientation" />
@@ -152,11 +152,26 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
+        <service
+            android:name="app.digitalknight.v2.DelegationService"
+            android:enabled="@bool/enableNotification"
+            android:exported="@bool/enableNotification" >
+            <meta-data
+                android:name="android.support.customtabs.trusted.SMALL_ICON"
+                android:resource="@drawable/ic_notification_icon" />
+
+            <intent-filter>
+                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
         <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="app.netlify.digital_knight_v2.twa.androidx-startup"
+            android:authorities="app.digitalknight.v2.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"
