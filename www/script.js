@@ -225,21 +225,7 @@ window.addEventListener('hashchange', () => {
 
 // Simula datos de notificaciones
 const mockNotifications = [
-  {
-    image: "https://image.tmdb.org/t/p/original/gnVj0anmHmk3S4tprHbBHXFCo5M.jpg",
-    header: "Nueva Película",
-    title: "Poder sin Límites",
-    body: "Ya está disponible para ver.",
-    link: "peliculas/poder-sin-limites.html"
-  },
-  {
-    image: "https://image.tmdb.org/t/p/original/6aAsTVPSsqyD2bqYfAnOdG9g4rF.jpg",
-    header: "Nueva Película",
-    title: "GOAT: La cabra que cambió el juego ",
-    body: "Ya está disponible para ver.",
-    link: "Animacion/goat-la-cabra-que-cambio-el-juego.html"
-  }
-
+  
   
   
   ];
