@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.0";
+const NOTIFICATIONS_VERSION = "2.1";
 
 /* ================= ESTADO GLOBAL ================= */
 
@@ -49,10 +49,10 @@ function addNotification() {
   notifications = [];
 
   notifications.push({
-  href: "#",
-  img: "https://image.tmdb.org/t/p/original/87T7cjpql9yaXhf2IW2zx0d70In.jpg",
-  title: "✨ Nuevo estreno anunciado",
-  text: "Toy Story 5 está en camino. Woody y Buzz regresan en una nueva aventura.",
+  href: "peliculas/scary-movie-3.html",
+  img: "https://image.tmdb.org/t/p/original/psOEFCvuz6JOc1ZzZNml9bDHh2v.jpg",
+  title: "Nueva comedia agregada",
+  text: "Scary Movie 3 ya está disponible. Prepárate para risas, parodias y caos total en la app.",
   seen: false
 });
 
