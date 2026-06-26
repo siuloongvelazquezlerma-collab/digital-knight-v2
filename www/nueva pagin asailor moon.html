@@ -1,0 +1,2828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Sailor moon</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Ajusta la altura según sea necesario */
+    background-color: black; /* Fondo negro */
+}
+
+#black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10; /* Asegúrate de que esté por encima del video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+        .video-js {
+            width: 100%;
+            height: 100%; /* Asegura que el video ocupe todo el contenedor */
+        }
+
+        .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background: linear-gradient(to bottom, #00000069, #00000000, #00000000, #00000000, #00000000, #0000003b ),
+    url('https://image.tmdb.org/t/p/original/ylo2jRmsVCYAXcL1qX2U9GvxpZ7.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+
+  
+        }
+        .horizontal-overlay {
+    display: none; /* Oculta por defecto */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(to bottom, #000000c4, #00000000, #00000000, #00000000, #00000086, #000000),
+    url('https://img00.deviantart.net/1d04/i/2014/044/e/f/sailor_moon_flower_wallpaper_by_supremechaos918-d76aogx.png') no-repeat top center;
+    background-size: contain;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+    transition: background 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+/* Media query para modo horizontal */
+@media (orientation: landscape) {
+    .overlay {
+        display: none; /* Oculta la imagen principal */
+    }
+    .horizontal-overlay {
+        display: flex; /* Muestra la segunda imagen */
+    }
+}
+
+/* Media query para modo vertical */
+@media (orientation: portrait) {
+    .overlay {
+        display: flex; /* Muestra la imagen principal */
+    }
+    .horizontal-overlay {
+        display: none; /* Oculta la segunda imagen */
+    }
+}
+
+
+   
+
+
+        .container {
+    max-width: 100%;
+}
+
+.logo-container {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%; /* Cubre todo el ancho de la página */
+    background: linear-gradient(to bottom, #00000000, #00000075, #000000 ); /* Degradado lineal */
+    padding: 10px; /* Espaciado interno para que el degradado sea visible alrededor del logo */
+    text-align: center; /* Centra el logo dentro del fondo */
+}
+
+.logo {
+    width: 250px; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+    opacity: 0.0; /* Transparencia total */
+}
+
+
+
+        .tabs {
+            display: flex;
+    justify-content: flex-start; /* Alinear hacia la izquierda */
+    margin-top: 10px;
+    border-bottom: 1px solid #ffffff38;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #ff5e00; /* Borde blanco para la pestaña activa */
+    font-weight: bold;
+    color: #fff; /* Color de fuente blanco */
+
+            
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .episode {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            border-left: 5px solid transparent;
+        }
+
+        .episode.watched {
+    border-left: 5px solid #ff5e00; /* Change the color as needed */
+}
+.episode.watched img {
+    filter: brightness(50%);
+}
+
+
+        .episode img {
+            width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+        
+        }
+
+        .duration-label {
+            position: absolute;
+            bottom: 3px;
+            right: 190px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .episode-description {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+            font-weight: bold;
+            top: -15px;
+        }
+        .episode-title {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+        }
+        .download-button, .mark-watched-button {
+            padding-bottom: 10px;
+            right: 10px;
+            bottom: 0px;
+            color: white;
+            font-size: 17px;
+            padding: 5px 10px 5px;
+            cursor: pointer;
+            position: absolute;
+        }
+        .duration, .remaining-time {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+        .season-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    position: relative;
+    border-bottom: 1px solid #ffffff38;
+    bottom: 10px;
+}
+
+.season-dropdown select {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.season-dropdown .material-icons {
+    margin-left: -175px; /* Ajusta la posición del icono */
+    pointer-events: none;
+    
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px; /* Espacio entre el dropdown de temporadas y el menú desplegable */
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0; /* Despliega hacia abajo a la izquierda */
+}
+
+.menu-dropdown button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-dropdown button:hover {
+    background-color: #575757;
+}
+
+.download-all-button {
+    margin-left: 220px;
+    background: none;
+    color: white; /* Texto blanco para el botón de descarga */
+    font-size: 13px; /* Tamaño del texto del botón */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.download-all-button .material-icons {
+    margin-left: 20px; /* Espaciado entre el texto y el icono */
+    font-size: 17px;
+    border-bottom: 0.5px solid white; /* Grosor de la línea */
+  width: 17px; /* Ajusta el ancho de la línea */
+  text-align: center;
+}
+.suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre las imágenes */
+        }
+        .suggestion-item {
+            position: relative;
+        }
+        .suggestion-item img {
+            width: 100%;
+            height: auto;
+        }
+        .suggestion-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .suggestion-item:hover a {
+            opacity: 1;
+        }
+
+        /* Estilos para la animación de deslizamiento */
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, #000000, #00000069, #00000000);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .header.scrolled {
+            background: linear-gradient(to bottom, #000000, #000000, #000000 );
+        }
+        .header .back-arrow, .header .cast-button {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        .header .title {
+            display: none;
+            font-size: 18px;
+            color: white;
+            margin-left: 10px;
+        }
+        .header.scrolled .title {
+            display: block;
+        }
+        .content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        .season-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        .season-navigation .material-icons {
+            margin: 10px 10px; /* Space between text and arrow */
+            align-items: center;
+        }
+        .previous-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+           
+        }
+        .next-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding-right: 10px;
+        }
+        .favorito-container {
+    display: flex;
+    justify-content: flex-start; /* Mover el botón a la izquierda */
+    align-items: center;
+    margin-top: 2px; /* Espacio superior para separar del contenido anterior */
+}
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#favoritoIcon {
+    margin-right: 5px;
+}
+
+.favorito-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.serie-descripcion {
+    margin: 20px;
+    text-align: left;
+}
+
+#detallesBtn {
+    background: none;
+    border: none;
+    color: #ff5e00;
+    padding: 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+
+.detalles-slider {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 40px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    transition: bottom 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.detalles-slider.active {
+    bottom: 0;
+}
+
+.detalles-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    bottom: -10px;
+    top: 30%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.heading-line {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 16px;
+    font-size: 11px;
+    z-index: 1000;
+}
+
+.age-rating {
+    padding: 5px 0; /* Quitar el fondo de color general */
+    margin-top: 10px; /* Espacio entre el título y la clasificación por edad */
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.rating {
+    background-color: rgba(92, 98, 129, 0.7); /* Fondo de color solo para el número 12 y el signo de más */
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.series-text {
+    color: #78f1d3; /* Color para el texto "Series" */
+    font-size: 13px;
+    padding: 3px;
+}
+
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #202127;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+.footer-btn:hover,
+.footer-btn.active { /* Color naranja al estar activo */
+  color: #ff5e00; 
+}
+
+.footer-btn  {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 0; 
+    font-size: 0.6em;
+    transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+    font-size: 30px;
+    margin-bottom: 1px;
+}
+.footer-btn p {
+  margin: 1px 6px 9px; /* Ajusta el margen superior del texto */
+  
+ 
+}
+.notificacion {
+  position: fixed;
+  bottom: 48px; /* Ajusta la posición para que aparezca arriba del footer */
+  width: 100%;       /* La notificación ocupa todo el ancho */
+  left: 0;
+  transform: translateX(0);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1001; /* Asegúrate de que esté por encima del footer */
+  display: none; /* Inicialmente oculta */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  align-items: center;   /* Centra verticalmente */
+  justify-content: flex-start; /* Centra horizontalmente */
+  margin: 10px;
+
+}
+
+.notificacion.mostrar {
+  display: block;
+  opacity: 1;
+}
+
+.check-icon {
+  color: #4CAF50; 
+  margin-left: 10px; /* Espacio a la IZQUIERDA del icono */
+}
+
+
+     
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <div style="display: flex; align-items: center;">
+            <a href="go:inicio" class="back-arrow material-icons">arrow_back</a>
+            <span class="description" id="page-title">Sailor Moon</span>
+        </div>
+        <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMDk3MzM2MjZf/nueva%20pagin%20asailor%20moon.html" class="cast-button material-icons">cast</a>
+    </div>
+    <div class="video-container">
+        <div id="black-overlay"></div>
+        <video id="my-video" class="video-js" controls preload="auto" data-setup="{}">
+            <source id="videoSource" src="https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4" type="video/mp4" id="video-source">
+            <p class="vjs-no-js">
+                Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+                <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+            </p>
+        </video>
+     
+        <div class="overlay" id="overlay">
+            <div class="logo-container">
+                <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+            </div>
+    </div>
+    <div class="horizontal-overlay">
+        <!-- Contenido de la segunda imagen -->
+        <div class="logo-container">
+            <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br>
+<div class="heading-line">
+    <h1 class="heading title">Sailor Moon</h1>
+    <div class="age-rating">
+        <span class="rating">12+</span> • <span class="series-text">Series</span> • Dob
+    </div>
+</div>
+
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="sailormoon" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/ylo2jRmsVCYAXcL1qX2U9GvxpZ7.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="go:moon"></a>
+        <span id="nombre">Sailor Moon</span>
+    </div>
+</div>
+<div id="notificacion" class="notificacion">
+    <span class="material-icons check-icon">check_circle</span> <span id="mensajeNotificacion"></span> 
+  </div>
+<div class="serie-descripcion">
+    <p id="descripcion-texto">"Sailor Moon" es una serie de anime y manga creada por Naoko Takeuchi, que se lanzó por primera vez en 1991.  
+        En la versión en inglés del anime, el personaje principal se llama Serena
+        Tsukino. Sin embargo, en la versión original japonesa, su nombre es Usagi Tsukino. Ambas versiones representan a la
+        misma chica, una adolescente torpe y soñadora que se convierte en la heroína Sailor Moon. Esta serie ha tenido un
+        impacto significativo en la cultura pop y es conocida por su influencia en el género de magical girl.</p>
+        <br>
+    <center><button id="detallesBtn" onclick="toggleDetalles()">Detalles de la serie</button></center>
+</div>
+<div id="detallesSlider" class="detalles-slider">
+    <div class="detalles-content">
+        <button class="close-btn" onclick="toggleDetalles()">X</button>
+        <h2>Sailor Moon</h2>
+        <br>
+        <p>Sailor Moon es una serie de anime y manga creada por Naoko Takeuchi, que se lanzó por primera vez en 1991. Aquí
+            tienes algunos detalles clave y su género:</p>
+<br>
+           <p> Detalles Clave:</p>
+           <br>
+
+<p>Género: Magical girl, acción, aventura, romance.</p>
+<br>
+<p>Protagonista: Usagi Tsukino (Serena Tsukino en la versión inglesa), una adolescente que se convierte en la guerrera mágica Sailor Moon.</p>
+<br>
+<p>Trama Principal: Usagi descubre que tiene el poder de convertirse en Sailor Moon y es elegida para proteger la Tierra de fuerzas oscuras, como el malvado Rey Endymion y otras amenazas.</p>
+<br>
+<p>Compañeras: A lo largo de la serie, se une a otras Sailor Guardians, cada una con sus propios poderes y personalidades, incluyendo Sailor Mercury, Sailor Mars, Sailor Jupiter y Sailor Venus.</p>
+<br>
+<p>Temas: La serie aborda temas como la amistad, el amor, la lucha entre el bien y el mal, y el crecimiento personal.</p>
+<br>
+<p>Transformaciones: Una característica distintiva es la secuencia de transformación en la que Usagi y sus compañeras se transforman en sus identidades de guerreras mágicas, lo que se ha convertido en un ícono del género.</p>
+<br>
+<p>Género:</p>
+<br>
+<p>Magical Girl: Se centra en chicas que obtienen poderes mágicos y luchan contra fuerzas del mal.</p>
+<br>
+<p>Shojo: Está dirigido principalmente a un público femenino joven, con énfasis en el romance y las relaciones interpersonales.
+</p>
+<br><br><br><br>
+        <!-- Agrega más detalles aquí -->
+    </div>
+</div>
+
+
+<div class="tabs slide-up">
+    <div class="tab active" data-tab="episodes">Episodios</div>
+    
+    <div class="tab" data-tab="suggestions">Más como esto</div>
+</div>
+
+<div id="episodes" class="tab-content active">
+
+    <div class="season-dropdown">
+            <label for="season-select"></label>
+            <select id="season-select">
+                <option value="1">Sailor Moon </option>
+                <option value="2">Sailor Moon R </option>
+                <option value="3">Sailor Moon S </option>
+                <option value="4">Sailor Moon Super S </option>
+                <option value="5">Sailor Moon Stars </option>
+              
+            </select>
+            
+            <span class="material-icons">arrow_drop_down</span>
+            
+            <button class="download-all-button" id="download-all">
+                Descargar Todos <span class="material-icons">arrow_downward</span>
+            </button>
+            
+            
+        </div>
+        <div id="playlist"></div>
+    </div>
+      
+
+    <div id="suggestions" class="tab-content">
+       
+        <div class="suggestions-grid">
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/6VKOfL6ihwTiB5Vibq6QTfzhxA6.jpg" alt="dragon ball z">
+                <a href="https://od.lk/s/M18zMDk0NDMzMThf/DB%20SAGAS.html" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <!-- Agrega más sugerencias aquí -->
+        </div>
+    </div>
+    <div class="season-navigation">
+        <div class="previous-season">
+            <i class="material-icons">arrow_back</i>
+            Temporada Anterior
+        </div>
+        <div class="next-season">
+            Siguiente Temporada
+            <i class="material-icons">arrow_forward</i>
+        </div>
+    </div>
+   
+    <footer class="footer">
+        <a href="go:Inicio" class="footer-btn" id="homeBtn">
+            <span class="material-icons-outlined">home</span>
+            <p>Inicio</p>
+        </a>
+        <a href="go:favoritos" class="footer-btn" id="favoritosBtn">
+            <span class="material-icons-outlined">bookmark_outline</span>
+            <p>Favoritos</p>
+        </a>
+        <a href="go:explorar" class="footer-btn" id="explorarBtn">
+            <span class="material-icons-outlined">grid_view</span>
+            <p>Explorar</p>
+        </a>
+        <a href="http://action_profile" class="footer-btn" id="cuentaBtn">
+            <span class="material-icons-outlined">account_circle</span>
+            <p>Cuenta</p>
+        </a>
+    </footer>
+
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+    <script>
+        const playlists = {
+            1: [
+    {
+      "description": "1. Cómo una niña miedosa se convierte en Sailor Scout",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/original/cYmli9KoGBgKmTgcZbGAaRbXUox.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTQ3OTZf/SAL-01x001%20-%20SeriesRetro.com.mp4",
+      "download": "https://od.lk/d/M18zMDA3NTQ3OTZf/SAL-01x001%20-%20SeriesRetro.com.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "2. La casa de la adivina es un nido de monstruos",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//sYxH4L8WUFUBXcTRmuXtGJ2ddAM.jpg",
+      "video": "https://od.lk/d/M18zMDA3NTQ4ODFf/SAL-01x002%20-%20SeriesRetro.com.mp4",
+      "download": "https://od.lk/d/M18zMDA3NTQ4ODFf/SAL-01x002%20-%20SeriesRetro.com.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "3. Salven a las chicas enamoradas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//xFnwbg8ElwP3Feft553JiXJ7wQM.jpg",
+      "video": "https://od.lk/d/M18zMDA3NTQ5Njlf/SAL-01x003%20-%20SeriesRetro.com.mp4",
+      "download": "https://od.lk/d/M18zMDA3NTQ5Njlf/SAL-01x003%20-%20SeriesRetro.com.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "4. ¿Quiéres estár delgada?",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//pxnOSOS1FAyeXFjN8Tjey8xZUM6.jpg",
+      "video": "https://od.lk/d/M18zMDA3NTUxODNf/SAL-01x004%20-%20SeriesRetro.com.mp4",
+      "download": "https://od.lk/d/M18zMDA3NTUxODNf/SAL-01x004%20-%20SeriesRetro.com.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "5. El misterioso perfume de los Chanellas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//llvO5S86sastu36r1v3NMY5Ucig.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTU4MDFf/SAL-01x005%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDA3NTU4MDFf/SAL-01x005%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "6. Serena se convierte en cupido",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//cTBkKyMuSvONRWln43wzYwhukb.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2MzJf/SAL-01x006%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2MzJf/SAL-01x006%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "7. El largo y sinuoso camino al estrellato",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//Da3kpkh5ntbt90iXHNsjeWcT2a.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2Mzhf/SAL-01x007%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2Mzhf/SAL-01x007%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "8. Terror en el seminario lava cocos",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//os1RM9WN5Donjt36Czq52qQmjLX.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTYwOTJf/SAL-01x008%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDA3NTYwOTJf/SAL-01x008%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "9. El desastre de Serena. Cuidado con el reloj",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//oEc303jHXMAGeMIlXcWHLhlksSl.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NDVf/SAL-01x009%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NDVf/SAL-01x009%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "10. El autobús fantasma. Sailor Mars, la Sailor Scout de fuego",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//vUlirjUx5j8NTPShTdjs9dD0Pg9.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NjJf/SAL-01x010%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NjJf/SAL-01x010%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "11. El parque de diversiones",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//8upfsOaDdwmIFyZ5JARLJQG62ze.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NjNf/SAL-01x011%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NjNf/SAL-01x011%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "12. Quiero tener novio la trampa del crucero de lujo",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//qNi0UGcQqDHsyfnfhpLI27ENtIG.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NjRf/SAL-01x012%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NjRf/SAL-01x012%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "13. Unámonos chicas contra Jedite",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//5xxo0hS1LPSIctVuiasTf5KztHc.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NjVf/SAL-01x013%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NjVf/SAL-01x013%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "14. Un poderoso enemigo ha llegado Neflite",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//3d3G4q2IWaK2yGv053AR9A4cKOV.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTYyODNf/SAL-01x014%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDA3NTYyODNf/SAL-01x014%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "15. Serena se alarma con la primera cita de Rei",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//6SBo9tvZfbhk1y3U2EFVYwzvXjH.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2Njdf/SAL-01x015%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2Njdf/SAL-01x015%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "16. Serena se convierte en novia",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//6M2WgsTeioziVfmSZ1z5WkTcdmK.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NzBf/SAL-01x016%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NzBf/SAL-01x016%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "17. Serena modelo las malignas se hacen fotografas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//qGq4CyctxazSGKJwh1KDgFbUhSv.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTY0MTdf/SAL-01x017%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDA3NTY0MTdf/SAL-01x017%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "18. Sammy se enamora o la muñeca misteriosa",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//fS2BzLNrwVLGFeQKjcSI5HLMwyH.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTY3Njhf/SAL-01x018%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDA3NTY3Njhf/SAL-01x018%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "19. Sorpresa una carta de amor de Tuxedo Mask para Serena",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//2iAsD73bSiOVQ0u4dKZlUeEAsSC.jpg",
+      "video": "https://od.lk/s/M18zMDA3NTY5MDFf/SAL-01x019%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDA3NTY5MDFf/SAL-01x019%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "20. El verano el mar chicas y tambien fantasmas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//rcExbE75O5Rp7ByS8MjtcLXTQa.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NzVf/SAL-01x020%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NzVf/SAL-01x020%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "21. Hay que salvar los sueños de los niños",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//n8ZlZFmebWQwQ6UYZnUBVirhcOM.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2NzZf/SAL-01x021%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2NzZf/SAL-01x021%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "22. El primer beso de Serena",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//o79FYL3yVYG6Lk6PmQJTtdspF5E.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2Nzdf/SAL-01x022%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2Nzdf/SAL-01x022%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "23. Estrella fugaz protege el primer amor de Molly",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//wceKsr9HsKcXl630MASQI1CYI1J.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2Nzhf/SAL-01x023%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2Nzhf/SAL-01x023%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "24. Neflite muere por Molly",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//zV0JycA7W1QvjlHTV2Fd8Lpwkgq.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2Nzlf/SAL-01x024%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2Nzlf/SAL-01x024%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "25. La poderosa Sailor Júpiter esta enamorada",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//40RqLcTjMDBAEJKFeLKLGaOq56Z.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2ODBf/SAL-01x025%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2ODBf/SAL-01x025%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "26. La amistad de Serena devuelve la felicidad a Molly",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//qLqQMr1ZdhOsuvh5DWyUaY6gXGV.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2ODFf/SAL-01x026%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2ODFf/SAL-01x026%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "27. Richard se enamora de Ami",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//8f5iG8ilg57XEPqYxYqcrJHTxkd.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2ODJf/SAL-01x027%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2ODJf/SAL-01x027%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "28. Serena y Darien en un retrato de amor",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//g4nAc0smnHISGVE896VVLBgT6ku.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2ODNf/SAL-01x028%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2ODNf/SAL-01x028%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "29. Un extraño triángulo amoroso o es un cuadrado",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//qCemw36shBS0pgoLkwJntBUH0EW.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2ODZf/SAL-01x029%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2ODZf/SAL-01x029%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "30. Se ha vuelto loco el abuelo de Rei",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//1rbBOo6HuM0kMsFFBT6LHww9juV.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2OTFf/SAL-01x030%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2OTFf/SAL-01x030%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "31. Amada y perseguida el peor dia de luna",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//oPWpxgyzXdRL83fRN9USWA6VO5J.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2OTVf/SAL-01x031%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2OTVf/SAL-01x031%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "32. Kelvin se convierte en héroe y salva a Molly",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//ixc1rq98otzgrX8zjhjYOpLC2ze.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2OTZf/SAL-01x032%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2OTZf/SAL-01x032%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "33. La ultima sailor scout venus ha aparecido",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//t5uXR87MNhGa0GfJeNqBRhYbalz.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2OTdf/SAL-01x033%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2OTdf/SAL-01x033%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "34. Resplandeciente cristal de plata aqui viene la princesa Moon",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//45wxqoTcgpIvp1sj1aM4ngeC5S7.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY2OThf/SAL-01x034%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY2OThf/SAL-01x034%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    {
+      "description": "35. Los recuerdos de Serena y Darien",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//9pucYZObpkkKFM8LHJoprTeN1la.jpg",
+      "video": "https://od.lk/s/M18zMDEwMjY3MDNf/SAL-01x035%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL del video
+      "download": "https://od.lk/d/M18zMDEwMjY3MDNf/SAL-01x035%20-%20SeriesRetro.com.mp4", // Agrega aquí la URL de descarga
+      "duration": "24m"
+    },
+    
+    {
+        "description": "36. La confusión de Serena, Tuxedo Mask es malo",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//kQ3RuTnZfuuFFAo2lAdgZABpWFK.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjY3MDRf/SAL-01x036%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjY3MDRf/SAL-01x036%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "37. Serena se prepara para ser princesa",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//lDBDEGMaBCjO5GDLsEI09drRsx1.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjY3MDVf/SAL-01x037%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjY3MDVf/SAL-01x037%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "38. Viva la nieve las montañas y nuestra amistad",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jvqWcISQ3R3FaaHLFf7W82M9e6B.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjY3NDZf/SAL-01x038%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjY3NDZf/SAL-01x038%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "39. Lita es la reina del patinaje artistico",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//4hLwJ04mH7QMFP9BL1YPeE78qeo.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjY4MjNf/SAL-01x039%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjY4MjNf/SAL-01x039%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "40. El espíritu maligno del lago une la familia",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//rg5JvbBKpJHdusJYCLW3BPLMo1w.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjY4NzJf/SAL-01x040%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjY4NzJf/SAL-01x040%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "41. Ami se enamora y pelea contra Darien",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//79QFBL2DE9cBB6b3BJ9W7PTTtwy.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjY5Mjlf/SAL-01x041%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjY5Mjlf/SAL-01x041%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "42. El pasado de sailor venus el tragico amor de Mina",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//5S1PsUw80qx8yk3YKVM4HjmcTbL.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjcwMDRf/SAL-01x042%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjcwMDRf/SAL-01x042%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "43. Serena se queda sola sailor moon contra las demas sailor scouts",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ko3oe0f5XsErvJkVbMyVVQxfziT.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjcwNjBf/SAL-01x043%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjcwNjBf/SAL-01x043%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "44. Serena despierta un mensaje del grandioso pasado",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//iEnUHHECabQMcTgv58knJMM054n.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjcxNThf/SAL-01x044%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjcxNThf/SAL-01x044%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "45. Las sailor mueren en un tragico combate",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//z1PhMTWrMc2k1wYw62HPXb7bIwQ.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjcyMTVf/SAL-01x045%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/s/M18zMDEwMjcyMTVf/SAL-01x045%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "46. El sueño eterno de serena una nueva vida",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//4iiMqDYvrKfww9qcBA2peDa6nS7.jpg",
+        "video": "https://od.lk/s/M18zMDEwMjczMDFf/SAL-01x046%20-%20SeriesRetro.com.mp4",
+        "download": "https://od.lk/d/M18zMDEwMjczMDFf/SAL-01x046%20-%20SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+            ],
+            2: [
+    {
+        "description": "1. Amada y perseguida el peor dia de luna",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jprZESMuweRjjilcAiVuenS7lRk.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE0NjVf/sailor-moon-47.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE0NjVf/sailor-moon-47.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "2. Las Sailor Scouts se vuelven a reunir",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//t7Xj1W6zC40gKazctxElZk55Z3z.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE0Njhf/sailor-moon-48.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE0Njhf/sailor-moon-48.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "3. El caballero de la Luna",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//uc5Q2vdboeS6EWRM39aH7KWr2Or.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE0Njlf/sailor-moon-49.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE0Njlf/sailor-moon-49.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "4. Serena queda desconsolada",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//upWMmqGOcNnW8agl4M9Ty0omBzp.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE0ODBf/sailor-moon-50.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE0ODBf/sailor-moon-50.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "5. La transformación de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//cZwI1QfuBDtjoThEryoXwwblsfE.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MDJf/sailor-moon-51.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MDJf/sailor-moon-51.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "6. Crisis en el jardín de niños",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//5PImFP3TNxtggE7TZmlq40lIyvp.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MDVf/sailor-moon-52.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MDVf/sailor-moon-52.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "7. Los problemas de ser niñera",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//mnZ31bMnKszbN0ij1z19yimWZTD.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MDZf/sailor-moon-53.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MDZf/sailor-moon-53.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "8. La canción de Rei",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//s7XGNWjiN0n1U7OcSe42CMjlghR.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MDdf/sailor-moon-54.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MDdf/sailor-moon-54.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "9. El amor es...",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//w0n8fUi3BJBjcHsnog5FHy1vq4z.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MDhf/sailor-moon-55.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MDhf/sailor-moon-55.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "10. La operación 'Blancanieves' de Ann",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//iAX6nY65VIU3zbpSTyf3HBEF4Rr.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MTNf/sailor-moon-56.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MTNf/sailor-moon-56.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "11. Peligro después de clases",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//2jEgIleTZRIM7XL5DZDpgtXZx9v.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MThf/sailor-moon-57.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MThf/sailor-moon-57.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "12. El amor perdido",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//rkAbRYkcSGRXdll5PRLnXsiCFBv.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MTlf/sailor-moon-58.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MTlf/sailor-moon-58.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "13. El secreto del árbol",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//sK8Pa6qP1drXUrYQe9ZnJnOawCV.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MjBf/sailor-moon-59.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MjBf/sailor-moon-59.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "14. La misteriosa niña que cayó del cielo",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//vCxtkItEtprckXKjIwmrlIH2p5P.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MjFf/sailor-moon-60.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MjFf/sailor-moon-60.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "15. Darien termina con Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jprZESMuweRjjilcAiVuenS7lRk.jpg",
+        "video": "https://od.lk/s/M18zMDEwMzE1MjJf/sailor-moon-61.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzE1MjJf/sailor-moon-61.mp4",
+        "duration": "24m"
+    },
+    {
+      "description": "16. La despedida de Amy",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//24WbWJwyQSYKAPfKzeqOHx6uRpc.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MjNf/sailor-moon-62.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MjNf/sailor-moon-62.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "17. Jóvenes fuertes y bellas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//64mZOfYuuv18g3HTkY2DgeZaFLP.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MjRf/sailor-moon-63.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MjRf/sailor-moon-63.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "18. El secreto de Rini",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//k9apqRyjSfS1E5FGBZheTFVuk8g.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MjVf/sailor-moon-64.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MjVf/sailor-moon-64.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "19. Una pelea en defensa del amor",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//brEpQ4i9ds54cMxieBSwTqP0ec8.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MjZf/sailor-moon-65.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MjZf/sailor-moon-65.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "20. El cariño maternal de Serena; un triangulo unido por un platillo de curry",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//yJSTQDoWrWiCMI37VPGhC1e5ZWS.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MzFf/sailor-moon-66.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MzFf/sailor-moon-66.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "21. Vacaciones en la playa un descanso para las sailors scouts",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//iYnEFh1hRA0PEnOJrfL51G9hg8j.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MzNf/sailor-moon-67.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MzNf/sailor-moon-67.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "22. Hay que proteger a Rini, la gran batalla de los diez guerreros",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//59cnlJguK0km0W0lAy3ZGLmQFQH.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MzRf/sailor-moon-68.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MzRf/sailor-moon-68.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "23. El despertar de Sailor Moon, la angustia de Darien",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//5zvgL6DbRjVQSUaaMwV6vVQDvwo.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MzVf/sailor-moon-69.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MzVf/sailor-moon-69.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "24. Una lucha por el amor Sailor Mars contra Karmesite",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//9Ifjn8P15bF3aKg5f9w4UK72jez.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1MzZf/sailor-moon-70.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1MzZf/sailor-moon-70.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "25. Todo por los amigos, el combate entre Amy y Berjedite",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//aROCguCwmdQYy4gCnaXhKWjdfEZ.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzE1Mzdf/sailor-moon-71.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzE1Mzdf/sailor-moon-71.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "26. La crueldad de Rubeus, la tristeza de las cuatro hermanas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//zwSwVrnuot97NU0XA4DUUdlkcnh.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzI3Mjhf/sailor-moon-72.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzI3Mjhf/sailor-moon-72.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "27. La aparición de un ovni las sailor scouts han sido raptadas",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//ucXVs58L3Z12n7lu3utkuPX7N9a.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzI3MzJf/sailor-moon-73.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzI3MzJf/sailor-moon-73.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "28. Hay que derrotar a Rubeus, la batalla decisiva en el espacio exterior",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//pxYspU4zcxv2veVwHGspebYkUQJ.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzI3MzNf/sailor-moon-74.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzI3MzNf/sailor-moon-74.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "29. Una nueva sailor scout la aparicion de sailor pluto",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//lYh8IhtaFYDrikJZXZOzpZoth0p.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzI3MzRf/sailor-moon-75.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzI3MzRf/sailor-moon-75.mp4",
+      "duration": "24m"
+    },
+    {
+      "description": "30. El poder maligno del mundo de las tinieblas la invasión de Esmeralda",
+      "title": "",
+      "image": "https://image.tmdb.org/t/p/w300//40X3P3yJ3niKgvkIo4uaCWeYfkC.jpg",
+      "video": "https://od.lk/d/M18zMDEwMzI3MzZf/sailor-moon-76.mp4",
+      "download": "https://od.lk/d/M18zMDEwMzI3MzZf/sailor-moon-76.mp4",
+      "duration": "24m"
+    },
+    {
+        "description": "31. Un sueño en común el amor renace",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//pCNhWNJVWXXlN3DTWjqOG4ofTJL.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzVf/sailor-moon-77.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzVf/sailor-moon-77.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "32. Los cuidados terribles de Mina",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//6ZNW8w3y2f5uKJp8ADWMhadwKQM.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzFf/sailor-moon-78.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzFf/sailor-moon-78.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "33. La aventura de Artemis el misterio en el reino de los animales",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//3qTUjiJo8GNhxXR7WfzklqNMObN.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzNf/sailor-moon-79.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzNf/sailor-moon-79.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "34. Una alucinación aterradora la soledad de Amy",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//lRNz3kfsfXmme3Pj7FhgIRosYVV.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzVf/sailor-moon-80.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzVf/sailor-moon-80.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "35. Ya está lista la puerta, la primaria de Rini es atacada",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//gJe8l9MgOMKL8JSoFNEHo61oX00.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzZf/sailor-moon-81.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzZf/sailor-moon-81.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "36. Vamos hacia el futuro, la pelea en el corredor del tiempo",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jkjGWSPPrHtcLccMWrjn3el7qLd.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzdF/sailor-moon-82.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzdF/sailor-moon-82.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "37. El límite del futuro el deseo oscuro de Diamante",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//1qihjXiHYa16L3lm39rGMJQYwFY.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3NzdF/sailor-moon-83.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3NzdF/sailor-moon-83.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "38. El gran sabio se apodera de Rini",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//9h2hzozjoQCV7wOY691ZXlTC93v.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3Nzlf/sailor-moon-84.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3Nzlf/sailor-moon-84.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "39. La reina de las tinieblas el nacimineto de Black Lady",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//qHX8Ch0h5FtmjiOGh4xj5Jq93Rk.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3Nzhf/sailor-moon-85.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3Nzhf/sailor-moon-85.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "40. La muerte de Zafiro la trampa del gran sabio",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//17fr2P6luW1HpN0u07ErYeE4Tzz.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3OTBf/sailor-moon-86.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3OTBf/sailor-moon-86.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "41. Cree en el amor y el futuro la decisión de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//m4dNqgziETC9ZBgtiEe3xbiYCyW.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3OTFf/sailor-moon-87.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3OTFf/sailor-moon-87.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "42. La batalla decisiva entre el resplandor y la oscuridad el amor jurado al futuro",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//pccx3nBpms6iRhOeyImQjHqnf4l.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3OTVf/sailor-moon-88.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3OTVf/sailor-moon-88.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "43. La decisión de Serena y las chicas, el preludio de una nueva batalla",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//cDk9DxAkOyhI05r9z2UUaSyf2aG.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI3OTlf/sailor-moon-89.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI3OTlf/sailor-moon-89.mp4",
+        "duration": "24m"
+    },
+        
+           ],
+           3: [
+           {
+        "description": "1. La aparición de las nuevas guerreras",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//bAXHawvnG5bHKj8MIucXXo7plOD.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MDRf/sailor-moon-90.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MDRf/sailor-moon-90.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "2. La nueva transformación de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//wzuUpDRqaG7dgM9V9PcHUyfBNJ7.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MTRf/sailor-moon-91.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MTRf/sailor-moon-91.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "3. El secreto de Haruka",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//qYKfhmmakacTKaOhNlHQFN0Z1ma.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MjZf/sailor-moon-92.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MjZf/sailor-moon-92.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "4. La elegancia de Mitchiru",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//tCKFOJkWyYLXV9iJyQcOMXML5f0.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4Mjlf/sailor-moon-93.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4Mjlf/sailor-moon-93.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "5. Hay que salvar el corazón puro",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//lRlSstsro5D7ZIjDJ0wZk82xEdf.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MzBf/sailor-moon-94.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MzBf/sailor-moon-94.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "6. Cuando se sufre por el amor, déjenselo a Sailor Moon",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//c6nHIHgQ1G9GvIDHVVYbkMxZ4YH.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MzNf/sailor-moon-95.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MzNf/sailor-moon-95.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "7. El enemigo de Lita",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//7LEPqnR4wqiCsJaiUvtaEaItN0v.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4NTFf/sailor-moon-96.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4NTFf/sailor-moon-96.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "8. El laberinto acuático, Amy es atacada",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//5ejTdwN9GCGwfJxT64PB6gsekYK.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4NTJf/sailor-moon-97.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4NTJf/sailor-moon-97.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "9. La unión de Sailor Moon y Sailor Uranus",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//dUDCLTuyYem7r65DWhjXAtsiO9B.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4ODhf/sailor-moon-98.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4ODhf/sailor-moon-98.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "10. El amor frustrado entre Nicolas y Ray",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//31AG51TsrLpAD5wOgFXQUodT3l.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5MjZf/sailor-moon-99.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5MjZf/sailor-moon-99.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "11. Mina va a renunciar a las sailor scouts",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//qj2qjhDk9u9nn3E6MIk5xj15dZJ.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5MzVf/sailor-moon-100.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5MzVf/sailor-moon-100.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "12. Unas zapatillas de cristal como regalo de cumpleaños",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jZczG7CtAnlhuX7CYEMAo1MrmcO.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5MzZf/sailor-moon-101.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5MzZf/sailor-moon-101.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "13. El corazón puro es arrebatado",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//xoir0dqBYF07GzWO5hRfczGYzoy.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5Mzdf/sailor-moon-102.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5Mzdf/sailor-moon-102.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "14. Ha llegado una pequeña sailor scout",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//4Zod1UCm6N9ZLtHgBphwqIff4tH.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5Mzlf/sailor-moon-103.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5Mzlf/sailor-moon-103.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "15. Las actividades de sailor chibi moon",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//x0ckoOoMCx4R7kMUvmCXUDcIcKz.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NDVf/sailor-moon-104.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NDVf/sailor-moon-104.mp4",
+        "duration": "24m"
+    },
+    
+    {
+        "description": "16. El camino equivocado de Lita",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//zKOVkwhaCno4fBodyUcaA4LGh6S.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NDZf/sailor-moon-105.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NDZf/sailor-moon-105.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "17. Unidos por el destino los recuerdos de Sailor Uranus",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//gGnOQDgKVfB1tZ164cPmFWpdfQe.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NDdf/sailor-moon-106.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NDdf/sailor-moon-106.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "18. El primer amor de Rini",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//dJDk5gwlv63N57nvKdYaF6WFaO.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NDhf/sailor-moon-107.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NDhf/sailor-moon-107.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "19. Serena baila al ritmo del vals",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//g51p85wQoGYAaEvve3leYLiSAqX.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NDlf/sailor-moon-108.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NDlf/sailor-moon-108.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "20. El momento de la revelación",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//22grCigIzZd977DjZiO0hdZrN9v.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTBf/sailor-moon-109.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTBf/sailor-moon-109.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "21. La aparición de los talismanes",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//FE8NNvFVwNuVYwSbhAmfwBlass.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTFf/sailor-moon-110.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTFf/sailor-moon-110.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "22. La copa lunar, una nueva transformación",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//l2Ihhwy18uKMkOBiWglbGJP1drH.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTRf/sailor-moon-111.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTRf/sailor-moon-111.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "23. El caos entre el bien y el mal",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//gPh1mBBN7T3NRzNQ50eh4iYX53L.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTVf/sailor-moon-112.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTVf/sailor-moon-112.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "24. El secreto de Hotaru",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//mzKRM4lBo16OOQyoJrsqGoWLZmX.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTZf/sailor-moon-113.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTZf/sailor-moon-113.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "25. La angustia de Mimete",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//inAqFuT2lmXwy5rlgdK7fOlJPtg.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTdf/sailor-moon-114.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTdf/sailor-moon-114.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "26. La sombra del silencio",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//GtkhWGVUhipb7lLnbcPliBh9FI.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NThf/sailor-moon-115.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NThf/sailor-moon-115.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "27. La amistad de Hotaru",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//CyfTBV6N8EG4E0F7mnlwAFhqis.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NTlf/sailor-moon-116.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NTlf/sailor-moon-116.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "28. La ayuda de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//7W6KD0pyJe2mhTk7W5Ipg4Bz9XC.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NjBf/sailor-moon-117.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NjBf/sailor-moon-117.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "29. Una pelea en otra dimensión",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//aKLyoMJs9cHuvn7fKVFXYAtn9ho.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5NjFf/sailor-moon-118.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5NjFf/sailor-moon-118.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "30. El despertar del enviado del silencio",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//tNQLNtbcqOKllwLW1tWPq6SlIZ1.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI5OTdf/sailor-moon-119.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI5OTdf/sailor-moon-119.mp4",
+        "duration": "24m"
+    },
+    
+    {
+        "description": "31. El misterio del colegio Mugen",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//7qEFvpoMqryuKD8wXB202AbWCIw.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MDRf/sailor-moon-90.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MDRf/sailor-moon-90.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "32. Telu la tercera bruja",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//vWqrGmhkHdDYfxmHqdvC1nZgfpD.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MTRf/sailor-moon-91.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MTRf/sailor-moon-91.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "33. Amy la chica más amable de las sailors",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ulQ50kHpRLlHMJ80BOC0v5vSZL9.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MjZf/sailor-moon-92.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MjZf/sailor-moon-92.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "34. El despertar del enviado del mal",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//eQeZ334MOzSm2lDiYymYfO6Q8Rk.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4Mjlf/sailor-moon-93.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4Mjlf/sailor-moon-93.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "35. Las ocho sailor scouts luchan desesperadamente",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//4P2XSbEQc9FQqAfJRN87hH38jfY.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MzBf/sailor-moon-94.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MzBf/sailor-moon-94.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "36. Sailor Saturn y el enviado del bien",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//9D5usrBqUIqjHaFsV625MiQfCtk.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4MzNf/sailor-moon-95.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4MzNf/sailor-moon-95.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "37. El comienzo de una nueva vida",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//A3cHDwGKulYHG0GWQMX9EmDvZYv.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4NTFf/sailor-moon-96.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4NTFf/sailor-moon-96.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "38. La fuerza se encuentra dentro del corazón puro",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//nKaKo6izqADWTodFANtHQGLnwZq.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzI4NTJf/sailor-moon-97.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzI4NTJf/sailor-moon-97.mp4",
+        "duration": "24m"
+    }
+        
+           ],
+           4: [
+           {
+        "description": "1. Una visita inesperada",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//kg2WYI5eBhNZ4AI98zttgu9pGr8.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNDFf/sailor-moon-128.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNDFf/sailor-moon-128.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "2. El poder del pegaso",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ndkFHZxfDg8x1CNb2u80AUQnGO0.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNDJf/sailor-moon-129.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNDJf/sailor-moon-129.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "3. Protejamos a mamá Ikuko",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//mIV5qIDOSFIVVEvRgaUmqDPJQFJ.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNDNf/sailor-moon-130.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNDNf/sailor-moon-130.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "4. La trampa del trío Amazonas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//8JLltbJDz8OWJU7BRnvhoLdToz1.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNDRf/sailor-moon-131.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNDRf/sailor-moon-131.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "5. El amor de Serena y Darien",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//oGgShNXJNsFPZAGMHXj4MJHPQSz.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNDVf/sailor-moon-132.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNDVf/sailor-moon-132.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "6. Artemis engaña a Luna",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ypVDTRTYfDUlD7hMkMS7CYrHfXp.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNDdf/sailor-moon-133.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNDdf/sailor-moon-133.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "7. La amistad de Lita",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//50MHDoa2E77PbSWh7pX6Cur8Whz.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNTJf/sailor-moon-134.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNTJf/sailor-moon-134.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "8. Rini y el pegaso",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jLsDoCJVeWd7Dm7aLJVZcoGixwp.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNTZf/sailor-moon-135.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNTZf/sailor-moon-135.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "9. Los celos de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//zdleoQoCQnksC7ozSuRmCSskyjH.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjBf/sailor-moon-136.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjBf/sailor-moon-136.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "10. La invitación de una hermosa hada",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//1QVg7Iv0tu3alITBTx46sweH4I.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjJf/sailor-moon-137.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjJf/sailor-moon-137.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "11. El automóvil de mis sueños",
+        "title": ": Descripción ",
+        "image": "https://image.tmdb.org/t/p/w300//pvZiF68JhAtBx4PvjXyjCDMWnaS.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjNf/sailor-moon-138.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjNf/sailor-moon-138.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "12. La angustia de Miharu",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//zIsMvbmR3F9ugTSHzmHe1Qy2xoh.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjRf/sailor-moon-139.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjRf/sailor-moon-139.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "13. La moda de Sailor Moon",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ufQku5lghuDkgkiowst1H1fYoaE.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjVf/sailor-moon-140.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjVf/sailor-moon-140.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "14. Los dos amores de Mina",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//hl2gvxi5sNtDuTXYbpzEoK914GJ.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjZf/sailor-moon-141.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjZf/sailor-moon-141.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "15. Un menú de amor para ti",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//piND4sfpe1UfZ1CeYDRQ2pSX3tP.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNjlf/sailor-moon-142.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNjlf/sailor-moon-142.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "16. La transformación de las sailor scouts",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//eFhgNw3oFn3Gc3unJwwsG3BNS3f.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNzFf/sailor-moon-143.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNzFf/sailor-moon-143.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "17. Un verano inolvidable",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//t5CvjUfDPqreOAgA6Sj2pHbz3f7.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNzRf/sailor-moon-144.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNzRf/sailor-moon-144.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "18. El ballet de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//8st436ISIc7sQTBpzg6aw1Q7mwu.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNzZf/sailor-moon-145.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNzZf/sailor-moon-145.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "19. La princesa Rubina asiste a un festival de verano",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ukqRwDkSVVvWXq8sdfTdxNVW9Bn.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNzdf/sailor-moon-146.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNzdf/sailor-moon-146.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "20. La inocencia de Lita",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//bjOWD7E4ywJgVCJbnFvJZWsjfHf.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNzhf/sailor-moon-147.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNzhf/sailor-moon-147.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "21. Una sombra maligna amenaza al trío del Amazonas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//9fXMvqgsAd3wQhryeAwzIJkIbpo.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxNzlf/sailor-moon-148.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxNzlf/sailor-moon-148.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "22. La última actuación del Trío Amazonas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//3bTy3KSCsZUYlFKjgkYzSPvk5qf.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODBf/sailor-moon-149.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODBf/sailor-moon-149.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "23. El cuarteto del Amazonas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//6LG3K6mRfyaFqjmHY8Ug22yGcAa.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODFf/sailor-moon-150.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODFf/sailor-moon-150.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "24. El nuevo poder de Amy",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//bXSpDZfi5l3wAXq5SWb3KkNFsKJ.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODJf/sailor-moon-151.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODJf/sailor-moon-151.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "25. El poder especial de Sailor Mars",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//kuP6sfNzVv5CNtC2SduC3aa6V3H.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODNf/sailor-moon-152.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODNf/sailor-moon-152.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "26. La trampa de Para Para",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//xtU4aTK1T2X441ZRPROKhqzEoMI.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODRf/sailor-moon-153.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODRf/sailor-moon-153.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "27. Mina y Lita se pelean",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//rjumgvMaTqPLYXzTvJjajG0Xu58.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODVf/sailor-moon-154.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODVf/sailor-moon-154.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "28. Un salto sin temor",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//iVeuvJSSUlzOfaUNLYKCDsleAIr.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODdf/sailor-moon-155.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODdf/sailor-moon-155.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "29. No pierdas tus ilusiones",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//6MGM6phgtVBGSgGE7st7zPi4z9Y.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODhf/sailor-moon-156.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODhf/sailor-moon-156.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "30. El Pegaso ha desaparecido",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//rTBjzQpcJpZ9zDKqpY0pjOIeSwE.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxODlf/sailor-moon-157.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxODlf/sailor-moon-157.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "31. El secreto del Pegaso",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//y0R0U30hYMpCtI6IGDp2cY2vhDv.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxOTBf/sailor-moon-158.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxOTBf/sailor-moon-158.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "32. La rapsodia de amor de Rini",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jxgYXzw5ls63dcna0Kacl5C71HF.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxOTNf/sailor-moon-159.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxOTNf/sailor-moon-159.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "33. La confusión del cuarteto amazonas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ftDquAA9HsAYkI5tXNWrUNA4ELr.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxOTZf/sailor-moon-160.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxOTZf/sailor-moon-160.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "34. La reina de la obscuridad",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//apH0fefG1zDU8AELCHF0OYyJmPm.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxOThf/sailor-moon-161.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxOThf/sailor-moon-161.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "35. El circo death moon",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//irD2JE7AyZtZv6ejqCQb3RVgoD5.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMxOTlf/sailor-moon-162.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMxOTlf/sailor-moon-162.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "36. Sailor chibi moon cae en manos de death moon",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//3KF4UoDSnsivVqFgCDxooG50VvL.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMyMDBf/sailor-moon-163.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMyMDBf/sailor-moon-163.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "37. La magia de Neherenia",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//5vsXyaCdHqRH59q987epS5QZ83p.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMyMDFf/sailor-moon-164.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMyMDFf/sailor-moon-164.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "38. El poder de un hermoso sueño",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//gjSK1TqFyL8tZFAgpH3e2ktbZ6L.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMyMDJf/sailor-moon-165.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMyMDJf/sailor-moon-165.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "39. Siempre existirán sueños hermosos",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//jsfpLi34mWimEXXRUwekf2CVOtd.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzMyMDNf/sailor-moon-166.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzMyMDNf/sailor-moon-166.mp4",
+        "duration": "24m"
+    }
+        
+           ],
+           5: [
+           {
+        "description": "1. La reina de la oscuridad revive",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//gznx5vCPqGfh0s2e7wEnwFd5cH0.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NDdf/sailor-moon-167.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NDdf/sailor-moon-167.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "2. Las 10 Sailor Scouts se reúnen",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//4NnVMFYpZnV5N9aoQWM5jAn37f6.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NDhf/sailor-moon-168.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NDhf/sailor-moon-168.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "3. La maldición del espejo maligno",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//lJkMRHLpYHHQW10tst8kQItsqad.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NDlf/sailor-moon-169.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NDlf/sailor-moon-169.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "4. Las Sailor Scouts se encuentran en problemas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ty0uhcrZas1FaNWbWRExfBkFETE.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NTBf/sailor-moon-170.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NTBf/sailor-moon-170.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "5. Una pelea interminable",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//oHtsEIWFL1IuKod3f5otoitv4WV.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NTFf/sailor-moon-171.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NTFf/sailor-moon-171.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "6. El poder del amor",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//bt5oVm9oitjNlWiGKoKJVRmEARB.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NTJf/sailor-moon-172.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NTJf/sailor-moon-172.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "7. El destino de las estrellas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//2Ccg6JoPfCtqGwUqvOCJ8s6mirg.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NTNf/sailor-moon-173.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NTNf/sailor-moon-173.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "8. Los Three Lights vienen a estudiar a nuestra escuela",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//rX4ihAcIWjRUcr1JgeJ00FPAqKG.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NTRf/sailor-moon-174.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NTRf/sailor-moon-174.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "9. La ambición de Mina",
+        "title": " ",
+        "image": "https://image.tmdb.org/t/p/w300//o57saTEWi550mAG5h1SZhR1n7jE.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NjJf/sailor-moon-175.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NjJf/sailor-moon-175.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "10. La verdadera identidad de Sailor Star Fighter",
+        "title": " ",
+        "image": "https://image.tmdb.org/t/p/w300//90x0HwRWK7pW0vzUblTyWcyDyLH.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NjNf/sailor-moon-176.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NjNf/sailor-moon-176.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "11. La transformación de Taiki",
+        "title": " ",
+        "image": "https://image.tmdb.org/t/p/w300//klUQEafXrUzdor78syg74m7f2kd.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NjZf/sailor-moon-177.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NjZf/sailor-moon-177.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "12. La verdadera personalidad de Yaten",
+        "title": " ",
+        "image": "https://image.tmdb.org/t/p/w300//ufFmAFRafVBmlMszy2jwJKWPBLW.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1Njhf/sailor-moon-178.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1Njhf/sailor-moon-178.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "13. Las Sailor Scouts y las Sailor Star Lights",
+        "title": " ",
+        "image": "https://image.tmdb.org/t/p/w300//u4EZ0WxnhfLLJwD9aTaS8s5A4j7.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NzRf/sailor-moon-179.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NzRf/sailor-moon-179.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "14. La aparición de Haruka y Michiru",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//fRe0mcoJJHjPxgb1FR7SS3nydXM.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1NzZf/sailor-moon-180.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1NzZf/sailor-moon-180.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "15. Serena y Seiya tienen una cita muy especial",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//r6ssgKRGnAIDgUe1nk8txrmsND9.jpg",
+        "video": "https://od.lk/d/M18zMDEwMzM1Nzdf/sailor-moon-181.mp4",
+        "download": "https://od.lk/d/M18zMDEwMzM1Nzdf/sailor-moon-181.mp4",
+        "duration": "24m"
+    },
+    {
+        "description": "16. Una extraña visita",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//9UL590UlHr8yvG8RZ6miPX4td7o.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "17. Un campamento de Terror",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//i6MqRBSbSXwnYttwRfxDQzDx1LT.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "18. Serena se encuentra en problemas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//wTBqShfx5ugtbsfgt1oOD1eaH0c.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "19. No pierdas las esperanzas",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//xXeBzQwMK3Vo9c6EAXxNlAo2zY2.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "20. El secreto de Chibi Chibi",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//wJE2ofc4r3k46pxwlMXcxHF5ON7.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "21. La transformación de Chibi Chibi",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//3X9363QEcG7YCd3vSyyUZoPNKC7.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "22. Una invitación al terror",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//hPmaFI4F5FSxlTPYFZpXZYg2bF4.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "23. Un conflicto entre las Sailor Scouts",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//fsbchM5cnMQnRXMbRW03QFMQgzq.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "24. El pasado de Seiya, Taiki y Yaten",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//rIyObKHUf380VfYgwx87GjfqKcx.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "25. La aparición de mariposas resplandecientes",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//4B9h0BTA1UFfvTVSJL067PU2kJl.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "26. Mina se convierte en artista",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//sW9Odg4or7BUbMwRrQLOzd1FErN.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "27. La aparición de la princesa del Planeta del Fuego",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//ktjcRgx9Qjpq1xkO0FMXRgrRckx.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "28. La leyenda de las Sailors",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//wzJX577KLaF6DU8p31D9RD2DhhW.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "29. El final de la Princesa del planeta del Fuego",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//mrepuwnt4t56P3ZYmcx1UA4Q6OU.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "30. La última batalla de las sailor scouts",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//99AQwb7r2pgtFigRkGR9d9DHsfg.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "31. La amenaza de Sailor Galaxia",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//grQc1Z6RqGQVTP43CR94tzm1aAS.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "32. La última actuación de Sailor Uranus y Neptune",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//i3KlGzjuJCjVhDHIcU17bRaWoVP.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "33. La luz de la esperanza",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//6nuUfPyCd4v5Bqt31p4aIVO1n6.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    },
+    {
+        "description": "34. El amor de Serena",
+        "title": "",
+        "image": "https://image.tmdb.org/t/p/w300//19uoQtfAXus2rO2a2HyTfdRGAIu.jpg",
+        "video": "link_to_video",
+        "download": "link_to_download",
+        "duration": "24m"
+    }
+        
+           ],
+           
+        };
+
+        const notificacion = document.getElementById('notificacion');
+const mensajeNotificacion = document.getElementById('mensajeNotificacion');
+
+function mostrarNotificacion(mensaje) {
+  mensajeNotificacion.textContent = mensaje;
+  notificacion.classList.add('mostrar');
+
+  setTimeout(() => {
+    notificacion.classList.remove('mostrar');
+  }, 3000); // Ocultar la notificación después de 3 segundos
+}
+
+        let lastScrollTop = 0;
+
+   
+        function toggleDetalles() {
+    const detallesSlider = document.getElementById('detallesSlider');
+    detallesSlider.classList.toggle('active');
+}
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+function toggleFavorito() {
+const favoritoEnlace = document.getElementById('favoritoEnlace');
+const imagen = document.getElementById('favoritoImagen');
+const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontrado) {
+const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+favoritoBtn.textContent = 'Agregar a Favoritos';
+localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+mostrarNotificacion('Se eliminó de favoritos');
+} else {
+favoritos.push({
+identificador: identificador,
+imagen: imagen.outerHTML,
+enlace: favoritoEnlace.href,
+nombre: nombre, // Agregar el nombre al objeto
+});
+
+favoritoBtn.textContent = 'Borrar de Favoritos';
+localStorage.setItem('favoritos', JSON.stringify(favoritos));
+mostrarNotificacion('Se añadió a favoritos');
+}
+}
+
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontradoInicial) {
+    favoritoIcon.innerText = 'check';
+    favoritoText.innerText = 'Se añadió a Favoritos';
+    
+} else {
+    favoritoIcon.innerText = 'add';
+    favoritoText.innerText = 'Añadir a Favoritos';
+}
+
+
+        const header = document.getElementById('header');
+        const pageTitle = document.getElementById('page-title');
+
+        window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let maxScroll = 500; // Ajusta este valor según sea necesario
+    let opacity = Math.min(scrollTop / maxScroll, 1);
+
+    overlay.style.opacity = 1 - opacity;
+
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+
+
+});
+
+        // Función para agregar la clase de animación
+function slideUpElements() {
+    document.querySelector('.tabs').classList.add('slide-up');
+    document.querySelector('.season-dropdown').classList.add('slide-up');
+    document.querySelector('.download-all-button').classList.add('slide-up');
+    document.querySelector('#playlist').classList.add('slide-up');
+}
+
+// Llamar a la función cuando sea necesario
+slideUpElements();
+
+        const tainer = document.getElementById('playlist');
+        const overlay = document.getElementById('overlay');
+        const player = videojs('my-video');
+        let currentEpisodeIndex = 0;
+        let currentSeasonIndex = 0; // Índice de la temporada actual
+
+        function loadPlaylist(season) {
+    tainer.innerHTML = '';
+    const playlist = playlists[season];
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+    playlist.forEach((episode, index) => {
+        const episodeElement = document.createElement('div');
+        episodeElement.className = 'episode';
+        if (watchedEpisodes[episode.video]) {
+            episode.watched = true;
+            episodeElement.classList.add('watched');
+        }
+
+                const img = document.createElement('img');
+                img.src = episode.image;
+                episodeElement.appendChild(img);
+
+                const durationLabel = document.createElement('div');
+        durationLabel.className = 'duration-label';
+        durationLabel.innerText = episode.duration;
+        episodeElement.appendChild(durationLabel);
+
+                const description = document.createElement('div');
+                description.className = 'episode-description';
+                description.innerHTML = `<h2>${episode.title}</h2><p>${episode.description}</p>`;
+                episodeElement.appendChild(description);
+
+                const downloadButton = document.createElement('a');
+                downloadButton.href = episode.download;
+                downloadButton.className = 'material-icons download-button';
+                downloadButton.innerText = 'arrow_downward';
+                downloadButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+                episodeElement.appendChild(downloadButton);
+
+                episodeElement.addEventListener('click', () => {
+            currentEpisodeIndex = index;
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = episode.video;
+            player.load();
+            player.play();
+            player.requestFullscreen();
+            episode.watched = true; // Mark as watched
+            episodeElement.classList.add('watched'); // Update the style
+            watchedEpisodes[episode.video] = true;
+            localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+        });
+
+        tainer.appendChild(episodeElement);
+    });
+    // Create a container for the navigation buttons
+    const seasonNavigation = document.createElement('div');
+    seasonNavigation.className = 'season-navigation';
+
+    // Add the previous season button
+    if (parseInt(season) > 1) {
+        const previousSeasonButton = document.createElement('div');
+        previousSeasonButton.className = 'previous-season';
+        previousSeasonButton.innerHTML = '<span class="material-icons">chevron_left</span> Temporada Anterior';
+        previousSeasonButton.addEventListener('click', () => {
+            const previousSeason = parseInt(season) - 1;
+            if (playlists[previousSeason]) {
+                document.getElementById('season-select').value = previousSeason;
+                loadPlaylist(previousSeason);
+            } else {
+                alert('No more previous seasons available.');
+            }
+        });
+        seasonNavigation.appendChild(previousSeasonButton);
+    }
+
+    // Add the next season button
+    // Add the next season button
+    const nextSeasonButton = document.createElement('div');
+    nextSeasonButton.className = 'next-season';
+    nextSeasonButton.innerHTML = 'Próxima temporada <span class="material-icons">chevron_right</span>';
+    nextSeasonButton.addEventListener('click', () => {
+        const nextSeason = parseInt(season) + 1;
+        if (playlists[nextSeason]) {
+            document.getElementById('season-select').value = nextSeason;
+            loadPlaylist(nextSeason);
+        } else {
+            alert('No more seasons available.');
+        }
+    });
+    seasonNavigation.appendChild(nextSeasonButton);
+
+    // Append the navigation container to the playlist
+    tainer.appendChild(seasonNavigation);
+}
+
+document.getElementById('season-select').addEventListener('change', (event) => {
+    const season = event.target.value;
+    loadPlaylist(season);
+});
+
+
+
+        document.getElementById('download-all').addEventListener('click', () => {
+    const season = document.getElementById('season-select').value;
+    const episodes = playlists[season];
+    episodes.forEach(episode => {
+        const link = document.createElement('a');
+        link.href = episode.download;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+});
+
+
+        document.getElementById('season-select').addEventListener('change', (event) => {
+            const season = event.target.value;
+            loadPlaylist(season);
+        });
+        const blackOverlay = document.getElementById('black-overlay');
+
+player.on('play', () => {
+    blackOverlay.style.display = 'none'; // Ocultar el fondo negro cuando el video comience a reproducirse
+});
+
+player.on('pause', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video se pausa
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video se pausa
+    
+});
+
+player.on('ended', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video termine
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video termine
+});
+
+
+        player.on('play', () => {
+            overlay.style.display = 'none';
+        });
+
+        player.on('ended', () => {
+            currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+            const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = nextEpisode.video;
+            player.load();
+            player.play();
+        });
+
+        player.on('fullscreenchange', () => {
+            if (!player.isFullscreen()) {
+                player.pause();
+                overlay.style.display = 'flex';
+            }
+        });
+
+        player.on('fullscreenchange', () => {
+    if (player.isFullscreen()) {
+        // Solicitar orientación horizontal
+        screen.orientation.lock('landscape').catch(err => {
+            console.error('Error al cambiar la orientación:', err);
+        });
+    } else {
+        // Desbloquear la orientación
+        screen.orientation.unlock();
+    }
+});
+
+
+        player.on('touchstart', () => {
+            if (!player.paused()) {
+                player.pause();
+            } else {
+                player.play();
+            }
+        });
+
+
+        // Crear el botón "Next"
+        const Button = videojs.getComponent('Button');
+        const nextButton = videojs.extend(Button, {
+            constructor: function() {
+                Button.apply(this, arguments);
+                this.controlText('Next');
+                this.addClass('vjs-next-button');
+                this.el().innerHTML = '<span class="material-icons">skip_next</span>';
+            },
+            handleClick: function() {
+                currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+                const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+                const videoSource = document.getElementById('video-source');
+                videoSource.src = nextEpisode.video;
+                player.load();
+                player.play();
+            }
+        });
+
+        videojs.registerComponent('NextButton', nextButton);
+        player.getChild('controlBar').addChild('NextButton', {}, 2); // Añadir el botón "Next" al lado derecho del botón "Play"
+
+        // Manejar las pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const target = tab.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        
+       
+
+        // Cargar la primera temporada por defecto
+        loadPlaylist(1);
+        
+    </script>
+</body>
+</html>

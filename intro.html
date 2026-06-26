@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crunchyroll Splash</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+      background: #000; /* Fondo negro */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Fondo con textura estilo cómic + overlay */
+body {
+  background: url("https://od.lk/s/M18zMTk5OTM2NjRf/download.jpg") no-repeat center center;
+  background-size: cover;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0); /* Negro con 60% de opacidad */
+  z-index: 0;
+}
+
+/* Asegurar que el contenido quede encima del overlay */
+.logo, .loader {
+  position: relative;
+  z-index: 1;
+}
+
+
+    .logo {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .logo img {
+      width: 320px; /* Ajusta el tamaño */
+    }
+
+    /* Loader */
+    .loader {
+      margin-top: 20px;
+      width: 30px;
+      height: 30px;
+      border: 4px solid #ff6600;
+      border-top: 4px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo oficial con texto incluido -->
+  <div class="logo">
+    <img src="https://od.lk/s/M18zMTk5MzYzNDRf/crunchy%20roll%20logo2.png" alt="Crunchyroll">
+  </div>
+
+  <!-- Loader circular -->
+  <div class="loader"></div>
+
+  <script>
+    // En AppCreator24 redirige usando go:
+    setTimeout(() => {
+      window.location = "index.html";
+    }, 5000);
+  </script>
+ 
+</body>
+</html>

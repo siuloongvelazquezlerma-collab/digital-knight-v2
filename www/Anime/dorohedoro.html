@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Dorohedoro</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  background: url("https://image.tmdb.org/t/p/original/fbMTw5E4DHZTokOD9t0zY5R1mOB.jpg") no-repeat center top;
+  background-size: contain;
+  background-position: center top;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/smKFUnGZf1lXaZgjUGYENFH53hx.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Dorohedoro</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/zQX5AKBDp74AT88ueVht7yzYQUW.png" alt="Dorohedoro Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+   2 temporadas   2020   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Dorohedoro" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/bsVSyPPAcYgrKdmGROmgOm0z5FG.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="dorohedoro.html"></a>
+          <span id="nombre">Dorohedoro</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Con ayuda de su amiga Nikaido, el amnésico Caimán busca asesinar al responsable del hechizo que lo dejó con cara de reptil. En Hole, eso es una amenaza.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="evangelion.html">
+          <img src="https://image.tmdb.org/t/p/original/hAejqZt7ptBRkYuR1p1lmGGS3g8.jpg" alt="Neon Genesis Evangelion (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Neon Genesis Evangelion (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="BTX.html">
+          <img src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg" alt="B't X (1996)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">B't X (1996)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="fullmetal-alchemist-brotherhood.html">
+          <img src="https://image.tmdb.org/t/p/w300/cni0R0Ks4wPV40Mk7Aqk6izhI5T.jpg" alt="Fullmetal Alchemist: Brotherhood" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Fullmetal Alchemist: Brotherhood</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="suggested-item">
+        <a href="Los Caballeros del Zodiaco.html">
+          <img src="https://image.tmdb.org/t/p/original/r6zH9uZkgnMGGNRkWZag36Jafmn.jpg" alt="Los Caballeros del Zodiaco (1986)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Los Caballeros del Zodiaco (1986)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video playsinline webkit-playsinline
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+  
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <!-- 🌐 Botón de idioma con mini menú -->
+        <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+          <span class="material-icons" id="langIcon">chat</span>
+  
+          <div id="langMenu" class="lang-menu">
+            <div class="lang-option" data-lang="latino">
+              <span class="check"></span> Español (Latino)
+            </div>
+            <div class="lang-option" data-lang="sub">
+              <span class="check"></span> Japonés (Subtítulos)
+            </div>
+            <button id="langConfirmBtn">Listo</button>
+          </div>
+        </div>
+        <!-- 🌐 Fin menú de idioma -->
+  
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Dorohedoro</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+  <script src="../share.js"></script>
+
+<script>
+
+const seriesId = "dorohedoro-94404";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+window.playlist = [
+  {
+    season: "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: Caiman",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/q3GUwFYju4g0Z0d1g9RJCmb3Qv4.jpg",
+        "videos": {
+    "latino": "https://od.lk/s/M18zMjg0MzI5ODNf/Dorohedoro%20Latino%20Ep%201.m3u8%20%281%29.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzEwNzRf/Dorohedoro%20Ep%201.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzI5ODNf/Dorohedoro%20Latino%20Ep%201.m3u8%20%281%29.mp4",
+        "episodeCode": "T1 E1: Caiman",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 140,
+          "end": 230
+        }
+      },
+      {
+        "title": "E2: Dentro de la bolsa de basura",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xR8enBtWV6kmiqPzflbnM2Dn51r.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMwMDZf/Dorohedoro%20Latino%20Ep%202.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzExMDNf/Dorohedoro%20Ep%202.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMwMDZf/Dorohedoro%20Latino%20Ep%202.m3u8.mp4",
+        "episodeCode": "T1 E2: Dentro de la bolsa de basura",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 70,
+          "end": 155
+        }
+      },
+      {
+        "title": "E3: Batalla de la muerte centro comercial plaza",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/c1ABNwmNKHZTniBqItfHL7d8zbL.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMwMjVf/Dorohedoro%20Latino%20Ep%203.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzExMzRf/Dorohedoro%20Ep%203.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMwMjVf/Dorohedoro%20Latino%20Ep%203.m3u8.mp4",
+        "episodeCode": "T1 E3: Batalla de la muerte centro comercial plaza",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 60,
+          "end": 145
+        }
+      },
+      {
+        "title": "E4: Pato con surtido de hechicero",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/h8b5z8xtv4PHu7XxCVRmQjTOJJx.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMwNjlf/Dorohedoro%20Latino%20Ep%204.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzExNzNf/Dorohedoro%20Ep%204.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMwNjlf/Dorohedoro%20Latino%20Ep%204.m3u8.mp4",
+        "episodeCode": "T1 E4: Pato con surtido de hechicero",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 40,
+          "end": 125
+        }
+      },
+      {
+        "title": "E5: Caimán en el país de las maravillas",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vovlBltv4n1uZGSFLcE7mcDNtru.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMxMDJf/Dorohedoro%20Latino%20Ep%205.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzEyMTBf/Dorohedoro%20Ep%205.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMxMDJf/Dorohedoro%20Latino%20Ep%205.m3u8.mp4",
+        "episodeCode": "T1 E5: Caimán en el país de las maravillas",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 62,
+          "end": 147
+        }
+      },
+      {
+        "title": "E6: Una montaña de hongos de temporada",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cuM6BkWx4FHD54Q9yoHcl75b7qp.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMxMzRf/Dorohedoro%20Latino%20Ep%206.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzEyNjhf/Dorohedoro%20Ep%206.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMxMzRf/Dorohedoro%20Latino%20Ep%206.m3u8.mp4",
+        "episodeCode": "T1 E6: Una montaña de hongos de temporada",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 63,
+          "end": 148
+        }
+      },
+      {
+        "title": "E7: Eliminatoria de equipos batalla",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/stSAJSL27WSzZWX7b9b81fgftLk.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMxNzJf/Dorohedoro%20Latino%20Ep%207.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzEzMTlf/Dorohedoro%20Ep%207.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMxNzJf/Dorohedoro%20Latino%20Ep%207.m3u8.mp4",
+        "episodeCode": "T1 E7: Eliminatoria de equipos batalla",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 180,
+          "end": 265
+        }
+      },
+      {
+        "title": "E8: Un buen dia para una despedida",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mN5t1UYhh7S5CGS6fbmiQdYZMHx.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMyMjNf/Dorohedoro%20Latino%20Ep%208.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzEzNzdf/Dorohedoro%20Ep%208.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMyMjNf/Dorohedoro%20Latino%20Ep%208.m3u8.mp4",
+        "episodeCode": "T1 E8: Un buen dia para una despedida",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 140,
+          "end": 225
+        }
+      },
+      {
+        "title": "E9: Oh, Hanakemuri",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/IIu5ZHYHU4ZHsP67Io2q6N5yQb.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMyNjhf/Dorohedoro%20Latino%20Ep%209.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE0MzJf/Dorohedoro%20Ep%209.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMyNjhf/Dorohedoro%20Latino%20Ep%209.m3u8.mp4",
+        "episodeCode": "T1 E9: Oh, Hanakemuri",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 100,
+          "end": 185
+        }
+      },
+      {
+        "title": "E10: Caimán, el solitario",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/awR1SknnzgwE1pjPUcPVZmKLkSZ.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMzNTBf/Dorohedoro%20Latino%20Ep%2010.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE0NzJf/Dorohedoro%20Ep%2010.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMzNTBf/Dorohedoro%20Latino%20Ep%2010.m3u8.mp4",
+        "episodeCode": "T1 E10: Caimán, el solitario",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 140,
+          "end": 225
+        }
+      },
+      {
+        "title": "E11: El jefe",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hwhfam88JfxkCb1Ro41Du1JqyGK.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMzMDBf/Dorohedoro%20Latino%20Ep%2011.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE1MzBf/Dorohedoro%20Ep%2011.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMzMDBf/Dorohedoro%20Latino%20Ep%2011.m3u8.mp4",
+        "episodeCode": "T1 E11: El jefe",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 45,
+          "end": 130
+        }
+      },
+      {
+        "title": "E12: Recuerdos de los días de la escuela",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zzNQy08xI5i5iC5Q3UonIsWdbpY.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0MzMzMzRf/Dorohedoro%20Latino%20Ep%2012.m3u8.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE1ODBf/Dorohedoro%20Ep%2012.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0MzMzMzRf/Dorohedoro%20Latino%20Ep%2012.m3u8.mp4",
+        "episodeCode": "T1 E12: Recuerdos de los días de la escuela",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 165,
+          "end": 265
+        }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+        "title": "E1: Usemos nuestros recursos con cuidado",
+        "meta": "16+ · 27m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sa27UhRUAkx45sGPPj8HPWeNkaz.jpg",
+        "videos": {
+    "latino": "https://od.lk/s/M18zMjg0NDg5MDhf/Dorohedoro%20S2%20Latino%20Ep%201%201080p.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE3MzFf/Dorohedoro%20Season%202%20Ep%201.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NDg5MDhf/Dorohedoro%20S2%20Latino%20Ep%201%201080p.mp4",
+        "episodeCode": "T2 E1: Usemos nuestros recursos con cuidado",
+        "hiddenCode": "T2 E1",
+        "intro": {
+          "start": 150,
+          "end": 235
+        }
+      },
+      {
+        "title": "E2: Meoto Zenzai",
+        "meta": "16+ · 26m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eYrkuWDRBB6ou8mEslr29Zgya83.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NDg0MjNf/Dorohedoro%20S2%20Latino%20Ep%202.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE4MDNf/Dorohedoro%20Season%202%20Ep%202.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NDg0MjNf/Dorohedoro%20S2%20Latino%20Ep%202.mp4",
+        "episodeCode": "T2 E2: Meoto Zenzai",
+        "hiddenCode": "T2 E2",
+        "intro": {
+          "start": 55,
+          "end": 140
+        }
+      },
+      {
+        "title": "E3: Dulce hogar",
+        "meta": "16+ · 26m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/8WCQqCGEx3cL6jSM93GicxNXq9p.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NDk2OTlf/Dorohedoro%20S2%20Latino%20Ep%203.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE4NTZf/Dorohedoro%20Season%202%20Ep%203.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NDk2OTlf/Dorohedoro%20S2%20Latino%20Ep%203.mp4",
+        "episodeCode": "T2 E3: Dulce hogar",
+        "hiddenCode": "T2 E3",
+        "intro": {
+          "start": 355,
+          "end": 440
+        }
+      },
+      {
+        "title": "E4: Los escarabajos dorados son ricos",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/1PkWmwdbtPVGfaPe7jPZxL6cNAJ.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NTE1Mjhf/Dorohedoro%20S2%20Latino%20Ep%204.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzE5NDBf/Dorohedoro%20Season%202%20Ep%204.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NTE1Mjhf/Dorohedoro%20S2%20Latino%20Ep%204.mp4",
+        "episodeCode": "T2 E4: Los escarabajos dorados son ricos",
+        "hiddenCode": "T2 E4",
+        "intro": {
+          "start": 5,
+          "end": 90
+        }
+      },
+      {
+        "title": "E5: La lluvia que nos unió",
+        "meta": "16+ · 25m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jCTymybqm48wv7yYPGJibJKpELR.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NTI3OTZf/Dorohedoro%20S2%20Latino%20Ep%205.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzIwMzRf/Dorohedoro%20Season%202%20Ep%205.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NTI3OTZf/Dorohedoro%20S2%20Latino%20Ep%205.mp4",
+        "episodeCode": "T2 E5: La lluvia que nos unió",
+        "hiddenCode": "T2 E5",
+        "intro": {
+          "start": 140,
+          "end": 225
+        }
+      },
+      {
+        "title": "E6: Adiós Caimán/Burbujas de memoria",
+        "meta": "16+ · 25m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/k7czt5b867KEseSUMKEfJu931Kp.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NTI4ODVf/Dorohedoro%20S2%20Latino%20Ep%206.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzIyMjFf/Dorohedoro%20Season%202%20Ep%206.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NTI4ODVf/Dorohedoro%20S2%20Latino%20Ep%206.mp4",
+        "episodeCode": "T2 E6: Adiós Caimán/Burbujas de memoria",
+        "hiddenCode": "T2 E6",
+        "intro": {
+          "start": 80,
+          "end": 165
+        }
+      },
+      {
+        "title": "E7: Mi plan secreto/Visita a los ojos cruzados/Reunión deformada",
+        "meta": "16+ · 27m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AoCSwOYwVIVAzpUXH8bLQR6RxvR.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NTI1Mzlf/Dorohedoro%20S2%20Latino%20Ep%207.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzIxNTFf/Dorohedoro%20Season%202%20Ep%207.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NTI1Mzlf/Dorohedoro%20S2%20Latino%20Ep%207.mp4",
+        "episodeCode": "T2 E7: Mi plan secreto/Visita a los ojos cruzados/Reunión deformada",
+        "hiddenCode": "T2 E7",
+        "intro": {
+          "start": 27,
+          "end": 112
+        }
+      },
+      {
+        "title": "E8: Chaos Shock/Black Box/Habitación 501",
+        "meta": "16+ · 25m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/naBmqKvSZvMAX6VlOVBwwJheeyE.jpg",
+        "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NTI2NjZf/Dorohedoro%20S2%20Latino%20Ep%208.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzIyOTVf/Dorohedoro%20Season%202%20Ep%208.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NTI2NjZf/Dorohedoro%20S2%20Latino%20Ep%208.mp4",
+        "episodeCode": "T2 E8: Chaos Shock/Black Box/Habitación 501",
+        "hiddenCode": "T2 E8",
+        "intro": {
+          "start": 45,
+          "end": 130
+        }
+      },
+      {
+        "title": "E9: Mosh pit/Los de cruces en los ojos en las noticias",
+        "meta": "16+ · 27m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/czhNUbqaMX2eMcOzWED9JfKay7R.jpg",
+       "videos": {
+    "latino": "https://od.lk/d/M18zMjg0NTMwMjBf/Dorohedoro%20S2%20Latino%20Ep%209.mp4",
+    "sub": "https://od.lk/s/M18zMjg0MzI0OTNf/Dorohedoro%20Season%202%20Ep%209.m3u8.mp4"
+  },
+  "downloadUrl": "https://od.lk/d/M18zMjg0NTMwMjBf/Dorohedoro%20S2%20Latino%20Ep%209.mp4",
+        "episodeCode": "T2 E9: Mosh pit/Los de cruces en los ojos en las noticias",
+        "hiddenCode": "T2 E9",
+        "intro": {
+          "start": 550,
+          "end": 640
+        }
+      }
+      ]
+},
+
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+window.playlist.forEach(season => {
+season.episodes.forEach(ep => {
+  // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+  if (!ep.videoUrl && ep.videos) {
+    ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+  }
+});
+});
+
+console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
+
+  // cuando cierres el player
+  WakeLockManager.disable();
+</script>
+
+</body>
+</html>

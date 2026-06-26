@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Operativo: Lioness</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  background: url("https://image.tmdb.org/t/p/original/o1a87xmigWwHB7DUwnmJEFkRM6p.jpg") no-repeat center top;
+  background-size: contain;
+  background-position: center top;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/r0Zg70jpcDAD7IMDhVqajSnG9vb.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Operativo: Lioness</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/cUDpX6aqZ7LNIquPHZAWiN0v9FS.png" alt="Operativo: Lioness Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+   2 temporadas   2023   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Operativo: Lioness" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/9d1nGSNlKHF4hNsMDiUKCbuueDU.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="operativo-lioness.html"></a>
+          <span id="nombre">Operativo: Lioness</span>
+      </div>
+  
+       
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Joe intenta equilibrar su vida personal y profesional como punta de lanza de la CIA en la guerra contra el terrorismo. El Programa Lioness recluta a Cruz para que opere de incógnito junto a Joe entre...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="asuntos-secretos.html">
+          <img src="https://image.tmdb.org/t/p/w300/pRWUGSGdByQHW93DH2braqkRjZa.jpg" alt="Asuntos Secretos" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Asuntos Secretos</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="la-compania.html">
+          <img src="https://image.tmdb.org/t/p/w300/rxBchxWLVuqjG4kk1IhDAUMghr9.jpg" alt="La Compañía" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">La Compañía</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="operacion-miami.html">
+          <img src="https://image.tmdb.org/t/p/w300/xH4NPJeYzg3BS7OWYh7vx2atBAG.jpg" alt="Operación Miami" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Operación Miami</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="madam-secretary.html">
+          <img src="https://image.tmdb.org/t/p/w300/6Nl1ablo4DNTLb4ZH7Mycz81AEt.jpg" alt="Madam Secretary" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Madam Secretary</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video playsinline webkit-playsinline
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Operativo: Lioness</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+  <script src="../share.js"></script>
+
+<script>
+
+const seriesId = "operativo-lioness-113962";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: Soldados de sacrificio",
+        "meta": "16+ · 42m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nmQp2GT1T2mK4YoLWcMl1FsoZC.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTc1ODVf/Lioness%201x1.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTc1ODVf/Lioness%201x1.mp4",
+        "episodeCode": "T1 E1: Soldados de sacrificio",
+        "hiddenCode": "T1 E1",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E2: La paliza",
+        "meta": "16+ · 43m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/efD2aug7QpeGYkz7gIK5OVjWVU8.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTc4MDFf/Lioness%201x2.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTc4MDFf/Lioness%201x2.mp4",
+        "episodeCode": "T1 E2: La paliza",
+        "hiddenCode": "T1 E2",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E3: Moretón como un puño",
+        "meta": "16+ · 43m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/aCl27BO3UUJwEoEQruZsZnidlkC.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTc4NzJf/Lioness%201x3.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTc4NzJf/Lioness%201x3.mp4",
+        "episodeCode": "T1 E3: Moretón como un puño",
+        "hiddenCode": "T1 E3",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E4: La elección del fracaso",
+        "meta": "16+ · 42m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kJS9ycUt3hzBahLcrFhNxp76wAp.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTc5MjJf/Lioness%201x4.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTc5MjJf/Lioness%201x4.mp4",
+        "episodeCode": "T1 E4: La elección del fracaso",
+        "hiddenCode": "T1 E4",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E5: La verdad es la más astuta mentira",
+        "meta": "16+ · 39m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sh4bjty4YACVogQUOVWbZCUVA15.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTgxNjhf/Lioness%201x5.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTgxNjhf/Lioness%201x5.mp4",
+        "episodeCode": "T1 E5: La verdad es la más astuta mentira",
+        "hiddenCode": "T1 E5",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E6: La mentira es la verdad",
+        "meta": "16+ · 42m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jIEF60suH4Cg7iZEC0ze7b7pKBk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTgxOTRf/Lioness%201x6.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTgxOTRf/Lioness%201x6.mp4",
+        "episodeCode": "T1 E6: La mentira es la verdad",
+        "hiddenCode": "T1 E6",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E7: Deseo que la pelea desaparezca",
+        "meta": "16+ · 48m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/v7IY9eLPc2c9N0MYSppFTO7COZk.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTgxNzlf/Lioness%201x7.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTgxNzlf/Lioness%201x7.mp4",
+        "episodeCode": "T1 E7: Deseo que la pelea desaparezca",
+        "hiddenCode": "T1 E7",
+        "intro": { "start": 0, "end": 0 }
+      },
+      {
+        "title": "E8: Atrás quedó la ilusión del orden",
+        "meta": "16+ · 58m · 2023",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3ndiiSM8sWMclfS123YaVIBOtsw.jpg",
+        "videoUrl": "https://od.lk/d/M18zMjcyOTgxODhf/Lioness%201x8.mp4",
+        "downloadUrl": "https://od.lk/d/M18zMjcyOTgxODhf/Lioness%201x8.mp4",
+        "episodeCode": "T1 E8: Atrás quedó la ilusión del orden",
+        "hiddenCode": "T1 E8",
+        "intro": { "start": 0, "end": 0 }
+      }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+  {
+    "title": "E1: Cuidado con el Viejo Soldado",
+    "meta": "16+ · 44m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xfTEeyc39CyhbkKy6Demb5m92Tm.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjcyOTgxODNf/Lioness%202x1.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjcyOTgxODNf/Lioness%202x1.mp4",
+    "episodeCode": "T2 E1: Cuidado con el Viejo Soldado",
+    "hiddenCode": "T2 E1",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E2: Amo a Mi País",
+    "meta": "16+ · 47m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/qmXB4BcpWeEB8IOT0CDt7O9izRb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjcyOTgxODlf/Lioness%202x2.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjcyOTgxODlf/Lioness%202x2.mp4",
+    "episodeCode": "T2 E2: Amo a Mi País",
+    "hiddenCode": "T2 E2",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E3: Y Vino una Araña",
+    "meta": "16+ · 52m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/xt50ehEdhGI21BJxcRc3VqXWM9K.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjcyOTgxOThf/Lioness%202x3.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjcyOTgxOThf/Lioness%202x3.mp4",
+    "episodeCode": "T2 E3: Y Vino una Araña",
+    "hiddenCode": "T2 E3",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E4: Quinientos Niños",
+    "meta": "16+ · 47m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nIKMf8djtsIYBtBCtKhHjTEo17G.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjczMDQ4MzBf/Lioness%202x4.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjczMDQ4MzBf/Lioness%202x4.mp4",
+    "episodeCode": "T2 E4: Quinientos Niños",
+    "hiddenCode": "T2 E4",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E5: Destrozar la luna",
+    "meta": "16+ · 46m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/w1vnsU60PRL69oXPckv0ndErq0C.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjczMDQ5NzZf/Lioness%202x5.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjczMDQ5NzZf/Lioness%202x5.mp4",
+    "episodeCode": "T2 E5: Destrozar la luna",
+    "hiddenCode": "T2 E5",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E6: 2381",
+    "meta": "16+ · 50m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/shHXnFf1tqxqzMgYUAmsZM3eJG1.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjczMDUwMTlf/Lioness%202x6.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjczMDUwMTlf/Lioness%202x6.mp4",
+    "episodeCode": "T2 E6: 2381",
+    "hiddenCode": "T2 E6",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E7: El diablo tiene ases",
+    "meta": "16+ · 57m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/o9DNUy0EaoM2YslSXBq9yLnH5jH.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjczMDUxNjJf/Lioness%202x7.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjczMDUxNjJf/Lioness%202x7.mp4",
+    "episodeCode": "T2 E7: El diablo tiene ases",
+    "hiddenCode": "T2 E7",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  },
+  {
+    "title": "E8: La brújula apunta a casa",
+    "meta": "16+ · 52m · 2023",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9xEd84PanI9fulF0P23fTC8gBT4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjcyOTgxNzdf/Lioness%202x8.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjcyOTgxNzdf/Lioness%202x8.mp4",
+    "episodeCode": "T2 E8: La brújula apunta a casa",
+    "hiddenCode": "T2 E8",
+    "intro": {
+      "start": 0,
+      "end": 0
+    }
+  }
+]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
+
+  // cuando cierres el player
+  WakeLockManager.disable();
+</script>
+
+</body>
+</html>

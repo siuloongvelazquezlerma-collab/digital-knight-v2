@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sin conexión - Digital Knight</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    background:#01011d;
+    color:white;
+    font-family:'Roboto',sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    position:relative;
+}
+
+/* Efecto de brillo suave */
+body::before{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:rgba(65,105,225,.15);
+    filter:blur(100px);
+    top:-200px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.container{
+    padding:30px;
+    max-width:450px;
+    position:relative;
+    z-index:2;
+}
+
+.logo{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+    margin-bottom:20px;
+    animation:pulse 2.5s infinite;
+}
+
+h1{
+    font-size:32px;
+    margin-bottom:12px;
+    font-weight:700;
+}
+
+p{
+    color:#b8b8d0;
+    font-size:16px;
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+.btn{
+    background:linear-gradient(
+        135deg,
+        #3f51ff,
+        #6c63ff
+    );
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:14px 30px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 0 20px rgba(63,81,255,.4);
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.version{
+    margin-top:25px;
+    font-size:12px;
+    color:#666699;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+.btn-download{
+    margin-top:12px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:12px;
+    padding:14px 30px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    width:100%;
+    max-width:260px;
+}
+
+.btn-download:hover{
+    background:rgba(255,255,255,.12);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <img src="new-logo-2026.png" class="logo" alt="Digital Knight">
+
+
+
+    <h1>Sin conexión</h1>
+
+    <p>
+        No se pudo conectar a Internet.
+        Verifica tu red Wi-Fi o datos móviles e intenta nuevamente.
+    </p>
+
+    <button class="btn" onclick="retryConnection()">
+    Reintentar
+</button>
+
+<button class="btn-download" onclick="goToDownloads()">
+    Ir a Descargas
+</button>
+
+</div>
+
+<script>
+function retryConnection(){
+
+    if(navigator.onLine){
+        location.href = "index.html";
+    }else{
+        alert("Aún no hay conexión a Internet.");
+    }
+
+}
+
+function goToDownloads(){
+
+    // Si offline.html está dentro de assets
+    location.href = "downloads.html";
+
+}
+
+window.addEventListener('online', () => {
+    location.href = "index.html";
+});
+</script>
+
+</body>
+</html>

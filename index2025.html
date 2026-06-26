@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DigitalKnight — Inicio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+
+  <style>
+    :root{
+      --bg-1:#050214; --bg-2:#07102a; --white:#ffffff; --muted:#c0c7d0;
+      --dot-muted:#3d4656; --accent:#7bd1ff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 60%);color:var(--white);font-family:Inter,Arial,system-ui}
+    a{color:inherit;text-decoration:none}
+
+    /* HEADER: logo centered, tabs below (centradas) */
+    header{
+      position:fixed; left:0; right:0; top:0; z-index:140;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      padding:10px 18px 6px;
+      background:linear-gradient(180deg, rgba(4,6,12,0.75), rgba(4,6,12,0.0));
+      backdrop-filter: blur(4px);
+    }
+    .header-row {
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      padding-top:4px;
+    }
+    .brand-logo{height:40px;display:block}
+    .bell{
+      position:absolute; right:18px; top:6px;
+      width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    }
+
+    /* Tabs centered below logo */
+   /* Tabs wrapper: scroll horizontal en portrait */
+.tabs-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.tabs-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Tabs flex: evita que se rompan */
+nav.tabs {
+  display: flex;
+  gap: 26px;
+  align-items: flex-end;
+  font-weight: 700;
+  flex-wrap: nowrap;
+  justify-content: flex-start; /* para que scroll funcione bien */
+  padding: 0 12px;
+}
+
+    nav.tabs button{
+      background:none;border:0;color:var(--muted);font-size:17px;padding:6px 2px;cursor:pointer;
+    }
+    nav.tabs button.active{ color:var(--white); border-bottom:4px solid var(--white); padding-bottom:6px; border-radius:3px }
+
+    /* MAIN / HERO layout */
+    main{ margin-top:120px; } /* leave space for header (logo+tabs) */
+    .hero-container{ width:100%; position:relative; }
+
+    /* Each tab gets a hero-swiper block; only .active visible */
+    .hero-swiper-tab{ display:none; }
+    .hero-swiper-tab.active{ display:block; }
+
+    .hero-swiper .swiper-slide{
+      position:relative;
+      height:78vh;
+      min-height:520px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    .slide-bg{ position:absolute; inset:0; z-index:0; }
+    .slide-bg img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .overlay-top{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,6,12,0.25), rgba(2,2,6,0.6) 35%); z-index:1; }
+    .overlay-bottom{ position:absolute; left:0; right:0; bottom:0; height:40vh; z-index:2; background:linear-gradient(0deg, rgba(2,2,6,0.95) 10%, rgba(2,2,6,0.75) 30%, rgba(2,2,6,0.2) 70%); }
+
+    /* Movie badge: logo PNG, meta, description */
+    .movie-badge{
+      position:relative; z-index:3;
+      width:100%; max-width:880px; margin:0 auto 88px; text-align:center; padding:0 22px;
+    }
+    .movie-logo{ max-width:360px; width:60%; height:auto; display:block; margin:0 auto 12px; filter: drop-shadow(0 8px 36px rgba(0,0,0,0.6)); }
+    .movie-meta{ color:var(--muted); font-size:15px; margin-bottom:10px; }
+    .movie-desc{ color:var(--white); font-weight:700; font-size:18px; line-height:1.45; max-width:760px; margin:0 auto; text-shadow:0 6px 22px rgba(0,0,0,0.6); }
+
+    /* Pagination bullets for hero */
+    .hero-pagination{ display:flex; gap:12px; justify-content:center; align-items:center; margin-top:12px; z-index:3; position:relative; }
+    .hero-pagination .hero-bullet{ width:12px; height:12px; border-radius:50%; background:var(--dot-muted); opacity:0.95; display:inline-block; margin:0 6px; cursor:pointer; }
+    .hero-pagination .hero-bullet-active{ background:var(--white); box-shadow:0 0 0 6px rgba(255,255,255,0.04) inset; }
+
+    /* COLLECTIONS row per tab */
+    .tab-collections{ display:none; padding:26px 18px 120px; max-width:1200px; margin:0 auto; }
+    .tab-collections.active{ display:block; }
+    .collections-title{ font-size:26px; font-weight:800; margin-bottom:12px; color:var(--white); }
+    .collection-swiper .swiper-slide{ width:140px; height:220px; border-radius:10px; overflow:hidden; }
+    .movie-card{ width:100%; height:100%; border-radius:10px; overflow:hidden; background:#0e0e12; display:flex; align-items:center; justify-content:center; }
+    .movie-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* portrait vs landscape slides: landscape hidden by default */
+    .slide-portrait{ display:block; }
+    .slide-landscape{ display:none; }
+
+    /* show landscape in landscape orientation or desktop */
+    @media (orientation: landscape) and (max-width:1023px){
+      .slide-landscape{ display:block; }
+      .collection-swiper .swiper-slide{ width:220px; height:140px; }
+    }
+    @media (min-width:1024px){
+      .slide-landscape{ display:block; }
+      .collection-swiper .swiper-slide{ width:220px; height:140px; }
+    }
+    @media (max-width:1023px) and (orientation:portrait){
+      .collection-swiper .swiper-slide{ width:140px; height:220px; }
+      .slide-landscape{ display:none; }
+    }
+
+    /* small screens */
+    @media (max-width:900px){
+      .movie-logo{ max-width:280px; width:56%; }
+      .movie-desc{ font-size:16px; }
+      main{ margin-top:112px; }
+    }
+    @media (max-width:420px){
+      .movie-logo{ width:64%; }
+      nav.tabs{ gap:16px; }
+    }
+
+    /* bottom nav */
+    .bottom-nav{ position:fixed; left:0; right:0; bottom:0; height:86px; display:flex; align-items:center; justify-content:center; gap:28px; padding:12px 18px; background:linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.9)); z-index:160; }
+    .bottom-nav button{ background:rgba(255,255,255,0.06); border:none; padding:12px; border-radius:12px; color:var(--white); font-size:18px; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER: logo centered, tabs centered below it -->
+  <header>
+    <div class="header-row">
+      <img class="brand-logo" src="images/digitalknight-logo.png" alt="DigitalKnight logo">
+      <div class="bell" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0h6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <div class="tabs-wrapper">
+      <nav class="tabs" role="tablist" aria-label="Navegación principal">
+        <button class="tab-btn active" data-tab="1" aria-selected="true">Inicio</button>
+        <button class="tab-btn" data-tab="2">Películas</button>
+        <button class="tab-btn" data-tab="3">Series</button>
+        <button class="tab-btn" data-tab="4">Anime</button>
+        <button class="tab-btn" data-tab="5">Documentales</button>
+        <button class="tab-btn" data-tab="6">Explorar</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO AREA: one hero-swiper per tab; only the active tab's hero is visible -->
+    <div class="hero-container">
+
+      <!-- HERO TAB 1 -->
+      <div id="hero-tab-1" class="hero-swiper-tab active">
+        <div class="swiper hero-swiper" id="hero-swiper-1">
+          <div class="swiper-wrapper">
+            <!-- each slide: picture chooses landscape on wide + portrait fallback -->
+            <!-- 6 slides - replace src with your images -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/hero1-landscape.jpg">
+                  <img src="images/hero1-portrait.jpg" alt="Entrevista con el vampiro">
+                </picture>
+              </div>
+              <div class="overlay-top" aria-hidden="true"></div>
+
+              <div class="movie-badge" role="region" aria-label="Película destacada">
+                <!-- Logo PNG en lugar de texto -->
+                <img class="movie-logo" src="images/logo1.png" alt="Logo película 1">
+                <div class="movie-meta">Película · 18+ · 1994 · Terror, Drama, Fantasía</div>
+                <p class="movie-desc">Un vampiro llamado Lestat convierte a Louis, un hombre devastado por la pérdida de su familia. Siglos después, Louis relata su vida de amor, terror y oscuridad a un joven reportero.</p>
+              </div>
+
+              <div class="overlay-bottom" aria-hidden="true"></div>
+            </div>
+
+            <!-- slide 2 -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/hero2-landscape.jpg">
+                  <img src="images/hero2-portrait.jpg" alt="Película 2">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/logo2.png" alt="Logo película 2">
+                <div class="movie-meta">Película · 2020 · Aventura</div>
+                <p class="movie-desc">Descripción breve de la película 2.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+
+            <!-- slide 3 -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/hero3-landscape.jpg">
+                  <img src="images/hero3-portrait.jpg" alt="Película 3">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/logo3.png" alt="Logo película 3">
+                <div class="movie-meta">Película · 2019 · Drama</div>
+                <p class="movie-desc">Descripción breve de la película 3.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+
+            <!-- slide 4 -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/hero4-landscape.jpg">
+                  <img src="images/hero4-portrait.jpg" alt="Película 4">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/logo4.png" alt="Logo película 4">
+                <div class="movie-meta">Película · 2016 · Acción</div>
+                <p class="movie-desc">Descripción breve de la película 4.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+
+            <!-- slide 5 -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/hero5-landscape.jpg">
+                  <img src="images/hero5-portrait.jpg" alt="Película 5">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/logo5.png" alt="Logo película 5">
+                <div class="movie-meta">Película · 2011 · Suspenso</div>
+                <p class="movie-desc">Descripción breve de la película 5.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+
+            <!-- slide 6 -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/hero6-landscape.jpg">
+                  <img src="images/hero6-portrait.jpg" alt="Película 6">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/logo6.png" alt="Logo película 6">
+                <div class="movie-meta">Película · 2008 · Ciencia ficción</div>
+                <p class="movie-desc">Descripción breve de la película 6.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+          </div>
+
+          <div id="hero-pagination-1" class="swiper-pagination hero-pagination"></div>
+        </div>
+      </div>
+
+      <!-- HERO TAB 2 -->
+      <div id="hero-tab-2" class="hero-swiper-tab">
+        <div class="swiper hero-swiper" id="hero-swiper-2">
+          <div class="swiper-wrapper">
+            <!-- example slides (use your own images/logos) -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/p2-hero1-land.jpg">
+                  <img src="images/p2-hero1-port.jpg" alt="Película Tab2 - 1">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/p2-logo1.png" alt="Logo tab2-1">
+                <div class="movie-meta">Película · Año · Género</div>
+                <p class="movie-desc">Descripción tab2 - slide 1.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+            <!-- ... agrega 6 slides por tab ... -->
+          </div>
+          <div id="hero-pagination-2" class="swiper-pagination hero-pagination"></div>
+        </div>
+      </div>
+
+      <!-- HERO TAB 3 -->
+      <div id="hero-tab-3" class="hero-swiper-tab">
+        <div class="swiper hero-swiper" id="hero-swiper-3">
+          <div class="swiper-wrapper">
+            <!-- slides... -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/s3-hero1-land.jpg">
+                  <img src="images/s3-hero1-port.jpg" alt="Tab3 slide1">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/s3-logo1.png" alt="Logo s3-1">
+                <div class="movie-meta">Serie · Año · Género</div>
+                <p class="movie-desc">Descripción serie 1.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+            <!-- ... -->
+          </div>
+          <div id="hero-pagination-3" class="swiper-pagination hero-pagination"></div>
+        </div>
+      </div>
+
+      <!-- HERO TAB 4 -->
+      <div id="hero-tab-4" class="hero-swiper-tab">
+        <div class="swiper hero-swiper" id="hero-swiper-4">
+          <div class="swiper-wrapper">
+            <!-- slides -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/a4-hero1-land.jpg">
+                  <img src="images/a4-hero1-port.jpg" alt="Tab4 slide1">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/a4-logo1.png" alt="Logo a4-1">
+                <div class="movie-meta">Anime · Año · Género</div>
+                <p class="movie-desc">Descripción anime 1.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+          </div>
+          <div id="hero-pagination-4" class="swiper-pagination hero-pagination"></div>
+        </div>
+      </div>
+
+      <!-- HERO TAB 5 -->
+      <div id="hero-tab-5" class="hero-swiper-tab">
+        <div class="swiper hero-swiper" id="hero-swiper-5">
+          <div class="swiper-wrapper">
+            <!-- slides -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/d5-hero1-land.jpg">
+                  <img src="images/d5-hero1-port.jpg" alt="Tab5 slide1">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/d5-logo1.png" alt="Logo d5-1">
+                <div class="movie-meta">Documental · Año · Género</div>
+                <p class="movie-desc">Descripción documental 1.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+          </div>
+          <div id="hero-pagination-5" class="swiper-pagination hero-pagination"></div>
+        </div>
+      </div>
+
+      <!-- HERO TAB 6 -->
+      <div id="hero-tab-6" class="hero-swiper-tab">
+        <div class="swiper hero-swiper" id="hero-swiper-6">
+          <div class="swiper-wrapper">
+            <!-- slides -->
+            <div class="swiper-slide">
+              <div class="slide-bg">
+                <picture>
+                  <source media="(min-width:1024px) and (orientation: landscape)" srcset="images/x6-hero1-land.jpg">
+                  <img src="images/x6-hero1-port.jpg" alt="Tab6 slide1">
+                </picture>
+              </div>
+              <div class="overlay-top"></div>
+              <div class="movie-badge">
+                <img class="movie-logo" src="images/x6-logo1.png" alt="Logo x6-1">
+                <div class="movie-meta">Explorar · Año · Género</div>
+                <p class="movie-desc">Descripción explorar 1.</p>
+              </div>
+              <div class="overlay-bottom"></div>
+            </div>
+          </div>
+          <div id="hero-pagination-6" class="swiper-pagination hero-pagination"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLLECTIONS: one per tab -->
+    <section id="collections-tab-1" class="tab-collections active" aria-labelledby="tab-1">
+      <div class="collections-title">Colecciones — Inicio</div>
+      <div class="swiper collection-swiper" id="collection-swiper-1">
+        <div class="swiper-wrapper">
+          <!-- 6 portrait -->
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c1-portrait1.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c1-portrait2.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c1-portrait3.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c1-portrait4.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c1-portrait5.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c1-portrait6.jpg" alt=""></div></div>
+          <!-- 6 landscape (se mostrarán según media queries) -->
+          <div class="swiper-slide slide-landscape"><div class="movie-card"><img src="images/c1-land1.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-landscape"><div class="movie-card"><img src="images/c1-land2.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-landscape"><div class="movie-card"><img src="images/c1-land3.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-landscape"><div class="movie-card"><img src="images/c1-land4.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-landscape"><div class="movie-card"><img src="images/c1-land5.jpg" alt=""></div></div>
+          <div class="swiper-slide slide-landscape"><div class="movie-card"><img src="images/c1-land6.jpg" alt=""></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+    <!-- Repeat for other tabs: collections-tab-2 ... collections-tab-6 -->
+    <section id="collections-tab-2" class="tab-collections">
+      <div class="collections-title">Colecciones — Películas</div>
+      <div class="swiper collection-swiper" id="collection-swiper-2">
+        <div class="swiper-wrapper">
+          <!-- add slides for tab 2 -->
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c2-portrait1.jpg" alt=""></div></div>
+          <!-- ... more slides ... -->
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+    <section id="collections-tab-3" class="tab-collections">
+      <div class="collections-title">Colecciones — Series</div>
+      <div class="swiper collection-swiper" id="collection-swiper-3">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c3-portrait1.jpg" alt=""></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+    <section id="collections-tab-4" class="tab-collections">
+      <div class="collections-title">Colecciones — Anime</div>
+      <div class="swiper collection-swiper" id="collection-swiper-4">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c4-portrait1.jpg" alt=""></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+    <section id="collections-tab-5" class="tab-collections">
+      <div class="collections-title">Colecciones — Documentales</div>
+      <div class="swiper collection-swiper" id="collection-swiper-5">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c5-portrait1.jpg" alt=""></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+    <section id="collections-tab-6" class="tab-collections">
+      <div class="collections-title">Colecciones — Explorar</div>
+      <div class="swiper collection-swiper" id="collection-swiper-6">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide slide-portrait"><div class="movie-card"><img src="images/c6-portrait1.jpg" alt=""></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- bottom nav -->
+  <div class="bottom-nav" aria-hidden="true">
+    <button title="Inicio">🏠</button>
+    <button title="Favoritos">🔖</button>
+    <button title="Buscar">🔍</button>
+    <button title="Perfil">👤</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    // Number of tabs
+const TAB_COUNT = 6;
+
+// Init hero swipers (one per tab)
+const heroSwipers = {};
+for (let i = 1; i <= TAB_COUNT; i++) {
+  const selector = '#hero-swiper-' + i;
+  const el = document.querySelector(selector);
+  if (!el) continue;
+  heroSwipers[i] = new Swiper(selector, {
+    effect: 'fade',
+    fadeEffect: { crossFade: true },
+    loop: true,
+    speed: 900,
+    autoplay: { delay: 7000, disableOnInteraction: false },
+    pagination: {
+      el: '#hero-pagination-' + i,
+      clickable: true,
+      bulletClass: 'hero-bullet',
+      bulletActiveClass: 'hero-bullet-active',
+      renderBullet: function (index, className) { return '<span class="' + className + '"></span>'; }
+    },
+    observer: true,
+    observeParents: true
+  });
+}
+
+// Init collection swipers
+const collectionSwipers = {};
+for (let i = 1; i <= TAB_COUNT; i++) {
+  const sel = '#collection-swiper-' + i;
+  const colEl = document.querySelector(sel);
+  if (!colEl) continue;
+  collectionSwipers[i] = new Swiper(sel, {
+    slidesPerView: 'auto',
+    spaceBetween: 12,
+    loop: true,
+    speed: 700,
+    autoplay: { delay: 7000, disableOnInteraction: false },
+    navigation: {
+      nextEl: sel + ' .swiper-button-next',
+      prevEl: sel + ' .swiper-button-prev'
+    },
+    breakpoints: {
+      0: { slidesPerView: 2.2, spaceBetween: 10 },
+      600: { slidesPerView: 3.2 },
+      1024: { slidesPerView: 4.2 },
+      1400: { slidesPerView: 5.2 }
+    },
+    observer: true,
+    observeParents: true
+  });
+}
+
+// --- NUEVO: tabs centradas en portrait ---
+const tabWrapper = document.querySelector('.tabs-wrapper');
+const tabButtons = document.querySelectorAll('.tab-btn');
+
+function scrollTabIntoView(btn) {
+  if (window.innerHeight > window.innerWidth) { // portrait
+    const wrapperRect = tabWrapper.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const offset = btnRect.left - wrapperRect.left - (wrapperRect.width / 2) + (btnRect.width / 2);
+    tabWrapper.scrollBy({ left: offset, behavior: 'smooth' });
+  }
+}
+
+// Tab click logic: show corresponding hero + collections + scroll
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const idx = parseInt(btn.dataset.tab, 10);
+
+    // set active class on tabs
+    tabButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // scroll tab into view (portrait)
+    scrollTabIntoView(btn);
+
+    // show/hide hero tabs
+    for (let i = 1; i <= TAB_COUNT; i++) {
+      const heroTab = document.getElementById('hero-tab-' + i);
+      if (!heroTab) continue;
+      heroTab.classList.toggle('active', i === idx);
+      if (i === idx && heroSwipers[i]) setTimeout(() => heroSwipers[i].update(), 80);
+    }
+
+    // show/hide collection tabs
+    for (let i = 1; i <= TAB_COUNT; i++) {
+      const colTab = document.getElementById('collections-tab-' + i);
+      if (!colTab) continue;
+      colTab.classList.toggle('active', i === idx);
+      if (i === idx && collectionSwipers[i]) setTimeout(() => collectionSwipers[i].update(), 80);
+    }
+
+    // scroll page to top of hero (optional)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Centrar primera tab al cargar
+window.addEventListener('load', () => {
+  if (heroSwipers[1]) heroSwipers[1].update();
+  if (collectionSwipers[1]) collectionSwipers[1].update();
+
+  const activeBtn = document.querySelector('.tab-btn.active');
+  if (activeBtn) scrollTabIntoView(activeBtn);
+});
+
+// Recalcular swipers y tabs al cambiar tamaño/orientación
+function updateAll() {
+  for (let i = 1; i <= TAB_COUNT; i++) {
+    if (heroSwipers[i]) heroSwipers[i].update();
+    if (collectionSwipers[i]) collectionSwipers[i].update();
+  }
+  const activeBtn = document.querySelector('.tab-btn.active');
+  if (activeBtn) scrollTabIntoView(activeBtn);
+}
+
+window.addEventListener('resize', updateAll);
+window.addEventListener('orientationchange', updateAll);
+
+  </script>
+</body>
+</html>

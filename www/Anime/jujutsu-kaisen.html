@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Jujutsu Kaisen</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  background: url("https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=840,height=1260/keyart/GRDV0019R-backdrop_tall") no-repeat center top;
+  background-size: cover;
+  background-position: center top;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=cover,format=auto,quality=85,width=1920/keyart/GRDV0019R-backdrop_wide") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 220px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Jujutsu Kaisen</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=600/keyart/GRDV0019R-title_logo-en-us" alt="Jujutsu Kaisen Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+   3 temporadas   2020   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Jujutsu Kaisen" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/7XOwseC7osJnyjgCg9WfKujFsKT.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="jujutsu-kaisen.html"></a>
+          <span id="nombre">Jujutsu Kaisen</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        La vida de Itadori cambia para siempre cuando, para salvar a un compañero de clase, se come el dedo de Ryomen Sukuna y absorbe una poderosa maldición.  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+
+      <div class="suggested-item">
+        <a href="Attack on Titan (2013).html">
+          <img src="https://image.tmdb.org/t/p/original/yNI1GpgU3BH4fljGNsTCWTcVuwS.jpg" alt="Attack on Titan" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Attack on Titan</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="rooster-fighter.html">
+          <img src="https://image.tmdb.org/t/p/w300/iCtbr0sIdaKZjhQH3Wr7hW6A1IU.jpg" alt="Rooster Fighter" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Rooster Fighter</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="Mobile Suit Gundam Wing.html">
+          <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Mobile Suit Gundam Wing (1995)" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Mobile Suit Gundam Wing (1995)</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="dorohedoro.html">
+          <img src="https://image.tmdb.org/t/p/w300/zSMmRTopPIRr6913KX8pyiV6zsK.jpg" alt="Dorohedoro" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Dorohedoro</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="yu-yu-hakusho.html">
+          <img src="https://image.tmdb.org/t/p/w300/5OnjguJwkujo3R23w95EEX8eAEN.jpg" alt="Yu Yu Hakusho" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Yu Yu Hakusho</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+     
+</div>
+        </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video playsinline webkit-playsinline
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+  
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <!-- 🌐 Botón de idioma con mini menú -->
+        <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+          <span class="material-icons" id="langIcon">chat</span>
+  
+          <div id="langMenu" class="lang-menu">
+            <div class="lang-option" data-lang="latino">
+              <span class="check"></span> Español (Latino)
+            </div>
+            <div class="lang-option" data-lang="sub">
+              <span class="check"></span> Japonés (Subtítulos)
+            </div>
+            <button id="langConfirmBtn">Listo</button>
+          </div>
+        </div>
+        <!-- 🌐 Fin menú de idioma -->
+  
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Jujutsu Kaisen</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+  <script src="../share.js"></script>
+
+<script>
+
+const seriesId = "jujutsu-kaisen-95479";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+window.playlist = [
+  {
+    season: "Temporada 1",
+    "episodes": [
+      {
+        "title": "E1: Ryomen Sukuna",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/3wymoL9HYpllpFrcD8VCvemktGg.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjAxNjlf/Jujutsu%20Kaisen%20Latino%20Ep%201.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM4MzBf/Jujutsu%20Kaisen%20Ep%201.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjAxNjlf/Jujutsu%20Kaisen%20Latino%20Ep%201.mp4",
+        "episodeCode": "T1 E1: Ryomen Sukuna",
+        "hiddenCode": "T1 E1",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E2: Por mí",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/k5U9vkpy31UiqCkEc6x6OPBBB0R.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjAwNzBf/Jujutsu%20Kaisen%20Latino%20Ep%202.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4MzFf/Jujutsu%20Kaisen%20Ep%202.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjAwNzBf/Jujutsu%20Kaisen%20Latino%20Ep%202.mp4",
+        "episodeCode": "T1 E2: Por mí",
+        "hiddenCode": "T1 E2",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E3: Chica de acero",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/foMCHRzZVfCTvrmfWWeWViBzvZH.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjAyOTRf/Jujutsu%20Kaisen%20Latino%20Ep%203.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4MzNf/Jujutsu%20Kaisen%20Ep%203.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjAyOTRf/Jujutsu%20Kaisen%20Latino%20Ep%203.mp4",
+        "episodeCode": "T1 E3: Chica de acero",
+        "hiddenCode": "T1 E3",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E4: La existencia terrenal del Vientre Maldito",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7AxWD8EGwgurIeNoS40YidIlbcT.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjAzOTFf/Jujutsu%20Kaisen%20Latino%20Ep%204.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4MzVf/Jujutsu%20Kaisen%20Ep%204.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjAzOTFf/Jujutsu%20Kaisen%20Latino%20Ep%204.mp4",
+        "episodeCode": "T1 E4: La existencia terrenal del Vientre Maldito",
+        "hiddenCode": "T1 E4",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E5: La existencia terrenal del Vientre Maldito - II",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xXIK0xhHMThQkSkbBMAznaUTubj.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjA1MDVf/Jujutsu%20Kaisen%20Latino%20Ep%205.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4MzZf/Jujutsu%20Kaisen%20Ep%205.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjA1MDVf/Jujutsu%20Kaisen%20Latino%20Ep%205.mp4",
+        "episodeCode": "T1 E5: La existencia terrenal del Vientre Maldito - II",
+        "hiddenCode": "T1 E5",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E6: Tras la lluvia",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/p7iB7X4BBr1vxeIjfeIelKZWaeS.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjA1OTRf/Jujutsu%20Kaisen%20Latino%20Ep%206.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4Mzlf/Jujutsu%20Kaisen%20Ep%206.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjA1OTRf/Jujutsu%20Kaisen%20Latino%20Ep%206.mp4",
+        "episodeCode": "T1 E6: Tras la lluvia",
+        "hiddenCode": "T1 E6",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E7: Asalto",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/ggoWW4AChFzqNkVNr941EhRqTiX.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjA3NzBf/Jujutsu%20Kaisen%20Latino%20Ep%207.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NDBf/Jujutsu%20Kaisen%20Ep%207.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjA3NzBf/Jujutsu%20Kaisen%20Latino%20Ep%207.mp4",
+        "episodeCode": "T1 E7: Asalto",
+        "hiddenCode": "T1 E7",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E8: Aburrimiento",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6RmiWPTEzDIOLmGI3zYo2GqVeOW.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjA2ODRf/Jujutsu%20Kaisen%20Latino%20Ep%208.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NDFf/Jujutsu%20Kaisen%20Ep%208.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjA2ODRf/Jujutsu%20Kaisen%20Latino%20Ep%208.mp4",
+        "episodeCode": "T1 E8: Aburrimiento",
+        "hiddenCode": "T1 E8",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E9: Donnadies y castigo",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/2oiKacR5YLtv7dr6lyjoyUif1Za.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjA5MTFf/Jujutsu%20Kaisen%20Latino%20Ep%209.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NDJf/Jujutsu%20Kaisen%20Ep%209.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjA5MTFf/Jujutsu%20Kaisen%20Latino%20Ep%209.mp4",
+        "episodeCode": "T1 E9: Donnadies y castigo",
+        "hiddenCode": "T1 E9",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E10: Mutación Pasiva",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rYa2K1q24GNb3dgAvgZm6K6OTzj.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjEzNjlf/Jujutsu%20Kaisen%20Latino%20Ep%2010.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTQwMjhf/Jujutsu%20Kaisen%20Ep%2010.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjEzNjlf/Jujutsu%20Kaisen%20Latino%20Ep%2010.mp4",
+        "episodeCode": "T1 E10: Mutación Pasiva",
+        "hiddenCode": "T1 E10",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E11: De mente cerrada",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dVRE3XvFfgm8BRww4AqxokPMds1.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjE3ODhf/Jujutsu%20Kaisen%20Latino%20Ep%2011.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NDNf/Jujutsu%20Kaisen%20Ep%2011.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjE3ODhf/Jujutsu%20Kaisen%20Latino%20Ep%2011.mp4",
+        "episodeCode": "T1 E11: De mente cerrada",
+        "hiddenCode": "T1 E11",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E12: Para ti, algún día",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/toPm43S9jRbpOnU6JetStwUTFj6.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjIxNDdf/Jujutsu%20Kaisen%20Latino%20Ep%2012.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NDRf/Jujutsu%20Kaisen%20Ep%2012.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjIxNDdf/Jujutsu%20Kaisen%20Latino%20Ep%2012.mp4",
+        "episodeCode": "T1 E12: Para ti, algún día",
+        "hiddenCode": "T1 E12",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E13: Hasta mañana",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5L3jkgKkzPvECLSiOxAqA4MIIiP.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjI1MTFf/Jujutsu%20Kaisen%20Latino%20Ep%2013.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NDZf/Jujutsu%20Kaisen%20Ep%2013.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjI1MTFf/Jujutsu%20Kaisen%20Latino%20Ep%2013.mp4",
+        "episodeCode": "T1 E13: Hasta mañana",
+        "hiddenCode": "T1 E13",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E14: El evento de intercambio con la escuela de Kioto -Combate grupal 0-",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wzimi19uWzAboYzDjYUDpdhEMUO.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjMwNDVf/Jujutsu%20Kaisen%20Latino%20Ep%2014.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NTRf/Jujutsu%20Kaisen%20Ep%2014.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjMwNDVf/Jujutsu%20Kaisen%20Latino%20Ep%2014.mp4",
+        "episodeCode": "T1 E14: El evento de intercambio con la escuela de Kioto -Combate grupal 0-",
+        "hiddenCode": "T1 E14",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E15: El evento de intercambio con la escuela de Kioto -Combate grupal 1-",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hoZfRWj2ROpzPnuKf45CUPzCRQE.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjMzOThf/Jujutsu%20Kaisen%20Latino%20Ep%2015.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NjBf/Jujutsu%20Kaisen%20Ep%2015.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjMzOThf/Jujutsu%20Kaisen%20Latino%20Ep%2015.mp4",
+        "episodeCode": "T1 E15: El evento de intercambio con la escuela de Kioto -Combate grupal 1-",
+        "hiddenCode": "T1 E15",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E16: El evento de intercambio con la escuela de Kioto -Combate grupal 2-",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/bDM0qdyzYUMhNpIH9AUkz7okbRE.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjQwMTFf/Jujutsu%20Kaisen%20Latino%20Ep%2016.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4OTZf/Jujutsu%20Kaisen%20Ep%2016.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjQwMTFf/Jujutsu%20Kaisen%20Latino%20Ep%2016.mp4",
+        "episodeCode": "T1 E16: El evento de intercambio con la escuela de Kioto -Combate grupal 2-",
+        "hiddenCode": "T1 E16",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E17: El evento de intercambio con la escuela de Kioto -Combate grupal 3-",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/7BMedKvP6i1wIK7vLgL3v2BnRHe.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjQ2MDNf/Jujutsu%20Kaisen%20Latino%20Ep%2017.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4NjFf/Jujutsu%20Kaisen%20Ep%2017.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjQ2MDNf/Jujutsu%20Kaisen%20Latino%20Ep%2017.mp4",
+        "episodeCode": "T1 E17: El evento de intercambio con la escuela de Kioto -Combate grupal 3-",
+        "hiddenCode": "T1 E17",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E18: Sabios",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/haxqbRAfpDuS9MIEBk9ToRLNuxt.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjQ5Njhf/Jujutsu%20Kaisen%20Latino%20Ep%2018.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM4ODBf/Jujutsu%20Kaisen%20Ep%2018.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjQ5Njhf/Jujutsu%20Kaisen%20Latino%20Ep%2018.mp4",
+        "episodeCode": "T1 E18: Sabios",
+        "hiddenCode": "T1 E18",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E19: Destello Negro",
+        "meta": "16+ · 26m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/qpDxYXnn0ZkoLPz0lB6iQZVIkHM.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjUzNjZf/Jujutsu%20Kaisen%20Latino%20Ep%2019.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM5MDRf/Jujutsu%20Kaisen%20Ep%2019.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjUzNjZf/Jujutsu%20Kaisen%20Latino%20Ep%2019.mp4",
+        "episodeCode": "T1 E19: Destello Negro",
+        "hiddenCode": "T1 E19",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E20: Fuera de lo común",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/f15D3bnszZigSKbc85wL8ItwLKn.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjYyMzRf/Jujutsu%20Kaisen%20Latino%20Ep%2020.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM5MDBf/Jujutsu%20Kaisen%20Ep%2020.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjYyMzRf/Jujutsu%20Kaisen%20Latino%20Ep%2020.mp4",
+        "episodeCode": "T1 E20: Fuera de lo común",
+        "hiddenCode": "T1 E20",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E21: Jujutsu Koshien",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/jhTrnQKXpc7rxDwM1Wm7ulKf71P.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjU5NzBf/Jujutsu%20Kaisen%20Latino%20Ep%2021.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM5MDZf/Jujutsu%20Kaisen%20Ep%2021.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjU5NzBf/Jujutsu%20Kaisen%20Latino%20Ep%2021.mp4",
+        "episodeCode": "T1 E21: Jujutsu Koshien",
+        "hiddenCode": "T1 E21",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E22: El origen de la fe ciega",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oYPvSsCDALfVeQ5goo1aPibYiXm.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjY1NTlf/Jujutsu%20Kaisen%20Latino%20Ep%2022.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM5MDVf/Jujutsu%20Kaisen%20Ep%2022.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjY1NTlf/Jujutsu%20Kaisen%20Latino%20Ep%2022.mp4",
+        "episodeCode": "T1 E22: El origen de la fe ciega",
+        "hiddenCode": "T1 E22",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E23: El origen de la fe ciega II",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/eLxlqoRzD7HPe8JgiJd5iGpXpaf.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjY3MDlf/Jujutsu%20Kaisen%20Latino%20Ep%2023.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM5MDdf/Jujutsu%20Kaisen%20Ep%2023.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjY3MDlf/Jujutsu%20Kaisen%20Latino%20Ep%2023.mp4",
+        "episodeCode": "T1 E23: El origen de la fe ciega II",
+        "hiddenCode": "T1 E23",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E24: Cómplices",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/zIG6nADGUqJYDBXEsDaYyzYjHgH.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MjY4MzVf/Jujutsu%20Kaisen%20Latino%20Ep%2024.mp4",
+    "sub": "https://od.lk/d/M18zMjg1NTM5MDhf/Jujutsu%20Kaisen%20Ep%2024.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MjY4MzVf/Jujutsu%20Kaisen%20Latino%20Ep%2024.mp4",
+        "episodeCode": "T1 E24: Cómplices",
+        "hiddenCode": "T1 E24",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+    {
+        "title": "E25: El tesoro escondido",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wR1ss0SiN0EjKOPgrGfCm9FzdVD.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1MzkyNTRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%201.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NTZf/Jujutsu%20Kaisen%202nd%20Season%20Ep%201.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1MzkyNTRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%201.mp4",
+        "episodeCode": "T2 E25: El tesoro escondido",
+        "hiddenCode": "T2 E25",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E26: El tesoro escondido - Parte 2",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/xNMW94wR8jfsXZbMK3XD2ftOUd0.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1Mzk2NzBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%202.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NTJf/Jujutsu%20Kaisen%202nd%20Season%20Ep%202.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1Mzk2NzBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%202.mp4",
+        "episodeCode": "T2 E26: El tesoro escondido - Parte 2",
+        "hiddenCode": "T2 E26",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E27: El tesoro escondido - Parte 3",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/hiWLnViLZISiSWmMi5aLUcWz79M.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDAyMTFf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%203.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NjBf/Jujutsu%20Kaisen%202nd%20Season%20Ep%203.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDAyMTFf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%203.mp4",
+        "episodeCode": "T2 E27: El tesoro escondido - Parte 3",
+        "hiddenCode": "T2 E27",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E28: El tesoro escondido - Parte 4",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mPm5BPw4dujoEHZNjpYTUEBLBZz.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDEwMzBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%204%20720p.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NjJf/Jujutsu%20Kaisen%202nd%20Season%20Ep%204.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDEwMzBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%204%20720p.mp4",
+        "episodeCode": "T2 E28: El tesoro escondido - Parte 4",
+        "hiddenCode": "T2 E28",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E29: El tesoro perdido",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/gjWLlxTUqzf7t4HsMQhUCxke5EW.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDI1Mzhf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%205.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NjFf/Jujutsu%20Kaisen%202nd%20Season%20Ep%205.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDI1Mzhf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%205.mp4",
+        "episodeCode": "T2 E29: El tesoro perdido",
+        "hiddenCode": "T2 E29",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E30: De eso se trata",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5sVDG2UKlryQ3YhAMzSHKwXE0nF.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDMwNDJf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%206.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTQwNDhf/Jujutsu%20Kaisen%202nd%20Season%20Ep%206.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDMwNDJf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%206.mp4",
+        "episodeCode": "T2 E30: De eso se trata",
+        "hiddenCode": "T2 E30",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E31: La víspera del festival",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/AwgGz4NcjZEv65DoCx4sOoZ2hdn.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDI3MjVf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%207%20720p.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NjNf/Jujutsu%20Kaisen%202nd%20Season%20Ep%207.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDI3MjVf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%207%20720p.mp4",
+        "episodeCode": "T2 E31: La víspera del festival",
+        "hiddenCode": "T2 E31",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E32: El incidente de Shibuya",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iWpee6FUvkhvA2ZQuWxRkwIltjy.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDMzNjlf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%208.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5Njhf/Jujutsu%20Kaisen%202nd%20Season%20Ep%208.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDMzNjlf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%208.mp4",
+        "episodeCode": "T2 E32: El incidente de Shibuya",
+        "hiddenCode": "T2 E32",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E33: El incidente de Shibuya - Apertura del portal",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/wbeKG5lUim0kUzygMojZ5XLH7ar.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDM0MjFf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%209%201080p.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NzNf/Jujutsu%20Kaisen%202nd%20Season%20Ep%209.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDM0MjFf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%209%201080p.mp4",
+        "episodeCode": "T2 E33: El incidente de Shibuya - Apertura del portal",
+        "hiddenCode": "T2 E33",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E34: Confusión",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vVKd4JzK1UV6sxuiPL28gZdtT4Q.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NDM0NDRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2010.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5NzVf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2010.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NDM0NDRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2010.mp4",
+        "episodeCode": "T2 E34: Confusión",
+        "hiddenCode": "T2 E34",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E35: Espiritismo",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/6CIaldfN1D3DyeqRELOaTgGlVLu.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTMyMDBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2011.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODJf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2011.m3u8.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTMyMDBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2011.mp4",
+        "episodeCode": "T2 E35: Espiritismo",
+        "hiddenCode": "T2 E35",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E36: Espada obtusa",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kdpIM5MToGTQMwHCTpuMyabC7xu.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTMwODVf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2012.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODFf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2012.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTMwODVf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2012.mp4",
+        "episodeCode": "T2 E36: Espada obtusa",
+        "hiddenCode": "T2 E36",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E37: Escamas carmesí",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iKXFjdV8tmrQmqro2AsJ2e1AwjN.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTMxODRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2013.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODRf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2013.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTMxODRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2013.mp4",
+        "episodeCode": "T2 E37: Escamas carmesí",
+        "hiddenCode": "T2 E37",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E38: Temblores",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/uUIXH9nBl7HFoaomIlL4CTolq39.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTMyMDlf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2014.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODNf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2014.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTMyMDlf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2014.mp4",
+        "episodeCode": "T2 E38: Temblores",
+        "hiddenCode": "T2 E38",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E39: Temblores, parte dos",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vzNGwCOfpuytEmR2UO29trlodjy.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTMzNTNf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2015.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODVf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2015.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTMzNTNf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2015.mp4",
+        "episodeCode": "T2 E39: Temblores, parte dos",
+        "hiddenCode": "T2 E39",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E40: Trueno",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/g9yiVw2BHqThSeevyuKBoJrsTpM.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM0OTNf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2016.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODdf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2016.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM0OTNf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2016.mp4",
+        "episodeCode": "T2 E40: Trueno",
+        "hiddenCode": "T2 E40",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E41: Trueno, parte 2",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/sduM7W14ngIFUMnXaWfjb96lv0I.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM1MTRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2017%201080p.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODhf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2017.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM1MTRf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2017%201080p.mp4",
+        "episodeCode": "T2 E41: Trueno, parte 2",
+        "hiddenCode": "T2 E41",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E42: Lo correcto y lo incorrecto",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/rAZeDUOFLQoLgEqcjvNoMy7lmpB.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM0OTZf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2018.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5OTBf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2018.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM0OTZf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2018.mp4",
+        "episodeCode": "T2 E42: Lo correcto y lo incorrecto",
+        "hiddenCode": "T2 E42",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E43: Lo correcto y lo incorrecto, parte 2",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/irunrX4hAbsTWUTZpWNJXg1Asbv.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM1MTZf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2019%201080p.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5ODlf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2019.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM1MTZf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2019%201080p.mp4",
+        "episodeCode": "T2 E43: Lo correcto y lo incorrecto, parte 2",
+        "hiddenCode": "T2 E43",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E44: Lo correcto y lo incorrecto, parte 3",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vdpupuE0OtfInqCmwU9Wk4sMqC9.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM1MjFf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2020.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5OTFf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2020.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM1MjFf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2020.mp4",
+        "episodeCode": "T2 E44: Lo correcto y lo incorrecto, parte 3",
+        "hiddenCode": "T2 E44",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E45: Metamorfosis",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/pg4bblgq3ywpFOphH5tEerg7Tu8.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM1Mjlf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2021.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5OTNf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2021.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM1Mjlf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2021.mp4",
+        "episodeCode": "T2 E45: Metamorfosis",
+        "hiddenCode": "T2 E45",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E46: Metamorfosis, parte dos",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iJbmi5vBd2eAt1LtKmTe7z4EXjM.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM1MjBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2022.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5OTJf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2022.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM1MjBf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2022.mp4",
+        "episodeCode": "T2 E46: Metamorfosis, parte dos",
+        "hiddenCode": "T2 E46",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E47: El incidente de Shibuya, cierre del portal",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/oZXG2hKiueV4A9RSbV6ZMNdhWyz.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM1Mjdf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2023.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NTM5OTRf/Jujutsu%20Kaisen%202nd%20Season%20Ep%2023.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM1Mjdf/Jujutsu%20Kaisen%20S2%20Latino%20Ep%2023.mp4",
+        "episodeCode": "T2 E47: El incidente de Shibuya, cierre del portal",
+        "hiddenCode": "T2 E47",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+    {
+        "title": "E48: Ejecución",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/akmW3aKQHlgcRvgxKsZd5m1LGKl.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODFf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%201.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI4ODhf/Jujutsu%20Kaisen%20S3%20Ep%201.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODFf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%201.mp4",
+        "episodeCode": "T3 E48: Ejecución",
+        "hiddenCode": "T3 E48",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E49: Una vez más",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/mVTNtGCnwuE1ayDQ4YellOGAqZ.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODJf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%202.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI4ODlf/Jujutsu%20Kaisen%20S3%20Ep%202.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODJf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%202.mp4",
+        "episodeCode": "T3 E49: Una vez más",
+        "hiddenCode": "T3 E49",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E50: Sobre el Viaje a la Extinción...",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/buHU8HMXtQIVirrrERclsvNhBkh.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODNf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%203.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI4OTBf/Jujutsu%20Kaisen%20S3%20Ep%203.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODNf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%203.mp4",
+        "episodeCode": "T3 E50: Sobre el Viaje a la Extinción...",
+        "hiddenCode": "T3 E50",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E51: Preparación perfecta",
+        "meta": "16+ · 28m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/kGNQcoL2zigPdrlDkZ40rh9tH95.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODRf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%204.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI4OTJf/Jujutsu%20Kaisen%20S3%20Ep%204.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODRf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%204.mp4",
+        "episodeCode": "T3 E51: Preparación perfecta",
+        "hiddenCode": "T3 E51",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E52: Pasión",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/iB7beiAcT76F49mIjY81en0CLcx.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODVf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%205.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI4OThf/Jujutsu%20Kaisen%20S3%20Ep%205.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODVf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%205.mp4",
+        "episodeCode": "T3 E52: Pasión",
+        "hiddenCode": "T3 E52",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E53: Engrane",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/nhktJ4DxPVV8qMswwBg4GY9klZk.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODZf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%206.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI4OTlf/Jujutsu%20Kaisen%20S3%20Ep%206.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODZf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%206.mp4",
+        "episodeCode": "T3 E53: Engrane",
+        "hiddenCode": "T3 E53",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E54: Colonia n.o 1 de Tokio, parte 1",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/5o3IoYM0iwz0Zy2AdU5tEf3h5Ic.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODdf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%207.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI5MDFf/Jujutsu%20Kaisen%20S3%20Ep%207.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODdf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%207.mp4",
+        "episodeCode": "T3 E54: Colonia n.o 1 de Tokio, parte 1",
+        "hiddenCode": "T3 E54",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E55: Colonia n.o 1 de Tokio, parte 2",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dmvtvvYetrxgH217Qlgi5pgofzP.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODhf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%208.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI5MDJf/Jujutsu%20Kaisen%20S3%20Ep%208.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODhf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%208.mp4",
+        "episodeCode": "T3 E55: Colonia n.o 1 de Tokio, parte 2",
+        "hiddenCode": "T3 E55",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E56: Colonia n.o 1 de Tokio, parte 3",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/vK5i4rioPM3JmX6LWu1SDBBf8fU.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3ODlf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%209.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI5MDNf/Jujutsu%20Kaisen%20S3%20Ep%209.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3ODlf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%209.mp4",
+        "episodeCode": "T3 E56: Colonia n.o 1 de Tokio, parte 3",
+        "hiddenCode": "T3 E56",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E57: Colonia n.o 1 de Tokio, parte 4",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/dTxospdYJYATOY15svZiexTD6Uc.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3OTBf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%2010.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI5MDRf/Jujutsu%20Kaisen%20S3%20Ep%2010.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3OTBf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%2010.mp4",
+        "episodeCode": "T3 E57: Colonia n.o 1 de Tokio, parte 4",
+        "hiddenCode": "T3 E57",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E58: Colonia n.o 1 de Tokio, parte 5",
+        "meta": "16+ · 24m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/cDtoVcO4zDWj3UhJQq7nf41xSg.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3OTFf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%2011.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI5MDhf/Jujutsu%20Kaisen%20S3%20Ep%2011.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3OTFf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%2011.mp4",
+        "episodeCode": "T3 E58: Colonia n.o 1 de Tokio, parte 5",
+        "hiddenCode": "T3 E58",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      },
+      {
+        "title": "E59: Colonia de Sendai",
+        "meta": "16+ · 29m · 2020",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/osf38zTKIVDC5WGR9IKy8kk4Own.jpg",
+         "videos": {
+    "latino": "https://od.lk/d/M18zMjg1NTM3OTRf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%2012.mp4",
+    "sub": "https://od.lk/s/M18zMjg1NjI5MDlf/Jujutsu%20Kaisen%20S3%20Ep%2012.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMjg1NTM3OTRf/Jujutsu%20Kaisen%20S3%20Latino%20Ep%2012.mp4",
+        "episodeCode": "T3 E59: Colonia de Sendai",
+        "hiddenCode": "T3 E59",
+        "intro": {
+          "start": 0,
+          "end": 0
+        }
+      }
+      ]
+},
+
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+window.playlist.forEach(season => {
+season.episodes.forEach(ep => {
+  // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+  if (!ep.videoUrl && ep.videos) {
+    ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+  }
+});
+});
+
+console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
+
+  // cuando cierres el player
+  WakeLockManager.disable();
+</script>
+
+</body>
+</html>

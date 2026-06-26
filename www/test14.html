@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Series - Temporadas y Episodios</title>
+    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+    
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA6u9uX3VOke/xEcRDAIuPSM0TXQF3GP/0qogicfA5vR05qIl9nBiyEx0a/I/J" crossorigin="anonymous">
+
+    <style>
+
+.video-js {
+    width: 100%;
+    height: 500px; /* Ajusta la altura del reproductor */
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+/* Ajustes responsivos */
+@media screen and (max-width: 768px) {
+    .video-js {
+        height: 300px; /* Ajusta la altura del reproductor en pantallas pequeñas */
+    }
+}
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+}
+
+body {
+      padding-top: env(safe-area-inset-top);
+    font-family: 'Roboto', sans-serif;
+    background: black;
+    color: white;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+        
+    /* Estilo general del contenedor del video */
+/* Estilo general del contenedor del video */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000 !important; /* Fondo oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Fondo negro para la etapa de carga inicial del video */
+.video-js .vjs-poster,
+.video-js .vjs-tech {
+    background-color: #000 !important;
+    z-index: 1;
+}
+        
+        /* Overlay para la imagen vertical */
+.portrait-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000),
+                url('https://image.tmdb.org/t/p/original/5XJabHGBaH2qAZAE2kVKCmrnY70.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 250; /* Asegura que esté sobre el video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    opacity: 1; /* Visible inicialmente */
+    transition: opacity 0.5s ease-in-out; /* Transición suave */
+}
+
+/* Overlay para la imagen horizontal */
+.horizontal-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: contain;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+/* Fondo desenfocado + primer gradiente */
+.horizontal-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(to bottom, #000000c4, #00000071, #00000071, #000000c4, #000000d7, #000000),
+        url('https://image.tmdb.org/t/p/original/6Lw54zxm6BAEKJeGlabyzzR5Juu.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(5px); /* Desenfoque para la imagen */
+    z-index: 1; /* El fondo desenfocado estará debajo de la imagen */
+}
+
+/* Gradiente encima de la imagen desenfocada */
+.horizontal-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000);
+    z-index: 2; /* Gradiente encima de la imagen desenfocada */
+}
+
+/* Imagen principal superpuesta */
+.horizontal-overlay img {
+    top: 0;
+    position: absolute; /* Asegura la superposición sobre el fondo */
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    object-fit: contain; /* Mantiene las proporciones */
+    z-index: 1; /* Imagen detrás del gradiente */
+    padding: 10px; /* Opcional: un poco de separación visual */
+    border-radius: 10px; /* Opcional: bordes redondeados */
+}
+
+/* Gradiente encima de la imagen nítida */
+.horizontal-overlay img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000);
+    z-index: 3; /* Gradiente encima de la imagen nítida */
+    pointer-events: none; /* Permite que la imagen sea clickeable sin interferencia del gradiente */
+}
+
+/* Mostrar y ocultar las capas según la orientación */
+@media (orientation: landscape) {
+    .portrait-overlay {
+        display: none; /* Oculta el overlay vertical en landscape */
+    }
+
+    .horizontal-overlay {
+        display: flex; /* Muestra el overlay horizontal */
+        opacity: 1; /* Hace visible la imagen horizontal */
+        pointer-events: auto; /* Permite interacciones en modo landscape */
+    }
+}
+
+@media (orientation: portrait) {
+    .portrait-overlay {
+        display: flex; /* Asegura que el overlay vertical esté visible */
+        opacity: 1; /* Visible */
+    }
+
+    .horizontal-overlay {
+        display: none; /* Oculta completamente la imagen horizontal en portrait */
+    }
+}
+
+
+    
+
+        
+        /* TABS */
+        .tabs { display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: transparent;
+    padding: 10px 15px;
+    margin-top: 140%;
+    gap: 60px;
+    border-bottom: 1px solid #525252;
+    z-index: 300; /* Mayor que el horizontal-overlay pero menor que el overlay-dropdown */
+    position: relative; /* Asegura que el z-index se aplique correctamente */
+}
+ .tab {
+    background: none;
+    border: none;
+    padding: 2px 0; /* Reducimos el padding para acercarlo a la línea */
+    cursor: pointer;
+    font-size: 18px;
+    color: rgb(129, 129, 129);
+    font-weight: normal; /* Inactivo SIN negrita */
+    position: relative; /* Necesario para el ::after */
+}
+
+.tab.active {
+    color: rgb(247, 247, 247);
+    font-weight: bold; /* Activo CON negrita */
+}
+
+.tab.active::after {
+    content: ""; /* Elemento visual */
+    position: absolute;
+    left: 0;
+    bottom: -13px; /* Ajuste más preciso para la línea activa */
+    width: 100%;
+    height: 3px; /* Grosor de la línea */
+    background-color: rgb(255, 255, 255); /* Color de la línea activa */
+    z-index: 10; /* Asegura que esté sobre la otra línea */
+}
+
+
+
+
+        /* CONTENIDO */
+        .content { display: none; padding: 10px; }
+        .content.active { display: block; }
+
+
+
+/* Estilos para el overlay del dropdown de temporadas */
+.overlay-dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Transparente negro */
+    display: none;
+    z-index: 500; /* Debe estar detrás del dropdown */
+}
+
+/* Mostrar overlay cuando el dropdown está activo */
+.overlay-dropdown.active {
+    display: block;
+}
+
+
+/* DROPDOWN DESDE FOOTER */
+.season-dropdown {
+    position: fixed;
+    bottom: -100%; /* Escondido inicialmente */
+    left: 0;
+    width: 100%;
+    background: #222;
+    text-align: center;
+    transition: bottom 0.4s ease-in-out;
+    padding: 15px 0;
+    z-index: 600; /* Encima del overlay */
+    border-radius: 12px 12px 0 0; /* Bordes redondeados */
+    max-height: 60vh; /* Máxima altura del dropdown */
+    overflow-y: auto; /* Agregar scroll si hay muchas temporadas */
+}
+
+/* Barra para arrastrar */
+.drag-handle {
+    width: 50px;
+    height: 6px;
+    background: #888;
+    border-radius: 3px;
+    margin: 5px auto;
+    cursor: grab;
+}
+
+  
+.season-dropdown.active {
+    bottom: 0; /* Muestra el dropdown */
+}
+
+
+/* Ajustar lista de temporadas */
+.season-item {
+    display: flex;
+    justify-content: space-between; /* Nombre a la izquierda, check a la derecha */
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    background: #222222;
+    border-bottom: 1px solid #44444400;
+    border-radius: 8px; /* Bordes redondeados */
+    max-width: 80%; /* Limita el ancho para que no ocupe toda la dropdown */
+    margin: 5px auto; /* Centrar horizontalmente */
+    text-align: left;
+}
+
+/* Resaltar temporada activa */
+.season-item.active {
+    background: #2c3c4d; /* Gris azulado */
+    font-weight: bold;
+    color: white; /* Asegurar que el texto sea visible */
+    padding: 12px 18px; /* Un poco más grande para destacar */
+}
+
+
+/* Icono de check */
+.check-icon {
+    display: none; /* Ocultar por defecto */
+    font-size: 18px;
+    color: white; /* ✅ Icono en blanco */
+    margin-left: auto; /* Alinear a la derecha */
+}
+
+/* Mostrar icono en la temporada activa */
+.season-item.active .check-icon {
+    display: inline-block;
+}
+
+
+        /* SUGERENCIAS */
+        .suggestions { display: grid; /* Usamos grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  gap: 10px; /* Espaciado pequeño entre tarjetas */
+  padding: 15px;
+  justify-content: center; /* Centra las columnas horizontalmente */
+ }
+        .suggestion {  width: 165px; /* Tarjetas más grandes */
+  height: 250px; /* Aumenta la altura de las tarjetas */
+  border-radius: 10px; /* Bordes redondeados */
+  overflow: hidden; /* Asegura que las imágenes respeten los bordes */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Sombra */
+ }
+        .suggestion img { width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta las imágenes al contenedor */
+  display: block;
+ }
+
+        #toggle-seasons {
+    background: #2c3c4d; /* Gris azulado estilo HBO Max */
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Alineación correcta */
+    width: 95%; /* Casi todo el ancho de la pantalla */
+    max-width: 600px; /* Máximo tamaño en pantallas grandes */
+    margin: 15px auto; /* Centrado horizontalmente */
+    text-align: left;
+    position: relative; /* Para que z-index funcione */
+    z-index: 9999; /* Asegura que esté al frente */
+}
+
+#toggle-seasons:hover {
+    background: #1a375e; /* Color más oscuro al pasar el mouse */
+}
+
+#toggle-seasons .material-icons {
+    font-size: 22px;
+}
+
+#episode-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+    margin-bottom: 50px; /* Espacio debajo del contenedor */
+    position: relative; /* Asegura que el contenedor no esté fijo */
+    width: 90%; /* Ajusta el ancho según necesidad */
+    z-index: 500;
+}
+
+/* Ajustes para la lista de episodios con margen */
+#episode-list {
+    margin: 0 15px; /* Agrega margen a los lados */
+    padding: 0;
+    list-style: none;
+}
+
+.episode {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+.episode-thumbnail {
+    position: relative;
+    width: 150px;
+    margin-right: 12px;
+}
+
+.episode-thumbnail img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: filter 0.3s ease;
+}
+
+.progress-bar-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%; /* Ajustar dinámicamente con JS */
+    height: 100%;
+    background-color: #ff5722;
+    transition: width 0.3s ease-in-out;
+}
+
+.episode-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.episode-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.episode-duration {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 3px;
+    align-self: flex-start;
+}
+
+.download-link {
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none; /* Quita el subrayado del texto */
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    position: relative;
+    padding-bottom: 4px; /* Espacio entre el icono y la línea */
+}
+
+
+.download-link .material-icons {
+    font-size: 20px; /* Tamaño del ícono */
+    margin-left: 5px; /* Espaciado entre texto y el ícono */
+}
+
+
+
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+/* Contenedor del logo */
+#logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 40%; /* Ajusta la posición según sea necesario */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 450;
+}
+
+/* Estilos para la imagen del logo */
+#logo {
+    max-width: 280px; /* Ajusta el tamaño del logo */
+    height: auto;
+    margin-bottom: 15px;
+}
+
+/* Estilos para la información del logo */
+#logo-info {
+    font-size: 14px;
+    color: white;
+    display: flex;
+    gap: 8px; /* Espaciado entre elementos */
+    align-items: center;
+    z-index: 450; /* Asegura que esté sobre las tabs y el favorito */
+}
+
+#logo-info span {
+    font-weight: bold;
+}
+
+#logo-info .rating {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    z-index: 300; /* Asegura que esté sobre las tabs */
+}
+
+#logo-info .series-text {
+    color: #00ffc8; /* Color diferente para "Series" */
+    font-weight: bold;
+    z-index: 300;
+}
+
+#logo-info .duration, 
+#logo-info .year {
+    color: #ffffff; /* Color gris para los otros textos */
+    z-index: 300;
+}
+
+/* Contenedor del botón de reproducir */
+.contenedor-boton {
+    position: absolute;
+    top: 50%; /* Ubica el botón debajo del logo-info */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    z-index: 400; /* Asegura que esté visible */
+}
+
+/* Botón de reproducir con diseño exacto */
+#reproducirBtn {
+    background: white;
+    color: black;
+    font-size: 18px;
+    font-weight: bold; /* Texto en negrita */
+    height: 55px; /* Altura fija para que no cambie */
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 400px;
+    margin: 20px 0 10px 0; /* Agrega más espacio arriba para moverlo hacia abajo */
+    display: flex;
+    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; /* Centra el contenido horizontalmente */
+}
+
+/* Ícono de play dentro del botón */
+#reproducirBtn .icono-play {
+    font-size: 22px; /* Aumenta el tamaño del ícono */
+    margin-right: 15px; /* Espacio entre el ícono y el texto */
+}
+
+/* Texto del botón */
+#reproducirBtn .texto-btn {
+    font-size: 20px; /* Mantiene el tamaño del texto sin cambios */
+}
+
+
+/* Cambio de color al tocar */
+#reproducirBtn:active {
+    background-color: #e0e0e0;
+}
+
+
+
+
+/* Contenedor del favorito */
+.favorito-container {
+    position: absolute;
+    top: 58%; /* Ahora está debajo del botón de reproducir */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 300;
+}
+
+/* Botón de favorito */
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ícono y texto dentro del botón */
+#favoritoIcon {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+#favoritoText {
+    font-size: 14px;
+    text-align: center;
+    color: white;
+}
+
+
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Contenedor del logo e información -->
+        <div id="logo-container">
+            <img src="https://image.tmdb.org/t/p/original/qowGjblJme2BV2z5zOnKUR6zQVy.png" alt="Logo" id="logo">
+            <div id="logo-info">
+                <span class="rating">13+</span> • 
+                <span class="series-text">Series</span> • 
+                <span class="duration">Dob</span> • 
+                <span class="year">2019</span>
+            </div>
+        </div>
+    </div>
+    
+    
+   <!-- Botón de Reproducir (Fuera del contenedor de favoritos) -->
+<div class="contenedor-boton">
+    <button id="reproducirBtn" onclick="reproducirVideo()">
+        <span class="material-icons">play_arrow</span>
+        <span>Mira T1 E1</span>
+    </button>
+</div>
+
+<!-- Contenedor de Favoritos -->
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="The Mandalorian" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/2zjEYhbPKhyMZdLFMh44kXr6MZt.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="The mandalorian.html"></a>
+        <span id="nombre">The Mandalorian (2019)</span>
+    </div>
+</div>
+
+    
+        <!-- Overlays -->
+        <div class="portrait-overlay"></div>
+    
+        <div class="horizontal-overlay">
+            <!-- Imagen principal nítida -->
+            <img src="https://image.tmdb.org/t/p/original/6Lw54zxm6BAEKJeGlabyzzR5Juu.jpg" alt="Imagen principal">
+        </div>
+    
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" id="episodes-tab">Episodios</div>
+            <div class="tab" id="more-tab">Más como esto</div>
+        </div>
+    
+        <!-- Contenido -->
+        <div class="content active" id="episodes-content">
+            <!-- Botón de Seleccionar Temporada -->
+            <button id="toggle-seasons">
+                <span id="season-text">Seleccionar Temporada</span>
+                <span class="material-icons">expand_more</span>
+            </button>
+    
+            <!-- Lista de episodios -->
+            <ul id="episode-list"></ul>
+        </div>
+    
+        <div class="content" id="more-content">
+            <div class="suggestions">
+                <div class="suggestion">
+                    <img src="https://image.tmdb.org/t/p/w300//rshlQ6LfPRSWFhpGL4s5ZkIPR51.jpg" alt="Movie">
+                    <p>Película 1</p>
+                </div>
+                <div class="suggestion">
+                    <img src="https://image.tmdb.org/t/p/w300//8Yb7L2qJEtDjy3X5Bs8sMz9WjFD.jpg" alt="Movie">
+                    <p>Película 2</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Reproductor de Video.js -->
+        <video id="my-video" class="video-js vjs-default-skin" controls preload="auto">
+            <source id="videoSource" src="https://od.lk/d/M18zMDM3ODYyNTNf/1x01.mp4" type="video/mp4">
+            <p class="vjs-no-js">
+                Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+                <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+            </p>
+        </video>
+    </div>
+    
+    <!-- Overlay para el dropdown de temporadas -->
+    <div id="overlay-dropdown-seasons" class="overlay-dropdown"></div>
+    
+    <!-- DROPDOWN TEMPORADAS -->
+    <div class="season-dropdown" id="season-dropdown">
+        <ul id="season-list"></ul>
+    </div>
+    
+    
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYbI+LqbTf82RVPfV7y6UBmeLxfJbC4S6CR7PXA9+xj9D5y3eFkwI9Dr6" crossorigin="anonymous"></script>
+
+    
+    <script>
+        var currentSeason = localStorage.getItem("selectedSeason") ? parseInt(localStorage.getItem("selectedSeason")) : 0;
+       const playlist = {
+    "seasons": [
+        {
+            "season_title": "Temporada 1",
+            "episodes": [
+        
+            {
+                    "title": "E1. El Mandaloriano",
+                    "image": "https://image.tmdb.org/t/p/w300//lr8OEa0GzjZ0qmD9NuuMj6TRWxF.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODYyNTNf/1x01.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODYyNTNf/1x01.mp4",
+                    "duration": "41m",
+                    "episode_code": "T1 E1"
+                },
+                {
+                    "title": "E2. El Niño",
+                    "image": "https://image.tmdb.org/t/p/w300//b8y9qAq2ZdU27Ua1lJxyNQbmzQE.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODYzNTlf/1x02.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODYzNTlf/1x02.mp4",
+                    "duration": "34m",
+                    "episode_code": "T1 E2"
+                },
+                {
+                    "title": "E3. El Pecado",
+                    "image": "https://image.tmdb.org/t/p/w300//5wGkymV2D9P9ZGI2wP0PefIwFol.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODYzNjhf/1x03.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODYzNjhf/1x03.mp4",
+                    "duration": "39m",
+                    "episode_code": "T1 E3"
+                },
+                {
+                    "title": "E4. Santuario",
+                    "image": "https://image.tmdb.org/t/p/w300//cKyE2gtQT5zIpLQHnD3mFNWrKud.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM4MzIxMDBf/1x04.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM4MzIxMDBf/1x04.mp4",
+                    "duration": "43m",
+                    "episode_code": "T1 E4"
+                },
+                {
+                    "title": "E5. El Pistolero",
+                    "image": "https://image.tmdb.org/t/p/w300//bAuXxIGaRPtXmO1qlm7B99PPlCV.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODY0MzNf/1x05.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODY0MzNf/1x05.mp4",
+                    "duration": "37m",
+                    "episode_code": "T1 E5"
+                },
+                {
+                    "title": "E6. El Prisionero",
+                    "image": "https://image.tmdb.org/t/p/w300//7Z9Bc58uLnp8gIDGtdi0jNEqYZY.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODY0NzRf/1x06.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODY0NzRf/1x06.mp4",
+                    "duration": "45m",
+                    "episode_code": "T1 E6"
+                },
+                {
+                    "title": "E7. Ajuste de Cuentas",
+                    "image": "https://image.tmdb.org/t/p/w300//m483Gihn8vAt0cW5RXe5YRtchIQ.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODY0OThf/1x07.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODY0OThf/1x07.mp4",
+                    "duration": "42m",
+                    "episode_code": "T1 E7"
+                },
+                {
+                    "title": "E8. Redención",
+                    "image": "https://image.tmdb.org/t/p/w300//v36aZwxTsPAvqsssLPVno3VFvg5.jpg",
+                    "video_url": "https://od.lk/d/M18zMDM3ODY1MjZf/1x08.mp4",
+                    "download_link": "https://od.lk/d/M18zMDM3ODY1MjZf/1x08.mp4",
+                    "duration": "50m",
+                    "episode_code": "T1 E8"
+                }
+    ]
+    },
+    {
+        "season_title": "Temporada 2",
+        "episodes": [
+        [
+    {
+        "title": "E9. Capítulo 9: El Comisario",
+        "image": "https://image.tmdb.org/t/p/w300/n6oeOfj8jMPbXZ2E2QTVXYt5cvO.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTIwNzZf/The%20Mandalorian%202x01.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTIwNzZf/The%20Mandalorian%202x01.mp4",
+        "duration": "56m",
+        "episode_code": "T2 E1"
+    },
+    {
+        "title": "E10. Capítulo 10: La Pasajera",
+        "image": "https://image.tmdb.org/t/p/w300/l9qUpdgVHfeCEWVvK7RB8JDRX6N.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTI4NjBf/The%20Mandalorian%202x02.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTI4NjBf/The%20Mandalorian%202x02.mp4",
+        "duration": "43m",
+        "episode_code": "T2 E2"
+    },
+    {
+        "title": "E11. Capítulo 11: La Heredera",
+        "image": "https://image.tmdb.org/t/p/w300/gnZOQajf33N3BzRouIZU3NM45TY.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTM1MTdf/The%20Mandalorian%202x03.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTM1MTdf/The%20Mandalorian%202x03.mp4",
+        "duration": "37m",
+        "episode_code": "T2 E3"
+    },
+    {
+        "title": "E12. Capítulo 12: El Asedio",
+        "image": "https://image.tmdb.org/t/p/w300/yMETKVeybSp9LjiWDBq1fPF1oWh.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTM5NTBf/The%20Mandalorian%202x04.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTM5NTBf/The%20Mandalorian%202x04.mp4",
+        "duration": "41m",
+        "episode_code": "T2 E4"
+    },
+    {
+        "title": "E13. Capítulo 13: La Jedi",
+        "image": "https://image.tmdb.org/t/p/w300/42QoiVzHnBKAxHT4DpYIKkRTG3N.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQwMzJf/The%20Mandalorian%202x05.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQwMzJf/The%20Mandalorian%202x05.mp4",
+        "duration": "48m",
+        "episode_code": "T2 E5"
+    },
+    {
+        "title": "E14. Capítulo 14: La Tragedia",
+        "image": "https://image.tmdb.org/t/p/w300/blQEEDPa5JW2rhOCov0yIGYo0CA.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQyNDVf/The%20Mandalorian%202x06.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQyNDVf/The%20Mandalorian%202x06.mp4",
+        "duration": "35m",
+        "episode_code": "T2 E6"
+    },
+    {
+        "title": "E15. Capítulo 15: El Creyente",
+        "image": "https://image.tmdb.org/t/p/w300/bTzhzNSVFugIyc8pHutmLCJdgv5.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQzMDdf/The%20Mandalorian%202x07.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQzMDdf/The%20Mandalorian%202x07.mp4",
+        "duration": "40m",
+        "episode_code": "T2 E7"
+    },
+    {
+        "title": "E16. Capítulo 16: El Rescate",
+        "image": "https://image.tmdb.org/t/p/w300/non7AnwMaloVU0OtenLqKyq8Zg3.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQzNjVf/The%20Mandalorian%202x08.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQzNjVf/The%20Mandalorian%202x08.mp4",
+        "duration": "48m",
+        "episode_code": "T2 E8"
+    }
+]
+
+    ]
+    },
+    {
+        "season_title": "Temporada 3",
+        "episodes": [
+        {
+        "title": "E1. El apóstata",
+        "image": "https://image.tmdb.org/t/p/w300//8XeuJls7qlTsPiDAK0qarvBrmb2.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQ1Njhf/The%20Mandalorian%203x01.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQ1Njhf/The%20Mandalorian%203x01.mp4",
+        "duration": "37m",
+        "episode_code": "T3 E1"
+    },
+    {
+        "title": "E2. Las minas de Mandalore",
+        "image": "https://image.tmdb.org/t/p/w300//yR3pIsArgHpyeGScXHKqj8hGRBo.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQ4NTNf/The%20Mandalorian%203x02.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQ4NTNf/The%20Mandalorian%203x02.mp4",
+        "duration": "45m",
+        "episode_code": "T3 E2"
+    },
+    {
+        "title": "E3. El Converso",
+        "image": "https://image.tmdb.org/t/p/w300//zgj0iZUYNIZh0NbPVdNEdTacfwv.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTQ5OTlf/The%20Mandalorian%203x03.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTQ5OTlf/The%20Mandalorian%203x03.mp4",
+        "duration": "58m",
+        "episode_code": "T3 E3"
+    },
+    {
+        "title": "E4. El expósito",
+        "image": "https://image.tmdb.org/t/p/w300//jtH7v1yusbC0Lj3jAT8W2aEbbW3.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTUzMjZf/The%20Mandalorian%203x04.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTUzMjZf/The%20Mandalorian%203x04.mp4",
+        "duration": "33m",
+        "episode_code": "T3 E4"
+    },
+    {
+        "title": "E5. El pirata",
+        "image": "https://image.tmdb.org/t/p/w300//y5DDTs4CqnKwWO74BKUGdP2jdGn.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTU3NDFf/The%20Mandalorian%203x05.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTU3NDFf/The%20Mandalorian%203x05.mp4",
+        "duration": "44m",
+        "episode_code": "T3 E5"
+    },
+    {
+        "title": "E6. Pistoleros a sueldo",
+        "image": "https://image.tmdb.org/t/p/w300//tIbTlMWkVBFUeUT76FXWb6jzteW.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTYwMzJf/The%20Mandalorian%203x06.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTYwMzJf/The%20Mandalorian%203x06.mp4",
+        "duration": "44m",
+        "episode_code": "T3 E6"
+    },
+    {
+        "title": "E7. Los Espías",
+        "image": "https://image.tmdb.org/t/p/w300//38blBPXRWevBgwa4XPVZkc2mMCO.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTY1NzZf/The%20Mandalorian%203x07.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTY1NzZf/The%20Mandalorian%203x07.mp4",
+        "duration": "50m",
+        "episode_code": "T3 E7"
+    },
+    {
+        "title": "E8. El regreso",
+        "image": "https://image.tmdb.org/t/p/w300//blG9C2voVSQlC8M1JkJZgo7BvCL.jpg",
+        "video_url": "https://od.lk/d/M18zMDM3OTY3OTZf/The%20Mandalorian%203x08.mp4",
+        "download_link": "https://od.lk/d/M18zMDM3OTY3OTZf/The%20Mandalorian%203x08.mp4",
+        "duration": "39m",
+        "episode_code": "T3 E8"
+    }
+    
+
+    
+    
+            ]
+        }
+    ]
+};
+
+
+
+
+
+var seasonButton = document.getElementById("toggle-seasons");
+var seasonDropdown = document.getElementById("season-dropdown");
+var overlayDropdown = document.getElementById("overlay-dropdown-seasons");
+var isDragging = false;
+var playButton = document.getElementById("reproducirBtn");
+var videoElement = document.getElementById("my-video");
+var videoSource = document.getElementById("video-source");
+
+document.addEventListener("DOMContentLoaded", function () {
+    updateSeasonButtonText();
+    loadSeasons();
+    loadEpisodes(currentSeason);
+
+    if (videoElement) {
+        window.player = videojs(videoElement, {
+            controlBar: {
+                playToggle: false,
+                volumePanel: false,
+                fullscreenToggle: false,
+                pipToggle: false,
+                progressControl: true,
+                remainingTimeDisplay: true,
+                currentTimeDisplay: true,
+            },
+            userActions: {
+                doubleClick: false,
+                hotkeys: false
+            }
+        });
+
+        document.addEventListener("fullscreenchange", handleFullscreenExit);
+        document.addEventListener("webkitfullscreenchange", handleFullscreenExit);
+        document.addEventListener("mozfullscreenchange", handleFullscreenExit);
+        document.addEventListener("MSFullscreenChange", handleFullscreenExit);
+    }
+
+    playButton.addEventListener("click", function () {
+        reproducirPrimerEpisodio();
+    });
+});
+
+function reproducirPrimerEpisodio() {
+    var firstEpisode = playlist.seasons[currentSeason].episodes[0];
+    if (firstEpisode) {
+        playEpisode(firstEpisode.video_url, firstEpisode.title, `T${currentSeason + 1} E1`);
+    }
+}
+
+function playEpisode(url, title, episodeCode) {
+    if (url) {
+        window.player.src({ type: "video/mp4", src: url });
+        window.player.play();
+        playButton.textContent = `Reproducir: ${title} (${episodeCode})`;
+
+        if (videoElement.requestFullscreen) {
+            videoElement.requestFullscreen();
+        } else if (videoElement.webkitRequestFullscreen) {
+            videoElement.webkitRequestFullscreen();
+        } else if (videoElement.mozRequestFullScreen) {
+            videoElement.mozRequestFullScreen();
+        } else if (videoElement.msRequestFullscreen) {
+            videoElement.msRequestFullscreen();
+        }
+    } else {
+        console.error("No se encontró una URL de video.");
+    }
+}
+
+function updateSeasonButtonText() {
+    seasonButton.innerHTML = playlist.seasons[currentSeason].season_title + ' <span class="material-icons">expand_more</span>';
+}
+
+function loadSeasons() {
+    var seasonList = document.getElementById("season-list");
+    seasonList.innerHTML = "";
+
+    playlist.seasons.forEach(function (season, index) {
+        var item = document.createElement("li");
+        item.classList.add("season-item");
+        item.textContent = season.season_title;
+
+        var checkIcon = document.createElement("span");
+        checkIcon.classList.add("check-icon", "material-icons");
+        checkIcon.textContent = "check";
+
+        if (index === currentSeason) {
+            item.classList.add("active");
+            item.appendChild(checkIcon);
+        }
+
+        item.addEventListener("click", function () {
+            currentSeason = index;
+            localStorage.setItem("selectedSeason", currentSeason);
+            seasonDropdown.classList.remove("active");
+            overlayDropdown.classList.remove("active");
+            loadSeasons();
+            loadEpisodes(currentSeason);
+            updateSeasonButtonText();
+        });
+
+        seasonList.appendChild(item);
+    });
+}
+
+function loadEpisodes(seasonIndex) {
+    var episodeList = document.getElementById("episode-list");
+    episodeList.innerHTML = "";
+    var season = playlist.seasons[seasonIndex];
+
+    season.episodes.forEach(function (episode, episodeIndex) {
+        var item = document.createElement("li");
+        item.classList.add("episode-item");
+
+        var episodeCode = `T${seasonIndex + 1} E${episodeIndex + 1}`;
+
+        item.innerHTML =
+            '<div class="episode">' +
+            '<div class="episode-thumbnail">' +
+            '<img src="' + episode.image + '" alt="' + episode.title + '" class="episode-image">' +
+            '<div class="progress-bar-container"><div class="progress-bar"></div></div>' +
+            '</div>' +
+            '<div class="episode-info">' +
+            '<h3 class="episode-title">' + episode.title + '</h3>' +
+            '<p class="episode-duration">' + episode.duration + '</p>' +
+            '<a href="' + episode.download_link + '" class="download-link" download="' + episode.title + '.mp4">' +
+            '<span class="material-icons">arrow_downward</span></a>' +
+            '</div>' +
+            '<span class="episode-code" style="display: none;">' + episodeCode + '</span>' +
+            '</div>';
+
+        item.querySelector(".download-link").addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
+
+        item.addEventListener("click", function () {
+            playEpisode(episode.video_url, episode.title, episodeCode);
+        });
+
+        episodeList.appendChild(item);
+    });
+}
+
+
+
+function playEpisode(url) {
+    if (window.player) {
+        window.player.src({ type: "video/mp4", src: url });
+        window.player.play();
+        var videoElement = document.getElementById("my-video");
+        if (videoElement.requestFullscreen) {
+            videoElement.requestFullscreen();
+        } else if (videoElement.webkitRequestFullscreen) {
+            videoElement.webkitRequestFullscreen();
+        } else if (videoElement.mozRequestFullScreen) {
+            videoElement.mozRequestFullScreen();
+        } else if (videoElement.msRequestFullscreen) {
+            videoElement.msRequestFullscreen();
+        }
+    }
+}
+
+function handleFullscreenExit() {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement &&
+        !document.mozFullScreenElement && !document.msFullscreenElement) {
+        if (window.player) {
+            window.player.pause();
+        }
+    }
+}
+
+
+seasonButton.addEventListener("click", function () {
+    var isActive = seasonDropdown.classList.contains("active");
+    seasonDropdown.classList.toggle("active", !isActive);
+    overlayDropdown.classList.toggle("active", !isActive);
+});
+
+overlayDropdown.addEventListener("click", function () {
+    seasonDropdown.classList.remove("active");
+    overlayDropdown.classList.remove("active");
+});
+
+var startY;
+seasonDropdown.addEventListener("touchstart", function (e) {
+    startY = e.touches[0].clientY;
+    isDragging = false;
+});
+
+seasonDropdown.addEventListener("touchmove", function (e) {
+    var moveY = e.touches[0].clientY;
+    var diffY = moveY - startY;
+    if (diffY < -50) {
+        seasonDropdown.style.bottom = "0px";
+    } else if (diffY > 50) {
+        seasonDropdown.style.bottom = "-100%";
+        overlayDropdown.classList.remove("active");
+    }
+    isDragging = true;
+});
+
+seasonDropdown.addEventListener("touchend", function () {
+    if (!isDragging) {
+        seasonDropdown.classList.remove("active");
+        overlayDropdown.classList.remove("active");
+    }
+});
+
+
+
+// Funcionalidad de cambio de pestañas (tabs)
+document.addEventListener("DOMContentLoaded", () => {
+    updateSeasonButtonText();
+    loadSeasons();
+    loadEpisodes(currentSeason);
+
+    const tabs = document.querySelectorAll(".tab");
+    const contents = document.querySelectorAll(".content");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            // Remover la clase "active" de todas las pestañas y contenidos
+            tabs.forEach(t => t.classList.remove("active"));
+            contents.forEach(c => c.classList.remove("active"));
+
+            // Agregar la clase "active" solo a la pestaña y contenido correspondiente
+            tab.classList.add("active");
+            const contentId = tab.id.replace("-tab", "-content");
+            document.getElementById(contentId).classList.add("active");
+        });
+    });
+});
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>

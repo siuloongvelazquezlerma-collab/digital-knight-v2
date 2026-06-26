@@ -1,0 +1,2492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <title>Dragon Ball GT (1996)</title>
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet">
+    <style>
+         * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+    }
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+
+    /* Estilo general del contenedor del video */
+/* Estilo general del contenedor del video */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000 !important; /* Fondo oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+
+
+
+/* Fondo negro para la etapa de carga inicial del video */
+.video-js .vjs-poster,
+.video-js .vjs-tech {
+    background-color: #000 !important;
+    z-index: 1;
+}
+
+
+
+ /* Overlay para la imagen vertical */
+.portrait-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000),
+                url('https://image.tmdb.org/t/p/original/73rGI735Tzf5ohSBh4rE06uyVyD.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 250; /* Asegura que esté sobre el video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    opacity: 1; /* Visible inicialmente */
+    transition: opacity 0.5s ease-in-out; /* Transición suave */
+}
+
+/* Overlay para la imagen horizontal */
+.horizontal-overlay {
+    display: none; /* Oculta por defecto en portrait */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-size: contain;
+    z-index: 150; /* Asegura que esté sobre el video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    opacity: 0; /* Invisible inicialmente */
+    transition: opacity 0.5s ease-in-out; /* Transición suave */
+    pointer-events: none; /* Evita interacciones cuando está invisible */
+}
+
+/* Fondo desenfocado + primer gradiente */
+.horizontal-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(to bottom, #000000c4, #00000071, #00000071, #000000c4, #000000d7, #000000),
+        url('https://image.tmdb.org/t/p/original/sDJq5MzV5ck2iPbu5MvSrfCsmmL.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(5px); /* Desenfoque para la imagen */
+    z-index: 1; /* El fondo desenfocado estará debajo de la imagen */
+}
+
+/* Gradiente encima de la imagen desenfocada */
+.horizontal-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000);
+    z-index: 2; /* Gradiente encima de la imagen desenfocada */
+}
+
+/* Imagen principal superpuesta */
+.horizontal-overlay img {
+    top: 0;
+    position: absolute; /* Asegura la superposición sobre el fondo */
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    object-fit: contain; /* Mantiene las proporciones */
+    z-index: 1; /* Imagen detrás del gradiente */
+    padding: 10px; /* Opcional: un poco de separación visual */
+    border-radius: 10px; /* Opcional: bordes redondeados */
+}
+
+/* Gradiente encima de la imagen nítida */
+.horizontal-overlay img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000);
+    z-index: 3; /* Gradiente encima de la imagen nítida */
+    pointer-events: none; /* Permite que la imagen sea clickeable sin interferencia del gradiente */
+}
+
+/* Mostrar y ocultar las capas según la orientación */
+@media (orientation: landscape) {
+    .portrait-overlay {
+        display: none; /* Oculta el overlay vertical en landscape */
+    }
+
+    .horizontal-overlay {
+        display: flex; /* Muestra el overlay horizontal */
+        opacity: 1; /* Hace visible la imagen horizontal */
+        pointer-events: auto; /* Permite interacciones en modo landscape */
+    }
+}
+
+@media (orientation: portrait) {
+    .portrait-overlay {
+        display: flex; /* Asegura que el overlay vertical esté visible */
+        opacity: 1; /* Visible */
+    }
+
+    .horizontal-overlay {
+        display: none; /* Oculta completamente la imagen horizontal en portrait */
+    }
+}
+
+/* Mostrar la imagen correcta según la orientación */
+@media screen and (orientation: portrait) {
+    .portrai/* Estilo general de las tabs */
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Alineación a la izquierda */
+    align-items: center;
+    background-color: transparent; /* Fondo transparente */
+    padding: 10px 15px; /* Espaciado para separar de los márgenes */
+    margin-top: 155%; /* Espaciado entre la imagen principal y las tabs */
+    gap: 60px; /* Separación entre tabs */
+    border-bottom: 1px solid #525252; /* Línea divisoria */
+    z-index: 70000; /* Por encima de ambas imágenes */
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: rgb(129, 129, 129);
+    font-weight: bold;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    color: rgb(247, 247, 247); /* Color naranja para la pestaña activa */
+    border-bottom: 3px solid rgb(255, 0, 0); /* Línea inferior */
+}
+
+/* Estilo del contenido de las tabs */
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 400;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+
+
+}
+
+@media screen and (orientation: landscape) {
+    .portrait-overlay {
+        display: none;
+    }
+    .horizontal-overlay {
+        display: flex;
+    }
+    #season-buttons {
+        position: absolute;
+        top: 10%; /* Ajuste para la parte superior */
+        left: 5%;
+        z-index: 600; /* Asegura visibilidad */
+    }
+    #episode-list {
+        position: absolute;
+        top: 20%; /* Ajuste superior para mayor espacio */
+        left: 5%;
+        z-index: 500; /* Por encima del fondo pero detrás de botones superiores */
+    }
+}
+
+
+.video-js {
+    width: 100%;
+    height: 500px; /* Ajusta la altura del reproductor */
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+/* Ajustes responsivos */
+@media screen and (max-width: 768px) {
+    .video-js {
+        height: 300px; /* Ajusta la altura del reproductor en pantallas pequeñas */
+    }
+}
+
+       /* Control bar más arriba */
+.vjs-control-bar {
+    background-color: rgba(0, 0, 0, 0) !important; /* Semi-transparente */
+    position: absolute;
+    bottom: 10%; /* Ajustar hacia arriba, dentro del reproductor */
+    transition: all 0.3s ease;
+    z-index: 5;
+    padding: 0 10px;
+}
+
+/* Barra de progreso más visible y roja */
+.vjs-progress-control {
+    width: 100% !important; /* Expandir al ancho completo */
+    height: 6px; /* Grosor de la barra */
+    margin-top: -20px; /* Subir la barra ligeramente */
+    position: absolute;
+    bottom: 50px; /* Colocar encima de los controles */
+    background-color: transparent !important; /* Fondo transparente */
+    left: 0px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.vjs-play-progress {
+    background-color: #ff0000 !important; /* Cambiar el color de progreso a rojo */
+}
+
+.vjs-progress-holder {
+    background-color: rgba(146, 146, 146, 0.6) !important; /* Fondo de la barra */
+}
+
+/* Display time más arriba */
+.vjs-time-control {
+    position: absolute;
+    bottom: 50px; /* Encima de la barra de progreso */
+    left: -10px;
+    color: rgb(255, 255, 255); /* Texto blanco semi-transparente */
+    font-size: 25px;
+}
+
+/* Mostrar control bar solo al pasar el mouse */
+.video-js:hover .vjs-control-bar {
+    opacity: 1;
+}
+
+.video-js .vjs-control-bar {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Personalizar botones */
+.vjs-button {
+    color: white;
+    font-size: 1.5em;
+}
+
+/* Controles personalizados */
+.vjs-custom-controls {
+    position: absolute;
+    top: 40%; /* Centrado vertical */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+}
+
+
+
+        .video-js:hover .vjs-control-bar {
+            opacity: 1;
+        }
+
+        .video-js .vjs-control-bar {
+            opacity: 0;
+        }
+
+        .vjs-picture-in-picture-control {
+            display: none !important;
+        }
+
+        .vjs-custom-controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            z-index: 10;
+        }
+
+        .vjs-custom-controls button {
+            background-color: rgba(255, 255, 255, 0);
+            border: none;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .vjs-custom-controls button:hover {
+            background-color: rgba(255, 255, 255, 0);
+            transform: scale(1.1);
+        }
+
+        .material-icons {
+            font-size: 36px;
+        }
+
+        /* Estilo para el botón de temporadas */
+#season-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+    position: relative;
+    bottom: 10px;
+    border-bottom: 1px solid #525252; /* Línea divisoria */
+    z-index: 600; /* Asegura que esté por encima de la imagen */
+}
+
+/* Lista de episodios */
+#episode-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px;
+    position: absolute; /* Posición absoluta para moverla hacia abajo */
+    bottom: 5%; /* Un poco más abajo que el botón de temporada */
+    left: 0%;
+    top: 750px;
+    z-index: 500; /* Asegura que esté por encima de la imagen */
+}
+
+#episode-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    border-left: 5px solid transparent;
+    border-bottom: none;
+    margin-left: 10px;
+}
+
+/* Estilo para la lista de temporadas */
+.season-dropdown {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin-top: 100px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0000001c;
+    position: absolute;
+    z-index: 900;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    left: 10px;
+}
+
+.season-dropdown li {
+    padding: 8px;
+    cursor: pointer;
+    background-color: #000000de;
+    z-index: 1000;
+}
+
+/* Botón de temporadas */
+.season-button {
+    background-color: transparent;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.season-button .material-icons {
+    margin-right: -5px;
+}
+
+/* Modo horizontal: ajustes */
+@media (orientation: landscape) {
+    #season-buttons {
+        position: absolute;
+        top: 100%; /* Mueve el botón hacia arriba */
+        left: 5%; /* Mueve el botón hacia la izquierda */
+        border-bottom: none; /* Eliminamos temporalmente la línea del contenedor */
+        width: calc(100% - 10%); /* Asegura que la línea no se corte */
+    }
+
+    #season-buttons::after {
+        content: ""; /* Agrega la línea como pseudo-elemento */
+        position: absolute;
+        bottom: -20px; /* Coloca la línea debajo del botón */
+        left: 0;
+        width: 100%; /* La línea abarca el ancho del contenedor */
+        height: 1px;
+        background-color: #525252; /* Color de la línea divisoria */
+        width: calc(100% - 10%); /* Asegura que la línea no se corte */
+    }
+
+}
+
+
+        /* Ocultar el botón de play en la esquina superior izquierda */
+        .video-js .vjs-big-play-button {
+            display: none !important;
+        }
+
+        #episode-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    top: 95%;
+    margin-bottom: 50px; /* Añade espacio debajo del contenedor */
+    position: relative; /* Asegura que el contenedor no esté fijo */
+}
+
+.season-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.episode-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.episode {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.episode-image {
+    width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+}
+
+.episode-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.episode-title {
+    flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+            font-weight: bold;
+            top: -10px;
+            left: -10px;
+}
+
+.episode-duration {
+    position: absolute;
+            bottom: 20px;
+            right: 170px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+}
+/* Modo horizontal: solo modificar en este modo */
+@media (orientation: landscape) {
+    #episode-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Tres columnas de igual tamaño */
+        gap: 1rem; /* Espacio entre las columnas */
+        margin: 0 auto;
+        margin-top: 50%; /* Espaciado superior más pequeño */
+        margin-bottom: 100px; /* Espaciado inferior */
+        padding: 10px;
+        max-width: 90%; /* Asegura que no se salga de la página */
+        margin-left: 0%;
+        right: 5%;
+        box-sizing: border-box; /* Asegura que los márgenes se apliquen correctamente */
+    }
+
+    /* Los episodios ahora se organizan en una columna para el modo horizontal */
+    .episode-item {
+        display: flex;
+        flex-direction: column; /* Cambiar a columna para apilar imagen, título y duración */
+        align-items: center; /* Centra los elementos */
+        text-align: center; /* Centra el texto */
+        justify-content: space-between; /* Asegura que los elementos estén distribuidos sin que se superpongan */
+    }
+
+    /* Imagen del episodio */
+    .episode-image {
+        width: 120px;
+            height: auto;
+        object-fit: cover; /* Mantiene la proporción de la imagen sin deformarse */
+        margin-bottom: 10px; /* Espaciado debajo de la imagen */
+    }
+
+    /* Información del episodio */
+    .episode-info {
+        display: block;
+        margin-top: 10px;
+        text-align: center; /* Centra el texto */
+        max-width: 150px; /* Asegura que los elementos no excedan el ancho de la imagen */
+    }
+
+    /* Título del episodio */
+    .episode-title {
+        font-size: 12px;
+        margin-bottom: 5px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    /* Duración del episodio */
+    .episode-duration {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* Botón de descarga */
+    .download_link {
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+.download_link {
+    color: white;
+    background-color: transparent; /* Fondo transparente */
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none; /* Quita el subrayado del texto */
+    border: none;
+    display: flex;
+    align-items: center;
+    margin-left: 110px; /* Empuja el botón de descarga hacia la derecha */
+    text-decoration: underline;
+}
+
+.download_link .material-icons {
+    font-size: 20px; /* Tamaño del ícono */
+    margin-left: 5px; /* Espaciado entre texto y el ícono */
+}
+
+
+.video-js .vjs-title {
+    position: absolute;
+    top: -300px; /* Ajusta según el diseño deseado */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 1000;
+    text-align: center;
+    max-width: 90%;
+    word-wrap: break-word;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .video-js .vjs-title {
+        font-size: 12px;
+        bottom: 50px; /* Ajustar para móviles */
+        max-width: 95%;
+    }
+}
+
+.vjs-back-button {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    position: absolute;
+    top: -80px; /* Ajusta la posición superior */
+    left: 10px; /* Ajusta la posición izquierda */
+    background-color: rgba(0, 0, 0, 0); /* Fondo transparente */
+    color: white;
+    border: none;
+    font-size: 20px; /* Tamaño del ícono */
+    width: 30px; /* Tamaño del botón */
+    height: 30px; /* Tamaño del botón */
+    border-radius: 50%; /* Forma circular */
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    cursor: pointer;
+    z-index: 1000; /* Asegurar que esté sobre otros elementos */
+    transition: background-color 0.3s;
+    line-height: 0; /* Elimina espacio extra debajo del ícono */
+    padding: 0; /* Elimina espacio interno adicional */
+}
+
+.vjs-back-button:hover {
+    background-color: rgba(255, 255, 255, 0); /* Fondo ligeramente visible al pasar el mouse */
+}
+
+.vjs-back-button .material-icons {
+    font-size: 35px; /* Tamaño del ícono */
+    line-height: 1; /* Elimina líneas adicionales alrededor del ícono */
+    margin: 0; /* Elimina márgenes */
+    padding: 0; /* Elimina relleno */
+}
+
+/* Botón de ajuste de pantalla */
+.vjs-screen-adjust-button {
+    position: absolute;
+    top: -95px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s;
+    line-height: 1;
+    padding: 0;
+}
+
+.vjs-screen-adjust-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.vjs-screen-adjust-button .material-icons {
+    font-size: 30px;
+}
+
+/* Etiqueta del ajuste */
+.vjs-adjustment-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    z-index: 1001;
+    text-align: center;
+}
+
+.vjs-dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0; /* Transparente por defecto */
+    transition: opacity 0.3s ease-in-out; /* Suave transición */
+    pointer-events: none; /* Permitir interacción con el video */
+    z-index: 1; /* Asegurar que esté sobre el video pero debajo de los controles */
+}
+
+.vjs-skip-intro {
+    position: absolute;
+    bottom: 170px; /* Más arriba en la pantalla */
+    right: 70px;
+    background-color: rgb(50, 50, 50); /* Fondo gris sólido (más oscuro) */
+    color: white;
+    border: none;
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 15px 20px; /* Botón más grande */
+    font-size: 18px; /* Texto más grande */
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para resaltar el botón */
+}
+
+.vjs-skip-intro:hover {
+    transform: scale(1.1); /* Ligeramente más grande al pasar el mouse */
+}
+
+.vjs-skip-intro:active {
+    transform: scale(1); /* Vuelve a su tamaño normal al hacer clic */
+}
+
+
+.vjs-next-episode {
+    position: absolute;
+    bottom: 170px; /* Más arriba en la pantalla */
+    right: 70px;
+    background-color: #323232; /* Fondo semi-transparente */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para resaltar el botón */
+}
+
+.vjs-next-episode:hover {
+    transform: scale(1.1); /* Ligeramente más grande al pasar el mouse */
+}
+
+.vjs-next-episode:active {
+    transform: scale(1); /* Vuelve a su tamaño normal al hacer clic */
+}
+
+/* Estilo general de las tabs */
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Alineación a la izquierda */
+    align-items: center;
+    background-color: transparent; /* Fondo transparente */
+    padding: 10px 15px; /* Espaciado para separar de los márgenes */
+    margin-top: 158%; /* Espaciado entre la imagen principal y las tabs */
+    gap: 60px; /* Separación entre tabs */
+    border-bottom: 1px solid #525252; /* Línea divisoria */
+    z-index: 200;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: rgb(129, 129, 129);
+    font-weight: bold;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    color: rgb(247, 247, 247); /* Color naranja para la pestaña activa */
+    border-bottom: 3px solid rgb(255, 0, 0); /* Línea inferior */
+}
+
+
+
+/* Estilo del contenido de las tabs */
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 400;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Media Queries para móviles */
+@media (max-width: 768px) {
+    .tabs {
+        justify-content: flex-start; /* Alineación a la izquierda */
+        padding: 0 10px; /* Espaciado reducido en los laterales */
+        gap: 40px; /* Menor separación entre tabs */
+        z-index: 1000;
+    }
+
+    .tab-button {
+        font-size: 14px; /* Ajustar tamaño de texto para móviles */
+        padding: 5px 0; /* Espaciado reducido */
+    }
+}
+/* Ajustes para modo horizontal */
+@media (orientation: landscape) {
+    .tabs {
+        margin-top: 25%; /* Reduce el margen superior en modo horizontal */
+        position: absolute; /* Permite ajustar manualmente la posición */
+        top: 30%; /* Mueve las tabs hacia arriba */
+        left: 5%; /* Mueve las tabs ligeramente a la izquierda */
+        width: 90%; /* Asegura que no ocupen toda la pantalla */
+        z-index: 500;
+    }
+}
+
+
+/* Episodios reproducidos: línea roja debajo de la imagen */
+.episode-item.watched .episode-image {
+    border-bottom: 4px solid red; /* Grosor y color ajustables */
+}
+
+
+/* Estilo general para el header */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.13); /* Fondo semitransparente */
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center;
+    padding: 10px;
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+    transition: top 0.3s ease-in-out; /* Transición para el título al hacer scroll */
+}
+
+/* Estilo de los enlaces */
+.icon-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; /* Color del ícono */
+    text-decoration: none; /* Quitar subrayado */
+}
+
+/* Flecha a la izquierda */
+#back-link {
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
+    border-radius: 50%; /* Hace el fondo circular */
+    padding: 0;
+    width: 36px; /* Tamaño del círculo */
+    height: 36px;
+    font-size: 20px; /* Tamaño del ícono */
+}
+
+/* Estilo del botón cast */
+#cast-link {
+    background-color: transparent; /* Fondo transparente */
+    width: 24px; /* Ajusta el tamaño del área del ícono */
+    height: 24px;
+}
+
+#cast-link .material-icons {
+    font-size: 25px; /* Tamaño del ícono */
+}
+
+/* Título oculto por defecto */
+.page-title {
+    opacity: 0; /* Inicialmente invisible */
+   
+  transition: opacity 1s ease, transform 1s ease; /* Transición para desvanecer y mover */
+    font-size: 18px; /* Tamaño del texto del título */
+    color: white; /* Asegurarse de que sea visible sobre fondo oscuro */
+}
+/* Hover efectos */
+.icon-link:hover {
+    opacity: 0.8; /* Ligera transparencia al hacer hover */
+}
+
+
+/* Estilo para el contenedor del logo */
+#logo-container {
+    position: absolute;
+    top: 45%; /* Ajusta esta distancia según necesites */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el contenedor */
+    text-align: center;
+    z-index: 300; /* Asegura que el logo esté por encima de otras imágenes */
+}
+
+/* Estilo del logo */
+#logo {
+    width: 200px; /* Tamaño del logo */
+    height: auto; /* Mantener la proporción */
+}
+
+/* Estilo para la información debajo del logo */
+#logo-info {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #fff; /* Color blanco para el texto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Espacio entre los elementos */
+}
+
+#logo-info span {
+    font-weight: bold;
+}
+
+#logo-info .rating {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+#logo-info .series-text {
+    color: #00ffc8; /* Color diferente para "Series" */
+}
+
+#logo-info .duration, #logo-info .year {
+    color: #ccc; /* Color gris para los otros textos */
+}
+
+.favorito-container {
+    position: absolute; /* Saca el botón del flujo normal */
+    top: 68%; /* Posición relativa al contenedor del logo */
+    left: 50%; /* Centra el botón horizontalmente */
+    transform: translateX(-50%); /* Ajusta la posición horizontal para centrarlo */
+    display: flex;
+    flex-direction: column; /* Ordena ícono y texto en columna */
+    align-items: center;
+    z-index: 300; /* Asegura que esté sobre las tabs */
+}
+
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Ordena el contenido del botón en columna */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+}
+
+#favoritoIcon {
+    font-size: 30px; /* Tamaño del icono */
+    margin-bottom: 8px; /* Espacio entre el icono y el texto */
+}
+
+#favoritoText {
+    font-size: 14px; /* Tamaño del texto */
+    text-align: center; /* Centra el texto */
+    color: white;
+}
+
+/* Ajustes para dispositivos en modo horizontal */
+@media (orientation: landscape) {
+    #logo-container {
+        top: 10%; /* Mueve el logo más hacia arriba */
+        left: 30%; /* Mueve el logo hacia la izquierda */
+    }
+
+    .favorito-container {
+        top: 60%; /* Ajusta la posición hacia arriba */
+        left: 30%; /* Mueve hacia la izquierda */
+        z-index: 500;
+    }
+}
+
+.movie-grid {
+  display: grid; /* Usamos grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  gap: 10px; /* Espaciado pequeño entre tarjetas */
+  padding: 15px;
+  justify-content: center; /* Centra las columnas horizontalmente */
+}
+
+.card {
+  width: 165px; /* Tarjetas más grandes */
+  height: 250px; /* Aumenta la altura de las tarjetas */
+  border-radius: 10px; /* Bordes redondeados */
+  overflow: hidden; /* Asegura que las imágenes respeten los bordes */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta las imágenes al contenedor */
+  display: block;
+}
+
+
+
+
+/* Ajustes para pantallas en orientación horizontal */
+@media (orientation: landscape) {
+  .poster {
+    margin-top: 350px;
+  }
+  .movie-grid {
+    grid-auto-flow: column; /* Organización horizontal en una fila */
+    grid-template-columns: unset; /* Desactiva el diseño de columnas predefinidas */
+    gap: 10px; /* Espaciado reducido entre imágenes */
+    overflow-x: auto; /* Scroll horizontal */
+    padding: 20px; /* Reduce el padding para compactar el diseño */
+    justify-content: start; /* Alinea las imágenes a la izquierda */
+    margin-top: 50%;
+  }
+  .card {
+    width: 130px; /* Tamaño ligeramente más pequeño en horizontal */
+    height: 195px;
+  }
+}
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 35px; /* Tamaño de la imagen de perfil */
+  height: 35px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #fff; /* Borde blanco alrededor de la imagen */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+}
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #bbb; /* Gris para iconos inactivos */
+}
+
+/* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los elementos */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+    <header id="header">
+        <a href="go:anime" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Dragon Ball DAIMA</span> <!-- Título oculto por defecto -->
+        <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMTE5MzI3NDRf/new%20dragon%20ball%20daima.html" data-intent="wvc-x-callback://open?url=https://od.lk/s/M18zMTE5MzI3NDRf/new%20dragon%20ball%20daima.html" onclick="abrirApp()" id="cast-link" class="icon-link">
+            <span class="material-icons">cast</span>
+        </a>
+    </header>
+    
+
+
+    <div class="portrait-overlay"></div>
+
+<div class="horizontal-overlay">
+    <!-- Imagen principal nítida -->
+    <img src="https://image.tmdb.org/t/p/original/sDJq5MzV5ck2iPbu5MvSrfCsmmL.jpg" alt="Imagen principal">
+</div>
+
+    
+   <!-- Contenedor para el reproductor de video y su overlay -->
+   <div class="video-container">
+    
+    <!-- Video -->
+    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto">
+        <source id="videoSource" src="https://od.lk/s/M18zMDA3NTQ3OTZf/SAL-01x001%20-%20SeriesRetro.com.mp4" type="video/mp4">
+        <p class="vjs-no-js">
+            Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+            <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+        </p>
+    </video>
+</div>
+
+
+<div id="logo-container">
+    <img src="https://image.tmdb.org/t/p/original/fOTS7xzuI6QM6QgjX7nwhSHGxGf.png" alt="Logo" id="logo">
+    <div id="logo-info">
+        <span class="rating">12+</span> • 
+        <span class="series-text">Series</span> • 
+        <span class="series-text">En emisión</span> •
+        <span class="duration">Sub</span> • 
+        <span class="year">2024</span>
+    </div>
+</div>
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="Dragon ball daima" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/jXhTu3WZBS0mJf8Uq3OWpAJekmg.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="go:daima"></a>
+        <span id="nombre">Dragon Ball DAIMA (2024)</span>
+    </div>
+</div>
+
+<!-- Contenedor de las tabs -->
+<div class="tabs">
+    <button class="tab-button active" id="episodes-tab">Episodios</button>
+    <button class="tab-button" id="other-tab">Más como esto</button>
+</div>
+
+<!-- Contenedor de contenido de las tabs -->
+<div class="tab-content">
+    <!-- Contenido de la tab Episodios -->
+    <div class="tab-pane active" id="episodes-content">
+        <!-- Contenido de la lista de episodios y temporadas -->
+        <div id="season-buttons">
+            <button class="season-button" id="toggle-season-list">
+                <span class="material-icons">arrow_drop_down</span> Temporada 1
+            </button>
+            <ul id="season-list" class="season-dropdown"></ul>
+        </div>
+        <ul id="episode-list"></ul>
+    </div>
+
+   <!-- Contenido de "Más como esto" -->
+   <div class="tab-pane" id="other-content">
+        
+    <div class="movie-grid">
+        <a href="go:dbz">
+            <div class="card">
+                <img class="imgcard" src="https://od.lk/s/M18zMDc3ODEzOTBf/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg">
+            </div>
+        </a>
+        <a href="go:dbgt">
+            <div class="card">
+                <img class="imgcard" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/3eb79333155a8e87b2f7be64f064c694.jpg">
+            </div>
+        </a>
+        <a href="go:dbsuper">
+            <div class="card">
+                <img class="imgcard" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/98ea4207e23a2ea3e3af39ad641d8800.jpg">
+            </div>
+        </a>
+        <a href="go:db">
+            <div class="card">
+                <img class="imgcard" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/257cdb6a1fdd566600a01eb0f9f73b22.jpg">
+            </div>
+        </a>
+        <a href="go:dbzp">
+            <div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/hI8Z5WmM3tUPWAdQHLDOrLrvdWT.jpg">
+            </div>
+        </a>
+    </div>
+</div>
+</div>
+<br><br>
+<footer class="footer">
+    <a href="../main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+</footer>
+
+
+    
+    <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+    <script>
+         const playlist = {
+    "seasons": [
+        {
+            "season_title": "T1: Dragon Ball Daima",
+            "episodes": [
+        
+            {
+        "title": "E1 - La conspiración",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/c750799082deb6a87ded21b117684ca6.jpg",
+        "video_url": "https://od.lk/s/M18zMDk3NjQ5NTlf/Dragon%20Ball%20Daima%20Episodio%201.mp4",
+        "download_link": "https://od.lk/d/M18zMDk3NjQ5NTlf/Dragon%20Ball%20Daima%20Episodio%201.mp4",
+        "duration": "32m"
+    },
+    {
+        "title": "E2 - Glorio",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/5c008ad722a08ff67a03da61c763e0ce.jpg",
+        "video_url": "https://od.lk/s/M18zMDk3NjQ5NTBf/Dragon%20Ball%20Daima%20Episodio%202.mp4",
+        "download_link": "https://od.lk/d/M18zMDk3NjQ5NTBf/Dragon%20Ball%20Daima%20Episodio%202.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E3 - Daima",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/cd3e5a3d0b1576a58bbaa263fc58dc1e.jpg",
+        "video_url": "https://od.lk/s/M18zMDk3OTkyOTdf/Dragon%20Ball%20Daima%20Episodio%203.mp4",
+        "download_link": "https://od.lk/d/M18zMDk3OTkyOTdf/Dragon%20Ball%20Daima%20Episodio%203.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E4 - Conversadores",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/e93df1712febd0ea52d1e0b41b46dd80.jpg",
+        "video_url": "https://od.lk/s/M18zMTAxMTgyODRf/Dragon%20Ball%20Daima%20Episodio%204.mp4",
+        "download_link": "https://od.lk/d/M18zMTAxMTgyODRf/Dragon%20Ball%20Daima%20Episodio%204.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E5 - Panzy",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/e8cea564d06dfb3068b59ee81bfa2e4f.jpg",
+        "video_url": "https://od.lk/s/M18zMTAzMDY1MzNf/Dragon%20Ball%20Daima%20Episodio%205.mp4",
+        "download_link": "https://od.lk/d/M18zMTAzMDY1MzNf/Dragon%20Ball%20Daima%20Episodio%205.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E6 - Relámpago",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/d4f3b7d1dde8e6dc661f87e3622ebb6f.jpg",
+        "video_url": "https://od.lk/s/M18zMTA0MzI0Nzlf/Dragon%20Ball%20Daima%20Episodio%206.mp4",
+        "download_link": "https://od.lk/d/M18zMTA0MzI0Nzlf/Dragon%20Ball%20Daima%20Episodio%206.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E7 - Collar",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/31e33e4b6d3d2c585ef478d40ac1001e.jpg",
+        "video_url": "https://od.lk/s/M18zMTA3OTgwMzNf/Dragon%20Ball%20Daima%20Episodio%207.mp4",
+        "download_link": "https://od.lk/d/M18zMTA3OTgwMzNf/Dragon%20Ball%20Daima%20Episodio%207.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E8 - Tamagami",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/10c92080767edcbe212570e2a801fd50.jpg",
+        "video_url": "https://od.lk/s/M18zMTA3OTc2ODJf/Dragon%20Ball%20Daima%20Episodio%208.mp4",
+        "download_link": "https://od.lk/d/M18zMTA3OTc2ODJf/Dragon%20Ball%20Daima%20Episodio%208.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E9 - Ladrones",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/5b828e9c26be6db3a8ca4121d2a522f7.jpg",
+        "video_url": "https://od.lk/s/M18zMTE3NDkzMjJf/Dragon%20Ball%20Daima%20Episodio%209.mp4",
+        "download_link": "https://od.lk/d/M18zMTE3NDkzMjJf/Dragon%20Ball%20Daima%20Episodio%209.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E10 - Océano",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/c5993c044460a69bc63176113609962b.jpg",
+        "video_url": "https://od.lk/s/M18zMTE5MzI2MDlf/Dragon%20Ball%20Daima%20Episodio%2010.mp4",
+        "download_link": "https://od.lk/d/M18zMTE5MzI2MDlf/Dragon%20Ball%20Daima%20Episodio%2010.mp4",
+        "duration": "23m"
+    },
+    {
+        "title": "E11 - Leyenda",
+        "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/f3f4fe392296c4fc23c6f5bfd731c6c8.jpg",
+        "video_url": "https://od.lk/s/M18zMTIwMDg3NDdf/Dragon%20Ball%20Daima%20Episodio%2011.mp4",
+        "download_link": "https://od.lk/d/M18zMTIwMDg3NDdf/Dragon%20Ball%20Daima%20Episodio%2011.mp4",
+        "duration": "23m"
+    }
+           
+            ]
+        }
+    ]
+};
+
+window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+        const player = videojs('my-video', {
+    controlBar: {
+        playToggle: false, // Eliminar el control de Play
+        volumePanel: false,
+        fullscreenToggle: false,
+        pipToggle: false,
+        progressControl: true,
+        remainingTimeDisplay: true,
+        currentTimeDisplay: true,
+    },
+    userActions: {
+        doubleClick: false, // Desactivar doble clic para pantalla completa
+        hotkeys: false // Desactivar hotkeys para reproducción
+    }
+});
+
+// Función para forzar el modo Landscape
+function forceLandscape() {
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch((err) => {
+            console.error('No se pudo cambiar a landscape:', err.message);
+        });
+    } else if (window.screen.lockOrientation) {
+        // Compatibilidad con navegadores más antiguos
+        window.screen.lockOrientation('landscape').catch((err) => {
+            console.error('No se pudo cambiar a landscape:', err.message);
+        });
+    } else {
+        console.warn('La API de orientación de pantalla no es compatible en este dispositivo.');
+    }
+}
+
+// Función opcional para regresar a Portrait
+function forcePortrait() {
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('portrait').catch((err) => {
+            console.error('No se pudo cambiar a portrait:', err.message);
+        });
+    }
+}
+
+// Detectar el evento de reproducción del video
+const video = document.getElementById('my-video');
+video.addEventListener('play', () => {
+    forceLandscape(); // Forzar landscape al reproducir
+});
+
+// Detectar el evento de finalización del video (opcional)
+video.addEventListener('ended', () => {
+    forcePortrait(); // Regresar a portrait al finalizar
+});
+
+
+
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
+const favoritoText = document.getElementById('favoritoText'); // Texto del botón
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+// Función para manejar el favorito
+function toggleFavorito() {
+  const favoritoEnlace = document.getElementById('favoritoEnlace');
+  const imagen = document.getElementById('favoritoImagen');
+  const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+  const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+  if (encontrado) {
+    // Eliminar de favoritos
+    const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+    localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+
+    // Actualizar ícono y texto
+    favoritoIcon.innerText = 'add';
+    favoritoText.innerText = 'Añadir a Favoritos';
+
+    mostrarNotificacion('Se eliminó de favoritos');
+  } else {
+    // Agregar a favoritos
+    favoritos.push({
+      identificador: identificador,
+      imagen: imagen.outerHTML,
+      enlace: favoritoEnlace.href,
+      nombre: nombre, // Agregar el nombre al objeto
+    });
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+    // Actualizar ícono y texto
+    favoritoIcon.innerText = 'check';
+    favoritoText.innerText = 'Se añadió a Favoritos';
+
+    mostrarNotificacion('Se añadió a favoritos');
+  }
+}
+
+// Selección de los elementos relevantes
+const overlayVertical = document.querySelector('.portrait-overlay');
+const overlayHorizontal = document.querySelector('.horizontal-overlay');
+const header = document.getElementById('header');
+const pageTitle = document.querySelector('.page-title');
+
+// Manejar el evento de scroll
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY; // Obtener la posición del scroll
+    const maxScroll = 300; // Distancia máxima para el efecto completo
+
+    // Calcular la opacidad para el overlay
+    const opacity = Math.max(0, 1 - scrollY / maxScroll); // Rango de 1 a 0
+    const titleOpacity = Math.min(scrollY / maxScroll, 1); // Rango de 0 a 1
+
+    // Oscurecer el overlay
+    if (overlayVertical) overlayVertical.style.opacity = opacity;
+    if (overlayHorizontal) overlayHorizontal.style.opacity = opacity;
+
+    // Oscurecer el header gradualmente
+    header.style.backgroundColor = `rgba(0, 0, 0, ${1 - opacity})`;
+
+    // Hacer visible el título gradualmente
+    pageTitle.style.opacity = titleOpacity;
+});
+
+
+
+
+// Función para cambiar de tab
+function switchTab(tab) {
+    const episodesTab = document.getElementById("episodes-tab");
+    const otherTab = document.getElementById("other-tab");
+    const episodesContent = document.getElementById("episodes-content");
+    const otherContent = document.getElementById("other-content");
+
+    // Cambiar el estado de las tabs y el contenido correspondiente
+    if (tab === 'episodes') {
+        episodesTab.classList.add("active");
+        otherTab.classList.remove("active");
+        episodesContent.classList.add("active");
+        otherContent.classList.remove("active");
+    } else {
+        episodesTab.classList.remove("active");
+        otherTab.classList.add("active");
+        episodesContent.classList.remove("active");
+        otherContent.classList.add("active");
+    }
+}
+
+// Función para cargar temporadas
+function loadSeasons() {
+    const seasonList = document.getElementById("season-list");
+    seasonList.innerHTML = ''; // Limpiar la lista de temporadas cada vez que se cargue
+
+    playlist.seasons.forEach(season => {
+        const seasonItem = document.createElement("li");
+        seasonItem.textContent = season.season_title;
+        seasonItem.classList.add("season-item");
+        seasonItem.addEventListener("click", () => loadEpisodes(season)); // Cargar episodios al seleccionar temporada
+        seasonList.appendChild(seasonItem);
+    });
+}
+
+
+
+
+// Función para cambiar de tab al hacer clic en la tab
+document.getElementById("episodes-tab").addEventListener("click", () => switchTab('episodes'));
+document.getElementById("other-tab").addEventListener("click", () => switchTab('other'));
+
+// Inicialización al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    loadSeasons(); // Cargar temporadas
+    switchTab('episodes'); // Mostrar la tab de episodios por defecto
+    document.getElementById("toggle-season-list").addEventListener("click", () => {
+        document.getElementById("season-list").classList.toggle("show");
+    });
+});
+
+
+// Crear el botón flotante de "Siguiente episodio"
+const nextEpisodeButton = document.createElement('button');
+nextEpisodeButton.classList.add('vjs-custom-button', 'vjs-next-episode');
+nextEpisodeButton.textContent = 'Siguiente episodio';
+nextEpisodeButton.style.display = 'none'; // Inicia oculto
+
+// Temporizador de cuenta atrás
+let countdownTimer;
+let countdownTime = 20; // 10 segundos de cuenta atrás
+let isCountdownActive = false; // Flag para saber si la cuenta atrás está activa
+
+// Función para mostrar el temporizador
+function startCountdown() {
+    nextEpisodeButton.style.display = 'block'; // Muestra el botón
+    countdownTime = 20; // Resetear la cuenta atrás a 10 segundos
+    updateCountdownDisplay(); // Actualizar el texto del temporizador
+
+    isCountdownActive = true; // Marca la cuenta atrás como activa
+
+    // Actualizar el temporizador cada segundo
+    countdownTimer = setInterval(() => {
+        countdownTime--;
+        updateCountdownDisplay();
+
+        if (countdownTime <= 0) {
+            clearInterval(countdownTimer);
+            isCountdownActive = false; // Desactiva la cuenta atrás
+            nextEpisodeButton.style.display = 'none'; // El botón desaparece después de 10 segundos
+            changeEpisode(); // Cambiar al siguiente episodio automáticamente
+        }
+    }, 1000); // Cada segundo
+}
+
+// Actualizar el texto del temporizador en el botón
+function updateCountdownDisplay() {
+    nextEpisodeButton.textContent = `Siguiente episodio (${countdownTime}s)`;
+}
+
+// Función para cambiar al siguiente episodio
+function changeEpisode() {
+    // Lógica para cambiar al siguiente episodio (ajustar según tu estructura)
+    if (currentEpisodeIndex < playlist.seasons[currentSeasonIndex].episodes.length - 1) {
+        currentEpisodeIndex++;
+        const nextEpisode = playlist.seasons[currentSeasonIndex].episodes[currentEpisodeIndex];
+        player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+        player.play();
+        updateTitle(nextEpisode); // Actualizar el título del episodio
+    }
+}
+
+// Mostrar el botón "Siguiente episodio" unos minutos antes de acabar
+player.on('timeupdate', () => {
+    const totalDuration = player.duration();
+    const currentTime = player.currentTime();
+    const timeBeforeEnd = 60 * 1; // 2 minutos antes de terminar
+
+    if (totalDuration - currentTime <= timeBeforeEnd && !isCountdownActive) {
+        startCountdown(); // Comienza la cuenta atrás solo si no está activa
+    }
+});
+
+// Manejo del click en el botón para cambiar el episodio manualmente
+nextEpisodeButton.addEventListener('click', () => {
+    if (isCountdownActive) {
+        clearInterval(countdownTimer); // Detener la cuenta atrás
+    }
+    changeEpisode(); // Cambiar al siguiente episodio
+    nextEpisodeButton.style.display = 'none'; // Ocultar el botón después de hacer clic
+});
+
+// Agregar el botón de "Siguiente episodio" al reproductor
+player.el().appendChild(nextEpisodeButton);
+
+// Resetear el botón al inicio de cada nuevo episodio
+player.on('loadeddata', () => {
+    // Cuando se cargue un nuevo episodio, reiniciar el botón
+    nextEpisodeButton.style.display = 'none'; // Asegurarse de que el botón esté oculto al principio
+    isCountdownActive = false; // Restablecer la bandera
+    clearInterval(countdownTimer); // Detener cualquier temporizador activo
+});
+
+
+
+
+// Crear la superposición oscura
+const overlay = document.createElement('div');
+overlay.classList.add('vjs-dark-overlay');
+player.el().appendChild(overlay);
+
+// Mostrar/ocultar la superposición al tocar
+let hideOverlayTimeout;
+
+function showOverlay() {
+    overlay.style.opacity = '0.5'; // Oscurecer la pantalla
+    clearTimeout(hideOverlayTimeout);
+}
+
+function hideOverlay() {
+    overlay.style.opacity = '0'; // Volver a la normalidad
+}
+
+// Eventos para oscurecer temporalmente al tocar
+player.el().addEventListener('touchstart', () => {
+    showOverlay();
+    hideOverlayTimeout = setTimeout(() => {
+        if (!player.paused()) hideOverlay();
+    }, 2000); // Oscurecer temporalmente durante 2 segundos
+});
+
+// Mantener la pantalla oscura al pausar
+player.on('pause', () => {
+    showOverlay();
+});
+
+// Volver a la normalidad al reproducir
+player.on('play', () => {
+    hideOverlay();
+});
+
+
+const customControls = document.createElement('div');
+customControls.classList.add('vjs-custom-controls');
+
+const topControls = document.createElement('div');
+topControls.classList.add('vjs-top-controls');
+
+// Botón para ajustar pantalla (solo funcional en fullscreen en móviles)
+const screenAdjustButton = document.createElement('button');
+screenAdjustButton.classList.add('vjs-custom-button', 'vjs-screen-adjust-button');
+screenAdjustButton.innerHTML = '<span class="material-icons">aspect_ratio</span>';
+customControls.appendChild(screenAdjustButton);
+
+// Opciones de ajuste disponibles
+let currentAdjustmentIndex = 0;
+const adjustments = ['cover', 'fill', 'fit-height', 'fit-width', 'scaledown', 'contain'];
+
+// Mostrar el nombre del ajuste al centro de la pantalla
+function showAdjustmentLabel(label) {
+    const labelDiv = document.createElement('div');
+    labelDiv.classList.add('vjs-adjustment-label');
+    labelDiv.textContent = label;
+    document.querySelector('.video-js').appendChild(labelDiv);
+
+    setTimeout(() => {
+        labelDiv.remove();
+    }, 1500); // Mostrar por 1.5 segundos
+}
+
+// Lógica para cambiar los ajustes
+screenAdjustButton.addEventListener('click', () => {
+    if (!player.isFullscreen()) {
+        console.log("El control de ajuste es funcional solo en pantalla completa.");
+        return;
+    }
+
+    currentAdjustmentIndex = (currentAdjustmentIndex + 1) % adjustments.length;
+    const selectedAdjustment = adjustments[currentAdjustmentIndex];
+
+    const videoElement = player.el().querySelector('video');
+    const videoContainer = player.el();
+
+    switch (selectedAdjustment) {
+        case 'cover':
+            videoElement.style.objectFit = 'cover';
+            break;
+        case 'fill':
+            videoElement.style.objectFit = 'fill';
+            break;
+        case 'fit-height':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.height = '100%';
+            videoElement.style.width = 'auto';
+            break;
+        case 'fit-width':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.width = '100%';
+            videoElement.style.height = 'auto';
+            break;
+        case 'scaledown':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.width = 'auto';
+            videoElement.style.height = 'auto';
+            videoContainer.style.display = 'flex';
+            videoContainer.style.justifyContent = 'center';
+            videoContainer.style.alignItems = 'center';
+            break;
+        case 'contain':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.width = '100%';
+            videoElement.style.height = '100%';
+            break;
+    }
+
+    // Mostrar el nombre del ajuste
+    showAdjustmentLabel(selectedAdjustment);
+});
+
+
+
+
+// Botón de regreso
+const backButton = document.createElement('a');
+backButton.classList.add('vjs-custom-button', 'vjs-back-button');
+backButton.innerHTML = '<span class="material-icons">chevron_left</span>';
+
+    backButton.href = 'go:daima'; // Redirigir a la página raíz o cambia por tu URL de destino
+
+    customControls.appendChild(backButton);
+
+// Controles de Seek y Play/Pause
+const seekBackButton = document.createElement('button');
+seekBackButton.classList.add('vjs-custom-button', 'vjs-seek-back');
+seekBackButton.innerHTML = '<span class="material-icons">replay_10</span>';
+topControls.appendChild(seekBackButton);
+
+const playPauseButton = document.createElement('button');
+playPauseButton.classList.add('vjs-custom-button', 'vjs-play-pause');
+playPauseButton.innerHTML = '<span class="material-icons">pause</span>'; // Mostrar pausa inicialmente
+topControls.appendChild(playPauseButton);
+
+const seekForwardButton = document.createElement('button');
+seekForwardButton.classList.add('vjs-custom-button', 'vjs-seek-forward');
+seekForwardButton.innerHTML = '<span class="material-icons">forward_10</span>';
+topControls.appendChild(seekForwardButton);
+
+customControls.appendChild(topControls);
+
+// Controles de Reiniciar y Next (debajo de los controles anteriores)
+const bottomControls = document.createElement('div');
+bottomControls.classList.add('vjs-bottom-controls');
+
+// Botón de Descargar
+const downloadButton = document.createElement('button');
+downloadButton.classList.add('vjs-custom-button', 'vjs-download');
+downloadButton.innerHTML = '<span class="material-icons">file_download</span> Descargar';
+bottomControls.appendChild(downloadButton);
+
+// Botón de Reiniciar
+const restartButton = document.createElement('button');
+restartButton.classList.add('vjs-custom-button', 'vjs-restart');
+restartButton.innerHTML = '<span class="material-icons">skip_previous</span> Reiniciar';
+bottomControls.appendChild(restartButton);
+
+/// Botón de Siguiente
+const nextButton = document.createElement('button');
+nextButton.classList.add('vjs-custom-button', 'vjs-next');
+nextButton.innerHTML = '<span class="material-icons">skip_next</span> Siguiente';
+
+// Lógica para cambiar al siguiente episodio
+nextButton.addEventListener('click', () => {
+    const currentEpisodeIndex = player.currentEpisodeIndex || 0; // Índice del episodio actual
+    const currentSeason = playlist.seasons[0]; // Por ahora, asumimos la primera temporada
+
+    if (currentSeason && currentSeason.episodes[currentEpisodeIndex + 1]) {
+        // Actualizar el índice del episodio actual
+        const newEpisodeIndex = currentEpisodeIndex + 1;
+        player.currentEpisodeIndex = newEpisodeIndex;
+
+        // Cambiar la fuente del video al siguiente episodio
+        const nextEpisode = currentSeason.episodes[newEpisodeIndex];
+        player.src(nextEpisode.video_url);
+
+        // Emitir un evento personalizado para actualizar otros elementos
+        player.trigger('episodechange', { newEpisodeIndex });
+    } else {
+        alert('No hay más episodios disponibles.');
+    }
+});
+
+bottomControls.appendChild(nextButton);
+
+customControls.appendChild(bottomControls);
+
+// Agregar los controles al reproductor
+player.el().appendChild(customControls);
+
+// Función para obtener el enlace de descarga del episodio actual
+function getCurrentDownloadLink() {
+    const currentEpisodeIndex = player.currentEpisodeIndex || 0; // Índice del episodio actual
+    const currentSeason = playlist.seasons[0]; // Por ahora, asumimos la primera temporada
+    if (currentSeason && currentSeason.episodes[currentEpisodeIndex]) {
+        return currentSeason.episodes[currentEpisodeIndex].download_link;
+    }
+    return null;
+}
+
+// Lógica para el botón de Descargar
+downloadButton.addEventListener('click', () => {
+    const downloadLink = getCurrentDownloadLink();
+    if (downloadLink) {
+        const a = document.createElement('a');
+        a.href = downloadLink;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    } else {
+        alert('No se pudo encontrar el enlace de descarga para este episodio.');
+    }
+});
+
+// Actualizar el índice del episodio actual cuando cambie
+player.on('episodechange', (e, data) => {
+    player.currentEpisodeIndex = data.newEpisodeIndex;
+});
+
+
+
+// Lógica de visibilidad de controles
+let hideControlsTimeout;
+
+function showControls() {
+    player.controlBar.el().style.opacity = '1';
+    customControls.style.opacity = '1';
+    clearTimeout(hideControlsTimeout);
+}
+
+function hideControls() {
+    if (!player.paused()) {
+        player.controlBar.el().style.opacity = '0';
+        customControls.style.opacity = '0';
+    }
+}
+
+function isMobileDevice() {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+player.el().addEventListener(isMobileDevice() ? 'touchstart' : 'mousemove', () => {
+    showControls();
+    hideControlsTimeout = setTimeout(hideControls, 5000); // Ocultar controles después de 2 segundos
+});
+
+player.on('pause', () => {
+    showControls();
+    clearTimeout(hideControlsTimeout);
+});
+
+player.on('play', () => {
+    playPauseButton.innerHTML = '<span class="material-icons">pause</span>';
+    hideControlsTimeout = setTimeout(hideControls, 2000); // Ocultar controles después de 2 segundos
+});
+
+player.on('pause', () => {
+    playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+});
+
+// Botones personalizados
+seekBackButton.addEventListener('click', function () {
+    const currentTime = player.currentTime();
+    player.currentTime(Math.max(0, currentTime - 10));
+});
+
+playPauseButton.addEventListener('click', function () {
+    if (player.paused()) {
+        player.play();
+        playPauseButton.innerHTML = '<span class="material-icons">pause</span>';
+    } else {
+        player.pause();
+        playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+    }
+});
+
+seekForwardButton.addEventListener('click', function () {
+    const currentTime = player.currentTime();
+    player.currentTime(currentTime + 10);
+});
+
+restartButton.addEventListener('click', function () {
+    player.currentTime(0); // Reiniciar el video
+    player.play(); // Reproducir desde el principio
+});
+
+nextButton.addEventListener('click', function () {
+    // Verificar si hay un siguiente episodio
+    if (currentEpisodeIndex < playlist.seasons[currentSeasonIndex].episodes.length - 1) {
+        // Si hay un siguiente episodio, avanzamos al siguiente episodio
+        currentEpisodeIndex++;
+        const nextEpisode = playlist.seasons[currentSeasonIndex].episodes[currentEpisodeIndex];
+        player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+        player.play();
+        updateTitle(nextEpisode); // Actualizar el título con el nuevo episodio
+    } else if (currentSeasonIndex < playlist.seasons.length - 1) {
+        // Si no hay más episodios en la temporada actual, avanzamos a la siguiente temporada
+        currentSeasonIndex++;
+        currentEpisodeIndex = 0; // Comenzamos desde el primer episodio de la nueva temporada
+        const nextSeason = playlist.seasons[currentSeasonIndex];
+        updateSeasonButton(nextSeason.season_title); // Actualizamos el título de la temporada
+        loadEpisodes(nextSeason); // Cargamos los episodios de la siguiente temporada
+        const nextEpisode = nextSeason.episodes[currentEpisodeIndex];
+        player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+        player.play();
+        updateTitle(nextEpisode); // Actualizar el título con el nuevo episodio
+    }
+});
+
+
+// Comportamiento de pantalla completa y pausa
+player.on('play', () => {
+    if (!player.isFullscreen()) {
+        player.requestFullscreen();
+    }
+});
+
+player.on('fullscreenchange', () => {
+    if (!player.isFullscreen()) {
+        player.pause();
+    }
+});
+
+// Restringir reproducción/pausa a controles personalizados
+player.el().addEventListener('click', (e) => {
+    if (!isMobileDevice()) {
+        e.stopPropagation();
+    }
+});
+
+const style = document.createElement('style');
+style.innerHTML = `
+    /* Contenedores de los controles personalizados */
+    .vjs-custom-controls {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 10px; /* Mantener los controles Seek/Play en su lugar */
+        width: 100%;
+        z-index: 10;
+    }
+
+    /* Contenedor de los controles Seek y Play (en el centro de la pantalla) */
+    .vjs-top-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px; /* Espacio entre los controles Seek/Play y los controles de Reiniciar/Next */
+        gap: 30px; /* Añadir separación entre los controles Seek y Play */
+    }
+
+    /* Estilos para los botones de Seek y Play/Pause (más grandes) */
+    .vjs-top-controls .vjs-custom-button {
+        background-color: rgba(0, 0, 0, 0,);
+        color: white;
+        border: none;
+        font-size: 60px; /* Iconos más grandes */
+        padding: 20px; /* Botones más grandes */
+        margin: 0 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .vjs-top-controls .vjs-custom-button:hover {
+        transform: scale(1.1); /* Efecto al pasar el mouse */
+    }
+
+    .vjs-top-controls .material-icons {
+        font-size: 60px; /* Iconos más grandes */
+    }
+
+    /* Contenedor de los controles de Reiniciar y Next (debajo de los Seek/Play) */
+    .vjs-bottom-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: -90px; /* Mover los controles Reiniciar/Next hacia abajo */
+        width: 100%;
+        gap: 50px; /* Añadir separación entre los controles Reiniciar y Next */
+    }
+
+    /* Estilos para los botones de Reiniciar y Next (más pequeños) */
+    .vjs-bottom-controls .vjs-custom-button {
+        background-color: rgba(0, 0, 0, 0,);
+        color: white;
+        border: none;
+        font-size: 10px; /* Iconos más pequeños */
+        padding: 8px; /* Botones más pequeños */
+        margin: 0 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .vjs-bottom-controls .vjs-custom-button:hover {
+        transform: scale(1.1); /* Efecto al pasar el mouse */
+    }
+
+    .vjs-bottom-controls .material-icons {
+        font-size: 20px; /* Iconos más pequeños */
+    }
+
+    /* Texto pequeño al lado de los iconos */
+    .vjs-restart, .vjs-next {
+        font-size: 10px; /* Texto más pequeño */
+        margin-left: 8px; /* Separación del texto respecto al icono */
+    }
+
+    /* Estilo del título */
+    .vjs-title {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        color: white;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+    }
+`;
+document.head.appendChild(style);
+
+
+
+
+let currentSeasonIndex = 0;
+let currentEpisodeIndex = 0;
+let currentTitleElement = null; // Referencia al título actual
+
+function updateTitle(episode) {
+    if (currentTitleElement) {
+        currentTitleElement.remove();
+    }
+
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('vjs-title'); // Usar clase CSS
+    titleDiv.textContent = episode.title;
+
+    document.querySelector('.vjs-control-bar').appendChild(titleDiv);
+    currentTitleElement = titleDiv;
+}
+
+function loadSeasons() {
+    const seasonList = document.getElementById('season-list');
+    seasonList.innerHTML = ''; // Limpiar la lista de temporadas
+
+    playlist.seasons.forEach((season, index) => {
+        const seasonItem = document.createElement('li');
+        seasonItem.textContent = season.season_title;
+        seasonItem.classList.add('season-item'); // Clase para estilos
+
+        seasonItem.onclick = () => {
+            // Actualizar temporada seleccionada
+            currentSeasonIndex = index;
+            currentEpisodeIndex = 0;
+            renderEpisodes(season); // Renderizar episodios de la temporada seleccionada
+            updateSeasonButton(season.season_title); // Actualizar el botón con el título de la temporada
+            seasonList.style.display = 'none'; // Ocultar lista de temporadas
+        };
+
+        seasonList.appendChild(seasonItem);
+    });
+}
+
+function updateSeasonButton(seasonTitle) {
+    const seasonButton = document.getElementById('toggle-season-list');
+    seasonButton.innerHTML = `<span class="material-icons">arrow_drop_down</span> ${seasonTitle}`;
+}
+
+function renderEpisodes(season) {
+    const episodeList = document.getElementById('episode-list');
+    episodeList.innerHTML = ''; // Limpiar episodios previos
+
+    // Obtener episodios reproducidos desde localStorage
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+    console.log("Episodios reproducidos al cargar:", watchedEpisodes); // Debug aquí
+
+    season.episodes.forEach((episode, index) => {
+        const episodeItem = document.createElement('li');
+        episodeItem.classList.add('episode-item');
+
+        // Marcar episodios reproducidos
+        if (watchedEpisodes[episode.video_url]) {
+            episodeItem.classList.add('watched');
+        }
+
+        // Estructura del episodio
+        episodeItem.innerHTML = `
+            <div class="episode">
+                <img src="${episode.image}" alt="${episode.title}" class="episode-image">
+                <div class="episode-info">
+                    <h3 class="episode-title">${episode.title}</h3>
+                    <p class="episode-duration">${episode.duration}</p>
+                    <a href="${episode.download_link}" class="download_link" download="${episode.title}.mp4">
+                        <span class="material-icons">arrow_downward</span>
+                    </a>
+                </div>
+            </div>
+        `;
+
+        // Reproducir episodio al hacer clic en el episodio (pero no en el botón de descarga)
+        episodeItem.addEventListener('click', (event) => {
+            // Verifica que el clic no fue en el enlace de descarga
+            if (event.target.closest('.download_link')) {
+                return; // No hacer nada si se hizo clic en el enlace de descarga
+            }
+
+            // Establecer el video
+            player.src({ type: 'video/mp4', src: episode.video_url });
+
+            // Verificar si hay tiempo de reproducción guardado en localStorage
+            const savedTime = localStorage.getItem(`videoTime_${episode.video_url}`);
+            if (savedTime) {
+                player.currentTime(savedTime); // Continuar desde el último punto guardado
+            }
+
+            player.play();
+            currentEpisodeIndex = index;
+            updateTitle(episode); // Actualizar título del episodio
+
+            // Marcar como reproducido
+            watchedEpisodes[episode.video_url] = true;
+            localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+            console.log("Episodios reproducidos al cargar:", watchedEpisodes); // Debug aquí
+            episodeItem.classList.add('watched');
+        });
+
+        // Evitar reproducción al hacer clic en el botón de descarga (manejamos touchstart y click)
+        const downloadLink = episodeItem.querySelector('.download_link');
+        const downloadHandler = (e) => {
+            e.stopPropagation(); // Detenemos la propagación del evento para que no dispare el reproductor
+            console.log('Enlace de descarga clickeado:', episode.download_link);
+        };
+
+        // Usa tanto `click` como `touchstart` para mayor compatibilidad en dispositivos móviles
+        downloadLink.addEventListener('click', downloadHandler);
+        downloadLink.addEventListener('touchstart', downloadHandler);
+
+        episodeList.appendChild(episodeItem);
+    });
+
+    // Cargar y mostrar el título del primer episodio por defecto
+    updateTitle(season.episodes[0]);
+}
+
+// Guardar el tiempo de reproducción en localStorage cada vez que se actualice
+player.on('timeupdate', function () {
+    const currentTime = player.currentTime();
+    const currentEpisode = playlist.seasons[currentSeasonIndex].episodes[currentEpisodeIndex];
+    if (currentEpisode) {
+        localStorage.setItem(`videoTime_${currentEpisode.video_url}`, currentTime);
+    }
+});
+
+// Inicializar la lista de temporadas
+loadSeasons();
+
+
+
+function autoPlayNextEpisode() {
+    player.on('ended', () => {
+        const currentSeason = playlist.seasons[currentSeasonIndex];
+        if (currentEpisodeIndex < currentSeason.episodes.length - 1) {
+            // Avanzar al siguiente episodio
+            currentEpisodeIndex++;
+            const nextEpisode = currentSeason.episodes[currentEpisodeIndex];
+            player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+            player.play();
+            updateTitle(nextEpisode); // Actualizar título del episodio
+        } else if (currentSeasonIndex < playlist.seasons.length - 1) {
+            // Avanzar a la siguiente temporada
+            currentSeasonIndex++;
+            currentEpisodeIndex = 0;
+            const nextSeason = playlist.seasons[currentSeasonIndex];
+            updateSeasonButton(nextSeason.season_title);
+            renderEpisodes(nextSeason);
+            const nextEpisode = nextSeason.episodes[currentEpisodeIndex];
+            player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+            player.play();
+            updateTitle(nextEpisode); // Actualizar título del episodio
+        }
+    });
+}
+
+document.getElementById('toggle-season-list').addEventListener('click', () => {
+    const seasonList = document.getElementById('season-list');
+    // Alternar visibilidad de la lista de temporadas
+    seasonList.style.display = seasonList.style.display === 'block' ? 'none' : 'block';
+});
+
+// Inicializar la aplicación al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    loadSeasons(); // Cargar temporadas en la lista
+    renderEpisodes(playlist.seasons[0]); // Cargar episodios de la primera temporada
+    updateSeasonButton(playlist.seasons[0].season_title); // Botón con la primera temporada
+    autoPlayNextEpisode(); // Habilitar reproducción automática
+});
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+
+
+    </script>
+</body>
+</html>

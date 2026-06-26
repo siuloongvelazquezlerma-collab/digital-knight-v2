@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Ver Más Terror</title>
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+     <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
+  <title>Terror</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      
+    }
+    body {
+      padding-top: env(safe-area-inset-top);
+            font-family: 'Roboto', sans-serif;
+            background: url('https://od.lk/s/M18zMTk0MDM2NzBf/photo_2025-08-20_17-49-52.jpg') no-repeat center center fixed;
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            color: #ffffff;
+            overflow-x: hidden;
+            padding-top: 60px; /* Igual a la altura de tu header */
+        }
+
+        html, body {
+      padding-top: env(safe-area-inset-top);
+      background-color: #01011d !important;
+  overscroll-behavior-y: contain; /* bloquea el "pull-to-refresh" */
+}
+
+
+
+
+ /* Estilo general para el header */
+#header {
+    position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: rgba(0,0,0,0); 
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Estilo de los enlaces */
+.icon-link {
+display: flex;
+justify-content: center;
+align-items: center;
+color: #ffffff; /* Color del ícono */
+text-decoration: none; /* Quitar subrayado */
+z-index: 3012;
+}
+
+/* Flecha a la izquierda */
+#back-link {
+background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
+border-radius: 50%; /* Hace el fondo circular */
+width: 36px; /* Tamaño del círculo */
+height: 36px;
+font-size: 20px; /* Tamaño del ícono */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 3012;
+}
+
+#page-title {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size: 15px;
+text-align: center;
+width: 100%;
+opacity: 0; /* Lo ocultamos por defecto */
+transition: opacity 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+/* Hover efectos */
+.icon-link:hover {
+opacity: 0.8; /* Ligera transparencia al hacer hover */
+}
+
+.tabs-secondary {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 3005;
+    background-color: rgba(0, 0, 0, 0); /* Transparente */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    transition: background-color 0.4s ease;
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Se oscurece al subir */
+  }
+  
+  
+  .tabs-secondary .logo {
+    height: 20px;
+    width: auto;
+  }
+  
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  
+  .tabs-secondary .tab {
+    color: rgba(255, 255, 255, 0.856);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 14px 8px;
+    transition: background 0.3s ease;
+    border-radius: 8px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+  .tabs-secondary .tab:hover {
+    background-color: #81818179;
+  }
+  
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+  
+  .tabs-secondary .icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .tabs-secondary .icons span,
+  .header-only span {
+    font-size: 36px !important;
+    color: white;
+  }
+  
+  #headerProfileIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+  }
+  
+  /* Mostrar solo en pantallas grandes */
+  @media screen and (min-width: 1024px) {
+    .tabs-secondary {
+      display: flex;
+    }
+  }
+  
+  
+  
+  @media screen and (min-width: 1024px) {
+    #header {
+      display: none;
+    }
+  }
+  
+  .tabs-secondary.scrolled-up {
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro al subir */
+    transition: background-color 0.4s ease;
+  }
+
+  .custom-top-bar {
+    background-color: #000;
+    color: white;
+    padding: 6px 20px;
+    display: flex;
+    justify-content: flex-start; /* <- Cambio aquí */
+    align-items: center;
+    gap: 12px; /* <- Espacio entre los botones */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  
+  .custom-top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-top-bar .material-icons {
+    font-size: 25px;
+  }
+  
+  /* Ocultar en pantallas pequeñas */
+  @media screen and (max-width: 1024px) {
+    .custom-top-bar {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .restart-button {
+      display: none;
+    }
+  
+    .restart-button.shown {
+      display: flex;
+    }
+  
+    .footer {
+      display: none !important;
+    }
+  
+    
+  }
+
+    header {
+      background: rgba(0, 0, 0, 0);
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Default: 2 columnas */
+  gap: 15px;
+  padding: 20px;
+  flex: 1;
+}
+
+.movie {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+}
+
+.movie:hover {
+  transform: scale(1.05);
+}
+
+.movie img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 📱 Pantallas chicas en landscape → 3 columnas */
+@media (max-width: 768px) and (orientation: landscape) {
+  .container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+/* 💻 Pantallas grandes (>=1024px) en landscape → 4 columnas */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .container {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+  }
+
+  header {
+      background: rgba(0, 0, 0, 0);
+      padding: 15px;
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 150px;
+    }
+}
+
+
+    footer {
+      background: rgba(0, 0, 0, 0.9);
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    .footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(27, 27, 27, 0.877);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+  color: #bbb; /* Icono gris cuando está inactivo */
+  text-align: center;
+  text-decoration: none;
+  font-size: 35px; /* Tamaño aumentado para los iconos */
+  flex: 1; /* Ocupa el mismo espacio cada icono */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+  font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+  transition: font-size 0.3s ease;
+}
+
+.footer-icon:hover {
+  color: #fff; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+  color: #fff; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+  display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+  display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+  display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+  display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+  width: 30px; /* Tamaño de la imagen de perfil */
+  height: 30px; /* Tamaño de la imagen de perfil */
+  border-radius: 50%; /* Hacer la imagen circular */
+  border: 2px solid #696969; /* Borde blanco por defecto */
+  object-fit: cover; /* Asegura que la imagen se recorte bien */
+  transition: border-color 0.3s ease; /* Transición suave para el borde */
+}
+
+/* Cambiar el color del borde cuando el icono esté activo */
+.footer-icon.active .profile-icon-footer {
+  border-color: #ffffff; /* Cambiar el borde a azul cuando esté activo */
+}
+
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+  color: #929292; /* Gris para iconos inactivos */
+}
+
+/* Overlay para oscurecer la página */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 16, 29); /* Oscurecimiento semitransparente */
+    z-index: 9999; /* Asegura que esté encima de todos los Hotel Transylvania 4: Transformanía */
+    opacity: 1;
+    transition: opacity 2s ease-out; /* Cambio lento en opacidad */
+    display: block; /* Asegura que el overlay esté visible inicialmente */
+}
+
+/* Cuando se ocultará */
+.overlay.hidden {
+    opacity: 0; /* Se desvanece */
+    pointer-events: none; /* Evita interacciones mientras está oculto */
+}
+
+/* Loader */
+#loader {
+    display: block; /* Visible al cargar */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+    from 90deg,
+        #0066ff21 0%,
+        #0066ff 60%,
+        #ffffff 80%,
+        #afafaf00 30%
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), black);
+    animation: spin 1.2s linear infinite, shine 2s ease-in-out infinite;
+    opacity: 1 !important;
+    transition: opacity 3s ease-out;
+    z-index: 600000; /* Por encima de todo */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.8); }
+}
+
+    /* Deshabilitar selección de texto e interacciones */
+body, img, a, button, select, textarea {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* estándar */
+        }
+
+        /* Deshabilitar resaltado en elementos interactivos */
+        a, button, select, textarea {
+            -webkit-tap-highlight-color: transparent; /* Safari */
+        
+        }
+  </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div id="loader" class="loader"></div>
+    <div class="overlay"></div>
+
+    <div class="custom-top-bar">
+        <button onclick="window.history.back()">
+          <span class="material-icons">arrow_back</span>
+        </button>
+        <button onclick="location.reload()">
+          <span class="material-icons">refresh</span>
+        </button>
+      </div>
+      <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Terror</span> <!-- Título oculto por defecto -->
+    </header>
+    
+    <!-- Tabs para pantallas grandes -->
+    <!-- Tabs para pantallas grandes -->
+    <div class="tabs tabs-secondary">
+      <!-- Logo a la izquierda -->
+      <a href="../main.html">
+        <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+      </a>
+    
+      <!-- Tabs centradas -->
+      <div class="tabs-wrapper">
+        <a href="../main.html#inicio" class="tab">Inicio</a>
+        <a href="../main.html#series" class="tab">Películas</a>
+        <a href="../main.html#peliculas" class="tab">Series</a>
+        <a href="../main.html#hbo" class="tab">Anime</a>
+        <a href="../main.html#documentales" class="tab">Familia</a>
+        <a href="../main.html#mi-lista" class="tab">Doramas</a>
+      </div>
+    
+      <!-- Íconos a la derecha -->
+      <div class="icons">
+        <!-- FAVORITOS -->
+        <a href="../new favoritos 2025.html" class="header-only">
+          <span class="material-icons-outlined">bookmark_border</span>
+        </a>
+    
+        <!-- BUSCAR -->
+        <a href="../New search page 2025.html" class="header-only">
+          <span class="material-icons-outlined">search</span>
+        </a>
+    
+        <!-- PERFIL -->
+        <a href="../perfil digital Knight 2025.html" class="header-only">
+          <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+        </a>
+      </div>
+    </div>
+
+  <header>Terror</header>
+
+  <div class="container">
+    <div class="movie">
+      <a href="peliculas/se-lo-que-hicieron-el-verano-pasado.html">
+        <img src="https://image.tmdb.org/t/p/original/A06yXys3hrCWu8xiNoHCFLTG5SH.jpg" alt="Sé lo que hicieron el verano pasado" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/el-exorcista-creyentes.html">
+        <img src="https://image.tmdb.org/t/p/original/f0N4Cx0XMbQIHnyAMByLLC0xovm.jpg" alt="el-exorcista-creyentes" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/el-despertar-de-la-bestia.html">
+        <img src="https://image.tmdb.org/t/p/original/yL3zTOAGPExxBDT8mmo62CNj08g.jpg" alt="el-despertar-de-la-bestia" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/chucky-el-muneco-diabolico-3.html">
+        <img src="https://image.tmdb.org/t/p/original/4zjzGqAUX6EqEA6sl436QHM9q4U.jpg" alt="chucky-el-muneco-diabolico-3" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/chucky-el-muneco-diabolico-2.html">
+        <img src="https://image.tmdb.org/t/p/original/oOvBGyZZfWVJYFEaGvhV18jvmzR.jpg" alt="chucky-el-muneco-diabolico-2" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/chucky-el-muneco-diabolico.html">
+        <img src="https://image.tmdb.org/t/p/original/m43CmMcDVn37kCQJDfKrtKMldWn.jpg" alt="chucky-el-muneco-diabolico" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Noche de miedo (2011).html">
+        <img src="https://image.tmdb.org/t/p/original/cmSeQv2IYnOTsr0N6S0X4wNQ3ws.jpg" alt="Noche de miedo" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Titanic (1997).html">
+        <img src="https://image.tmdb.org/t/p/original/47yiAtiDbsmDGoKznWVP2YglUZr.jpg" alt="El proyecto de la bruja de Blair" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/La trampa (2024).html">
+        <img src="https://image.tmdb.org/t/p/original/oY9SRUcRqdrjyINFoGewobSP7FB.jpg" alt="La trampa" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/La mancha voraz (1988).html">
+        <img src="https://image.tmdb.org/t/p/original/zHB1zjld4uLYEVHA5nS9wpU1uck.jpg" alt="The blob" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/El resplandor (1980).html">
+        <img src="https://image.tmdb.org/t/p/original/mm003Mj2e9kJRsrxiVdPn2BSBPh.jpg" alt="The Shining" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/13 fantasmas.html">
+        <img src="https://image.tmdb.org/t/p/original/77pqeCDToMB0EpfJyT8JUiupze1.jpg" alt="Fantasmas" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/El amanecer de los muertos.html">
+        <img src="https://image.tmdb.org/t/p/original/6aue0EtBfftVryNP11acJqOZu2h.jpg" alt="Muertos" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Cloverfield Monstruo.html">
+        <img src="https://image.tmdb.org/t/p/original/rqGhuoEzXddM2LPBTQuvf8PnCUI.jpg" alt="Cloverfield" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Conjuring The Beyond.html">
+        <img src="https://image.tmdb.org/t/p/original/icNT5zfTsS8rZKaViOzQ9PmLpOh.jpg" alt="Beyond" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Drácula Mar de sangre.html">
+        <img src="https://image.tmdb.org/t/p/original/mwXB7uQPke29pXIrGVz7BwEZVRR.jpg" alt="Dracula Untold" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Drácula La Historia Jamás Contada.html">
+        <img src="https://image.tmdb.org/t/p/original/9S8TkMO5xp4Xx7oAw3yzvSRSYF2.jpg" alt="Untold" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/El conjuro.html">
+        <img src="https://image.tmdb.org/t/p/original/jZqCRe80kPpPdqo1bp44yhRmcTu.jpg" alt="El Conjuro" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/Imaginario Juguete diabólico.html">
+        <img src="https://image.tmdb.org/t/p/original/jPhol6mXdnXYimRAgf3vlN9ZUZF.jpg" alt="Imagin" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/La noche del demonio (2010).html">
+        <img src="https://image.tmdb.org/t/p/original/3myfmbsEApam7jaPosW2Q76qdkS.jpg" alt="Demonio" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/la noche del demonio 3.html">
+        <img src="https://image.tmdb.org/t/p/original/hH1AxTvBFML1wDC6rdd0lmSYXSH.jpg" alt="Demonio 3" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/jeepers creepers.html">
+        <img src="https://image.tmdb.org/t/p/original/g410Y1U1ELbmJG14Zru3UAimm1G.jpg" alt="Jeepers Creepers" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/jeepers creepers2.html">
+        <img src="https://image.tmdb.org/t/p/original/8XXxkzM9qVtISxji9vgHW1Z4JGK.jpg" alt="Jeepers Creepers 2" loading="lazy">
+      </a>
+    </div>
+    <div class="movie">
+      <a href="peliculas/la casa del fin de los tiempos.html">
+        <img src="https://image.tmdb.org/t/p/original/weNI3TFmC2JGYwEX4YKvYIKbGme.jpg" alt="Casa" loading="lazy">
+      </a>
+    </div>
+  </div>
+  
+
+  <footer class="footer">
+    <a href="../main.html" class="footer-icon">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="../new favoritos 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="../New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="../perfil digital Knight 2025.html" class="footer-icon">
+        
+        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <script>
+     // Prevenir gestos táctiles no deseados
+     document.addEventListener('touchmove', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        window.addEventListener('load', function () {
+    const overlay = document.querySelector('.overlay');
+    const loader = document.getElementById('loader');
+
+    // Se mantiene el loader visible por 1 segundo
+    setTimeout(() => {
+        // Hacer que el loader desaparezca rápidamente
+        loader.style.opacity = '0'; // Desvanecer loader
+        setTimeout(() => {
+            loader.style.display = 'none'; // Eliminarlo del flujo
+
+            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+            overlay.classList.add('hidden');
+        }, 300); // Tiempo de transición de 300ms para el loader
+    }, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+ // Gestión de imágenes de perfil
+ const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageTitle = document.getElementById('page-title');
+
+  if (!header || !pageTitle) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageTitle.style.opacity = titleOpacity;
+  });
+});
+  </script>
+</body>
+</html>

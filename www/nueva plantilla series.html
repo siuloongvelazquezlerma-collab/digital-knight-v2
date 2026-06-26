@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Dragon ball z</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32"
+    href="../logo-2025.png">
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Ajusta la altura según sea necesario */
+    background-color: black; /* Fondo negro */
+}
+
+#black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10; /* Asegúrate de que esté por encima del video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+        .video-js {
+            width: 100%;
+            height: 100%; /* Asegura que el video ocupe todo el contenedor */
+        }
+
+        .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(to bottom, #00000069, #00000000, #00000000, #00000000, #00000000, #000000 ),
+    url('https://image.tmdb.org/t/p/original/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+
+  
+        }
+        .horizontal-overlay {
+    display: none; /* Oculta por defecto */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(to bottom, #000000c4, #00000000, #00000000, #00000000, #00000086, #000000),
+    url('https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=1200,height=675/catalog/crunchyroll/36bdc5ea4443cd8e42f22ec7d3884cbb.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+    transition: background 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+
+
+/* Media query para modo horizontal */
+@media (orientation: landscape) {
+    .overlay {
+        display: none; /* Oculta la imagen principal */
+    }
+    .horizontal-overlay {
+        display: flex; /* Muestra la segunda imagen */
+    }
+    
+}
+
+/* Media query para modo vertical */
+@media (orientation: portrait) {
+    .overlay {
+        display: flex; /* Muestra la imagen principal */
+    }
+    .horizontal-overlay {
+        display: none; /* Oculta la segunda imagen */
+    }
+}
+
+
+   
+
+
+        .container {
+    max-width: 100%;
+}
+
+        .logo-container {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%; /* Cubre todo el ancho de la página */
+    background: linear-gradient(to bottom, #00000000, #000000c5, #000000 ); /* Degradado lineal */
+    padding: 10px; /* Espaciado interno para que el degradado sea visible alrededor del logo */
+    text-align: center; /* Centra el logo dentro del fondo */
+}
+
+.logo {
+    width: 250px; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+    opacity: 0.0; /* Transparencia total */
+}
+
+
+
+        .tabs {
+            display: flex;
+    justify-content: flex-start; /* Alinear hacia la izquierda */
+    margin-top: 10px;
+    border-bottom: 1px solid #ffffff38;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #f11616; /* Borde blanco para la pestaña activa */
+    font-weight: bold;
+    color: #fff; /* Color de fuente blanco */
+
+            
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .episode {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            border-left: 5px solid transparent;
+        }
+
+        .episode.watched {
+    border-left: 5px solid rgb(236, 45, 12); /* Change the color as needed */
+}
+.episode.watched img {
+    filter: brightness(50%);
+}
+
+
+        .episode img {
+            width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+        
+        }
+
+        .duration-label {
+            position: absolute;
+            bottom: 3px;
+            right: 190px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .episode-description {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+        }
+        .download-button, .mark-watched-button {
+            padding-bottom: 50px;
+            right: 10px;
+            color: white;
+            font-size: 20px;
+            padding: 5px 10px 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .duration, .remaining-time {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .season-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    position: relative;
+    border-bottom: 1px solid #ffffff38;
+    bottom: 10px;
+}
+
+.season-dropdown select {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.season-dropdown .material-icons {
+    margin-left: -140px; /* Ajusta la posición del icono */
+    pointer-events: none;
+    
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px; /* Espacio entre el dropdown de temporadas y el menú desplegable */
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0; /* Despliega hacia abajo a la izquierda */
+}
+
+.menu-dropdown button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-dropdown button:hover {
+    background-color: #575757;
+}
+
+        .download-all-button {
+    margin-left: 230px;
+    background: none;
+    color: white; /* Texto blanco para el botón de descarga */
+    font-size: 13px; /* Tamaño del texto del botón */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.download-all-button .material-icons {
+    margin-left: 5px; /* Espaciado entre el texto y el icono */
+    font-size: 20px;
+}
+.suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre las imágenes */
+        }
+        .suggestion-item {
+            position: relative;
+        }
+        .suggestion-item img {
+            width: 100%;
+            height: auto;
+        }
+        .suggestion-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .suggestion-item:hover a {
+            opacity: 1;
+        }
+
+        /* Estilos para la animación de deslizamiento */
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, #000000, #00000069, #00000000);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .header.scrolled {
+            background: linear-gradient(to bottom, #000000, #000000, #000000 );
+        }
+        .header .back-arrow, .header .cast-button {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        .header .title {
+            display: none;
+            font-size: 18px;
+            color: white;
+            margin-left: 10px;
+        }
+        .header.scrolled .title {
+            display: block;
+        }
+        .content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        .season-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        .season-navigation .material-icons {
+            margin: 0 10px; /* Space between text and arrow */
+        }
+        .previous-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+           
+        }
+        .next-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+        }
+        .favorito-container {
+    display: flex;
+    justify-content: flex-start; /* Mover el botón a la izquierda */
+    align-items: center;
+    margin-top: 2px; /* Espacio superior para separar del contenido anterior */
+}
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#favoritoIcon {
+    margin-right: 5px;
+}
+
+.favorito-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.serie-descripcion {
+    margin: 20px;
+    text-align: left;
+}
+
+#detallesBtn {
+    background: none;
+    border: none;
+    color: rgb(214, 45, 45);
+    padding: 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+
+.detalles-slider {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 40px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    transition: bottom 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.detalles-slider.active {
+    bottom: 0;
+}
+
+.detalles-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    bottom: -10px;
+    top: 30%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.heading-line {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.age-rating {
+    padding: 5px 0; /* Quitar el fondo de color general */
+    margin-top: 10px; /* Espacio entre el título y la clasificación por edad */
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.rating {
+    background-color: rgba(92, 98, 129, 0.7); /* Fondo de color solo para el número 12 y el signo de más */
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.series-text {
+    color: #ff593c; /* Color para el texto "Series" */
+}
+
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000000d8;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.footer-btn {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-btn .material-icons {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.content {
+    flex: 1;
+    padding-bottom: 60px; /* Para que no se solape con el footer */
+}
+
+/* Contenedor para la transición */
+.transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+   
+    z-index: 10000;
+    transition: transform 0s ease-in-out; /* Transición suave */
+    transform: translateY(1); /* Posición inicial */
+}
+
+/* Estado final de la transición */
+.transition-overlay.hidden {
+    transform: translateY(-100%); /* Deslizar hacia arriba */
+}
+
+
+
+
+     
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <div style="display: flex; align-items: center;">
+            <a href="go:inicio" class="back-arrow material-icons">arrow_back</a>
+            <span class="title" id="page-title">Dragon Ball Z</span>
+        </div>
+        <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMDk0OTQxNjNf/new%20dragon%20ball%20z%20page.html" class="cast-button material-icons">cast</a>
+    </div>
+    <div class="video-container">
+        <div id="black-overlay"></div>
+        <video id="my-video" class="video-js" controls preload="auto" data-setup="{}">
+            <source id="videoSource" src="https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4" type="video/mp4" id="video-source">
+            <p class="vjs-no-js">
+                Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+                <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+            </p>
+        </video>
+        <div class="transition-overlay" id="transitionOverlay"></div>
+
+        <div class="overlay" id="overlay">
+            <div class="logo-container">
+                <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+            </div>
+    </div>
+    <div class="horizontal-overlay">
+        <!-- Contenido de la segunda imagen -->
+        <div class="logo-container">
+            <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br>
+<div class="heading-line">
+    <h1 class="heading title">Dragon Ball Z</h1>
+    <div class="age-rating">
+        <span class="rating">12+</span> • <span class="series-text">Series</span> • Dob
+    </div>
+</div>
+
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="attack" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="go:DBZ"></a>
+        <span id="nombre">Dragon ball Z</span>
+    </div>
+</div>
+<div class="serie-descripcion">
+    <p id="descripcion-texto">"Dragon Ball Z" es una serie de anime japonesa que continúa la historia de "Dragon Ball". La trama sigue a Goku, un
+        guerrero Saiyan con habilidades sobrehumanas, mientras defiende la Tierra y otros universos de villanos poderosos.
+        La serie introduce personajes icónicos como Vegeta, Freezer, Cell y Majin Buu. Con intensas batallas,
+        transformaciones épicas y momentos emotivos, "Dragon Ball Z" ha dejado una marca imborrable en la cultura pop
+        mundial.</p>
+        <br>
+    <center><button id="detallesBtn" onclick="toggleDetalles()">Detalles de la serie</button></center>
+</div>
+<div id="detallesSlider" class="detalles-slider">
+    <div class="detalles-content">
+        <button class="close-btn" onclick="toggleDetalles()">X</button>
+        <h2>Dragon Ball Z</h2>
+        <br>
+        <p>"Dragon Ball Z" es una serie de anime japonesa creada por Akira Toriyama. Es una secuela del original "Dragon Ball" y
+            se emitió desde 1989 hasta 1996. La serie sigue a Goku, un guerrero Saiyan que, junto a sus amigos, defiende la
+            Tierra de una variedad de villanos, desde extraterrestres invasores hasta androides y criaturas mágicas.</p>
+<br>
+           <p> Algunos detalles clave:</p>
+           <br>
+
+<p>Arcos argumentales: La serie está dividida en varios arcos, incluyendo los arcos de los Saiyan, Freezer, Cell y Majin Buu.</p>
+<br>
+<p>Transformaciones: Una de las características más memorables de la serie son las transformaciones de los personajes, especialmente las de Goku en Super Saiyan.</p>
+<br>
+<p>Batallas épicas: Las peleas son intensas y dramáticas, con muchos episodios dedicados a un solo combate.</p>
+<br>
+<p>Personajes icónicos: Aparte de Goku, la serie presenta a personajes como Vegeta, Piccolo, Gohan y Trunks.</p>
+<br>
+<p>Impacto cultural: "Dragon Ball Z" ha tenido un impacto significativo en la cultura pop mundial, influenciando numerosas series de anime y manga que vinieron después.</p>
+        <!-- Agrega más detalles aquí -->
+    </div>
+</div>
+
+
+<div class="tabs slide-up">
+    <div class="tab active" data-tab="episodes">Episodios</div>
+    
+    <div class="tab" data-tab="suggestions">Más como esto</div>
+</div>
+
+<div id="episodes" class="tab-content active">
+
+    <div class="season-dropdown">
+            <label for="season-select"></label>
+            <select id="season-select">
+                <option value="1">saga Saiyan </option>
+                <option value="2">Saga Freezer </option>
+                <option value="3">Saga Cell </option>
+                <option value="4">Saga Majin Buu </option>
+              
+            </select>
+            
+            <span class="material-icons">arrow_drop_down</span>
+            
+            <button class="download-all-button" id="download-all">
+                Descargar Todos <span class="material-icons">arrow_downward</span>
+            </button>
+            
+            
+        </div>
+        <div id="playlist"></div>
+    </div>
+      
+
+    <div id="suggestions" class="tab-content">
+       
+        <div class="suggestions-grid">
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/6VKOfL6ihwTiB5Vibq6QTfzhxA6.jpg" alt="dragon ball z">
+                <a href="https://od.lk/s/M18zMDk0NDMzMThf/DB%20SAGAS.html" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <!-- Agrega más sugerencias aquí -->
+        </div>
+    </div>
+   
+    <footer class="footer">
+        <a href="go:inicio" class="footer-btn">
+            <span class="material-icons">home</span>
+        </a>
+        <a href="go:favoritos" class="footer-btn">
+            <span class="material-icons">bookmark</span>
+        </a>
+        <a href="go:mangas" class="footer-btn"> <!-- Botón adicional para el libro -->
+            <span class="material-icons">auto_stories</span>
+        </a>
+        <a href="go:search" class="footer-btn">
+            <span class="material-icons">search</span>
+        </a>
+        <a href="http://action_profile" class="footer-btn">
+            <span class="material-icons">account_circle</span>
+        </a>
+    </footer>
+
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+    <script>
+        const playlists = {
+            1: [
+                {
+                    "title": "",
+                    "description": "E1. Aparece un mini Gokū, su nombre es Gohan ",
+                    "image": "https://image.tmdb.org/t/p/original/vsI19Gvmbym9URI36Yjiiq6o8r0.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTA0ODFf/001%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/s/M18zMDA4NTA0ODFf/001%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+
+                },
+                {
+                    "title": "",
+                    "description": "E2. Un guerrero muy fuerte con antecedentes históricos, se trata del hermano mayor de Gokū ",
+                    "image": "https://image.tmdb.org/t/p/original/lMUpkDBI9LOLr7CS5oriaUsmZef.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTA2MTJf/002%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTA2MTJf/002%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E3. La combinación más fuerte de este mundo",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/b7cfb94b263398bcb5b56c3872be52c7.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTA2MThf/003%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTA2MThf/003%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E4. ¡Pikoro saca su mejor carta! Gohan es un niño llorón ",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/7fcfe6a49c5a6371bd9bc1257554f9d4.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTA2MzRf/004%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTA2MzRf/004%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E5. Gokū muere, solo hay una oportunidad",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/e23498ae99671d19e3d080af8836e248.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTA4NjRf/005%20Dragon%20Ball%20Z%20.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTA4NjRf/005%20Dragon%20Ball%20Z%20.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E6. El mundo a los ojos de la chica. La batalla de Trost (2)",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/52b45e46ac097349a0627b6c3b855fad.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTEzMzlf/006%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/s/M18zMDA4NTEzMzlf/006%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E7. Hay que sobrevivir a los dinosaurios. El duro entrenamiento de Gohan ",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/f9f632421b28c038123e90294d494024.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTIyMDNf/007%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTIyMDNf/007%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E8. Una transformación a causa del resplandor de la Luna, el poder secreto de Gohan. ",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/73b14cf704e13bf01f67dcc34c7f7e6b.jpg",
+                    "video": "https://od.lk/s/M18zMDg1Nzk5OTlf/008%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDg1Nzk5OTlf/008%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E9. Perdóneme señor robot. Lágrimas que desaparecen en el desierto.",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/57c664eb93e05d26882d65f0e2b33310.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTMxMjJf/009%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTMxMjJf/009%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "E10. No llores Gohan. Es la primera batalla.",
+                    "image": "https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/c05f67b3710b4cd2d49e4cb50c4b8a66.jpg",
+                    "video": "https://od.lk/s/M18zMDA4NTM4Mjlf/010%20Dragon%20Ball%20Z.mp4",
+                    "download": "https://od.lk/d/M18zMDA4NTM4Mjlf/010%20Dragon%20Ball%20Z.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E11. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E12. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E13. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E14. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E15. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E16. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E17. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E18. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E19. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E20. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E21. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E22. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E23. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E24. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                },
+                {
+                    "title": "",
+                    "description": "T1. E25. Ese día. La caída de Shiganshina - Segunda Parte",
+                    "image": "https://image.tmdb.org/t/p/original/3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+                    "video": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+                    "duration": "24m"
+                }
+            ],
+            2: [
+                {
+                    "title": "Episodio 1",
+                    "description": "Descripción del Episodio 1 de la Temporada 2",
+                    "image": "ruta/a/imagen3.jpg",
+                    "video": "ruta/a/video3.mp4",
+                    "download": "ruta/a/video3.mp4",
+                    "duration": "24m"        
+                },
+       
+        {
+                    "title": "Episodio 2",
+                    "description": "Descripción del Episodio 2 de la Temporada 2",
+                    "image": "ruta/a/imagen4.jpg",
+                    "video": "ruta/a/video4.mp4",
+                    "download": "ruta/a/video4.mp4",
+                    "duration": "24m" 
+                }
+        
+           ],
+           3: [
+                {
+                    "title": "Episodio 1",
+                    "description": "Descripción del Episodio 1 de la Temporada 2",
+                    "image": "ruta/a/imagen3.jpg",
+                    "video": "ruta/a/video3.mp4",
+                    "download": "ruta/a/video3.mp4",
+                    "duration": "24m"        
+                },
+       
+        {
+                    "title": "Episodio 2",
+                    "description": "Descripción del Episodio 2 de la Temporada 2",
+                    "image": "ruta/a/imagen4.jpg",
+                    "video": "ruta/a/video4.mp4",
+                    "download": "ruta/a/video4.mp4",
+                    "duration": "24m" 
+                }
+        
+           ],
+           4: [
+                {
+                    "title": "Episodio 1",
+                    "description": "Descripción del Episodio 1 de la Temporada 2",
+                    "image": "ruta/a/imagen3.jpg",
+                    "video": "ruta/a/video3.mp4",
+                    "download": "ruta/a/video3.mp4",
+                    "duration": "24m"        
+                },
+       
+        {
+                    "title": "Episodio 2",
+                    "description": "Descripción del Episodio 2 de la Temporada 2",
+                    "image": "ruta/a/imagen4.jpg",
+                    "video": "ruta/a/video4.mp4",
+                    "download": "ruta/a/video4.mp4",
+                    "duration": "24m" 
+                }
+        
+           ],
+           5: [
+                {
+                    "title": "Episodio 1",
+                    "description": "Descripción del Episodio 1 de la Temporada 2",
+                    "image": "ruta/a/imagen3.jpg",
+                    "video": "ruta/a/video3.mp4",
+                    "download": "ruta/a/video3.mp4",
+                    "duration": "24m"        
+                },
+       
+        {
+                    "title": "Episodio 2",
+                    "description": "Descripción del Episodio 2 de la Temporada 2",
+                    "image": "ruta/a/imagen4.jpg",
+                    "video": "ruta/a/video4.mp4",
+                    "download": "ruta/a/video4.mp4",
+                    "duration": "24m" 
+                }
+        
+           ],
+           6: [
+                {
+                    "title": "Episodio 1",
+                    "description": "Descripción del Episodio 1 de la Temporada 2",
+                    "image": "ruta/a/imagen3.jpg",
+                    "video": "ruta/a/video3.mp4",
+                    "download": "ruta/a/video3.mp4",
+                    "duration": "24m"        
+                },
+       
+        {
+                    "title": "Episodio 2",
+                    "description": "Descripción del Episodio 2 de la Temporada 2",
+                    "image": "ruta/a/imagen4.jpg",
+                    "video": "ruta/a/video4.mp4",
+                    "download": "ruta/a/video4.mp4",
+                    "duration": "24m" 
+                }
+        
+           ]
+        };
+        
+        
+
+        window.addEventListener('load', function() {
+        const overlay = document.getElementById('transitionOverlay');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+        }, 0); // Retraso para que la transición sea más visible
+    });
+
+        let lastScrollTop = 0;
+
+    window.addEventListener('scroll', function() {
+        const footer = document.querySelector('.footer');
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop) {
+            // Scroll down
+            footer.style.transform = 'translateY(100%)'; // Oculta el footer
+        } else {
+            // Scroll up
+            footer.style.transform = 'translateY(0)'; // Muestra el footer
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Para evitar valores negativos en el scroll
+    });
+
+        function toggleDetalles() {
+    const detallesSlider = document.getElementById('detallesSlider');
+    detallesSlider.classList.toggle('active');
+}
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const identificador = favoritoBtn.getAttribute('data-identificador');
+const favoritoIcon = document.getElementById('favoritoIcon');
+const favoritoText = document.getElementById('favoritoText');
+
+function toggleFavorito() {
+    const favoritoEnlace = document.getElementById('favoritoEnlace');
+    const imagen = document.getElementById('favoritoImagen');
+    const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+    const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+    const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+    if (encontrado) {
+        const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+        favoritoIcon.innerText = 'add';
+        favoritoText.innerText = 'Añadir a Favoritos';
+        localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    } else {
+        favoritos.push({
+            identificador: identificador,
+            imagen: imagen.outerHTML,
+            enlace: favoritoEnlace.href,
+            nombre: nombre, // Agregar el nombre al objeto
+        });
+
+        favoritoIcon.innerText = 'check';
+        favoritoText.innerText = 'Se añadió a Favoritos';
+        localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    }
+}
+
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontradoInicial) {
+    favoritoIcon.innerText = 'check';
+    favoritoText.innerText = 'Se añadió a Favoritos';
+} else {
+    favoritoIcon.innerText = 'add';
+    favoritoText.innerText = 'Añadir a Favoritos';
+}
+
+
+        const header = document.getElementById('header');
+        const pageTitle = document.getElementById('page-title');
+
+        window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let maxScroll = 500; // Ajusta este valor según sea necesario
+    let opacity = Math.min(scrollTop / maxScroll, 1);
+
+    overlay.style.opacity = 1 - opacity;
+
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+
+
+});
+
+        // Función para agregar la clase de animación
+function slideUpElements() {
+    document.querySelector('.tabs').classList.add('slide-up');
+    document.querySelector('.season-dropdown').classList.add('slide-up');
+    document.querySelector('.download-all-button').classList.add('slide-up');
+    document.querySelector('#playlist').classList.add('slide-up');
+}
+
+// Llamar a la función cuando sea necesario
+slideUpElements();
+
+        const playlistContainer = document.getElementById('playlist');
+        const overlay = document.getElementById('overlay');
+        const player = videojs('my-video');
+        const urlParams = new URLSearchParams(window.location.search);
+        const episodioID = urlParams.get('episodio');
+        let currentEpisodeIndex = 0;
+        let currentSeasonIndex = 0; // Índice de la temporada actual
+
+        function loadPlaylist(season) {
+    playlistContainer.innerHTML = '';
+    const playlist = playlists[season];
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+    playlist.forEach((episode, index) => {
+        const episodeElement = document.createElement('div');
+        episodeElement.className = 'episode';
+        if (watchedEpisodes[episode.video]) {
+            episode.watched = true;
+            episodeElement.classList.add('watched');
+        }
+
+                const img = document.createElement('img');
+                img.src = episode.image;
+                episodeElement.appendChild(img);
+
+                const durationLabel = document.createElement('div');
+        durationLabel.className = 'duration-label';
+        durationLabel.innerText = episode.duration;
+        episodeElement.appendChild(durationLabel);
+
+                const description = document.createElement('div');
+                description.className = 'episode-description';
+                description.innerHTML = `<h2>${episode.title}</h2><p>${episode.description}</p>`;
+                episodeElement.appendChild(description);
+
+                const downloadButton = document.createElement('a');
+                downloadButton.href = episode.download;
+                downloadButton.className = 'material-icons download-button';
+                downloadButton.innerText = 'arrow_downward';
+                downloadButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+                episodeElement.appendChild(downloadButton);
+
+                episodeElement.addEventListener('click', () => {
+            currentEpisodeIndex = index;
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = playlists[1][episodioID - 1].video; 
+            videoSource.src = episode.video;
+            player.load();
+            player.play();
+            player.requestFullscreen();
+            episode.watched = true; // Mark as watched
+            episodeElement.classList.add('watched'); // Update the style
+            watchedEpisodes[episode.video] = true;
+            localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+        });
+
+        playlistContainer.appendChild(episodeElement);
+    });
+    // Create a container for the navigation buttons
+    const seasonNavigation = document.createElement('div');
+    seasonNavigation.className = 'season-navigation';
+
+    // Add the previous season button
+    if (parseInt(season) > 1) {
+        const previousSeasonButton = document.createElement('div');
+        previousSeasonButton.className = 'previous-season';
+        previousSeasonButton.innerHTML = '<span class="material-icons">chevron_left</span> Temporada Anterior';
+        previousSeasonButton.addEventListener('click', () => {
+            const previousSeason = parseInt(season) - 1;
+            if (playlists[previousSeason]) {
+                document.getElementById('season-select').value = previousSeason;
+                loadPlaylist(previousSeason);
+            } else {
+                alert('No more previous seasons available.');
+            }
+        });
+        seasonNavigation.appendChild(previousSeasonButton);
+    }
+
+    // Add the next season button
+    // Add the next season button
+    const nextSeasonButton = document.createElement('div');
+    nextSeasonButton.className = 'next-season';
+    nextSeasonButton.innerHTML = 'Próxima temporada <span class="material-icons">chevron_right</span>';
+    nextSeasonButton.addEventListener('click', () => {
+        const nextSeason = parseInt(season) + 1;
+        if (playlists[nextSeason]) {
+            document.getElementById('season-select').value = nextSeason;
+            loadPlaylist(nextSeason);
+        } else {
+            alert('No more seasons available.');
+        }
+    });
+    seasonNavigation.appendChild(nextSeasonButton);
+
+    // Append the navigation container to the playlist
+    playlistContainer.appendChild(seasonNavigation);
+}
+
+document.getElementById('season-select').addEventListener('change', (event) => {
+    const season = event.target.value;
+    loadPlaylist(season);
+});
+
+
+
+        document.getElementById('download-all').addEventListener('click', () => {
+    const season = document.getElementById('season-select').value;
+    const episodes = playlists[season];
+    episodes.forEach(episode => {
+        const link = document.createElement('a');
+        link.href = episode.download;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+});
+
+
+        document.getElementById('season-select').addEventListener('change', (event) => {
+            const season = event.target.value;
+            loadPlaylist(season);
+        });
+        const blackOverlay = document.getElementById('black-overlay');
+
+player.on('play', () => {
+    blackOverlay.style.display = 'none'; // Ocultar el fondo negro cuando el video comience a reproducirse
+});
+
+player.on('pause', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video se pausa
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video se pausa
+    
+});
+
+player.on('ended', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video termine
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video termine
+});
+
+
+        player.on('play', () => {
+            overlay.style.display = 'none';
+        });
+
+        player.on('ended', () => {
+            currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+            const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = nextEpisode.video;
+            player.load();
+            player.play();
+        });
+
+        player.on('fullscreenchange', () => {
+            if (!player.isFullscreen()) {
+                player.pause();
+                overlay.style.display = 'flex';
+            }
+        });
+
+        player.on('fullscreenchange', () => {
+    if (player.isFullscreen()) {
+        // Solicitar orientación horizontal
+        screen.orientation.lock('landscape').catch(err => {
+            console.error('Error al cambiar la orientación:', err);
+        });
+    } else {
+        // Desbloquear la orientación
+        screen.orientation.unlock();
+    }
+});
+
+
+        player.on('touchstart', () => {
+            if (!player.paused()) {
+                player.pause();
+            } else {
+                player.play();
+            }
+        });
+
+
+        // Crear el botón "Next"
+        const Button = videojs.getComponent('Button');
+        const nextButton = videojs.extend(Button, {
+            constructor: function() {
+                Button.apply(this, arguments);
+                this.controlText('Next');
+                this.addClass('vjs-next-button');
+                this.el().innerHTML = '<span class="material-icons">skip_next</span>';
+            },
+            handleClick: function() {
+                currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+                const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+                const videoSource = document.getElementById('video-source');
+                videoSource.src = nextEpisode.video;
+                player.load();
+                player.play();
+            }
+        });
+
+        videojs.registerComponent('NextButton', nextButton);
+        player.getChild('controlBar').addChild('NextButton', {}, 2); // Añadir el botón "Next" al lado derecho del botón "Play"
+
+        // Manejar las pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const target = tab.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        
+       
+
+        // Cargar la primera temporada por defecto
+        loadPlaylist(1);
+        
+    </script>
+</body>
+</html>

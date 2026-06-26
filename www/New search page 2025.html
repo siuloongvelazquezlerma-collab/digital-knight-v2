@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <title>Buscador de Películas</title>
+  <script src="loader.min.js"></script>
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="moviesjs.css">
+ 
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay"></div>
+
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+
+  <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="main.html#inicio" class="tab">Inicio</a>
+    <a href="main.html#series" class="tab">Películas</a>
+    <a href="main.html#peliculas" class="tab">Series</a>
+    <a href="main.html#hbo" class="tab">Anime</a>
+    <a href="main.html#documentales" class="tab">Familia</a>
+    <a href="main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+  <header class="search-header">
+    <div class="search-container">
+      <span class="material-icons search-icon">search</span>
+      <input type="text" id="searchInput" placeholder="Buscar películas o series...">
+      <span class="material-icons clear-icon" id="clearIcon">close</span>
+    </div>
+  </header>
+  <br><br><br><br><br>
+ 
+
+  
+
+  <!-- Resultados de búsqueda -->
+  <div id="movieContainer" class="container"></div>
+  <div id="noResults" class="no-results" style="display: none;">No se encontraron resultados.</div>
+
+  <!-- Contenedor de búsqueda por Género -->
+  <div id="genreContainer" class="genre-container container">
+    <div class="genre-title">Busca por Género</div>
+    <div class="genre-scroll">
+      <a href="go:accion">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDg5NThf/accion.jpg" alt="Acción">
+        </div>
+      </a>
+      <a href="go:aventura">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDg5NjRf/aventura.jpg" alt="Aventura">
+        </div>
+      </a>
+      <a href="ver mas comedia.html">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDg5NzFf/comedia.jpg" alt="Comedia">
+        </div>
+      </a>
+      <a href="go:drama">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDg5ODBf/drama.jpg" alt="Drama">
+        </div>
+      </a>
+      <a href="go:terror">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDg5ODVf/terror.jpg" alt="Terror">
+        </div>
+      </a>
+      <a href="go:romance">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDg5OThf/romance.jpg" alt="Romántica">
+        </div>
+      </a>
+      <a href="go:fantasía">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDk3MzRf/fantas%C3%ADa.jpg" alt="Fantasía">
+        </div>
+      </a>
+      <a href="Animacion/ver mas animacion.html">
+        <div class="genre-item">
+          <img src="https://od.lk/s/M18zMTIyNDk3NDlf/animacion.jpg" alt="animación">
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <br><br><br><br><br>
+
+
+  <footer class="footer">
+    <a href="main.html" class="footer-icon" tabindex="14">
+        <span class="material-icons-outlined">home</span>
+        <span class="material-icons">home</span>
+    </a>
+    <a href="new favoritos 2025.html" class="footer-icon" tabindex="15">
+        <span class="material-icons-outlined">bookmark_border</span>
+        <span class="material-icons">bookmark</span>
+    </a>
+    <a href="New search page 2025.html" class="footer-icon active" tabindex="16">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
+    <a href="perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+        <img src="logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+    </a>
+  </footer>
+  <!-- 1️⃣ Script para tu API y funciones de favoritos -->
+  <script src="scripts/favoritosconv.js"></script>
+  <script src="nav.html"></script>
+
+  <!-- 2️⃣ Script para cargar tu JSON externo -->
+  <script>
+    let movies = [];
+
+    async function loadMovies() {
+      const res = await fetch("movies.json"); // ruta correcta a tu JSON
+      movies = await res.json();
+      renderMovies(""); // inicializa la búsqueda
+    }
+
+    loadMovies();
+  </script>
+
+  <!-- 3️⃣ Script principal con renderMovies y eventos -->
+  <script src="movies.js"></script>
+  
+</body>
+</html>

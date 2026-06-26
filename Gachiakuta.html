@@ -1,0 +1,1985 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Gachiakuta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="crunchy roll logo.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+   :root {
+  --bg:#000;
+  --accent:#ff6a00;
+  --muted:#9aa1a6;
+  --white:#fff;
+
+  /* 👇 importante */
+  --overlay-opacity: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- COVER: fullscreen detrás de todo --- */
+.cover {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  background: url("https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=94,width=840/CurationAssets/Gachiakuta/SEASON%201/ULTRA-WIDE/Gachiakuta-S1C1-KV1-(Character)-UW-Tall-Cropped.png") 
+              no-repeat top center;
+  background-size: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* efecto superior fijo */
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0%,
+    rgb(0, 0, 0) -50%,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.767) 60%,
+    rgb(0, 0, 0) 80%,
+    rgb(0, 0, 0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 👇 este es el dinámico */
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,var(--overlay-opacity));
+  z-index: 2;
+  pointer-events: none;
+  transition: background 0.1s linear;
+}
+
+
+
+/* --- layout (contenido encima del cover) --- */
+.page {
+  max-width: 720px; /* Aumentado de 420px a 720px */
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  padding: 0 12px; /* Un poco de respiro lateral */
+  color: #fff; /* empieza blanco */
+  transition: color 0.2s ease; /* transición suave al cambiar color */
+}
+
+/* Header: lo hacemos fixed y centrado al ancho de .page */
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 720px;
+  max-width: calc(100% - 24px);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* separación entre izquierda y derecha */
+  padding: 0 12px;
+  z-index: 50;
+  background: rgba(0,0,0,0);
+  transition: background 0.3s ease;
+}
+
+/* Agrupamos icono + título a la izquierda */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* espacio entre icono y título */
+}
+
+.header-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Icono cerrar más pequeño */
+.icon-close {
+  font-size: 23px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none; /* quita subrayado */
+  border-bottom: none;   /* quita cualquier línea inferior */
+  font-weight: bold;
+}
+
+
+
+/* Iconos derecha */
+.header-right {
+  display: flex;
+  gap: 6px;
+  position: absolute;
+  right: 1px; /* distancia desde el borde derecho de la pantalla */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 24px;
+  opacity: 0.95;
+}
+
+
+
+
+
+/* HERO */
+.hero {
+  height: 68vh;
+  position: relative;
+  display:block;
+  z-index: 10;
+}
+
+/* Fondo negro dinámico al hacer scroll */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, var(--overlay-opacity, 0.9)) 0%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  transition: background 0.15s linear;
+  z-index: 10;
+  pointer-events: none;
+}
+/* Logo */
+.logo-img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100px; /* un poco más arriba */
+  z-index: 40;
+  max-width: 70%; /* más ancho */
+  width: 220px;
+  height: auto;
+  display: block;
+  pointer-events: auto;
+}
+
+/* Contenedor principal centrado y absoluto */
+.meta {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -40px;
+  z-index: 32;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  opacity: 0.95;
+  color: #e4e3e3;
+}
+
+.meta .info-meta {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.meta .edad {
+  background: linear-gradient(180deg, rgba(60,60,60,0.9), rgba(60,60,60,0.9));
+  color: #e4e3e3;
+  font-weight: 600;
+  padding: 2px 4px;
+  font-size: 12px;
+  display: inline-block;
+  transform: skew(-10deg);
+  border-radius: 3px;
+}
+
+.meta .edad span {
+  display: inline-block;
+  transform: skew(10deg);
+}
+
+.meta .separador::before {
+  content: "◆";
+  font-size: 6px;
+  margin: 0 6px;
+  color: #e4e3e3;
+  opacity: 0.85;
+}
+
+/* Rating */
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  font-size: 22px;
+}
+
+.rating { 
+  font-weight: 70; 
+  font-size: 2px; 
+}
+
+.rating small { 
+  font-weight: 40; 
+  color: var(--muted); 
+  font-size: 1px; 
+  margin-left: 6px; 
+}
+
+.rating-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e4e3e3;
+}
+
+.rating-text strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 3px;
+}
+
+.rating-text span {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+.rating-text .arrow {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+  opacity: 0.85;
+}
+
+/* Acciones */
+.actions {
+  display: flex;
+  gap: 20px; /* un poco más de espacio */
+  margin-top: 12px;
+  color: #ff6600;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.action-btn .material-icons-outlined {
+  font-size: 25px;
+  margin-bottom: 6px;
+}
+
+
+
+main {
+  position: relative;
+  z-index: 1; /* contenido por encima */
+}
+
+/* Overlay global detrás de TODO el main */
+main::before {
+  content: "";
+  position: fixed; /* se queda fijo en la pantalla */
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, var(--overlay-opacity, 0.9)) 0%,
+    rgba(0, 0, 0, 0.973) 60%,
+    
+   
+  );
+  z-index: 1; /* detrás del main */
+  pointer-events: none;
+  transition: background 0.15s linear;
+}
+
+.episodes-header .right,
+.episodes-subheader {
+  position: relative; /* permite usar z-index */
+  z-index: 20;        /* mayor que el overlay */
+}
+
+
+
+/* Descripción */
+.desc {
+  margin-top: 60px;
+  padding: 0 1px;
+  width: 100%;
+  max-width: 96%;
+  color: #fffefe;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 32;
+  font-weight: 600; /* esto lo hace bold */
+}
+
+.episodes-header .right .material-icons,
+.episodes-subheader,
+.download-all,
+.sort-icon svg {
+  color: #fff !important;  /* fuerza blanco siempre */
+}
+
+.episodes-header .right {
+  position: relative; /* ya lo tienes, asegúrate */
+  z-index: 200;       /* más alto que download-all */
+  font-size: 2px;
+}
+
+
+/* Link Detalles */
+.details-link {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 0 6px;
+  display: block;
+  text-decoration: none;
+  z-index: 32;
+}
+
+/* CTA Row */
+.cta-row {
+  display:flex;
+  gap:14px;
+  padding:10px 20px 100px;
+  align-items:center;
+  justify-content:center;
+}
+
+.continue {
+  flex:1;
+  background:var(--accent);
+  color:#0b0b0b;
+  font-weight:900;
+  border-radius:6px;
+  padding:20px 18px;
+  font-size:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+}
+
+.bookmark {
+  width:70px;
+  height:70px;
+  border:3px solid var(--accent);
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+
+/* Footer */
+/* Footer */
+footer {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 720px;
+  max-width: 100%;
+  padding: 14px 20px 10px;
+  /* Fondo negro con degradado desde arriba */
+  background: linear-gradient(
+    to top, 
+    rgba(0,0,0,1) 0%,       /* negro sólido abajo */
+    rgb(0, 0, 0) 20%,    /* un poco transparente hacia arriba */
+    rgb(0, 0, 0) 50%,    /* degradado hacia el top */
+    rgba(0, 0, 0, 0.774) 80%,
+    rgba(0,0,0,0) 100%       /* transparente arriba */
+  );
+  z-index: 50;
+}
+
+
+/* Botones del footer */
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+}
+
+.play {
+  flex: 1;
+  text-align: center;
+  background: #ff5d00;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  text-shadow: 0 0 0.1px currentColor, 0 0 0.1px currentColor;
+  padding: 8px;
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: -0.2px;
+  box-sizing: border-box;
+}
+
+.play .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.play .icon svg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.save {
+  width: 40px;
+  height: 43px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: 2px solid #ff5d00;
+  color: #ff5d00;
+  border-radius: 0px;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.save.saved {
+  background: #ff5d00;
+  color: #000;
+}
+
+
+.episodes {
+  margin-top: -10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.episode {
+  display: flex;
+  background: #000;
+  gap: 10px;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Miniatura */
+.ep-thumb-wrapper {
+  position: relative;
+  width: 160px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.ep-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ep-thumb-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  background: rgba(0, 0, 0, 0.541);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ep-thumb-overlay .material-icons {
+  font-size: 32px;
+  color: #fff;
+}
+
+.ep-duration {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.692);
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Detalles */
+.ep-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.ep-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.3;
+}
+
+/* Acciones */
+.ep-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  height: 90px;
+}
+
+.ep-actions .material-icons-outlined {
+  font-size: 20px;
+  color: #fff;
+  opacity: 0.9;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Línea solo debajo de la flecha de descarga */
+.ep-download::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 1px;
+  background: #fff;
+  border-radius: 1px;
+}
+
+/* 🔹 Menú de los tres puntos */
+.more-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #24242c; /* fondo sólido opaco */
+  border-radius: 0px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+
+.more-menu .menu-item {
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.more-menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+/* Mostrar menú activo */
+.more-menu.show {
+  display: flex;
+}
+
+/* 🔹 Episodio marcado como visto */
+.episode.completed .ep-thumb-overlay {
+  background: rgba(255, 165, 0, 0.5);
+}
+
+.episode.completed .ep-duration {
+  background: orange;
+  color: #000;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+    /* Tabs */
+/* 🔹 Tabs */
+.tabs {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06); /* más delgada y sutil */
+  margin-top: 16px;
+}
+
+.tab {
+  flex: 0 0 auto;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #aaa;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab.active {
+  color: #fff;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;          /* ocupa el ancho completo del botón */
+  right: 0;
+  bottom: -1px;     /* exactamente sobre la línea gris */
+  height: 2px;
+  background: var(--accent, #f47521);
+  border-radius: 1px;
+}
+
+/* 🔹 Header debajo tabs */
+/* 🔹 Header debajo tabs */
+.episodes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 14px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0);
+}
+
+/* 🔹 Subheader ordenar/descargar */
+.episodes-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0);
+}
+
+.season-select {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.season-select .material-icons-outlined {
+  font-size: 8px;         /* un poco más pequeño que el texto */
+  transform: translateY(2px); /* bajarlo un pelín para alinearlo */
+  color: #ffffff;             /* gris como el texto inactivo */
+}
+
+.episodes-header .material-icons,
+.episodes-header .material-icons-outlined {
+  font-size: 23px;
+  cursor: pointer;
+}
+
+
+
+.sort-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: currentColor;
+}
+
+.download-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.download-all .download-icon {
+  font-size: 22px;
+  position: relative; /* necesario para la línea */
+  color: var(--white);
+}
+
+/* Línea debajo del icono de descarga */
+.download-all .download-icon::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; /* ajusta la separación */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;   /* ancho de la línea */
+  height: 2px;  /* grosor */
+  background: var(--white);
+  border-radius: 1px;
+}
+
+
+/* 🔹 Contenido tabs */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.divider {
+  border: none; 
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.144); /* línea ultra fina */
+  margin: 0; /* sin espacios extras */
+}
+
+/* 🔹 Overlay full screen */
+.season-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  z-index: 2000;
+  display: none; /* oculto al inicio */
+  flex-direction: column;
+}
+
+.season-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.overlay-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  font-size: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  gap: 8px; /* separa un poco el icono del texto */
+}
+
+.overlay-close {
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.overlay-title {
+  font-size: 22px;
+  font-weight: bold; /* 🔹 solo el título "Temporadas" */
+}
+
+.overlay-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+
+.season-item {
+  padding: 14px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: normal; /* sin bold */
+}
+
+.season-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.season-item.active span:first-child {
+  color: #f47521; /* 🔹 solo el nombre de temporada en naranja */
+}
+
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Contenedor de la mini barra */
+.ep-progress-container {
+  position: absolute;
+  bottom: 0px; 
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.062); /* transparente por defecto */
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Barra de progreso real */
+.ep-progress-bar {
+  height: 100%;
+  width: 0;
+  background: #ff6600;
+  border-radius: 0px;
+  transition: width 0.3s;
+}
+
+
+/* Tiempo restante sigue igual */
+.ep-duration {
+  position: absolute;
+  bottom: 4px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.692);
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+
+/* 🔹 Overlay cuando se completa */
+.ep-thumb-wrapper.completed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.541);
+  border-radius: 0px;
+  pointer-events: none;
+  z-index: 1; /* oscuro detrás */
+}
+
+/* 🔹 Contenedor del ícono */
+.ep-thumb-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  background: rgba(0, 0, 0, 0.541);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; /* 🔹 ahora sí por encima del overlay */
+}
+
+/* 🔹 Ícono dentro */
+.ep-thumb-overlay span.material-icons {
+  font-size: 32px;
+  color: #fff;
+}
+
+/* mark-all-menu.css */
+
+/* 🔹 Menú “Marcar todos como vistos” */
+.mark-all-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #24242c; /* fondo sólido opaco */
+  border-radius: 0px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100; /* seguro arriba de todo */
+  
+}
+
+/* Items del menú */
+.mark-all-menu .menu-item {
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 14px;
+  transition: background 0.2s;
+  cursor: pointer;
+  font-size: 12px; /* tamaño de texto por defecto */
+}
+
+.mark-all-menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Mostrar menú activo */
+.mark-all-menu.show {
+  display: flex;
+}
+
+
+
+body, img, a, button, select, textarea {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+button:active, a:active, span:active {
+    background: transparent;
+    color: inherit;
+}
+
+img {
+    pointer-events: none;
+}
+
+
+
+
+  </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <section class="cover" aria-hidden="true"></section>
+
+  <div class="page">
+    <header>
+      <div class="header-left">
+        <!-- Icono cerrar -->
+        <a href="#" class="icon-close">✕</a>
+        <!-- Título al lado del icono -->
+        <div class="header-title">Gachiakuta</div>
+      </div>
+    
+      <!-- Iconos derecha -->
+      <div class="header-right">
+        <div class="icon-btn">
+          <span class="material-icons">cast</span>
+        </div>
+        <div class="icon-btn">
+          <span class="material-icons">more_vert</span>
+        </div>
+      </div>
+    </header>
+    
+    
+
+      <main>
+        <section class="hero">
+          <img class="logo-img" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=600/CurationAssets/Gachiakuta/SEASON%201/ULTRA-WIDE/Gachiakuta-S1C1-KV1-UW-Logo-ENG.png" alt="gachiakuta logo">
+      
+          <div class="meta">
+            <div class="info-meta">
+              <span class="edad"><span>16+</span></span>
+              <span class="separador"></span>
+              Sub | Dob
+            </div>
+      
+            <!-- 🔹 Estrellas + Media -->
+            <div class="rating-row">
+              <div class="stars">
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+              </div>
+              <div class="rating-text">
+                Media: <strong>4.8</strong> <span>(185K)</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
+              </div>
+            </div>
+      
+            <!-- 🔹 FILA DE ICONOS -->
+            <div class="actions">
+              <button class="action-btn">
+                <span class="material-icons-outlined">add</span>
+                <span>Mi lista</span>
+              </button>
+              <button class="action-btn">
+                <span class="material-icons-outlined">share</span>
+                <span>Compartir</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      
+        <!-- 🔹 Descripción -->
+        <section class="desc">
+            Gachiakuta is a gritty Japanese dark fantasy manga/anime about Rudo, a boy from the slums of a floating city who is framed for murder, cast into a massive trash-filled abyss (the Pit) below, and must fight monsters made of discarded items to survive and seek revenge, uncovering a world where trash and people are equally devalued by the rich elite
+        </section>
+      
+              <!-- 🔹 Link Detalles -->
+      <a class="details-link" href="#">DETALLES DE LA SERIE</a>
+    </main>
+
+    <!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" data-tab="episodes">EPISODIOS</button>
+  <button class="tab" data-tab="more">MÁS COMO ESTO</button>
+</div>
+<hr class="divider">
+
+<!-- Header temporada -->
+<!-- Botón ya lo tienes dentro de .episodes-header -->
+<div class="episodes-header">
+  <div class="left">
+    <div class="season-select">
+      <span class="material-icons-outlined">arrow_drop_down</span>
+      <span>Gachiakuta</span>
+    </div>
+  </div>
+  <div class="right">
+    <span id="markAllBtn" class="material-icons">more_vert</span>
+  </div>
+  
+</div>
+
+<!-- 🔹 Overlay de temporadas -->
+<div id="seasonOverlay" class="season-overlay">
+  <div class="overlay-header">
+    <span class="material-icons overlay-close">close</span>
+    <span class="overlay-title">Temporadas</span>
+  </div>
+  <div class="overlay-content"></div>
+</div>
+
+
+<hr class="divider">
+
+<!-- Subheader ordenar/descargar -->
+<div class="episodes-subheader">
+  <span class="sort-icon">
+    <!-- SVG de tres líneas más delgadas -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="3" y="5" width="14" height="1.2" rx="0.6"></rect>
+      <rect x="3" y="10" width="10" height="1.2" rx="0.6"></rect>
+      <rect x="3" y="15" width="6" height="1.2" rx="0.6"></rect>
+    </svg>
+  </span>
+  <div class="download-all">
+    <span>DESCARGAR TODO</span>
+    <span class="material-icons download-icon">arrow_downward</span>
+  </div>  
+</div>
+
+    <!-- Contenido Tabs -->
+    <div class="tab-content active" id="episodes">
+      <section class="episodes" id="episode-list"></section>
+    </div>
+
+    <div class="tab-content" id="more">
+      <div class="suggested" id="suggested-list">
+        <!-- aquí irán los pósters sugeridos -->
+      </div>
+    </div>
+<br><br><br><br>
+    <!-- Footer solo con botones -->
+   <!-- HTML Footer -->
+<footer>
+  <div class="buttons">
+    <a href="#" id="playBtn" class="play">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="6 3 20 12 6 21 6 3"></polygon>
+        </svg>
+      </span>
+      COMENZAR A VER E1
+    </a>
+    <a href="#" class="save"><i class="fa-regular fa-bookmark"></i></a>
+  </div>
+</footer>
+  </div>
+
+
+
+  <!-- 🔹 JSON embebido -->
+  <script type="application/json" id="playlist-data">
+    {
+      "seriesId": "gachiakuta",
+      "seriesTitle": "Gachiakuta",
+      "age": "16+",
+      "subDob": "Sub | Dob",
+      "seasons": [
+        {
+          "season": "Temporada 1",
+          "episodes": [
+            {
+              "number": 1,
+              "title": "La Esfera",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/gUg7D9CpjpCHUue0OAHVemG55Rs.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDQwODFf/Gachiakuta%20ep%201.mp4",
+              "hiddenCode": "T1 E1",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 2,
+              "title": "Los habitantes",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/bx5BDggucxheJqYfmMYzNRU3zfx.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDM4NDhf/Gachiakuta%20ep2.mp4",
+              "hiddenCode": "T1 E2",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 3,
+              "title": "Terra",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/bmWMdGBlTLKOwbX7d5EQiOZBtFX.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDQzMTVf/Gachiakuta%20ep%203.mp4",
+              "hiddenCode": "T1 E3",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 4,
+              "title": "La central de los limpiadores",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/7Y3O7q3mOt9f4FSChUIFyAZyRGa.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDQxOTJf/Gachiakuta%20ep4.mp4",
+              "hiddenCode": "T1 E4",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 5,
+              "title": "Raiders",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/ztEDVMzddKRUQtvExgKaOVd8pHw.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDM2NTRf/Gachiakuta%20ep5.mp4",
+              "hiddenCode": "T1 E5",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 6,
+              "title": "¡Un golpe bien dado!",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/eWgtva5EavsnGIf3fRZD6Lxj7ge.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDM5NjJf/Gachiakuta%20ep6.mp4",
+              "hiddenCode": "T1 E6",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 7,
+              "title": "Conclusión",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/ne5S6caYYa5hr3yuZR9ZkmPQ9qn.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDM1NTRf/Gachiakuta%20ep7.mp4",
+              "hiddenCode": "T1 E7",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 8,
+              "title": "Hacia adelante",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/3caLcoFAgTPEA4QDMxJWUFIFR6g.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDM3MzJf/Gachiakuta%20ep8.mp4",
+              "hiddenCode": "T1 E8",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 9,
+              "title": "La ciudad del grafiti",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/GW7HnVOLfjcCQRJRkt6bpqob5N.jpg",
+              "source": "",
+              "hiddenCode": "T1 E9",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 10,
+              "title": "Penta, la Zona Desértica Prohibida",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/e2iniIW4GZOfpzsYm3Gs9V3rrTa.jpg",
+              "source": "",
+              "hiddenCode": "T1 E10",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 11,
+              "title": "La hospitalidad de Amo",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/a8FkL2y74TlH8T7FroXRVPn2O9a.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDMzNDJf/Gachiakuta%20ep11.mp4",
+              "hiddenCode": "T1 E11",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 12,
+              "title": "Es algo como una maldición",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/iM9y3lJYQXifyvu9NPZIXW1qKGk.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDM0NTBf/Gachiakuta%20ep12.mp4",
+              "hiddenCode": "T1 E12",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 13,
+              "title": "Ojos vacíos",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/f3Trs8OBxuxrGqh5qkDx6fJvTkX.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDMxMDVf/Gachiakuta%20ep13.mp4",
+              "hiddenCode": "T1 E13",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 14,
+              "title": "La tormenta antes de la tormenta",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/yw0TyWQ0A3W66OpO1NJBOBTJhOO.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDMyMjVf/Gachiakuta%20ep14.mp4",
+              "hiddenCode": "T1 E14",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 15,
+              "title": "Oye, ¿es en serio?",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/1Qzvoq3MddBP6GigTKgHxp4l3pS.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDMwMTBf/Gachiakuta%20ep15.mp4",
+              "hiddenCode": "T1 E15",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 16,
+              "title": "Divino y ordinario",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/tKw1vSpYAYgQGPjzLFUj2R8QBXp.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDI3ODJf/Gachiakuta%20ep16.mp4",
+              "hiddenCode": "T1 E16",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 17,
+              "title": "Recuerdos mediocres",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/61tDXSY2BJqqFPN5LzoSzYJSjgF.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDI2Mzdf/Gachiakuta%20ep17.mp4",
+              "hiddenCode": "T1 E17",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 18,
+              "title": "Es malo ser el último",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/o4Ikkls2J1Kc52AU3tj0DcP09Q7.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDI5MDJf/Gachiakuta%20ep18.mp4",
+              "hiddenCode": "T1 E18",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 19,
+              "title": "La serie Vigilante",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/bHM5XVcofXakYQxAqj8wcK1ng1P.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDI1MTVf/Gachiakuta%20ep19.mp4",
+              "hiddenCode": "T1 E19",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 20,
+              "title": "Marca",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/yg7Czklh7ZMyMy15IGvj2tS5J7R.jpg",
+              "source": "",
+              "hiddenCode": "T1 E20",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 21,
+              "title": "Speedrun",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/c1t00n7NQBuYhAgUCzhtEoucELt.jpg",
+              "source": "",
+              "hiddenCode": "T1 E21",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 22,
+              "title": "El poder de la protección",
+              "duration": "24m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/2In8eyBswA8ZqgGYxNcTqXserAr.jpg",
+              "source": "",
+              "hiddenCode": "T1 E22",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 23,
+              "title": "Episodio 23",
+              "duration": "23m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/tfk85anbQEgvBsR068Q2AbrVdvN.jpg",
+              "source": "",
+              "hiddenCode": "T1 E23",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            },
+            {
+              "number": 24,
+              "title": "Episodio 24",
+              "duration": "23m",
+              "thumbnail": "https://image.tmdb.org/t/p/w300/eEtcfbX2hATG14Qv29DmpIBF8PT.jpg",
+              "source": "https://od.lk/d/M18zMjIyMDIzNjdf/Gachiakuta%20ep24.mp4",
+              "hiddenCode": "T1 E24",
+              "description": "",
+              "intro": { "start": 0, "end": 0 },
+              "credits": { "start": 0, "end": 0 }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    
+  
+    
+
+
+<!-- Script dinámico del botón -->
+<script>
+  // Prevenir gestos táctiles no deseados
+document.addEventListener('touchmove', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+  const playBtn = document.getElementById('playBtn');
+const jsonData = JSON.parse(document.getElementById('playlist-data').textContent);
+
+// 🔹 Buscar último episodio guardado
+let lastEpisode = JSON.parse(localStorage.getItem('currentEpisode')) || null;
+
+// 🔹 Función para actualizar solo el texto del botón sin tocar el icono
+function setButtonText(text) {
+  const icon = playBtn.querySelector('.icon');
+  playBtn.innerHTML = '';            // vaciamos
+  playBtn.appendChild(icon);         // agregamos el icono de nuevo
+  playBtn.insertAdjacentText('beforeend', ' ' + text); // agregamos el texto después del icono
+}
+
+// 🔹 Determinar qué mostrar en el botón
+if (lastEpisode && lastEpisode.seriesId === jsonData.seriesId) {
+  // Buscamos el episodio correspondiente en el JSON para obtener el hiddenCode
+  const season = jsonData.seasons.find(s => s.season === lastEpisode.season) || jsonData.seasons[0];
+  const epJSON = season.episodes.find(ep => parseInt(ep.number) === parseInt(lastEpisode.number)) || season.episodes[0];
+  const code = epJSON.hiddenCode || 'E' + lastEpisode.number;
+  setButtonText(`CONTINUAR ${code}`);
+} else {
+  const firstEp = jsonData.seasons[0].episodes[0];
+  setButtonText(`COMENZAR A VER ${firstEp.hiddenCode || 'E' + firstEp.number}`);
+}
+
+// 🔹 Click en el botón
+playBtn.addEventListener('click', e => {
+  e.preventDefault();
+  let episodeToPlay;
+
+if (lastEpisode && lastEpisode.seriesId === jsonData.seriesId) {
+  const season = jsonData.seasons.find(s => s.season === lastEpisode.season) || jsonData.seasons[0];
+  const epJSON = season.episodes.find(ep => parseInt(ep.number) === parseInt(lastEpisode.number)) || season.episodes[0];
+
+  episodeToPlay = {
+    ...lastEpisode,
+    description: lastEpisode.description || epJSON.description || ''
+  };
+} else {
+  const firstEp = jsonData.seasons[0].episodes[0];
+  episodeToPlay = {
+    ...firstEp,
+    seriesId: jsonData.seriesId,
+    season: jsonData.seasons[0].season,
+    number: firstEp.number,
+    currentTime: 0,
+    replay: false,
+    description: firstEp.description || ''
+  };
+}
+
+  localStorage.setItem('currentEpisode', JSON.stringify(episodeToPlay));
+  localStorage.setItem('currentPlaylist', JSON.stringify(jsonData.seasons[0].episodes));
+  window.location.href = 'go:player';
+});
+
+</script>
+
+  <!-- 🔹 Script para renderizar episodios -->
+  <script>
+  
+const container = document.getElementById('episode-list');
+
+// 🔹 Referencia al header de temporada
+const seasonHeader = document.querySelector('.episodes-header .season-select');
+
+// 🔹 Inicializar nombre de temporada
+let currentSeasonIndex = 0;
+// 🔹 Recuperar temporada guardada
+const savedSeason = localStorage.getItem('currentSeasonIndex');
+if (savedSeason !== null) {
+  currentSeasonIndex = parseInt(savedSeason);
+}
+seasonHeader.querySelector('span:last-child').textContent = jsonData.seasons[currentSeasonIndex].season;
+
+// 🔹 Overlay de temporadas
+const seasonOverlay = document.getElementById('seasonOverlay');
+const overlayContent = seasonOverlay.querySelector('.overlay-content');
+const closeBtn = seasonOverlay.querySelector('.overlay-close');
+
+// 🔹 Función que llena el overlay con temporadas
+function renderSeasonsOverlay() {
+  overlayContent.innerHTML = '';
+  jsonData.seasons.forEach((season, index) => {
+    const item = document.createElement('div');
+    item.className = 'season-item';
+    if (index === currentSeasonIndex) {
+      item.classList.add('active'); // 🔹 marcar temporada actual
+    }
+    item.innerHTML = `
+      <span>${season.season}</span>
+      <span style="opacity:.6; font-size:14px;">${season.episodes.length} episodios</span>
+    `;
+    item.addEventListener('click', () => {
+      currentSeasonIndex = index;
+      seasonHeader.querySelector('span:last-child').textContent = season.season;
+      renderEpisodes(currentSeasonIndex);
+      seasonOverlay.classList.remove('active');
+
+      // 🔹 Guardar temporada seleccionada
+      localStorage.setItem('currentSeasonIndex', currentSeasonIndex);
+    });
+    overlayContent.appendChild(item);
+  });
+}
+
+// 🔹 Abrir overlay al presionar el header de temporada
+// Abrir overlay al presionar el header de temporada
+seasonHeader.addEventListener('click', (e) => {
+  e.stopPropagation();
+  renderSeasonsOverlay();
+  seasonOverlay.classList.add('active');
+
+  // 🔹 Agregar estado al historial para interceptar botón atrás
+  history.pushState({overlayOpen: true}, '');
+});
+
+// Cerrar overlay con botón
+closeBtn.addEventListener('click', () => {
+  seasonOverlay.classList.remove('active');
+
+  // 🔹 Remover estado del historial (opcional)
+  if (history.state && history.state.overlayOpen) {
+    history.back(); // o history.replaceState({}, '') para no crear nuevo registro
+  }
+});
+
+// 🔹 Detectar botón atrás en móvil
+window.addEventListener('popstate', (event) => {
+  if (seasonOverlay.classList.contains('active')) {
+    // Solo cerramos el overlay y prevenimos que vaya hacia atrás
+    seasonOverlay.classList.remove('active');
+
+    // 🔹 Evitamos doble popstate si hay historial
+    history.pushState({}, '');
+  } else {
+    // Overlay no activo, comportamiento normal del botón atrás
+    // No hacemos nada y se retrocede en la página
+  }
+});
+
+
+
+// 🔹 Función para renderizar episodios según temporada
+// 🔹 Función para renderizar episodios según temporada
+function renderEpisodes(seasonIndex = 0) {
+  container.innerHTML = '';
+  const episodes = jsonData.seasons[seasonIndex].episodes;
+
+  episodes.forEach((ep, index) => {
+    const div = document.createElement('div');
+    div.className = 'episode';
+    div.innerHTML = `
+      <div class="ep-thumb-wrapper">
+        <img class="ep-thumb" src="${ep.thumbnail}" alt="${ep.title}">
+        <div class="ep-thumb-overlay">
+          <span class="material-icons">play_arrow</span>
+        </div>
+
+        <!-- 🔹 Barra de progreso sobre la miniatura -->
+        <div class="ep-progress-container">
+          <div class="ep-progress-bar"></div>
+        </div>
+
+        <!-- 🔹 Tiempo en la esquina inferior derecha -->
+        <div class="ep-duration">${ep.duration}</div>
+      </div>
+      <div class="ep-details">
+        <div class="ep-title">${ep.number}. ${ep.title}</div>
+      </div>
+      <div class="ep-actions">
+        <span class="material-icons-outlined ep-download">arrow_downward</span>
+        <span class="material-icons-outlined">more_vert</span>
+      </div>
+    `;
+
+   // 🔹 Menú contextual de los tres puntos
+const moreBtn = div.querySelector('.material-icons-outlined:nth-child(2)'); // more_vert
+
+// Crear menú
+const menu = document.createElement('div');
+menu.className = 'more-menu'; // usamos la clase CSS
+menu.innerHTML = `
+  <div class="menu-item mark-seen">Marcar como visto</div>
+  <div class="menu-item share-episode">Compartir</div>
+`;
+
+// Posicionar menú relativo al botón
+moreBtn.parentElement.style.position = 'relative'; // contenedor relativo
+moreBtn.parentElement.appendChild(menu);
+
+// Mostrar/ocultar menú al hacer click
+moreBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  
+  // Alternar visibilidad
+  menu.classList.toggle('show');
+
+  // Solo ajustamos la posición vertical
+  const rect = moreBtn.getBoundingClientRect();
+  menu.style.top = `${moreBtn.offsetTop + moreBtn.offsetHeight + 4}px`;
+
+  // Posicionar hacia la izquierda usando CSS right
+  menu.style.right = '0px';
+  menu.style.left = 'auto'; // aseguramos que no haya left definido
+});
+
+
+// Cerrar menú al hacer click fuera
+document.addEventListener('click', () => {
+  menu.classList.remove('show');
+});
+
+// 🔹 Marcar como visto
+const markSeen = menu.querySelector('.mark-seen');
+markSeen.addEventListener('click', e => {
+  e.stopPropagation();
+
+  // Cambiar texto y color del menú
+  markSeen.textContent = 'Visto';
+  markSeen.style.color = 'orange';
+
+  // Marcar episodio como visto en localStorage
+  const videoId = `${jsonData.seriesId || 'serie'}_ep${ep.number}`;
+  localStorage.setItem(`progress_${videoId}`, 9999); // valor alto para completar
+
+  // Actualizar visual del episodio
+  thumbWrapper.classList.add('completed');
+  overlayIcon.textContent = 'replay';
+  progressBar.style.width = '0';
+  durationEl.textContent = 'Visto';
+
+  menu.classList.remove('show');
+});
+
+
+
+// 🔹 Compartir episodio
+const shareBtn = menu.querySelector('.share-episode');
+shareBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const shareData = {
+    title: `${jsonData.seriesTitle} - ${seasonHeader.textContent}`,
+    text: `Mira el episodio ${ep.number}: ${ep.title}`,
+    url: ep.source
+  };
+  if (navigator.share) {
+    navigator.share(shareData).catch(console.error);
+  } else {
+    prompt('Copia el enlace del episodio:', ep.source);
+  }
+  menu.classList.remove('show');
+});
+
+
+
+    const thumbWrapper = div.querySelector('.ep-thumb-wrapper');
+    const progressBar = div.querySelector('.ep-progress-bar');
+    const durationEl = div.querySelector('.ep-duration');
+    const overlayIcon = div.querySelector('.ep-thumb-overlay span.material-icons');
+
+    const videoId = `${jsonData.seriesId || 'serie'}_ep${ep.number}`;
+const savedTime = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+
+const durationMatch = ep.duration.match(/(\d+)\s*m/);
+const totalMinutes = durationMatch ? parseInt(durationMatch[1]) : 0;
+const totalSeconds = totalMinutes * 60;
+
+let percent = Math.min((savedTime / totalSeconds) * 100, 100);
+
+if (percent >= 100) {
+  // Episodio completado
+  thumbWrapper.classList.add('completed');
+  overlayIcon.textContent = "replay"; 
+  progressBar.style.width = '0';
+  progressBar.parentElement.style.background = 'rgba(0,0,0,0)'; // ocultar barra de fondo
+  durationEl.textContent = "Visto";
+} else if (savedTime > 0) {
+  // Episodio en progreso
+  thumbWrapper.classList.remove('completed');
+  progressBar.style.width = percent + '%';
+  progressBar.parentElement.style.background = 'rgba(255,255,255,0.2)'; // fondo semitransparente
+  const remainingSeconds = Math.max(totalSeconds - savedTime, 0);
+  const remainingMinutes = Math.ceil(remainingSeconds / 60);
+  durationEl.textContent = `${remainingMinutes}m restantes`;
+  overlayIcon.textContent = "play_arrow";
+} else {
+  // Episodio no reproducido
+  thumbWrapper.classList.remove('completed');
+  progressBar.style.width = '0';
+  progressBar.parentElement.style.background = 'rgba(0,0,0,0)'; // ocultar barra
+  durationEl.textContent = ep.duration;
+  overlayIcon.textContent = "play_arrow";
+}
+
+
+
+// 🔹 Click para reproducir/reiniciar
+div.addEventListener('click', () => {
+  const payload = {
+    ...ep,
+    seriesId: jsonData.seriesId || 'serie',
+    seriesTitle: jsonData.seriesTitle || jsonData.seriesId || '',
+    season: jsonData.seasons[currentSeasonIndex].season,
+    age: jsonData.age || '',
+    subDob: jsonData.subDob || '',
+    number: parseInt(ep.number) || index + 1,
+    replay: percent >= 100, // 🔑 si estaba completado, marcamos replay
+    description: ep.description || '' // ✅ aquí se asegura que la descripción exista
+  };
+
+  payload.currentTime = percent >= 100 ? 0 : savedTime;
+
+  localStorage.setItem('currentEpisode', JSON.stringify(payload));
+  localStorage.setItem('currentPlaylist', JSON.stringify(episodes));
+  window.location.href = 'go:player';
+});
+
+
+
+
+    // 🔹 Descargar episodio
+    const downloadBtn = div.querySelector('.ep-download');
+    downloadBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const a = document.createElement('a');
+      a.href = ep.source;
+      a.download = "";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+
+    container.appendChild(div);
+  });
+}
+
+
+// Renderizar primera temporada por defecto
+renderEpisodes(currentSeasonIndex);
+
+
+const allBtn = document.querySelector('.all-btn');
+if (allBtn) {
+  allBtn.addEventListener('click', () => {
+    window.location.href = 'serie.html';
+  });
+}
+
+
+
+
+
+
+
+
+    document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+const cover = document.querySelector('.cover');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const maxScroll = 400; // hasta dónde quieres que oscurezca
+  const opacity = Math.min(scrollTop / maxScroll, 1); // 0 → 1
+
+  // actualizamos sólo el overlay (::after) usando CSS custom property
+  cover.style.setProperty('--overlay-opacity', opacity);
+});
+
+
+
+const page = document.querySelector('.page');
+const maxScroll = 300; // hasta dónde queremos que el contenido se vuelva negro
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  // Normalizamos scroll entre 0 y 1
+  const progress = Math.min(scrollTop / maxScroll, 1);
+  // Interpolamos entre blanco (rgb(255,255,255)) y negro (rgb(0,0,0))
+  const colorValue = Math.round(255 * (1 - progress));
+  page.style.color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+});
+
+// Efecto scroll: header se oscurece y título aparece
+const header = document.querySelector('header');
+const title = document.querySelector('.header-title');
+
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const opacity = Math.min(scrollTop / maxScroll, 1); // hasta 1 (100%)
+  header.style.background = `rgba(0,0,0,${opacity})`;
+
+  // Título aparece proporcional al scroll
+  title.style.opacity = Math.min(scrollTop / maxScroll, 1);
+});
+
+// download all
+document.addEventListener("DOMContentLoaded", () => {
+  const downloadAllBtn = document.querySelector(".download-all");
+  const playlistData = JSON.parse(document.getElementById("playlist-data").textContent);
+
+  downloadAllBtn.addEventListener("click", () => {
+    const seasonIndex = 0; // Cambia según la temporada activa
+    const season = playlistData.seasons[seasonIndex];
+    const episodes = season.episodes;
+
+    for (let ep of episodes) {
+      try {
+        const a = document.createElement("a");
+        a.href = ep.source; // enlace directo al archivo
+        a.download = `${playlistData.seriesTitle} - ${season.season} - Ep${ep.number} - ${ep.title}.mp4`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (err) {
+        console.error("No se pudo iniciar la descarga del episodio:", ep.number, err);
+      }
+    }
+
+    alert(`Se han iniciado las descargas de los episodios de ${season.season}.`);
+  });
+});
+
+// 🔹 Menú global "Marcar todos como vistos"
+document.addEventListener('DOMContentLoaded', () => {
+  const markAllBtn = document.getElementById('markAllBtn');
+  if (!markAllBtn) return;
+
+  // Crear menú
+  const markAllMenu = document.createElement('div');
+  markAllMenu.id = 'markAllMenu';
+  markAllMenu.className = 'more-menu mark-all-menu';
+  markAllMenu.innerHTML = `
+    <div class="menu-item mark-all-seen">Marcar como visto</div>
+  `;
+
+  // Contenedor relativo
+  markAllBtn.parentElement.style.position = 'relative';
+  markAllBtn.parentElement.appendChild(markAllMenu);
+
+  // Mostrar/ocultar menú
+  markAllBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    markAllMenu.classList.toggle('show');
+  });
+
+  document.addEventListener('click', () => {
+    markAllMenu.classList.remove('show');
+  });
+
+  // 🔹 Actualizar texto según progreso de episodios
+  const markAllItem = markAllMenu.querySelector('.mark-all-seen');
+  const allEpisodes = document.querySelectorAll('.episode');
+  let allSeen = true;
+
+  allEpisodes.forEach(epDiv => {
+    const epNumber = epDiv.querySelector('.ep-title').textContent.split('.')[0];
+    const videoId = `${jsonData.seriesId || 'serie'}_ep${epNumber}`;
+    const savedTime = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+    if (savedTime < 9999) allSeen = false;
+  });
+
+  if (allSeen) {
+    markAllItem.textContent = 'Visto';
+    markAllItem.style.color = 'orange';
+  } else {
+    markAllItem.textContent = 'Marcar como visto';
+    markAllItem.style.color = '';
+  }
+
+  // Acción: marcar todos como vistos
+  markAllItem.addEventListener('click', e => {
+    e.stopPropagation();
+
+    const episodes = document.querySelectorAll('.episode');
+    episodes.forEach(epDiv => {
+      const thumbWrapper = epDiv.querySelector('.ep-thumb-wrapper');
+      const overlayIcon = epDiv.querySelector('.ep-thumb-overlay span.material-icons');
+      const progressBar = epDiv.querySelector('.ep-progress-bar');
+      const durationEl = epDiv.querySelector('.ep-duration');
+
+      // Cambiar visual
+      thumbWrapper.classList.add('completed');
+      overlayIcon.textContent = 'replay';
+      progressBar.style.width = '0';
+      progressBar.parentElement.style.background = 'rgba(0,0,0,0)'; // ocultar barra
+      durationEl.textContent = 'Visto';
+
+      // Guardar en localStorage
+      const epNumber = epDiv.querySelector('.ep-title').textContent.split('.')[0];
+      const videoId = `${jsonData.seriesId || 'serie'}_ep${epNumber}`;
+      localStorage.setItem(`progress_${videoId}`, 9999);
+    });
+
+    // Cambiar texto del menú
+    markAllItem.textContent = 'Visto';
+    markAllItem.style.color = 'orange';
+
+    markAllMenu.classList.remove('show');
+  });
+});
+
+
+  </script>
+
+
+</body>
+</html>

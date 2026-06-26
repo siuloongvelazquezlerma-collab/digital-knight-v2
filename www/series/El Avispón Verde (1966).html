@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+     <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <title>El Avispón Verde (1966)</title>
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet">
+    <style>
+          * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+    }
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+
+    /* Estilo general del contenedor del video */
+/* Estilo general del contenedor del video */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000 !important; /* Fondo oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+
+
+
+/* Fondo negro para la etapa de carga inicial del video */
+.video-js .vjs-poster,
+.video-js .vjs-tech {
+    background-color: #000 !important;
+    z-index: 1;
+}
+
+
+
+ /* Overlay para la imagen vertical */
+.portrait-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000),
+                url('https://image.tmdb.org/t/p/original/mf6xCObm2tPQZn6xJOoZZ9SnScV.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 250; /* Asegura que esté sobre el video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    opacity: 1; /* Visible inicialmente */
+    transition: opacity 0.5s ease-in-out; /* Transición suave */
+}
+
+/* Overlay para la imagen horizontal */
+.horizontal-overlay {
+    display: none; /* Oculta por defecto en portrait */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-size: contain;
+    z-index: 150; /* Asegura que esté sobre el video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    opacity: 0; /* Invisible inicialmente */
+    transition: opacity 0.5s ease-in-out; /* Transición suave */
+    pointer-events: none; /* Evita interacciones cuando está invisible */
+}
+
+/* Fondo desenfocado + primer gradiente */
+.horizontal-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(to bottom, #000000c4, #00000071, #00000071, #000000c4, #000000d7, #000000),
+        url('https://image.tmdb.org/t/p/original/2Xt25rrCvskHwAZeGdHR9qXGno7.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(5px); /* Desenfoque para la imagen */
+    z-index: 1; /* El fondo desenfocado estará debajo de la imagen */
+}
+
+/* Gradiente encima de la imagen desenfocada */
+.horizontal-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000);
+    z-index: 2; /* Gradiente encima de la imagen desenfocada */
+}
+
+/* Imagen principal superpuesta */
+.horizontal-overlay img {
+    top: 0;
+    position: absolute; /* Asegura la superposición sobre el fondo */
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    object-fit: contain; /* Mantiene las proporciones */
+    z-index: 1; /* Imagen detrás del gradiente */
+    padding: 10px; /* Opcional: un poco de separación visual */
+    border-radius: 10px; /* Opcional: bordes redondeados */
+}
+
+/* Gradiente encima de la imagen nítida */
+.horizontal-overlay img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background: linear-gradient(to bottom, #000000ce, #00000000, #00000000, #000000da, #000000, #000000);
+    z-index: 3; /* Gradiente encima de la imagen nítida */
+    pointer-events: none; /* Permite que la imagen sea clickeable sin interferencia del gradiente */
+}
+
+/* Mostrar y ocultar las capas según la orientación */
+@media (orientation: landscape) {
+    .portrait-overlay {
+        display: none; /* Oculta el overlay vertical en landscape */
+    }
+
+    .horizontal-overlay {
+        display: flex; /* Muestra el overlay horizontal */
+        opacity: 1; /* Hace visible la imagen horizontal */
+        pointer-events: auto; /* Permite interacciones en modo landscape */
+    }
+}
+
+@media (orientation: portrait) {
+    .portrait-overlay {
+        display: flex; /* Asegura que el overlay vertical esté visible */
+        opacity: 1; /* Visible */
+    }
+
+    .horizontal-overlay {
+        display: none; /* Oculta completamente la imagen horizontal en portrait */
+    }
+}
+
+/* Mostrar la imagen correcta según la orientación */
+@media screen and (orientation: portrait) {
+    .portrai/* Estilo general de las tabs */
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Alineación a la izquierda */
+    align-items: center;
+    background-color: transparent; /* Fondo transparente */
+    padding: 10px 15px; /* Espaciado para separar de los márgenes */
+    margin-top: 155%; /* Espaciado entre la imagen principal y las tabs */
+    gap: 60px; /* Separación entre tabs */
+    border-bottom: 1px solid #525252; /* Línea divisoria */
+    z-index: 70000; /* Por encima de ambas imágenes */
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: rgb(129, 129, 129);
+    font-weight: bold;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    color: rgb(247, 247, 247); /* Color naranja para la pestaña activa */
+    border-bottom: 3px solid rgb(255, 0, 0); /* Línea inferior */
+}
+
+/* Estilo del contenido de las tabs */
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 400;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+
+
+}
+
+@media screen and (orientation: landscape) {
+    .portrait-overlay {
+        display: none;
+    }
+    .horizontal-overlay {
+        display: flex;
+    }
+    #season-buttons {
+        position: absolute;
+        top: 10%; /* Ajuste para la parte superior */
+        left: 5%;
+        z-index: 600; /* Asegura visibilidad */
+    }
+    #episode-list {
+        position: absolute;
+        top: 20%; /* Ajuste superior para mayor espacio */
+        left: 5%;
+        z-index: 500; /* Por encima del fondo pero detrás de botones superiores */
+    }
+}
+
+
+.video-js {
+    width: 100%;
+    height: 500px; /* Ajusta la altura del reproductor */
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+/* Ajustes responsivos */
+@media screen and (max-width: 768px) {
+    .video-js {
+        height: 300px; /* Ajusta la altura del reproductor en pantallas pequeñas */
+    }
+}
+
+       /* Control bar más arriba */
+.vjs-control-bar {
+    background-color: rgba(0, 0, 0, 0) !important; /* Semi-transparente */
+    position: absolute;
+    bottom: 10%; /* Ajustar hacia arriba, dentro del reproductor */
+    transition: all 0.3s ease;
+    z-index: 5;
+    padding: 0 10px;
+}
+
+/* Barra de progreso más visible y roja */
+.vjs-progress-control {
+    width: 100% !important; /* Expandir al ancho completo */
+    height: 6px; /* Grosor de la barra */
+    margin-top: -20px; /* Subir la barra ligeramente */
+    position: absolute;
+    bottom: 50px; /* Colocar encima de los controles */
+    background-color: transparent !important; /* Fondo transparente */
+    left: 0px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.vjs-play-progress {
+    background-color: #ff0000 !important; /* Cambiar el color de progreso a rojo */
+}
+
+.vjs-progress-holder {
+    background-color: rgba(146, 146, 146, 0.6) !important; /* Fondo de la barra */
+}
+
+/* Display time más arriba */
+.vjs-time-control {
+    position: absolute;
+    bottom: 50px; /* Encima de la barra de progreso */
+    left: -10px;
+    color: rgb(255, 255, 255); /* Texto blanco semi-transparente */
+    font-size: 25px;
+}
+
+/* Mostrar control bar solo al pasar el mouse */
+.video-js:hover .vjs-control-bar {
+    opacity: 1;
+}
+
+.video-js .vjs-control-bar {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Personalizar botones */
+.vjs-button {
+    color: white;
+    font-size: 1.5em;
+}
+
+/* Controles personalizados */
+.vjs-custom-controls {
+    position: absolute;
+    top: 40%; /* Centrado vertical */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+}
+
+
+
+        .video-js:hover .vjs-control-bar {
+            opacity: 1;
+        }
+
+        .video-js .vjs-control-bar {
+            opacity: 0;
+        }
+
+        .vjs-picture-in-picture-control {
+            display: none !important;
+        }
+
+        .vjs-custom-controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            z-index: 10;
+        }
+
+        .vjs-custom-controls button {
+            background-color: rgba(255, 255, 255, 0);
+            border: none;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .vjs-custom-controls button:hover {
+            background-color: rgba(255, 255, 255, 0);
+            transform: scale(1.1);
+        }
+
+        .material-icons {
+            font-size: 36px;
+        }
+
+        /* Estilo para el botón de temporadas */
+#season-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+    position: relative;
+    bottom: 10px;
+    border-bottom: 1px solid #525252; /* Línea divisoria */
+    z-index: 600; /* Asegura que esté por encima de la imagen */
+}
+
+/* Lista de episodios */
+#episode-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px;
+    position: absolute; /* Posición absoluta para moverla hacia abajo */
+    bottom: 5%; /* Un poco más abajo que el botón de temporada */
+    left: 0%;
+    top: 750px;
+    z-index: 500; /* Asegura que esté por encima de la imagen */
+}
+
+#episode-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    border-left: 5px solid transparent;
+    border-bottom: none;
+    margin-left: 10px;
+}
+
+/* Estilo para la lista de temporadas */
+.season-dropdown {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin-top: 100px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0000001c;
+    position: absolute;
+    z-index: 900;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    left: 10px;
+}
+
+.season-dropdown li {
+    padding: 8px;
+    cursor: pointer;
+    background-color: #000000de;
+    z-index: 1000;
+}
+
+/* Botón de temporadas */
+.season-button {
+    background-color: transparent;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.season-button .material-icons {
+    margin-right: -5px;
+}
+
+/* Modo horizontal: ajustes */
+@media (orientation: landscape) {
+    #season-buttons {
+        position: absolute;
+        top: 100%; /* Mueve el botón hacia arriba */
+        left: 5%; /* Mueve el botón hacia la izquierda */
+        border-bottom: none; /* Eliminamos temporalmente la línea del contenedor */
+        width: calc(100% - 10%); /* Asegura que la línea no se corte */
+    }
+
+    #season-buttons::after {
+        content: ""; /* Agrega la línea como pseudo-elemento */
+        position: absolute;
+        bottom: -20px; /* Coloca la línea debajo del botón */
+        left: 0;
+        width: 100%; /* La línea abarca el ancho del contenedor */
+        height: 1px;
+        background-color: #525252; /* Color de la línea divisoria */
+        width: calc(100% - 10%); /* Asegura que la línea no se corte */
+    }
+
+}
+
+
+        /* Ocultar el botón de play en la esquina superior izquierda */
+        .video-js .vjs-big-play-button {
+            display: none !important;
+        }
+
+        #episode-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    top: 95%;
+    margin-bottom: 50px; /* Añade espacio debajo del contenedor */
+    position: relative; /* Asegura que el contenedor no esté fijo */
+}
+
+.season-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.episode-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.episode {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.episode-thumbnail {
+    position: relative;
+}
+
+
+
+.episode-image {
+    width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+}
+
+.episode-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.episode-title {
+    flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+            font-weight: bold;
+            top: -10px;
+            left: -10px;
+}
+
+.episode-duration {
+    position: absolute;
+            bottom: 20px;
+            right: 170px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+}
+/* Modo horizontal: solo modificar en este modo */
+@media (orientation: landscape) {
+    #episode-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Tres columnas de igual tamaño */
+        gap: 1rem; /* Espacio entre las columnas */
+        margin: 0 auto;
+        margin-top: 50%; /* Espaciado superior más pequeño */
+        margin-bottom: 100px; /* Espaciado inferior */
+        padding: 10px;
+        max-width: 90%; /* Asegura que no se salga de la página */
+        margin-left: 0%;
+        right: 5%;
+        box-sizing: border-box; /* Asegura que los márgenes se apliquen correctamente */
+    }
+
+    /* Los episodios ahora se organizan en una columna para el modo horizontal */
+    .episode-item {
+        display: flex;
+        flex-direction: column; /* Cambiar a columna para apilar imagen, título y duración */
+        align-items: center; /* Centra los elementos */
+        text-align: center; /* Centra el texto */
+        justify-content: space-between; /* Asegura que los elementos estén distribuidos sin que se superpongan */
+    }
+
+    /* Imagen del episodio */
+    .episode-image {
+        width: 120px;
+            height: auto;
+        object-fit: cover; /* Mantiene la proporción de la imagen sin deformarse */
+        margin-bottom: 10px; /* Espaciado debajo de la imagen */
+    }
+
+    /* Información del episodio */
+    .episode-info {
+        display: block;
+        margin-top: 10px;
+        text-align: center; /* Centra el texto */
+        max-width: 150px; /* Asegura que los elementos no excedan el ancho de la imagen */
+    }
+
+    /* Título del episodio */
+    .episode-title {
+        font-size: 12px;
+        margin-bottom: 5px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    /* Duración del episodio */
+    .episode-duration {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* Botón de descarga */
+    .download_link {
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+.download_link {
+    color: white;
+    background-color: transparent; /* Fondo transparente */
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none; /* Quita el subrayado del texto */
+    border: none;
+    display: flex;
+    align-items: center;
+    margin-left: 110px; /* Empuja el botón de descarga hacia la derecha */
+    text-decoration: underline;
+}
+
+.download_link .material-icons {
+    font-size: 20px; /* Tamaño del ícono */
+    margin-left: 5px; /* Espaciado entre texto y el ícono */
+}
+
+
+.video-js .vjs-title {
+    position: absolute;
+    top: -300px; /* Ajusta según el diseño deseado */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 1000;
+    text-align: center;
+    max-width: 90%;
+    word-wrap: break-word;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .video-js .vjs-title {
+        font-size: 12px;
+        bottom: 50px; /* Ajustar para móviles */
+        max-width: 95%;
+    }
+}
+
+.vjs-back-button {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    position: absolute;
+    top: -80px; /* Ajusta la posición superior */
+    left: 10px; /* Ajusta la posición izquierda */
+    background-color: rgba(0, 0, 0, 0); /* Fondo transparente */
+    color: white;
+    border: none;
+    font-size: 20px; /* Tamaño del ícono */
+    width: 30px; /* Tamaño del botón */
+    height: 30px; /* Tamaño del botón */
+    border-radius: 50%; /* Forma circular */
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    cursor: pointer;
+    z-index: 1000; /* Asegurar que esté sobre otros elementos */
+    transition: background-color 0.3s;
+    line-height: 0; /* Elimina espacio extra debajo del ícono */
+    padding: 0; /* Elimina espacio interno adicional */
+}
+
+.vjs-back-button:hover {
+    background-color: rgba(255, 255, 255, 0); /* Fondo ligeramente visible al pasar el mouse */
+}
+
+.vjs-back-button .material-icons {
+    font-size: 35px; /* Tamaño del ícono */
+    line-height: 1; /* Elimina líneas adicionales alrededor del ícono */
+    margin: 0; /* Elimina márgenes */
+    padding: 0; /* Elimina relleno */
+}
+
+/* Botón de ajuste de pantalla */
+.vjs-screen-adjust-button {
+    position: absolute;
+    top: -95px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s;
+    line-height: 1;
+    padding: 0;
+}
+
+.vjs-screen-adjust-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.vjs-screen-adjust-button .material-icons {
+    font-size: 30px;
+}
+
+/* Etiqueta del ajuste */
+.vjs-adjustment-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    z-index: 1001;
+    text-align: center;
+}
+
+.vjs-dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0; /* Transparente por defecto */
+    transition: opacity 0.3s ease-in-out; /* Suave transición */
+    pointer-events: none; /* Permitir interacción con el video */
+    z-index: 1; /* Asegurar que esté sobre el video pero debajo de los controles */
+}
+
+
+
+
+.vjs-next-episode {
+    position: absolute;
+    bottom: 170px; /* Más arriba en la pantalla */
+    right: 70px;
+    background-color: #323232; /* Fondo semi-transparente */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para resaltar el botón */
+}
+
+.vjs-next-episode:hover {
+    transform: scale(1.1); /* Ligeramente más grande al pasar el mouse */
+}
+
+.vjs-next-episode:active {
+    transform: scale(1); /* Vuelve a su tamaño normal al hacer clic */
+}
+
+/* Estilo general de las tabs */
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Alineación a la izquierda */
+    align-items: center;
+    background-color: transparent; /* Fondo transparente */
+    padding: 10px 15px; /* Espaciado para separar de los márgenes */
+    margin-top: 158%; /* Espaciado entre la imagen principal y las tabs */
+    gap: 60px; /* Separación entre tabs */
+    border-bottom: 1px solid #525252; /* Línea divisoria */
+    z-index: 200;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: rgb(129, 129, 129);
+    font-weight: bold;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    color: rgb(247, 247, 247); /* Color naranja para la pestaña activa */
+    border-bottom: 3px solid rgb(255, 0, 0); /* Línea inferior */
+}
+
+
+
+/* Estilo del contenido de las tabs */
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 400;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Media Queries para móviles */
+@media (max-width: 768px) {
+    .tabs {
+        justify-content: flex-start; /* Alineación a la izquierda */
+        padding: 0 10px; /* Espaciado reducido en los laterales */
+        gap: 40px; /* Menor separación entre tabs */
+        z-index: 1000;
+    }
+
+    .tab-button {
+        font-size: 14px; /* Ajustar tamaño de texto para móviles */
+        padding: 5px 0; /* Espaciado reducido */
+    }
+}
+/* Ajustes para modo horizontal */
+@media (orientation: landscape) {
+    .tabs {
+        margin-top: 25%; /* Reduce el margen superior en modo horizontal */
+        position: absolute; /* Permite ajustar manualmente la posición */
+        top: 30%; /* Mueve las tabs hacia arriba */
+        left: 5%; /* Mueve las tabs ligeramente a la izquierda */
+        width: 90%; /* Asegura que no ocupen toda la pantalla */
+        z-index: 500;
+    }
+}
+
+
+/* Estilo general para el header */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.13); /* Fondo semitransparente */
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center;
+    padding: 10px;
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+    transition: top 0.3s ease-in-out; /* Transición para el título al hacer scroll */
+}
+
+/* Estilo de los enlaces */
+.icon-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; /* Color del ícono */
+    text-decoration: none; /* Quitar subrayado */
+}
+
+/* Flecha a la izquierda */
+#back-link {
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
+    border-radius: 50%; /* Hace el fondo circular */
+    padding: 0;
+    width: 36px; /* Tamaño del círculo */
+    height: 36px;
+    font-size: 20px; /* Tamaño del ícono */
+}
+
+
+
+/* Hover efectos */
+.icon-link:hover {
+    opacity: 0.8; /* Ligera transparencia al hacer hover */
+}
+
+
+/* Estilo para el contenedor del logo */
+#logo-container {
+    position: absolute;
+    top: 45%; /* Ajusta esta distancia según necesites */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el contenedor */
+    text-align: center;
+    z-index: 300; /* Asegura que el logo esté por encima de otras imágenes */
+}
+
+/* Estilo del logo */
+#logo {
+    width: 200px; /* Tamaño del logo */
+    height: auto; /* Mantener la proporción */
+}
+
+/* Estilo para la información debajo del logo */
+#logo-info {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #fff; /* Color blanco para el texto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Espacio entre los elementos */
+}
+
+#logo-info span {
+    font-weight: bold;
+}
+
+#logo-info .rating {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+#logo-info .series-text {
+    color: #00ffc8; /* Color diferente para "Series" */
+}
+
+#logo-info .duration, #logo-info .year {
+    color: #ccc; /* Color gris para los otros textos */
+}
+
+.favorito-container {
+    position: absolute; /* Saca el botón del flujo normal */
+    top: 68%; /* Posición relativa al contenedor del logo */
+    left: 50%; /* Centra el botón horizontalmente */
+    transform: translateX(-50%); /* Ajusta la posición horizontal para centrarlo */
+    display: flex;
+    flex-direction: column; /* Ordena ícono y texto en columna */
+    align-items: center;
+    z-index: 300; /* Asegura que esté sobre las tabs */
+}
+
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Ordena el contenido del botón en columna */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+}
+
+#favoritoIcon {
+    font-size: 30px; /* Tamaño del icono */
+    margin-bottom: 8px; /* Espacio entre el icono y el texto */
+}
+
+#favoritoText {
+    font-size: 14px; /* Tamaño del texto */
+    text-align: center; /* Centra el texto */
+    color: white;
+}
+
+/* Ajustes para dispositivos en modo horizontal */
+@media (orientation: landscape) {
+    #logo-container {
+        top: 10%; /* Mueve el logo más hacia arriba */
+        left: 30%; /* Mueve el logo hacia la izquierda */
+    }
+
+    .favorito-container {
+        top: 60%; /* Ajusta la posición hacia arriba */
+        left: 30%; /* Mueve hacia la izquierda */
+        z-index: 500;
+    }
+}
+
+.movie-grid {
+  display: grid; /* Usamos grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  gap: 10px; /* Espaciado pequeño entre tarjetas */
+  padding: 15px;
+  justify-content: center; /* Centra las columnas horizontalmente */
+}
+
+.card {
+  width: 165px; /* Tarjetas más grandes */
+  height: 250px; /* Aumenta la altura de las tarjetas */
+  border-radius: 10px; /* Bordes redondeados */
+  overflow: hidden; /* Asegura que las imágenes respeten los bordes */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta las imágenes al contenedor */
+  display: block;
+}
+
+
+
+
+/* Ajustes para pantallas en orientación horizontal */
+@media (orientation: landscape) {
+  .poster {
+    margin-top: 350px;
+  }
+  .movie-grid {
+    grid-auto-flow: column; /* Organización horizontal en una fila */
+    grid-template-columns: unset; /* Desactiva el diseño de columnas predefinidas */
+    gap: 10px; /* Espaciado reducido entre imágenes */
+    overflow-x: auto; /* Scroll horizontal */
+    padding: 20px; /* Reduce el padding para compactar el diseño */
+    justify-content: start; /* Alinea las imágenes a la izquierda */
+    margin-top: 50%;
+  }
+  .card {
+    width: 130px; /* Tamaño ligeramente más pequeño en horizontal */
+    height: 195px;
+  }
+}
+
+
+
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+  
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        
+    </header>
+    
+
+
+    <div class="portrait-overlay"></div>
+
+<div class="horizontal-overlay">
+    <!-- Imagen principal nítida -->
+    <img src="https://image.tmdb.org/t/p/original/2Xt25rrCvskHwAZeGdHR9qXGno7.jpg" alt="Imagen principal">
+</div>
+
+    
+   <!-- Contenedor para el reproductor de video y su overlay -->
+   <div class="video-container">
+    
+    <!-- Video -->
+    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto">
+        <source id="videoSource" src="https://od.lk/s/M18zMDA3NTQ3OTZf/SAL-01x001%20-%20SeriesRetro.com.mp4" type="video/mp4">
+        <p class="vjs-no-js">
+            Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+            <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+        </p>
+    </video>
+</div>
+
+
+<div id="logo-container">
+    <img src="https://image.tmdb.org/t/p/original/b5VazQWkvsHKQX9PPrWJmPWZ4vg.png" alt="Logo" id="logo">
+    <div id="logo-info">
+        <span class="rating">12+</span> • 
+        <span class="series-text">Series</span> • 
+        <span class="duration">Dob</span> • 
+        <span class="year">1966</span>
+    </div>
+</div>
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="El Avispón Verde" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/vrPS1MlEiHxKicgXrbjZhaHSI1S.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="El Avispón Verde (1966).html"></a>
+        <span id="nombre">El Avispón Verde (1966)</span>
+    </div>
+</div>
+
+<!-- Contenedor de las tabs -->
+<div class="tabs">
+    <button class="tab-button active" id="episodes-tab">Episodios</button>
+    <button class="tab-button" id="other-tab">Más como esto</button>
+</div>
+
+<!-- Contenedor de contenido de las tabs -->
+<div class="tab-content">
+    <!-- Contenido de la tab Episodios -->
+    <div class="tab-pane active" id="episodes-content">
+        <!-- Contenido de la lista de episodios y temporadas -->
+        <div id="season-buttons">
+            <button class="season-button" id="toggle-season-list">
+                <span class="material-icons">arrow_drop_down</span> Temporada 1
+            </button>
+            <ul id="season-list" class="season-dropdown"></ul>
+        </div>
+        <ul id="episode-list"></ul>
+    </div>
+
+   <!-- Contenido de "Más como esto" -->
+   <div class="tab-pane" id="other-content">
+        
+    <div class="movie-grid">
+        
+        <a href="La familia Monster (1964).html">
+            <div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/dF4P2k9XgeFUT3OetAJqJJ0uQUj.jpg">
+            </div>
+        </a>
+        <a href="los años maravillosos.html">
+            <div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/o6vurYrZ2HrLWtuCVIN1vZoDDBY.jpg">
+            </div>
+        </a>
+        <a href="paso a paso.html">
+            <div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/3FnjhZFUvjXVwvt95Dk3AYTO3CT.jpg">
+            </div>
+        </a>
+        <a href="los-dukes-de-hazzard.html.html">
+            <div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/v0E0OQYJ6sgt8rXy4xGNwtsWxjt.jpg">
+            </div>
+        </a>
+    </div>
+</div>
+</div>
+<br><br>
+
+
+    
+    <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+    <script>
+        const playlist = {
+    "seasons": [
+        {
+            "season_title": "T1: The Green Hornet",
+            "episodes": [
+            {
+        "title": "E1 - The Silent Gun",
+        "image": "https://image.tmdb.org/t/p/original/2ys7JeO5ybUPCwfOW3G1k74iNiR.jpg",
+        "video_url": "https://od.lk/d/M18zMDMwMDA3MzFf/AV1x1.SeriesRetro.com.mp4",
+        "download_link": "https://od.lk/d/M18zMDMwMDA3MzFf/AV1x1.SeriesRetro.com.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "E2 - Give 'Em Enough Rope",
+        "image": "https://image.tmdb.org/t/p/original/if88cxc2DJmEk6pJvMOpF3T6AXA.jpg",
+        "video_url": "https://od.lk/d/M18zMDMwMDA3NDFf/AV1x2.SeriesRetro.com.mp4",
+        "download_link": "https://od.lk/d/M18zMDMwMDA3NDFf/AV1x2.SeriesRetro.com.mp4",
+        "duration": "25m"
+    },
+    {
+        "title": "E3 - Programmed for Death",
+        "image": "https://image.tmdb.org/t/p/original/jTz2Z3rd56Q7xSps2Zv1xkgDPGM.jpg",
+        "video_url": "https://od.lk/d/M18zMDMwMDA3NDhf/AV1x3.SeriesRetro.com.mp4",
+        "download_link": "https://od.lk/d/M18zMDMwMDA3NDhf/AV1x3.SeriesRetro.com.mp4",
+        "duration": "25m"
+    },
+    {
+        "title": "E4 - Crime Wave",
+        "image": "https://image.tmdb.org/t/p/original/tpFDtwOdoAmy65LP2xvukoSXFzJ.jpg",
+        "video_url": "https://od.lk/d/M18zMDMwMDA3NjJf/AV1x4.SeriesRetro.com.mp4",
+        "download_link": "https://od.lk/d/M18zMDMwMDA3NjJf/AV1x4.SeriesRetro.com.mp4",
+        "duration": "25m"
+    },
+    {
+        "title": "E5 - The Frog is a Deadly Weapon",
+        "image": "https://image.tmdb.org/t/p/original/f9c6w6LRuVZ4TpEwZuOXe0eCxni.jpg",
+        "video_url": "https://od.lk/d/M18zMDMwMDA3NzJf/AV1x5.SeriesRetro.com.mp4",
+        "download_link": "https://od.lk/d/M18zMDMwMDA3NzJf/AV1x5.SeriesRetro.com.mp4",
+        "duration": "25m"
+    },
+    
+           
+            ]
+        }
+    ]
+};
+
+  // Prevenir gestos táctiles no deseados
+  document.addEventListener('touchmove', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+
+window.addEventListener('load', function () {
+const overlay = document.querySelector('.overlay');
+const loader = document.getElementById('loader');
+
+// Se mantiene el loader visible por 1 segundo
+setTimeout(() => {
+// Hacer que el loader desaparezca rápidamente
+loader.style.opacity = '0'; // Desvanecer loader
+setTimeout(() => {
+    loader.style.display = 'none'; // Eliminarlo del flujo
+
+    // Se añade clase "hidden" al overlay para que se desvanezca lentamente
+    overlay.classList.add('hidden');
+}, 300); // Tiempo de transición de 300ms para el loader
+}, 1000); // Mantener el loader visible durante 1 segundo
+
+});
+
+const player = videojs('my-video', {
+controlBar: {
+playToggle: false, // Eliminar el control de Play
+volumePanel: false,
+fullscreenToggle: false,
+pipToggle: false,
+progressControl: true,
+remainingTimeDisplay: true,
+currentTimeDisplay: true,
+},
+userActions: {
+doubleClick: false, // Desactivar doble clic para pantalla completa
+hotkeys: false // Desactivar hotkeys para reproducción
+}
+});
+
+// Función para forzar el modo Landscape
+function forceLandscape() {
+if (screen.orientation && screen.orientation.lock) {
+screen.orientation.lock('landscape').catch((err) => {
+    console.error('No se pudo cambiar a landscape:', err.message);
+});
+} else if (window.screen.lockOrientation) {
+// Compatibilidad con navegadores más antiguos
+window.screen.lockOrientation('landscape').catch((err) => {
+    console.error('No se pudo cambiar a landscape:', err.message);
+});
+} else {
+console.warn('La API de orientación de pantalla no es compatible en este dispositivo.');
+}
+}
+
+// Función opcional para regresar a Portrait
+function forcePortrait() {
+if (screen.orientation && screen.orientation.lock) {
+screen.orientation.lock('portrait').catch((err) => {
+    console.error('No se pudo cambiar a portrait:', err.message);
+});
+}
+}
+
+// Detectar el evento de reproducción del video
+const video = document.getElementById('my-video');
+video.addEventListener('play', () => {
+forceLandscape(); // Forzar landscape al reproducir
+});
+
+// Detectar el evento de finalización del video (opcional)
+video.addEventListener('ended', () => {
+forcePortrait(); // Regresar a portrait al finalizar
+});
+
+
+
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
+const favoritoText = document.getElementById('favoritoText'); // Texto del botón
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+// Función para manejar el favorito
+function toggleFavorito() {
+const favoritoEnlace = document.getElementById('favoritoEnlace');
+const imagen = document.getElementById('favoritoImagen');
+const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontrado) {
+// Eliminar de favoritos
+const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+
+// Actualizar ícono y texto
+favoritoIcon.innerText = 'add';
+favoritoText.innerText = 'Añadir a Favoritos';
+
+mostrarNotificacion('Se eliminó de favoritos');
+} else {
+// Agregar a favoritos
+favoritos.push({
+    identificador: identificador,
+    imagen: imagen.outerHTML,
+    enlace: favoritoEnlace.href,
+    nombre: nombre, // Agregar el nombre al objeto
+});
+localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+// Actualizar ícono y texto
+favoritoIcon.innerText = 'check';
+favoritoText.innerText = 'Se añadió a Favoritos';
+
+mostrarNotificacion('Se añadió a favoritos');
+}
+}
+
+// Función para cargar el estado inicial del botón de favoritos
+function cargarEstadoFavorito() {
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontrado) {
+// Si está en favoritos, actualiza ícono y texto
+favoritoIcon.innerText = 'check';
+favoritoText.innerText = 'Se añadió a Favoritos';
+} else {
+// Si no está en favoritos, deja el ícono y texto por defecto
+favoritoIcon.innerText = 'add';
+favoritoText.innerText = 'Añadir a Favoritos';
+}
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', cargarEstadoFavorito);
+
+// Función para cargar el estado inicial del botón de favoritos
+function cargarEstadoFavorito() {
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontrado) {
+// Si está en favoritos, actualiza ícono y texto
+favoritoIcon.innerText = 'check';
+favoritoText.innerText = 'Se añadió a Favoritos';
+} else {
+// Si no está en favoritos, deja el ícono y texto por defecto
+favoritoIcon.innerText = 'add';
+favoritoText.innerText = 'Añadir a Favoritos';
+}
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', cargarEstadoFavorito);
+
+
+// Selección de los elementos relevantes
+const overlayVertical = document.querySelector('.portrait-overlay');
+const overlayHorizontal = document.querySelector('.horizontal-overlay');
+const header = document.getElementById('header');
+const pageTitle = document.querySelector('.page-title');
+
+// Manejar el evento de scroll
+window.addEventListener('scroll', () => {
+const scrollY = window.scrollY; // Obtener la posición del scroll
+const maxScroll = 300; // Distancia máxima para el efecto completo
+
+// Calcular la opacidad para el overlay
+const opacity = Math.max(0, 1 - scrollY / maxScroll); // Rango de 1 a 0
+const titleOpacity = Math.min(scrollY / maxScroll, 1); // Rango de 0 a 1
+
+// Oscurecer el overlay
+if (overlayVertical) overlayVertical.style.opacity = opacity;
+if (overlayHorizontal) overlayHorizontal.style.opacity = opacity;
+
+// Oscurecer el header gradualmente
+header.style.backgroundColor = `rgba(0, 0, 0, ${1 - opacity})`;
+
+// Hacer visible el título gradualmente
+pageTitle.style.opacity = titleOpacity;
+});
+
+
+
+// Función para cambiar de tab
+function switchTab(tab) {
+    console.log(`Cambiando a la pestaña: ${tab}`); // Agregar depuración
+
+    const episodesTab = document.getElementById("episodes-tab");
+    const otherTab = document.getElementById("other-tab");
+    const episodesContent = document.getElementById("episodes-content");
+    const otherContent = document.getElementById("other-content");
+
+    // Cambiar el estado de las tabs y el contenido correspondiente
+    if (tab === 'episodes') {
+        episodesTab.classList.add("active");
+        otherTab.classList.remove("active");
+        episodesContent.classList.add("active");
+        otherContent.classList.remove("active");
+    } else {
+        episodesTab.classList.remove("active");
+        otherTab.classList.add("active");
+        episodesContent.classList.remove("active");
+        otherContent.classList.add("active");
+    }
+}
+
+// Función para cargar temporadas
+function loadSeasons() {
+    console.log("Cargando temporadas..."); // Depuración
+
+    const seasonList = document.getElementById("season-list");
+    seasonList.innerHTML = ''; // Limpiar la lista de temporadas
+
+    playlist.seasons.forEach((season, index) => {
+        const seasonItem = document.createElement("li");
+        seasonItem.textContent = season.season_title;
+        seasonItem.classList.add("season-item");
+        seasonItem.dataset.index = index;
+        
+        seasonItem.addEventListener("click", () => {
+            console.log(`Temporada seleccionada: ${index}`); // Depuración
+            saveLastSeason(index); // Guardar la temporada seleccionada
+            loadEpisodes(index); // Cargar episodios de la temporada
+        });
+
+        seasonList.appendChild(seasonItem);
+    });
+
+    console.log("Temporadas cargadas correctamente.");
+}
+
+// Función para cargar episodios de la temporada seleccionada
+function loadEpisodes(seasonIndex) {
+    console.log(`Cargando episodios para la temporada: ${seasonIndex}`); // Depuración
+    const episodeList = document.getElementById("episode-list");
+    episodeList.innerHTML = ''; // Limpiar lista de episodios
+
+    if (!playlist.seasons[seasonIndex]) {
+        console.warn("Índice de temporada inválido, cargando la primera temporada.");
+        seasonIndex = 0;
+    }
+
+    saveLastSeason(seasonIndex); // Guardar la última temporada seleccionada
+
+    const season = playlist.seasons[seasonIndex];
+    season.episodes.forEach(episode => {
+        const episodeItem = document.createElement("li");
+        episodeItem.innerHTML = `
+            <img src="${episode.image}" alt="${episode.title}">
+            <span>${episode.title}</span>
+        `;
+        episodeItem.addEventListener("click", () => {
+            console.log(`Episodio seleccionado: ${episode.title}`); // Depuración
+            saveLastSeason(seasonIndex);
+        });
+
+        episodeList.appendChild(episodeItem);
+    });
+
+    updateSeasonButton(season.season_title);
+}
+
+// Función para guardar la última temporada en localStorage
+function saveLastSeason(index) {
+    console.log(`Guardando temporada en localStorage: ${index}`); // Depuración
+    localStorage.setItem("lastSeasonIndex", index);
+}
+
+// Función para recuperar la última temporada vista
+function loadLastSeason() {
+    console.log("Recuperando última temporada de localStorage..."); // Depuración
+
+    var lastSeasonIndex = localStorage.getItem("lastSeasonIndex");
+    if (lastSeasonIndex !== null) {
+        lastSeasonIndex = parseInt(lastSeasonIndex);
+        console.log(`Última temporada recuperada: ${lastSeasonIndex}`); // Depuración
+
+        if (playlist.seasons[lastSeasonIndex]) {
+            console.log(`Cargando temporada guardada: ${lastSeasonIndex}`); // Depuración
+            loadEpisodes(lastSeasonIndex);
+        } else {
+            console.warn("La temporada guardada no existe, cargando la primera.");
+            loadEpisodes(0); // Cargar la primera temporada por defecto si hay un problema
+        }
+    } else {
+        console.log("No se encontró temporada guardada, cargando la primera.");
+        loadEpisodes(0); // Cargar la primera temporada por defecto si no hay guardada
+    }
+}
+
+// Función para actualizar el botón con la temporada actual
+function updateSeasonButton(seasonTitle) {
+    console.log(`Actualizando botón con el título de la temporada: ${seasonTitle}`); // Depuración
+    document.getElementById("toggle-season-list").innerHTML = `
+        <span class="material-icons">arrow_drop_down</span> ${seasonTitle}
+    `;
+}
+
+// Inicialización al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Página cargada. Inicializando..."); // Depuración
+    loadSeasons();
+    loadLastSeason();
+
+    document.getElementById("toggle-season-list").addEventListener("click", () => {
+        document.getElementById("season-list").classList.toggle("show");
+    });
+
+    document.getElementById("episodes-tab").addEventListener("click", () => switchTab("episodes"));
+    document.getElementById("other-tab").addEventListener("click", () => switchTab("other"));
+
+    switchTab("episodes");
+});
+
+
+
+
+
+
+
+
+// Crear la superposición oscura
+const overlay = document.createElement('div');
+overlay.classList.add('vjs-dark-overlay');
+player.el().appendChild(overlay);
+
+// Mostrar/ocultar la superposición al tocar
+let hideOverlayTimeout;
+
+function showOverlay() {
+overlay.style.opacity = '0.5'; // Oscurecer la pantalla
+clearTimeout(hideOverlayTimeout);
+}
+
+function hideOverlay() {
+overlay.style.opacity = '0'; // Volver a la normalidad
+}
+
+// Eventos para oscurecer temporalmente al tocar
+player.el().addEventListener('touchstart', () => {
+showOverlay();
+hideOverlayTimeout = setTimeout(() => {
+if (!player.paused()) hideOverlay();
+}, 2000); // Oscurecer temporalmente durante 2 segundos
+});
+
+// Mantener la pantalla oscura al pausar
+player.on('pause', () => {
+showOverlay();
+});
+
+// Volver a la normalidad al reproducir
+player.on('play', () => {
+hideOverlay();
+});
+
+
+const customControls = document.createElement('div');
+customControls.classList.add('vjs-custom-controls');
+
+const topControls = document.createElement('div');
+topControls.classList.add('vjs-top-controls');
+
+// Botón para ajustar pantalla (solo funcional en fullscreen en móviles)
+const screenAdjustButton = document.createElement('button');
+screenAdjustButton.classList.add('vjs-custom-button', 'vjs-screen-adjust-button');
+screenAdjustButton.innerHTML = '<span class="material-icons">aspect_ratio</span>';
+customControls.appendChild(screenAdjustButton);
+
+
+
+// Opciones de ajuste disponibles
+let currentAdjustmentIndex = 0;
+const adjustments = ['cover', 'fill', 'fit-height', 'fit-width', 'scaledown', 'contain'];
+
+// Mostrar el nombre del ajuste al centro de la pantalla
+function showAdjustmentLabel(label) {
+    const labelDiv = document.createElement('div');
+    labelDiv.classList.add('vjs-adjustment-label');
+    labelDiv.textContent = label;
+    document.querySelector('.video-js').appendChild(labelDiv);
+
+    setTimeout(() => {
+        labelDiv.remove();
+    }, 1500);
+}
+
+// Lógica para cambiar los ajustes de pantalla
+screenAdjustButton.addEventListener('click', () => {
+    if (!player.isFullscreen()) {
+        console.log("El control de ajuste es funcional solo en pantalla completa.");
+        return;
+    }
+
+    currentAdjustmentIndex = (currentAdjustmentIndex + 1) % adjustments.length;
+    const selectedAdjustment = adjustments[currentAdjustmentIndex];
+
+    const videoElement = player.el().querySelector('video');
+    const videoContainer = player.el();
+
+    switch (selectedAdjustment) {
+        case 'cover':
+            videoElement.style.objectFit = 'cover';
+            break;
+        case 'fill':
+            videoElement.style.objectFit = 'fill';
+            break;
+        case 'fit-height':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.height = '100%';
+            videoElement.style.width = 'auto';
+            break;
+        case 'fit-width':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.width = '100%';
+            videoElement.style.height = 'auto';
+            break;
+        case 'scaledown':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.width = 'auto';
+            videoElement.style.height = 'auto';
+            videoContainer.style.display = 'flex';
+            videoContainer.style.justifyContent = 'center';
+            videoContainer.style.alignItems = 'center';
+            break;
+        case 'contain':
+            videoElement.style.objectFit = 'contain';
+            videoElement.style.width = '100%';
+            videoElement.style.height = '100%';
+            break;
+    }
+
+    // Mostrar el nombre del ajuste
+    showAdjustmentLabel(selectedAdjustment);
+});
+
+// Variable para almacenar la URL del episodio actual
+let currentVideoURL = null;
+
+// Evento para detectar cambios de fuente en el reproductor y actualizar la URL
+player.on('loadeddata', function () {
+    var newSrc = player.currentSrc();
+    console.log("Nuevo video cargado:", newSrc);
+
+    // Buscar en la playlist la URL que coincida con el video actual
+    for (var season of playlist.seasons) {
+        for (var episode of season.episodes) {
+            if (episode.video_url === newSrc) {
+                currentVideoURL = episode.video_url;
+                console.log("URL del episodio detectado:", episode.video_url);
+                return;
+            }
+        }
+    }
+
+    currentVideoURL = null; // Si no se encuentra en la playlist
+});
+
+
+
+
+
+
+
+
+
+
+// Crear el botón de regreso con chevron
+var backButton = document.createElement('a');
+backButton.classList.add('vjs-custom-button', 'vjs-back-button');
+backButton.innerHTML = '<span class="material-icons">chevron_left</span>';
+
+// Agregar funcionalidad al botón
+backButton.addEventListener('click', function () {
+// Pausar el video
+player.pause();
+
+// Salir del modo pantalla completa si está activado
+if (player.isFullscreen()) {
+player.exitFullscreen();
+}
+
+// Ocultar o cerrar el reproductor (opcional, dependiendo de cómo esté configurado tu reproductor)
+var playerContainer = document.getElementById('player');
+if (playerContainer) {
+playerContainer.style.display = 'none'; // Ocultar el reproductor
+}
+
+// Restablecer orientación al salir
+if (screen.orientation && screen.orientation.unlock) {
+screen.orientation.unlock();
+}
+});
+
+customControls.appendChild(backButton);
+// Controles de Seek y Play/Pause
+const seekBackButton = document.createElement('button');
+seekBackButton.classList.add('vjs-custom-button', 'vjs-seek-back');
+seekBackButton.innerHTML = '<span class="material-icons">replay_10</span>';
+topControls.appendChild(seekBackButton);
+
+const playPauseButton = document.createElement('button');
+playPauseButton.classList.add('vjs-custom-button', 'vjs-play-pause');
+playPauseButton.innerHTML = '<span class="material-icons">pause</span>'; // Mostrar pausa inicialmente
+topControls.appendChild(playPauseButton);
+
+const seekForwardButton = document.createElement('button');
+seekForwardButton.classList.add('vjs-custom-button', 'vjs-seek-forward');
+seekForwardButton.innerHTML = '<span class="material-icons">forward_10</span>';
+topControls.appendChild(seekForwardButton);
+
+customControls.appendChild(topControls);
+
+// Controles de Reiniciar y Next (debajo de los controles anteriores)
+const bottomControls = document.createElement('div');
+bottomControls.classList.add('vjs-bottom-controls');
+
+
+
+// Botón de Reiniciar
+const restartButton = document.createElement('button');
+restartButton.classList.add('vjs-custom-button', 'vjs-restart');
+restartButton.innerHTML = '<span class="material-icons">skip_previous</span> Reiniciar';
+bottomControls.appendChild(restartButton);
+
+// Botón de Siguiente
+const nextButton = document.createElement('button');
+nextButton.classList.add('vjs-custom-button', 'vjs-next');
+nextButton.innerHTML = '<span class="material-icons">skip_next</span> Siguiente';
+bottomControls.appendChild(nextButton);
+
+// Obtener y guardar estado en localStorage
+function getCurrentState() {
+    return {
+        seasonIndex: parseInt(localStorage.getItem("lastSeasonIndex"), 10) || 0,
+        episodeIndex: parseInt(localStorage.getItem("lastEpisodeIndex"), 10) || 0
+    };
+}
+
+function saveCurrentState(seasonIndex, episodeIndex) {
+    localStorage.setItem("lastSeasonIndex", seasonIndex);
+    localStorage.setItem("lastEpisodeIndex", episodeIndex);
+}
+
+// Cambiar al siguiente episodio en orden
+nextButton.addEventListener('click', () => {
+    let { seasonIndex, episodeIndex } = getCurrentState(); // Obtener el estado actual
+
+    let currentSeason = playlist.seasons[seasonIndex];
+    if (!currentSeason) return;
+
+    if (episodeIndex + 1 < currentSeason.episodes.length) {
+        // Si hay un episodio siguiente en la misma temporada
+        episodeIndex++;
+    } else if (seasonIndex + 1 < playlist.seasons.length) {
+        // Si no hay más episodios en la temporada actual, pasar a la siguiente temporada
+        seasonIndex++;
+        episodeIndex = 0;
+    } else {
+        alert("No hay más episodios disponibles.");
+        return;
+    }
+
+    // Guardar el nuevo estado
+    saveCurrentState(seasonIndex, episodeIndex);
+
+    // Cambiar la fuente del video al nuevo episodio
+    let nextEpisode = playlist.seasons[seasonIndex].episodes[episodeIndex];
+    player.src(nextEpisode.video_url);
+
+    // Emitir un evento personalizado para actualizar otros elementos
+    player.trigger('episodechange', { seasonIndex, episodeIndex });
+
+    console.log(`Reproduciendo: Temporada ${seasonIndex + 1}, Episodio ${episodeIndex + 1}`);
+});
+
+// Al cargar la página, reproducir el último episodio visto
+document.addEventListener("DOMContentLoaded", () => {
+    let { seasonIndex, episodeIndex } = getCurrentState();
+
+    if (
+        playlist.seasons[seasonIndex] &&
+        playlist.seasons[seasonIndex].episodes[episodeIndex]
+    ) {
+        let lastEpisode = playlist.seasons[seasonIndex].episodes[episodeIndex];
+        player.src(lastEpisode.video_url);
+        console.log(`Cargando último episodio visto: Temporada ${seasonIndex + 1}, Episodio ${episodeIndex + 1}`);
+    } else {
+        console.log("No hay episodio guardado, cargando primer episodio.");
+        saveCurrentState(0, 0);
+        player.src(playlist.seasons[0].episodes[0].video_url);
+    }
+});
+
+
+bottomControls.appendChild(nextButton);
+
+customControls.appendChild(bottomControls);
+
+// Agregar los controles al reproductor
+player.el().appendChild(customControls);
+
+// Función para obtener el enlace de descarga del episodio actual
+function getCurrentDownloadLink() {
+const currentEpisodeIndex = player.currentEpisodeIndex || 0; // Índice del episodio actual
+const currentSeason = playlist.seasons[0]; // Por ahora, asumimos la primera temporada
+if (currentSeason && currentSeason.episodes[currentEpisodeIndex]) {
+return currentSeason.episodes[currentEpisodeIndex].download_link;
+}
+return null;
+}
+
+
+
+
+
+// Lógica de visibilidad de controles
+let hideControlsTimeout;
+
+function showControls() {
+player.controlBar.el().style.opacity = '1';
+customControls.style.opacity = '1';
+clearTimeout(hideControlsTimeout);
+}
+
+function hideControls() {
+if (!player.paused()) {
+player.controlBar.el().style.opacity = '0';
+customControls.style.opacity = '0';
+}
+}
+
+function isMobileDevice() {
+return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+player.el().addEventListener(isMobileDevice() ? 'touchstart' : 'mousemove', () => {
+showControls();
+hideControlsTimeout = setTimeout(hideControls, 2000); // Ocultar controles después de 2 segundos
+});
+
+player.on('pause', () => {
+showControls();
+clearTimeout(hideControlsTimeout);
+});
+
+player.on('play', () => {
+playPauseButton.innerHTML = '<span class="material-icons">pause</span>';
+hideControlsTimeout = setTimeout(hideControls, 2000); // Ocultar controles después de 2 segundos
+});
+
+player.on('pause', () => {
+playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+});
+
+// Botones personalizados
+seekBackButton.addEventListener('click', function () {
+const currentTime = player.currentTime();
+player.currentTime(Math.max(0, currentTime - 10));
+});
+
+playPauseButton.addEventListener('click', function () {
+if (player.paused()) {
+player.play();
+playPauseButton.innerHTML = '<span class="material-icons">pause</span>';
+} else {
+player.pause();
+playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+}
+});
+
+seekForwardButton.addEventListener('click', function () {
+const currentTime = player.currentTime();
+player.currentTime(currentTime + 10);
+});
+
+restartButton.addEventListener('click', function () {
+player.currentTime(0); // Reiniciar el video
+player.play(); // Reproducir desde el principio
+});
+
+nextButton.addEventListener('click', function () {
+// Verificar si hay un siguiente episodio
+if (currentEpisodeIndex < playlist.seasons[currentSeasonIndex].episodes.length - 1) {
+// Si hay un siguiente episodio, avanzamos al siguiente episodio
+currentEpisodeIndex++;
+const nextEpisode = playlist.seasons[currentSeasonIndex].episodes[currentEpisodeIndex];
+player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+player.play();
+updateTitle(nextEpisode); // Actualizar el título con el nuevo episodio
+} else if (currentSeasonIndex < playlist.seasons.length - 1) {
+// Si no hay más episodios en la temporada actual, avanzamos a la siguiente temporada
+currentSeasonIndex++;
+currentEpisodeIndex = 0; // Comenzamos desde el primer episodio de la nueva temporada
+const nextSeason = playlist.seasons[currentSeasonIndex];
+updateSeasonButton(nextSeason.season_title); // Actualizamos el título de la temporada
+loadEpisodes(nextSeason); // Cargamos los episodios de la siguiente temporada
+const nextEpisode = nextSeason.episodes[currentEpisodeIndex];
+player.src({ type: 'video/mp4', src: nextEpisode.video_url });
+player.play();
+updateTitle(nextEpisode); // Actualizar el título con el nuevo episodio
+}
+});
+
+
+// Comportamiento de pantalla completa y pausa
+player.on('play', () => {
+if (!player.isFullscreen()) {
+player.requestFullscreen();
+}
+});
+
+player.on('fullscreenchange', () => {
+if (!player.isFullscreen()) {
+player.pause();
+}
+});
+
+// Restringir reproducción/pausa a controles personalizados
+player.el().addEventListener('click', (e) => {
+if (!isMobileDevice()) {
+e.stopPropagation();
+}
+});
+
+const style = document.createElement('style');
+style.innerHTML = `
+/* Contenedores de los controles personalizados */
+.vjs-custom-controls {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: absolute;
+bottom: 10px; /* Mantener los controles Seek/Play en su lugar */
+width: 100%;
+z-index: 10;
+}
+
+/* Contenedor de los controles Seek y Play (en el centro de la pantalla) */
+.vjs-top-controls {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 10px; /* Espacio entre los controles Seek/Play y los controles de Reiniciar/Next */
+gap: 30px; /* Añadir separación entre los controles Seek y Play */
+}
+
+/* Estilos para los botones de Seek y Play/Pause (más grandes) */
+.vjs-top-controls .vjs-custom-button {
+background-color: rgba(0, 0, 0, 0,);
+color: white;
+border: none;
+font-size: 60px; /* Iconos más grandes */
+padding: 20px; /* Botones más grandes */
+margin: 0 15px;
+border-radius: 50%;
+cursor: pointer;
+transition: transform 0.2s;
+}
+
+.vjs-top-controls .vjs-custom-button:hover {
+transform: scale(1.1); /* Efecto al pasar el mouse */
+}
+
+.vjs-top-controls .material-icons {
+font-size: 60px; /* Iconos más grandes */
+}
+
+/* Contenedor de los controles de Reiniciar y Next (debajo de los Seek/Play) */
+.vjs-bottom-controls {
+display: flex;
+justify-content: center;
+align-items: center;
+position: absolute;
+bottom: -90px; /* Mover los controles Reiniciar/Next hacia abajo */
+width: 100%;
+gap: 50px; /* Añadir separación entre los controles Reiniciar y Next */
+}
+
+/* Estilos para los botones de Reiniciar y Next (más pequeños) */
+.vjs-bottom-controls .vjs-custom-button {
+background-color: rgba(0, 0, 0, 0,);
+color: white;
+border: none;
+font-size: 10px; /* Iconos más pequeños */
+padding: 8px; /* Botones más pequeños */
+margin: 0 10px;
+border-radius: 50%;
+cursor: pointer;
+transition: transform 0.2s;
+}
+
+.vjs-bottom-controls .vjs-custom-button:hover {
+transform: scale(1.1); /* Efecto al pasar el mouse */
+}
+
+.vjs-bottom-controls .material-icons {
+font-size: 20px; /* Iconos más pequeños */
+}
+
+/* Texto pequeño al lado de los iconos */
+.vjs-restart, .vjs-next {
+font-size: 10px; /* Texto más pequeño */
+margin-left: 8px; /* Separación del texto respecto al icono */
+}
+
+/* Estilo del título */
+.vjs-title {
+position: absolute;
+top: 10px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 24px;
+color: white;
+font-weight: bold;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+z-index: 9999;
+}
+`;
+document.head.appendChild(style);
+
+
+
+
+let currentSeasonIndex = 0;
+let currentEpisodeIndex = 0;
+let currentTitleElement = null; // Referencia al título actual
+
+function updateTitle(episode) {
+if (currentTitleElement) {
+currentTitleElement.remove();
+}
+
+const titleDiv = document.createElement('div');
+titleDiv.classList.add('vjs-title'); // Usar clase CSS
+titleDiv.textContent = episode.title;
+
+document.querySelector('.vjs-control-bar').appendChild(titleDiv);
+currentTitleElement = titleDiv;
+}
+
+function loadSeasons() {
+const seasonList = document.getElementById('season-list');
+seasonList.innerHTML = ''; // Limpiar la lista de temporadas
+
+playlist.seasons.forEach((season, index) => {
+const seasonItem = document.createElement('li');
+seasonItem.textContent = season.season_title;
+seasonItem.classList.add('season-item'); // Clase para estilos
+
+seasonItem.onclick = () => {
+    // Actualizar temporada seleccionada
+    currentSeasonIndex = index;
+    currentEpisodeIndex = 0;
+    renderEpisodes(season); // Renderizar episodios de la temporada seleccionada
+    updateSeasonButton(season.season_title); // Actualizar el botón con el título de la temporada
+    seasonList.style.display = 'none'; // Ocultar lista de temporadas
+};
+
+seasonList.appendChild(seasonItem);
+});
+}
+
+function updateSeasonButton(seasonTitle) {
+const seasonButton = document.getElementById('toggle-season-list');
+seasonButton.innerHTML = `<span class="material-icons">arrow_drop_down</span> ${seasonTitle}`;
+}
+
+function renderEpisodes(season) {
+const episodeList = document.getElementById('episode-list');
+episodeList.innerHTML = ''; // Limpiar episodios previos
+
+// Obtener episodios reproducidos desde localStorage
+const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+season.episodes.forEach((episode, index) => {
+const episodeItem = document.createElement('li');
+episodeItem.classList.add('episode-item');
+
+// Marcar episodios reproducidos
+if (watchedEpisodes[episode.video_url]?.watched) {
+    episodeItem.classList.add('watched');
+}
+
+// Estructura del episodio con barra de progreso
+episodeItem.innerHTML = `
+    <div class="episode">
+        <div class="episode-thumbnail">
+            <img src="${episode.image}" alt="${episode.title}" class="episode-image">
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="episode-info">
+            <h3 class="episode-title">${episode.title}</h3>
+            <p class="episode-duration">${episode.duration}</p>
+            <a href="${episode.download_link}" class="download_link" download="${episode.title}.mp4">
+                <span class="material-icons">arrow_downward</span>
+            </a>
+        </div>
+    </div>
+`;
+
+// Actualizar barra de progreso al cargar
+const progressBar = episodeItem.querySelector('.progress-bar');
+const savedTime = watchedEpisodes[episode.video_url]?.time || 0;
+const watched = watchedEpisodes[episode.video_url]?.watched || false;
+
+// Convertir duración a segundos correctamente
+const durationMatch = episode.duration.match(/(\d+)h\s*(\d*)m?/);
+let durationInSeconds = 0;
+
+if (durationMatch) {
+    const hours = parseInt(durationMatch[1]) || 0;
+    const minutes = parseInt(durationMatch[2]) || 0;
+    durationInSeconds = (hours * 3600) + (minutes * 60);
+} else {
+    durationInSeconds = parseInt(episode.duration.split('m')[0]) * 60;
+}
+
+// Si el episodio fue visto, mantener la barra en 100%
+const progressPercentage = watched ? 100 : (savedTime / durationInSeconds) * 100;
+progressBar.style.width = `${progressPercentage}%`;
+
+// Reproducir episodio al hacer clic en el episodio (pero no en el botón de descarga)
+episodeItem.addEventListener('click', (event) => {
+    if (event.target.closest('.download_link')) {
+        return; // No hacer nada si se hizo clic en el enlace de descarga
+    }
+
+    // Solo reproducir cuando se hace clic en el episodio
+    playEpisode(episode, episodeItem, progressBar, durationInSeconds, index);
+});
+
+episodeList.appendChild(episodeItem);
+});
+
+// Cargar y mostrar el título del primer episodio por defecto
+updateTitle(season.episodes[0]);
+}
+
+function playEpisode(episode, episodeItem, progressBar, durationInSeconds, episodeIndex) {
+    // Establecer el video
+    player.src({ type: 'video/mp4', src: episode.video_url });
+
+    // Obtener el progreso guardado de localStorage
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+    const savedTime = watchedEpisodes[episode.video_url]?.time || 0;
+    const watched = watchedEpisodes[episode.video_url]?.watched || false;
+
+    // Si el episodio ya fue completado, la barra de progreso se mantiene al 100%
+    if (watched) {
+        progressBar.style.width = '100%';
+    } else {
+        progressBar.style.width = `${(savedTime / durationInSeconds) * 100}%`;
+    }
+
+    // Establecer el tiempo de inicio del video (para que empiece desde donde se dejó)
+    player.currentTime(savedTime);
+
+    // Reproducir el episodio
+    player.play();
+    currentEpisodeIndex = episodeIndex;
+    updateTitle(episode); // Actualizar título del episodio
+
+    // Escuchar evento de 'timeupdate' para actualizar el progreso
+    player.on('timeupdate', function () {
+        const currentTime = player.currentTime();
+        const progressPercentage = (currentTime / durationInSeconds) * 100;
+
+        // Actualizar visualmente la barra de progreso
+        progressBar.style.width = `${progressPercentage}%`;
+
+        // Guardar el progreso actual de este episodio en localStorage
+        watchedEpisodes[episode.video_url] = {
+            time: currentTime,
+            watched: false, // Por ahora, el episodio no está marcado como visto
+        };
+        localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+    });
+
+    // Marcar como reproducido al finalizar el video
+    player.on('ended', function () {
+        const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+        watchedEpisodes[episode.video_url] = {
+            time: durationInSeconds, // Marcar como completado (100%)
+            watched: true, // Marcar el episodio como visto
+        };
+        localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+
+        // Llenar la barra de progreso al 100% al terminar el episodio
+        progressBar.style.width = '100%';
+
+        // Marcar visualmente el episodio como visto
+        episodeItem.classList.add('watched');
+
+        // Reproducir automáticamente el siguiente episodio
+        autoPlayNextEpisode();
+    });
+}
+
+function autoPlayNextEpisode() {
+    const currentSeason = playlist.seasons[currentSeasonIndex];
+    const episodeList = document.getElementById('episode-list');
+    
+    if (currentEpisodeIndex < currentSeason.episodes.length - 1) {
+        // Avanzar al siguiente episodio
+        currentEpisodeIndex++;
+        const nextEpisode = currentSeason.episodes[currentEpisodeIndex];
+
+        // Obtener elementos del siguiente episodio
+        const nextEpisodeItem = episodeList.children[currentEpisodeIndex];
+        const nextProgressBar = nextEpisodeItem.querySelector('.progress-bar');
+        const nextDurationInSeconds = parseInt(nextEpisode.duration.split('m')[0]) * 60;
+
+        // Inicializar la barra de progreso en 0% al cambiar de episodio
+        nextProgressBar.style.width = '0%'; // Inicializa la barra en 0%
+
+        // Reproducir el siguiente episodio
+        playEpisode(nextEpisode, nextEpisodeItem, nextProgressBar, nextDurationInSeconds, currentEpisodeIndex);
+
+        // Actualizar la barra de progreso según el tiempo transcurrido
+        const interval = setInterval(() => {
+            const currentTime = nextProgressBar.dataset.currentTime || 0;
+            const progress = (currentTime / nextDurationInSeconds) * 100;
+            nextProgressBar.style.width = `${progress}%`;
+
+            if (currentTime >= nextDurationInSeconds) {
+                clearInterval(interval);
+                nextProgressBar.style.width = '100%'; // Marca la barra al 100% cuando termine el episodio
+            }
+
+            // Actualiza el tiempo actual
+            nextProgressBar.dataset.currentTime = parseFloat(currentTime) + 1;
+        }, 1000); // Actualiza cada segundo
+    } else if (currentSeasonIndex < playlist.seasons.length - 1) {
+        // Avanzar a la siguiente temporada
+        currentSeasonIndex++;
+        currentEpisodeIndex = 0;
+        const nextSeason = playlist.seasons[currentSeasonIndex];
+        updateSeasonButton(nextSeason.season_title);
+        renderEpisodes(nextSeason);
+        const nextEpisode = nextSeason.episodes[currentEpisodeIndex];
+
+        // Obtener elementos del siguiente episodio
+        const nextEpisodeItem = episodeList.children[currentEpisodeIndex];
+        const nextProgressBar = nextEpisodeItem.querySelector('.progress-bar');
+        const nextDurationInSeconds = parseInt(nextEpisode.duration.split('m')[0]) * 60;
+
+        // Reproducir el siguiente episodio
+        playEpisode(nextEpisode, nextEpisodeItem, nextProgressBar, nextDurationInSeconds, currentEpisodeIndex);
+    }
+}
+
+
+
+document.getElementById('toggle-season-list').addEventListener('click', () => {
+    const seasonList = document.getElementById('season-list');
+    // Alternar visibilidad de la lista de temporadas
+    seasonList.style.display = seasonList.style.display === 'block' ? 'none' : 'block';
+});
+
+// Inicializar la aplicación al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    loadSeasons(); // Cargar temporadas en la lista
+    renderEpisodes(playlist.seasons[0]); // Cargar episodios de la primera temporada
+    updateSeasonButton(playlist.seasons[0].season_title); // Botón con la primera temporada
+    // No reproducir automáticamente al cargar la página
+});
+
+// Cargar el progreso de cada episodio desde localStorage cuando se recarga la página
+document.addEventListener('DOMContentLoaded', function () {
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+    // Recorre todos los episodios y actualiza la barra de progreso según el tiempo guardado
+    const episodeList = document.getElementById('episode-list');
+    Array.from(episodeList.children).forEach((episodeItem, index) => {
+        const episode = playlist.seasons[currentSeasonIndex].episodes[index];
+        const progressBar = episodeItem.querySelector('.progress-bar');
+        const savedTime = watchedEpisodes[episode.video_url]?.time || 0;
+        const durationInSeconds = parseInt(episode.duration.split('m')[0]) * 60;
+
+        // Si el episodio está marcado como visto, la barra debe estar al 100%
+        if (watchedEpisodes[episode.video_url]?.watched) {
+            progressBar.style.width = '100%';
+        } else {
+            progressBar.style.width = `${(savedTime / durationInSeconds) * 100}%`;
+        }
+    });
+});
+
+
+
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon");
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  if (profileImage) profileImage.src = src;
+  if (profilePageImage) profilePageImage.src = src;
+  if (footerProfileIcon) footerProfileIcon.src = src;
+  if (headerProfileIcon) headerProfileIcon.src = src;
+
+  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+
+  localStorage.setItem('profileImage', src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+  const storedProfileImage = localStorage.getItem('profileImage');
+  if (storedProfileImage) {
+    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
+    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
+    if (profileImage) profileImage.src = storedProfileImage;
+    if (profilePageImage) profilePageImage.src = storedProfileImage;
+
+    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
+    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  }
+});
+  
+  // Ocultar footer al hacer scroll hacia abajo
+  var lastScrollTop = 0;
+  var footer = document.querySelector(".footer");
+  
+  window.addEventListener("scroll", function () {
+      var currentScroll = window.scrollY;
+  
+      if (currentScroll > lastScrollTop) {
+          footer.classList.add("hidden");
+      } else {
+          footer.classList.remove("hidden");
+      }
+  
+      lastScrollTop = currentScroll;
+  });
+
+
+
+    </script>
+</body>
+</html>

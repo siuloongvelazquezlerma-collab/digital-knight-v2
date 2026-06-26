@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Attack on Titan</title>
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Ajusta la altura según sea necesario */
+    background-color: black; /* Fondo negro */
+}
+
+#black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10; /* Asegúrate de que esté por encima del video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+        .video-js {
+            width: 100%;
+            height: 100%; /* Asegura que el video ocupe todo el contenedor */
+        }
+
+        .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background: linear-gradient(to bottom, #00000069, #00000000, #00000000, #00000000, #00000000, #0000003b ),
+    url('https://image.tmdb.org/t/p/original/8D8JkivJqxhNSnHiDvxF3LgS06T.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+
+  
+        }
+        .horizontal-overlay {
+    display: none; /* Oculta por defecto */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(to bottom, #000000c4, #00000000, #00000000, #00000000, #00000086, #000000),
+    url('https://image.tmdb.org/t/p/original/3ovLDNykjQ3rD6TxL0Zsr0SbC9S.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+    transition: background 0.3s ease-in-out; /* Transición suave */
+}
+
+
+
+
+@media (orientation: landscape) {
+    .overlay {
+        display: none; /* Oculta la imagen principal */
+    }
+    .horizontal-overlay {
+        display: flex; /* Muestra la segunda imagen */
+    }
+}
+
+/* Media query para modo vertical */
+@media (orientation: portrait) {
+    .overlay {
+        display: flex; /* Muestra la imagen principal */
+    }
+    .horizontal-overlay {
+        display: none; /* Oculta la segunda imagen */
+    }
+}
+
+
+   
+
+
+        .container {
+    max-width: 100%;
+}
+
+.logo-container {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%; /* Cubre todo el ancho de la página */
+    background: linear-gradient(to bottom, #00000000, #00000075, #000000 ); /* Degradado lineal */
+    padding: 10px; /* Espaciado interno para que el degradado sea visible alrededor del logo */
+    text-align: center; /* Centra el logo dentro del fondo */
+}
+
+.logo {
+    width: 250px; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+    opacity: 0.0; /* Transparencia total */
+}
+
+
+
+        .tabs {
+            display: flex;
+    justify-content: flex-start; /* Alinear hacia la izquierda */
+    margin-top: 10px;
+    border-bottom: 1px solid #ffffff38;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #ff5e00; /* Borde blanco para la pestaña activa */
+            
+    font-weight: bold;
+    color: #fff; /* Color de fuente blanco */
+
+            
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .episode {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            border-left: 5px solid transparent;
+        }
+
+        .episode.watched {
+    border-left: 5px solid #ff5e00; /* Change the color as needed */
+}
+.episode.watched img {
+    filter: brightness(50%);
+}
+
+
+        .episode img {
+            width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+        
+        }
+
+        .duration-label {
+            position: absolute;
+            bottom: 3px;
+            right: 190px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .episode-description {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+            font-weight: bold;
+            top: -15px;
+        }
+        .episode-title {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+        }
+        .download-button, .mark-watched-button {
+            padding-bottom: 10px;
+            right: 10px;
+            bottom: 0px;
+            color: white;
+            font-size: 17px;
+            padding: 5px 10px 5px;
+            cursor: pointer;
+            position: absolute;
+        }
+        .duration, .remaining-time {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+        .season-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    position: relative;
+    border-bottom: 1px solid #ffffff38;
+    bottom: 10px;
+}
+
+.season-dropdown select {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.season-dropdown .material-icons {
+    margin-left: -260px; /* Ajusta la posición del icono */
+    pointer-events: none;
+    
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px; /* Espacio entre el dropdown de temporadas y el menú desplegable */
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0; /* Despliega hacia abajo a la izquierda */
+}
+
+.menu-dropdown button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-dropdown button:hover {
+    background-color: #575757;
+}
+
+        .download-all-button {
+    margin-left: 220px;
+    background: none;
+    color: white; /* Texto blanco para el botón de descarga */
+    font-size: 13px; /* Tamaño del texto del botón */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.download-all-button .material-icons {
+    margin-left: 20px; /* Espaciado entre el texto y el icono */
+    font-size: 17px;
+    border-bottom: 0.5px solid white; /* Grosor de la línea */
+  width: 17px; /* Ajusta el ancho de la línea */
+  text-align: center;
+}
+.suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre las imágenes */
+        }
+        .suggestion-item {
+            position: relative;
+        }
+        .suggestion-item img {
+            width: 100%;
+            height: auto;
+        }
+        .suggestion-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .suggestion-item:hover a {
+            opacity: 1;
+        }
+
+        /* Estilos para la animación de deslizamiento */
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, #000000, #00000069, #00000000);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .header.scrolled {
+            background: linear-gradient(to bottom, #000000, #000000, #000000 );
+        }
+        .header .back-arrow, .header .cast-button {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        .header .title {
+            display: none;
+            font-size: 18px;
+            color: white;
+            margin-left: 10px;
+        }
+        .header.scrolled .title {
+            display: block;
+        }
+        .content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        .season-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        .season-navigation .material-icons {
+            margin: 10px 10px; /* Space between text and arrow */
+            align-items: center;
+        }
+        .previous-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+           
+        }
+        .next-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding-right: 10px;
+        }
+        .favorito-container {
+    display: flex;
+    justify-content: flex-start; /* Mover el botón a la izquierda */
+    align-items: center;
+    margin-top: 2px; /* Espacio superior para separar del contenido anterior */
+}
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#favoritoIcon {
+    margin-right: 5px;
+}
+
+.favorito-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.serie-descripcion {
+    margin: 20px;
+    text-align: left;
+}
+
+#detallesBtn {
+    background: none;
+    border: none;
+    color: #ff5e00;
+    padding: 0;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: bold;
+    
+}
+
+
+
+.detalles-slider {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 40px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    transition: bottom 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.detalles-slider.active {
+    bottom: 0;
+}
+
+.detalles-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    bottom: -10px;
+    top: 30%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.heading-line {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 16px;
+    font-size: 11px;
+    z-index: 1000;
+}
+
+.age-rating {
+    padding: 5px 0; /* Quitar el fondo de color general */
+    margin-top: 10px; /* Espacio entre el título y la clasificación por edad */
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.rating {
+    background-color: rgba(92, 98, 129, 0.7); /* Fondo de color solo para el número 12 y el signo de más */
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.series-text {
+    color: #78f1d3; /* Color para el texto "Series" */
+    font-size: 13px;
+    padding: 3px;
+}
+
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #202127;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+.footer-btn:hover,
+.footer-btn.active { /* Color naranja al estar activo */
+  color: #ff5e00; 
+}
+
+.footer-btn  {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 0; 
+    font-size: 0.6em;
+    transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+    font-size: 30px;
+    margin-bottom: 1px;
+}
+.footer-btn p {
+  margin: 1px 6px 9px; /* Ajusta el margen superior del texto */
+  
+ 
+}
+.notificacion {
+  position: fixed;
+  bottom: 48px; /* Ajusta la posición para que aparezca arriba del footer */
+  width: 100%;       /* La notificación ocupa todo el ancho */
+  left: 0;
+  transform: translateX(0);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1001; /* Asegúrate de que esté por encima del footer */
+  display: none; /* Inicialmente oculta */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  align-items: center;   /* Centra verticalmente */
+  justify-content: flex-start; /* Centra horizontalmente */
+  margin: 10px;
+
+}
+
+.notificacion.mostrar {
+  display: block;
+  opacity: 1;
+}
+
+.check-icon {
+  color: #4CAF50; 
+  margin-left: 10px; /* Espacio a la IZQUIERDA del icono */
+}
+
+
+
+     
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <div style="display: flex; align-items: center;">
+            <a href="go:inicio" class="back-arrow material-icons">arrow_back</a>
+            <span class="title" id="page-title">Attack on Titan</span>
+        </div>
+        <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMDk3MzM4MjFf/new%20snk%20page.html" class="cast-button material-icons">cast</a>
+    </div>
+    <div class="video-container">
+        <div id="black-overlay"></div>
+        <video id="my-video" class="video-js vjs-default-skin" controls preload="auto">
+            <source id="videoSource" src="https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4" type="video/mp4" id="video-source">
+            <p class="vjs-no-js">
+                Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+                <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+            </p>
+        </video>
+     
+        <div class="overlay" id="overlay">
+            <div class="logo-container">
+                <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+            </div>
+    </div>
+    <div class="horizontal-overlay">
+        <!-- Contenido de la segunda imagen -->
+        <div class="logo-container">
+            <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br><br>
+<div class="heading-line">
+    <h1 class="heading title">Attack on Titan</h1>
+    <div class="age-rating">
+        <span class="rating">12+</span> • <span class="series-text">Series</span> • Dob
+    </div>
+</div>
+
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="sailormoon" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/ylo2jRmsVCYAXcL1qX2U9GvxpZ7.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="go:titan"></a>
+        <span id="nombre">Attack on Titan</span>
+    </div>
+</div>
+<div id="notificacion" class="notificacion">
+    <span class="material-icons check-icon">check_circle</span> <span id="mensajeNotificacion"></span> 
+  </div>
+<div class="serie-descripcion">
+    <p id="descripcion-texto">Attack on Titan es una serie de anime basada en el manga del mismo nombre. La historia sigue a
+        Eren Yeager y sus amigos mientras luchan contra los titanes que amenazan la humanidad.</p>
+        <br>
+    <center><button id="detallesBtn" onclick="toggleDetalles()">DETALLES DE LA SERIE</button></center>
+</div>
+<div id="detallesSlider" class="detalles-slider">
+    <div class="detalles-content">
+        <button class="close-btn" onclick="toggleDetalles()">X</button>
+        <h2>Attack on Titan</h2>
+        <br>
+        <p>Attack on Titan (Shingeki no Kyojin) es un anime y manga creado por Hajime Isayama, que se lanzó en 2009. Muchos años atrás, la humanidad estuvo al borde de la extinción con la aparición de unas criaturas gigantes que
+            devoraban a todas las personas. Huyendo, la humanidad consiguió sobrevivir en una ciudad fortificada de altas
+            murallas que se ha convertido en el último reducto de la civilización contra los Titanes que campan a sus anchas por
+            el mundo. Ahora esa paz está a punto de verse interrumpida por una cadena de acontecimientos que llevará a desvelar
+            qué son los Titanes y cómo aparecieron.</p>
+            <br>
+            <p> Detalles Clave:</p>
+            <br>
+ 
+ <p>Género: Acción, horror, fantasía oscura, post-apocalíptico, militar.</p>
+ <br>
+ <p>Contexto: La humanidad vive dentro de murallas gigantes para protegerse de los Titanes, criaturas enormes que devoran personas aparentemente sin razón.</p>
+ <br>
+ <p>Protagonista: Eren Yeager, un joven que, tras presenciar la destrucción de su ciudad y la muerte de su madre a manos de los titanes, jura exterminarlos y unirse a la Legión de Reconocimiento (Survey Corps).</p>
+ <br>
+ <p>Titanes: Los Titanes son gigantes humanoides de diferentes tamaños, sin inteligencia aparente, que representan una amenaza constante para la humanidad.</p>
+ <br>
+ <p>Murallas: Las tres murallas, Maria, Rose, y Sina, protegen los últimos asentamientos humanos de la amenaza de los titanes.</p>
+ <br>
+ <p>Legión de Reconocimiento: Una unidad militar especializada en explorar el exterior de las murallas y luchar contra los titanes.</p>
+ <br>
+ <p>Poderes Especiales: Eren descubre que tiene la capacidad de transformarse en un titán, lo que cambia por completo el rumbo de la historia.</p>
+ <br>
+ <p>Giros y Misterios: A lo largo de la serie, se revelan sorprendentes verdades sobre el origen de los titanes, el pasado de la humanidad, y los secretos detrás de las murallas.</p>
+ <br>
+ <p>Personajes Importantes:
+ </p>
+ <br>
+ <p>Mikasa Ackerman: Amiga de la infancia de Eren, una guerrera excepcionalmente habilidosa.
+ </p>
+ <br>
+ <p>Armin Arlert: El mejor amigo de Eren, un estratega inteligente.
+ </p>
+ <br>
+ <p>Levi Ackerman: Capitán de la Legión de Reconocimiento, considerado uno de los mejores soldados en la lucha contra los titanes.
+ </p>
+ <br>
+ <p>Tema de Supervivencia: El tono de la serie es oscuro y frecuentemente plantea preguntas sobre la supervivencia, el sacrificio, y la libertad, lo que añade una complejidad emocional y filosófica a la trama.
+ </p>
+ <br>
+ <p>Género:
+ </p>
+ <br>
+ <p>Shonen: Aunque tiene elementos más oscuros que muchos animes shonen tradicionales, está dirigido principalmente a adolescentes.
+ </p>
+ <br>
+ <p>Fantasía oscura: Incluye elementos de horror y violencia gráfica en un mundo ficticio donde el peligro es constante.
+ </p>
+ <br>
+ <p>Attack on Titan es conocida por sus giros inesperados, tensión dramática, y compleja construcción del mundo, lo que ha llevado a que tenga una enorme base de seguidores globales.
+ </p>
+ <br><br><br><br>
+            <br><br><br>
+        <!-- Agrega más detalles aquí -->
+    </div>
+</div>
+
+
+<div class="tabs slide-up">
+    <div class="tab active" data-tab="episodes">EPISODIOS</div>
+    
+    <div class="tab" data-tab="suggestions">MÁS COMO ESTO</div>
+</div>
+
+<div id="episodes" class="tab-content active">
+
+    <div class="season-dropdown">
+            <label for="season-select"></label>
+            <select id="season-select">
+                <option value="1">T1: Attack on Titan</option>
+                <option value="2">T2: Attack on Titan Season 2</option>
+                <option value="3">T3: Attack on Titan Season 3</option>
+                <option value="4">T4: Attack on Titan Final Season</option>
+                <option value="5">Attack on Titan Final 2 chapters</option>
+                <option value="6">Attack on Titan Ovas</option>
+              
+            </select>
+            
+            <span class="material-icons">arrow_drop_down</span>
+            
+            <button class="download-all-button" id="download-all">
+                Descargar Todos <span class="material-icons">arrow_downward</span>
+            </button>
+            
+            
+        </div>
+        <div id="playlist"></div>
+    </div>
+      
+
+    <div id="suggestions" class="tab-content">
+       
+        <div class="suggestions-grid">
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/6VKOfL6ihwTiB5Vibq6QTfzhxA6.jpg" alt="dragon ball z">
+                <a href="https://od.lk/s/M18zMDk0NDMzMThf/DB%20SAGAS.html" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <!-- Agrega más sugerencias aquí -->
+        </div>
+    </div>
+    <div class="season-navigation">
+        <div class="previous-season">
+            <i class="material-icons">arrow_back</i>
+            Temporada Anterior
+        </div>
+        <div class="next-season">
+            Siguiente Temporada
+            <i class="material-icons">arrow_forward</i>
+        </div>
+    </div>
+   
+    <footer class="footer">
+        <a href="go:Inicio" class="footer-btn" id="homeBtn">
+            <span class="material-icons-outlined">home</span>
+            <p>Inicio</p>
+        </a>
+        <a href="go:favoritos" class="footer-btn" id="favoritosBtn">
+            <span class="material-icons-outlined">bookmark_outline</span>
+            <p>Favoritos</p>
+        </a>
+        <a href="go:explorar" class="footer-btn" id="explorarBtn">
+            <span class="material-icons-outlined">grid_view</span>
+            <p>Explorar</p>
+        </a>
+        <a href="http://action_profile" class="footer-btn" id="cuentaBtn">
+            <span class="material-icons-outlined">account_circle</span>
+            <p>Cuenta</p>
+        </a>
+    </footer>
+
+    <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+    <script>
+         const playlists = {
+            1: [
+            {
+              "title": "",
+      "description": "PV",
+      "image": "https://od.lk/s/M18zMDk3MzM2ODlf/34325_75010_1737.jpg",
+      "video": "https://od.lk/s/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4",
+      "download": "https://od.lk/d/M18zMDk3MzM2OTBf/Attack%20On%20Titan_%20Trailer.mp4",
+      "duration": "1m"
+    },
+            {
+              "title": "",
+      "description": "E1: A ti, 2,000 años en el futuro. La caída de Shiganshina - Primera Parte",
+      "image": "https://image.tmdb.org/t/p/w300//4Ucsb3p1dedDCjcFtnY25txxRpA.jpg",
+      "video": "https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4",
+      "download": "https://od.lk/d/M18zMDA4MzgxNjZf/snk%201.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E2: Ese día. La caída de Shiganshina - Segunda Parte",
+      "image": "https://image.tmdb.org/t/p/w300//3l0CkbEdnBeYvpEm9nSVIQXs237.jpg",
+      "video": "https://od.lk/s/M18zMDA4MzgyNTNf/snk%202.mp4",
+      "download": "https://od.lk/d/M18zMDA4MzgyNTNf/snk%202.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E3: Una tenue luz en la desesperación. La humanidad se levanta de nuevo - Primera Parte",
+      "image": "https://image.tmdb.org/t/p/w300//vcjknjNEJ827dTL9PBebjp49q5Y.jpg",
+      "video": "https://od.lk/s/M18zMDA4MzgzMTlf/SNK%203.mp4",
+      "download": "https://od.lk/d/M18zMDA4MzgzMTlf/SNK%203.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E4: La noche de la ceremonia de graduación. La humanidad se levanta de nuevo - Segunda Parte",
+      "image": "https://image.tmdb.org/t/p/w300//jsrRlhhfWbpMgqCHjgGUNamPbnC.jpg",
+      "video": "https://od.lk/s/M18zMDA4Mzg4NTZf/SNK%204.mp4",
+      "download": "https://od.lk/d/M18zMDA4Mzg4NTZf/SNK%204.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E5: Primera batalla. La batalla de Trost (1)",
+      "image": "https://image.tmdb.org/t/p/w300//o1HKzfQjNqJHKuGuTwA3nbX1leU.jpg",
+      "video": "https://od.lk/s/M18zMDA4MzkxMjFf/SNK%205.mp4",
+      "download": "https://od.lk/d/M18zMDA4MzkxMjFf/SNK%205.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E6: El mundo a los ojos de la chica. La batalla de Trost (2)",
+      "image": "https://image.tmdb.org/t/p/w300//m7Yzfqhvv3SAwiLwI0iWtj8px9v.jpg",
+      "video": "https://od.lk/s/M18zMDA4Mzk0NDZf/SNK%206.mp4",
+      "download": "https://od.lk/d/M18zMDA4Mzk0NDZf/SNK%206.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E7: Una pequeña hoja. La batalla de Trost (3)",
+      "image": "https://image.tmdb.org/t/p/w300//z2QHfSCLIO7PuVnI8hcVUAGgaJl.jpg",
+      "video": "https://od.lk/s/M18zMDA4Mzk1MDZf/SNK%207.mp4",
+      "download": "https://od.lk/d/M18zMDA4Mzk1MDZf/SNK%207.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E8: Oigo sus latidos. La batalla de Trost (4)",
+      "image": "https://image.tmdb.org/t/p/w300//poMQWaWoIHm6sbV1kLZhpFWNWsp.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjAzMjRf/SNK%208.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjAzMjRf/SNK%208.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E9: El paradero del brazo izquierdo. La batalla de Trost (5)",
+      "image": "https://image.tmdb.org/t/p/w300//wnZ2XNmROpeYIdNVnQ7zz1Gsx5M.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjA2NTdf/SNK%209.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjA2NTdf/SNK%209.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E10: Respuesta. La batalla de Trost (6)",
+      "image": "https://image.tmdb.org/t/p/w300//iM0ZnpWE0pzZdNh2dDF5f0O6jK1.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjExODVf/SNK%2010.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjExODVf/SNK%2010.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E11: Símbolo. La batalla de Trost (7)",
+      "image": "https://image.tmdb.org/t/p/w300//4Y8Xl6JQBUyYWd5hNWbgxlvB2yL.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjE3NDRf/SNK%2011.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjE3NDRf/SNK%2011.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E12: Herida. La batalla de Trost (8)",
+      "image": "https://image.tmdb.org/t/p/w300//cBtdJdd921et4kxndc3neeCjKja.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjIxNzBf/SNK%2012.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjIxNzBf/SNK%2012.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E13: Deseos primarios. La batalla de Trost (9)",
+      "image": "https://image.tmdb.org/t/p/w300//29704CwCHFPQvbjFJJmhMM6m0uG.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjI3MjNf/SNK%2013.mp4",
+      "download": "https://od.lk/s/M18zMDQyMjI3MjNf/SNK%2013.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E14: Todavía no puede mirar hacia adelante. La batalla de Trost (10)",
+      "image": "https://image.tmdb.org/t/p/w300//i5LwCRuHRuQxPVJPbOAIIkRKiQo.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjMyMzdf/SNK%2014.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjMyMzdf/SNK%2014.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E15: El mundo que ella vio. La batalla de Trost (11)",
+      "image": "https://image.tmdb.org/t/p/w300//zoXVaoSqxlXpUoq5g5opNCTGUSB.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjM2NTNf/SNK%2015.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjM2NTNf/SNK%2015.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E16: El escuadrón de reconocimiento sale. La batalla de Trost (12)",
+      "image": "https://image.tmdb.org/t/p/w300//imyHAoRf7yeVMal0UCvmSQulovr.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjM3NzVf/SNK%2016.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjM3NzVf/SNK%2016.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E17: Titán blindado. La batalla de Trost (13)",
+      "image": "https://image.tmdb.org/t/p/w300//hERw24rvwwyIhvBCnmX6VMLSJxq.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjQxMTdf/SNK%2017.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjQxMTdf/SNK%2017.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E18: El golpe del cañón. La batalla de Trost (14)",
+      "image": "https://image.tmdb.org/t/p/w300//qytiWM8NAn3EzdLaoigJTJgLuD5.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjQ2MzNf/SNK%2018.mp4",
+      "download": "https://od.lk/s/M18zMDQyMjQ2MzNf/SNK%2018.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E19: Lluvia de fuego. La batalla de Trost (15)",
+      "image": "https://image.tmdb.org/t/p/w300//1Uxxm7lpMdHOQ8ebTdfCGQYBL5d.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjQ4NjJf/SNK%2019.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjQ4NjJf/SNK%2019.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E20: Batalla final. La batalla de Trost (16)",
+      "image": "https://image.tmdb.org/t/p/w300//k5CjtyUxdfhlzyFhF4isJoY0855.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjUyMjdf/SNK%2020.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjUyMjdf/SNK%2020.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E21: La promesa de un guerrero. La batalla de Trost (17)",
+      "image": "https://image.tmdb.org/t/p/w300//eN3cAd2hKITV7ZswnTjqHFMkVnV.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjU2NThf/SNK%2021.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjU2NThf/SNK%2021.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E22: Rugido del titán. La batalla de Trost (18)",
+      "image": "https://image.tmdb.org/t/p/w300//zvgLwsXPh2WMAfIQOyFhNUAhyx0.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjU4NDlf/SNK%2022.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjU4NDlf/SNK%2022.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E23: Armadura perdida. La batalla de Trost (19)",
+      "image": "https://image.tmdb.org/t/p/w300//8M1VyncRhIXYn112ietpj3p33cb.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjU4NzNf/SNK%2023.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjU4NzNf/SNK%2023.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E24: Táctica de combate. La batalla de Trost (20)",
+      "image": "https://image.tmdb.org/t/p/w300//36TL36zTiN4GnYuBgqCPfHjsrWE.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjU5MDNf/SNK%2024.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjU5MDNf/SNK%2024.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E25: Vientos del cambio. La batalla de Trost (21)",
+      "image": "https://image.tmdb.org/t/p/w300//2euk86Y2huYGUHuuAAczyLydNWE.jpg",
+      "video": "https://od.lk/s/M18zMDQyMjU5MzZf/SNK%2025.mp4",
+      "download": "https://od.lk/d/M18zMDQyMjU5MzZf/SNK%2025.mp4",
+      "duration": "24m"
+    }
+            ],
+            2: [
+            {
+    "title": "",
+    "description": "E1: El titán bestia",
+    "image": "https://image.tmdb.org/t/p/w300//2HUVf98JazA7bTmzk2Ngu0wneNd.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjY3NzVf/SNK.2-01HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjY3NzVf/SNK.2-01HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E2: Regreso a casa",
+    "image": "https://image.tmdb.org/t/p/w300//hnkDhj5YUwqKxWuRviT874dRY0r.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjY4MTJf/SNK.2-02HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjY4MTJf/SNK.2-02HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E3: Hacia el suroeste",
+    "image": "https://image.tmdb.org/t/p/w300//darYJHQto349CxkYZmLPxWobnhK.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjY4NDZf/SNK.2-03HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjY4NDZf/SNK.2-03HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E4: Soldado",
+    "image": "https://image.tmdb.org/t/p/w300//ykAYnzBvVkFlb4uik0jb50HeHh9.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjY4ODNf/SNK.2-04HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjY4ODNf/SNK.2-04HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E5: Historia",
+    "image": "https://image.tmdb.org/t/p/w300//ixW3tXUUK4RrEzFhWhLU0NVI0zn.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjY5Mjhf/SNK.2-05HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjY5Mjhf/SNK.2-05HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E6: Guerrero",
+    "image": "https://image.tmdb.org/t/p/w300//mGsGFFdkjXeLikNShJfBu81NVlD.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjY5Njdf/SNK.2-06HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjY5Njdf/SNK.2-06HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E7: Golpea, arroja, somete",
+    "image": "https://image.tmdb.org/t/p/w300//6iTiWI5zmMjnHwGQ4iHkL5sWN9T.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjcwMDhf/SNK.2-07HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjcwMDhf/SNK.2-07HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E8: Perseguidores",
+    "image": "https://image.tmdb.org/t/p/w300//mmmmxLuvyyApMqEECpjGFcqdxTC.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjcwNTJf/SNK.2-08HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjcwNTJf/SNK.2-08HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E9: Apertura",
+    "image": "https://image.tmdb.org/t/p/w300//nk5iqPfIUXRTRWu5Ty9t7JN5yR.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjcwODdf/SNK.2-09HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjcwODdf/SNK.2-09HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E10: Niños",
+    "image": "https://image.tmdb.org/t/p/w300//mXvMLRj2rlYdoOSoVe5oHZz7faZ.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjcxMjJf/SNK.2-10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjcxMjJf/SNK.2-10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E11: Asalto",
+    "image": "https://image.tmdb.org/t/p/w300//bjeTC8ZHnb0Fsz4PiaCcIdbSSbn.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjcxNjRf/SNK.2-11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjcxNjRf/SNK.2-11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E12: Grito",
+    "image": "https://image.tmdb.org/t/p/w300//3wjYUJLyYK16Qm70IonUAaroCde.jpg",
+    "video": "https://od.lk/s/M18zMDI3MjcyMDFf/SNK.2-12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3MjcyMDFf/SNK.2-12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  }
+        
+           ],
+           3: [
+           {
+    "title": "",
+    "description": "E1: Señal de humo",
+    "image": "https://image.tmdb.org/t/p/w300//g5gdbz4MUxHYAakgFeHfAOQMIvs.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc1Mjhf/SNK3.1HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc1Mjhf/SNK3.1HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E2: Dolor",
+    "image": "https://image.tmdb.org/t/p/w300//5qFlHCtb82MWuMf72NgXltjnq96.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc1Mzlf/SNK3.2HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc1Mzlf/SNK3.2HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E3: Historias del pasado",
+    "image": "https://image.tmdb.org/t/p/w300//w6dI9fRyRXtvpvLSjGGGJ8VRaSt.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc1NzBf/SNK3.3HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc1NzBf/SNK3.3HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E4: Confianza",
+    "image": "https://image.tmdb.org/t/p/w300//lfC5qqu0X1UwqbpCC8bql0y9xem.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc1OTRf/SNK3.4HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc1OTRf/SNK3.4HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E5: Respuesta",
+    "image": "https://image.tmdb.org/t/p/w300//eE4eWhCOs6ADgqF2q7oStg7i50Q.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc2MTVf/SNK3.5HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc2MTVf/SNK3.5HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E6: Pecado",
+    "image": "https://image.tmdb.org/t/p/w300//hvpRsObceOJgbCXhcnK8rf0HVk.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc2Mjdf/SNK3.6HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc2Mjdf/SNK3.6HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E7: Deseo",
+    "image": "https://image.tmdb.org/t/p/w300//yzRT9uzwBRO5Npio8yaAaZeClI1.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc2NjZf/SNK3.7HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc2NjZf/SNK3.7HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E8: La muralla exterior de Orvud",
+    "image": "https://image.tmdb.org/t/p/w300//8Gm8GDMPsviXQJRzunQTTWlXnw1.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc2ODlf/SNK3.8HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc2ODlf/SNK3.8HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E9: La reina de la muralla",
+    "image": "https://image.tmdb.org/t/p/w300//a5HryZioGnROWRyona6uSjZQyq5.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc2OTdf/SNK3.9HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc2OTdf/SNK3.9HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E10: Amigo",
+    "image": "https://image.tmdb.org/t/p/w300//oIqiOCiui0wBkGImdxma4XfWsnJ.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc3MzRf/SNK3.10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc3MzRf/SNK3.10HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E11: Espectador",
+    "image": "https://image.tmdb.org/t/p/w300//qeISjI2nxqaaUvf4LcW9rlExGcY.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc3NjJf/SNK3.11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc3NjJf/SNK3.11HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "duration": "24m"
+  },
+  {
+    "title": "",
+    "description": "E12: La noche de la operación de reconquista",
+    "image": "https://image.tmdb.org/t/p/w300//88MIIgipuAsNL9jLKk9sK8YrqxS.jpg",
+    "video": "https://od.lk/d/M18zMDI3Mjc3OTRf/SNK3.12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+    "download": "https://od.lk/d/M18zMDI3Mjc3OTRf/SNK3.12HDL4T%5Bby%20The%20Ult.%20%20Ackerman%5D.mp4",
+      "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E13: La ciudad donde empezó todo",
+        "image": "https://image.tmdb.org/t/p/w300//n5IBwDe5auoOFw0B0Lw3iwxec5.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzQ0MzJf/Attack%20on%20Titan%20Season%203%20Episodio%2013%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzQ0MzJf/Attack%20on%20Titan%20Season%203%20Episodio%2013%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E14: Lanzas relámpago",
+        "image": "https://image.tmdb.org/t/p/w300//2XX3Oq8VLE2khmISIvOtJgCOL19.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzQ2ODlf/Attack%20on%20Titan%20Season%203%20Episodio%2014%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzQ2ODlf/Attack%20on%20Titan%20Season%203%20Episodio%2014%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E15: Descenso",
+        "image": "https://image.tmdb.org/t/p/w300//9SLwCEPccFQaQabdoxDmjSIdDWU.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzQ3NDhf/Attack%20on%20Titan%20Season%203%20Episodio%2015%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzQ3NDhf/Attack%20on%20Titan%20Season%203%20Episodio%2015%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E16: Juego perfecto",
+        "image": "https://image.tmdb.org/t/p/w300//7ZrwZho2ovVaNpXp8Q4zz43eZuQ.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzIxNjlf/Attack%20on%20Titan%20Season%203%20Episodio%2016%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzIxNjlf/Attack%20on%20Titan%20Season%203%20Episodio%2016%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E17: Héroe",
+        "image": "https://image.tmdb.org/t/p/w300//osjtJwgfHr66m65Hnmb9qVqVn5s.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzI3MTBf/Attack%20on%20Titan%20Season%203%20Episodio%2017%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzI3MTBf/Attack%20on%20Titan%20Season%203%20Episodio%2017%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E18: Sol de medianoche",
+        "image": "https://image.tmdb.org/t/p/w300//1IofclJNwYSb0hmDuv46s9XYdhZ.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzMwODFf/Attack%20on%20Titan%20Season%203%20Episodio%2018%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzMwODFf/Attack%20on%20Titan%20Season%203%20Episodio%2018%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E19: Sótano",
+        "image": "https://image.tmdb.org/t/p/w300//6JT83J6bV4W4Yi9B1v1lrYsfMHy.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzM0MDJf/Attack%20on%20Titan%20Season%203%20Episodio%2019%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzM0MDJf/Attack%20on%20Titan%20Season%203%20Episodio%2019%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E20: Aquel día",
+        "image": "https://image.tmdb.org/t/p/w300//xEA1HweL2Qmnm2D0hVZMHSxZ8my.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzM2MDBf/Attack%20on%20Titan%20Season%203%20Episodio%2020%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzM2MDBf/Attack%20on%20Titan%20Season%203%20Episodio%2020%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E21: Ataque a los titanes",
+        "image": "https://image.tmdb.org/t/p/w300//s35qsjN0VzQCectjnG5f4SJEdtP.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzM4MzRf/Attack%20on%20Titan%20Season%203%20Episodio%2021%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzM4MzRf/Attack%20on%20Titan%20Season%203%20Episodio%2021%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E22: Al otro lado de las murallas",
+        "image": "https://image.tmdb.org/t/p/w300//yZpVxNd54ZhssthJ1b6Wp8eKGtg.jpg",
+        "video": "https://od.lk/d/M18zMDQyMzQxNjhf/Attack%20on%20Titan%20Season%203%20Episodio%2022%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyMzQxNjhf/Attack%20on%20Titan%20Season%203%20Episodio%2022%20-%20APORTE%20EXCLUSIVO%20DEL%20CANAL%20DE%20YOUTUBE-%20%5BanimePELIS%5D%2C%20%5BvideANIME%5D.mp4",
+        "duration": "24m"
+    }
+        
+           ],
+           4: [
+           {
+        "title": "",
+        "description": "E1: Al otro lado del mar",
+        "image": "https://image.tmdb.org/t/p/w300//nZJKdntlDRrlUkneD5CHbbOzLnh.jpg",
+        "video": "https://od.lk/d/M18zMDQyODMwMTlf/SNK4-1FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODMwMTlf/SNK4-1FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E2: Tren de medianoche",
+        "image": "https://image.tmdb.org/t/p/w300//aV2M59hZVguSbVTj7WkVx1icFxl.jpg",
+        "video": "https://od.lk/d/M18zMDQyODM1NjBf/SNK4-2FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODM1NjBf/SNK4-2FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E3: La puerta de la esperanza",
+        "image": "https://image.tmdb.org/t/p/w300//bvpdW7h2pqpYZ4IisPq082TGdhe.jpg",
+        "video": "https://od.lk/d/M18zMDQyODM4NThf/SNK4-3FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODM4NThf/SNK4-3FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E4: De mano en mano",
+        "image": "https://image.tmdb.org/t/p/w300//9S4W9H69wM3YQv6ebH9iSFVqrmF.jpg",
+        "video": "https://od.lk/d/M18zMDQyODQyNjlf/SNK4-4FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODQyNjlf/SNK4-4FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E5: Declaración de guerra",
+        "image": "https://image.tmdb.org/t/p/w300//3NvjAokXE2GPJjTCU4LQBQLCtgJ.jpg",
+        "video": "https://od.lk/d/M18zMDQyODQ1MTNf/SNK4-5FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODQ1MTNf/SNK4-5FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E6: Titán martillo de guerra",
+        "image": "https://image.tmdb.org/t/p/w300//fYwa43vhmIEhTrrrNUJ13LA8YsG.jpg",
+        "video": "https://od.lk/d/M18zMDQyODQ4OTFf/SNK4-6FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODQ4OTFf/SNK4-6FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E7: Asalto",
+        "image": "https://image.tmdb.org/t/p/w300//lOpfkdvM9resozZWLczbHeldRFu.jpg",
+        "video": "https://od.lk/d/M18zMDQyODU0NzZf/SNK4-7FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODU0NzZf/SNK4-7FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E8: La bala del asesino",
+        "image": "https://image.tmdb.org/t/p/w300//2vpDtLZnQLSiwBko8xbAMDTqvDX.jpg",
+        "video": "https://od.lk/d/M18zMDQyODU3NTJf/SNK4-8FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODU3NTJf/SNK4-8FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E9: Voluntarios",
+        "image": "https://image.tmdb.org/t/p/w300//aq8oMwYb3zewlbeb1uh53pf6IOy.jpg",
+        "video": "https://od.lk/d/M18zMDQyODY1NTRf/SNK4-9FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY1NTRf/SNK4-9FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E10: El mundo al borde del abismo",
+        "image": "https://image.tmdb.org/t/p/w300//7iD0Im1pPwM3nRmWH4WbDAaXkuE.jpg",
+        "video": "https://od.lk/d/M18zMDQyODY3MTNf/SNK4-10FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY3MTNf/SNK4-10FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E11: El rey titán",
+        "image": "https://image.tmdb.org/t/p/w300//62mVv6C8gKlSy8jO4ykfdl9V0Gl.jpg",
+        "video": "https://od.lk/d/M18zMDQyODY5MjBf/SNK4-11FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY5MjBf/SNK4-11FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E12: Herencia",
+        "image": "https://image.tmdb.org/t/p/w300//lSRH3oJgg7v0QNK9vMaVOECuAyI.jpg",
+        "video": "https://od.lk/d/M18zMDQyODc4NDFf/SNK4-12FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc4NDFf/SNK4-12FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E13: La verdad",
+        "image": "https://image.tmdb.org/t/p/w300//jf9CWoPAFpqyWIyrP3hUSvh2Nwt.jpg",
+        "video": "https://od.lk/d/M18zMDQyODk0MjJf/SNK4-13FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODk0MjJf/SNK4-13FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E14: Violencia",
+        "image": "https://image.tmdb.org/t/p/w300//ynZdYzOR8bEvL3l6l21mHIxOH1Z.jpg",
+        "video": "https://od.lk/d/M18zMDQyODE1Njdf/SNK4-14FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODE1Njdf/SNK4-14FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E15: La única salvación",
+        "image": "https://image.tmdb.org/t/p/w300//4NKaIWiO8y5M33cKIOe70qxjpKV.jpg",
+        "video": "https://od.lk/d/M18zMDQyODE5NTRf/SNK4-15FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODE5NTRf/SNK4-15FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E16: Cielo y tierra",
+        "image": "https://image.tmdb.org/t/p/w300//gQVZn0xNidTHT09I52guW0ycidb.jpg",
+        "video": "https://od.lk/d/M18zMDQyODIzNzRf/SNK4-16FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODIzNzRf/SNK4-16FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E17: Juicio",
+        "image": "https://image.tmdb.org/t/p/w300//y1VwSzUJGCmzfWURHZStOIgcFAM.jpg",
+        "video": "https://od.lk/d/M18zMDI3MzA2NDRf/SNK4.P4RT2-01HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDI3MzA2NDRf/SNK4.P4RT2-01HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E18: Ataque furtivo",
+        "image": "https://image.tmdb.org/t/p/w300//8qkQjcBcOtoIYMJbVzVEhRHtl6z.jpg",
+        "video": "https://od.lk/d/M18zMDI3MzA2ODBf/SNK4.P4RT2-02HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDI3MzA2ODBf/SNK4.P4RT2-02HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E19: Dos Hermanos",
+        "image": "https://image.tmdb.org/t/p/w300//ekhIMVPtO6odrrqvHm4v70VNtLm.jpg",
+        "video": "https://od.lk/d/M18zMDQyODYxNDNf/SNK4P4RT2-03HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODYxNDNf/SNK4P4RT2-03HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E20: Recuerdos del futuro",
+        "image": "https://image.tmdb.org/t/p/w300//ik9o9quol2hWCLwOkylTn7maPxq.jpg",
+        "video": "https://od.lk/d/M18zMDQyODY2NjZf/SNK4P4RT2-04HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY2NjZf/SNK4P4RT2-04HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E21: De parte de tu yo de hace 2000 años",
+        "image": "https://image.tmdb.org/t/p/w300//wx9cXG2vvP5uby7mIZfdy1KelKj.jpg",
+        "video": "https://od.lk/d/M18zMDQyODc1MTZf/SNK4P4RT2-05HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc1MTZf/SNK4P4RT2-05HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E22: Deshielo",
+        "image": "https://image.tmdb.org/t/p/w300//aD0tJhJ4EGMGianyzuuiQz2nZY0.jpg",
+        "video": "https://od.lk/d/M18zMDQyODc4MDhf/SNK4P4RT2-06HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc4MDhf/SNK4P4RT2-06HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E23: Atardecer",
+        "image": "https://image.tmdb.org/t/p/w300//28kjpqi1IqlmaDbouHTLwfzVL2h.jpg",
+        "video": "https://od.lk/d/M18zMDQyODc4MjBf/SNK4P4RT2-07HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc4MjBf/SNK4P4RT2-07HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E24: Orgullo",
+        "image": "https://image.tmdb.org/t/p/w300//atKHPrLW5RRG1dUrahRrTXjJVAr.jpg",
+        "video": "https://od.lk/d/M18zMDQyODgxODdf/SNK4P4RT2-08HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODgxODdf/SNK4P4RT2-08HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E25: La noche del fin",
+        "image": "https://image.tmdb.org/t/p/w300//sWZ592AiNnXTDaw8uIxz7ya7MOp.jpg",
+        "video": "https://od.lk/d/M18zMDQyODkwMzBf/SNK4P4RT2-09HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODkwMzBf/SNK4P4RT2-09HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E26: Traidor",
+        "image": "https://image.tmdb.org/t/p/w300//xUcJ93Tt5RHjdFPeXBKDEH3J7U1.jpg",
+        "video": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-10HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-10HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E27: Nostalgia",
+        "image": "https://image.tmdb.org/t/p/w300//z1ymXAlYjYeTfsFvOAveVdSBeqQ.jpg",
+        "video": "https://od.lk/s/M18zMDQyOTA2MTBf/SNK4P4RT2-11HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-11HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E28: El amanecer de la humanidad",
+        "image": "https://image.tmdb.org/t/p/w300//eu8TEJlYFWIWpPHyYw61JMMyPAB.jpg",
+        "video": "https://od.lk/s/M18zMDQyOTEwNTBf/SNK4P4RT2-12HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyOTEwNTBf/SNK4P4RT2-12HD%20L4T1N0.mp4",
+        "duration": "23m"
+    }
+        
+           ],
+           5: [
+                {
+                    
+                  "title": "","title": " ",
+                    "description": "E-SP1 - Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+                    "image": "https://od.lk/s/M18zMDk3MjI0MTdf/OIP%20%283%29.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzExODdf/Shingeki%20no%20Kyojin%20The%20Final%20Season%20THE%20FINAL%20CHAPTERS%20Special%2001%20Sub%20Espa%C3%B1ol%20.mp4",
+                    "download": "https://od.lk/d/M18zMDI3MzExODdf/Shingeki%20no%20Kyojin%20The%20Final%20Season%20THE%20FINAL%20CHAPTERS%20Special%2001%20Sub%20Espa%C3%B1ol%20.mp4",
+                    "duration": "1h 01m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "E-SP2 - Attack on Titan Final Season THE FINAL CHAPTERS Special 2",
+                    "image": "https://od.lk/s/M18zMDk3MjIzMTZf/a722aeea2067e3e9ff69b9837c114995.jpe",
+                    "video": "https://od.lk/s/M18zMDI3MzEwMjJf/Shingeki%20no%20Kyojin%20Final.mp4",
+                    "download": "https://od.lk/d/M18zMDI3MzEwMjJf/Shingeki%20no%20Kyojin%20Final.mp4",
+                    "duration": "1h 25m" 
+                }
+        
+           ],
+           6: [
+               
+       
+        {
+          "title": "",
+                    "description": "El diario de Ilse",
+                    "image": "https://od.lk/s/M18zMDk3MjI0OTZf/default.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzI5NzNf/SNK-Ova-01.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzI5NzNf/SNK-Ova-01.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Un visitante inesperado",
+                    "image": "https://od.lk/s/M18zMDk3MjI2NDJf/fttygxkcb2e6e4p3mw7xnzw3mrkvsopq_hq.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMwMzNf/SNK-Ova-02.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMwMzNf/SNK-Ova-02.mkv",
+                    "duration": "24m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "Dificultad",
+                    "image": "https://od.lk/s/M18zMDk3MjI2Njhf/95631987f08ef1b0c8e7f86674ef6dbe.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMxMDBf/SNK-Ova-03.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMxMDBf/SNK-Ova-03.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Una elección sin remordimientos (1)",
+                    "image": "https://od.lk/s/M18zMDk3MjI2NzRf/76216c0ea7934694aff5e2ea0c36884d--no-regrets-freedom.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMxNjBf/SNK-Ova-04.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMxNjBf/SNK-Ova-04.mkv",
+                    "duration": "24m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "Una elección sin remordimientos (2)",
+                    "image": "https://pm1.narvii.com/5699/814f55ceb2af43471acb8e751e38d79adee7c674_hq.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMzMDVf/SNK-Ova-05.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMzMDVf/SNK-Ova-05.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Adiós, Muralla Sina (1)",
+                    "image": "https://www.saizenfansubs.com/wp-content/uploads/2018/01/Saizen-Soldado-Shingeki-no-Kyojin-OVA-6-Lost-Girls-Part-1DVD5053B818.mkv_snapshot_13.11_2018.01.09_11.50.55.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMzMzRf/SNK-Ova-06.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMzMzRf/SNK-Ova-06.mkv",
+                    "duration": "24m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "Adiós, Muralla Sina (2)",
+                    "image": "https://vidcache.net:8161/static/c6d5355e30ff0921f2b89c7bc04083ebb8057c4d/snk ova 7.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMzOTZf/SNK-Ova-07.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMzOTZf/SNK-Ova-07.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Perdida en un mundo cruel",
+                    "image": "https://vidcache.net:8161/static/4e16513535f8feae1f1f42c8b498d59022174863/snk ova 8.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzM0NTJf/SNK-Ova-08.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzM0NTJf/SNK-Ova-08.mkv",
+                    "duration": "24m" 
+                }
+        
+           ]
+        };
+
+        const notificacion = document.getElementById('notificacion');
+const mensajeNotificacion = document.getElementById('mensajeNotificacion');
+
+function mostrarNotificacion(mensaje) {
+  mensajeNotificacion.textContent = mensaje;
+  notificacion.classList.add('mostrar');
+
+  setTimeout(() => {
+    notificacion.classList.remove('mostrar');
+  }, 3000); // Ocultar la notificación después de 3 segundos
+}
+
+        let lastScrollTop = 0;
+
+   
+        function toggleDetalles() {
+    const detallesSlider = document.getElementById('detallesSlider');
+    detallesSlider.classList.toggle('active');
+}
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+function toggleFavorito() {
+const favoritoEnlace = document.getElementById('favoritoEnlace');
+const imagen = document.getElementById('favoritoImagen');
+const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontrado) {
+const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+favoritoBtn.textContent = 'Agregar a Favoritos';
+localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+mostrarNotificacion('Se eliminó de favoritos');
+} else {
+favoritos.push({
+identificador: identificador,
+imagen: imagen.outerHTML,
+enlace: favoritoEnlace.href,
+nombre: nombre, // Agregar el nombre al objeto
+});
+
+favoritoBtn.textContent = 'Borrar de Favoritos';
+localStorage.setItem('favoritos', JSON.stringify(favoritos));
+mostrarNotificacion('Se añadió a favoritos');
+}
+}
+
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontradoInicial) {
+    favoritoIcon.innerText = 'check';
+    favoritoText.innerText = 'Se añadió a Favoritos';
+    
+} else {
+    favoritoIcon.innerText = 'add';
+    favoritoText.innerText = 'Añadir a Favoritos';
+}
+
+
+        const header = document.getElementById('header');
+        const pageTitle = document.getElementById('page-title');
+
+        window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let maxScroll = 500; // Ajusta este valor según sea necesario
+    let opacity = Math.min(scrollTop / maxScroll, 1);
+
+    overlay.style.opacity = 1 - opacity;
+
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+
+
+});
+
+        // Función para agregar la clase de animación
+function slideUpElements() {
+    document.querySelector('.tabs').classList.add('slide-up');
+    document.querySelector('.season-dropdown').classList.add('slide-up');
+    document.querySelector('.download-all-button').classList.add('slide-up');
+    document.querySelector('#playlist').classList.add('slide-up');
+}
+
+// Llamar a la función cuando sea necesario
+slideUpElements();
+
+        const playlistContainer = document.getElementById('playlist');
+        const overlay = document.getElementById('overlay');
+        const player = videojs('my-video');
+        let currentEpisodeIndex = 0;
+        let currentSeasonIndex = 0; // Índice de la temporada actual
+
+        function loadPlaylist(season) {
+    playlistContainer.innerHTML = '';
+    const playlist = playlists[season];
+    const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+    playlist.forEach((episode, index) => {
+        const episodeElement = document.createElement('div');
+        episodeElement.className = 'episode';
+        if (watchedEpisodes[episode.video]) {
+            episode.watched = true;
+            episodeElement.classList.add('watched');
+        }
+
+                const img = document.createElement('img');
+                img.src = episode.image;
+                episodeElement.appendChild(img);
+
+                const durationLabel = document.createElement('div');
+        durationLabel.className = 'duration-label';
+        durationLabel.innerText = episode.duration;
+        episodeElement.appendChild(durationLabel);
+
+                const description = document.createElement('div');
+                description.className = 'episode-description';
+                description.innerHTML = `<h2>${episode.title}</h2><p>${episode.description}</p>`;
+                episodeElement.appendChild(description);
+
+                const downloadButton = document.createElement('a');
+                downloadButton.href = episode.download;
+                downloadButton.className = 'material-icons download-button';
+                downloadButton.innerText = 'arrow_downward';
+                downloadButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+                episodeElement.appendChild(downloadButton);
+
+                episodeElement.addEventListener('click', () => {
+            currentEpisodeIndex = index;
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = episode.video;
+            player.load();
+            player.play();
+            player.requestFullscreen();
+            episode.watched = true; // Mark as watched
+            episodeElement.classList.add('watched'); // Update the style
+            watchedEpisodes[episode.video] = true;
+            localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+        });
+
+        playlistContainer.appendChild(episodeElement);
+    });
+    // Create a container for the navigation buttons
+    const seasonNavigation = document.createElement('div');
+    seasonNavigation.className = 'season-navigation';
+
+    // Add the previous season button
+    if (parseInt(season) > 1) {
+        const previousSeasonButton = document.createElement('div');
+        previousSeasonButton.className = 'previous-season';
+        previousSeasonButton.innerHTML = '<span class="material-icons">chevron_left</span> Temporada Anterior';
+        previousSeasonButton.addEventListener('click', () => {
+            const previousSeason = parseInt(season) - 1;
+            if (playlists[previousSeason]) {
+                document.getElementById('season-select').value = previousSeason;
+                loadPlaylist(previousSeason);
+            } else {
+                alert('No more previous seasons available.');
+            }
+        });
+        seasonNavigation.appendChild(previousSeasonButton);
+    }
+
+    // Add the next season button
+    // Add the next season button
+    const nextSeasonButton = document.createElement('div');
+    nextSeasonButton.className = 'next-season';
+    nextSeasonButton.innerHTML = 'Próxima temporada <span class="material-icons">chevron_right</span>';
+    nextSeasonButton.addEventListener('click', () => {
+        const nextSeason = parseInt(season) + 1;
+        if (playlists[nextSeason]) {
+            document.getElementById('season-select').value = nextSeason;
+            loadPlaylist(nextSeason);
+        } else {
+            alert('No more seasons available.');
+        }
+    });
+    seasonNavigation.appendChild(nextSeasonButton);
+
+    // Append the navigation container to the playlist
+    playlistContainer.appendChild(seasonNavigation);
+}
+
+document.getElementById('season-select').addEventListener('change', (event) => {
+    const season = event.target.value;
+    loadPlaylist(season);
+});
+
+
+
+        document.getElementById('download-all').addEventListener('click', () => {
+    const season = document.getElementById('season-select').value;
+    const episodes = playlists[season];
+    episodes.forEach(episode => {
+        const link = document.createElement('a');
+        link.href = episode.download;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+});
+
+
+        document.getElementById('season-select').addEventListener('change', (event) => {
+            const season = event.target.value;
+            loadPlaylist(season);
+        });
+        const blackOverlay = document.getElementById('black-overlay');
+
+player.on('play', () => {
+    blackOverlay.style.display = 'none'; // Ocultar el fondo negro cuando el video comience a reproducirse
+});
+
+player.on('pause', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video se pausa
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video se pausa
+    
+});
+
+player.on('ended', () => {
+    blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video termine
+    imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video termine
+});
+
+
+        player.on('play', () => {
+            overlay.style.display = 'none';
+        });
+
+        player.on('ended', () => {
+            currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+            const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+            const videoSource = document.getElementById('video-source');
+            videoSource.src = nextEpisode.video;
+            player.load();
+            player.play();
+        });
+
+        player.on('fullscreenchange', () => {
+            if (!player.isFullscreen()) {
+                player.pause();
+                overlay.style.display = 'flex';
+            }
+        });
+
+        player.on('fullscreenchange', () => {
+    if (player.isFullscreen()) {
+        // Solicitar orientación horizontal
+        screen.orientation.lock('landscape').catch(err => {
+            console.error('Error al cambiar la orientación:', err);
+        });
+    } else {
+        // Desbloquear la orientación
+        screen.orientation.unlock();
+    }
+});
+
+
+        player.on('touchstart', () => {
+            if (!player.paused()) {
+                player.pause();
+            } else {
+                player.play();
+            }
+        });
+
+
+        // Crear el botón "Next"
+        const Button = videojs.getComponent('Button');
+        const nextButton = videojs.extend(Button, {
+            constructor: function() {
+                Button.apply(this, arguments);
+                this.controlText('Next');
+                this.addClass('vjs-next-button');
+                this.el().innerHTML = '<span class="material-icons">skip_next</span>';
+            },
+            handleClick: function() {
+                currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+                const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+                const videoSource = document.getElementById('video-source');
+                videoSource.src = nextEpisode.video;
+                player.load();
+                player.play();
+            }
+        });
+
+        videojs.registerComponent('NextButton', nextButton);
+        player.getChild('controlBar').addChild('NextButton', {}, 2); // Añadir el botón "Next" al lado derecho del botón "Play"
+
+        // Manejar las pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const target = tab.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        
+       
+
+        // Cargar la primera temporada por defecto
+        loadPlaylist(1);
+        
+    </script>
+</body>
+</html>

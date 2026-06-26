@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSkt+PpBVx5hbBOss0l7zUUbzjgK6UIIV9W0rGIiXcR" crossorigin="anonymous">
+     <link rel="icon" type="image/png" sizes="512×512" href="logo-2025.png">
+  <title>Crunchyroll Style Carousel</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <style>
+* { margin: 0; 
+  padding: 0; 
+  box-sizing: border-box;
+ }
+
+  body {
+  margin: 0;
+  background-color: black;
+  font-family: sans-serif;
+  color: white;
+}
+
+header,
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  will-change: transform, opacity;
+}
+
+header.hidden-on-scroll {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+
+.logo {
+  height: 15px; /* ajuste fino si es necesario */
+  width: auto;
+}
+
+.icons {
+  display: flex;
+  gap: 15px;
+}
+
+.icons span {
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Ocultar la sección de notificaciones al inicio */
+.hidden {
+  display: none;
+}
+
+/* Estilos generales */
+.notifications-page {
+  background-color: black;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mantén el encabezado fijo */
+.notifications-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: #111;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
+/* Contenedor de las notificaciones */
+.notifications-container {
+  flex: 1; /* Se expandirá para ocupar el espacio restante */
+  padding: 20px;
+}
+
+/* Estilo para los elementos de notificación */
+.notification-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
+  text-decoration: none;
+  color: #fff;
+}
+
+.notification-image {
+  width: 200px; /* Ajusta según tus necesidades */
+  height: 100px; /* Ajusta según tus necesidades */
+  margin-right: 12px;
+  border-radius: 8px;
+}
+
+.notification-text h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.notification-text p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* Opcional: estilo para ocultar inicialmente */
+.hidden {
+  display: none;
+}
+
+
+.notifications-container {
+  padding: 20px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px; /* Ajusta la posición vertical */
+  right: -5px; /* Ajusta la posición horizontal */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 18px; /* Tamaño del badge */
+  height: 18px;
+  font-size: 14px !important; /* Usa !important para sobrescribir otros estilos */
+  line-height: 18px; /* Centra el número verticalmente */
+  display: flex; /* Asegura la alineación del texto */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+/* Contenedor del ícono con badge */
+.notification-icon {
+  position: relative; /* Permite posicionar el badge dentro del contenedor */
+  display: inline-block;
+}
+
+.swiper {
+  height:85vh;
+}
+
+.swiper-slide {
+  position: relative;
+  background-size: contain;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.landscape-bg {
+  display: none;
+}
+
+.overlay, .side-overlay, .top-overlay {
+  position: absolute;
+  z-index: 2;
+}
+
+.overlay {
+  bottom: 60px;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, rgb(0, 0, 0), rgb(0, 0, 0),rgba(0, 0, 0, 0.534), transparent);
+}
+
+.side-overlay {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 5%;
+  background: linear-gradient(to right, black, transparent);
+}
+
+.top-overlay {
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  background: linear-gradient(to bottom, black, transparent);
+}
+
+.overlay-content {
+  position: absolute;
+  bottom: 100px;
+  left: 20px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.logo-img {
+  width: 220px; /* Ajusta a tu gusto */
+  height: auto;
+  display: block;
+  margin-bottom: 10px; /* Si no quieres que afecte el `.meta`, reduce esto o quítalo */
+}
+
+
+.meta {
+  font-size: 12px;
+  background-color: rgba(0,0,0,0.6);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.overlay-content .description {
+  font-size: 16px;
+  max-width: 400px;
+  margin-top: 20px;
+  color: white;
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+}
+
+
+.swiper-pagination-bullets {
+  bottom: 180px !important;
+}
+
+.swiper-pagination-bullet {
+  position: relative;
+  width: 30px;
+  height: 8px;
+  border-radius: 4px;
+  background: #444;
+  overflow: hidden;
+  opacity: 1;
+  margin: 0 2px !important;
+  
+}
+
+.swiper-pagination-bullet .progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #f47521;
+  /* Elimina la animación automática */
+  animation: none;
+}
+
+
+@keyframes fillProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .swiper-slide {
+    background-image: none !important;
+  }
+
+  .landscape-bg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center top;
+    z-index: 1;
+  }
+
+  .overlay {
+    bottom: -1vh;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgb(0, 0, 0), transparent);
+  }
+
+  .overlay-content {
+    bottom: 50px;
+    left: 60px;
+  }
+
+  .logo-img {
+    width: 250px;
+  }
+
+  .swiper-pagination-bullets {
+    bottom: 50px !important;
+    
+  }
+
+  .swiper-pagination-bullet {
+    position: relative;
+    width: 30px;
+    height: 8px;
+    border-radius: 4px;
+    background: #444;
+    overflow: hidden;
+    opacity: 1;
+    margin: 0 2px !important;
+  }
+
+  .swiper-pagination-bullet .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background-color: #f47521;
+    animation: none;
+  }
+
+  .overlay-content .description {
+    font-size: 16px;
+    max-width: 400px;
+    margin-top: 10px;
+    color: white;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .movie-section {
+  margin-bottom: 20px;
+  padding-left: 10px;
+  margin-top: 100px!important;
+}
+
+  
+}
+
+
+
+
+
+
+.footer {
+display: flex;
+align-items: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgb(33, 36, 43);
+padding: 10px 0;
+height: 60px;
+z-index: 1000;
+justify-content: space-around;
+transition: transform 0.3s ease-in-out;
+}
+
+.footer.hidden {
+  transform: translateY(100%);
+}
+
+.footer-icon {
+color: #eeeeed; /* Icono gris cuando está inactivo */
+text-align: center;
+text-decoration: none;
+font-size: 35px; /* Tamaño aumentado para los iconos */
+flex: 1; /* Ocupa el mismo espacio cada icono */
+display: flex;
+flex-direction: column;
+align-items: center;
+text-decoration: none;
+transition: color 0.3s ease, transform 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+/* Para asegurarnos de que los iconos aumenten correctamente */
+.footer-icon .material-icons, .footer-icon .material-icons-outlined {
+font-size: inherit; /* Heredar el tamaño de fuente del contenedor */
+transition: font-size 0.3s ease;
+}
+
+.footer-icon :hover {
+color: #e7c503; /* Cambia a blanco al pasar el cursor */
+}
+.profile-icon-footer :hover {
+color: #e7c503; /* Cambia a blanco al pasar el cursor */
+}
+
+.footer-icon.active {
+color: #e7c503; /* Cambiar a blanco cuando está activo */
+}
+
+.footer-icon.active .material-icons-outlined {
+display: none; /* Oculta el icono outline cuando está activo */
+}
+
+.footer-icon.active .material-icons {
+display: inline-block; /* Muestra el icono normal cuando está activo */
+}
+
+/* Oculta los iconos normales por defecto */
+.footer-icon .material-icons {
+display: none;
+}
+
+/* Iconos outline por defecto */
+.footer-icon .material-icons-outlined {
+display: inline-block;
+}
+
+/* Estilos para el icono de perfil */
+.profile-icon-footer {
+width: 30px; /* Tamaño de la imagen de perfil */
+height: 30px; /* Tamaño de la imagen de perfil */
+border-radius: 50%; /* Hacer la imagen circular */
+border: 2px solid #eeeeed; /* Borde blanco por defecto */
+object-fit: cover; /* Asegura que la imagen se recorte bien */
+transition: border-color 0.3s ease; /* Transición suave para el borde */
+}
+
+/* Cambiar el color del borde cuando el icono esté activo */
+.footer-icon.active .profile-icon-footer {
+border-color: #e7c503 /* Cambiar el borde a azul cuando esté activo */
+}
+
+
+/* Cambiar color de iconos inactivos */
+.footer-icon.inactive .material-icons-outlined,
+.footer-icon.inactive .material-icons {
+color: #e40909; /* Gris para iconos inactivos */
+}
+
+
+
+  /* Fondo oscuro detrás */
+#notificationOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9998;
+  display: none;
+}
+
+/* Modal flotante */
+.floating-notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
+  color: white;
+  padding: 16px 12px 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  font-family: sans-serif;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  display: none;
+}
+
+.notification-banner {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.notification-text {
+  margin-bottom: 16px;
+}
+
+.notification-title {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.notification-title strong {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.notification-description {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.notification-button {
+  display: block;
+  width: 90%;
+  max-width: 280px;
+  margin: 6px auto;
+  padding: 12px;
+  border-radius: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.notification-button.primary {
+  background-color: #ff6600;
+  color: #000;
+}
+
+.notification-button.primary:hover {
+  background-color: #e65c00;
+}
+
+.notification-button.secondary {
+  border: 1.5px solid #ff6600;
+  color: #ff6600;
+  background-color: transparent;
+}
+
+.notification-button.secondary:hover {
+  background-color: #1a1a1a;
+}
+
+/* Botón cerrar */
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+
+ 
+
+
+.slide-link .meta,
+.slide-link .description,
+.slide-link .logo-img {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: auto; /* sigue permitiendo interacción */
+}
+
+/* También aseguramos que el <a> en sí no cambie estilo */
+.slide-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.continue-watching .movie-item {
+  position: relative;
+  width: 200px; /* Ancho aumentado */
+  margin-right: 10px; /* Margen ajustado */
+  text-align: center;
+}
+
+.movie-item img.poster {
+  width: 210px; /* Asegura que la imagen tenga el mismo ancho */
+  height: 120px; /* Altura fija para todas las imágenes */
+  object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+  border-radius: 0px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Botón de eliminar */
+.delete-button {
+  position: absolute;
+  top: 5px; /* Ajusta según el espacio necesario */
+  right: 0px; /* Ajusta según el espacio necesario */
+  background-color: rgba(0, 0, 0, 0.308); /* Fondo semitransparente */
+  color: white; /* Color del texto */
+  border: none; /* Sin bordes */
+  border-radius: 50%; /* Forma circular */
+  width: 24px; /* Tamaño ancho */
+  height: 24px; /* Tamaño alto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px; /* Tamaño del texto */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  z-index: 2; /* Asegura que esté encima de la imagen */
+  transition: background-color 0.3s ease; /* Animación suave */
+}
+
+/* Efecto al pasar el mouse sobre la X */
+.delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.8); /* Color rojo más visible */
+}
+
+/* Barra de progreso */
+.progress-bar-container {
+  position: absolute; /* Posicionamos la barra sobre la imagen */
+  bottom: 38px; /* Barra alineada a la parte inferior de la imagen */
+  left: 0;
+  width: 210px; /* Aseguramos que la barra tenga el mismo ancho que la imagen */
+  height: 4px; /* Ajuste de altura de la barra */
+  background-color: #ebebeb4f;
+  border-radius: 0px;
+  overflow: hidden;
+  z-index: 2; /* Aseguramos que quede sobre la imagen */
+}
+.progress-bar {
+  height: 100%;
+  background-color: #ff5e00; /* Color rojo */
+  transition: width 0.3s ease;
+}
+
+/* Título + episodio */
+.movie-item .movie-title {
+  font-size: 11px !important;
+  color: white;
+  margin-top: 10px;
+  text-align: left;
+  line-height: 1.2;
+}
+.movie-title strong {
+  display: block;
+  font-size: 13px;
+  color: white;
+}
+
+
+.movie-section {
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+
+.movie-section h2 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 0 10px 10px 10px;
+}
+
+.movie-card {
+  flex: 0 0 auto;
+  width: 120px;
+  text-align: left;
+  color: white;
+  text-decoration: none;
+  font-family: sans-serif;
+}
+
+.movie-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+
+.movie-title {
+  font-size: 13px !important;
+  font-weight: bold;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-meta {
+  font-size: 11px;
+  color: #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dots {
+  font-size: 16px;
+  color: #999;
+}
+
+.movie-actions {
+  padding: 16px;
+  color: #fff;
+}
+
+.movie-actions h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+
+.actions-scroll-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  padding-left: 8px;
+}
+
+.action-card {
+  flex: 0 0 auto;
+  width: 240px;
+  scroll-snap-align: start;
+  background: #141414;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.action-card img {
+  width: 100%;
+  height: 135px; /* Aproximadamente 16:9 para 240px de ancho */
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #333;
+}
+
+.action-title {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 8px 8px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.action-meta {
+  font-size: 0.85rem;
+  color: #bbb;
+  padding: 0 8px 10px;
+}
+
+.featured-box {
+  background-color: #000;
+  color: white;
+  font-family: sans-serif;
+  padding: 0;
+}
+
+.featured-banner {
+  width: 100%;
+  display: block;
+}
+
+.featured-content {
+  padding: 12px 16px;
+}
+
+.featured-content h2 {
+  font-size: 20px;
+  margin: 0 0 6px 0;
+}
+
+.meta {
+  font-size: 14px;
+  color: #4cd6d6;
+  margin-bottom: 8px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 12px;
+  line-height: 1.4em;
+  max-height: calc(1.4em * 2); /* altura máxima para 2 líneas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+
+.watch-btn {
+  display: inline-block;
+  background-color: #f47521;
+  color: white;
+  padding: 10px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.underline {
+  width: 100%;
+  height: 2px;
+  background-color: #4cd6d6;
+  margin: 6px 0 10px 0;
+}
+
+.music-section {
+  padding: 1rem;
+  background-color: #000;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+}
+
+.music-carousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.music-card {
+  background-color: #111;
+  border-radius: 6px;
+  overflow: hidden;
+  min-width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.music-card img {
+  width: 100%;
+  height: 110px; /* Tamaño fijo para que no crezca */
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+}
+
+.music-info {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  flex-grow: 1;
+  min-height: 60px;
+  overflow: hidden;
+}
+
+.music-info .artist {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.music-info .song {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.music-info .genre {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.music-card {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.music-info .artist,
+.music-info .song,
+.music-info .genre {
+  font-size: 0.8rem;
+  margin-top: 2px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Corta si es demasiado largo */
+  color: #fff; /* o el color que prefieras */
+}
+
+/* Opcional: para mejorar la apariencia del info box */
+.music-info {
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.6);
+}
+footer-akira {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #1a1a1a;
+      text-align: center;
+      color: #888;
+      font-size: 0.9em;
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <a>
+      <img src="https://od.lk/s/M18zMTcyNjk5NDFf/dragonplus.png" width="150px" class="logo">
+    </a>
+    <div class="icons">
+     
+  
+      <!-- 🔔 Ícono de notificaciones con badge -->
+      <a href="#" style="color: rgb(248, 246, 246);" onclick="showNotifications()" class="notification-icon">
+        <span class="material-icons-outlined">notifications</span>
+        <span id="notificationBadge" class="notification-badge">1</span>
+      </a>
+    </div>
+  </header>
+  
+
+
+
+
+<div id="notificationsPage" class="notifications-page hidden slide-up">
+    <!-- Header de Notificaciones -->
+    <div class="notifications-header">
+        <span class="material-icons back-icon" onclick="closeNotifications()">arrow_back</span>
+        <h2>Notificaciones</h2>
+    </div>
+
+    <!-- Contenedor de Notificaciones -->
+<div id="notificationsContainer" class="notifications-container">
+    <!-- Aquí se agregarán dinámicamente las notificaciones -->
+</div>
+</div>
+
+<!-- Fondo oscuro detrás -->
+<div id="notificationOverlay" style="display: none;"></div>
+
+<!-- Notificación flotante estilo HBO Max -->
+<div id="floatingNotification" class="floating-notification">
+  <div class="notification-content">
+    <span class="close-btn" onclick="closeFloatingNotification()">&times;</span>
+    <img src="https://od.lk/s/M18zMTQzNzA3ODlf/hazte-premium.jpg" class="notification-banner" alt="Hazte Premium">
+
+    <div class="notification-text">
+      <h2 class="notification-title">
+        ¡Disfruta sin límites con<br><strong>Premium de por vida</strong>!
+      </h2>
+      <p class="notification-description">
+        Una sola vez, sin suscripciones, sin anuncios.<br>Acceso completo a todo el contenido.
+      </p>
+    </div>
+
+    <a href="#hazte-premium" class="notification-button primary">HAZME PREMIUM</a>
+    <a href="#" onclick="closeFloatingNotification()" class="notification-button secondary">NO, GRACIAS</a>
+  </div>
+</div>
+
+
+
+
+
+<div class="swiper">
+  <div class="swiper-wrapper">
+
+    <!-- Slide 1: Evangelion -->
+    <div class="swiper-slide" style="background-image: url('https://od.lk/s/M18zMTIwMTI5NzRf/descarga%20%2856%29.jpeg');">
+      <a href="Dragon Ball Z El ataque del dragon.html" class="slide-link">
+        <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/tZZv9IXhNjDotlyADTfhwH7gRXF.jpg');"></div>
+        <div class="side-overlay"></div><div class="top-overlay"></div><div class="overlay"></div>
+        <div class="overlay-content">
+          <img src="https://od.lk/s/M18zMDExMjUxNzRf/EL%20ATAQUE%20DEL%20DRAGON.png" class="logo-img no-nav" alt="Evangelion Logo">
+          <div class="meta no-nav">12+ · Dob | Lat</div>
+          <div class="description no-nav">Los Guerreros Z usan las esferas del dragón para abrir una vieja caja de la que sale un joven llamado Tapión</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Slide 2: Gundam Wing -->
+    <div class="swiper-slide" style="background-image: url('https://od.lk/s/M18zMTIwMjA0OTRf/Son%20goku%20%28edited%20by%20me%20jaden%20Robertson%29.jpeg');">
+      <a href="Legend A Dragon Ball Tale (2022).html" class="slide-link">
+        <div class="landscape-bg" style="background-image: url('https://od.lk/s/M18zMTIwMjA1MTBf/Vegeta%20%282%29.jpeg');"></div>
+        <div class="side-overlay"></div><div class="top-overlay"></div><div class="overlay"></div>
+        <div class="overlay-content">
+          <img src="https://od.lk/s/M18zMDc1Nzg0NTZf/legend.png" class="logo-img no-nav" alt="Gundam Wing Logo">
+          <div class="meta no-nav">13+ · Dob | Lat</div>
+          <div class="description no-nav">Vegeta, ahora rey de los Saiyajins, emprende una misión interestelar de asesinato.</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Slide 3: Saint Seiya -->
+    <div class="swiper-slide" style="background-image: url('https://image.tmdb.org/t/p/original/73rGI735Tzf5ohSBh4rE06uyVyD.jpg');">
+      <a href="Dragon ball daima Latino.html" class="slide-link">
+        <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/sDJq5MzV5ck2iPbu5MvSrfCsmmL.jpg');"></div>
+        <div class="side-overlay"></div><div class="top-overlay"></div><div class="overlay"></div>
+        <div class="overlay-content">
+          <img src="https://image.tmdb.org/t/p/original/fOTS7xzuI6QM6QgjX7nwhSHGxGf.png" class="logo-img no-nav" alt="Logo 3">
+          <div class="meta no-nav">7+ · Dob | Lat</div>
+          <p class="description no-nav">Debido a una conspiración, Goku y sus amigos se vuelven pequeños.</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Slide 4: B't X -->
+    <div class="swiper-slide" style="background-image: url('https://od.lk/s/M18zMTIwMjI1OTRf/Bardock%2090s.jpeg');">
+      <a href="La Batalla de Freezer contra el Padre de Goku (1990).html" class="slide-link">
+        <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/93WDwbpnt40peVQthtBQ6U8FCjr.jpg');"></div>
+        <div class="side-overlay"></div><div class="top-overlay"></div><div class="overlay"></div>
+        <div class="overlay-content">
+          <img src="https://od.lk/s/M18zMDQ3NDY4NzVf/La%20Batalla%20de%20Freezer%20contra%20el%20Padre%20de%20Goku.png" class="logo-img no-nav" alt="Logo 4">
+          <div class="meta no-nav">12+ · Dob | Lat</div>
+          <p class="description no-nav">Un Saiyajin llamado Bardock, intentará combatir a Freezer para evitar que este destruya a los Saiyajins.</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Slide 5: Dragon Ball Z -->
+    <div class="swiper-slide" style="background-image: url('https://od.lk/s/M18zMTE4NjY1NTVf/new%20dragon%20ball%20z%20poster.png');">
+      <a href="dragon-ball-z.html" class="slide-link">
+        <div class="landscape-bg" style="background-image: url('https://od.lk/s/M18zMTE4NjYyODBf/dragon%20ball%20z%20fondo.png');"></div>
+        <div class="side-overlay"></div><div class="top-overlay"></div><div class="overlay"></div>
+        <div class="overlay-content">
+          <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" class="logo-img no-nav" alt="Logo 5">
+          <div class="meta no-nav">13+ · Dob | Lat</div>
+          <p class="description no-nav">Goku y sus amigos luchan contra poderosos enemigos para proteger la Tierra y el universo.</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Slide 6: Attack on Titan -->
+    <div class="swiper-slide" style="background-image: url('https://image.tmdb.org/t/p/original/xv0wDph4eCmf7U5RFhHSyuPesx2.jpg');">
+      <a href="Dragon Ball Z La Resurrección de Freezer.html" class="slide-link">
+        <div class="landscape-bg" style="background-image: url('https://image.tmdb.org/t/p/original/yWZCOzib7BipGjYJ39nrplb1Fy.jpg');"></div>
+        <div class="side-overlay"></div><div class="top-overlay"></div><div class="overlay"></div>
+        <div class="overlay-content">
+          <img src="https://image.tmdb.org/t/p/original/yU0KVcu65POAuL344uz4SgNAmcu.png" class="logo-img no-nav" alt="Attack on Titan Logo">
+          <div class="meta no-nav">12+ · Dob | Lat</div>
+          <p class="description no-nav">Antiguos miembros élite de la armada de Freezer, llegan a la Tierra con el objetivo de revivir a su líder</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+  
+  
+
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<div class="movie-section">
+  <h2>Series</h2>
+  <div class="scroll-container">
+
+    <a href="Dragon ball daima Latino.html" class="movie-card">
+      <img src="https://od.lk/s/M18zMTUyNjg5OTFf/DAGON%20BALL%20DAIMA%20LATINO%20POSTER.jpg" alt="Dragon Ball daima latino" loading="lazy">
+      <div class="movie-title">Dragon Ball Daima</div>
+      <div class="movie-meta">
+        <span>Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="dragon-ball.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/onCLyCOgszTIyyVs2XKYSkKPOPG.jpg" alt="Dragon Ball" loading="lazy">
+      <div class="movie-title">Dragon Ball</div>
+      <div class="movie-meta">
+        <span>Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="dragon-ball-z.html" class="movie-card">
+      <img src="https://od.lk/s/M18zMDc3ODEzOTBf/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg" alt="Dragon Ball Z" loading="lazy">
+      <div class="movie-title">Dragon Ball Z</div>
+      <div class="movie-meta">
+        <span>Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="dragon-ball-gt.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/l1nOGq0e689viyziACqSSFLuwbg.jpg" alt="Dragon Ball GT" loading="lazy">
+      <div class="movie-title">Dragon Ball GT</div>
+      <div class="movie-meta">
+        <span>Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="dragon-ball-super.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/kbhu0tIv5E1PbAw2YPjrhoQ7I1s.jpg" alt="Dragon Ball Super" loading="lazy">
+      <div class="movie-title">Dragon Ball Super</div>
+      <div class="movie-meta">
+        <span>Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="new dragon ball daima page.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/cIDPZMGsiVHkHA6HPJmEmGcgyyw.jpg" alt="Dragon Ball Daima" loading="lazy">
+      <div class="movie-title">Dragon Ball Daima</div>
+      <div class="movie-meta">
+        <span>Jap Sub</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+
+
+
+<div class="movie-section continue-watching">
+  <h2>Continuar Viendo</h2>
+  <div class="scroll-container" id="continueWatchingContainer">
+      <!-- Las películas se generarán dinámicamente aquí -->
+  </div>
+</div>
+
+
+<div class="movie-section">
+  <h2>Películas</h2>
+  <div class="scroll-container">
+
+    <a href="Dragon ball super super heroe.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/dZH9gp0XQnjzYRYMGSwateGIXlB.jpg" alt="Super Hero" loading="lazy">
+      <div class="movie-title">Super Hero</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon ball super Broly.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg" alt="Broly" loading="lazy">
+      <div class="movie-title">Broly</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z La Resurrección de Freezer.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/6QUqAk7quyFIOZoFJmRp14eiorv.jpg" alt="La Resurrección de Freezer" loading="lazy">
+      <div class="movie-title">La Resurrección de Freezer</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z El ataque del dragon.html" class="movie-card">
+      <img src="https://omochalaheadchala.com/wp-content/uploads/2019/10/ryukenbakuhatu2.jpg" alt="El Ataque del Dragón" loading="lazy">
+      <div class="movie-title">El Ataque del Dragón</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z La Batalla de los Dioses.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg" alt="La Batalla de los Dioses" loading="lazy">
+      <div class="movie-title">La Batalla de los Dioses</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 05 Los Rivales más Poderosos.html" class="movie-card">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgyCeOEfMI47kxU7SPLuzNf2k4q-4JHnNr_CuY0vFx8dNkSL0vAQVqTsV2YRlhwAR4q8lfZ6YHv4_PubIOaQDyylA8XZYipaw299BCUkCJTiAjqS2alSc0cgXVnsl_sKGq3DkHOiC1Z5w9MNZuF1ZEnIIEp2Efw9lSvyaXPG7eaJ_H95JOi22HlKWWYng/w1200-h630-p-k-no-nu/poster.jpg" alt="Los Rivales Más Poderosos" loading="lazy">
+      <div class="movie-title">Los Rivales Más Poderosos</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z La fusion de Goku y Vegeta.html" class="movie-card">
+      <img src="https://vignette.wikia.nocookie.net/dragonball/images/f/f2/DBZ_Pel%C3%ADcula_12_p%C3%B3ster.png/revision/latest?cb=20180805032326&path-prefix=es" alt="Fusión" loading="lazy">
+      <div class="movie-title">Fusión</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 06 Los Guerreros más Poderosos.html" class="movie-card">
+      <img src="https://od.lk/s/M18zMDc3ODQyNjJf/los%20guerreros%20mas%20poderosos%20poster.jpg" alt="Los Guerreros Más Poderosos" loading="lazy">
+      <div class="movie-title">Los Guerreros Más Poderosos</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 08 El poder invencible.html" class="movie-card">
+      <img src="https://od.lk/s/M18zMDc3ODUxMzlf/OIP.jfif" alt="El Poder Invencible" loading="lazy">
+      <div class="movie-title">El Poder Invencible</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 09 La Galaxia Corre Peligro.html" class="movie-card">
+      <img src="https://th.bing.com/th/id/OIP.kgbsgSWpZ3iFWLmlOwMUjQHaKd?rs=1&pid=ImgDetMain" alt="La Galaxia Corre Peligro" loading="lazy">
+      <div class="movie-title">La Galaxia Corre Peligro</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon ball Z 10 el regreso del guerrero legendario.html" class="movie-card">
+      <img src="https://elcomercio.pe/resizer/UQPThrB2cYDxpo2UVRgriWFYfHc=/620x0/smart/filters:format(jpeg):quality(75)/arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/W6YZTOUVDRCDHKREJV54L5LZNY.jpg" alt="El Regreso de Broly" loading="lazy">
+      <div class="movie-title">El Regreso de Broly</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z El combate final.html" class="movie-card">
+      <img src="https://th.bing.com/th/id/R.3b1db6e9b3b754db3cad21d7f2232264?rik=LpboS6E7Ln1g0g&riu=http%3a%2f%2fwww.dragonball-ultimate.com%2fwp-content%2fuploads%2f2017%2f09%2fdragonball-z-film-11-1.jpg&ehk=NtZwvTOT%2bFz%2fuehFqZ60i%2bG%2fGZblja%2bPyGlqZzLA8SQ%3d&risl=&pid=ImgRaw&r=0" alt="El Combate Definitivo" loading="lazy">
+      <div class="movie-title">El Combate Definitivo</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 04 Goku es un Super Saiyajin.html" class="movie-card">
+      <img src="https://th.bing.com/th/id/OIP.nJ6SBnNjBntFaaRLS5KaAgAAAA?rs=1&pid=ImgDetMain" alt="El Más Fuerte del Mundo" loading="lazy">
+      <div class="movie-title">El Más Fuerte del Mundo</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="dragon ball z 03 la batalla mas grande de este mundo esta por comenzar.html" class="movie-card">
+      <img src="https://2.bp.blogspot.com/-9na0FWUZbIo/XHVYZrNzhPI/AAAAAAAAEf4/EavU8l915YkXD4H5XBvftbABYG6nUEF9wCLcBGAs/s1600/90345l.jpg" alt="La Gran Batalla de los Guerreros del Universo" loading="lazy">
+      <div class="movie-title">La Gran Batalla del Universo</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 07 La Pelea de los Tres Saiyajin.html" class="movie-card">
+      <img src="https://es.web.img3.acsta.net/pictures/21/04/19/13/24/3827526.jpg" alt="Guerreros de Fuerza Ilimitada" loading="lazy">
+      <div class="movie-title">Guerreros de Fuerza Ilimitada</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 02 El Hombre más Fuerte de este Mundo.html" class="movie-card">
+      <img src="https://media-cache.cinematerial.com/p/500x/dfjymyez/doragon-boru-z-4-super-saiyajin-da-son-goku-japanese-movie-poster.jpg?v=1456728757" alt="El Súper Saiyajin" loading="lazy">
+      <div class="movie-title">El Súper Saiyajin</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball Z 01 ¡Devuélvanme a mi Gohan!.html" class="movie-card">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/8104Ve6FsiL._RI_SX300_.jpg" alt="Dead Zone" loading="lazy">
+      <div class="movie-title">Dead Zone</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball 01 La leyenda de Shen Long.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/w780/dZCWRFJnwyxYOhzAhf7Xyru4moB.jpg" alt="La Leyenda del Dragón Shenron" loading="lazy">
+      <div class="movie-title">La Leyenda de Shen Long</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball 02La princesa durmiente del castillo embrujado.html" class="movie-card">
+      <img src="https://www.db-z.com/wp-content/uploads/2018/12/Cover-du-Film-Dragon-Ball-2.jpg" alt="El Guerrillero Durmiente" loading="lazy">
+      <div class="movie-title">La Princesa Durmiente</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball 03 Una Aventura Mística.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/7f2vIwxEXryqavvgVAcqUe2CG0Q.jpg" alt="Aventura Mística" loading="lazy">
+      <div class="movie-title">Aventura Mística</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+  </div>
+</div>
+
+
+<div class="movie-section">
+  <h2>Live action</h2>
+  <div class="scroll-container">
+
+    <a href="DragonBall Evolución.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/ztlqrY7VgFIFmtzVsh3TPYiXCdF.jpg" alt="Evolution" loading="lazy">
+      <div class="movie-title">DragonBall Evolución</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    <a href="Dragon Ball La magia comienza (1991).html" class="movie-card">
+      <img src="https://od.lk/s/M18zMTc2NTE1MjZf/la%20magia%20comibenza%20movie%20poster.jpg" alt="La magia Comienza" loading="lazy">
+      <div class="movie-title">Dragon Ball La magia comienza</div>
+      <div class="movie-meta"><span>Dob Latino</span></div>
+    </a>
+
+    
+
+  </div>
+</div>
+
+
+<div class="featured-box">
+  <img src="https://od.lk/s/M18zMTIyODk1NTFf/Dragon%20ball.jpg" alt="Fondos de Pantalla" class="featured-banner">
+
+  <div class="featured-content">
+    <h2>Fondos de Pantalla</h2>
+    <div class="underline"></div>
+    <div class="meta">Fondos • Mobile</div>
+    <p class="desc">
+      Descarga lo mejores fondos de pantalla para tu celular.
+    </p>
+    <a href="imagenes dragon ball.html" class="watch-btn">¡Descarga ya!</a>
+  </div>
+</div>
+
+<div class="movie-section">
+  <h2>ESPECIALES Y OVAS´s</h2>
+  <div class="scroll-container">
+
+    <a href="La Batalla de Freezer contra el Padre de Goku (1990).html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/qcMsPK06qHWIsGzr58NIw1ccBBj.jpg" alt="DBZ Especial 1" loading="lazy">
+      <div class="movie-title">La Batalla de Freezer</div>
+      <div class="movie-meta">
+        <span>Especial | Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="Dragon Ball Z ova 2 Los dos Guerreros del Futuro Gohan y Trunks.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/bwA2GpwZrkZC67JXGdBIqQelN5M.jpg" alt="DBZ Especial 2" loading="lazy">
+      <div class="movie-title">Gohan y Trunks del Futuro</div>
+      <div class="movie-meta">
+        <span>Ova | Sub Español</span>
+      </div>
+    </a>
+
+    <a href="Dragon Ball Z Bardock El legendario Super Saiyajin.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/qIaDzEzNgKsnlmetxv20leWQGjf.jpg" alt="DBZ Bardock" loading="lazy">
+      <div class="movie-title">Bardock: El Legendario SSJ</div>
+      <div class="movie-meta">
+        <span>Especial | Sub Español</span>
+      </div>
+    </a>
+
+    <a href="camino hacia el poder.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/zRX7GeAyPLYdKo2spEgxlGxDxRn.jpg" alt="Camino hacia el poder" loading="lazy">
+      <div class="movie-title">Camino hacia el poder</div>
+      <div class="movie-meta">
+        <span>Especial | Dob Latino</span>
+      </div>
+    </a>
+
+    <a href="Dragon Ball GT La Legendaria Esfera de Cuatro Estrellas.html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/izZaeWcWDir9PvuSwaITV1E1rA8.jpg" alt="DBGT: 100 años después" loading="lazy">
+      <div class="movie-title">GT: 100 años después</div>
+      <div class="movie-meta">
+        <span>Especial | Sub Español</span>
+      </div>
+    </a>
+
+    <a href="Dragon Ball Z El plan para erradicar a los Saiyajins (1993).html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/nTQfinvkbpvsovp7Z8qP5KBszpb.jpg" alt="DBZ: plan para erradicar" loading="lazy">
+      <div class="movie-title">Erradicar a los Saiyajins (1993)</div>
+      <div class="movie-meta">
+        <span>Ova | Sub Español</span>
+      </div>
+    </a>
+
+    <a href="Dragon Ball Z  El plan para erradicar a los Saiyajins (remake) (2010).html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/gvn0nEzqe3hudGxeFQIsFVZI2cL.jpg" alt="DBZ remake: plan para" loading="lazy">
+      <div class="movie-title">Erradicar Saiyajins (2010)</div>
+      <div class="movie-meta">
+        <span>Remake | Sub Español</span>
+      </div>
+    </a>
+
+    <a href="Dragon Ball Toriko One Piece Y DBZ Especial colaboracion (2013).html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/1azUShBxKqHUUJf61BIpnJTtAWO.jpg" alt="Toei Colaboración" loading="lazy">
+      <div class="movie-title">Toei Colaboración</div>
+      <div class="movie-meta">
+        <span>Especial | Sub Español</span>
+      </div>
+    </a>
+
+    <a href="Legend A Dragon Ball Tale (2022).html" class="movie-card">
+      <img src="https://image.tmdb.org/t/p/original/wxAzvWeLsvODDBH9DvEmo3ItQPU.jpg" alt="Dragon Ball Legends" loading="lazy">
+      <div class="movie-title">Legend: A DB Tale</div>
+      <div class="movie-meta">
+        <span>Fanmade | Sub Inglés</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+
+
+<div class="music-section">
+  <h2 class="section-title">Videos musicales</h2>
+  <div class="music-carousel">
+
+    <a href="player.html?video=0" class="music-card">
+      <img src="https://od.lk/s/M18zMDg5NjE3NjRf/OIP.jpg" alt="Aimer - SCOPE">
+      <div class="music-info">
+        <span class="artist">Hiroki Takahashi</span>
+        <span class="song">Makafushigi Adventure</span>
+        <span class="genre">Anime</span>
+      </div>
+    </a>
+
+    <a href="player.html?video=1" class="music-card">
+      <img src="https://od.lk/s/M18zMDg5NjE3NjJf/maxresdefault%20%281%29.jpg" alt="BREIMEN - Rolling Stone">
+      <div class="music-info">
+        <span class="artist">Hironobu Kageyama</span>
+        <span class="song">Cha-La Head-Cha-La</span>
+        <span class="genre">Anime</span>
+      </div>
+    </a>
+
+    <a href="player.html?video=2" class="music-card">
+      <img src="https://od.lk/s/M18zMTc2MzYwNTRf/vlcsnap-2025-05-15-12h08m47s882.png" alt="CVLTE - reality⛓">
+      <div class="music-info">
+        <span class="artist">Field of View</span>
+        <span class="song">Dan Dan Kokoro hikareteku</span>
+        <span class="genre">Anime</span>
+      </div>
+    </a>
+
+    <a href="player.html?video=3" class="music-card">
+      <img src="https://od.lk/s/M18zMDg5NjE3NjNf/maxresdefault.jpg" alt="CVLTE - reality⛓">
+      <div class="music-info">
+        <span class="artist">MAON KUROSAKI - RAY</span>
+        <span class="song">Dan Dan Kokoro hikareteku</span>
+        <span class="genre">Anime</span>
+      </div>
+    </a>
+
+    <a href="player.html?video=4" class="music-card">
+      <img src="https://od.lk/s/M18zMDg5NjE2NDJf/57a7f3907f15f102a9684a125cb904f7_32.jpeg" alt="CVLTE - reality⛓">
+      <div class="music-info">
+        <span class="artist">CVLTE</span>
+        <span class="song">reality⛓</span>
+        <span class="genre">Alternative</span>
+      </div>
+    </a>
+
+    <a href="player.html?video=5" class="music-card">
+      <img src="https://od.lk/s/M18zMTc2NDIzOTdf/sddefault.jpg" alt="CVLTE - reality⛓">
+      <div class="music-info">
+        <span class="artist">Adrián Barba</span>
+        <span class="song">Limit Break X Survivor</span>
+        <span class="genre">Anime</span>
+      </div>
+    </a>
+
+   
+
+  </div>
+</div>
+
+<div class="featured-box">
+  <img src="https://od.lk/s/M18zMTMyNzkyNzBf/Akira-Toriyama.jpg" alt="Akira Toriyama" class="featured-banner">
+
+  <div class="featured-content">
+    <h2>Akira Toriyama</h2>
+    <div class="underline"></div>
+    <div class="meta">Arte • Historia</div>
+    <p class="desc">
+      Descubre el legado artístico de Akira Toriyama, el genio detrás de Dragon Ball. Explora ilustraciones, curiosidades y momentos clave que marcaron generaciones.
+    </p>
+    <a href="Akira Toriyama.html" class="watch-btn">¡Explora su arte!</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<br><br><br>
+
+
+<footer class="footer">
+  <a href="main2.html" class="footer-icon active">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="new favoritos 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="New search page 2025.html" class="footer-icon">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="perfil2025.html" class="footer-icon">
+      
+      <img src="https://od.lk/s/M18zMTI1Njc0OThf/dragonballapp.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+<footer-akira>
+  © 2025 DragonPlus. Hecho con respeto y admiración por Akira Toriyama.
+</footer-akira>
+<br><br><br>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+ const swiper = new Swiper('.swiper', {
+  loop: true,
+  autoplay: {
+    delay: 7000,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+    renderBullet: function (index, className) {
+      return `<span class="${className}">
+                <span class="progress-bar"></span>
+              </span>`;
+    },
+  },
+  on: {
+    init: function () {
+      // Animar solo la barra activa al inicio
+      const firstBar = document.querySelector('.swiper-pagination-bullet-active .progress-bar');
+      if (firstBar) {
+        firstBar.style.animation = 'fillProgress 7s linear forwards';
+      }
+    },
+    slideChangeTransitionStart: function () {
+      // Detener todas las animaciones
+      document.querySelectorAll('.progress-bar').forEach(bar => {
+        bar.style.animation = 'none';
+      });
+
+      // Reiniciar solo la del bullet activo
+      const activeBar = document.querySelector('.swiper-pagination-bullet-active .progress-bar');
+      if (activeBar) {
+        void activeBar.offsetWidth; // Forzar reflow
+        activeBar.style.animation = 'fillProgress 7s linear forwards';
+      }
+    },
+  },
+});
+
+// Simula datos de notificaciones
+const mockNotifications = [
+  
+  
+  
+  ];
+  
+  // Simula la llamada a un servidor con setTimeout
+  function fetchNotifications() {
+  return new Promise((resolve) => {
+  setTimeout(() => {
+      resolve(mockNotifications); // Simula la respuesta del servidor
+  }, 1000); // Simula un retraso de 1 segundo
+  });
+  }
+  
+  // Función para cargar notificaciones
+  async function loadNotifications() {
+  try {
+  const notifications = await fetchNotifications();
+  
+  const notificationsContainer = document.getElementById("notificationsContainer");
+  notificationsContainer.innerHTML = ""; // Limpia las notificaciones actuales
+  
+  if (notifications.length === 0) {
+      notificationsContainer.innerHTML = "<p>No hay notificaciones nuevas.</p>";
+      return;
+  }
+  
+  notifications.forEach(notification => {
+      const notificationElement = createNotificationElement(notification);
+      notificationsContainer.appendChild(notificationElement);
+  });
+  
+  updateNotificationBadge(); // Actualiza el badge
+  } catch (error) {
+  console.error("Error al cargar notificaciones:", error);
+  }
+  }
+  
+  // Crear el elemento HTML de la notificación
+  function createNotificationElement(notification) {
+  const notificationItem = document.createElement("a");
+  notificationItem.href = notification.link || "#"; // Enlace por defecto
+  notificationItem.className = "notification-item";
+  
+  notificationItem.innerHTML = `
+  <img src="${notification.image}" alt="${notification.title}" class="notification-image">
+  <div class="notification-text">
+      <h2>${notification.header || "Notificación"}</h2>
+      <h3>${notification.title}</h3>
+      <p>${notification.body}</p>
+  </div>
+  `;
+  return notificationItem;
+  }
+  
+  // Función para mostrar la sección de notificaciones
+  function showNotifications() {
+  const notificationsPage = document.getElementById("notificationsPage");
+  notificationsPage.classList.remove("hidden");
+  updateNotificationBadge(); // Actualiza el badge al abrir la página
+  }
+  
+  // Función para cerrar las notificaciones
+  function closeNotifications() {
+  const notificationsPage = document.getElementById("notificationsPage");
+  notificationsPage.classList.add("hidden");
+  updateNotificationBadge(); // Actualiza el badge al cerrar la página
+  }
+  
+  // Función para actualizar el punto rojo en el ícono de notificaciones
+  function updateNotificationBadge() {
+  const notificationsContainer = document.getElementById("notificationsContainer");
+  const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
+  const notificationBadge = document.getElementById("notificationBadge");
+  
+  if (notificationItems.length > 0) {
+  notificationBadge.style.display = "flex"; // Muestra el badge
+  notificationBadge.textContent = notificationItems.length; // Muestra el número de notificaciones
+  } else {
+  notificationBadge.style.display = "none"; // Oculta el badge si no hay notificaciones
+  }
+  }
+  
+  // Inicializa las notificaciones al cargar la página
+  window.addEventListener('DOMContentLoaded', () => {
+  loadNotifications();
+  updateNotificationBadge();
+  });
+
+
+
+
+  var notificationID = "notification_v2"; // Cambia esto para una nueva notificación
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (localStorage.getItem("dismissedNotification") !== notificationID) {
+    document.getElementById("floatingNotification").style.display = "block";
+    document.getElementById("notificationOverlay").style.display = "block";
+    document.body.classList.add("no-scroll");
+  }
+});
+
+function closeFloatingNotification() {
+  document.getElementById("floatingNotification").style.display = "none";
+  document.getElementById("notificationOverlay").style.display = "none";
+  document.body.classList.remove("no-scroll");
+  localStorage.setItem("dismissedNotification", notificationID);
+}
+
+// Redirección a Telegram
+const telegramLink = document.getElementById("telegramLink");
+if (telegramLink) {
+  telegramLink.addEventListener("click", function (event) {
+    event.preventDefault();
+    var link = "tg://join?invite=dYQgTE46E6Y3MWFh";
+    window.location.href = link;
+    setTimeout(function () {
+      window.location.href = "https://t.me/+dYQgTE46E6Y3MWFh";
+    }, 1000);
+  });
+}
+
+
+// Gestión de imágenes de perfil
+const footerProfileIcon = document.getElementById("footerIconImg");
+const profileImage = document.getElementById("profileImage");
+const profilePageImage = document.getElementById("profilePageImage");
+
+const defaultProfileIcon = document.getElementById("defaultProfileIcon"); // Icono de perfil en el footer
+const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt"); // Icono alternativo de perfil
+
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+profileImage.src = src;
+profilePageImage.src = src;
+footerProfileIcon.src = src;
+defaultProfileIcon.style.display = 'none'; // Ocultar el icono de perfil
+defaultProfileIconAlt.style.display = 'none'; // Ocultar el icono alternativo
+localStorage.setItem('profileImage', src); // Guardar la imagen en el almacenamiento local
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener('load', function () {
+const storedProfileImage = localStorage.getItem('profileImage');
+if (storedProfileImage) {
+footerProfileIcon.src = storedProfileImage;
+profileImage.src = storedProfileImage;
+profilePageImage.src = storedProfileImage;
+defaultProfileIcon.style.display = 'none'; // Ocultar el icono de perfil
+defaultProfileIconAlt.style.display = 'none'; // Ocultar el icono alternativo
+}
+});
+
+// Contenedor de la sección "Continuar Viendo"
+var container = document.getElementById('continueWatchingContainer');
+var continueWatchingSection = document.querySelector('.movie-section.continue-watching');
+
+// Ocultar la sección inicialmente
+continueWatchingSection.style.display = 'none';
+
+// Función para renderizar los elementos de "Continuar Viendo"
+function loadContinueWatching() {
+    container.innerHTML = '';
+    var hasIncompleteItems = false;
+    var itemsToRender = [];
+
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        try {
+            var itemData = JSON.parse(localStorage.getItem(key));
+
+            // 🟡 Película con clave movie_{id}
+if (
+    key.startsWith("movie_") &&
+    itemData &&
+    itemData.title &&
+    itemData.poster &&
+    itemData.link &&
+    itemData.duration &&
+    itemData.progress < itemData.duration * 0.9
+) {
+    hasIncompleteItems = true;
+    itemsToRender.push({ key: key, data: itemData, type: 'movie' });
+}
+
+
+            // ✅ Series (formato antiguo con progress_)
+            if (
+                key.startsWith('progress_') &&
+                itemData &&
+                itemData.seriesId &&
+                itemData.seriesTitle &&
+                itemData.episodeTitle &&
+                itemData.poster &&
+                itemData.seriesLink &&
+                itemData.progress < 100
+            ) {
+                hasIncompleteItems = true;
+                itemsToRender.push({ key: key, data: itemData, type: 'series' });
+            }
+
+            // ✅ Series (nuevo formato: continue_{seriesId})
+            if (
+                key.startsWith('continue_') &&
+                itemData &&
+                itemData.seriesTitle &&
+                itemData.episodeTitle &&
+                itemData.poster &&
+                itemData.link &&
+                itemData.videoUrl
+            ) {
+                const progressKey = `progress_${itemData.seriesId}_${itemData.videoUrl}`;
+                const durationKey = `duration_${itemData.seriesId}_${itemData.videoUrl}`;
+            
+                const latestProgress = parseFloat(localStorage.getItem(progressKey)) || 0;
+                const latestDuration = parseFloat(localStorage.getItem(durationKey)) || itemData.duration || 1;
+            
+                if (latestProgress < latestDuration * 0.9) {
+                    hasIncompleteItems = true;
+                    itemData.progress = latestProgress;
+                    itemData.duration = latestDuration;
+            
+                    itemsToRender.push({
+                        key: key,
+                        data: itemData,
+                        type: 'series'
+                    });
+                }
+            }
+
+        } catch (e) {
+            console.error('Error parsing item data:', e);
+        }
+    }
+
+    itemsToRender.reverse();
+
+    itemsToRender.forEach(function (item) {
+        var itemData = item.data;
+        var itemDiv = document.createElement('div');
+        itemDiv.classList.add('movie-item');
+
+        // Imagen
+        var img = document.createElement('img');
+        img.src = itemData.poster;
+        img.alt = item.type === 'movie' ? itemData.title : itemData.episodeTitle;
+        img.classList.add('poster');
+
+        img.addEventListener('click', function () {
+            if (item.type === 'series') {
+                localStorage.setItem('resumeFromContinue', JSON.stringify({
+                    seriesId: itemData.seriesId || null,
+                    episodeTitle: itemData.episodeTitle,
+                    progress: itemData.progress,
+                    link: itemData.seriesLink || itemData.link,
+                    poster: itemData.poster,
+                    seriesTitle: itemData.seriesTitle
+                }));
+            }
+        });
+
+        // Enlace
+        var link = document.createElement('a');
+        link.href = itemData.link;
+
+        link.classList.add('continue-card');
+        link.appendChild(img);
+        itemDiv.appendChild(link);
+
+        // Barra de progreso
+        var progressBarContainer = document.createElement('div');
+        progressBarContainer.classList.add('progress-bar-container');
+
+        var progressBar = document.createElement('div');
+        progressBar.classList.add('progress-bar');
+
+        let progressValue = itemData.progress;
+        let durationValue = itemData.duration;
+
+        if (durationValue && progressValue !== undefined) {
+            const percent = Math.min((progressValue / durationValue) * 100, 100);
+            progressBar.style.width = percent + '%';
+        } else {
+            progressBar.style.width = progressValue + '%';
+        }
+
+        progressBarContainer.appendChild(progressBar);
+        itemDiv.appendChild(progressBarContainer);
+
+        // Título estilo Crunchyroll (sin tiempo restante)
+        var titleContainer = document.createElement('div');
+        titleContainer.classList.add('movie-title');
+
+        var titleLine = document.createElement('strong');
+        titleLine.textContent = item.type === 'movie' ? itemData.title : itemData.seriesTitle;
+        titleContainer.appendChild(titleLine);
+
+        if (item.type === 'series') {
+            var episodeLine = document.createElement('div');
+            episodeLine.textContent = itemData.episodeTitle;
+            titleContainer.appendChild(episodeLine);
+        }
+
+        itemDiv.appendChild(titleContainer);
+
+        // Botón de eliminar
+        var deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.innerHTML = '<span class="material-icons">close</span>';
+        deleteButton.addEventListener('click', function () {
+            itemDiv.remove();
+            localStorage.removeItem(item.key);
+            if (container.children.length === 0) {
+                continueWatchingSection.style.display = 'none';
+            }
+        });
+        itemDiv.appendChild(deleteButton);
+
+        container.prepend(itemDiv);
+    });
+
+    continueWatchingSection.style.display = hasIncompleteItems ? 'block' : 'none';
+}
+
+// Ejecutar al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('justReturnedFromSeries') === 'true') {
+        localStorage.removeItem('justReturnedFromSeries');
+        loadContinueWatching();
+    } else {
+        loadContinueWatching();
+    }
+});
+
+
+
+// Detener la navegación si se hace clic en elementos internos
+document.querySelectorAll('.no-nav').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      e.preventDefault();
+    });
+  });
+
+  let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > lastScrollY && currentScrollY > 50) {
+    // Scroll hacia abajo -> ocultar
+    header.classList.add("hidden-on-scroll");
+  } else {
+    // Scroll hacia arriba -> mostrar
+    header.classList.remove("hidden-on-scroll");
+  }
+
+  lastScrollY = currentScrollY;
+});
+</script>
+
+</body>
+</html>

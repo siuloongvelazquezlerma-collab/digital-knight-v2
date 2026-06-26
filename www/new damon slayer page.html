@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Demon Slayer: Kimetsu no Yaiba</title>
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+        }
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Ajusta la altura según sea necesario */
+    background-color: black; /* Fondo negro */
+}
+
+#black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10; /* Asegúrate de que esté por encima del video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+        .video-js {
+            width: 100%;
+            height: 100%; /* Asegura que el video ocupe todo el contenedor */
+        }
+
+        .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background: linear-gradient(to bottom, #00000069, #00000000, #00000000, #00000000, #00000000, #0000003b ),
+    url('https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg') no-repeat top center;
+    background-size: contain;
+    z-index: 150; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+
+  
+        }
+        .horizontal-overlay {
+    display: none; /* Oculta por defecto */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(to bottom, #000000c4, #00000000, #00000000, #00000000, #00000086, #000000),
+    url('https://od.lk/s/M18zMDk3NTU3MjBf/DSKYHTA_Crunchyroll.webp') no-repeat top center;
+    background-size: contain;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    background-attachment: fixed;
+    transition: background 0.3s ease-in-out; /* Transición suave */
+}
+
+@media (orientation: landscape) {
+    .overlay {
+        display: none; /* Oculta la imagen principal */
+    }
+    .horizontal-overlay {
+        display: flex; /* Muestra la segunda imagen */
+    }
+}
+
+/* Media query para modo vertical */
+@media (orientation: portrait) {
+    .overlay {
+        display: flex; /* Muestra la imagen principal */
+    }
+    .horizontal-overlay {
+        display: none; /* Oculta la segunda imagen */
+    }
+}
+
+      .container {
+    max-width: 100%;
+}
+
+.logo-container {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%; /* Cubre todo el ancho de la página */
+    background: linear-gradient(to bottom, #00000000, #00000075, #000000 ); /* Degradado lineal */
+    padding: 10px; /* Espaciado interno para que el degradado sea visible alrededor del logo */
+    text-align: center; /* Centra el logo dentro del fondo */
+}
+
+.logo {
+    width: 250px; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+    opacity: 0.0; /* Transparencia total */
+}
+
+        .tabs {
+            display: flex;
+    justify-content: flex-start; /* Alinear hacia la izquierda */
+    margin-top: 10px;
+    border-bottom: 1px solid #ffffff38;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #ff5e00; /* Borde blanco para la pestaña activa */
+            
+    font-weight: bold;
+    color: #fff; /* Color de fuente blanco */
+
+            
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .episode {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            border-left: 5px solid transparent;
+        }
+
+        .episode.watched {
+    border-left: 5px solid #ff5e00; /* Change the color as needed */
+}
+.episode.watched img {
+    filter: brightness(50%);
+}
+
+
+        .episode img {
+            width: 150px;
+            height: auto;
+            margin-right: 12px;
+            position: relative;
+            transition: filter 0.3s ease;
+        
+        }
+
+        .duration-label {
+            position: absolute;
+            bottom: 3px;
+            right: 190px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .episode-description {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+            font-weight: bold;
+            top: -15px;
+        }
+        .episode-title {
+            flex-grow: 1;
+            position: relative;
+            font-size: 12px;
+        }
+        .download-button, .mark-watched-button {
+            padding-bottom: 10px;
+            right: 10px;
+            bottom: 0px;
+            color: white;
+            font-size: 17px;
+            padding: 5px 10px 5px;
+            cursor: pointer;
+            position: absolute;
+        }
+        .duration, .remaining-time {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+        .season-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    position: relative;
+    border-bottom: 1px solid #ffffff38;
+    bottom: 10px;
+}
+
+.season-dropdown select {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.season-dropdown .material-icons {
+    margin-left: -31px; /* Ajusta la posición del icono */
+    pointer-events: none;
+    
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px; /* Espacio entre el dropdown de temporadas y el menú desplegable */
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0; /* Despliega hacia abajo a la izquierda */
+}
+
+.menu-dropdown button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-dropdown button:hover {
+    background-color: #575757;
+}
+
+.download-all-button {
+    margin-left: 220px;
+    background: none;
+    color: white; /* Texto blanco para el botón de descarga */
+    font-size: 13px; /* Tamaño del texto del botón */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.download-all-button .material-icons {
+    margin-left: 20px; /* Espaciado entre el texto y el icono */
+    font-size: 17px;
+    border-bottom: 0.5px solid white; /* Grosor de la línea */
+  width: 17px; /* Ajusta el ancho de la línea */
+  text-align: center;
+}
+.suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre las imágenes */
+        }
+        .suggestion-item {
+            position: relative;
+        }
+        .suggestion-item img {
+            width: 100%;
+            height: auto;
+        }
+        .suggestion-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .suggestion-item:hover a {
+            opacity: 1;
+        }
+
+        /* Estilos para la animación de deslizamiento */
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, #000000, #00000069, #00000000);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .header.scrolled {
+            background: linear-gradient(to bottom, #000000, #000000, #000000 );
+        }
+        .header .back-arrow, .header .cast-button {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        .header .title {
+            display: none;
+            font-size: 18px;
+            color: white;
+            margin-left: 10px;
+        }
+        .header.scrolled .title {
+            display: block;
+        }
+        .content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        .season-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        .season-navigation .material-icons {
+            margin: 10px 10px; /* Space between text and arrow */
+            align-items: center;
+        }
+        .previous-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+           
+        }
+        .next-season {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding-right: 10px;
+        }
+        .favorito-container {
+    display: flex;
+    justify-content: flex-start; /* Mover el botón a la izquierda */
+    align-items: center;
+    margin-top: 2px; /* Espacio superior para separar del contenido anterior */
+}
+
+#favoritoBtn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#favoritoIcon {
+    margin-right: 5px;
+}
+
+.favorito-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.serie-descripcion {
+    margin: 20px;
+    text-align: left;
+}
+
+#detallesBtn {
+    background: none;
+    border: none;
+    color: #ff5e00;
+    padding: 0;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: bold;
+    
+}
+
+
+
+.detalles-slider {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 40px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    transition: bottom 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.detalles-slider.active {
+    bottom: 0;
+}
+
+.detalles-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    bottom: -10px;
+    top: 30%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.heading-line {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 16px;
+    font-size: 11px;
+    z-index: 1000;
+}
+
+.age-rating {
+    padding: 5px 0; /* Quitar el fondo de color general */
+    margin-top: 10px; /* Espacio entre el título y la clasificación por edad */
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.rating {
+    background-color: rgba(92, 98, 129, 0.7); /* Fondo de color solo para el número 12 y el signo de más */
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.series-text {
+    color: #78f1d3; /* Color para el texto "Series" */
+    font-size: 13px;
+    padding: 3px;
+}
+
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #202127;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+.footer-btn:hover,
+.footer-btn.active { /* Color naranja al estar activo */
+  color: #ff5e00; 
+}
+
+.footer-btn  {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 0; 
+    font-size: 0.6em;
+    transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+    font-size: 30px;
+    margin-bottom: 1px;
+}
+.footer-btn p {
+  margin: 1px 6px 9px; /* Ajusta el margen superior del texto */
+  
+ 
+}
+.notificacion {
+  position: fixed;
+  bottom: 48px; /* Ajusta la posición para que aparezca arriba del footer */
+  width: 100%;       /* La notificación ocupa todo el ancho */
+  left: 0;
+  transform: translateX(0);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1001; /* Asegúrate de que esté por encima del footer */
+  display: none; /* Inicialmente oculta */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  align-items: center;   /* Centra verticalmente */
+  justify-content: flex-start; /* Centra horizontalmente */
+  margin: 10px;
+
+}
+
+.notificacion.mostrar {
+  display: block;
+  opacity: 1;
+}
+
+.check-icon {
+  color: #4CAF50; 
+  margin-left: 10px; /* Espacio a la IZQUIERDA del icono */
+}
+.vjs-control-bar {
+  background: rgba(255, 86, 34, 0); /* Barra de control con color naranja semi-transparente */
+}
+
+
+.vjs-title {
+    position: absolute;
+      top: -300px;
+      left: 50%;
+      font-size:15px;
+      color: white;
+      z-index: 2;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+      transform: translate(-50%);
+      text-align: center;
+    }
+   
+
+
+/* Estilo de los controles personalizados */
+.vjs-custom-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* Espacio entre los botones */
+  pointer-events: auto; /* Habilitar interacción con los controles */
+  transition: opacity 0.3s ease; /* Transición suave */
+}
+
+/* Hacer los botones más grandes */
+.vjs-custom-button {
+  font-size: 48px; /* Aumentar el tamaño de los iconos */
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.vjs-custom-button:hover {
+  transform: scale(1.2); /* Agrandar el botón al pasar el ratón */
+}
+
+/* Asegurarse de que los controles estén detrás de las imágenes */
+.vjs-custom-controls {
+  z-index: 1; /* Los controles estarán por encima del video, pero detrás de las imágenes principales */
+  position: absolute;
+}
+
+
+/* Ajuste para visibilidad de los controles solo cuando el mouse está sobre el reproductor */
+.video-js:hover .vjs-custom-controls {
+  opacity: 1; /* Mostrar los controles cuando el mouse está sobre el reproductor */
+}
+
+.video-js .vjs-custom-controls {
+  opacity: 0; /* Los controles estarán ocultos por defecto */
+}
+
+/* Mover toda la barra de herramientas hacia arriba */
+.vjs-control-bar {
+    background-color: rgba(0, 0, 0, 0) !important; /* Barra transparente */
+    box-shadow: none !important; /* Sin sombra */
+    border: none !important; /* Sin bordes */
+    visibility: visible !important; /* Asegurar visibilidad */
+    position: absolute;
+    bottom: 0; /* Barra al fondo del contenedor */
+    width: 100%;
+    z-index: 100; /* Elevar la prioridad visual */
+}
+
+/* Barra de progreso completa */
+.vjs-progress-control {
+    width: 100% !important; /* Expandir al ancho completo */
+    height: 6px; /* Grosor de la barra */
+    margin-top: -20px; /* Subir la barra ligeramente */
+    position: absolute;
+    bottom: 50px; /* Colocar encima de los controles */
+    background-color: transparent !important; /* Fondo transparente */
+    left: 0px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Barra de progreso llena (reproducción) */
+.vjs-progress-holder .vjs-play-progress {
+    background-color: red !important; /* Color rojo para el progreso */
+    height: 100%; /* Asegurar que llene la barra */
+    border-radius: 3px; /* Bordes redondeados */
+    transition: width 0.2s ease-in-out; /* Animación suave al avanzar */
+}
+
+/* Barra de buffer */
+.vjs-progress-holder .vjs-buffer-progress {
+    background-color: rgba(255, 255, 255, 0.3) !important; /* Color gris claro */
+    height: 100%; /* Altura completa */
+    border-radius: 3px; /* Bordes redondeados */
+}
+
+/* Tiempo de duración */
+.vjs-duration {
+    position: absolute;
+    bottom: 40px; /* Encima de la barra de progreso */
+    left: 10px;
+    color: rgba(255, 255, 255, 0.7); /* Texto blanco semi-transparente */
+    font-size: 14px;
+}
+
+/* Ocultar controles adicionales */
+.vjs-volume-control, .vjs-fullscreen-control, .vjs-picture-in-picture-control {
+    display: none !important; /* Ocultar volumen y pantalla completa */
+}
+
+/* Ocultar controles de reproducción */
+.vjs-play-control {
+    display: none !important;
+}
+
+/* Flecha de cierre */
+.close-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+/* Hacer el control de volumen transparente */
+.vjs-volume-panel {
+  opacity: 0; /* Hace el control de volumen invisible */
+  pointer-events: none; /* Desactiva la interacción con el control */
+}
+
+/* Mover el tiempo de duración más arriba */
+.vjs-time-control {
+  position: absolute;
+  top: -50px; /* Ajusta este valor para moverlo más arriba o más abajo */
+  left:1%;
+  transform: translateX(-50%); /* Centrarlo horizontalmente */
+  font-size: 20px; /* Hacer el texto más grande */
+  color: white; /* Asegúrate de que el texto sea visible */
+}
+
+/* Opcional: Hacer el fondo más transparente si deseas */
+.vjs-time-control .vjs-current-time,
+.vjs-time-control .vjs-duration {
+  background: rgba(0, 0, 0, 0); /* Fondo transparente */
+  color: white; /* Color blanco para el texto */
+}
+
+/* Desactivar interacción directa con el video */
+.vjs-tech {
+  pointer-events: none; /* Desactivar interacción directa con el video */
+}
+
+/* Asegurar que los controles personalizados sean interactuables */
+.vjs-custom-controls {
+  pointer-events: auto; /* Permitir interacción con los controles */
+}
+
+
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <div style="display: flex; align-items: center;">
+            <a href="go:inicio" class="back-arrow material-icons">arrow_back</a>
+            <span class="title" id="page-title">Demon Slayer: Kimetsu no Yaiba</span>
+        </div>
+        <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMDk3MzM4MjFf/new%20snk%20page.html" class="cast-button material-icons">cast</a>
+    </div>
+    <div class="video-container">
+        <div id="black-overlay"></div>
+        <video id="my-video" class="video-js vjs-default-skin" controls preload="auto">
+            <source id="videoSource" src="https://od.lk/s/M18zMDA4MzgxNjZf/snk%201.mp4" type="video/mp4" id="video-source">
+            <p class="vjs-no-js">
+                Para ver este video, habilita JavaScript y considera actualizar a un navegador web que
+                <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>
+            </p>
+        </video>
+     
+        <div class="overlay" id="overlay">
+            <div class="logo-container">
+                <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+            </div>
+    </div>
+    <div class="horizontal-overlay">
+        <!-- Contenido de la segunda imagen -->
+        <div class="logo-container">
+            <img src="https://image.tmdb.org/t/p/original/vw9Nt8aftq4fepr8vK6HsF8jWcm.png" alt=""class="logo" tabindex="2">
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br><br>
+<div class="heading-line">
+    <h1 class="heading title">Demon Slayer: Kimetsu no Yaiba</h1>
+    <div class="age-rating">
+        <span class="rating">16+</span> • <span class="series-text">Series</span> • Dob
+    </div>
+</div>
+
+
+<div class="favorito-container">
+    <button id="favoritoBtn" data-identificador="sailormoon" onclick="toggleFavorito()" tabindex="4">
+        <span id="favoritoIcon" class="material-icons">add</span>
+        <span id="favoritoText">Añadir a Favoritos</span>
+    </button>
+    <div id="favoritoData" style="display: none;">
+        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Poster de la Película">
+        <a id="favoritoEnlace" href="go:demon"></a>
+        <span id="nombre">Demon Slayer: Kimetsu no Yaiba</span>
+    </div>
+</div>
+<div id="notificacion" class="notificacion">
+    <span class="material-icons check-icon">check_circle</span> <span id="mensajeNotificacion"></span> 
+  </div>
+<div class="serie-descripcion">
+    <p id="descripcion-texto">Attack on Titan es una serie de anime basada en el manga del mismo nombre. La historia sigue a
+        Eren Yeager y sus amigos mientras luchan contra los titanes que amenazan la humanidad.</p>
+        <br>
+    <center><button id="detallesBtn" onclick="toggleDetalles()">DETALLES DE LA SERIE</button></center>
+</div>
+<div id="detallesSlider" class="detalles-slider">
+    <div class="detalles-content">
+        <button class="close-btn" onclick="toggleDetalles()">X</button>
+        <h2>Demon Slayer: Kimetsu no Yaiba</h2>
+        <br>
+        <p>Attack on Titan (Shingeki no Kyojin) es un anime y manga creado por Hajime Isayama, que se lanzó en 2009. Muchos años atrás, la humanidad estuvo al borde de la extinción con la aparición de unas criaturas gigantes que
+            devoraban a todas las personas. Huyendo, la humanidad consiguió sobrevivir en una ciudad fortificada de altas
+            murallas que se ha convertido en el último reducto de la civilización contra los Titanes que campan a sus anchas por
+            el mundo. Ahora esa paz está a punto de verse interrumpida por una cadena de acontecimientos que llevará a desvelar
+            qué son los Titanes y cómo aparecieron.</p>
+            <br>
+            <p> Detalles Clave:</p>
+            <br>
+ 
+ <p>Género: Acción, horror, fantasía oscura, post-apocalíptico, militar.</p>
+ <br>
+ <p>Contexto: La humanidad vive dentro de murallas gigantes para protegerse de los Titanes, criaturas enormes que devoran personas aparentemente sin razón.</p>
+ <br>
+ <p>Protagonista: Eren Yeager, un joven que, tras presenciar la destrucción de su ciudad y la muerte de su madre a manos de los titanes, jura exterminarlos y unirse a la Legión de Reconocimiento (Survey Corps).</p>
+ <br>
+ <p>Titanes: Los Titanes son gigantes humanoides de diferentes tamaños, sin inteligencia aparente, que representan una amenaza constante para la humanidad.</p>
+ <br>
+ <p>Murallas: Las tres murallas, Maria, Rose, y Sina, protegen los últimos asentamientos humanos de la amenaza de los titanes.</p>
+ <br>
+ <p>Legión de Reconocimiento: Una unidad militar especializada en explorar el exterior de las murallas y luchar contra los titanes.</p>
+ <br>
+ <p>Poderes Especiales: Eren descubre que tiene la capacidad de transformarse en un titán, lo que cambia por completo el rumbo de la historia.</p>
+ <br>
+ <p>Giros y Misterios: A lo largo de la serie, se revelan sorprendentes verdades sobre el origen de los titanes, el pasado de la humanidad, y los secretos detrás de las murallas.</p>
+ <br>
+ <p>Personajes Importantes:
+ </p>
+ <br>
+ <p>Mikasa Ackerman: Amiga de la infancia de Eren, una guerrera excepcionalmente habilidosa.
+ </p>
+ <br>
+ <p>Armin Arlert: El mejor amigo de Eren, un estratega inteligente.
+ </p>
+ <br>
+ <p>Levi Ackerman: Capitán de la Legión de Reconocimiento, considerado uno de los mejores soldados en la lucha contra los titanes.
+ </p>
+ <br>
+ <p>Tema de Supervivencia: El tono de la serie es oscuro y frecuentemente plantea preguntas sobre la supervivencia, el sacrificio, y la libertad, lo que añade una complejidad emocional y filosófica a la trama.
+ </p>
+ <br>
+ <p>Género:
+ </p>
+ <br>
+ <p>Shonen: Aunque tiene elementos más oscuros que muchos animes shonen tradicionales, está dirigido principalmente a adolescentes.
+ </p>
+ <br>
+ <p>Fantasía oscura: Incluye elementos de horror y violencia gráfica en un mundo ficticio donde el peligro es constante.
+ </p>
+ <br>
+ <p>Attack on Titan es conocida por sus giros inesperados, tensión dramática, y compleja construcción del mundo, lo que ha llevado a que tenga una enorme base de seguidores globales.
+ </p>
+ <br><br><br><br>
+            <br><br><br>
+        <!-- Agrega más detalles aquí -->
+    </div>
+</div>
+
+
+<div class="tabs slide-up">
+    <div class="tab active" data-tab="episodes">EPISODIOS</div>
+    
+    <div class="tab" data-tab="suggestions">MÁS COMO ESTO</div>
+</div>
+
+<div id="episodes" class="tab-content active">
+
+    <div class="season-dropdown">
+            <label for="season-select"></label>
+            <select id="season-select">
+                <option value="1">Demon Slayer: Kimetsu no Yaiba</option>
+                <option value="2">Demon Slayer: The Movie: Mugen Train</option>
+                <option value="3">Demon Slayer: Mugen Train Arc</option>
+                <option value="4">Demon Slayer: Entertainment District Arc</option>
+                <option value="5">Demon Slayer: Swordsmith Village Arc</option>
+                <option value="6">Demon Slayer: Hashira Training Arc</option>
+              
+              
+            </select>
+            
+            <span class="material-icons">arrow_drop_down</span>
+        </div>
+            <div class="download-all-container"> 
+                <button class="download-all-button" id="download-all">
+                    Descargar Todos <span class="material-icons">arrow_downward</span>
+                </button>
+              </div>
+              <br>
+      
+        <div id="playlist"></div>
+    </div>
+      
+
+    <div id="suggestions" class="tab-content">
+       
+        <div class="suggestions-grid">
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/8iumVdUnb2ZYoE4MEXDRq4d3k7Y.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/6VKOfL6ihwTiB5Vibq6QTfzhxA6.jpg" alt="dragon ball z">
+                <a href="https://od.lk/s/M18zMDk0NDMzMThf/DB%20SAGAS.html" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Sugerencia 1">
+                <a href="https://enlace1.com" target="_blank"></a>
+            </div>
+            <div class="suggestion-item">
+                <img src="https://image.tmdb.org/t/p/original/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Sugerencia 2">
+                <a href="https://enlace2.com" target="_blank"></a>
+              </div>
+           
+              <!-- Agrega más sugerencias aquí -->
+          </div>
+      </div>
+      <div class="season-navigation">
+          <div class="previous-season">
+              <i class="material-icons"></i>
+              Temporada Anterior
+          </div>
+          <div class="next-season">
+              Siguiente Temporada
+              <i class="material-icons"></i>
+          </div>
+      </div>
+    <footer class="footer">
+        <a href="go:Inicio" class="footer-btn" id="homeBtn">
+            <span class="material-icons-outlined">home</span>
+            <p>Inicio</p>
+        </a>
+        <a href="go:favoritos" class="footer-btn" id="favoritosBtn">
+            <span class="material-icons-outlined">bookmark_outline</span>
+            <p>Favoritos</p>
+        </a>
+        <a href="go:explorar" class="footer-btn" id="explorarBtn">
+            <span class="material-icons-outlined">grid_view</span>
+            <p>Explorar</p>
+        </a>
+        <a href="http://action_profile" class="footer-btn" id="cuentaBtn">
+            <span class="material-icons-outlined">account_circle</span>
+            <p>Cuenta</p>
+        </a>
+    </footer>
+
+    <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+    <script>
+         const playlists = {
+            1: [
+            {
+    "title": "",
+    "description": "E1: Crueldad",
+    "image": "https://image.tmdb.org/t/p/w300//liyqZVGyEf5e4TEI2JuKU0aaldI.jpg",
+    "video": "https://od.lk/s/M18zMDI3NzEzMDFf/Demon.Slayer.Kimetsu.No.Yaiba.S01e01.1080P-dual-lat.mp4",
+    "download": "https://od.lk/d/M18zMDI3NzEzMDFf/Demon.Slayer.Kimetsu.No.Yaiba.S01e01.1080P-dual-lat.mp4",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E2: Entrenador Sakonji Urokodaki",
+    "image": "https://image.tmdb.org/t/p/w300//r2MZH3snLABIpqUPj8YOF9HIaBf.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzE1NTRf/Demon.Slayer.Kimetsu.No.Yaiba.S01e02.1080P-dual-lat.mp4",
+    "download": "https://od.lk/d/M18zMDI3NzE1NTRf/Demon.Slayer.Kimetsu.No.Yaiba.S01e02.1080P-dual-lat.mp4",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E3: Sabito y Makomo",
+    "image": "https://image.tmdb.org/t/p/w300//m9sWQLtoU1G5jdHOYUnykin0xxw.jpg",
+    "video": "https://od.lk/s/M18zMDk3NjY2MjVf/KNY-03.mp4",
+    "download": "https://od.lk/d/M18zMDk3NjY2MjVf/KNY-03.mp4",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E4: Selección final",
+    "image": "https://image.tmdb.org/t/p/w300//kH6Ir9EWGoqkTMoiQnx5fJmwY2I.jpg",
+    "video": "https://od.lk/d/M18zMDk3NjQyMDlf/KNY-04.mp4",
+    "download": "https://od.lk/d/M18zMDk3NjQyMDlf/KNY-04.mp4",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E5: Tu acero",
+    "image": "https://image.tmdb.org/t/p/w300//fWsUsEVYaOHh6bPkgH7HeQxotmP.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzIyNTJf/Demon.Slayer.Kimetsu.no.Yaiba.S01E05.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzIyNTJf/Demon.Slayer.Kimetsu.no.Yaiba.S01E05.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E6: Un cazador acompañado por un demonio",
+    "image": "https://image.tmdb.org/t/p/w300//qd0lN2R3wzbUyXbSEQEO19nkGah.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzIzNzJf/Demon.Slayer.Kimetsu.no.Yaiba.S01E06.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzIzNzJf/Demon.Slayer.Kimetsu.no.Yaiba.S01E06.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E7: Muzan Kibutsuji",
+    "image": "https://image.tmdb.org/t/p/w300//aR1bB3ltg1FjGc6N3xBpiYz7Huo.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzI0Nzlf/Demon.Slayer.Kimetsu.no.Yaiba.S01E07.1080p.Latino.WWW.pelisenhd.NET%20%281%29.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzI0Nzlf/Demon.Slayer.Kimetsu.no.Yaiba.S01E07.1080p.Latino.WWW.pelisenhd.NET%20%281%29.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E8: El encantador olor a sangre",
+    "image": "https://image.tmdb.org/t/p/w300//hnvD3jFov03BLjvGrqTueXZfvwL.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzI2MTJf/Demon.Slayer.Kimetsu.no.Yaiba.S01E08.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzI2MTJf/Demon.Slayer.Kimetsu.no.Yaiba.S01E08.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E9: Demonios de temari y de flechas",
+    "image": "https://image.tmdb.org/t/p/w300//pMST9IQizKO4EE6P54yFFMBz7vE.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzI3ODRf/Demon.Slayer.Kimetsu.No.Yaiba.S01e09.1080P-dual-lat.mp4",
+    "download": "https://od.lk/d/M18zMDI3NzI3ODRf/Demon.Slayer.Kimetsu.No.Yaiba.S01e09.1080P-dual-lat.mp4",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E10: Juntos para siempre",
+    "image": "https://image.tmdb.org/t/p/w300//nDbVix8vunXKj6zLcVEaxwF7YTq.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzI5NjBf/Demon.Slayer.Kimetsu.no.Yaiba.S01E10.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzI5NjBf/Demon.Slayer.Kimetsu.no.Yaiba.S01E10.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E11: Mansión de los tambores",
+    "image": "https://image.tmdb.org/t/p/w300//xKOewshyBZcisLUWrOQjEGe650L.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzMwODlf/Demon.Slayer.Kimetsu.no.Yaiba.S01E11.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzMwODlf/Demon.Slayer.Kimetsu.no.Yaiba.S01E11.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E12: El jabalí muestra sus colmillos mientras Zenitsu duerme",
+    "image": "https://image.tmdb.org/t/p/w300//qrPsA5eNGH4sPwMImUhOvlShd7U.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzMzODZf/Demon.Slayer.Kimetsu.no.Yaiba.S01E12.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzMzODZf/Demon.Slayer.Kimetsu.no.Yaiba.S01E12.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+},
+{
+    "title": "",
+    "description": "E13: Algo más importante que la vida",
+    "image": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/5ixd8rC1tTDHf5kSo5o7hbghpOi.jpg",
+    "video": "https://od.lk/d/M18zMDI3NzM3MTBf/Demon.Slayer.Kimetsu.no.Yaiba.S01E13.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "download": "https://od.lk/d/M18zMDI3NzM3MTBf/Demon.Slayer.Kimetsu.no.Yaiba.S01E13.1080p.Latino.WWW.pelisenhd.NET.mkv",
+    "duration": "23m"
+}
+            ],
+            2: [
+            {
+      "title": "",
+      "description": "E1: Comienza la Stone Wars",
+      "image": "https://image.tmdb.org/t/p/w300//1sRPbZNMdbbWiZ8rjKTsLiNyYVR.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM0NThf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2001%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E2: Línea directa",
+      "image": "https://image.tmdb.org/t/p/w300//kyRkW4ICLl1AZwvWk5lo9IAJwQj.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM1MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2002%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E3: Los muertos llaman",
+      "image": "https://image.tmdb.org/t/p/w300//fOM5gNKdSaFAOtetiZpUUP2ZZaW.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM1OTVf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2003%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E4: Marcha de todas las unidades",
+      "image": "https://image.tmdb.org/t/p/w300//7W3gH6WhfPED2iCimeI5zOI7yZQ.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM2NzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2004%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E5: Gorila de vapor",
+      "image": "https://image.tmdb.org/t/p/w300//xdDdZDajj5l0o7sOnovnGEi7Sov.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM3MzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2005%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E6: Escapar de prisión",
+      "image": "https://image.tmdb.org/t/p/w300//5wtdap5BlXlgmIIseNTSFFFhgEo.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM3NjZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2006%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E7: Misión secreta",
+      "image": "https://image.tmdb.org/t/p/w300//dLDk4u9n6aXCmP2TDgS4BodHYRo.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM4NjRf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2007.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E8: Batalla final",
+      "image": "https://image.tmdb.org/t/p/w300//oZusPVxwvyvnbwfPXQAlWUox8OB.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM5MjBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2008%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E9: El que destruye, el que salva",
+      "image": "https://image.tmdb.org/t/p/w300//1pMkShY92cz8P4nrWAd3MlkKo9V.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTM5ODBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2009.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E10: El dúo más fuerte de la humanidad",
+      "image": "https://image.tmdb.org/t/p/w300//8Na2zGSLtavAygx3MuAeOj651QS.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTQwMzBf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2010%20.mp4",
+      "duration": "24m"
+    },
+    {
+      "title": "",
+      "description": "E11: Prólogo de Dr. Stone",
+      "image": "https://image.tmdb.org/t/p/w300//1ZAvZGt0teLnh4R0W9yhS3EjwK3.jpg",
+      "video": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+      "download": "https://od.lk/d/M18zMDI3MTQwNzZf/Dr.%20Stone%20Stone%20Wars%20%28Latino%29%20-%2011.mp4",
+      "duration": "24m"
+    }
+        
+           ],
+           3: [
+           {
+    "title": "",
+    "description": "Dr.Stone Special episode - RYUSUI",
+    "image": "https://media.themoviedb.org/t/p/w227_and_h127_bestv2/iYLB5J6Z5g4NyHQ9cwmR07B2PtQ.jpg",
+    "video": "https://od.lk/s/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+    "download": "https://od.lk/d/M18zMDk3NDYwNTZf/drstoneyusuispecialll21.mp4",
+    "duration": "55m"
+  }
+        
+           ],
+           4: [
+           {
+        "title": "",
+        "description": "E1: Al otro lado del mar",
+        "image": "https://image.tmdb.org/t/p/w300//nZJKdntlDRrlUkneD5CHbbOzLnh.jpg",
+        "video": "https://od.lk/s/M18zMDQyODMwMTlf/SNK4-1FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODMwMTlf/SNK4-1FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E2: Tren de medianoche",
+        "image": "https://image.tmdb.org/t/p/w300//aV2M59hZVguSbVTj7WkVx1icFxl.jpg",
+        "video": "https://od.lk/s/M18zMDQyODM1NjBf/SNK4-2FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODM1NjBf/SNK4-2FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E3: La puerta de la esperanza",
+        "image": "https://image.tmdb.org/t/p/w300//bvpdW7h2pqpYZ4IisPq082TGdhe.jpg",
+        "video": "https://od.lk/s/M18zMDQyODM4NThf/SNK4-3FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODM4NThf/SNK4-3FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E4: De mano en mano",
+        "image": "https://image.tmdb.org/t/p/w300//9S4W9H69wM3YQv6ebH9iSFVqrmF.jpg",
+        "video": "https://od.lk/s/M18zMDQyODQyNjlf/SNK4-4FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODQyNjlf/SNK4-4FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E5: Declaración de guerra",
+        "image": "https://image.tmdb.org/t/p/w300//3NvjAokXE2GPJjTCU4LQBQLCtgJ.jpg",
+        "video": "https://od.lk/s/M18zMDQyODQ1MTNf/SNK4-5FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODQ1MTNf/SNK4-5FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E6: Titán martillo de guerra",
+        "image": "https://image.tmdb.org/t/p/w300//fYwa43vhmIEhTrrrNUJ13LA8YsG.jpg",
+        "video": "https://od.lk/s/M18zMDQyODQ4OTFf/SNK4-6FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODQ4OTFf/SNK4-6FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E7: Asalto",
+        "image": "https://image.tmdb.org/t/p/w300//lOpfkdvM9resozZWLczbHeldRFu.jpg",
+        "video": "https://od.lk/s/M18zMDQyODU0NzZf/SNK4-7FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODU0NzZf/SNK4-7FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E8: La bala del asesino",
+        "image": "https://image.tmdb.org/t/p/w300//2vpDtLZnQLSiwBko8xbAMDTqvDX.jpg",
+        "video": "https://od.lk/s/M18zMDQyODU3NTJf/SNK4-8FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODU3NTJf/SNK4-8FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E9: Voluntarios",
+        "image": "https://image.tmdb.org/t/p/w300//aq8oMwYb3zewlbeb1uh53pf6IOy.jpg",
+        "video": "https://od.lk/s/M18zMDQyODY1NTRf/SNK4-9FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY1NTRf/SNK4-9FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E10: El mundo al borde del abismo",
+        "image": "https://image.tmdb.org/t/p/w300//7iD0Im1pPwM3nRmWH4WbDAaXkuE.jpg",
+        "video": "https://od.lk/s/M18zMDQyODY3MTNf/SNK4-10FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY3MTNf/SNK4-10FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E11: El rey titán",
+        "image": "https://image.tmdb.org/t/p/w300//62mVv6C8gKlSy8jO4ykfdl9V0Gl.jpg",
+        "video": "https://od.lk/s/M18zMDQyODY5MjBf/SNK4-11FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY5MjBf/SNK4-11FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E12: Herencia",
+        "image": "https://image.tmdb.org/t/p/w300//lSRH3oJgg7v0QNK9vMaVOECuAyI.jpg",
+        "video": "https://od.lk/s/M18zMDQyODc4NDFf/SNK4-12FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc4NDFf/SNK4-12FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E13: La verdad",
+        "image": "https://image.tmdb.org/t/p/w300//jf9CWoPAFpqyWIyrP3hUSvh2Nwt.jpg",
+        "video": "https://od.lk/s/M18zMDQyODk0MjJf/SNK4-13FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODk0MjJf/SNK4-13FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E14: Violencia",
+        "image": "https://image.tmdb.org/t/p/w300//ynZdYzOR8bEvL3l6l21mHIxOH1Z.jpg",
+        "video": "https://od.lk/s/M18zMDQyODE1Njdf/SNK4-14FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODE1Njdf/SNK4-14FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E15: La única salvación",
+        "image": "https://image.tmdb.org/t/p/w300//4NKaIWiO8y5M33cKIOe70qxjpKV.jpg",
+        "video": "https://od.lk/s/M18zMDQyODE5NTRf/SNK4-15FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODE5NTRf/SNK4-15FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E16: Cielo y tierra",
+        "image": "https://image.tmdb.org/t/p/w300//gQVZn0xNidTHT09I52guW0ycidb.jpg",
+        "video": "https://od.lk/s/M18zMDQyODIzNzRf/SNK4-16FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "download": "https://od.lk/d/M18zMDQyODIzNzRf/SNK4-16FHD%20Dual%20Audio.APORTE%20EXCLUSIVO%20DE%20LOS%20CANALES%20DE%20YOUTUBE-%20%5BvideANIME%5D%2C%20%5BanimePELIS%5D.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E17: Juicio",
+        "image": "https://image.tmdb.org/t/p/w300//y1VwSzUJGCmzfWURHZStOIgcFAM.jpg",
+        "video": "https://od.lk/s/M18zMDI3MzA2NDRf/SNK4.P4RT2-01HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDI3MzA2NDRf/SNK4.P4RT2-01HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E18: Ataque furtivo",
+        "image": "https://image.tmdb.org/t/p/w300//8qkQjcBcOtoIYMJbVzVEhRHtl6z.jpg",
+        "video": "https://od.lk/s/M18zMDI3MzA2ODBf/SNK4.P4RT2-02HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDI3MzA2ODBf/SNK4.P4RT2-02HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E19: Dos Hermanos",
+        "image": "https://image.tmdb.org/t/p/w300//ekhIMVPtO6odrrqvHm4v70VNtLm.jpg",
+        "video": "https://od.lk/s/M18zMDQyODYxNDNf/SNK4P4RT2-03HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODYxNDNf/SNK4P4RT2-03HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E20: Recuerdos del futuro",
+        "image": "https://image.tmdb.org/t/p/w300//ik9o9quol2hWCLwOkylTn7maPxq.jpg",
+        "video": "https://od.lk/s/M18zMDQyODY2NjZf/SNK4P4RT2-04HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODY2NjZf/SNK4P4RT2-04HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E21: De parte de tu yo de hace 2000 años",
+        "image": "https://image.tmdb.org/t/p/w300//wx9cXG2vvP5uby7mIZfdy1KelKj.jpg",
+        "video": "https://od.lk/s/M18zMDQyODc1MTZf/SNK4P4RT2-05HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc1MTZf/SNK4P4RT2-05HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E22: Deshielo",
+        "image": "https://image.tmdb.org/t/p/w300//aD0tJhJ4EGMGianyzuuiQz2nZY0.jpg",
+        "video": "https://od.lk/s/M18zMDQyODc4MDhf/SNK4P4RT2-06HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc4MDhf/SNK4P4RT2-06HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E23: Atardecer",
+        "image": "https://image.tmdb.org/t/p/w300//28kjpqi1IqlmaDbouHTLwfzVL2h.jpg",
+        "video": "https://od.lk/s/M18zMDQyODc4MjBf/SNK4P4RT2-07HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODc4MjBf/SNK4P4RT2-07HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E24: Orgullo",
+        "image": "https://image.tmdb.org/t/p/w300//atKHPrLW5RRG1dUrahRrTXjJVAr.jpg",
+        "video": "https://od.lk/s/M18zMDQyODgxODdf/SNK4P4RT2-08HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODgxODdf/SNK4P4RT2-08HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E25: La noche del fin",
+        "image": "https://image.tmdb.org/t/p/w300//sWZ592AiNnXTDaw8uIxz7ya7MOp.jpg",
+        "video": "https://od.lk/s/M18zMDQyODkwMzBf/SNK4P4RT2-09HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyODkwMzBf/SNK4P4RT2-09HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E26: Traidor",
+        "image": "https://image.tmdb.org/t/p/w300//xUcJ93Tt5RHjdFPeXBKDEH3J7U1.jpg",
+        "video": "https://od.lk/s/M18zMDQyOTA2MTBf/SNK4P4RT2-10HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-10HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E27: Nostalgia",
+        "image": "https://image.tmdb.org/t/p/w300//z1ymXAlYjYeTfsFvOAveVdSBeqQ.jpg",
+        "video": "https://od.lk/s/M18zMDQyOTA2MTBf/SNK4P4RT2-11HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyOTA2MTBf/SNK4P4RT2-11HD%20L4T1N0.mp4",
+        "duration": "24m"
+    },
+    {
+        "title": "",
+        "description": "E28: El amanecer de la humanidad",
+        "image": "https://image.tmdb.org/t/p/w300//eu8TEJlYFWIWpPHyYw61JMMyPAB.jpg",
+        "video": "https://od.lk/s/M18zMDQyOTEwNTBf/SNK4P4RT2-12HD%20L4T1N0.mp4",
+        "download": "https://od.lk/d/M18zMDQyOTEwNTBf/SNK4P4RT2-12HD%20L4T1N0.mp4",
+        "duration": "23m"
+    }
+        
+           ],
+           5: [
+                {
+                    
+                  "title": "","title": " ",
+                    "description": "E-SP1 - Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+                    "image": "https://od.lk/s/M18zMDk3MjI0MTdf/OIP%20%283%29.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzExODdf/Shingeki%20no%20Kyojin%20The%20Final%20Season%20THE%20FINAL%20CHAPTERS%20Special%2001%20Sub%20Espa%C3%B1ol%20.mp4",
+                    "download": "https://od.lk/d/M18zMDI3MzExODdf/Shingeki%20no%20Kyojin%20The%20Final%20Season%20THE%20FINAL%20CHAPTERS%20Special%2001%20Sub%20Espa%C3%B1ol%20.mp4",
+                    "duration": "1h 01m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "E-SP2 - Attack on Titan Final Season THE FINAL CHAPTERS Special 2",
+                    "image": "https://od.lk/s/M18zMDk3MjIzMTZf/a722aeea2067e3e9ff69b9837c114995.jpe",
+                    "video": "https://od.lk/s/M18zMDI3MzEwMjJf/Shingeki%20no%20Kyojin%20Final.mp4",
+                    "download": "https://od.lk/d/M18zMDI3MzEwMjJf/Shingeki%20no%20Kyojin%20Final.mp4",
+                    "duration": "1h 25m" 
+                }
+        
+           ],
+           6: [
+               
+       
+        {
+          "title": "",
+                    "description": "El diario de Ilse",
+                    "image": "https://od.lk/s/M18zMDk3MjI0OTZf/default.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzI5NzNf/SNK-Ova-01.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzI5NzNf/SNK-Ova-01.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Un visitante inesperado",
+                    "image": "https://od.lk/s/M18zMDk3MjI2NDJf/fttygxkcb2e6e4p3mw7xnzw3mrkvsopq_hq.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMwMzNf/SNK-Ova-02.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMwMzNf/SNK-Ova-02.mkv",
+                    "duration": "24m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "Dificultad",
+                    "image": "https://od.lk/s/M18zMDk3MjI2Njhf/95631987f08ef1b0c8e7f86674ef6dbe.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMxMDBf/SNK-Ova-03.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMxMDBf/SNK-Ova-03.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Una elección sin remordimientos (1)",
+                    "image": "https://od.lk/s/M18zMDk3MjI2NzRf/76216c0ea7934694aff5e2ea0c36884d--no-regrets-freedom.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMxNjBf/SNK-Ova-04.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMxNjBf/SNK-Ova-04.mkv",
+                    "duration": "24m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "Una elección sin remordimientos (2)",
+                    "image": "https://pm1.narvii.com/5699/814f55ceb2af43471acb8e751e38d79adee7c674_hq.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMzMDVf/SNK-Ova-05.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMzMDVf/SNK-Ova-05.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Adiós, Muralla Sina (1)",
+                    "image": "https://www.saizenfansubs.com/wp-content/uploads/2018/01/Saizen-Soldado-Shingeki-no-Kyojin-OVA-6-Lost-Girls-Part-1DVD5053B818.mkv_snapshot_13.11_2018.01.09_11.50.55.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMzMzRf/SNK-Ova-06.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMzMzRf/SNK-Ova-06.mkv",
+                    "duration": "24m"        
+                },
+       
+        {
+          "title": "",
+                    "description": "Adiós, Muralla Sina (2)",
+                    "image": "https://vidcache.net:8161/static/c6d5355e30ff0921f2b89c7bc04083ebb8057c4d/snk ova 7.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzMzOTZf/SNK-Ova-07.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzMzOTZf/SNK-Ova-07.mkv",
+                    "duration": "24m" 
+                },
+                {
+                  "title": "",
+                    "description": "Perdida en un mundo cruel",
+                    "image": "https://vidcache.net:8161/static/4e16513535f8feae1f1f42c8b498d59022174863/snk ova 8.jpg",
+                    "video": "https://od.lk/s/M18zMDI3MzM0NTJf/SNK-Ova-08.mkv",
+                    "download": "https://od.lk/d/M18zMDI3MzM0NTJf/SNK-Ova-08.mkv",
+                    "duration": "24m" 
+                }
+        
+           ]
+        };
+
+        
+
+
+        const notificacion = document.getElementById('notificacion');
+const mensajeNotificacion = document.getElementById('mensajeNotificacion');
+
+// Función para mostrar notificación
+function mostrarNotificacion(mensaje) {
+  mensajeNotificacion.textContent = mensaje;
+  notificacion.classList.add('mostrar');
+
+  setTimeout(() => {
+    notificacion.classList.remove('mostrar');
+  }, 3000); // Ocultar la notificación después de 3 segundos
+}
+
+let lastScrollTop = 0;
+
+// Función para alternar la visibilidad del detalle
+function toggleDetalles() {
+  const detallesSlider = document.getElementById('detallesSlider');
+  detallesSlider.classList.toggle('active');
+}
+
+const favoritoBtn = document.getElementById('favoritoBtn');
+const identificador = favoritoBtn.getAttribute('data-identificador');
+
+// Función para manejar el favorito
+function toggleFavorito() {
+  const favoritoEnlace = document.getElementById('favoritoEnlace');
+  const imagen = document.getElementById('favoritoImagen');
+  const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+  const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+  if (encontrado) {
+    const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+    favoritoBtn.textContent = 'Agregar a Favoritos';
+    localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    mostrarNotificacion('Se eliminó de favoritos');
+  } else {
+    favoritos.push({
+      identificador: identificador,
+      imagen: imagen.outerHTML,
+      enlace: favoritoEnlace.href,
+      nombre: nombre, // Agregar el nombre al objeto
+    });
+
+    favoritoBtn.textContent = 'Borrar de Favoritos';
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    mostrarNotificacion('Se añadió a favoritos');
+  }
+}
+
+const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+if (encontradoInicial) {
+  favoritoIcon.innerText = 'check';
+  favoritoText.innerText = 'Se añadió a Favoritos';
+} else {
+  favoritoIcon.innerText = 'add';
+  favoritoText.innerText = 'Añadir a Favoritos';
+}
+
+const header = document.getElementById('header');
+const pageTitle = document.getElementById('page-title');
+
+// Efecto de desplazamiento del encabezado
+window.addEventListener('scroll', function() {
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  let maxScroll = 500; // Ajusta este valor según sea necesario
+  let opacity = Math.min(scrollTop / maxScroll, 1);
+
+  overlay.style.opacity = 1 - opacity;
+
+  if (scrollTop > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+function slideUpElements() {
+  document.querySelector('.tabs').classList.add('slide-up');
+  document.querySelector('.season-dropdown').classList.add('slide-up');
+  document.querySelector('.download-all-button').classList.add('slide-up');
+  document.querySelector('#playlist').classList.add('slide-up');
+}
+
+// Llamar a la función cuando sea necesario
+slideUpElements();
+const playlistContainer = document.getElementById('playlist');
+const overlay = document.getElementById('overlay');
+const player = videojs('my-video');
+let currentEpisodeIndex = 0;
+let currentSeasonIndex = 0; // Índice de la temporada actual
+
+let currentTitleElement = null;  // Variable para almacenar el título actual
+
+// Función para actualizar el título del episodio
+function updateTitle(episode) {
+  // Eliminar el título anterior si existe
+  if (currentTitleElement) {
+    currentTitleElement.remove();
+  }
+
+  // Crear el nuevo título con la descripción
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('vjs-title');
+  titleDiv.innerHTML = episode.description || 'Sin descripción';
+
+  // Agregar el nuevo título a la barra de controles
+  document.querySelector('.vjs-control-bar').appendChild(titleDiv);
+
+  // Actualizar la variable para el próximo cambio
+  currentTitleElement = titleDiv;
+}
+
+// Función para cargar la lista de reproducción de la temporada
+function loadPlaylist(season) {
+  playlistContainer.innerHTML = '';
+  const playlist = playlists[season];
+  const watchedEpisodes = JSON.parse(localStorage.getItem('watchedEpisodes')) || {};
+
+  playlist.forEach((episode, index) => {
+    const episodeElement = document.createElement('div');
+    episodeElement.className = 'episode';
+    if (watchedEpisodes[episode.video]) {
+      episode.watched = true;
+      episodeElement.classList.add('watched');
+    }
+
+    const img = document.createElement('img');
+    img.src = episode.image;
+    episodeElement.appendChild(img);
+
+    const durationLabel = document.createElement('div');
+    durationLabel.className = 'duration-label';
+    durationLabel.innerText = episode.duration;
+    episodeElement.appendChild(durationLabel);
+
+    const description = document.createElement('div');
+    description.className = 'episode-description';
+    description.innerHTML = `<h2>${episode.title}</h2><p>${episode.description}</p>`;
+    episodeElement.appendChild(description);
+
+    const downloadButton = document.createElement('a');
+    downloadButton.href = episode.download;
+    downloadButton.className = 'material-icons download-button';
+    downloadButton.innerText = 'arrow_downward';
+    downloadButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+    episodeElement.appendChild(downloadButton);
+
+    episodeElement.addEventListener('click', () => {
+      currentEpisodeIndex = index;
+      const videoSource = document.getElementById('video-source');
+      videoSource.src = episode.video;
+      player.load();
+      player.play();
+      player.requestFullscreen();
+      episode.watched = true; // Mark as watched
+      episodeElement.classList.add('watched'); // Update the style
+      watchedEpisodes[episode.video] = true;
+      localStorage.setItem('watchedEpisodes', JSON.stringify(watchedEpisodes));
+
+      // Actualizar el título con la descripción del episodio
+      updateTitle(episode);
+    });
+
+    playlistContainer.appendChild(episodeElement);
+  });
+
+
+
+
+
+// Resto del código proporcionado
+// Crear overlay para oscurecer la pantalla
+var screenOverlay = document.createElement('div');
+screenOverlay.classList.add('vjs-screen-overlay');
+screenOverlay.style.position = 'absolute';
+screenOverlay.style.top = '0';
+screenOverlay.style.left = '0';
+screenOverlay.style.width = '100%';
+screenOverlay.style.height = '100%';
+screenOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)'; // Inicialmente transparente
+screenOverlay.style.pointerEvents = 'none'; // No bloqueará la interacción con los controles
+screenOverlay.style.transition = 'background-color 0.3s ease'; // Transición suave
+
+// Agregar el overlay al reproductor
+player.el().appendChild(screenOverlay);
+
+// Funciones para gestionar la opacidad del overlay
+function updateOverlay() {
+  const isPaused = player.paused();
+  const controlsAreVisible = player.userActive();
+
+  if (isPaused) {
+    screenOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Oscurecer pantalla al pausar
+  } else if (controlsAreVisible) {
+    screenOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'; // Oscurecer ligeramente al mover el mouse
+  } else {
+    screenOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)'; // Quitar oscurecimiento cuando no hay interacción
+  }
+}
+
+function onMouseMove() {
+  if (!player.paused()) {
+    screenOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'; // Oscurecer ligeramente al mover el mouse
+  }
+}
+
+// Event listeners
+player.on('pause', updateOverlay);
+player.on('play', updateOverlay);
+player.el().addEventListener('mousemove', onMouseMove);
+
+// Inicializar estado del overlay
+updateOverlay();
+
+
+// Crear contenedor para los controles personalizados
+var customControls = document.createElement('div');
+customControls.classList.add('vjs-custom-controls');
+customControls.style.position = 'absolute';
+customControls.style.top = '50%'; // Centrar en el eje vertical
+customControls.style.left = '50%'; // Centrar en el eje horizontal
+customControls.style.transform = 'translate(-50%, -50%)'; // Ajuste para centrar completamente
+customControls.style.zIndex = '100'; // Asegurarse de que se superponga al video
+customControls.style.display = 'flex'; // Usar flexbox para alinear los controles
+customControls.style.flexDirection = 'column'; // Apilar los controles verticalmente
+customControls.style.alignItems = 'center'; // Alinear los controles al centro
+customControls.style.justifyContent = 'center'; // Asegurar que los controles estén centrados horizontalmente
+customControls.style.opacity = '1'; // Mostrar inicialmente
+customControls.style.transition = 'opacity 0.3s ease'; // Transición suave al ocultar/mostrar
+
+// Estilos comunes para los botones
+var buttonStyle = {
+  width: '60px', // Tamaño del botón
+  height: '60px',
+  borderRadius: '50%', // Botones circulares
+  backgroundColor: 'rgba(0, 0, 0, 0)', // Fondo semitransparente
+  color: 'white', // Icono blanco
+  fontSize: '20px', // Tamaño inicial de los íconos
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  border: 'none',
+  cursor: 'pointer',
+  margin: '70px' // Espaciado entre botones
+};
+
+// Crear contenedor para los controles de seek y play (alineados horizontalmente)
+var topControls = document.createElement('div');
+topControls.style.display = 'flex'; // Alinear los botones de seek y play horizontalmente
+topControls.style.alignItems = 'center'; // Alinear los botones verticalmente
+topControls.style.justifyContent = 'center'; // Centrar los botones horizontalmente
+topControls.style.marginTop = '70px'; // Añadir un pequeño margen para separar del borde superior
+
+// Crear botón de retroceso (seek -10s)
+var seekBackButton = document.createElement('button');
+seekBackButton.classList.add('vjs-custom-button', 'vjs-seek-back');
+seekBackButton.innerHTML = '<span class="material-icons" style="font-size: 70px;">replay_10</span>'; // Ícono más grande
+Object.assign(seekBackButton.style, buttonStyle);
+topControls.appendChild(seekBackButton);
+
+// Crear botón de Play/Pause
+var playPauseButton = document.createElement('button');
+playPauseButton.classList.add('vjs-custom-button', 'vjs-play-pause');
+playPauseButton.innerHTML = '<span class="material-icons" style="font-size: 70px;">pause</span>'; // Ícono más grande
+Object.assign(playPauseButton.style, buttonStyle);
+topControls.appendChild(playPauseButton);
+
+// Crear botón de avance (seek +10s)
+var seekForwardButton = document.createElement('button');
+seekForwardButton.classList.add('vjs-custom-button', 'vjs-seek-forward');
+seekForwardButton.innerHTML = '<span class="material-icons" style="font-size: 70px;">forward_10</span>'; // Ícono más grande
+Object.assign(seekForwardButton.style, buttonStyle);
+topControls.appendChild(seekForwardButton);
+
+// Crear contenedor para controles adicionales (abajo de los de seek y play)
+var bottomControls = document.createElement('div');
+bottomControls.style.display = 'flex'; // Colocar los controles adicionales en una fila horizontal
+bottomControls.style.alignItems = 'center'; // Alinear los botones verticalmente
+bottomControls.style.justifyContent = 'center'; // Centrar los botones horizontalmente
+bottomControls.style.marginTop = '10px'; // Separación entre los controles de play y los adicionales
+bottomControls.style.gap = '100px'; // Espaciado entre los controles adicionales
+
+// Botón de reinicio
+var restartButton = document.createElement('button');
+restartButton.classList.add('vjs-custom-button');
+restartButton.style.fontSize = '10px';
+restartButton.style.border = 'none';
+restartButton.style.background = 'none';
+restartButton.style.color = 'white';
+restartButton.style.display = 'flex'; // Usar flexbox para alinear el texto y el ícono
+restartButton.style.alignItems = 'center'; // Centrar el ícono y el texto verticalmente
+restartButton.innerHTML = '<span class="material-icons" style="font-size: 20px; margin-right: 7px;">skip_previous</span> Reiniciar'; // Ajustar el margen a la derecha del ícono
+bottomControls.appendChild(restartButton);
+
+// Botón para ajustar velocidad
+var speedButton = document.createElement('button');
+speedButton.classList.add('vjs-custom-button');
+speedButton.style.fontSize = '10px';
+speedButton.style.border = 'none';
+speedButton.style.background = 'none';
+speedButton.style.color = 'white';
+speedButton.style.display = 'flex'; // Usar flexbox para alinear el texto y el ícono
+speedButton.style.alignItems = 'center'; // Centrar el ícono y el texto verticalmente
+speedButton.innerHTML = '<span class="material-icons" style="font-size: 20px; margin-right: 7px;">speed</span> Speed (1x)'; // Ajustar el margen a la derecha del ícono
+bottomControls.appendChild(speedButton);
+
+// Botón de "Next"
+var nextButton = document.createElement('button');
+nextButton.classList.add('vjs-custom-button');
+nextButton.style.fontSize = '10px';
+nextButton.style.border = 'none';
+nextButton.style.background = 'none';
+nextButton.style.color = 'white';
+nextButton.style.display = 'flex'; // Usar flexbox para alinear el texto y el ícono
+nextButton.style.alignItems = 'center'; // Centrar el ícono y el texto verticalmente
+nextButton.innerHTML = '<span class="material-icons" style="font-size: 20px; margin-right: 7px;">skip_next</span> Sig. epi.'; // Ajustar el margen a la derecha del ícono
+bottomControls.appendChild(nextButton);
+
+// Agregar los controles a los contenedores
+customControls.appendChild(topControls);
+customControls.appendChild(bottomControls);
+
+// Agregar los controles personalizados al reproductor
+player.el().appendChild(customControls);
+
+// Deshabilitar clics y toques en el video principal
+player.el().style.pointerEvents = 'none'; // Bloquear interacción directa con el video
+customControls.style.pointerEvents = 'auto'; // Permitir interacción en los controles personalizados
+
+// Funcionalidad de los botones personalizados
+seekBackButton.addEventListener('click', function () {
+  var currentTime = player.currentTime();
+  player.currentTime(Math.max(0, currentTime - 10)); // Retroceder 10 segundos
+});
+
+playPauseButton.addEventListener('click', function () {
+  if (player.paused()) {
+    player.play();
+    playPauseButton.innerHTML = '<span class="material-icons" style="font-size: 60px;">pause</span>';
+  } else {
+    player.pause();
+    playPauseButton.innerHTML = '<span class="material-icons" style="font-size: 60px;">play_arrow</span>';
+  }
+});
+
+seekForwardButton.addEventListener('click', function () {
+  var currentTime = player.currentTime();
+  player.currentTime(currentTime + 10); // Avanzar 10 segundos
+});
+
+restartButton.addEventListener('click', function () {
+  player.currentTime(0);
+  player.play();
+});
+
+speedButton.addEventListener('click', function () {
+  var currentSpeed = player.playbackRate();
+  var newSpeed = currentSpeed >= 2 ? 1 : currentSpeed + 0.5;
+  player.playbackRate(newSpeed);
+  speedButton.textContent = `Velocidad (${newSpeed}x)`;
+});
+
+// Ocultar controles después de 3 segundos
+let hideControlsTimeout;
+function showControls() {
+  customControls.style.opacity = '1';
+  clearTimeout(hideControlsTimeout);
+}
+
+function hideControls() {
+  customControls.style.opacity = '0';
+}
+
+player.on('play', () => {
+  hideControlsTimeout = setTimeout(hideControls, 3000);
+});
+
+player.on('pause', showControls);
+
+player.el().addEventListener('mousemove', showControls);
+player.el().addEventListener('touchstart', showControls);
+
+
+
+player.el().addEventListener('click', (event) => {
+  console.log('Click bloqueado');
+});
+
+// Mostrar u ocultar los controles al mover el ratón o al tocar
+player.el().addEventListener('mousemove', showControls);
+player.el().addEventListener('touchstart', showControls);
+
+// Desactivar la interacción mientras los controles están activos
+function disableVideoInteraction() {
+  player.el().style.pointerEvents = 'none'; // Desactiva interacciones
+}
+
+function enableVideoInteraction() {
+  player.el().style.pointerEvents = 'auto'; // Reactiva interacciones
+}
+
+
+
+
+seekForwardButton.addEventListener('click', function () {
+  var currentTime = player.currentTime();
+  player.currentTime(currentTime + 10); // Avanzar 10 segundos
+});
+
+nextButton.addEventListener('click', function () {
+  currentEpisodeIndex = (currentEpisodeIndex + 1) % playlist.length;
+  const nextEpisode = playlist[currentEpisodeIndex];
+  const videoSource = document.getElementById('video-source');
+  videoSource.src = nextEpisode.video;
+  player.load();
+  player.play();
+  updateTitle(nextEpisode); // Actualizar título del episodio
+});
+
+restartButton.addEventListener('click', function () {
+  player.currentTime(0);
+  player.play();
+});
+
+speedButton.addEventListener('click', function () {
+  var currentSpeed = player.playbackRate();
+  var newSpeed = currentSpeed >= 2 ? 1 : currentSpeed + 0.5;
+  player.playbackRate(newSpeed);
+  speedButton.textContent = `Velocidad (${newSpeed}x)`;
+});
+
+// Sincronización con barra de herramientas
+function syncControlsVisibility() {
+  var controlsAreVisible = player.userActive();
+  var isPaused = player.paused();
+
+  // Sincronizar visibilidad de controles personalizados y el botón de cerrar
+  customControls.style.opacity = isPaused || controlsAreVisible ? '1' : '0';
+  closeButton.style.opacity = isPaused || controlsAreVisible ? '1' : '0';
+}
+
+player.on('useractive', syncControlsVisibility);
+player.on('userinactive', syncControlsVisibility);
+player.on('pause', function () {
+  customControls.style.opacity = '1';
+  closeButton.style.opacity = '1'; // Mostrar el botón al pausar
+});
+player.on('play', syncControlsVisibility);
+
+// Inicializar visibilidad
+syncControlsVisibility();
+
+
+
+}
+
+
+
+document.getElementById('season-select').addEventListener('change', (event) => {
+  const season = event.target.value;
+  loadPlaylist(season);
+});
+
+document.getElementById('download-all').addEventListener('click', () => {
+  const season = document.getElementById('season-select').value;
+  const episodes = playlists[season];
+  episodes.forEach(episode => {
+    const link = document.createElement('a');
+    link.href = episode.download;
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+});
+
+document.getElementById('season-select').addEventListener('change', (event) => {
+  const season = event.target.value;
+  loadPlaylist(season);
+});
+
+const blackOverlay = document.getElementById('black-overlay');
+
+player.on('play', () => {
+  blackOverlay.style.display = 'none'; // Ocultar el fondo negro cuando el video comience a reproducirse
+});
+
+player.on('pause', () => {
+  blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video se pausa
+  imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video se pausa
+});
+
+player.on('ended', () => {
+  blackOverlay.style.display = 'flex'; // Mostrar el fondo negro cuando el video termine
+  imageOverlay.style.display = 'flex'; // Mostrar la imagen cuando el video termine
+});
+
+player.on('play', () => {
+  overlay.style.display = 'none';
+});
+
+player.on('ended', () => {
+  currentEpisodeIndex = (currentEpisodeIndex + 1) % playlists[document.getElementById('season-select').value].length;
+  const nextEpisode = playlists[document.getElementById('season-select').value][currentEpisodeIndex];
+  const videoSource = document.getElementById('video-source');
+  videoSource.src = nextEpisode.video;
+  player.load();
+  player.play();
+  updateTitle(nextEpisode); // Actualizar el título con el próximo episodio
+});
+
+player.on('fullscreenchange', () => {
+  if (!player.isFullscreen()) {
+    player.pause();
+    overlay.style.display = 'flex';
+  }
+});
+
+player.on('fullscreenchange', () => {
+  if (player.isFullscreen()) {
+    // Solicitar orientación horizontal
+    screen.orientation.lock('landscape').catch(err => {
+      console.error('Error al cambiar la orientación:', err);
+    });
+  } else {
+    // Desbloquear la orientación
+    screen.orientation.unlock();
+  }
+});
+
+player.on('touchstart', () => {
+  if (!player.paused()) {
+    player.pause();
+  } else {
+    player.play();
+  }
+});
+
+
+
+// Manejar las pestañas
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    const target = tab.getAttribute('data-tab');
+    tabContents.forEach(content => {
+      content.classList.remove('active');
+      if (content.id === target) {
+        content.classList.add('active');
+      }
+    });
+  });
+});
+
+// Cargar la primera temporada por defecto
+loadPlaylist(1);
+
+
+
+        
+    </script>
+</body>
+</html>

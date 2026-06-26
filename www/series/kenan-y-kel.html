@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+
+  <title>Kenan y Kel</title>
+  <script src="../loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+    <link rel="manifest" href="../manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../anime.css">
+  <style>
+   
+
+.cover {
+  position: relative;
+  width: 100%;
+  background: url("https://od.lk/s/M18zMjg4NTg2NzRf/ChatGPT%20Image%2031%20may%202026%2C%2012_49_35%20p.m..png") no-repeat center top;
+  background-size: contain;
+  background-position: center top;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover::before,
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+.cover-landscape {
+  position: absolute;
+  inset: 0;
+  background: url("https://image.tmdb.org/t/p/original/i9ynM8JIvA0zs8hKImeq9D1SUtx.jpg") no-repeat center top;
+  background-size: cover;
+  z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
+  display: none;
+}
+
+.cover::backdrop,
+.cover-landscape::backdrop {
+  transition: none;
+}
+
+.cover::before,
+.cover::after,
+.cover-landscape::before,
+.cover-landscape::after {
+  transition: none; /* No tocamos tus gradientes */
+}
+
+.cover-image-overlay,
+.cover-landscape-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  z-index: 0.5; /* justo encima del fondo, pero debajo de contenido y gradientes */
+  pointer-events: none;
+}
+
+
+
+
+
+/* Ocultar sombras en landscape */
+@media screen and (orientation: landscape) {
+  .cover::before,
+  .cover::after {
+    display: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mostrar landscape solo en modo horizontal */
+@media screen and (orientation: landscape) {
+  .cover {
+    background: none;
+  }
+
+  .cover-landscape {
+    display: block;
+  }
+}
+
+
+.cover-content img.logo {
+    width: 200px;
+    margin-bottom: 10px;
+  }
+
+  @media (orientation: landscape) {
+    
+  
+    .cover-content img.logo {
+      width: 120px;
+      margin: 0 0 0.5rem 0;
+    }
+  
+    
+  }
+  
+  
+  @media (min-width: 1200px) {
+    .cover-content img.logo {
+      margin-top: 380px;
+      width: 320px;
+      margin-bottom: 0px;
+    }
+  
+    
+  }
+
+    </style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+  <div id="loader" class="loader"></div>
+  <div class="overlay-loader-page"></div>
+  <div class="custom-top-bar">
+    <button onclick="window.history.back()">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <button onclick="location.reload()">
+      <span class="material-icons">refresh</span>
+    </button>
+  </div>
+    <header id="header">
+        <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+            <span class="material-icons">chevron_left</span>
+        </a>
+        <span id="page-title" class="page-title">Kenan y Kel</span> <!-- Título oculto por defecto -->
+    </header>
+    <!-- Tabs para pantallas grandes -->
+<div class="tabs tabs-secondary">
+  <!-- Logo a la izquierda -->
+  <a href="../main.html">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+  </a>
+
+  <!-- Tabs centradas -->
+  <div class="tabs-wrapper">
+    <a href="../main.html#inicio" class="tab">Inicio</a>
+    <a href="../main.html#series" class="tab">Películas</a>
+    <a href="../main.html#peliculas" class="tab">Series</a>
+    <a href="../main.html#hbo" class="tab">Anime</a>
+    <a href="../main.html#documentales" class="tab">Familia</a>
+    <a href="../main.html#mi-lista" class="tab">Doramas</a>
+  </div>
+
+  <!-- Íconos a la derecha -->
+  <div class="icons">
+    <!-- FAVORITOS -->
+    <a href="../new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="../New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <a href="../perfil digital Knight 2025.html" class="header-only">
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+    </a>
+  </div>
+</div>
+
+<!-- COVER / PORTADA -->
+<div class="cover" id="cover">
+  <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
+  <div class="cover-landscape">
+    <div class="cover-landscape-image-overlay"></div> <!-- Overlay para imagen landscape -->
+    <div class="cover-landscape-shadow-left"></div>
+  </div>
+
+  <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
+  
+  <div class="cover-content">
+    <img src="https://image.tmdb.org/t/p/original/pvtsL8kBXM0i4aBysm7ycn1CnyC.png" alt="Kenan y Kel Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">7+   4 temporadas   1996   Dob Lat</div>
+  
+      <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
+        <span class="material-icons">play_arrow</span> Mira T1 E1
+      </button>
+  
+      <!-- NUEVO BLOQUE DE ICONOS -->
+      <div class="iconos">
+        <!-- Botón de Favoritos -->
+        <button id="favoritoBtn" data-identificador="Kenan y Kel" onclick="toggleFavorito()">
+          <span id="favoritoIcon" class="material-icons-outlined">add</span>
+          <p id="favoritoText">Favoritos</p>
+        </button>
+  
+        <!-- Info oculta para localStorage -->
+        <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/90Ep5fOXeUXeaYWp3pq7zmPK742.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="kenan-y-kel.html"></a>
+          <span id="nombre">Kenan y Kel</span>
+      </div>
+  
+        <!-- Notificación tipo "añadido a favoritos" -->
+        <div id="notificacion" class="notificacion" style="bottom: -100px;">
+          <span id="notificacionTexto">Añadido a favoritos</span>
+          <span class="notificacion-icono material-icons-outlined">check</span>
+        </div>
+  
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
+              </div>
+  
+      <div class="description">
+        Kenan y Kel, dos mejores amigos que viven en Chicago, siempre se ven arrastrados por los planes de Kenan para hacerse rico de la noche a la mañana; Kel, el amigo al que le encanta la gaseosa de naranj...  </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('episodes')">Episodios</button>
+    <button class="tab" onclick="showTab('suggested')">Quizá también te guste</button>
+  </div>
+  
+  <div id="episodes" class="tab-content">
+    <div class="season-selector">
+      <select id="seasonSelect" onchange="renderEpisodes()"></select>
+    </div>
+    <div id="episodeList"></div>
+  </div>
+  
+  <div id="suggested" class="tab-content" style="display: none;">
+    <div class="suggested-grid">
+      <div class="suggested-item">
+        <a href="escalofrios.html">
+          <img src="https://image.tmdb.org/t/p/original/7lWdcYcoVigsbmFt8XTSg99fl9T.jpg" alt="Escalofríos" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Escalofríos</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="manual-de-supervivencia-escolar-de-ned.html">
+          <img src="https://image.tmdb.org/t/p/w300/zwBbJX7oimIQT0JQq9eqzQVPOHm.jpg" alt="Manual de supervivencia escolar de Ned" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Manual de supervivencia escolar de Ned</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="zoey-101.html">
+          <img src="https://image.tmdb.org/t/p/w300/3eOM57RTccTSvqcYFhWwm9DAba8.jpg" alt="Zoey 101" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">Zoey 101</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggested-item">
+        <a href="icarly.html">
+          <img src="https://image.tmdb.org/t/p/w300/ny0vxdc2733gQVpXvXNds9M9Kpo.jpg" alt="iCarly" oncontextmenu="return false" draggable="false">
+        </a>
+        <div class="suggested-info">
+          <div class="title">iCarly</div>
+          <div class="meta-row">
+            <span class="meta">Dob | Lat</span>
+          </div>
+        </div>
+      </div>
+
+     
+    
+    </div>
+    
+    
+  </div>
+    
+
+  
+  <!-- OVERLAY -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeSeasonMenu()"></div>
+
+<!-- MENÚ DESLIZANTE DE TEMPORADAS -->
+<div id="seasonMenu" class="season-menu hidden">
+  <div class="season-menu-header">
+    <div class="menu-drag-indicator"></div>
+  </div>
+  <div id="seasonOptions"></div>
+</div>
+
+  
+  
+<!-- PLAYER -->
+<div class="player" id="player">
+  <video playsinline webkit-playsinline
+    id="video"
+    class="video-js vjs-default-skin"
+    preload="auto"
+    width="100%"
+    height="100%"
+    poster="https://wallpapercave.com/wp/wp5415042.jpg"
+    data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Loader -->
+  <div class="video-loader hidden" id="videoLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Aspect Ratio Label -->
+  <div id="aspectLabel" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    z-index: 9999;
+  ">
+    cover
+  </div>
+
+ <div class="overlay-top" id="overlayTop"></div>
+<div class="overlay-bottom" id="overlayBottom"></div>
+
+    
+    <div class="overlay" id="overlay"></div>
+
+  <!-- Botón Omitir Intro -->
+  <div class="skip-intro hidden" id="skipIntroBtn" onclick="skipIntro()">
+    <span class="material-icons">fast_forward</span>
+    <span class="label">Omitir intro</span>
+  </div>
+
+  <!-- Botón Siguiente Episodio -->
+  <div class="next-episode hidden" id="nextEpisodeBtn" onclick="playNextEpisode()">
+    <div class="icon-container">
+      <svg class="circle-timer" viewBox="0 0 36 36">
+        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 1 1 0 31.831 a 15.9155 15.9155 0 1 1 0 -31.831"/>
+        <path class="circle-fill" id="circleProgress" stroke-dasharray="0, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 1 1 0 31.831
+          a 15.9155 15.9155 0 1 1 0 -31.831"/>
+      </svg>
+      <span class="material-icons play-icon">play_arrow</span>
+    </div>
+    <span class="label" id="nextEpisodeLabel">Siguiente episodio</span>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="top-bar">
+      <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
+      <div style="display: flex; gap: 15px;">
+        <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
+        <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
+      </div>
+    </div>
+
+    <div class="center-controls">
+      <button class="btn" onclick="skip(-10)">
+        <span class="material-icons">replay_10</span>
+      </button>
+      <button class="btn" id="playPauseBtn" onclick="togglePlay()">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button class="btn" onclick="skip(10)">
+        <span class="material-icons">forward_10</span>
+      </button>
+    </div>
+
+    <div class="bottom-bar">
+      <div id="episodeHeader">
+        <div class="title">Kenan y Kel</div>
+        <div class="subtitle" id="episodeSubtitle"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="buffer-bar" id="bufferBar"></div>
+        <input type="range" class="progress" id="progress" value="0" max="100">
+        <div class="time" id="duration">- 00:00</div>
+      </div>
+
+      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
+      <div class="extra-controls">
+        <button class="btn" onclick="restartVideo()">
+          <span class="material-icons">skip_previous</span>
+          <span class="label">Reiniciar</span>
+        </button>
+        <button class="btn" onclick="playNextEpisode()">
+          <span class="material-icons">skip_next</span>
+          <span class="label">Sig. Epi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+<footer class="footer">
+  <a href="../main.html" class="footer-icon" tabindex="14">
+      <span class="material-icons-outlined">home</span>
+      <span class="material-icons">home</span>
+  </a>
+  <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
+  </a>
+  <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+      <span class="material-icons-outlined">search</span>
+      <span class="material-icons">search</span>
+  </a>
+  <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+      <img src="https://od.lk/d/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
+  </a>
+</footer>
+
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+  <script src="../share.js"></script>
+
+<script>
+
+const seriesId = "kenan-y-kel-1835";
+window.seriesId = seriesId;
+
+// --- PLAYLIST ---
+const playlist = JSON.parse(`[
+  {
+    "season": "Temporada 1",
+    "episodes": [
+      {
+    "title": "E1: El Auto",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/TbmvugHQdSH9binxXfNly6j2aX.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTY5NTlf/K3N4N%20Y%20K3L%201x01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTY5NTlf/K3N4N%20Y%20K3L%201x01.mp4",
+    "episodeCode": "T1 E1: El Auto",
+    "hiddenCode": "T1 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Kel, el psíquico",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nIKLnxIwhvapyqFJ73XFhUMW6I2.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTY5NTRf/K3N4N%20Y%20K3L%201x02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTY5NTRf/K3N4N%20Y%20K3L%201x02.mp4",
+    "episodeCode": "T1 E2: Kel, el psíquico",
+    "hiddenCode": "T1 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Haciendo las cosas al estilo Hemingway",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zK7wJuECnG5uOcg1kkTZ9GA5Ovw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTY5ODJf/K3N4N%20Y%20K3L%201x03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTY5ODJf/K3N4N%20Y%20K3L%201x03.mp4",
+    "episodeCode": "T1 E3: Haciendo las cosas al estilo Hemingway",
+    "hiddenCode": "T1 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Un tornillo en el atún",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/kkDOWcM2NPHfmR5CsEREK0b8wE0.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTY5Nzdf/K3N4N%20Y%20K3L%201x04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTY5Nzdf/K3N4N%20Y%20K3L%201x04.mp4",
+    "episodeCode": "T1 E4: Un tornillo en el atún",
+    "hiddenCode": "T1 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: El suéter",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wyp25SZvG4YA4Z9GQYUe7AqAUJi.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTY5ODdf/K3N4N%20Y%20K3L%201x05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTY5ODdf/K3N4N%20Y%20K3L%201x05.mp4",
+    "episodeCode": "T1 E5: El suéter",
+    "hiddenCode": "T1 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Guerra fría",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/or4Mio6baUv9zIe27XjF6f1ya0d.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcwMzNf/K3N4N%20Y%20K3L%201x06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcwMzNf/K3N4N%20Y%20K3L%201x06.mp4",
+    "episodeCode": "T1 E6: Guerra fría",
+    "hiddenCode": "T1 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: La bomba",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/93iRox4daV5Zn7b8mKw7kMJVezd.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcwMzZf/K3N4N%20Y%20K3L%201x07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcwMzZf/K3N4N%20Y%20K3L%201x07.mp4",
+    "episodeCode": "T1 E7: La bomba",
+    "hiddenCode": "T1 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: El Pájaro",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/nvGQMUjLLWNHLqO8odJDmXLoYQ9.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcwNDlf/K3N4N%20Y%20K3L%201x08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcwNDlf/K3N4N%20Y%20K3L%201x08.mp4",
+    "episodeCode": "T1 E8: El Pájaro",
+    "hiddenCode": "T1 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: El mensaje",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5WMVsZrD4ubkX4f8W8F163oAVk3.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcwNTFf/K3N4N%20Y%20K3L%201x09.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcwNTFf/K3N4N%20Y%20K3L%201x09.mp4",
+    "episodeCode": "T1 E9: El mensaje",
+    "hiddenCode": "T1 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: Kel, El Bolsillero",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wO5CnkRU7Nlhn20MAOy8IyfBxV1.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcwNTNf/K3N4N%20Y%20K3L%201x10.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcwNTNf/K3N4N%20Y%20K3L%201x10.mp4",
+    "episodeCode": "T1 E10: Kel, El Bolsillero",
+    "hiddenCode": "T1 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Feliz Navidad, Kenan",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lxD95cZTCmLjPDubbs9oNb6V8hI.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcxMTZf/K3N4N%20Y%20K3L%201x11.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcxMTZf/K3N4N%20Y%20K3L%201x11.mp4",
+    "episodeCode": "T1 E11: Feliz Navidad, Kenan",
+    "hiddenCode": "T1 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Los diamantes son para Roger",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/meQUTM1DuDEpTmEWrMFVNE1zSlU.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcxMTVf/K3N4N%20Y%20K3L%201x12.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcxMTVf/K3N4N%20Y%20K3L%201x12.mp4",
+    "episodeCode": "T1 E12: Los diamantes son para Roger",
+    "hiddenCode": "T1 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: El Mapa del Tesoro",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5yi2k6OEHiVIWe3kusBNV9eYecd.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcxMjdf/K3N4N%20Y%20K3L%201x13.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcxMjdf/K3N4N%20Y%20K3L%201x13.mp4",
+    "episodeCode": "T1 E13: El Mapa del Tesoro",
+    "hiddenCode": "T1 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Kiki y Sharona",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wVKmVExQ3wVXNBlFKhpBBIuIxdG.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcxMjlf/K3N4N%20Y%20K3L%201x14.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcxMjlf/K3N4N%20Y%20K3L%201x14.mp4",
+    "episodeCode": "T1 E14: Kiki y Sharona",
+    "hiddenCode": "T1 E14",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 2",
+    "episodes": [
+      {
+    "title": "E1: Padres de alquiler",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7sJMcKOAmsMrYHxPUO4pDKxXBTJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM0NTRf/02x01%20Padres%20de%20Alquiler.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM0NTRf/02x01%20Padres%20de%20Alquiler.mp4",
+    "episodeCode": "T2 E1: Padres de alquiler",
+    "hiddenCode": "T2 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: El payaso",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/6YjmgcjqY1UzSl4rlVCaHtfeje4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM0ODJf/02x02%20El%20Payaso.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM0ODJf/02x02%20El%20Payaso.mp4",
+    "episodeCode": "T2 E2: El payaso",
+    "hiddenCode": "T2 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: La lotería",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wqewCY3enDoi8vd1wDisMTA4DJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM0OTJf/02x03%20La%20Loter%C3%ADa.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM0OTJf/02x03%20La%20Loter%C3%ADa.mp4",
+    "episodeCode": "T2 E3: La lotería",
+    "hiddenCode": "T2 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: ¿Quién ama la gaseosa de naranja?",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/original/AkJuJMtePZJdfucxsXSsQgHfZef.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM1OTBf/02x04%20La%20Apuesta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM1OTBf/02x04%20La%20Apuesta.mp4",
+    "episodeCode": "T2 E4: ¿Quién ama la gaseosa de naranja?",
+    "hiddenCode": "T2 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: No Quiero Pintar",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/9y5dMTce7XHgDiSjcZlIS9zfu58.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NDcwNjBf/02x05%20No%20Quiero%20Pintar.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NDcwNjBf/02x05%20No%20Quiero%20Pintar.mp4",
+    "episodeCode": "T2 E5: No Quiero Pintar",
+    "hiddenCode": "T2 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Grabaciones",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/n9uIOBrU9iywD6MB1FxO3pwXNJZ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM3NDVf/02x06%20Grabaciones.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM3NDVf/02x06%20Grabaciones.mp4",
+    "episodeCode": "T2 E6: Grabaciones",
+    "hiddenCode": "T2 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Faltar a clases",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4IM0BlyOZEPEmpbWa1SydTSW9Aw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM2MDRf/02x07%20Faltar%20a%20Clases.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM2MDRf/02x07%20Faltar%20a%20Clases.mp4",
+    "episodeCode": "T2 E7: Faltar a clases",
+    "hiddenCode": "T2 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Kel, fuera de aquí",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/7wWKGurzzTRCi9GidSTQLoMvyPJ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM2MDhf/02x08%20Kel%20Fuera.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM2MDhf/02x08%20Kel%20Fuera.mp4",
+    "episodeCode": "T2 E8: Kel, fuera de aquí",
+    "hiddenCode": "T2 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Jugador lesionado",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/hLjvjC3zXkzRg6U71ppvQ4s6oUv.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM2MjBf/02x09%20Jugador%20Lesionado.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM2MjBf/02x09%20Jugador%20Lesionado.mp4",
+    "episodeCode": "T2 E9: Jugador lesionado",
+    "hiddenCode": "T2 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: El enamoramiento",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/pCgROklDot9EBvJkGr7NzLuLV9V.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM2MzZf/02x10%20Maestra%20sustituta.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM2MzZf/02x10%20Maestra%20sustituta.mp4",
+    "episodeCode": "T2 E10: El enamoramiento",
+    "hiddenCode": "T2 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Día de Acción de Gracias",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mgGXbdOnrbGuK9wZgovaTEzuH0g.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM2NjZf/02x11%20D%C3%ADa%20de%20Acci%C3%B3n%20de%20Gracias.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM2NjZf/02x11%20D%C3%ADa%20de%20Acci%C3%B3n%20de%20Gracias.mp4",
+    "episodeCode": "T2 E11: Día de Acción de Gracias",
+    "hiddenCode": "T2 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Adiós, Kenan - Parte 1",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/spaGT2GGvOLs5HooUa9Mgzpo0jK.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM2ODNf/02x12%20Adi%C3%B3s%20Kenan%2C%20Parte%201.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM2ODNf/02x12%20Adi%C3%B3s%20Kenan%2C%20Parte%201.mp4",
+    "episodeCode": "T2 E12: Adiós, Kenan - Parte 1",
+    "hiddenCode": "T2 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Adiós, Kenan - Parte 2",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/tmQ4jmFeEOXqwMPuM8XwKIbJGLg.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MjM1OTZf/02x13%20Adi%C3%B3s%20Kenan%2C%20Parte%202.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MjM1OTZf/02x13%20Adi%C3%B3s%20Kenan%2C%20Parte%202.mp4",
+    "episodeCode": "T2 E13: Adiós, Kenan - Parte 2",
+    "hiddenCode": "T2 E13",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 3",
+    "episodes": [
+      {
+    "title": "E1: Cercados",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bU5WYSshM6dxP3legVuzo3PGo0B.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzFf/K3N4N%20Y%20K3L%203x02.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzFf/K3N4N%20Y%20K3L%203x02.mp4",
+    "episodeCode": "T3 E1: Cercados",
+    "hiddenCode": "T3 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: Zorrillator contra el Hombre Polilla",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/oSXqLKemgipre4IaxrcKQnYQvV4.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNjlf/K3N4N%20Y%20K3L%203x01.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNjlf/K3N4N%20Y%20K3L%203x01.mp4",
+    "episodeCode": "T3 E2: Zorrillator contra el Hombre Polilla",
+    "hiddenCode": "T3 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: La rifa",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/r6sO6t4bbC9SjGdrbbqpWQpeLJo.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzJf/K3N4N%20Y%20K3L%203x03.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzJf/K3N4N%20Y%20K3L%203x03.mp4",
+    "episodeCode": "T3 E3: La rifa",
+    "hiddenCode": "T3 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: La bruja",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/i6zSLpHolsvlySI4Iawhi6bLX6O.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzNf/K3N4N%20Y%20K3L%203x04.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzNf/K3N4N%20Y%20K3L%203x04.mp4",
+    "episodeCode": "T3 E4: La bruja",
+    "hiddenCode": "T3 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Atrapar a un ladrón",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/ghqiLJfh2tK1k6afN5JRLUVmLqb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzBf/K3N4N%20Y%20K3L%203x05.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzBf/K3N4N%20Y%20K3L%203x05.mp4",
+    "episodeCode": "T3 E5: Atrapar a un ladrón",
+    "hiddenCode": "T3 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: El cumpleaños de Marc",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3ZUyrSJzcY9zza1ZwCQOrwqyt2u.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzRf/K3N4N%20Y%20K3L%203x06.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzRf/K3N4N%20Y%20K3L%203x06.mp4",
+    "episodeCode": "T3 E6: El cumpleaños de Marc",
+    "hiddenCode": "T3 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Puedo hacerlo mejor",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/jR39q1KW8XeGkw3LJWRytLCUy0h.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzVf/K3N4N%20Y%20K3L%203x07.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzVf/K3N4N%20Y%20K3L%203x07.mp4",
+    "episodeCode": "T3 E7: Puedo hacerlo mejor",
+    "hiddenCode": "T3 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: El ataque de los fumigadores",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/5rax5Jhme4FW0e3FoKloT2xQ9oQ.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzZf/K3N4N%20Y%20K3L%203x08.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzZf/K3N4N%20Y%20K3L%203x08.mp4",
+    "episodeCode": "T3 E8: El ataque de los fumigadores",
+    "hiddenCode": "T3 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Sorpresa, sorpresa",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lRKN6CWTN1glfgJ9tQagSA3m4WH.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzdf/K3N4N%20Y%20K3L%203x09.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzdf/K3N4N%20Y%20K3L%203x09.mp4",
+    "episodeCode": "T3 E9: Sorpresa, sorpresa",
+    "hiddenCode": "T3 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: Rata sucia",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uqr3rOZ5K3nDnNmsYtgPElwDoHm.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzhf/K3N4N%20Y%20K3L%203x10.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzhf/K3N4N%20Y%20K3L%203x10.mp4",
+    "episodeCode": "T3 E10: Rata sucia",
+    "hiddenCode": "T3 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Atrapados en el congelador",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/lFhjriqj69z2BlPEEfDNaMNM3wv.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyNzlf/K3N4N%20Y%20K3L%203x11.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyNzlf/K3N4N%20Y%20K3L%203x11.mp4",
+    "episodeCode": "T3 E11: Atrapados en el congelador",
+    "hiddenCode": "T3 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Presente tenso",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/r0cOVFJJsr0b4E0g9C1ZIHCEOvb.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODBf/K3N4N%20Y%20K3L%203x12.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODBf/K3N4N%20Y%20K3L%203x12.mp4",
+    "episodeCode": "T3 E12: Presente tenso",
+    "hiddenCode": "T3 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Cuidadores de casa",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/4zl2Y7sryFwC7NwcWMlpfmPh4pi.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODFf/K3N4N%20Y%20K3L%203x13.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODFf/K3N4N%20Y%20K3L%203x13.mp4",
+    "episodeCode": "T3 E13: Cuidadores de casa",
+    "hiddenCode": "T3 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Te voy a encontrar, Kenan",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bHjRaI0IYO4cNhT09aN7Wq82Hnf.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODJf/K3N4N%20Y%20K3L%203x14.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODJf/K3N4N%20Y%20K3L%203x14.mp4",
+    "episodeCode": "T3 E14: Te voy a encontrar, Kenan",
+    "hiddenCode": "T3 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: La limusina",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/3tX50uG7WRS8cPVvQ5wzIJDbObe.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODNf/K3N4N%20Y%20K3L%203x15.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODNf/K3N4N%20Y%20K3L%203x15.mp4",
+    "episodeCode": "T3 E15: La limusina",
+    "hiddenCode": "T3 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: El concurso",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/1Cm93nwQKrTGHOlxWDOL45kewxA.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODRf/K3N4N%20Y%20K3L%203x16.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODRf/K3N4N%20Y%20K3L%203x16.mp4",
+    "episodeCode": "T3 E16: El concurso",
+    "hiddenCode": "T3 E16",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E17: La imagen imperfecta",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/d2KhNhcoew1U7dPFZuLvKkcRBYu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODVf/K3N4N%20Y%20K3L%203x17.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODVf/K3N4N%20Y%20K3L%203x17.mp4",
+    "episodeCode": "T3 E17: La imagen imperfecta",
+    "hiddenCode": "T3 E17",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E18: Consigue un trabajo",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/r8AAdr3Xn8PIRc8dmPkZ96sI5mw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODZf/K3N4N%20Y%20K3L%203x18.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODZf/K3N4N%20Y%20K3L%203x18.mp4",
+    "episodeCode": "T3 E18: Consigue un trabajo",
+    "hiddenCode": "T3 E18",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E19: Buscando la ropa de Kenan",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/13SZ5JiAL0uZKJmhLym8Vawh57h.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODdf/K3N4N%20Y%20K3L%203x19.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODdf/K3N4N%20Y%20K3L%203x19.mp4",
+    "episodeCode": "T3 E19: Buscando la ropa de Kenan",
+    "hiddenCode": "T3 E19",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E20: El chimpancé",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/wQOEoUnNNRGlngASymlWzgNXPRe.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODhf/K3N4N%20Y%20K3L%203x20.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODhf/K3N4N%20Y%20K3L%203x20.mp4",
+    "episodeCode": "T3 E20: El chimpancé",
+    "hiddenCode": "T3 E20",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E21: ¿Quién ama a quién?",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/szW0fh4uEi7eDewH5TeaIJWMuPk.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyODlf/K3N4N%20Y%20K3L%203x21.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyODlf/K3N4N%20Y%20K3L%203x21.mp4",
+    "episodeCode": "T3 E21: ¿Quién ama a quién?",
+    "hiddenCode": "T3 E21",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E22: Poema, dulce poema",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/trRPwt4cBtd7OUddYAXGjDEulQu.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4MTcyOTBf/K3N4N%20Y%20K3L%203x22.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4MTcyOTBf/K3N4N%20Y%20K3L%203x22.mp4",
+    "episodeCode": "T3 E22: Poema, dulce poema",
+    "hiddenCode": "T3 E22",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  },
+  {
+    "season": "Temporada 4",
+    "episodes": [
+      {
+    "title": "E1: Kenan corporativo",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zin07EwixDjBNvooFrGKNo9DN22.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzMjlf/04x01%20Corporaci%C3%B3n%20Kenan.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzMjlf/04x01%20Corporaci%C3%B3n%20Kenan.mp4",
+    "episodeCode": "T4 E1: Kenan corporativo",
+    "hiddenCode": "T4 E1",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E2: La luna de miel se acabó",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/l0aUTJPh8pfNG6Tt4S1dpDlv45c.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzMzJf/04x02%20La%20luna%20de%20Miel%20Termino.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzMzJf/04x02%20La%20luna%20de%20Miel%20Termino.mp4",
+    "episodeCode": "T4 E2: La luna de miel se acabó",
+    "hiddenCode": "T4 E2",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E3: Cuidadores de chicas",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/e5U7IBL2C0AYbS46OadmApKrLXw.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzMzNf/04x03%20Cuidadores%20de%20chicas.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzMzNf/04x03%20Cuidadores%20de%20chicas.mp4",
+    "episodeCode": "T4 E3: Cuidadores de chicas",
+    "hiddenCode": "T4 E3",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E4: Problemas de autos",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/dC6ozJhgPNa9kh50SjTq3zZ6Js7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNTlf/04x04%20Problemas%20de%20autos.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNTlf/04x04%20Problemas%20de%20autos.mp4",
+    "episodeCode": "T4 E4: Problemas de autos",
+    "hiddenCode": "T4 E4",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E5: Tres chicas, un chico y un cine",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/iRg5VQdb02gDeOnXprJjUShQrLd.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNThf/04x05%20Tres%20chicas%2C%20Un%20chico%20y%20un%20Cine.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNThf/04x05%20Tres%20chicas%2C%20Un%20chico%20y%20un%20Cine.mp4",
+    "episodeCode": "T4 E5: Tres chicas, un chico y un cine",
+    "hiddenCode": "T4 E5",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E6: Adoptado",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/zLTIma24DCSurvp2wafgOpMNaY7.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNjhf/04x06%20Padres%20Adoptivos.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNjhf/04x06%20Padres%20Adoptivos.mp4",
+    "episodeCode": "T4 E6: Adoptado",
+    "hiddenCode": "T4 E6",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E7: Los graduados",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/bYJuL78hzyhkzPfS13B7Sf0yHK5.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNjFf/04x07%20La%20Graduaci%C3%B3n.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNjFf/04x07%20La%20Graduaci%C3%B3n.mp4",
+    "episodeCode": "T4 E7: Los graduados",
+    "hiddenCode": "T4 E7",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E8: Hollywood, aquí vamos - Parte 1",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/eBJ8tukRMPj72SZUoi9yAS0C5SG.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNjNf/04x08%20Hollywood%20Aqui%20Vamos%20%20%20Parte%201.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNjNf/04x08%20Hollywood%20Aqui%20Vamos%20%20%20Parte%201.mp4",
+    "episodeCode": "T4 E8: Hollywood, aquí vamos - Parte 1",
+    "hiddenCode": "T4 E8",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E9: Hollywood, aquí vamos - Parte 2",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/vhQlJ7EIbyWTdLnfXEkcFzTDFBO.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNjRf/04x09%20Hollywood%20Aqui%20Vamos%20Parte%202.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNjRf/04x09%20Hollywood%20Aqui%20Vamos%20Parte%202.mp4",
+    "episodeCode": "T4 E9: Hollywood, aquí vamos - Parte 2",
+    "hiddenCode": "T4 E9",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E10: ¡Oh, hermano!",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/mtscFr0Pc0vx1B4Exa2NQBYEIts.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzNjlf/04x10%20Oh%2C%20hermano.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzNjlf/04x10%20Oh%2C%20hermano.mp4",
+    "episodeCode": "T4 E10: ¡Oh, hermano!",
+    "hiddenCode": "T4 E10",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E11: Futurama",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/cWSgwwUOGpKKdJ8hvuDO5UrVRGH.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzOTJf/04x11%20Futurama.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzOTJf/04x11%20Futurama.mp4",
+    "episodeCode": "T4 E11: Futurama",
+    "hiddenCode": "T4 E11",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E12: Día de los Inocentes",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/uXQTOBf62tRlcvqX2LpgvMIJCVr.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQ0NjBf/04x12%20El%20Dia%20de%20los%20Inocentes.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQ0NjBf/04x12%20El%20Dia%20de%20los%20Inocentes.mp4",
+    "episodeCode": "T4 E12: Día de los Inocentes",
+    "hiddenCode": "T4 E12",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E13: Relatos de los videos",
+    "meta": "7+ · 25m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/gon2fMEpfKrKJS6bTAnmWhSVtTd.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQzOThf/04x13%20Videoclips.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQzOThf/04x13%20Videoclips.mp4",
+    "episodeCode": "T4 E13: Relatos de los videos",
+    "hiddenCode": "T4 E13",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E14: Dos Cabezas Son Mejores Que Una - Parte 1",
+    "meta": "7+ · 24m · 1996",
+    "thumbnail": "https://image.tmdb.org/t/p/w300/BHFc8Sta0x0nftV3Lv1ufXgtMi.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQ0MDhf/Kenan%20%26%20Kel%20-%20%20Dos%20Cabezas%20Son%20Mejores%20Que%20Una%20-%20Parte%201.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQ0MDhf/Kenan%20%26%20Kel%20-%20%20Dos%20Cabezas%20Son%20Mejores%20Que%20Una%20-%20Parte%201.mp4",
+    "episodeCode": "T4 E14: Dos Cabezas Son Mejores Que Una - Parte 1",
+    "hiddenCode": "T4 E14",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E15: Dos Cabezas Son Mejores Que Una - Parte 2",
+    "meta": "7+ · 24m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMjg4NTg3MTBf/NLAS_KENANKEL_464_1944854_1920x1080.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQ0MDlf/Kenan%20%26%20Kel%20-%20Dos%20Cabezas%20Son%20Mejores%20Que%20Una%20-%20Parte%202.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQ0MDlf/Kenan%20%26%20Kel%20-%20Dos%20Cabezas%20Son%20Mejores%20Que%20Una%20-%20Parte%202.mp4",
+    "episodeCode": "T4 E15: Dos Cabezas Son Mejores Que Una - Parte 2",
+    "hiddenCode": "T4 E15",
+    "intro": { "start": 0, "end": 0 }
+  },
+  {
+    "title": "E16: Dos Cabezas Son Mejores Que Una - Parte 3",
+    "meta": "7+ · 24m · 1996",
+    "thumbnail": "https://od.lk/s/M18zMjg4NTg3MDlf/kenan-and-kels-two-heads-are-better-than-none-2000-spooky-v0-i3oqd2xlq0xb1.jpg",
+    "videoUrl": "https://od.lk/d/M18zMjg4NTQ0MTFf/Kenan%20%26%20Kel%20-%20Dos%20Cabezas%20Son%20Mejores%20Que%20Una%20-%20Parte%203.mp4",
+    "downloadUrl": "https://od.lk/d/M18zMjg4NTQ0MTFf/Kenan%20%26%20Kel%20-%20Dos%20Cabezas%20Son%20Mejores%20Que%20Una%20-%20Parte%203.mp4",
+    "episodeCode": "T4 E16: Dos Cabezas Son Mejores Que Una - Parte 3",
+    "hiddenCode": "T4 E16",
+    "intro": { "start": 0, "end": 0 }
+  }
+    ]
+  }
+]`);
+    console.log(playlist);
+
+</script>
+<script src="../player-series.js"></script>
+<script type="module" src="../player-series-module.js"></script>
+<script src="../wakelock.js"></script>
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
+
+  // cuando cierres el player
+  WakeLockManager.disable();
+</script>
+
+</body>
+</html>

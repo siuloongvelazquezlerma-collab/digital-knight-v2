@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+    <title>Dr. Stone</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png">
+    <style>
+        body {
+      padding-top: env(safe-area-inset-top);
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            margin: 0;
+            background-color: #000000;
+            color: white;
+        }
+
+        header {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+            background-image: linear-gradient(to bottom, #000000, #000000bd , #0000000e); /* Fondo transparente */
+            position: fixed; /* Header fijo */
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Índice z alto para que el header esté encima */
+            transition: background-color 0.9s ease;
+        }
+        header div {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espacio entre los iconos */
+    padding-right: 20px;
+}
+.search-icon {  /* Estilos comunes para ambos iconos */
+    color: white; /* Color blanco */
+    font-size: 2em; /* Tamaño del icono */
+    
+  
+}
+.cast-icon {  
+    color: white; /* Color blanco */
+    font-size: 2em; /* Tamaño del icono */
+   
+}
+
+        .logo {
+            height: 40px;
+        }
+
+        
+
+        /* Estilo de la imagen principal */
+        .main-image {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      
+      background-image: url("https://od.lk/s/M18zMDk3NjY3NTFf/DBDaima-wallpaper%203%20Anime%20Knight.jpg"); /* Imagen de fondo */
+      background-size: contain; /* Para que la imagen se muestre completa */
+      background-repeat: no-repeat; /* Evita que la imagen se repita */
+     
+    z-index: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  
+    text-align: center;
+      
+    }
+
+
+
+        .main-image img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover; 
+            position: absolute; /* Para que la imagen sea de fondo */
+            top: 0;
+            left: 0;
+            z-index: -10; /* Para que la imagen esté detrás del header */
+            background-size: contain;
+            
+            
+        }
+
+        .main-image::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, #0000002a, #00000000, #00000000, #00000000, #00000075, #000000, #000000); /* Gradiente negro */
+        }
+
+        /* Estilos para los botones */
+        .buttons-container {
+            position: absolute;
+            bottom: 240px; 
+            left: 20px; 
+            width: calc(100% - 40px); 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .play-button {
+            background-color: #ff5e00;
+            color: rgb(0, 0, 0);
+            padding: 0px 20px;
+            border: none;
+            border-radius: 2px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex; 
+            align-items: center; 
+            flex-grow: 1; 
+            margin-right: 10px; 
+            justify-content: center;
+            font-weight: bold;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+        }
+
+        .play-button .material-icons {
+            margin-right: 5px; 
+            justify-content: center; 
+            font-size: 43px;
+        }
+
+        .bookmark-button {
+            background-color: black; 
+            border: 3px solid #ff5e00; 
+            color: #ff5e00;
+            font-size: 2em; 
+            cursor: pointer;
+            border-radius: 2px; 
+            padding:0px 7px; 
+        }
+        .logo-overlay {
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            transform: translate(-50%, -50%);
+            text-align: left;
+            z-index: 10; /* Asegura que esté encima de la imagen y el degradado */
+        }
+
+        .logo-overlay img {
+            width: 100px; /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+
+        .logo-overlay p {
+            margin-top: 30px; 
+            font-size: 10px;
+            color: rgb(202, 202, 202);
+            font-weight: bold;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+        }
+
+    .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #202127;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+.footer-btn:hover,
+.footer-btn.active { /* Color naranja al estar activo */
+  color: #ff5e00; 
+}
+
+.footer-btn  {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 0; 
+    font-size: 0.6em;
+    transition: color 0.3s ease; 
+}
+
+.footer-btn .material-icons-outlined {
+    font-size: 30px;
+    margin-bottom: 1px;
+}
+.footer-btn p {
+  margin: 1px 6px 9px; /* Ajusta el margen superior del texto */
+  
+ 
+}
+/* ... otros estilos ... */
+
+.container {
+  margin: 10px;
+  margin-bottom: 10px;  /* Ajusta este valor según la separación que desees */
+  position: relative;
+  bottom: 240px; 
+  left: 10px;
+  z-index: 2;
+  background-color: #000000;
+}
+
+    h4 {
+        
+  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
+   /* Asegura que los títulos estén por encima de las imágenes */
+}
+    .scrollmenu {
+      background: transparent;
+      overflow: auto;
+      white-space: nowrap;
+      position: relative;
+      overflow-y: hidden;
+      margin-bottom: 20px;
+    }
+
+    .scrollmenu a {
+      display: inline-block;
+      color: #000;
+      text-align: center;
+      padding: 1px;
+      text-decoration: none;
+    }
+
+    .card {
+      position: relative;
+      text-align: center;
+      color: white;
+      display: inline-block; 
+      margin-right: 5px; 
+      padding-top: -0px;
+      margin-top: -1px;
+    }
+
+    .imgcard {
+      width: 130px;
+      border-radius: 2px;
+      height: 195px;
+     
+      
+    }
+    /* ... otros estilos ... */
+
+.notificacion {
+  position: fixed;
+  bottom: 48px; /* Ajusta la posición para que aparezca arriba del footer */
+  width: 100%;       /* La notificación ocupa todo el ancho */
+  left: 0;
+  transform: translateX(0);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1001; /* Asegúrate de que esté por encima del footer */
+  display: none; /* Inicialmente oculta */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  align-items: center;   /* Centra verticalmente */
+  justify-content: flex-start; /* Centra horizontalmente */
+  margin: 10px;
+
+}
+
+.notificacion.mostrar {
+  display: block;
+  opacity: 1;
+}
+
+.check-icon {
+  color: #4CAF50; 
+  margin-left: 10px; /* Espacio a la IZQUIERDA del icono */
+}
+/* ... otros estilos ... */
+
+
+.profile-image {
+            width: 30px;  /* Ajusta el tamaño según tus necesidades */
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover; 
+        }
+
+        .card-info {
+  text-align: left; /* Centra el texto dentro del contenedor */
+}
+
+.card-title {
+  margin-top: 5px; /* Ajusta el espacio entre la imagen y el título */
+  font-size: 12px; /* Ajusta el tamaño de fuente del título */
+  color: white; 
+}
+
+.card-dub {
+  font-size: 10px; /* Ajusta el tamaño de fuente del doblaje */
+  color: gray; 
+}
+ 
+   
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+  
+
+    <header>
+        <img src="https://od.lk/s/M18zMDk1MDY2NTRf/ANIME.png" alt="Logo de Crunchyroll" "class="logo">
+        <div> 
+            <a href="wvc-x-callback://open?url=https://od.lk/s/M18zMDk3Njc2MjVf/new%20dragon%20ball%20daima%20page.html" class="cast-icon">
+                <span class="material-icons">cast</span>
+            </a>
+            <a href="http://action_search" class="search-icon">
+                <span class="material-icons">search</span>
+            </a>
+           
+        </div>
+    </header>
+
+
+    <div class="main-image">
+      <a href="go:pagina-destino"></a>
+        <div class="buttons-container">
+          <button class="play-button" onclick="abrirReproductor()">
+            <span class="material-icons">play_arrow</span> COMENZAR A VER E1
+          </button>
+            <button class="bookmark-button" id="bookmarkBtn" data-identificador="drstone" onclick="toggleFavorito()" tabindex="4">
+              <span id="bookmarkIcon" class="material-icons">bookmark_outline</span>
+            </button>
+            <div id="favoritoData" style="display: none;">
+                <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/eDRAHlILjDKYvmCNEDWeTBKyput.png" alt="Poster de Dr. Stone"> 
+                <span id="favoritoNombre">Dragon Ball Daima</span>
+                <a id="favoritoEnlace" href="go:daima"></a> 
+            </div>
+        </div>
+        <div class="logo-overlay"> 
+            <img src="https://image.tmdb.org/t/p/original/eDRAHlILjDKYvmCNEDWeTBKyput.png" alt="Logo Overlay"> 
+            <br>
+            <p> 12+ Sub. Lat.</p>
+        </div>
+    </div>
+
+    <div id="notificacion" class="notificacion">
+        <span class="material-icons check-icon">check_circle</span> <span id="mensajeNotificacion"></span> 
+      </div>
+    <div class="container">
+        <h4>NUESTRAS RECOMENDACIONES</h4>
+        <div class="scrollmenu">
+          <a href="go:dbz">
+            <div class="card">
+              <img class="imgcard" src="https://od.lk/s/M18zMDc3ODEzOTBf/jB9l4mp0bzBgzE5y4tvBH6AMeMk.jpg" alt="Saga 1">
+              <div class="card-info"> 
+                <p class="card-title">Dragon Ball Z</p> 
+                <p class="card-dub">Dub/Sub</p> 
+              </div>
+            </div>
+          </a>
+          <a href="go:piece">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">One Piece</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:demon">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/mnpgxMLvUJYSXwydB5E1dqLukwy.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">Demon Slayer</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:hells">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/yBj5Pay8FtVTkAkIy6bUc3NLTnw.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">Hells Paradise</p> 
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:DB">
+            <div class="card">
+              <img class="imgcard" src="https://od.lk/s/M18zMDk2OTY4MzFf/Dragon%20ball%20poster.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">Dragon Ball</p> 
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:titan">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/8D8JkivJqxhNSnHiDvxF3LgS06T.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">Attack on Titan</p> 
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:solo">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/fxxr3oGCbc0cTsnpxRDnIdKJB4q.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">Solo Leveling</p> 
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:jutsu">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/6qQzMJG27XOJsyAEEIisoJB45j2.jpg" alt="Saga 1">
+              <div class="card-info">
+                <p class="card-title">Jujutsu Kaisen</p> 
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:bersek">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/wQMcq5YUjMfoIEqLRzrNQVt4ROl.jpg" alt="Berserk">
+              <div class="card-info">
+                <p class="card-title">Berserk</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:elusive">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/wVJjyUbns2USXo1bolF2vGanvf6.jpg" alt="The Elusive Samurai">
+              <div class="card-info">
+                <p class="card-title">The Elusive Samurai</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:code">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/vf1h4GamzZJZ45ZZRgJccxYu5ri.jpg" alt="Lycoris Recoil">
+              <div class="card-info">
+                <p class="card-title">Lycoris Recoil</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:kid">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/y7EjOdzZyVzc1UJ8q9sG2dSZbXJ.jpg" alt="Kidou Senshi Gundam: Suisei no Majo">
+              <div class="card-info">
+                <p class="card-title">Suppose a Kid from t:</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:summon">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/6CA5asmqzhVMyPSkCqNpXno33JN.jpg" alt="Isekai Ojisan">
+              <div class="card-info">
+                <p class="card-title">Isekai Ojisan</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:mashle">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/dzCABR0joqtA0flLYpWAXc8mML1.jpg" alt="Mashle">
+              <div class="card-info">
+                <p class="card-title">Mashle</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:sawman">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/npdB6eFzizki0WaZ1OvKcJrWe97.jpg" alt="Chainsaw Man">
+              <div class="card-info">
+                <p class="card-title">Chainsaw Man</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:kaiju">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/bJxGs0w5RAhaX4fIUQu511rvm0S.jpg" alt="Kaijuu No. 8">
+              <div class="card-info">
+                <p class="card-title">Kaijuu No. 8</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:god">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/AnXFYG7y2A65dr5noYvZSdVq8l3.jpg" alt="The God of High School">
+              <div class="card-info">
+                <p class="card-title">The God of High School</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:welcome">
+            <div class="card">
+              <img class="imgcard" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/a139ca7025098c9728ef99af0751860e.jpe" alt="Welcome to Demon School! Iruma-kun">
+              <div class="card-info">
+                <p class="card-title">Welcome to Demon Sch:</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:miss">
+            <div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/cZbzZjnhxCZDW1Zon7i0gEq0QRK.jpg" alt="Miss Kobayashi's Dragon Maid">
+              <div class="card-info">
+                <p class="card-title">Miss Kobayashi's :</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+          <a href="go:haikyu">
+            <div class="card">
+              <img class="imgcard" src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/be304f43b41b60ce2f04c2f9629b0adf.jpg" alt="Haikyuu!!">
+              <div class="card-info">
+                <p class="card-title">Haikyuu!!</p>
+                <p class="card-dub">Dub/Sub</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <div class="container">
+        <h4>LO MÁS POPULAR</h4>
+        <div class="scrollmenu">
+          <a href="go:moon"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/q4xNfVPwpNsZlfoNC7gqGzTksb9.jpg"></div>
+                <a href="go:cow"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/lSsCxZ1dnjcB4cmXSgMJt5qunOu.jpg"></div>
+                <a href="go:alita"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/5ipMljsgtCwQL2saEEsxZ7loFZj.jpg"></div>
+                <a href="go:saint"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/zqhO44oc0pWM32seJeXMcjPLvwV.jpg"></div>
+                <a href="detective pikachu.html"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/ttTX80AzrOlLIpwPiW1DsYHqWWA.jpg"></div>
+                <a href="go:note"><div class="card">
+                  <img class="imgcard" src="https://image.tmdb.org/t/p/original/8aUYmcAHxbQWWvzsifDLvBQF76e.jpg"></div>
+                  <a href="go:bleach"><div class="card">
+                  <img class="imgcard" src="https://th.bing.com/th/id/R.7fa54eb2a7ec64b2450227ea7fdfe2ee?rik=eE5javrr5Pb1yw&riu=http%3a%2f%2ftokusatsunetwork.com%2fwp-content%2fuploads%2f2018%2f04%2fBleach-Advance-Ticket.jpg&ehk=Q5S3MoSItlewLuEAJfhMaJMORrlHBLIIFvDHSWQJ%2fkQ%3d&risl=&pid=ImgRaw&r=0"></div>
+          </a>
+          </div>
+      </div>
+
+          
+        </div>
+      </div>
+      
+      <div class="container">
+        <h4>LIVE ACTION</h4>
+        <div class="scrollmenu">
+            <a href="go:ataquedragon"><div class="card">
+                <img class="xaviec" src="https://image.tmdb.org/t/p/original/tZZv9IXhNjDotlyADTfhwH7gRXF.jpg"width="270" height="160"></div>
+                  <a href="go:Requiem"><div class="card">
+                  <img class="xaviec" src="https://images-na.ssl-images-amazon.com/images/I/81owjUCWUxL._RI_SX380_.jpg"width="270" height="160"></div>
+                 <a href="go:snkalas"><div class="card">
+                   <img class="xaviec" src="https://image.tmdb.org/t/p/original/9791KUEDAcbSiRQpQK7e6UyeHy1.jpg"width="270" height="160"></div>
+                 <a href="go:dosheroe"><div class="card">
+                  <img class="xaviec" src="https://image.tmdb.org/t/p/original/uicia399gyMGE1smatJ41M0CtFx.jpg"width="270" height="160"></div>
+                 <a href="go:abel"><div class="card">
+                   <img class="xaviec" src="https://image.tmdb.org/t/p/original/2CeGhcGCTv9fZxaRXk0wSQviVQg.jpg"width="270" height="160"></div>
+                  <a href="go:ranmadoncella"><div class="card">
+                 <img class="xaviec" src="https://image.tmdb.org/t/p/original/2hJIHfu6ASVqFAOFW3GEpKlrhnt.jpg"width="270" height="160"></div>
+                  <a href="go:demonmugen"><div class="card">
+                  <img class="xaviec" src="https://image.tmdb.org/t/p/original/AqhA7GXDEaP1spOWih195YzSPem.jpg"width="270" height="160"></div>
+                  <a href="go:firstslam"><div class="card">
+                 <img class="xaviec" src="https://image.tmdb.org/t/p/original/mrGmzIdU0vYhlUyK8BlMRsbbi8j.jpg"width="270" height="160"></div>
+          </a>
+          </div>
+      </div>
+      
+      <div class="container">
+        <h4>CLASICOS DE LARGA DATA</h4>
+        <div class="scrollmenu">
+            <a href="go:heidi"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/6vaxvcY61rSveJXd6WVhswAOalD.jpg"></div>
+                <a href="go:remi"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/hXtLcrCpkxVfze0KzfZ2wQMYpZD.jpg"></div>
+                <a href="go:candi"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/b8R3gXZdqE9wPqJewh4bBl3xKbm.jpg"></div>
+                <a href="go:kimba"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/8pSpE2Mftpsg9UV0eFQpVEg9KXz.jpg"></div>
+                <a href="go:astroboy"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/u3LVqlU9OLVN18uwIazxwgDVgdZ.jpg"></div>
+                <a href="go:isla"><div class="card">
+                    <img class="imgcard" src="https://retrotv.org/wp-content/uploads/2020/08/71BQb6JLSQL._SY445_-e1600404651229.jpg"></div>
+                    <a href="go:sandybell"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/y57X49iIctPzGbSq4Lpbx5FcYWj.jpg"></div>
+                    <a href="go:meteoro"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/7o9x0cdLjNXLeKfPM7p8h7DBL9B.jpg"></div>
+                    <a href="go:mazzinger"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/8izjyfqK8Bg4ST3BH7UKLwhrihh.jpg"></div>
+                    <a href="go:yuyu"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/qgkyAQD73M3Ix4w9RSzEbFI46l7.jpg"></div>
+                    <a href="go:btx"><div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/6wEUIRqChdiGpzEgIjgfIpGFG6T.jpg"></div>
+          </a>
+          </div>
+      </div>
+      
+      <div class="container">
+        <h4>NUEVOS ANIMES</h4>
+        <div class="scrollmenu">
+            <a href="go:stone"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/1N9yxroBNOUyyZ7mbRPkz53K0bx.jpg"></div>
+            <a href="go:yuyu"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/qgkyAQD73M3Ix4w9RSzEbFI46l7.jpg"></div>
+            <a href="go:onepunch"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/bS6GeCRInMRl6oQN6czCqPFdcHN.jpg"></div>
+            <a href="go:spy"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/3r4LYFuXrg3G8fepysr4xSLWnQL.jpg"></div>
+            <a href="go:orphen"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/zzgAdxDsNPV518GV1R4xP16VLqK.jpg"></div>
+            <a href="go:conan"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/hSKD1ysKYJ36t6iUSf8dN3C76Se.jpg"></div>
+          </a>
+          </div>
+      </div>
+   
+      <footer class="footer">
+        <a href="go:Inicio" class="footer-btn" id="homeBtn">
+          <span class="material-icons-outlined">home</span>
+          <p>Inicio</p>
+        </a>
+        <a href="go:favoritos" class="footer-btn" id="favoritosBtn">
+          <span class="material-icons-outlined">bookmark_outline</span>
+          <p>Favoritos</p>
+        </a>
+        <a href="go:explorar" class="footer-btn" id="explorarBtn">
+          <span class="material-icons-outlined">grid_view</span>
+          <p>Explorar</p>
+        </a>
+        <a href="go:perfil" class="footer-btn" id="cuentaBtn">
+          <span class="material-icons-outlined">account_circle</span>
+          <p>Cuenta</p> </a>
+      </footer>
+          
+
+    <script>
+
+
+
+const primerBotonFooter = document.querySelector('.footer-btn:first-child');
+
+// Agrega la clase "active" al primer botón
+primerBotonFooter.classList.add('active');
+function abrirReproductor() {
+  window.location.href = "go:daima";
+            window.open(`${reproductorURL}?episodio=1`, '_blank'); 
+        }
+
+        
+        window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    let scroll = window.scrollY;
+    let opacity = scroll / 100; 
+    opacity = Math.min(opacity, 50); // La opacidad ahora puede llegar a 1
+
+    header.style.backgroundColor = `rgba(0,0,0, ${opacity})`;
+});
+
+const bookmarkBtn = document.getElementById('bookmarkBtn');
+    const bookmarkIcon = document.getElementById('bookmarkIcon'); // Selecciona el span con el icono
+    const identificador = bookmarkBtn.getAttribute('data-identificador');
+
+    function checkFavorito() {
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+  if (encontrado) {
+    bookmarkIcon.innerText = 'bookmark'; // Mostrar icono relleno si está en favoritos
+  } else {
+    bookmarkIcon.innerText = 'bookmark_outline'; // Mostrar icono de contorno si no está en favoritos
+  }
+}
+
+const notificacion = document.getElementById('notificacion');
+const mensajeNotificacion = document.getElementById('mensajeNotificacion');
+
+function mostrarNotificacion(mensaje) {
+  mensajeNotificacion.textContent = mensaje;
+  notificacion.classList.add('mostrar');
+
+  setTimeout(() => {
+    notificacion.classList.remove('mostrar');
+  }, 3000); // Ocultar la notificación después de 3 segundos
+}
+
+
+
+
+checkFavorito();
+
+
+function toggleFavorito() {
+    const imagenURL = document.getElementById('favoritoImagen').src;
+    const nombre = document.getElementById('favoritoNombre').textContent;
+    const enlace = document.getElementById('favoritoEnlace').href;
+    console.log("Imagen URL:", imagenURL);
+
+    const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+    const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+    if (encontrado) {
+        const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+        bookmarkIcon.innerText = 'bookmark_outline';
+        localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+        document.dispatchEvent(new CustomEvent('favoritosActualizados'));
+        mostrarNotificacion('Se eliminó de favoritos');
+    } else {
+        favoritos.push({ 
+            identificador: identificador, 
+            imagen: document.getElementById('favoritoImagen').outerHTML,
+            nombre: nombre, 
+            enlace: enlace 
+        });
+        bookmarkIcon.innerText = 'bookmark';
+        localStorage.setItem('favoritos', JSON.stringify(favoritos));
+        mostrarNotificacion('Se añadió a favoritos');
+    }
+}
+    checkFavorito(); 
+
+    const carrusel = document.getElementById('carruselFavoritos');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let slideIndex = 0;
+
+function cargarCarrusel() {
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || []; // Obtener los favoritos del localStorage
+  const carrusel = document.getElementById('carruselFavoritos');
+  carrusel.innerHTML = ''; // Limpiar el carrusel antes de cargar
+
+  favoritos.forEach(favorito => {
+    const a = document.createElement('a');
+    a.href = favorito.enlace;
+
+    const img = document.createElement('img');
+    img.src = favorito.imagen;
+    img.alt = favorito.nombre;
+    a.appendChild(img);
+
+    const divCard = document.createElement('div');
+    divCard.classList.add('card'); // Agregar la clase "card"
+
+    // Insertar la imagen en el divCard
+    divCard.innerHTML = favorito.imagen; 
+
+    a.appendChild(divCard); // Agregar el divCard al enlace
+
+    carrusel.appendChild(a); // Agregar el enlace al carrusel
+  });
+
+  mostrarSlide();
+}
+
+function mostrarSlide() {
+  const slideWidth = carrusel.children[0].offsetWidth;
+  carrusel.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+}
+
+function nextSlide() {
+  slideIndex++;
+  if (slideIndex >= carrusel.children.length) {
+    slideIndex = 0;
+  }
+  mostrarSlide();
+}
+
+function prevSlide() {
+  slideIndex--;
+  if (slideIndex < 0) {
+    slideIndex = carrusel.children.length - 1;
+  }
+  mostrarSlide();
+}
+
+cargarCarrusel(); // Cargar el carrusel al inicio
+
+// In your main page's JavaScript
+
+
+
+// Llama a la función para actualizar el ícono al cargar la página
+updateAccountIcon();
+
+    </script>
+</body>
+</html>

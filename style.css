@@ -1,0 +1,366 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  body {
+  background: #000;
+  color: #fff;
+  display: block;        /* ya no forzar flex */
+  min-height: 100vh;     /* altura mínima */
+  overflow-x: hidden;    /* bloquea scroll lateral */
+  overflow-y: auto;      /* permite scroll vertical */
+}
+
+  
+  /* Swiper */
+  .swiper {
+  width: 100%;
+  height: 100vh;          /* vuelve a ocupar pantalla completa */
+  position: relative;
+  margin-bottom: -150px;    /* 👈 deja hueco para bullets y secciones */
+}
+
+  
+  .swiper-slide {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top; /* 👈 asegura que se pegue al top */
+  }
+  
+  
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgb(0, 0, 0), rgb(0, 0, 0),rgba(0, 0, 0, 0.39), rgba(0,0,0,0));
+  }
+
+  .img-portrait {
+    display: block;
+  }
+  
+  .img-landscape {
+    display: none;
+  }
+
+  /* Estilos para pantallas horizontales (landscape) */
+@media (orientation: landscape) {
+  /* Ocultar overlays y imágenes de portrait */
+  .overlay {
+    display: none;
+  }
+  .img-portrait {
+    display: none;
+  }
+
+  /* Mostrar imágenes landscape */
+  .img-landscape {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+  }
+
+  /* Overlay abajo */
+  .overlay-bottom {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0));
+    z-index: 15;
+    pointer-events: none;
+  }
+
+  /* Overlay izquierda */
+  .overlay-left {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.897), rgba(0,0,0,0.616), rgba(0,0,0,0.336), rgba(0,0,0,0));
+    z-index: 15;
+    pointer-events: none;
+  }
+
+  /* Info */
+  .info {
+    bottom: auto;
+    top: 15%;
+    left: 5%;
+    max-width: 40%;
+  }
+
+  .info .title img {
+    max-width: 80%;
+    height: auto;
+  }
+
+  .meta {
+    font-size: 15px;
+    margin: 10px 0;
+  }
+
+  .desc {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .buttons {
+    justify-content: flex-start;
+  }
+
+  /* Paginación: a la izquierda debajo de botones */
+  .swiper-pagination {
+    bottom: 20px !important;
+    left: 5% !important;
+    text-align: left !important;
+  }
+}
+  
+  
+  
+  /* Info sobre la imagen */
+  .info {
+    position: absolute;
+    bottom: 250px;
+    left: 15px;
+    right: 15px;
+  }
+  
+  .title {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  .meta {
+    font-size: 13px;
+    margin: 6px 0;
+    opacity: 0.9;
+    margin-bottom: 20px;
+  }
+  
+  .meta .edad {
+    background: rgba(100, 100, 100, 0.6); /* gris semi-transparente */
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  
+  
+  
+  .desc {
+    font-size: 13px;
+    color: #ddd;
+    margin-bottom: 20px;
+  }
+  
+  /* Botones */
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .play {
+    flex: 1;
+    text-align: center;
+    background: #ff5d00;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  
+  .save {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: 2px solid #ff5d00;
+    color: #ff5d00;
+    border-radius: 0px;
+    text-decoration: none;
+    font-size: 22px;
+    transition: all 0.3s ease;
+  }
+  
+  .save.saved {
+    background: #ff5d00;
+    color: #000;
+  }
+  
+  
+/* stacking / z-index: overlay debajo, info encima, pagination más arriba */
+.overlay {
+  z-index: 10;
+  pointer-events: none; /* 🔹 para que no bloquee clicks de bullets */
+}
+
+.info {
+  z-index: 20;
+  position: absolute;
+}
+/* paginación global */
+.swiper-pagination {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+/* Bullets */
+.swiper-pagination-bullet {
+  width: 40px;
+  height: 8px;
+  background: #f7f7f7 !important;
+  opacity: 1;
+  border-radius: 3px; /* más oval */
+  margin: 0 4px !important;
+  position: relative;
+  overflow: hidden; /* para que ::after no sobresalga */
+}
+
+/* Barra interna animada solo en bullet activa */
+.swiper-pagination-bullet::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--progress, 0);
+  background: #ff5d00;
+  border-radius: 3px;
+  transition: none; /* por defecto no hay animación */
+}
+
+/* Animación solo cuando está activa */
+.swiper-pagination-bullet-active::after {
+  transition: width 7s linear;
+}
+
+/* Bullets móviles / portrait */
+.swiper-pagination-bullet {
+  width: 40px;
+  height: 8px;
+}
+
+/* Landscape / desktop */
+@media (orientation: landscape) {
+  .swiper-pagination-bullet {
+    width: 60px;   /* más ancho en landscape */
+    height: 10px;  /* más alto */
+  }
+}
+
+
+  /* Footer */
+  footer {
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+  }
+  
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: #aaa;
+  }
+  
+  .nav-item i {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  
+  .nav-item.active {
+    color: #ff5d00;
+  }
+
+
+  .extra-section {
+  margin-top: 0;   /* ya no forzar hacia arriba */
+  padding: 0 15px;
+  color: #fff;
+  position: relative;
+  z-index: 5;
+  margin-bottom: 20px;
+}
+
+
+
+.extra-section h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.poster-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.poster-row::-webkit-scrollbar {
+  display: none; /* oculta scrollbar en móviles */
+}
+
+.poster {
+  flex: 0 0 auto;
+  width: 130px; /* tamaño fijo como Crunchyroll */
+  text-decoration: none;
+  color: #fff;
+}
+
+.poster img {
+  width: 100%;
+  height: 190px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.poster p {
+  font-size: 14px;
+  margin: 6px 0 2px;
+  font-weight: 600;
+}
+
+.poster span {
+  font-size: 12px;
+  color: #ccc;
+}

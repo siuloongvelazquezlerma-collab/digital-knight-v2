@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css"
+href="https://prod-static.disney-plus.net/us-west-2/disneyPlus/mainapp/build/disneyPlus/mainapp/styles/app.83694ada8326b367a228.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="../logo-2025.png">
+    
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    
+    <meta name="theme-color" content="#102040">
+    <meta name="msapplication-TileColor" content="#102040">
+  <style>
+    *
+    .loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 10, 10, 0.253);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease-out;
+}
+
+.loader .spin {
+    border: 6px solid rgba(0, 0, 0, 0.137);
+    border-top-color: #3cefff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+ transform: rotate(360deg);
+    }
+}
+
+.content {
+    display: none;
+}
+    body {
+      padding-top: env(safe-area-inset-top);
+      margin:13px;
+            padding: 0;
+            padding-right: -100%;
+            height: 100vh;
+    background: #102040;
+            background: linear-gradient(to bottom, #10204000, #10204000, #102040b2, #102040, #102040),
+            url('https://od.lk/s/M18zMDg4OTcyNDlf/fW6pOb6EEJ8wAoIhwtcOuuKY4v3.jpg'); /* Reemplaza 'tu-imagen.jpg' class="lazyload" con la URL de tu imagen */
+            background-size: 100%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: -1;
+           
+           
+          }
+
+        
+        @media (orientation: landscape) {
+            body {
+      padding-top: env(safe-area-inset-top);
+                background-position:top;
+            }
+        }
+        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+    <style>
+    .alignleft{ float:left; margin-left:5px; color:#fff; font-weight:bold; font-size:16px;} 
+    .alignright{ float:right; margin-right:10px; color:#fff; font-size:14px; font-weight:bold ;} 
+    h4{ margin-left:9px; color:#fff; font-weight:bold; font-size:15px;}
+    .poster{position:relative;overflow:hidden;} 
+    div.scrollmenu{background:transparent;overflow:auto;white-space:nowrap;position:relative;overflow-y:hidden;} 
+    div.scrollmenu a { display: inline-block; color: #000; text-align:center; padding: 4px; text-decoration: none;}
+    div.scrollmenu a:hover{ background:transparent;}
+    .card{ position:relative ; text-align:center; color:rgba(255, 255, 255, 0);}
+    /*.centered{ font-size:12px; font-weight:bold; position:absolute; top:80%; left: 56%; transform:translate(-56%,-56%)} 
+    .cent{ font-size:auto; position:absolute ; top:95%; left: 56%; transform:translate(-56%,-56%)} */
+    .imgcard{ width:100px;border-radius:7px;height:140px;z-index:1;}
+    .mnt{width:100px; border-radius:100px;height:100px;}
+    #xs-header{background:transparent;left:0;position:fixed;top:-10px;width:100%;z-index:90;height:8%;}
+    .xaviec{
+        border-radius: 7px;
+        width: 220px;
+        height: 130px;
+    }
+    .Trsa {
+         Font-weight:700;
+         color:white;
+         font-size:16px;
+         background:rgba(0, 0, 0, 0);
+         padding:04px 03px;
+         border: 1px solid transparent;
+         border-radius:37px;
+         margin-left: 10px;
+         margin-top: 10px;
+      }
+
+      .post-header__info{
+        padding-top: 200px;
+      }
+    *:focus {
+  outline: 3px solid #00f7ff;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Ocultar focus en móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Mostrar focus en pantallas grandes (TV, PC) */
+@media (min-width: 769px) {
+  *:focus {
+    outline: 3px solid #00f7ff;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+
+.tabs-secondary {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  background-color: #11111111;
+  border-bottom: 1px solid #44444400;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  transition: background 0.3s ease;
+  z-index: 3010;
+}
+
+.tabs-secondary .tab:hover {
+  background-color: #81818179;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .tabs-secondary {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* Tabs grandes en pantallas grandes */
+  .tabs-secondary {
+    gap: 10px;
+    padding: 16px 40px;
+  }
+
+  .tabs-secondary .tab {
+    font-size: 22px;
+    padding: 12px 10px 8px;
+  }
+
+  .tabs-secondary .tab.active::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: white;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+  <div class="post-header">
+    <div class="image-and-btn">
+      <div class="form__group field">
+       <a class="Trsa" href="go:home"> <img alt="" src="https://od.lk/s/M18zMDc3ODA0NzVf/back1.png" width="30px" height="30px" margin-left="100px">  
+         
+
+        </div>
+      <br><br> 
+                                  <center>
+                                        <div class="post-header__info">
+                                       <img alt="" src="https://od.lk/s/M18zMDQ2MzY3MDJf/marvel1.jpg" class="_1gvwk672"></div></center>
+
+ <div class="container">
+ <div class="single-item">
+ 
+</div>
+<div class="loader" id="loader">
+  <div class="spin"></div>
+                        </div> 
+
+</div>
+<div class="poster">
+  <a href="#"><h4 class="alignleft"> Películas en orden cronológico</h4><h4 class="alignright"></h4></a></div>
+  <div class="scrollmenu">
+  <a href="Capitán América El Primer Vengador (2011).html"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/llg113ARHG3HylB5Tw3MbluBTHR.jpg" class="lazyload"></div>
+  <a href="go:capmarvel"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/5SPa7dZ85p54xa7E9tHRmfKq5ce.jpg" class="lazyload"></div>
+  <a href="Iron man - El hombre de hierro (2008).html"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/dMc96Rn0XutMaIYJNwkJ5yO9oTh.jpg" class="lazyload"></div>
+  <a href="Iron Man 2 (2010).html"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/eVS6aDR4zCzWOetAF7Q6orj1k3X.jpg" class="lazyload"></div>
+  <a href="Thor (2011).html"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg" class="lazyload"></div>
+  <a href="Avengers Los Vengadores (2012).html"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/yHdPTs239Cqce1s6y9figbeolR1.jpg" class="lazyload"></div>
+  <a href="Thor un mundo oscuro (2013).html"><div class="card">
+  <img class="imgcard" src="https://image.tmdb.org/t/p/original/wXbOESCVaIHh4Rkmm3nhyL9SB00.jpg" class="lazyload"></div>
+  <a href="Iron Man 3 (2013).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/evmEKgNyEXwIbyXAefK16ZTDfGw.jpg" class="lazyload"></div>
+    <a href="Capitán América y el Soldado del Invierno (2014).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/7KPIJov1oNg5e5x9COwHErDmdCY.jpg" class="lazyload"></div>
+    <a href="Guardianes de la galaxia (2014).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/p98NIlw5RY4SKPdTw1z4z0DQSwa.jpg" class="lazyload"></div>
+    <a href="Guardianes de la Galaxia 2 (2017).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/7bvMsSmNUGtfPACgSYMIe9OCYx4.jpg" class="lazyload"></div>
+    <a href="Avengers 2 Era de Ultrón (2015).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/6fdsge3amjdHSVkRXggwforRi5g.jpg" class="lazyload"></div>
+    <a href="Ant-Man El hombre Hormiga (2015).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/tMJ0FBFrYZjo6BNHiYbgqiy8Tf5.jpg" class="lazyload"></div>
+    <a href="Capitán América Civil War (2016).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/tjX3FRx21emmwA30QwXaU39mHoT.jpg" class="lazyload"></div>
+    <a href="Black Widow (2021).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/8kRtYRChyFSYwzVCbHB2Z12wcW7.jpg" class="lazyload"></div>
+      <a href="Pantera Negra (2018).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/vD8xAJTTfIm76vFZ8KIhyW3K6xF.jpg" class="lazyload"></div>
+      <a href="Doctor Strange Hechicero supremo (2016).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/lxZRdSYXPLxnAQZmlG8civ2sfJr.jpg" class="lazyload"></div>
+      <a href="Thor Ragnarok (2017).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/fKGfYZvLvd5ZiYbtriaE6O6vOE4.jpg" class="lazyload"></div>
+      <a href="Ant-Man 2 La Avispa (2018).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/ls3bSegCdHD1AcNZX1CpzQJm9th.jpg" class="lazyload"></div>
+      <a href="Avengers Infinity War (2018).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/zwHylDF7qtKJWusdIaVHaqzjarh.jpg" class="lazyload"></div>
+      <a href="Avengers Endgame (2019).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/fTFRY6RJTpwkrYybwj4Wdf5nfgn.jpg" class="lazyload"></div>
+      <a href="Shang-Chi y la leyenda de los Diez Anillos (2021).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/eayglw9AINnwtDZPIEV3js6hhMV.jpg" class="lazyload"></div>
+      <a href="Eternals (2021).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/b6qUu00iIIkXX13szFy7d0CyNcg.jpg" class="lazyload"></div>
+      <a href="Doctor Strange en el multiverso de la locura (2022).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/5nEuAhCKrzf7bpGLBOal4qCuZsI.jpg" class="lazyload"></div>
+      <a href="Pantera Negra Wakanda por siempre (2022).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/nl3Fy48dMaEV9oljX6Ah9cCoOlf.jpg" class="lazyload"></div>
+      <a href="Thor Amor y Trueno (2022).html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/jY3NtDATB84TGK6ESa9H1jK8hlX.jpg" class="lazyload"></div>
+      <a href="Ant-Man and the Wasp Quantumania.html"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/24I7O4byznETny4izTaYervpcx0.jpg" class="lazyload"></div> 
+    <a href="Guardianes de la Galaxia volumen 3 (2023).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/6fPacxQCGsStHQzOV6ofEKR14m5.jpg" class="lazyload"></div>
+    <a href="The Marvels (2023).html"><div class="card">
+    <img class="imgcard" src="https://image.tmdb.org/t/p/original/2bAuG2KqGoWhIhElkHE0xlQlt1H.jpg" class="lazyload"></div>
+  
+  </div>
+  
+    <div class="poster">
+      <a href="#"><h4 class="alignleft"> Multiverso</h4><h4 class="alignright"></h4></a></div>
+      <div class="scrollmenu">
+      <a href="go:wanda"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/ng9PIJ0OChcjNeddDPDBJryLp4s.jpg" class="lazyload"></div>
+      <a href="go:falcon"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/4qfyYoH41YYF8bqSwEJljuBmvIT.jpg" class="lazyload"></div>
+      <a href="go:loki"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/bqoOiebYt69U8gKdrjN8mF5O7Yu.jpg" class="lazyload"></div>
+      <a href="Black Widow (2021).html"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/8kRtYRChyFSYwzVCbHB2Z12wcW7.jpg" class="lazyload"></div>
+      <a href="go:whatif"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/rWg4Jk7NwVEz2BtU1aKKDoDJPeB.jpg" class="lazyload"></div>
+      <a href="Shang-Chi y la leyenda de los Diez Anillos (2021).html"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/eayglw9AINnwtDZPIEV3js6hhMV.jpg" class="lazyload"></div>
+        <a href="Eternals (2021).html"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/b6qUu00iIIkXX13szFy7d0CyNcg.jpg" class="lazyload"></div>
+      <a href="go:hawkeye"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/A5AWgciOOq7UE4HzeXahn8VFoPD.jpg" class="lazyload"></div>
+        <a href="go:moon"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/65Yyuavz1GtLwf2yVHCq9hLxthw.jpg" class="lazyload"></div>
+        <a href="Doctor Strange en el multiverso de la locura (2022).html"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/5nEuAhCKrzf7bpGLBOal4qCuZsI.jpg" class="lazyload"></div>
+        <a href="go:msmarvel"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/4qoFtoPvFGjlIXYfFVNKhOwZ6zD.jpg" class="lazyload"></div>
+        <a href="Thor Ragnarok (2017).html"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/jY3NtDATB84TGK6ESa9H1jK8hlX.jpg" class="lazyload"></div>
+        <a href="go:soygroot"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/mAW22zvybqCo9PeLkUfwYdB4wZu.jpg" class="lazyload"></div>
+        <a href="go:shehulk"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/wgjzCsT6PhNHACHT7Iscs1QM5vw.jpg" class="lazyload"></div>
+        <a href="El lobo de wall street.html"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/ud29Pg75Oqr5o4dXfjtZuSYrkrH.jpg" class="lazyload"></div>
+          <a href="Pantera Negra Wakanda por siempre (2022).html"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/nl3Fy48dMaEV9oljX6Ah9cCoOlf.jpg" class="lazyload"></div>
+          <a href="go:fiesta"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/svFrc058PGUYphe2yTxphDd5dts.jpg" class="lazyload"></div>
+          <a href="Ant-Man and the Wasp Quantumania.html"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/24I7O4byznETny4izTaYervpcx0.jpg" class="lazyload"></div> 
+            <a href="Guardianes de la Galaxia volumen 3 (2023).html"><div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/6fPacxQCGsStHQzOV6ofEKR14m5.jpg" class="lazyload"></div>
+          <a href="go:secretinv"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/4FhuIvSvKzGa4wqzR5NXvFwsjF7.jpg" class="lazyload"></div>
+          <a href="The Marvels (2023).html"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/2bAuG2KqGoWhIhElkHE0xlQlt1H.jpg" class="lazyload"></div>
+          <a href="go:echo"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/5X4sV85FZd7csSvV8ESOniNfLI1.jpg" class="lazyload"></div>
+          <a href="go:xmen97"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/4KUVuewdHUx2hPzBTbgehHnWpjA.jpg" class="lazyload"></div>
+  
+          </div>
+  
+    <div class="poster">
+      <a href="#"><h4 class="alignleft"> Spider-man</h4><h4 class="alignright"></h4></a></div>
+      <div class="scrollmenu">
+      <a href="go:spiderman"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/vSsOo0GwXP2zDZP4EyXmHejJ3H8.jpg" class="lazyload"></div>
+      <a href="go:spiderman2"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/olxpyq9kJAZ2NU1siLshhhXEPR7.jpg" class="lazyload"></div>
+      <a href="go:spiderman3"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/k3KixwZryKFms2yjldJy5anUYCJ.jpg" class="lazyload"></div>
+      <a href="go:thespider"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg" class="lazyload"></div>
+      <a href="go:thespider2"><div class="card">
+      <img class="imgcard" src="https://image.tmdb.org/t/p/original/c3e9e18SSlvFd1cQaGmUj5tqL5P.jpg" class="lazyload"></div>
+      <a href="go:regreso"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/sd1eByiFLL0arwkip6lV6l25cSj.jpg" class="lazyload"></div>
+        <a href="go:lejos"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg" class="lazyload"></div>
+      <a href="go:noway"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" class="lazyload"></div>
+        <a href="go:spiderver"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/3cZn1k8x0bikrDKEy9ZKJ6Vdj30.jpg" class="lazyload"></div>
+        <a href="go:spiderver2"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" class="lazyload"></div>
+        <a href="go:animated"><div class="card">
+        <img class="imgcard" src="https://image.tmdb.org/t/p/original/peN9aqevr0edVoctVKGZDWFdTRl.jpg" class="lazyload"></div>
+  
+      </div>
+  
+        <div class="poster">
+          <a href="#"><h4 class="alignleft">Clásicos Mutantes</h4><h4 class="alignright"></h4></a></div>
+          <div class="scrollmenu">
+          <a href="go:xmen92"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/zTI6sUdIbjZQ0tJDTCsIXO6gnWp.jpg" class="lazyload"></div>
+          <a href="go:xmenevo"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/At5aZIKkN8zHTAXOnQR9D3b7usW.jpg" class="lazyload"></div>
+          <a href="go:xmenpast"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/37QaCTjMIDXhcIH5JyEyvfLkaSf.jpg" class="lazyload"></div>
+          <a href="<a href="X-Men 3 La Batalla Final (2006).html">"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/lEU94hL4J8FLMLjBXloEc8PWo83.jpg" class="lazyload"></div>
+          <a href="X-Men (2000).html"><div class="card">
+          <img class="imgcard" src="https://image.tmdb.org/t/p/original/2QelrpT1piTQJXujMFUl38GfjJz.jpg" class="lazyload"></div>
+            <a href="go:deadpool"><div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/3E53WEZJqP6aM84D8CckXx4pIHw.jpg" class="lazyload"></div>
+          <a href="go:deadpool2"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/8KzhBBJP2ZR1GV4H3EV8MFNPmCv.jpg" class="lazyload"></div>
+            <a href="go:daredevil"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/oCDBwSkntYamuw8VJIxMRCtDBmi.jpg" class="lazyload"></div>
+            <a href="go:hulk"><div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/UllIft2jLSBaay3zQyMV4GNdfy.jpg" class="lazyload"></div>
+            <a href="go:hulk2"><div class="card">
+            <img class="imgcard" src="https://image.tmdb.org/t/p/original/c6cbZVksTFFTgWZtTGIuCDQXp7P.jpg" class="lazyload"></div>
+            <a href="go:wolverinm"><div class="card">
+              <img class="imgcard" src="https://image.tmdb.org/t/p/original/9BRz8pI41iAVMRzeItvHnZNMlk2.jpg" class="lazyload"></div>
+              <a href="go:torch"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/349fSE2Zd4fztRKK5BQ08A9rIMI.jpg" class="lazyload"></div>
+                <a href="go:punisher"><div class="card">
+                  <img class="imgcard" src="https://image.tmdb.org/t/p/original/7rmA1HwYp2GKM85BL0cVwCaosGr.jpg" class="lazyload"></div>
+                  <a href="go:rider"><div class="card">
+                    <img class="imgcard" src="https://image.tmdb.org/t/p/original/1pyU94dAY7npDQCKuxCSyX9KthN.jpg" class="lazyload"></div>
+                
+  
+            </div>
+    
+              <div class="poster">
+                <a href="#"><h4 class="alignleft">X-Men</h4><h4 class="alignright"></h4></a></div>
+                <div class="scrollmenu">
+                <a href="X-Men (2000).html"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/bRDAc4GogyS9ci3ow7UnInOcriN.jpg" class="lazyload"></div>
+                <a href="go:xmen2"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/gkpuNoaVrgz0003t4b4kgviZgGQ.jpg" class="lazyload"></div>
+                <a href="<a href="X-Men 3 La Batalla Final (2006).html">"><div class="card">
+                <img class="imgcard" src="https://image.tmdb.org/t/p/original/lEU94hL4J8FLMLjBXloEc8PWo83.jpg" class="lazyload"></div>
+             
+                 
+              </div>
+                              
+
+              <script>
+    
+                document.addEventListener("DOMContentLoaded", function() {
+              const loader = document.getElementById('loader');
+              const content = document.querySelector('.content');
+              
+              window.addEventListener('load', function() {
+                  loader.style.opacity = '0';
+                  setTimeout(function() {
+               loader.style.display = 'none';
+               content.style.display = 'block';
+                  }, 1000); // Espera 1 segundo para la transición
+              });
+              });
+              
+              
+              document.addEventListener('DOMContentLoaded', function() {
+                  var lazyImages = [].slice.call(document.querySelectorAll('img.lazyload'));
+                  if ('IntersectionObserver' in window) {
+               let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                   entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    let lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove('lazyload');
+                    lazyImageObserver.unobserve(lazyImage);
+                }
+                   });
+               });
+               lazyImages.forEach(function(lazyImage) {
+                   lazyImageObserver.observe(lazyImage);
+               });
+                  }
+              });
+              
+                  </script>       
+ 
+                  </body>
+                 </html>
+ 
