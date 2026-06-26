@@ -6,7 +6,7 @@
 
 
   <title>Una película de Minecraft</title>
-   <script src="../loader.min.js"></script>
+  script src="../loader.min.js"></script>
   <meta name="theme-color" content="#01011d">
   <meta name="background-color" content="#01011d">
 <meta name="msapplication-navbutton-color" content="#01011d">
@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
-   <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-2025.png">
     <link rel="manifest" href="../manifest.json">
    <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -147,6 +147,45 @@
   } 
 
 
+  /* General: espacio para header fijo en pantallas pequeñas */
+@media screen and (max-width: 1024px) {
+  .cover-content {
+    padding-top: 80px; /* deja espacio para el header fijo */
+  }
+}
+
+/* Móviles en portrait */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .cover-content {
+    padding-top: 90px; /* un poco más de espacio en modo vertical */
+  }
+
+  .cover {
+    padding-top: 0; /* el padding se maneja dentro de .cover-content */
+  }
+}
+
+/* Móviles en landscape (horizontal) */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .cover-content {
+    padding-top: 60px;
+  }
+}
+
+/* Tablets en cualquier orientación */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .cover-content {
+    padding-top: 70px;
+  }
+}
+
+/* PC: sin padding adicional */
+@media screen and (min-width: 1025px) {
+  .cover-content {
+    padding-top: 0;
+  }
+}
+
 
 
 
@@ -164,8 +203,8 @@
       <span class="material-icons">refresh</span>
     </button>
   </div>
-  <header id="header">
-    <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+ <header id="header">
+    <a href="javascript:history.back();" id="back-link" class="icon-link">
         <span class="material-icons">chevron_left</span>
     </a>
     <span id="page-title" class="page-title">Una película de Minecraft </span> <!-- Título oculto por defecto -->
@@ -279,12 +318,12 @@
 
    <!-- QUIZÁ TAMBIÉN TE GUSTE -->
  <div class="page-content">
-<div class="sugerencias-section">
-  <div class="sugerencias-header">
-    <h2 class="sugerencias-titulo">Quizá también te guste</h2>
-    <div class="sugerencias-tabs-line"></div>
-  </div>
-  <div class="sugerencias-grid">
+  <div class="sugerencias-section">
+    <div class="sugerencias-header">
+      <h2 class="sugerencias-titulo">Quizá también te guste</h2>
+      <div class="sugerencias-tabs-line"></div>
+    </div>
+    <div class="sugerencias-grid">
     <a href="CJ7 Juguete Del Espacio (2008).html" class="sugerencia-item">
       <img src="https://image.tmdb.org/t/p/original/oWf77GNpcgNz8HMP5XujV6gNwWx.jpg" alt="CJ7 Juguete Del Espacio (2008)">
       <p class="sugerencia-titulo">CJ7 Juguete Del Espacio (2008)</p>
@@ -309,9 +348,8 @@
       <p class="sugerencia-sub">Dob | Lat</p>
     </a>
   </div>
-  
-  
-</div>
+  </div>
+  </div>
 
   
 <!-- PLAYER -->
@@ -413,22 +451,23 @@
   </div>
 
   <footer class="footer">
-    <a href="../main.html" class="footer-icon" tabindex="14">
+    <a href="../main.html" class="footer-icon">
         <span class="material-icons-outlined">home</span>
         <span class="material-icons">home</span>
     </a>
-    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+    <a href="../new favoritos 2025.html" class="footer-icon">
         <span class="material-icons-outlined">bookmark_border</span>
         <span class="material-icons">bookmark</span>
     </a>
-    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+    <a href="../New search page 2025.html" class="footer-icon">
         <span class="material-icons-outlined">search</span>
         <span class="material-icons">search</span>
     </a>
-    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
+    <a href="../perfil digital Knight 2025.html" class="footer-icon">
+        
         <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
     </a>
-</footer>
+  </footer>
 
   <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
 
@@ -1690,6 +1729,56 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
+function obtenerNombrePelicula() {
+  const nombre = document.querySelector("#favoritoData #nombre");
+  if (!nombre) return "Pelicula";
+  return nombre.textContent.trim().replace(/[<>:"/\\|?*]+/g, "");
+}
+
+
+async function descargarPeliculaSeguro(url) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    const enlace = document.createElement("a");
+    const nombre = obtenerNombrePelicula() + ".mp4";
+
+    enlace.href = blobUrl;
+    enlace.download = nombre;
+    enlace.style.display = "none";
+    document.body.appendChild(enlace);
+    enlace.click();
+    enlace.remove();
+
+    // 🖼 Mostrar tu logo en notificación de descarga (SOLO Chrome/Android)
+    mostrarNotificacionDescarga(nombre);
+
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
+
+  } catch (err) {
+    console.error("Error descarga:", err);
+    alert("No se pudo descargar la película 🥹");
+  }
+}
+
+function mostrarNotificacionDescarga(titulo) {
+  if (!("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
+
+  new Notification("Descargando…", {
+    body: titulo,
+    icon: "../logo-2025.png"  // ⭐ tu logo aquí
+  });
+}
+
+document.getElementById("descargarPelicula").addEventListener("click", () => {
+  const src = getCurrentSource(); // tu función actual
+  if (src) descargarPeliculaSeguro(src);
+});
+
 function descargarPelicula(url) {
 
 const nombre = document.getElementById("nombre")?.innerText.trim() || "Película";
@@ -1708,7 +1797,6 @@ if (typeof Android !== "undefined") {
 }
 
 </script>
-
 <script src="../pip.js"></script>
 <script src="../share.js"></script>
 <script type="module" src="../player-peliculas-module.js"></script>
