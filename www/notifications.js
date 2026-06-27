@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.2";
+const NOTIFICATIONS_VERSION = "2.3";
 
 /* ================= ESTADO GLOBAL ================= */
 
@@ -49,7 +49,7 @@ function addNotification() {
   notifications = [];
 
   notifications.push({
-  href: "peliculas/supergirl.html",
+  href: "DC/supergirl.html",
   img: "https://image.tmdb.org/t/p/original/xOZPlGZfzwCgYEPevFK75SO957a.jpg",
   title: "🦸 Nueva película agregada",
   text: "Supergirl (2026) ya está disponible. Descubre el inicio de una nueva heroína en el universo DC.",
@@ -73,7 +73,7 @@ notifications.push({
 });
 
 notifications.push({
-  href: "peliculas/toy-story-5.html",
+  href: "Disney/toy-story-5.html",
   img: "https://image.tmdb.org/t/p/original/lRCpJxk94s6FdSlTstLk0rVoCDR.jpg",
   title: "🤠 Nueva aventura agregada",
   text: "Toy Story 5 ya está disponible. Woody, Buzz y sus amigos vuelven para una nueva aventura llena de emoción.",
