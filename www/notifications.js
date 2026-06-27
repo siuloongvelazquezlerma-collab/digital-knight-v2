@@ -49,10 +49,42 @@ function addNotification() {
   notifications = [];
 
   notifications.push({
-  href: "peliculas/scary-movie-3.html",
-  img: "https://image.tmdb.org/t/p/original/psOEFCvuz6JOc1ZzZNml9bDHh2v.jpg",
-  title: "Nueva comedia agregada",
-  text: "Scary Movie 3 ya está disponible. Prepárate para risas, parodias y caos total en la app.",
+  href: "peliculas/supergirl.html",
+  img: "https://image.tmdb.org/t/p/original/xOZPlGZfzwCgYEPevFK75SO957a.jpg",
+  title: "🦸 Nueva película agregada",
+  text: "Supergirl (2026) ya está disponible. Descubre el inicio de una nueva heroína en el universo DC.",
+  seen: false
+});
+
+notifications.push({
+  href: "peliculas/scary-movie-terrorificamente-incorrecta.html",
+  img: "https://image.tmdb.org/t/p/original/9yhPMVzUXbKfMuW2Z8FDNeECDSh.jpg",
+  title: "😂 Nueva comedia agregada",
+  text: "Scary Movie: Terroríficamente incorrecta ya está disponible. Prepárate para una nueva ronda de parodias y humor absurdo.",
+  seen: false
+});
+
+notifications.push({
+  href: "peliculas/el-diablo-viste-a-la-moda-2.html",
+  img: "https://image.tmdb.org/t/p/original/eBoGygGVWGBAENHILW33PFca4TT.jpg",
+  title: "👠 Nuevo estreno agregado",
+  text: "El diablo viste a la moda 2 ya llegó a Digital Knight. Miranda Priestly regresa con más estilo y exigencia que nunca.",
+  seen: false
+});
+
+notifications.push({
+  href: "peliculas/toy-story-5.html",
+  img: "https://image.tmdb.org/t/p/original/lRCpJxk94s6FdSlTstLk0rVoCDR.jpg",
+  title: "🤠 Nueva aventura agregada",
+  text: "Toy Story 5 ya está disponible. Woody, Buzz y sus amigos vuelven para una nueva aventura llena de emoción.",
+  seen: false
+});
+
+notifications.push({
+  href: "peliculas/amos-del-universo.html",
+  img: "https://image.tmdb.org/t/p/original/pJYtvmKMXZVm2gz1DdgKuWTPF5r.jpg",
+  title: "⚔️ Nueva película agregada",
+  text: "Amos del Universo (2026) ya está disponible. He-Man regresa para enfrentar una nueva batalla por Eternia.",
   seen: false
 });
 

@@ -117,7 +117,7 @@
 
 
 .cover-content img.logo {
-    width: 250px;
+    width: 150px;
     margin-bottom: 10px;
   }
 
@@ -136,8 +136,8 @@
     
   
     .cover-content img.logo {
-      margin-top:500px;
-      width: 360px;
+      margin-top:300px;
+      width: 260px;
       margin-bottom: -10px;
     }
   
@@ -288,7 +288,7 @@
          <!-- Info oculta para localStorage -->
           <!-- Info oculta para localStorage -->
           <div id="favoritoData" style="display: none;">
-            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/xWBiXclrRmTggQHMRsIn84YHavs.jpg" alt="Poster de la Película">
+            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/9yhPMVzUXbKfMuW2Z8FDNeECDSh.jpg" alt="Poster de la Película">
             <a id="favoritoEnlace" href="scary-movie-terrorificamente-incorrecta.html"></a>
             <span id="nombre">Scary Movie: Terroríficamente incorrecta</span>
           </div>
@@ -300,7 +300,7 @@
           </div>
       
           <!-- Botón de Descargar -->
-          <div class="action-item download-action" onclick="descargarPelicula('tu video.mp4')">
+          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzAxNDU2NTBf/Scary%20movie%206.mp4')">
             <i class="material-icons">arrow_downward</i>
             <span class="underline"></span>
             Descargar
@@ -326,32 +326,37 @@
     <div class="sugerencias-grid">
     
       
-        <a href="scary-movie-una-pelicula-de-miedo.html" class="sugerencia-item">
+         <a href="scary-movie-una-pelicula-de-miedo.html" class="sugerencia-item">
     <img src="https://image.tmdb.org/t/p/w300/kfAiQqJGnfbQj52Bna7Ohlu04y3.jpg" alt="Scary Movie: Una película de miedo">
     <p class="sugerencia-titulo">Scary Movie: Una película de miedo</p>
     <p class="sugerencia-sub">Dob | Lat</p>
   </a>
 
       
-        <a href="scary-movie-2-otra-pelicula-de-miedo.html" class="sugerencia-item">
+       <a href="scary-movie-2-otra-pelicula-de-miedo.html" class="sugerencia-item">
     <img src="https://image.tmdb.org/t/p/w300/90G7YLxKXbEdfcRvlOSRBwbTLS6.jpg" alt="Scary Movie 2: Otra película de miedo">
     <p class="sugerencia-titulo">Scary Movie 2: Otra película de miedo</p>
     <p class="sugerencia-sub">Dob | Lat</p>
   </a>
 
-      
-        <a href="scary-movie-3.html" class="sugerencia-item">
-    <img src="https://image.tmdb.org/t/p/w300/7tMsPb5yEwmb4eHbXRAD6mURE5B.jpg" alt="Scary Movie 3">
+  <a href="scary-movie-3.html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/original/lpNG1nx67rvYze1b1R9q0YoSzrC.jpg" alt="Scary Movie 3">
     <p class="sugerencia-titulo">Scary Movie 3</p>
     <p class="sugerencia-sub">Dob | Lat</p>
   </a>
 
       
-        <a href="el-sentido-de-la-vida.html" class="sugerencia-item">
-    <img src="https://image.tmdb.org/t/p/w300/tlM66Ms9pCo89W3TzEPk6mKloAj.jpg" alt="El sentido de la vida">
-    <p class="sugerencia-titulo">El sentido de la vida</p>
+       <a href="Norbit (2007).html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/original/XcZ5NzygPp54csxCnzvQKuxFL2.jpg" alt="Norbit (2007)">
+    <p class="sugerencia-titulo">Norbit (2007)</p>
     <p class="sugerencia-sub">Dob | Lat</p>
   </a>
+  
+  <a href="kung fusion.html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/original/brlCmvkPyg7rivSBeD4U1p5a0pP.jpg" alt="kung fusion">
+    <p class="sugerencia-titulo">kung fusion</p>
+    <p class="sugerencia-sub">Dob | Lat</p>
+  </a> 
   </div>
 </div>
 </div>
@@ -531,8 +536,8 @@ const thumb = document.getElementById('thumb'); // si existe
   const overlayBg = document.getElementById("overlay");
 
   const videos = {
-    latino: "tu video.mp4",
-    ingles: "tu video.mp4"
+    latino: "https://od.lk/s/M18zMzAxMzA5Mzhf/5C4R1M0V136%20%281%29.mkv",
+    ingles: "https://od.lk/s/M18zMzAxMzA5Mzhf/5C4R1M0V136%20%281%29.mkv"
   };
 
   let currentLang = "latino";       // idioma que está reproduciéndose
@@ -637,6 +642,7 @@ const thumb = document.getElementById('thumb'); // si existe
 
 })();
 */
+
 
 
 // ------------------------
@@ -1715,55 +1721,7 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
-function obtenerNombrePelicula() {
-  const nombre = document.querySelector("#favoritoData #nombre");
-  if (!nombre) return "Pelicula";
-  return nombre.textContent.trim().replace(/[<>:"/\\|?*]+/g, "");
-}
 
-
-async function descargarPeliculaSeguro(url) {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-
-    const blobUrl = URL.createObjectURL(blob);
-
-    const enlace = document.createElement("a");
-    const nombre = obtenerNombrePelicula() + ".mp4";
-
-    enlace.href = blobUrl;
-    enlace.download = nombre;
-    enlace.style.display = "none";
-    document.body.appendChild(enlace);
-    enlace.click();
-    enlace.remove();
-
-    // 🖼 Mostrar tu logo en notificación de descarga (SOLO Chrome/Android)
-    mostrarNotificacionDescarga(nombre);
-
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
-
-  } catch (err) {
-    console.error("Error descarga:", err);
-    alert("No se pudo descargar la película 🥹");
-  }
-}
-
-function mostrarNotificacionDescarga(titulo) {
-  if (!("Notification" in window)) return;
-  if (Notification.permission !== "granted") return;
-
-  new Notification("Descargando…", {
-    body: titulo,
-    icon: "../logo-2025.png"  // ⭐ tu logo aquí
-  });
-}
-
-document.getElementById("descargarPelicula").addEventListener("click", () => {
-  const src = getCurrentSource(); // tu función actual
-  if (src) descargarPeliculaSeguro(src);
-});
 
 function descargarPelicula(url) {
 
@@ -1784,10 +1742,13 @@ if (typeof Android !== "undefined") {
 
 </script>
 
+<script src="../pip.js"></script>
 <script src="../share.js"></script>
 <script type="module" src="../player-peliculas-module.js"></script>
 <script src="../wakelock.js"></script>
 
+
+</script>
 
 </body>
 </html>
