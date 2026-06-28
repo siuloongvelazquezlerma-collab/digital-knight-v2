@@ -4,30 +4,42 @@
   <title>Digital Knight Admin</title>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f14;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      background-color: #01011d;
+      font-family: 'Roboto', sans-serif;
       color: white;
+      min-height: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    body {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
       padding: 40px;
     }
 
     h2 {
+      text-align: center;
+      margin-bottom: 25px;
       color: #7c5cff;
-      margin-bottom: 20px;
+      font-size: 22px;
     }
 
     .card {
-      background: #1a1a25;
-      padding: 20px;
-      border-radius: 15px;
+      background: rgba(26, 26, 37, 0.95);
+      padding: 25px;
+      border-radius: 18px;
       width: 100%;
-      max-width: 550px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      display: flex;
-      flex-direction: column;
+      max-width: 600px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
     }
 
     input, textarea {
@@ -39,45 +51,62 @@
       outline: none;
       background: #1c1c28;
       color: white;
+      font-size: 14px;
     }
 
     textarea {
-      height: 120px;
+      height: 100px;
       resize: none;
     }
 
     button {
+      width: 100%;
       background: #7c5cff;
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 12px;
       border-radius: 10px;
       cursor: pointer;
-      margin-top: 10px;
       font-weight: bold;
       transition: 0.2s;
+      margin-top: 10px;
     }
 
     button:hover {
       background: #9a7bff;
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
 
     .status {
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 12px;
+      font-size: 13px;
       opacity: 0.8;
+      text-align: center;
+    }
+
+    .section-title {
+      margin-top: 15px;
+      font-size: 12px;
+      opacity: 0.7;
     }
   </style>
 </head>
 
 <body>
 
-  <h2>📺 Digital Knight Admin Panel</h2>
-
   <div class="card">
-    <input id="title" placeholder="Título">
+
+    <h2>📺 Digital Knight Admin Panel</h2>
+
+    <div class="section-title">Contenido principal</div>
+    <input id="title" placeholder="Título (ej: Nuevo episodio)">
     <textarea id="body" placeholder="Mensaje"></textarea>
+
+    <div class="section-title">Imagen (poster / portada)</div>
+    <input id="image" placeholder="URL de imagen (ej: poster.jpg o link)">
+
+    <div class="section-title">Acción al tocar notificación</div>
+    <input id="action" placeholder="Ej: /movie/123 o /episode/5">
 
     <button onclick="send()">Enviar Notificación</button>
 
@@ -92,22 +121,31 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU"
     );
 
-    window.send = async function () {
+     window.send = async function () {
+
       const title = document.getElementById("title").value;
       const body = document.getElementById("body").value;
+      const image = document.getElementById("image").value;
+      const action = document.getElementById("action").value;
       const status = document.getElementById("status");
 
       if (!title || !body) {
-        status.innerText = "⚠️ Completa todos los campos";
+        status.innerText = "⚠️ Completa título y mensaje";
         return;
       }
 
       status.innerText = "⏳ Enviando...";
 
-      // 1. Guardar en Supabase
       const { error } = await supabase
         .from("notifications")
-        .insert([{ title, body }]);
+        .insert([
+          {
+            title,
+            body,
+            image,
+            action
+          }
+        ]);
 
       if (error) {
         console.log(error);
@@ -129,6 +167,8 @@
 
       document.getElementById("title").value = "";
       document.getElementById("body").value = "";
+      document.getElementById("image").value = "";
+      document.getElementById("action").value = "";
     }
   </script>
 
