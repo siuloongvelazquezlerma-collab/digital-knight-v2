@@ -102,18 +102,33 @@
         return;
       }
 
-      const { error } = await supabase.from("notifications").insert([
-        { title, body }
-      ]);
+      status.innerText = "⏳ Enviando...";
+
+      // 1. Guardar en Supabase
+      const { error } = await supabase
+        .from("notifications")
+        .insert([{ title, body }]);
 
       if (error) {
         console.log(error);
-        status.innerText = "❌ Error al guardar";
-      } else {
-        status.innerText = "✔ Guardado en Supabase";
-        document.getElementById("title").value = "";
-        document.getElementById("body").value = "";
+        status.innerText = "❌ Error al guardar en Supabase";
+        return;
       }
+
+      // 2. DISPARAR EDGE FUNCTION (ESTO ES LO NUEVO 🔥)
+      const { error: fnError } = await supabase.functions.invoke("quick-responder");
+
+      if (fnError) {
+        console.log(fnError);
+        status.innerText = "⚠️ Guardado pero error enviando push";
+        return;
+      }
+
+      // 3. OK
+      status.innerText = "✔ Notificación enviada + Push enviado 📱";
+
+      document.getElementById("title").value = "";
+      document.getElementById("body").value = "";
     }
   </script>
 
