@@ -4,80 +4,136 @@
   <title>Digital Knight Admin</title>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f14;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
+      background: #000;
       color: white;
+    }
+
+    /* 🎬 FONDO CINEMÁTICO */
+    body {
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
       padding: 40px;
+      position: relative;
+      background: url("https://copilot.microsoft.com/th/id/BCO.1819160d-a9d8-4c56-8397-6f6316199800.png") no-repeat center center/cover;
+    }
+
+    /* 🌑 OVERLAY */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.95),
+        rgba(0,0,0,0.7),
+        rgba(0,0,0,0.4)
+      );
+      z-index: 0;
+    }
+
+    /* 🧊 CARD GLASS */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 600px;
+      padding: 28px;
+      border-radius: 18px;
+
+      background: rgba(20, 20, 35, 0.65);
+      backdrop-filter: blur(18px);
+
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      border: 1px solid rgba(124, 92, 255, 0.2);
     }
 
     h2 {
-      color: #7c5cff;
+      text-align: center;
       margin-bottom: 20px;
+      color: #b7a6ff;
+      font-size: 22px;
+      letter-spacing: 1px;
     }
 
-    .card {
-      background: #1a1a25;
-      padding: 20px;
-      border-radius: 15px;
-      width: 100%;
-      max-width: 550px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      display: flex;
-      flex-direction: column;
+    .section-title {
+      margin-top: 12px;
+      font-size: 11px;
+      opacity: 0.7;
+      letter-spacing: 1px;
     }
 
     input, textarea {
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
+      margin-top: 8px;
       border-radius: 10px;
-      border: none;
+      border: 1px solid rgba(255,255,255,0.08);
       outline: none;
-      background: #1c1c28;
+      background: rgba(10,10,20,0.8);
       color: white;
+      font-size: 14px;
     }
 
     textarea {
-      height: 120px;
+      height: 100px;
       resize: none;
     }
 
     button {
-      background: #7c5cff;
-      color: white;
-      border: none;
-      padding: 12px 20px;
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
       border-radius: 10px;
+      border: none;
       cursor: pointer;
-      margin-top: 10px;
+
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: white;
       font-weight: bold;
-      transition: 0.2s;
+
+      transition: 0.2s ease;
     }
 
     button:hover {
-      background: #9a7bff;
-      transform: scale(1.05);
+      transform: scale(1.03);
+      filter: brightness(1.1);
     }
 
     .status {
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 12px;
+      font-size: 13px;
       opacity: 0.8;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
 
-  <h2>📺 Digital Knight Admin Panel</h2>
-
   <div class="card">
-    <input id="title" placeholder="Título">
+
+    <h2>📺 Digital Knight Admin Panel</h2>
+
+    <div class="section-title">Contenido principal</div>
+    <input id="title" placeholder="Título (ej: Nuevo episodio)">
     <textarea id="body" placeholder="Mensaje"></textarea>
+
+    <div class="section-title">Imagen (poster / portada)</div>
+    <input id="image" placeholder="URL de imagen">
+
+    <div class="section-title">Acción al tocar notificación</div>
+    <input id="action" placeholder="/movie/123 o /episode/5">
 
     <button onclick="send()">Enviar Notificación</button>
 
@@ -93,29 +149,30 @@
     );
 
     window.send = async function () {
+
       const title = document.getElementById("title").value;
       const body = document.getElementById("body").value;
+      const image = document.getElementById("image").value;
+      const action = document.getElementById("action").value;
       const status = document.getElementById("status");
 
       if (!title || !body) {
-        status.innerText = "⚠️ Completa todos los campos";
+        status.innerText = "⚠️ Completa título y mensaje";
         return;
       }
 
       status.innerText = "⏳ Enviando...";
 
-      // 1. Guardar en Supabase
       const { error } = await supabase
         .from("notifications")
-        .insert([{ title, body }]);
+        .insert([{ title, body, image, action }]);
 
       if (error) {
         console.log(error);
-        status.innerText = "❌ Error al guardar en Supabase";
+        status.innerText = "❌ Error al guardar";
         return;
       }
 
-      // 2. DISPARAR EDGE FUNCTION (ESTO ES LO NUEVO 🔥)
       const { error: fnError } = await supabase.functions.invoke("quick-responder");
 
       if (fnError) {
@@ -124,11 +181,12 @@
         return;
       }
 
-      // 3. OK
-      status.innerText = "✔ Notificación enviada + Push enviado 📱";
+      status.innerText = "✔ Notificación enviada 📱";
 
       document.getElementById("title").value = "";
       document.getElementById("body").value = "";
+      document.getElementById("image").value = "";
+      document.getElementById("action").value = "";
     }
   </script>
 
