@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Digital Knight Admin</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f14;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h2 {
+      color: #7c5cff;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #1a1a25;
+      padding: 20px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 550px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: #1c1c28;
+      color: white;
+    }
+
+    textarea {
+      height: 120px;
+      resize: none;
+    }
+
+    button {
+      background: #7c5cff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #9a7bff;
+      transform: scale(1.05);
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>📺 Digital Knight Admin Panel</h2>
+
+  <div class="card">
+    <input id="title" placeholder="Título">
+    <textarea id="body" placeholder="Mensaje"></textarea>
+
+    <button onclick="send()">Enviar Notificación</button>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const supabase = createClient(
+      "https://wplyrhcszuoordgaphax.supabase.co",
+      "TU_ANON_KEY"
+    );
+
+    window.send = async function () {
+      const title = document.getElementById("title").value;
+      const body = document.getElementById("body").value;
+      const status = document.getElementById("status");
+
+      if (!title || !body) {
+        status.innerText = "⚠️ Completa todos los campos";
+        return;
+      }
+
+      const { error } = await supabase.from("notifications").insert([
+        { title, body }
+      ]);
+
+      if (error) {
+        console.log(error);
+        status.innerText = "❌ Error al guardar";
+      } else {
+        status.innerText = "✔ Guardado en Supabase";
+        document.getElementById("title").value = "";
+        document.getElementById("body").value = "";
+      }
+    }
+  </script>
+
+</body>
+</html>
