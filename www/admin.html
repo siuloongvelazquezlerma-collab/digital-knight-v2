@@ -10,77 +10,46 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
+    body, html {
+      background-color: #01011d;
       font-family: 'Roboto', sans-serif;
-      overflow-x: hidden;
-      background: #000;
       color: white;
+      min-height: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
     }
 
-    /* 🎬 FONDO CINEMÁTICO */
     body {
       display: flex;
       justify-content: center;
-      align-items: center;
       padding: 40px;
-      position: relative;
-      background: url("https://copilot.microsoft.com/th/id/BCO.1819160d-a9d8-4c56-8397-6f6316199800.png") no-repeat center center/cover;
-    }
-
-    /* 🌑 OVERLAY */
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.95),
-        rgba(0,0,0,0.7),
-        rgba(0,0,0,0.4)
-      );
-      z-index: 0;
-    }
-
-    /* 🧊 CARD GLASS */
-    .card {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 600px;
-      padding: 28px;
-      border-radius: 18px;
-
-      background: rgba(20, 20, 35, 0.65);
-      backdrop-filter: blur(18px);
-
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-      border: 1px solid rgba(124, 92, 255, 0.2);
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
-      color: #b7a6ff;
+      margin-bottom: 25px;
+      color: #7c5cff;
       font-size: 22px;
-      letter-spacing: 1px;
     }
 
-    .section-title {
-      margin-top: 12px;
-      font-size: 11px;
-      opacity: 0.7;
-      letter-spacing: 1px;
+    .card {
+      background: rgba(26, 26, 37, 0.95);
+      padding: 25px;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
     }
 
     input, textarea {
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
+      margin: 10px 0;
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: none;
       outline: none;
-      background: rgba(10,10,20,0.8);
+      background: #1c1c28;
       color: white;
       font-size: 14px;
     }
@@ -92,22 +61,20 @@
 
     button {
       width: 100%;
-      margin-top: 15px;
+      background: #7c5cff;
+      color: white;
+      border: none;
       padding: 12px;
       border-radius: 10px;
-      border: none;
       cursor: pointer;
-
-      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-      color: white;
       font-weight: bold;
-
-      transition: 0.2s ease;
+      transition: 0.2s;
+      margin-top: 10px;
     }
 
     button:hover {
-      transform: scale(1.03);
-      filter: brightness(1.1);
+      background: #9a7bff;
+      transform: scale(1.02);
     }
 
     .status {
@@ -115,6 +82,12 @@
       font-size: 13px;
       opacity: 0.8;
       text-align: center;
+    }
+
+    .section-title {
+      margin-top: 15px;
+      font-size: 12px;
+      opacity: 0.7;
     }
   </style>
 </head>
@@ -130,10 +103,10 @@
     <textarea id="body" placeholder="Mensaje"></textarea>
 
     <div class="section-title">Imagen (poster / portada)</div>
-    <input id="image" placeholder="URL de imagen">
+    <input id="image" placeholder="URL de imagen (ej: poster.jpg o link)">
 
     <div class="section-title">Acción al tocar notificación</div>
-    <input id="action" placeholder="/movie/123 o /episode/5">
+    <input id="action" placeholder="Ej: /movie/123 o /episode/5">
 
     <button onclick="send()">Enviar Notificación</button>
 
@@ -145,7 +118,7 @@
 
     const supabase = createClient(
       "https://wplyrhcszuoordgaphax.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU"
+      "TU_ANON_KEY"
     );
 
     window.send = async function () {
@@ -165,7 +138,14 @@
 
       const { error } = await supabase
         .from("notifications")
-        .insert([{ title, body, image, action }]);
+        .insert([
+          {
+            title,
+            body,
+            image,
+            action
+          }
+        ]);
 
       if (error) {
         console.log(error);
