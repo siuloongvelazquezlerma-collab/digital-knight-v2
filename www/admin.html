@@ -121,56 +121,65 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU"
     );
 
-     window.send = async function () {
+      let sending = false;
 
-      const title = document.getElementById("title").value;
-      const body = document.getElementById("body").value;
-      const image = document.getElementById("image").value;
-      const action = document.getElementById("action").value;
-      const status = document.getElementById("status");
+  window.send = async function () {
 
-      if (!title || !body) {
-        status.innerText = "⚠️ Completa título y mensaje";
-        return;
-      }
+    if (sending) return;
 
-      status.innerText = "⏳ Enviando...";
+    const title = document.getElementById("title").value.trim();
+    const body = document.getElementById("body").value.trim();
+    const image = document.getElementById("image").value.trim();
+    const action = document.getElementById("action").value.trim();
+    const status = document.getElementById("status");
 
+    if (!title || !body) {
+      status.innerText = "⚠️ Completa título y mensaje";
+      return;
+    }
+
+    sending = true;
+    status.innerText = "⏳ Enviando...";
+
+    try {
       const { error } = await supabase
         .from("notifications")
         .insert([
-          {
-            title,
-            body,
-            image,
-            action
-          }
+          { title, body, image, action }
         ]);
 
       if (error) {
         console.log(error);
         status.innerText = "❌ Error al guardar en Supabase";
+        sending = false;
         return;
       }
 
-      // 2. DISPARAR EDGE FUNCTION (ESTO ES LO NUEVO 🔥)
-      const { error: fnError } = await supabase.functions.invoke("quick-responder");
+      const { error: fnError } =
+        await supabase.functions.invoke("quick-responder");
 
       if (fnError) {
         console.log(fnError);
         status.innerText = "⚠️ Guardado pero error enviando push";
+        sending = false;
         return;
       }
 
-      // 3. OK
-      status.innerText = "✔ Notificación enviada + Push enviado 📱";
+      status.innerText = "✔ Notificación enviada 📱";
 
       document.getElementById("title").value = "";
       document.getElementById("body").value = "";
       document.getElementById("image").value = "";
       document.getElementById("action").value = "";
+
+    } catch (e) {
+      console.log(e);
+      status.innerText = "❌ Error inesperado";
     }
-  </script>
+
+    sending = false;
+  }
+</script>
 
 </body>
 </html>
