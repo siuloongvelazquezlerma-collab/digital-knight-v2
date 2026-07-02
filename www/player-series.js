@@ -548,7 +548,7 @@ document.getElementById("seasonSelect").addEventListener("click", () => {
 populateSeasons();
 renderEpisodes();
 
-import { saveSeriesProgress } from './sync-supabase.js';
+
 
 async function loadMostRecentProgress(seriesId) {
   try {
