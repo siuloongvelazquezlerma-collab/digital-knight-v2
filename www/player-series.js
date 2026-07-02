@@ -1,4 +1,4 @@
-import { saveSeriesProgress } from './sync-supabase.js';
+
 
 // Prevenir gestos táctiles no deseados
 document.addEventListener('touchmove', function (event) {
@@ -549,6 +549,8 @@ document.getElementById("seasonSelect").addEventListener("click", () => {
 // Inicializar
 populateSeasons();
 renderEpisodes();
+
+import { saveSeriesProgress } from './sync-supabase.js';
 
 async function loadMostRecentProgress(seriesId) {
   try {
