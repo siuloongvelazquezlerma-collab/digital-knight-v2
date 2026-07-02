@@ -1,26 +1,5 @@
 
 
-// Prevenir gestos táctiles no deseados
-document.addEventListener('touchmove', function (event) {
-  if (event.touches.length > 1) {
-      event.preventDefault();
-  }
-}, { passive: false });
-
-window.addEventListener('load', function () {
-const overlay = document.querySelector('.overlay-loader-page');
-const loader = document.getElementById('loader');
-
-// Se mantiene el loader visible por 1 segundo
-setTimeout(() => {
-loader.style.opacity = '0'; // Corrige esto: '2' no tiene efecto visual
-setTimeout(() => {
-loader.style.display = 'none';
-overlay.classList.add('hidden');
-}, 300);
-}, 1000);
-});
-
 // 🛡️ Respaldo por si 'load' nunca se dispara
 setTimeout(() => {
 const overlay = document.querySelector('.overlay-loader-page');
