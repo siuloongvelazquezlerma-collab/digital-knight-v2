@@ -548,6 +548,8 @@ document.getElementById("seasonSelect").addEventListener("click", () => {
 populateSeasons();
 renderEpisodes();
 
+import { saveSeriesProgress } from './sync-supabase.js';
+
 async function loadMostRecentProgress(seriesId) {
   try {
     const { data: { session } } = await supabase.auth.getSession();
@@ -623,47 +625,31 @@ async function saveProgress(videoUrl, currentTime) {
   }
 
   // ✅ Sincronizar con tabla progresos
-  try {
-    await supabase
-      .from('progresos')
-      .upsert({
-        id: session.user.id,
-        series_id: seriesId,
-        ultimo_visto: {
-          seriesId,
-          videoUrl,
-          progress: currentTime || 0,
-          duration,
-          episodeTitle: episodeCode,
-          poster: thumbnail,
-          link: seriesLink,
-          season_index: indexes?.seasonIndex ?? 0,
-          episode_index: indexes?.episodeIndex ?? 0
-        }
-      }, { onConflict: ['id', 'series_id'] });
-    console.log('✅ Progreso actualizado en Supabase (upsert)');
-
-    // Actualizar episodios
-    await supabase
-      .from('progresos')
-      .update({
-        episodios: {
-          [videoUrl]: {
-            progress: currentTime || 0,
-            duration,
-            episodeTitle: episodeCode,
-            poster: thumbnail,
-            season_index: indexes?.seasonIndex ?? 0,
-            episode_index: indexes?.episodeIndex ?? 0,
-            updatedAt: new Date().toISOString()
-          }
-        }
-      })
-      .eq('id', session.user.id)
-      .eq('series_id', seriesId);
-  } catch (error) {
-    console.error('❌ Error sincronizando con Supabase:', error);
+  await saveSeriesProgress({
+  seriesId,
+  ultimoVisto: {
+    seriesId,
+    videoUrl,
+    progress: currentTime || 0,
+    duration,
+    episodeTitle: episodeCode,
+    poster: thumbnail,
+    link: seriesLink,
+    season_index: indexes?.seasonIndex ?? 0,
+    episode_index: indexes?.episodeIndex ?? 0
+  },
+  episodios: {
+    [videoUrl]: {
+      progress: currentTime || 0,
+      duration,
+      episodeTitle: episodeCode,
+      poster: thumbnail,
+      season_index: indexes?.seasonIndex ?? 0,
+      episode_index: indexes?.episodeIndex ?? 0,
+      updatedAt: new Date().toISOString()
+    }
   }
+});
 
   localStorage.setItem('justReturnedFromSeries', 'true');
   updateResumeButton();
@@ -700,12 +686,37 @@ function findEpisodeIndexes(videoUrl) {
 
 
 
-function loadProgress(videoUrl) {
+async function loadProgress(videoUrl) {
   const key = `progress-${seriesId}`;
-  const data = JSON.parse(localStorage.getItem(key)) || {};
-  const value = data[videoUrl];
-  if (value === -1) return 0; // Si está marcado como terminado, empieza de nuevo
-  return value || 0;
+  const localData = JSON.parse(localStorage.getItem(key)) || {};
+  const localValue = localData[videoUrl];
+
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session?.user) {
+      const { data, error } = await supabase
+        .from('progresos')
+        .select('ultimo_visto')
+        .eq('id', session.user.id)
+        .eq('series_id', seriesId)
+        .single();
+
+      if (!error && data?.ultimo_visto) {
+        const remoteProgress = data.ultimo_visto;
+
+        if (remoteProgress.videoUrl === videoUrl) {
+          return remoteProgress.progress || 0;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Supabase fallback a local:', e);
+  }
+
+  // fallback local (SIEMPRE)
+  if (localValue === -1) return 0;
+  return localValue || 0;
 }
 
 
@@ -739,11 +750,16 @@ function lockOrientationLandscape() {
 }
 
 
-
+if (syncInterval) {
+  clearInterval(syncInterval);
+  syncInterval = null;
+}
 
 
 // ▶ Reproducir episodio
-function playEpisode(videoUrl) {
+async function playEpisode(videoUrl) {
+
+  let syncInterval = null;
 
   localStorage.setItem(`last-episode-${seriesId}`, videoUrl);
 
@@ -760,7 +776,7 @@ function playEpisode(videoUrl) {
     AndroidMedia.setPlaying(true);
   }
 
-  const progress = loadProgress(videoUrl);
+  const progress = await loadProgress(videoUrl);
 
   function setTimeOnce() {
 
@@ -781,6 +797,40 @@ function playEpisode(videoUrl) {
 
   video.on("loadedmetadata", setTimeOnce);
 }
+
+// 🔄 sincronización en tiempo real cada 10s
+if (syncInterval) clearInterval(syncInterval);
+
+syncInterval = setInterval(async () => {
+  const currentTime = video.currentTime();
+  const duration = video.duration() || 1;
+
+  const episodeData = findEpisodeData(videoUrl);
+  const indexes = findEpisodeIndexes(videoUrl);
+
+  if (!episodeData) return;
+
+  const continueData = {
+    seriesId,
+    episodeTitle: episodeData.episodeCode,
+    poster: episodeData.thumbnail,
+    progress: currentTime,
+    duration,
+    videoUrl,
+    season_index: indexes?.seasonIndex ?? 0,
+    episode_index: indexes?.episodeIndex ?? 0,
+    updatedAt: new Date().toISOString()
+  };
+
+  await saveSeriesProgress({
+    seriesId,
+    ultimoVisto: continueData,
+    episodios: {
+      [videoUrl]: continueData
+    }
+  });
+
+}, 10000); // cada 10 segundos
 
 
 // ▶ Actualizar información del episodio
@@ -1000,54 +1050,38 @@ video.on('ended', () => {
       updateResumeButton?.();
 
       // 🔄 Sincronizar Supabase
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          await supabase
-            .from('progresos')
-            .upsert({
-              id: session.user.id,
-              series_id: seriesId,
-              ultimo_visto: continueData
-            }, { onConflict: ['id', 'series_id'] });
-
-          await supabase
-            .from('progresos')
-            .update({
-              episodios: {
-                [nextUrl]: {
-                  progress: 0,
-                  duration,
-                  episodeTitle: episodeData.episodeCode,
-                  poster: episodeData.thumbnail,
-                  season_index: indexes?.seasonIndex ?? 0,
-                  episode_index: indexes?.episodeIndex ?? 0,
-                  updatedAt: new Date().toISOString()
-                }
-              }
-            })
-            .eq('id', session.user.id)
-            .eq('series_id', seriesId);
-
-          console.log('✅ Progreso sincronizado correctamente');
-        }
-      } catch (err) {
-        console.error('❌ Error sincronizando con Supabase:', err);
-      }
-    });
-
-  } else {
-
-    // 🧹 No hay más episodios
-    localStorage.removeItem(`continue_${seriesId}`);
-  
-    // 🔥 Eliminar notificación
-    if (window.AndroidMedia) {
-      AndroidMedia.stopNotification();
+    // 🔄 Sincronizar Supabase
+await saveSeriesProgress({
+  seriesId,
+  ultimoVisto: continueData,
+  episodios: {
+    [nextUrl]: {
+      progress: 0,
+      duration,
+      episodeTitle: episodeData.episodeCode,
+      poster: episodeData.thumbnail,
+      season_index: indexes?.seasonIndex ?? 0,
+      episode_index: indexes?.episodeIndex ?? 0,
+      updatedAt: new Date().toISOString()
     }
-  
-    goBack();
   }
+});
+
+console.log('✅ Progreso sincronizado correctamente');
+});
+
+// 🧹 No hay más episodios
+} else {
+
+  localStorage.removeItem(`continue_${seriesId}`);
+
+  // 🔥 Eliminar notificación
+  if (window.AndroidMedia) {
+    AndroidMedia.stopNotification();
+  }
+
+  goBack();
+}
 });
 
 
@@ -1947,5 +1981,4 @@ document.body.style.width = '';
 window.seriesName = document.getElementById("nombre")?.innerText.trim() || "Serie";
 
 console.log("Serie detectada:", window.seriesName);
-
 
