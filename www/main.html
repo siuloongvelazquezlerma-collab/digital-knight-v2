@@ -4082,95 +4082,81 @@
 
     
   
-  <script type="module">
+  <<script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  import {
-    loadProfileInfo,
-    loadData,
-    syncEverything,
-    getContinueWatching
-  } from './js/sync-supabase.js';
+  import { loadProfileInfo, loadData, syncEverything } from './js/sync-supabase.js';
 
   const supabase = createClient(
     'https://wplyrhcszuoordgaphax.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+    'TU_ANON_KEY'
   );
 
   window.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabase.auth.getSession();
 
-    if (!session) return;
+    if (!session) {
+      console.warn('⚠️ No hay sesión activa aún');
+      return;
+    }
 
     try {
-      await loadData();
-      await loadProfileInfo();
-      await syncEverything();
+      await loadData();        // localStorage ← Supabase
+      await loadProfileInfo(); // perfil
+      await syncEverything();   // sync general
 
-      await cargarContinuarViendo();
+      // ❌ ELIMINADO: cargarContinuarViendo()
+      // 👉 ya NO usamos doble sistema
 
     } catch (err) {
-      console.error(err);
+      console.error('❌ Error cargando datos:', err);
     }
   });
 
   // ===============================
-  // 📺 CONTINUAR VIENDO (UNIFICADO)
+  // 📺 CONTINUAR VIENDO (SOLO SUPABASE)
   // ===============================
   async function cargarContinuarViendo() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+
+    const { user } = session;
+
+    const { data, error } = await supabase
+      .from('continuar_viendo')
+      .select('item_key, data, updated_at')
+      .eq('id', user.id)
+      .order('updated_at', { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error("❌ Error al cargar continuar viendo:", error);
+      return;
+    }
+
     const container = document.getElementById('continueWatchingContainer');
     if (!container) return;
 
-    const items = await getContinueWatching();
-
-    // 🎬 MOVIES (localStorage)
-    const movies = Object.keys(localStorage)
-      .filter(k => k.startsWith('movie_'))
-      .map(k => {
-        const data = JSON.parse(localStorage.getItem(k));
-
-        return {
-          ...data,
-          tipo: 'movie',
-          updatedAt: data.updatedAt || Date.now()
-        };
-      });
-
-    // 📺 SERIES (Supabase)
-    const series = items.map(item => ({
-      ...item,
-      updatedAt: item.updatedAt || Date.now()
-    }));
-
-    // 🔥 UNIR + ORDENAR
-    const all = [...series, ...movies]
-      .sort((a, b) => b.updatedAt - a.updatedAt);
-
-    // 🧼 RENDER
     container.innerHTML = '';
 
-    all.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'movie-item';
+    data.forEach(item => {
+      const itemData = item.data;
 
-      const percent = item.duration
-        ? Math.min((item.progress / item.duration) * 100, 100)
-        : 0;
+      if (itemData.tipo === 'series') {
+        renderSerieContinuarViendo(itemData, container);
+      }
 
-      div.innerHTML = `
-        <a href="${item.link}" class="continue-card">
-          <img src="${item.poster}" class="poster">
-          <div class="progress-bar" style="width:${percent}%"></div>
-        </a>
-        <div class="continue-info">
-          <div>${item.seriesTitle || item.title || 'Sin título'}</div>
-          <div>${item.episodeTitle || ''}</div>
-        </div>
-      `;
-
-      container.appendChild(div);
+      if (itemData.tipo === 'movie') {
+        renderPeliculaContinuarViendo(itemData, container);
+      }
     });
   }
+
+  // 👇 SOLO SI REALMENTE LA VAS A USAR DESPUÉS
+  // cargarContinuarViendo();
 </script>
+
+  
+
 
   
   
