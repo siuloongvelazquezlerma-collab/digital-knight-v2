@@ -106,3 +106,69 @@ export async function saveProfileToSupabase() {
     console.warn('⚠️ Error sincronizando perfil:', e);
   }
 }
+
+// ================================
+// 📺 Guardar progreso de series
+// ================================
+export async function saveSeriesProgress({
+  seriesId,
+  ultimoVisto,
+  episodios
+}) {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) return false;
+
+    const userId = session.user.id;
+
+    const { error } = await supabase
+      .from('progresos')
+      .upsert({
+        id: userId,
+        series_id: seriesId,
+        ultimo_visto: ultimoVisto,
+        episodios: episodios
+      }, {
+        onConflict: 'id,series_id'
+      });
+
+    if (error) {
+      console.error('❌ Error guardando progreso:', error);
+      return false;
+    }
+
+    console.log('✅ Progreso de serie sincronizado');
+
+    return true;
+
+  } catch (e) {
+    console.error('❌ Error sincronizando progreso:', e);
+    return false;
+  }
+}
+
+export async function getContinueWatching() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return [];
+
+  const { data, error } = await supabase
+    .from('progresos')
+    .select('series_id, ultimo_visto')
+    .eq('id', session.user.id);
+
+  if (error) {
+    console.error('❌ Error cargando continuar viendo:', error);
+    return [];
+  }
+
+  return data
+  .filter(item => item.ultimo_visto)
+  .map(item => ({
+    ...item.ultimo_visto,
+    seriesId: item.series_id,
+    tipo: 'series',
+    updatedAt: item.ultimo_visto.updatedAt || 0
+  }))
+  .sort((a, b) => b.updatedAt - a.updatedAt);
+}
