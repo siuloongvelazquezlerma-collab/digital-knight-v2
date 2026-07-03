@@ -1,5 +1,3 @@
-
-
 // Prevenir gestos táctiles no deseados
 document.addEventListener('touchmove', function (event) {
   if (event.touches.length > 1) {
@@ -625,6 +623,7 @@ async function saveProgress(videoUrl, currentTime) {
   }
 
   // ✅ Sincronizar con tabla progresos
+  // ✅ Sincronizar con tabla progresos
   await saveSeriesProgress({
   seriesId,
   ultimoVisto: {
@@ -1050,7 +1049,6 @@ video.on('ended', () => {
       updateResumeButton?.();
 
       // 🔄 Sincronizar Supabase
-    // 🔄 Sincronizar Supabase
 await saveSeriesProgress({
   seriesId,
   ultimoVisto: continueData,
@@ -1073,15 +1071,16 @@ console.log('✅ Progreso sincronizado correctamente');
 // 🧹 No hay más episodios
 } else {
 
-  localStorage.removeItem(`continue_${seriesId}`);
-
-  // 🔥 Eliminar notificación
-  if (window.AndroidMedia) {
-    AndroidMedia.stopNotification();
+    // 🧹 No hay más episodios
+    localStorage.removeItem(`continue_${seriesId}`);
+  
+    // 🔥 Eliminar notificación
+    if (window.AndroidMedia) {
+      AndroidMedia.stopNotification();
+    }
+  
+    goBack();
   }
-
-  goBack();
-}
 });
 
 
