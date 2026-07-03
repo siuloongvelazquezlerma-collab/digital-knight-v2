@@ -4082,77 +4082,80 @@
 
     
   
-  <<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  import { loadProfileInfo, loadData, syncEverything } from './js/sync-supabase.js';
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    import { loadProfileInfo, loadData, syncEverything } from './js/sync-supabase.js';
+  
+    const supabase = createClient(
+      'https://wplyrhcszuoordgaphax.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+    );
+  
+    window.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await supabase.auth.getSession();
 
-  const supabase = createClient(
-    'https://wplyrhcszuoordgaphax.supabase.co',
-    'TU_ANON_KEY'
-  );
-
-  window.addEventListener('DOMContentLoaded', async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (!session) {
-      console.warn('⚠️ No hay sesión activa aún');
-      return;
-    }
-
-    try {
-      await loadData();        // localStorage ← Supabase
-      await loadProfileInfo(); // perfil
-      await syncEverything();   // sync general
-
-      // ❌ ELIMINADO: cargarContinuarViendo()
-      // 👉 ya NO usamos doble sistema
-
-    } catch (err) {
-      console.error('❌ Error cargando datos:', err);
-    }
-  });
-
-  // ===============================
-  // 📺 CONTINUAR VIENDO (SOLO SUPABASE)
-  // ===============================
-  async function cargarContinuarViendo() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
-
-    const { user } = session;
-
-    const { data, error } = await supabase
-      .from('continuar_viendo')
-      .select('item_key, data, updated_at')
-      .eq('id', user.id)
-      .order('updated_at', { ascending: false })
-      .limit(10);
-
-    if (error) {
-      console.error("❌ Error al cargar continuar viendo:", error);
-      return;
-    }
-
-    const container = document.getElementById('continueWatchingContainer');
-    if (!container) return;
-
-    container.innerHTML = '';
-
-    data.forEach(item => {
-      const itemData = item.data;
-
-      if (itemData.tipo === 'series') {
-        renderSerieContinuarViendo(itemData, container);
-      }
-
-      if (itemData.tipo === 'movie') {
-        renderPeliculaContinuarViendo(itemData, container);
-      }
-    });
+  if (!session) {
+    console.warn('⚠️ No hay sesión activa aún');
+    return;
   }
 
-  // 👇 SOLO SI REALMENTE LA VAS A USAR DESPUÉS
-  // cargarContinuarViendo();
+  try {
+    await loadData();                   // ⬇️ Supabase ➡️ localStorage (primero)
+    await loadProfileInfo();            // 👤 Avatar y nombre
+    await syncEverything();             // ⬆️ local ➡️ Supabase (después)
+    await cargarContinuarViendo();      // 📺 Sección visual
+  } catch (err) {
+    console.error('❌ Error cargando datos:', err);
+  }
+});
+
+  
+    async function cargarContinuarViendo() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return console.warn('❌ No hay sesión');
+  
+      const { user } = session;
+  
+      const { data, error } = await supabase
+        .from('continuar_viendo')
+        .select('item_key, data, updated_at')
+        .eq('id', user.id)
+        .order('updated_at', { ascending: false })
+        .limit(10);
+  
+      if (error) {
+        console.error("❌ Error al cargar continuar viendo:", error);
+        return;
+      }
+  
+      const container = document.getElementById('continueWatchingContainer');
+      if (!container) {
+        console.warn('⚠️ No se encontró el contenedor #continueWatchingContainer');
+        return;
+      }
+  
+      container.innerHTML = '';
+  
+      data.forEach(item => {
+        const itemData = item.data;
+        if (itemData.tipo === 'series') {
+          renderSerieContinuarViendo(itemData, container);
+        } else if (itemData.tipo === 'movie') {
+          renderPeliculaContinuarViendo(itemData, container);
+        }
+      });
+    }
+  </script>
+  
+  <script type="module">
+  import { loadProfileInfo } from './js/sync-supabase.js';
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    await loadProfileInfo(); // Esto carga avatar y nombre
+  });
+
+ 
+
 </script>
 
   
