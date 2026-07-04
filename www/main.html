@@ -31,7 +31,7 @@
     <title>Digital Knight</title>
     <script src="loader.min.js"></script>
     <link rel="manifest" href="manifest.json">
-    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  
 
 
     <!-- Swiper CSS -->
@@ -4085,6 +4085,11 @@
     
   
   <script type="module">
+    import { supabase } from './js/supabaseClient.js';
+
+const { data: { session } } = await supabase.auth.getSession();
+
+console.log("🟢 MAIN session:", session);
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
     import { loadProfileInfo, loadData, syncEverything } from './js/sync-supabase.js';
   

@@ -13,6 +13,14 @@ function clearUserProfileFromLocalStorage() {
   localStorage.removeItem('backgroundImage');
 }
 
+export let currentSession = null;
+
+export async function initSession() {
+  const { data } = await supabase.auth.getSession();
+  currentSession = data.session;
+
+  console.log("✅ initSession:", currentSession);
+}
 // ================================
 // 👤 Detectar cambio de usuario
 // ================================

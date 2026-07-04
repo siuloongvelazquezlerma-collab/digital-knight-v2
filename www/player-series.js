@@ -570,30 +570,7 @@ document.getElementById("seasonSelect").addEventListener("click", () => {
 populateSeasons();
 renderEpisodes();
 
-async function loadMostRecentProgress(seriesId) {
-  try {
-    console.log("window.supabase =", window.supabase);
-    const { data: { session } } = await window.supabase.auth.getSession();
-    if (!session?.user) return {};
 
-    const { data, error } = await supabase
-      .from('progresos')
-      .select('ultimo_visto, episodios')
-      .eq('id', session.user.id)
-      .eq('series_id', seriesId)
-      .single();
-
-    if (error) {
-      console.error('❌ Error cargando progresos desde Supabase:', error);
-      return {};
-    }
-
-    return data || {};
-  } catch (err) {
-    console.error('❌ Error obteniendo sesión o progresos:', err);
-    return {};
-  }
-}
 
 
 // Guardar y cargar progreso
@@ -631,14 +608,8 @@ async function saveProgress(video, videoUrl, currentTime, seriesId) {
     episode_index: indexes?.episodeIndex ?? 0
   }));
 
-  // 🔹 Obtener sesión solo una vez
-  console.log("window.supabase =", window.supabase);
-  const { data: { session } } = await window.supabase.auth.getSession();
-  if (!session?.user) {
-  console.warn("❌ NO hay sesión Supabase en saveProgress");
-  return;
-}
-
+  
+/*
   // 📌 Registrar vista en user_views
   try {
     if (duration > 0 && currentTime / duration >= 0.8) {
@@ -648,7 +619,14 @@ async function saveProgress(video, videoUrl, currentTime, seriesId) {
   } catch (err) {
     console.error('❌ Error registrando vista en user_views:', err);
   }
+*/
 
+console.log("🚀 Enviando progreso a saveSeriesProgress()", {
+  seriesId,
+  videoUrl,
+  currentTime,
+  duration
+});
   // ✅ Sincronizar con tabla progresos
   try {
   await saveSeriesProgress({
@@ -1481,6 +1459,9 @@ function toggleAspectRatio() {
 
   // Asegura que usamos el elemento de video real
   const videoElement = video.el().getElementsByTagName('video')[0];
+const episodeId =
+  videoElement?.getAttribute('data-episode-code') ||
+  video.currentSrc();
 
   // Aplica el modo
   videoElement.style.objectFit = mode.includes('fit-') ? 'contain' : mode;

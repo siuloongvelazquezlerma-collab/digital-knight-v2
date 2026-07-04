@@ -4,17 +4,17 @@ import { supabase } from './js/supabaseClient.js';
 import {
     saveSeriesProgress,
     loadMostRecentProgress,
-    
-    loadProfileInfo
+    loadProfileInfo,
+    initSession
 } from './js/sync-supabase.js';
-
 window.supabase = supabase;
 window.saveSeriesProgress = saveSeriesProgress;
 window.loadMostRecentProgress = loadMostRecentProgress;
-window.syncData = syncData;
+
 
 
 async function main() {
+  await initSession();
   await new Promise(resolve => window.requestAnimationFrame(resolve));
   await loadProfileInfo();
 
@@ -83,15 +83,26 @@ const episodeId = videoElement.getAttribute('data-episode-code') || video.curren
   const duration = video.duration() || 1;
 
   // 🔒 SOLO UNA VEZ por frame loop interno
-  if (!video.__syncLock) {
-    video.__syncLock = true;
+  // 🔒 SOLO UNA VEZ por frame loop interno
+if (!video.__syncLock) {
+  video.__syncLock = true;
 
-    throttledSyncData(seriesId);
+  saveSeriesProgress({
+    seriesId,
+    ultimoVisto: {
+      episodeId,
+      time: video.currentTime,
+      updatedAt: Date.now()
+    },
+    episodios: {
+      [episodeId]: video.currentTime
+    }
+  });
 
-    setTimeout(() => {
-      video.__syncLock = false;
-    }, 1000);
-  }
+  setTimeout(() => {
+    video.__syncLock = false;
+  }, 1000);
+}
 
   // 🏆 80% SOLO UNA VEZ
   if (!viewRegistered && currentTime / duration >= 0.8) {
@@ -143,7 +154,7 @@ const episodeId = videoElement.getAttribute('data-episode-code') || video.curren
 window.addEventListener('DOMContentLoaded', main);
 
 
-window.throttledSyncData = throttledSyncData;
+
 
 // --- Mostrar el reproductor ---
 function showPlayer() {
