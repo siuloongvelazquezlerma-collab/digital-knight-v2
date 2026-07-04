@@ -33,6 +33,7 @@ console.warn("Loader forzado a ocultarse después de 8 segundos.");
 
 
 const video = videojs('video'); // Video.js instance
+video.off();
 const videoElement = video.el().getElementsByTagName('video')[0];
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
@@ -301,7 +302,25 @@ async function init() {
   seriesId = params.get('id');
   if (!seriesId) return;
 
-  await loadMostRecentProgress(seriesId);
+  const remoteData = await loadMostRecentProgress(seriesId);
+
+  let finalResume = JSON.parse(localStorage.getItem(`continue_${seriesId}`));
+
+if (remoteData?.ultimo_visto) {
+  const localData = JSON.parse(localStorage.getItem(`continue_${seriesId}`));
+
+  const remoteTime = new Date(remoteData.updated_at || 0).getTime();
+  const localTime = new Date(localData?.updatedAt || 0).getTime();
+
+  if (!localData || remoteTime > localTime) {
+    finalResume = remoteData.ultimo_visto;
+
+    localStorage.setItem(
+      `continue_${seriesId}`,
+      JSON.stringify(remoteData.ultimo_visto)
+    );
+  }
+}
 
 
   populateSeasons();
@@ -309,7 +328,7 @@ async function init() {
   renderEpisodes();
 
   // ▶️ Cargar episodio pendiente
-  const resumeData = JSON.parse(localStorage.getItem(`continue_${seriesId}`));
+  const resumeData = finalResume;
   if (resumeData && resumeData.videoUrl) {
     playEpisode(resumeData.videoUrl);
   }
@@ -574,7 +593,7 @@ async function loadMostRecentProgress(seriesId) {
 
 
 // Guardar y cargar progreso
-async function saveProgress(videoUrl, currentTime) {
+async function saveProgress(video, videoUrl, currentTime, seriesId) {
   const key = `progress-${seriesId}`;
   const data = JSON.parse(localStorage.getItem(key)) || {};
   data[videoUrl] = currentTime;
@@ -624,46 +643,37 @@ async function saveProgress(videoUrl, currentTime) {
 
   // ✅ Sincronizar con tabla progresos
   try {
-    await supabase
-      .from('progresos')
-      .upsert({
-        id: session.user.id,
-        series_id: seriesId,
-        ultimo_visto: {
-          seriesId,
-          videoUrl,
-          progress: currentTime || 0,
-          duration,
-          episodeTitle: episodeCode,
-          poster: thumbnail,
-          link: seriesLink,
-          season_index: indexes?.seasonIndex ?? 0,
-          episode_index: indexes?.episodeIndex ?? 0
-        }
-      }, { onConflict: ['id', 'series_id'] });
-    console.log('✅ Progreso actualizado en Supabase (upsert)');
+  await saveSeriesProgress({
+    seriesId,
+    ultimoVisto: {
+      seriesId,
+      videoUrl,
+      progress: currentTime || 0,
+      duration,
+      episodeTitle: episodeCode,
+      poster: thumbnail,
+      link: seriesLink,
+      season_index: indexes?.seasonIndex ?? 0,
+      episode_index: indexes?.episodeIndex ?? 0,
+      updatedAt: new Date().toISOString()
+    },
+    episodios: {
+      [videoUrl]: {
+        progress: currentTime || 0,
+        duration,
+        episodeTitle: episodeCode,
+        poster: thumbnail,
+        season_index: indexes?.seasonIndex ?? 0,
+        episode_index: indexes?.episodeIndex ?? 0,
+        updatedAt: new Date().toISOString()
+      }
+    }
+  });
 
-    // Actualizar episodios
-    await supabase
-      .from('progresos')
-      .update({
-        episodios: {
-          [videoUrl]: {
-            progress: currentTime || 0,
-            duration,
-            episodeTitle: episodeCode,
-            poster: thumbnail,
-            season_index: indexes?.seasonIndex ?? 0,
-            episode_index: indexes?.episodeIndex ?? 0,
-            updatedAt: new Date().toISOString()
-          }
-        }
-      })
-      .eq('id', session.user.id)
-      .eq('series_id', seriesId);
-  } catch (error) {
-    console.error('❌ Error sincronizando con Supabase:', error);
-  }
+  console.log("✅ Progreso enviado mediante saveSeriesProgress()");
+} catch (error) {
+  console.error("❌ Error sincronizando:", error);
+}
 
   localStorage.setItem('justReturnedFromSeries', 'true');
   updateResumeButton();
@@ -1000,40 +1010,27 @@ video.on('ended', () => {
       updateResumeButton?.();
 
       // 🔄 Sincronizar Supabase
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          await supabase
-            .from('progresos')
-            .upsert({
-              id: session.user.id,
-              series_id: seriesId,
-              ultimo_visto: continueData
-            }, { onConflict: ['id', 'series_id'] });
-
-          await supabase
-            .from('progresos')
-            .update({
-              episodios: {
-                [nextUrl]: {
-                  progress: 0,
-                  duration,
-                  episodeTitle: episodeData.episodeCode,
-                  poster: episodeData.thumbnail,
-                  season_index: indexes?.seasonIndex ?? 0,
-                  episode_index: indexes?.episodeIndex ?? 0,
-                  updatedAt: new Date().toISOString()
-                }
-              }
-            })
-            .eq('id', session.user.id)
-            .eq('series_id', seriesId);
-
-          console.log('✅ Progreso sincronizado correctamente');
-        }
-      } catch (err) {
-        console.error('❌ Error sincronizando con Supabase:', err);
+     try {
+  await saveSeriesProgress({
+    seriesId,
+    ultimoVisto: continueData,
+    episodios: {
+      [nextUrl]: {
+        progress: 0,
+        duration,
+        episodeTitle: episodeData.episodeCode,
+        poster: episodeData.thumbnail,
+        season_index: indexes?.seasonIndex ?? 0,
+        episode_index: indexes?.episodeIndex ?? 0,
+        updatedAt: new Date().toISOString()
       }
+    }
+  });
+
+  console.log("✅ Siguiente episodio sincronizado");
+} catch (err) {
+  console.error("❌ Error sincronizando:", err);
+}
     });
 
   } else {
@@ -1060,7 +1057,7 @@ video.on('timeupdate', () => {
   const duration = video.duration() || 1;
   const percent = Math.min((currentTime / duration) * 100, 100);
 
-  saveProgress(video.currentSrc(), currentTime);
+  saveProgress(video, video.currentSrc(), currentTime, seriesId);
   updateResumeButton();
 
   const episodeElement = document.querySelector(`.episode[data-url="${video.currentSrc()}"]`);

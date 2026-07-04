@@ -122,13 +122,27 @@ export async function saveSeriesProgress({
 
     const userId = session.user.id;
 
+    // Obtener episodios ya guardados
+const { data: existente } = await supabase
+  .from('progresos')
+  .select('episodios')
+  .eq('id', userId)
+  .eq('series_id', seriesId)
+  .maybeSingle();
+
+const episodiosCompletos = {
+  ...(existente?.episodios || {}),
+  ...(episodios || {})
+};
+
     const { error } = await supabase
       .from('progresos')
       .upsert({
         id: userId,
         series_id: seriesId,
         ultimo_visto: ultimoVisto,
-        episodios: episodios
+        episodios: episodiosCompletos,
+        updated_at: new Date().toISOString()
       }, {
         onConflict: 'id,series_id'
       });
@@ -171,4 +185,26 @@ export async function getContinueWatching() {
     updatedAt: item.ultimo_visto.updatedAt || 0
   }))
   .sort((a, b) => b.updatedAt - a.updatedAt);
+}
+
+export async function loadMostRecentProgress(seriesId) {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return null;
+
+    const { data, error } = await supabase
+      .from('progresos')
+      .select('ultimo_visto, episodios, updated_at')
+      .eq('id', session.user.id)
+      .eq('series_id', seriesId)
+      .maybeSingle();
+
+    if (error || !data) return null;
+
+    return data;
+
+  } catch (e) {
+    console.error('❌ Error cargando progreso:', e);
+    return null;
+  }
 }

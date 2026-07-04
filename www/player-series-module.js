@@ -2,6 +2,8 @@ import { loadMostRecentProgress, syncData, loadProfileInfo, throttledSyncData, s
 import { onPlayEpisode } from './viewsTracker.js';
 import { supabase } from './js/sync-supabase.js';
 
+video.off('timeupdate');
+
 async function main() {
   await new Promise(resolve => window.requestAnimationFrame(resolve));
   await loadProfileInfo();
@@ -17,7 +19,7 @@ async function main() {
 
   // 🎥 Inicializa el reproductor
   const video = videojs('video');
-  const videoElement = video.el().getElementsByTagName('video')[0];
+ 
 
   // 📺 Reanudar episodio más reciente
   if (resume?.videoUrl) {
@@ -44,13 +46,14 @@ async function main() {
       }
 
       const titulo = document.querySelector(".title")?.textContent?.trim() || 'Episodio sin título';
-      const episodio = video.currentSrc() || 'episodio-desconocido';
+      const videoElement = video.el().getElementsByTagName('video')[0];
+const episodeId = videoElement.getAttribute('data-episode-code') || video.currentSrc();
       const now = new Date().toISOString();
 
       await supabase.from('reproducciones_series').insert({
         id: user.id,
         series_id: seriesId,
-        episodio,
+        episodio: episodeId,
         titulo,
         visto_en: now,
         progreso: video.currentTime() || 0,
@@ -66,14 +69,22 @@ async function main() {
   // 🔄 Guarda progreso y registra vista al 80%
   let viewRegistered = false;
   video.on('timeupdate', async () => {
-    const currentTime = video.currentTime();
-    const duration = video.duration() || 1;
+  const currentTime = video.currentTime();
+  const duration = video.duration() || 1;
 
-    // ⏱️ Sincroniza progreso con Supabase
+  // 🔒 SOLO UNA VEZ por frame loop interno
+  if (!video.__syncLock) {
+    video.__syncLock = true;
+
     throttledSyncData(seriesId);
 
-    // 🏆 Marca como “vista” si llegó al 80%
-    if (!viewRegistered && currentTime / duration >= 0.8) {
+    setTimeout(() => {
+      video.__syncLock = false;
+    }, 1000);
+  }
+
+  // 🏆 80% SOLO UNA VEZ
+  if (!viewRegistered && currentTime / duration >= 0.8) {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
@@ -99,7 +110,7 @@ async function main() {
         .update({ terminado: true })
         .eq('id', user.id)
         .eq('series_id', seriesId)
-        .eq('episodio', video.currentSrc());
+        .eq('episodio', episodeId);
 
       console.log("🏁 Episodio marcado como terminado en Supabase.");
     } catch (err) {
