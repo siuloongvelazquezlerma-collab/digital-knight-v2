@@ -115,10 +115,19 @@ export async function saveSeriesProgress({
   ultimoVisto,
   episodios
 }) {
+  console.log("🔥 saveSeriesProgress EJECUTADO", {
+    seriesId,
+    ultimoVisto,
+    episodios
+  });
+
   try {
     const { data: { session } } = await supabase.auth.getSession();
 
-    if (!session) return false;
+    if (!session) {
+      console.warn("⚠️ No hay sesión activa, no se guarda progreso");
+      return false;
+    }
 
     const userId = session.user.id;
 
@@ -130,10 +139,21 @@ const { data: existente } = await supabase
   .eq('series_id', seriesId)
   .maybeSingle();
 
-const episodiosCompletos = {
-  ...(existente?.episodios || {}),
-  ...(episodios || {})
-};
+if (fetchError) {
+      console.error("❌ Error leyendo progreso existente:", fetchError);
+    }
+
+    const episodiosCompletos = {
+      ...(existente?.episodios || {}),
+      ...(episodios || {})
+    };
+
+     console.log("📦 Datos finales a guardar:", {
+      id: userId,
+      series_id: seriesId,
+      ultimo_visto: ultimoVisto,
+      episodios: episodiosCompletos
+    });
 
     const { error } = await supabase
       .from('progresos')
@@ -148,16 +168,16 @@ const episodiosCompletos = {
       });
 
     if (error) {
-      console.error('❌ Error guardando progreso:', error);
+      console.error("❌ Error guardando progreso:", error);
       return false;
     }
 
-    console.log('✅ Progreso de serie sincronizado');
+    console.log("✅ Progreso de serie sincronizado en Supabase");
 
     return true;
 
   } catch (e) {
-    console.error('❌ Error sincronizando progreso:', e);
+    console.error("❌ Error general sincronizando progreso:", e);
     return false;
   }
 }
