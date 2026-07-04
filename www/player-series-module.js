@@ -1,8 +1,18 @@
-import { loadMostRecentProgress, syncData, loadProfileInfo, throttledSyncData, saveSeriesProgress } from './js/sync-supabase.js';
-import { onPlayEpisode } from './viewsTracker.js';
-import { supabase } from './js/sync-supabase.js';
 
-video.off('timeupdate');
+console.log("🚀 player-series-module.js cargado");
+import { supabase } from './js/supabaseClient.js';
+import {
+    saveSeriesProgress,
+    loadMostRecentProgress,
+    
+    loadProfileInfo
+} from './js/sync-supabase.js';
+
+window.supabase = supabase;
+window.saveSeriesProgress = saveSeriesProgress;
+window.loadMostRecentProgress = loadMostRecentProgress;
+window.syncData = syncData;
+
 
 async function main() {
   await new Promise(resolve => window.requestAnimationFrame(resolve));
@@ -131,6 +141,9 @@ const episodeId = videoElement.getAttribute('data-episode-code') || video.curren
 }
 
 window.addEventListener('DOMContentLoaded', main);
+
+
+window.throttledSyncData = throttledSyncData;
 
 // --- Mostrar el reproductor ---
 function showPlayer() {

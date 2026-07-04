@@ -31,7 +31,7 @@ console.warn("Loader forzado a ocultarse después de 8 segundos.");
 }
 }, 8000);
 
-
+console.log("🚀 player-series.js cargado");
 const video = videojs('video'); // Video.js instance
 video.off();
 const videoElement = video.el().getElementsByTagName('video')[0];
@@ -50,8 +50,9 @@ let hideControlsTimeout;
 video.on('timeupdate', () => {
 const currentTime = video.currentTime();
 const videoUrl = video.currentSrc();
+const seriesId = window.seriesId;
 
-if (!videoUrl || !window.seriesId) return;
+if (!videoUrl || !seriesId) return;
 
 const key = `progress-${seriesId}`;
 const episodios = JSON.parse(localStorage.getItem(key) || '{}');
@@ -67,7 +68,9 @@ if (resumeItem?.videoUrl === videoUrl) {
   localStorage.setItem(`continue_${seriesId}`, JSON.stringify(resumeItem));
 }
 
-throttledSyncData(seriesId);
+if (window.throttledSyncData) {
+    window.throttledSyncData(seriesId);
+}
 });
 
 
@@ -569,7 +572,8 @@ renderEpisodes();
 
 async function loadMostRecentProgress(seriesId) {
   try {
-    const { data: { session } } = await supabase.auth.getSession();
+    console.log("window.supabase =", window.supabase);
+    const { data: { session } } = await window.supabase.auth.getSession();
     if (!session?.user) return {};
 
     const { data, error } = await supabase
@@ -628,8 +632,12 @@ async function saveProgress(video, videoUrl, currentTime, seriesId) {
   }));
 
   // 🔹 Obtener sesión solo una vez
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.user) return;
+  console.log("window.supabase =", window.supabase);
+  const { data: { session } } = await window.supabase.auth.getSession();
+  if (!session?.user) {
+  console.warn("❌ NO hay sesión Supabase en saveProgress");
+  return;
+}
 
   // 📌 Registrar vista en user_views
   try {

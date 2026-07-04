@@ -132,7 +132,7 @@ export async function saveSeriesProgress({
     const userId = session.user.id;
 
     // Obtener episodios ya guardados
-const { data: existente } = await supabase
+const { data: existente, error: fetchError } = await supabase
   .from('progresos')
   .select('episodios')
   .eq('id', userId)
