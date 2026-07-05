@@ -361,6 +361,31 @@ async function loadContinueWatchingFromSupabase() {
   }
 }
 
+function deduplicateByKeyKeepLatest(items) {
+
+  const map = new Map();
+
+  items.forEach(item => {
+
+    const key = item.key;
+
+    const existing = map.get(key);
+
+    if (!existing) {
+      map.set(key, item);
+      return;
+    }
+
+    const a = existing.data?.updatedAt || 0;
+    const b = item.data?.updatedAt || 0;
+
+    if (b > a) {
+      map.set(key, item);
+    }
+  });
+
+  return Array.from(map.values());
+}
 // -----------------------------
 // RENDER (UN SOLO CONTROL)
 // -----------------------------
@@ -437,12 +462,16 @@ function renderContinueWatching(items) {
 // -----------------------------
 async function initContinueWatching() {
 
+  await syncContinueWatchingToLocal(); // 🔥 primero sincroniza
+
   const localItems = loadContinueWatchingLocal();
   const supabaseItems = await loadContinueWatchingFromSupabase();
 
   const merged = [...localItems, ...supabaseItems];
 
-  renderContinueWatching(merged);
+const final = deduplicateByKeyKeepLatest(merged);
+
+renderContinueWatching(final);
 }
 
 initContinueWatching();

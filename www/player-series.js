@@ -609,7 +609,8 @@ async function saveProgress(video, videoUrl, currentTime, seriesId) {
     duration,
     videoUrl,
     season_index: indexes?.seasonIndex ?? 0,
-    episode_index: indexes?.episodeIndex ?? 0
+    episode_index: indexes?.episodeIndex ?? 0,
+     updatedAt: Date.now()
   }));
 
   
@@ -1005,7 +1006,7 @@ video.on('ended', () => {
         poster: episodeData.thumbnail,
         season_index: indexes?.seasonIndex ?? 0,
         episode_index: indexes?.episodeIndex ?? 0,
-        updatedAt: new Date().toISOString()
+        updatedAt: Date.now()
       }
     }
   });
