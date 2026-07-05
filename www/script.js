@@ -428,10 +428,6 @@ function renderContinueWatching(items) {
 
   continueWatchingSection.style.display = finalItems.length > 0 ? 'block' : 'none';
 }
-
-// -----------------------------
-// INIT (FLUJO SEGURO)
-// -----------------------------
 // -----------------------------
 // INIT (FLUJO SEGURO)
 // -----------------------------
