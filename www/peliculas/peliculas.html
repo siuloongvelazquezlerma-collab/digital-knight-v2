@@ -50,7 +50,7 @@
     .cover {
       position: relative;
   width: 100%;
-  background: url("https://image.tmdb.org/t/p/w500/o0kre9wRCZz3jjSjaru7QU0UtFz.jpg") no-repeat center top;
+  background: url("https://image.tmdb.org/t/p/original/g1heC7QcCzJAkY3Aoxfj6R7agP5.jpg") no-repeat center top;
   background-size: contain;
   display: flex;
   flex-direction: column;
@@ -74,7 +74,7 @@
 .cover-landscape {
   position: absolute;
   inset: 0;
-  background: url("https://image.tmdb.org/t/p/original/3uFVHheTCMBjfAkvKihQmljviuG.jpg") no-repeat center top;
+  background: url("https://image.tmdb.org/t/p/original/ylEXht4BndyodoWM5YwEvWtWmHE.jpg") no-repeat center top;
   background-size: cover;
   z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
   display: none;
@@ -117,7 +117,7 @@
 
 
 .cover-content img.logo {
-    width: 250px;
+    width: 200px;
     margin-bottom: 10px;
   }
 
@@ -125,7 +125,7 @@
     
   
     .cover-content img.logo {
-      width: 190px;
+      width: 150px;
       margin-bottom: 4px;
     }
   
@@ -136,7 +136,7 @@
     
   
     .cover-content img.logo {
-      margin-top:500px;
+      margin-top:300px;
       width: 360px;
       margin-bottom: -10px;
     }
@@ -253,7 +253,7 @@
     </div>
   
     <div class="cover-content">
-      <img src="https://image.tmdb.org/t/p/original/i3A60c2cnPbByWzwXK6oLkeQHdo.png" alt="Alicia en el país de las maravillas"class="logo" tabindex="2">
+      <img src="https://image.tmdb.org/t/p/original/ihZe1ZSQLF5rDt7jycFCVqqaxta.png" alt="Alicia en el país de las maravillas"class="logo" tabindex="2">
       <div class="meta">7+   1h 48min   2010   Dob Lat</div>
    
   
@@ -288,7 +288,7 @@
          <!-- Info oculta para localStorage -->
           <!-- Info oculta para localStorage -->
           <div id="favoritoData" style="display: none;">
-            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/3uFVHheTCMBjfAkvKihQmljviuG.jpg" alt="Poster de la Película">
+            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/x9yn0xRnfNsIVD8l9csRg5pW210.jpg" alt="Poster de la Película">
             <a id="favoritoEnlace" href="alicia-en-el-pais-de-las-maravillas.html"></a>
             <span id="nombre">Alicia en el país de las maravillas</span>
           </div>
@@ -300,7 +300,7 @@
           </div>
       
           <!-- Botón de Descargar -->
-          <div class="action-item download-action" onclick="descargarPelicula('tu video.mp4')">
+          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzAzNjk4NTJf/Alicia%20en%20el%20pais%20de%20las%20maravillas%202016.mp4')">
             <i class="material-icons">arrow_downward</i>
             <span class="underline"></span>
             Descargar
@@ -366,7 +366,7 @@
   height="100%"
   poster="https://wallpapercave.com/wp/wp5415042.jpg"
   data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
-  <source id="videoSource" src="tu video.mp4" type="video/mp4" />
+  <source id="videoSource" src="https://od.lk/s/M18zMzAzNjk4NTJf/Alicia%20en%20el%20pais%20de%20las%20maravillas%202016.mp4" type="video/mp4" />
 </video>
 <!-- Loader -->
 <div class="video-loader hidden" id="videoLoader">
@@ -402,7 +402,7 @@
         <div style="display: flex; gap: 15px;">
   
          <!-- Botón de idioma con mini menú -->
-<!--
+
 <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
   <span class="material-icons" id="langIcon">chat</span>
   
@@ -416,7 +416,7 @@
     <button id="langConfirmBtn">Listo</button>
   </div>
 </div>
--->
+
   
   <!-- Botón Cast -->
   <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
@@ -519,7 +519,6 @@ const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
 
-/*
 (function () {
   const video = document.getElementById('video');
   const source = document.getElementById("videoSource");
@@ -531,8 +530,8 @@ const thumb = document.getElementById('thumb'); // si existe
   const overlayBg = document.getElementById("overlay");
 
   const videos = {
-    latino: "tu video.mp4",
-    ingles: "tu video.mp4"
+    latino: "https://od.lk/s/M18zMzAzNjk4NTJf/Alicia%20en%20el%20pais%20de%20las%20maravillas%202016.mp4",
+    ingles: "https://od.lk/s/M18zMzAzNjk1MTVf/Alicia%20en%20el%20pais%20de%20las%20maravillas%202010%20sub.mp4"
   };
 
   let currentLang = "latino";       // idioma que está reproduciéndose
@@ -636,7 +635,7 @@ const thumb = document.getElementById('thumb'); // si existe
   document.addEventListener('touchstart', handleOutsideClose, true);
 
 })();
-*/
+
 
 
 // ------------------------
@@ -1715,55 +1714,7 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
-function obtenerNombrePelicula() {
-  const nombre = document.querySelector("#favoritoData #nombre");
-  if (!nombre) return "Pelicula";
-  return nombre.textContent.trim().replace(/[<>:"/\\|?*]+/g, "");
-}
 
-
-async function descargarPeliculaSeguro(url) {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-
-    const blobUrl = URL.createObjectURL(blob);
-
-    const enlace = document.createElement("a");
-    const nombre = obtenerNombrePelicula() + ".mp4";
-
-    enlace.href = blobUrl;
-    enlace.download = nombre;
-    enlace.style.display = "none";
-    document.body.appendChild(enlace);
-    enlace.click();
-    enlace.remove();
-
-    // 🖼 Mostrar tu logo en notificación de descarga (SOLO Chrome/Android)
-    mostrarNotificacionDescarga(nombre);
-
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
-
-  } catch (err) {
-    console.error("Error descarga:", err);
-    alert("No se pudo descargar la película 🥹");
-  }
-}
-
-function mostrarNotificacionDescarga(titulo) {
-  if (!("Notification" in window)) return;
-  if (Notification.permission !== "granted") return;
-
-  new Notification("Descargando…", {
-    body: titulo,
-    icon: "../logo-2025.png"  // ⭐ tu logo aquí
-  });
-}
-
-document.getElementById("descargarPelicula").addEventListener("click", () => {
-  const src = getCurrentSource(); // tu función actual
-  if (src) descargarPeliculaSeguro(src);
-});
 
 function descargarPelicula(url) {
 
@@ -1784,10 +1735,13 @@ if (typeof Android !== "undefined") {
 
 </script>
 
+<script src="../pip.js"></script>
 <script src="../share.js"></script>
 <script type="module" src="../player-peliculas-module.js"></script>
 <script src="../wakelock.js"></script>
 
+
+</script>
 
 </body>
 </html>
