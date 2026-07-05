@@ -236,3 +236,54 @@ export async function loadMostRecentProgress(seriesId) {
     return null;
   }
 }
+
+export async function syncContinueWatchingToLocal() {
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return;
+
+  const { data, error } = await supabase
+    .from('progresos')
+    .select('series_id, ultimo_visto')
+    .eq('id', session.user.id);
+
+  if (error || !data) {
+    console.error("❌ Error descargando progresos:", error);
+    return;
+  }
+
+  data.forEach(item => {
+
+    if (!item.ultimo_visto) return;
+
+    const ultimo = item.ultimo_visto;
+
+    const continueKey = `continue_${item.series_id}`;
+
+    localStorage.setItem(continueKey, JSON.stringify({
+      seriesId: item.series_id,
+      seriesTitle: ultimo.seriesTitle,
+      episodeTitle: ultimo.episodeTitle,
+      poster: ultimo.poster,
+      link: ultimo.link,
+      progress: ultimo.progress,
+      duration: ultimo.duration,
+      videoUrl: ultimo.videoUrl,
+      season_index: ultimo.season_index,
+      episode_index: ultimo.episode_index
+    }));
+
+    localStorage.setItem(
+      `progress_${item.series_id}_${ultimo.videoUrl}`,
+      ultimo.progress
+    );
+
+    localStorage.setItem(
+      `duration_${item.series_id}_${ultimo.videoUrl}`,
+      ultimo.duration
+    );
+
+  });
+
+  console.log("✅ Continue Watching sincronizado desde Supabase");
+}

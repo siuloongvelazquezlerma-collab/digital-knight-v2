@@ -1,3 +1,4 @@
+import { supabase } from './js/supabaseClient.js';
 // ⬅️ Quitar lazy inmediatamente si ya todas se cargaron antes
 if (localStorage.getItem("mainImagesLoaded") === "true") {
   document.addEventListener("DOMContentLoaded", () => {
@@ -431,20 +432,15 @@ function renderContinueWatching(items) {
 // -----------------------------
 // INIT (FLUJO SEGURO)
 // -----------------------------
+// -----------------------------
+// INIT (FLUJO SEGURO)
+// -----------------------------
 async function initContinueWatching() {
 
-   try {
-  await syncSupabaseToLocal();
-} catch (e) {
-  console.warn("sync error:", e);
-}
+  const localItems = loadContinueWatchingLocal();
+  const supabaseItems = await loadContinueWatchingFromSupabase();
 
-  const [local, supabase] = await Promise.all([
-    loadContinueWatchingLocal(),
-    loadContinueWatchingFromSupabase()
-  ]);
-
-  const merged = [...local, ...supabase];
+  const merged = [...localItems, ...supabaseItems];
 
   renderContinueWatching(merged);
 }

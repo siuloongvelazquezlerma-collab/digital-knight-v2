@@ -4078,27 +4078,26 @@
 
 
   
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
   <script src="notifications.js"></script>
   <script src="nav.html"></script>
 
     
   
-  <script type="module">
-    import { supabase } from './js/supabaseClient.js';
+ <script type="module">
+import { supabase } from './js/supabaseClient.js';
+
+import {
+  loadProfileInfo,
+  syncContinueWatchingToLocal
+} from './js/sync-supabase.js';
 
 const { data: { session } } = await supabase.auth.getSession();
 
 console.log("🟢 MAIN session:", session);
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-    import { loadProfileInfo, loadData, syncEverything } from './js/sync-supabase.js';
-  
-    const supabase = createClient(
-      'https://wplyrhcszuoordgaphax.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
-    );
-  
-    window.addEventListener('DOMContentLoaded', async () => {
+
+window.addEventListener('DOMContentLoaded', async () => {
+
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
@@ -4107,62 +4106,61 @@ console.log("🟢 MAIN session:", session);
   }
 
   try {
-    await loadData();                   // ⬇️ Supabase ➡️ localStorage (primero)
-    await loadProfileInfo();            // 👤 Avatar y nombre
-    await syncEverything();             // ⬆️ local ➡️ Supabase (después)
-    await cargarContinuarViendo();      // 📺 Sección visual
+
+   await loadProfileInfo();
+await syncContinueWatchingToLocal();
+
   } catch (err) {
     console.error('❌ Error cargando datos:', err);
   }
+
 });
 
-  
-    async function cargarContinuarViendo() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return console.warn('❌ No hay sesión');
-  
-      const { user } = session;
-  
-      const { data, error } = await supabase
-        .from('continuar_viendo')
-        .select('item_key, data, updated_at')
-        .eq('id', user.id)
-        .order('updated_at', { ascending: false })
-        .limit(10);
-  
-      if (error) {
-        console.error("❌ Error al cargar continuar viendo:", error);
-        return;
-      }
-  
-      const container = document.getElementById('continueWatchingContainer');
-      if (!container) {
-        console.warn('⚠️ No se encontró el contenedor #continueWatchingContainer');
-        return;
-      }
-  
-      container.innerHTML = '';
-  
-      data.forEach(item => {
-        const itemData = item.data;
-        if (itemData.tipo === 'series') {
-          renderSerieContinuarViendo(itemData, container);
-        } else if (itemData.tipo === 'movie') {
-          renderPeliculaContinuarViendo(itemData, container);
-        }
-      });
-    }
-  </script>
-  
-  <script type="module">
-  import { loadProfileInfo } from './js/sync-supabase.js';
+async function cargarContinuarViendo() {
 
-  window.addEventListener('DOMContentLoaded', async () => {
-    await loadProfileInfo(); // Esto carga avatar y nombre
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    console.warn('❌ No hay sesión');
+    return;
+  }
+
+  const { user } = session;
+
+  const { data, error } = await supabase
+    .from('continuar_viendo')
+    .select('item_key, data, updated_at')
+    .eq('id', user.id)
+    .order('updated_at', { ascending: false })
+    .limit(10);
+
+  if (error) {
+    console.error("❌ Error al cargar continuar viendo:", error);
+    return;
+  }
+
+  const container = document.getElementById('continueWatchingContainer');
+
+  if (!container) {
+    console.warn('⚠️ No se encontró #continueWatchingContainer');
+    return;
+  }
+
+  container.innerHTML = '';
+
+  data.forEach(item => {
+
+    const itemData = item.data;
+
+    if (itemData.tipo === 'series') {
+      renderSerieContinuarViendo(itemData, container);
+    } else if (itemData.tipo === 'movie') {
+      renderPeliculaContinuarViendo(itemData, container);
+    }
+
   });
 
- 
-
+}
 </script>
 
   
