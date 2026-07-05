@@ -66,7 +66,7 @@ const episodeId = videoElement.getAttribute('data-episode-code') || video.curren
         episodio: episodeId,
         titulo,
         visto_en: now,
-        progreso: video.currentTime() || 0,
+        progreso: video.currentTime || 0,
         terminado: false
       });
 
@@ -86,6 +86,9 @@ const episodeId = videoElement.getAttribute('data-episode-code') || video.curren
   // 🔒 SOLO UNA VEZ por frame loop interno
 if (!video.__syncLock) {
   video.__syncLock = true;
+
+  const videoElement = video.el().getElementsByTagName('video')[0];
+const episodeId = videoElement.getAttribute('data-episode-code') || video.currentSrc();
 
   saveSeriesProgress({
     seriesId,

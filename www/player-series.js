@@ -48,7 +48,11 @@ let hideControlsTimeout;
 
 // ✅ 👇 Aquí mismo agrega este
 video.on('timeupdate', () => {
-const currentTime = video.currentTime();
+
+  console.log("video.currentTime:", video.currentTime);
+  console.log("video.currentTime():", video.currentTime?.());
+
+  const currentTime = video.currentTime();
 const videoUrl = video.currentSrc();
 const seriesId = window.seriesId;
 
@@ -630,31 +634,22 @@ console.log("🚀 Enviando progreso a saveSeriesProgress()", {
   // ✅ Sincronizar con tabla progresos
   try {
   await saveSeriesProgress({
-    seriesId,
-    ultimoVisto: {
-      seriesId,
-      videoUrl,
-      progress: currentTime || 0,
-      duration,
-      episodeTitle: episodeCode,
-      poster: thumbnail,
-      link: seriesLink,
-      season_index: indexes?.seasonIndex ?? 0,
-      episode_index: indexes?.episodeIndex ?? 0,
-      updatedAt: new Date().toISOString()
-    },
-    episodios: {
-      [videoUrl]: {
-        progress: currentTime || 0,
-        duration,
-        episodeTitle: episodeCode,
-        poster: thumbnail,
-        season_index: indexes?.seasonIndex ?? 0,
-        episode_index: indexes?.episodeIndex ?? 0,
-        updatedAt: new Date().toISOString()
-      }
-    }
-  });
+  id: seriesId,
+  series_id: seriesId,
+  video_url: videoUrl,
+  episodio: episodeCode,
+
+  progreso: currentTime || 0,
+  duration,
+
+  poster: thumbnail,
+  link: seriesLink,
+
+  season_index: indexes?.seasonIndex ?? 0,
+  episode_index: indexes?.episodeIndex ?? 0,
+
+  visto_en: new Date().toISOString()
+});
 
   console.log("✅ Progreso enviado mediante saveSeriesProgress()");
 } catch (error) {
@@ -740,6 +735,8 @@ function lockOrientationLandscape() {
 
 // ▶ Reproducir episodio
 function playEpisode(videoUrl) {
+
+   window.episodeId = videoUrl; // 👈 AQUÍ
 
   localStorage.setItem(`last-episode-${seriesId}`, videoUrl);
 
@@ -1039,6 +1036,10 @@ video.on('ended', () => {
 
 // Guarda el progreso periódicamente
 video.on('timeupdate', () => {
+
+  const videoElement = video.el().getElementsByTagName('video')[0];
+  const episodeId = videoElement.getAttribute('data-episode-code') || video.currentSrc();
+
   const currentTime = video.currentTime();
   const duration = video.duration() || 1;
   const percent = Math.min((currentTime / duration) * 100, 100);

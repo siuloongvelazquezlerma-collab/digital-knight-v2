@@ -236,196 +236,220 @@ function updateNotificationBadge() {
 window.addEventListener("DOMContentLoaded", () => {
   updateNotificationBadge();
 });
-  
-  var container = document.getElementById('continueWatchingContainer');
+
+var container = document.getElementById('continueWatchingContainer');
 var continueWatchingSection = document.querySelector('.movie-section.continue-watching');
 
-// Ocultar la sección inicialmente
 continueWatchingSection.style.display = 'none';
 
-// Función para renderizar "Continuar Viendo"
-function loadContinueWatching() {
-  container.innerHTML = '';
-  var hasIncompleteItems = false;
-  var itemsToRender = [];
+function normalizeKey(item) {
+  if (item.key) return item.key;
+
+  if (item.data?.videoUrl && item.data?.seriesId) {
+    return `continue_${item.data.seriesId}_${item.data.videoUrl}`;
+  }
+
+  if (item.data?.link) {
+    return item.data.link;
+  }
+
+  return Math.random().toString();
+}
+
+// -----------------------------
+// LOCAL STORAGE
+// -----------------------------
+function loadContinueWatchingLocal() {
+
+  const items = [];
 
   for (var i = 0; i < localStorage.length; i++) {
+
     var key = localStorage.key(i);
+
     try {
-      var itemData = JSON.parse(localStorage.getItem(key));
+      var raw = localStorage.getItem(key);
+      if (!raw) continue;
+
+      var itemData = JSON.parse(raw);
+      if (!itemData || typeof itemData !== 'object') continue;
 
       // 🎬 Películas
-      if (key.startsWith('movie_') && itemData && itemData.title && itemData.poster && itemData.link && itemData.progress !== undefined) {
-        if (itemData.duration !== undefined && itemData.progress < itemData.duration * 0.9) {
-          hasIncompleteItems = true;
-          itemsToRender.push({ key: key, data: itemData, type: 'movie' });
+      if (key.startsWith('movie_')) {
+
+        if (
+          typeof itemData.progress === 'number' &&
+          typeof itemData.duration === 'number' &&
+          itemData.progress < itemData.duration * 0.9
+        ) {
+          items.push({ key, data: itemData, type: 'movie' });
         }
       }
 
-      // 📺 Series (nuevo formato: continue_{seriesId})
-      if (key.startsWith('continue_') && itemData && itemData.seriesTitle && itemData.episodeTitle && itemData.poster && itemData.link && itemData.videoUrl) {
-        const progressKey = `progress_${itemData.seriesId}_${itemData.videoUrl}`;
-        const durationKey = `duration_${itemData.seriesId}_${itemData.videoUrl}`;
+      // 📺 Series
+      if (key.startsWith('continue_')) {
 
-        const latestProgress = parseFloat(localStorage.getItem(progressKey)) || 0;
-        const latestDuration = parseFloat(localStorage.getItem(durationKey)) || itemData.duration || 1;
+        const seriesId = itemData.seriesId;
+        const videoUrl = itemData.videoUrl;
 
-        if (latestProgress < latestDuration * 0.9) {
-          hasIncompleteItems = true;
-          itemData.progress = latestProgress;
-          itemData.duration = latestDuration;
+        if (!seriesId || !videoUrl) continue;
 
-          itemsToRender.push({
-            key: key,
-            data: itemData,
-            type: 'series'
-          });
+        const progressKey = `progress_${seriesId}_${videoUrl}`;
+        const durationKey = `duration_${seriesId}_${videoUrl}`;
+
+        const progress = parseFloat(localStorage.getItem(progressKey)) || 0;
+        const duration = parseFloat(localStorage.getItem(durationKey)) || itemData.duration || 1;
+
+        if (progress < duration * 0.9) {
+
+          itemData.progress = progress;
+          itemData.duration = duration;
+
+          items.push({ key, data: itemData, type: 'series' });
         }
       }
 
     } catch (e) {
-      console.error('Error parsing item data:', e);
+      console.warn("LocalStorage corrupt item skipped:", key);
     }
   }
 
-  // 🔹 Depuración
-  console.log("Items en 'Continuar Viendo':", itemsToRender);
-
-  itemsToRender.reverse(); // Más recientes primero
-
-  // Renderizar en DOM
-  // Renderizar en DOM
-itemsToRender.forEach(function (item) {
-  var itemData = item.data;
-  var itemDiv = document.createElement('div');
-  itemDiv.classList.add('movie-item');
-
-  // 🔹 Crea el enlace contenedor
-  var link = document.createElement('a');
-  link.href = itemData.link;
-  link.classList.add('continue-card');
-
-  // 🔹 Crea el contenedor de imagen
-  var imageWrapper = document.createElement('div');
-  imageWrapper.classList.add('image-wrapper');
-  imageWrapper.style.position = 'relative';
-
-  var img = document.createElement('img');
-  img.src = itemData.poster;
-  img.alt = item.type === 'movie' ? itemData.title : itemData.episodeTitle;
-  img.classList.add('poster');
-
-  // 🔹 Barra de progreso encima de la imagen
-  var progressBarContainer = document.createElement('div');
-  progressBarContainer.classList.add('progress-bar-container');
-
-  var progressBar = document.createElement('div');
-  progressBar.classList.add('progress-bar');
-
-  let percent = 0;
-  if (itemData.duration && itemData.progress !== undefined) {
-    percent = Math.min((itemData.progress / itemData.duration) * 100, 100);
-  } else {
-    percent = itemData.progress || 0;
-  }
-  progressBar.style.width = percent + '%';
-
-  progressBarContainer.appendChild(progressBar);
-  imageWrapper.appendChild(img);
-  imageWrapper.appendChild(progressBarContainer);
-
-  link.appendChild(imageWrapper);
-  itemDiv.appendChild(link);
-
-  // 🔹 Título y subtítulo debajo de la imagen
-  var titleWrapper = document.createElement('div');
-  titleWrapper.classList.add('continue-info');
-
-  if (item.type === 'movie') {
-    var movieTitle = document.createElement('div');
-    movieTitle.textContent = itemData.title || "Sin título";
-    movieTitle.classList.add('series-title');
-
-    var movieSubtitle = document.createElement('div');
-    movieSubtitle.textContent = itemData.subtitle || "";
-    movieSubtitle.classList.add('episode-title');
-
-    titleWrapper.appendChild(movieTitle);
-    titleWrapper.appendChild(movieSubtitle);
-  } else if (item.type === 'series') {
-    var seriesTitle = document.createElement('div');
-    seriesTitle.textContent = itemData.seriesTitle || "Sin título";
-    seriesTitle.classList.add('series-title');
-
-    var episodeTitle = document.createElement('div');
-    episodeTitle.textContent = itemData.episodeTitle || "";
-    episodeTitle.classList.add('episode-title');
-
-    titleWrapper.appendChild(seriesTitle);
-    titleWrapper.appendChild(episodeTitle);
-  }
-
-  itemDiv.appendChild(titleWrapper);
-
-  // 🔹 Botón eliminar
-var deleteButton = document.createElement('button');
-deleteButton.classList.add('delete-button');
-
-// ✅ Usar ícono material "close"
-deleteButton.innerHTML = '<span class="material-icons">close</span>';
-
-deleteButton.addEventListener('click', async function () {
-  itemDiv.remove();
-  localStorage.removeItem(item.key);
-
-  // 🔄 También eliminar de Supabase
-  try {
-    const { deleteContinueItemFromSupabase } = await import('../js/sync-supabase.js');
-
-    await deleteContinueItemFromSupabase(item.key);
-
-    console.log('🧹 Eliminado de Supabase:', item.key);
-  } catch (e) {
-    console.warn('⚠️ No se pudo cargar o ejecutar deleteContinueItemFromSupabase:', e);
-  }
-
-  // Ocultar sección si ya no hay ítems
-  if (container.children.length === 0) {
-    continueWatchingSection.style.display = 'none';
-  }
-});
-itemDiv.appendChild(deleteButton);
-
-
-  // Evento click para guardar progreso (series)
-  img.addEventListener('click', function () {
-    const resumeData = {
-      type: item.type, // 'movie' o 'series'
-      link: itemData.link,
-      progress: itemData.progress,
-      poster: itemData.poster,
-      title: itemData.title || itemData.seriesTitle,
-      subtitle: itemData.subtitle || itemData.episodeTitle,
-      movieId: itemData.movieId || itemData.seriesId,
-      videoUrl: itemData.videoUrl || null
-    };
-    localStorage.setItem('resumeFromContinue', JSON.stringify(resumeData));
-  
-    // Redirigir a la página correspondiente
-    window.location.href = itemData.link;
-  });
-  
-
-  container.prepend(itemDiv);
-});
-
-
-  // Mostrar u ocultar la sección
-  continueWatchingSection.style.display = hasIncompleteItems ? 'block' : 'none';
+  return items;
 }
 
-// Ejecutar al cargar la página
-loadContinueWatching();
+
+
+// -----------------------------
+// SUPABASE
+// -----------------------------
+async function loadContinueWatchingFromSupabase() {
+
+  try {
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    const { data, error } = await supabase
+      .from('progresos')
+      .select('*')
+      .eq('id', user.id)
+      .order('visto_en', { ascending: false });
+
+    if (error) {
+      console.error(error);
+      return [];
+    }
+
+    return data.map(item => ({
+      key: `continue_${item.series_id}_${item.video_url}`,
+      data: {
+        seriesTitle: item.series_id,
+        episodeTitle: item.episodio,
+        poster: item.poster || '',
+        link: item.link || '',
+        progress: item.progreso || 0,
+        duration: item.duration || 1,
+        videoUrl: item.video_url || ''
+      },
+      type: 'series'
+    }));
+
+  } catch (e) {
+    console.error("Supabase error:", e);
+    return [];
+  }
+}
+
+// -----------------------------
+// RENDER (UN SOLO CONTROL)
+// -----------------------------
+function renderContinueWatching(items) {
+
+  container.innerHTML = '';
+
+  if (!items || items.length === 0) {
+    continueWatchingSection.style.display = 'none';
+    return;
+  }
+
+  const uniqueMap = new Map();
+
+  items.forEach(item => {
+    const key = item.key || normalizeKey(item);
+    uniqueMap.set(key, item);
+  });
+
+  const finalItems = Array.from(uniqueMap.values());
+
+  finalItems
+    .reverse()
+    .forEach(item => {
+
+      const data = item.data;
+      if (!data) return;
+
+      const div = document.createElement('div');
+      div.classList.add('movie-item');
+
+      const link = document.createElement('a');
+      link.href = data.link || '#';
+      link.classList.add('continue-card');
+
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('image-wrapper');
+
+      const img = document.createElement('img');
+      img.src = data.poster || '';
+      img.classList.add('poster');
+
+      const progressContainer = document.createElement('div');
+      progressContainer.classList.add('progress-bar-container');
+
+      const bar = document.createElement('div');
+      bar.classList.add('progress-bar');
+
+      let percent = 0;
+
+      if (data.duration && data.progress !== undefined) {
+        percent = Math.min((data.progress / data.duration) * 100, 100);
+      }
+
+      bar.style.width = percent + '%';
+
+      progressContainer.appendChild(bar);
+      wrapper.appendChild(img);
+      wrapper.appendChild(progressContainer);
+      link.appendChild(wrapper);
+      div.appendChild(link);
+
+      container.appendChild(div);
+    });
+
+  continueWatchingSection.style.display = finalItems.length > 0 ? 'block' : 'none';
+}
+
+// -----------------------------
+// INIT (FLUJO SEGURO)
+// -----------------------------
+async function initContinueWatching() {
+
+   try {
+  await syncSupabaseToLocal();
+} catch (e) {
+  console.warn("sync error:", e);
+}
+
+  const [local, supabase] = await Promise.all([
+    loadContinueWatchingLocal(),
+    loadContinueWatchingFromSupabase()
+  ]);
+
+  const merged = [...local, ...supabase];
+
+  renderContinueWatching(merged);
+}
+
+initContinueWatching();
 
 
 
