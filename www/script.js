@@ -403,6 +403,55 @@ function renderContinueWatching(items) {
       img.src = data.poster || '';
       img.classList.add('poster');
 
+      const menuButton = document.createElement('button');
+menuButton.classList.add('menu-button');
+menuButton.innerHTML = '⋮';
+
+
+const menu = document.createElement('div');
+menu.classList.add('continue-menu');
+
+
+const removeOption = document.createElement('div');
+removeOption.classList.add('menu-option');
+removeOption.textContent = 'Quitar de Continuar viendo';
+
+
+removeOption.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  localStorage.removeItem(item.key);
+
+  div.remove();
+
+  if (container.children.length === 0) {
+    continueWatchingSection.style.display = 'none';
+  }
+
+  menu.style.display = 'none';
+});
+
+
+menu.appendChild(removeOption);
+
+
+menuButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  document.querySelectorAll('.continue-menu').forEach(m => {
+    if (m !== menu) {
+      m.style.display = 'none';
+    }
+  });
+
+  menu.style.display =
+    menu.style.display === 'block'
+      ? 'none'
+      : 'block';
+});
+
       const progressContainer = document.createElement('div');
       progressContainer.classList.add('progress-bar-container');
 
@@ -419,6 +468,8 @@ function renderContinueWatching(items) {
 
       progressContainer.appendChild(bar);
       wrapper.appendChild(img);
+      wrapper.appendChild(menuButton);
+wrapper.appendChild(menu);
       wrapper.appendChild(progressContainer);
       link.appendChild(wrapper);
       div.appendChild(link);

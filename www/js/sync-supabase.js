@@ -287,3 +287,91 @@ export async function syncContinueWatchingToLocal() {
 
   console.log("✅ Continue Watching sincronizado desde Supabase");
 }
+
+// ================================
+// 🎬 Guardar progreso de películas
+// ================================
+export async function saveMovieProgress({
+  movieId,
+  ultimoVisto
+}) {
+
+  console.log("🎬 saveMovieProgress EJECUTADO", {
+    movieId,
+    ultimoVisto
+  });
+
+  try {
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      console.warn("⚠️ No hay sesión activa");
+      return false;
+    }
+
+    const userId = session.user.id;
+
+    const { data, error } = await supabase
+  .from('progresos')
+  .upsert({
+    id: userId,
+    series_id: `movie_${movieId}`,
+    ultimo_visto: ultimoVisto,
+    episodios: null,
+    updated_at: new Date().toISOString()
+  }, {
+    onConflict: 'id,series_id'
+  })
+  .select();
+
+console.log("📦 Respuesta Supabase:", {
+  data,
+  error
+});
+
+    if (error) {
+      console.error("❌ Error guardando película:", error);
+      return false;
+    }
+
+    console.log("✅ Película sincronizada");
+
+    return true;
+
+  } catch (e) {
+
+    console.error("❌ Error general:", e);
+    return false;
+
+  }
+
+}
+
+export async function getMovieContinueWatching() {
+
+  const { data: { session } } = await supabase.auth.getSession();
+  console.log("🔐 SESIÓN ACTUAL:", session);
+  if (!session?.user) return [];
+
+  const { data, error } = await supabase
+    .from('progresos')
+    .select('series_id, ultimo_visto')
+    .eq('id', session.user.id)
+    .like('series_id', 'movie_%');
+
+  if (error) {
+    console.error('❌ Error cargando películas:', error);
+    return [];
+  }
+
+  return data
+    .filter(item => item.ultimo_visto)
+    .map(item => ({
+      ...item.ultimo_visto,
+      movieId: item.series_id.replace('movie_', ''),
+      tipo: 'movie',
+      updatedAt: item.ultimo_visto.updatedAt || 0
+    }))
+    .sort((a, b) => b.updatedAt - a.updatedAt);
+}

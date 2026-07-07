@@ -1,5 +1,5 @@
 // viewsTracker.js
-import { supabase } from './js/sync-supabase.js';
+import { supabase } from './js/supabaseClient.js';
 
 /**
  * Registra una vista en la tabla `user_views`

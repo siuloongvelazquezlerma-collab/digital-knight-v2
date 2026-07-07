@@ -1,20 +1,34 @@
 import { supabase } from './js/supabaseClient.js';
-import { throttledSyncData, loadData, loadProfileInfo } from './js/sync-supabase.js';
+import {
+  loadProfileInfo,
+  saveMovieProgress
+} from './js/sync-supabase.js';
 import { registerView } from './viewsTracker.js';
 
 console.log("✅ Supabase listo:", !!supabase);
+console.log("✅ saveMovieProgress:", saveMovieProgress);
 
 const movieId = window.movieId || 'unknown-id';
-const video = document.getElementById("video");
+const video =
+  document.getElementById("video_html5_api") ||
+  document.querySelector("#video video");
+  console.log("VIDEO:", video);
+console.log("TAG:", video?.tagName);
 const progressBar = document.getElementById("watchProgressBar");
 const restartButton = document.getElementById("restartButton");
 let hasStarted = false;
 
 (async () => {
   try {
-    await loadData();
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    console.log("🔐 SESIÓN AL INICIAR PLAYER:", session);
+
     await loadProfileInfo();
+
     console.log('🧠 Datos cargados desde Supabase y perfil');
+
   } catch (e) {
     console.warn('⚠️ Error al cargar datos desde Supabase o perfil:', e);
   }
@@ -40,14 +54,21 @@ video.addEventListener("loadedmetadata", () => {
   throttledSyncData(movieId);
 });
 
+console.log("🎬 TIMEUPDATE EJECUTANDO");
+console.log("🎬 movieId:", movieId);
+
+
 // 🔁 Guardar progreso y sincronizar
-video.addEventListener("timeupdate", () => {
+video.addEventListener("timeupdate", async () => {
+  
   const currentTime = video.currentTime;
   const duration = video.duration || 1;
+   
 
   localStorage.setItem(`progress_${movieId}`, currentTime);
   localStorage.setItem(`duration_${movieId}`, duration);
   localStorage.setItem(`hasStarted_${movieId}`, 'true');
+ 
 
   // Barra visual
   if (progressBar) {
@@ -61,6 +82,7 @@ video.addEventListener("timeupdate", () => {
       progressBar.style.display = "block";
     }
   }
+  
 
   // Mostrar botón reiniciar
   if (
@@ -70,6 +92,7 @@ video.addEventListener("timeupdate", () => {
   ) {
     showRestartButton();
   }
+ 
 
   // Guardar objeto completo de la película
   const title =
@@ -87,16 +110,32 @@ video.addEventListener("timeupdate", () => {
     document.getElementById("favoritoEnlace")?.href || window.location.href;
 
   const movieData = {
-    tipo: 'movie',
-    title,
-    subtitle,
-    poster,
-    link,
-    progress: currentTime,
-    duration
-  };
+  tipo: 'movie',
+  id: movieId,
+  title,
+  subtitle,
+  poster,
+  link,
+  progress: currentTime,
+  duration,
+  updatedAt: new Date().toISOString()
+};
+
+
 
   localStorage.setItem(`movie_${movieId}`, JSON.stringify(movieData));
+  
+
+console.log("🔥 Voy a llamar saveMovieProgress");
+
+
+await saveMovieProgress({
+  movieId,
+  ultimoVisto: {
+    ...movieData,
+    updatedAt: new Date().toISOString()
+  }
+});
 
   // 🔄 Sincronizar con Supabase
   throttledSyncData(movieId);
