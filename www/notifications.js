@@ -55,6 +55,13 @@ function addNotification() {
   text: "Obsesión (2026) ya forma parte del catálogo de Digital Knight. Disponible en audio latino e inglés con subtítulos.",
   seen: false
 });
+notifications.push({
+  href: "Animacion/minions-monstruos.html",
+  img: "https://image.tmdb.org/t/p/original/sfGdosEmaYJQha8esMcP8YuCpaj.jpg",
+  title: "💛 ¡Los Minions están de regreso!",
+  text: "Minions & Monstruos (2026) ya está disponible. Disfruta de esta nueva aventura en audio latino.",
+  seen: false
+});
 
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
