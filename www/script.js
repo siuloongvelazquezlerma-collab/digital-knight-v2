@@ -287,9 +287,10 @@ function loadContinueWatchingLocal() {
         }
       }
 
+      console.log("KEY:", key);
       // 📺 Series
       if (key.startsWith('continue_')) {
-
+console.log("CONTINUE:", itemData);
         const seriesId = itemData.seriesId;
         const videoUrl = itemData.videoUrl;
 
@@ -307,6 +308,12 @@ function loadContinueWatchingLocal() {
           itemData.duration = duration;
 
           items.push({ key, data: itemData, type: 'series' });
+          console.log("AGREGANDO SERIE:", {
+  key,
+  progress,
+  duration,
+  itemData
+});
         }
       }
 
@@ -473,6 +480,34 @@ wrapper.appendChild(menu);
       wrapper.appendChild(progressContainer);
       link.appendChild(wrapper);
       div.appendChild(link);
+
+      // Información debajo de la portada
+const info = document.createElement('div');
+info.classList.add('continue-info');
+
+const title = document.createElement('div');
+title.classList.add('series-title');
+
+if (item.type === 'series') {
+  title.textContent = data.seriesTitle || 'Serie';
+} else {
+  title.textContent = data.title || data.movieTitle || 'Película';
+}
+
+const episode = document.createElement('div');
+episode.classList.add('episode-title');
+
+if (item.type === 'series') {
+  episode.textContent = data.episodeTitle || '';
+}
+
+info.appendChild(title);
+
+if (episode.textContent) {
+  info.appendChild(episode);
+}
+
+div.appendChild(info);
 
       container.appendChild(div);
     });

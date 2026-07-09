@@ -1002,6 +1002,7 @@ video.on('ended', () => {
       [nextUrl]: {
         progress: 0,
         duration,
+        seriesTitle: item.series_title,
         episodeTitle: episodeData.episodeCode,
         poster: episodeData.thumbnail,
         season_index: indexes?.seasonIndex ?? 0,
