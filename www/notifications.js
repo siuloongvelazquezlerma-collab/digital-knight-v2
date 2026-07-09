@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.6";
+const NOTIFICATIONS_VERSION = "2.7";
 
 /* ================= ESTADO GLOBAL ================= */
 
