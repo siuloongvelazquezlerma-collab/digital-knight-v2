@@ -779,6 +779,8 @@ showNotificationOnce("notificationEpisodio", "v9", 2000);
 
 showNotificationOnce("notificationPelicula", "v27", 2500);
 
+showNotificationOnce("notificationUpdate", "v15", 3000);
+
 if (sessionStorage.getItem("intro_shown")) {
   setTimeout(() => {
     const intro = document.getElementById("opening");

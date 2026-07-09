@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.7";
+const NOTIFICATIONS_VERSION = "2.8";
 
 /* ================= ESTADO GLOBAL ================= */
 
@@ -47,7 +47,13 @@ function addNotification() {
   if (savedVersion === NOTIFICATIONS_VERSION) return;
 
   notifications = [];
-
+notifications.push({
+  href: "actualizacion.html",
+  img: "https://od.lk/s/M18zMjA1NjYzNDBf/APK%20FONDO%202.jpg",
+  title: "🚀 Nueva actualización disponible",
+  text: "Digital Knight v1.3.1 ya está disponible. Actualiza ahora con mejoras y correcciones.",
+  seen: false
+});
  notifications.push({
   href: "peliculas/obsesion.html",
   img: "https://image.tmdb.org/t/p/original/e1qJyp8AE5ejXAaQjxWPTsWeTb.jpg",
@@ -62,6 +68,7 @@ notifications.push({
   text: "Minions & Monstruos (2026) ya está disponible. Disfruta de esta nueva aventura en audio latino.",
   seen: false
 });
+
 
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
