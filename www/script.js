@@ -777,7 +777,7 @@ showNotificationOnce("notificationTelegram", "v5", 1500);
 
 showNotificationOnce("notificationEpisodio", "v9", 2000);
 
-showNotificationOnce("notificationPelicula", "v25", 2500);
+showNotificationOnce("notificationPelicula", "v26", 2500);
 
 if (sessionStorage.getItem("intro_shown")) {
   setTimeout(() => {

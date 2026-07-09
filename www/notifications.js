@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.4";
+const NOTIFICATIONS_VERSION = "2.5";
 
 /* ================= ESTADO GLOBAL ================= */
 
@@ -49,10 +49,10 @@ function addNotification() {
   notifications = [];
 
  notifications.push({
-  href: "amar-te-duele.html",
-  img: "https://od.lk/s/M18zMzA2OTEzMzRf/amarteduele.jpg",
-  title: "🎬 Nueva película agregada",
-  text: "Amar te duele (2002) ya está disponible. Revive este clásico del cine mexicano que narra una intensa historia de amor marcada por las diferencias sociales.",
+  href: "series/from.html",
+  img: "https://image.tmdb.org/t/p/original/tUtCKwFnllW94qM3DRWK9acrFKi.jpg",
+  title: "📺 ¡Ya disponible! From",
+  text: "From (2022) ya está disponible. Descubre los misterios del pueblo del que nadie puede escapar.",
   seen: false
 });
 
