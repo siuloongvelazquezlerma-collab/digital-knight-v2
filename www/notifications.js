@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.5";
+const NOTIFICATIONS_VERSION = "2.6";
 
 /* ================= ESTADO GLOBAL ================= */
 
@@ -49,13 +49,12 @@ function addNotification() {
   notifications = [];
 
  notifications.push({
-  href: "series/from.html",
-  img: "https://image.tmdb.org/t/p/original/tUtCKwFnllW94qM3DRWK9acrFKi.jpg",
-  title: "📺 ¡Ya disponible! From",
-  text: "From (2022) ya está disponible. Descubre los misterios del pueblo del que nadie puede escapar.",
+  href: "peliculas/obsesion.html",
+  img: "https://image.tmdb.org/t/p/original/e1qJyp8AE5ejXAaQjxWPTsWeTb.jpg",
+  title: "🍿 Nuevo estreno disponible",
+  text: "Obsesión (2026) ya forma parte del catálogo de Digital Knight. Disponible en audio latino e inglés con subtítulos.",
   seen: false
 });
-
 
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
