@@ -779,7 +779,7 @@ showNotificationOnce("notificationEpisodio", "v9", 2000);
 
 showNotificationOnce("notificationPelicula", "v27", 2500);
 
-showNotificationOnce("notificationUpdate", "v17", 3000);
+showNotificationOnce("notificationUpdate", "v18", 3000);
 
 if (sessionStorage.getItem("intro_shown")) {
   setTimeout(() => {
