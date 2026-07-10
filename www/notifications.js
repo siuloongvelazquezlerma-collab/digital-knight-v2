@@ -3,7 +3,7 @@
 const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
-const NOTIFICATIONS_VERSION = "2.8";
+const NOTIFICATIONS_VERSION = "2.9";
 
 /* ================= ESTADO GLOBAL ================= */
 
@@ -48,24 +48,10 @@ function addNotification() {
 
   notifications = [];
 notifications.push({
-  href: "actualizacion.html",
-  img: "https://od.lk/s/M18zMjA1NjYzNDBf/APK%20FONDO%202.jpg",
-  title: "🚀 Nueva actualización disponible",
-  text: "Digital Knight v1.3.1 ya está disponible. Actualiza ahora con mejoras y correcciones.",
-  seen: false
-});
- notifications.push({
-  href: "peliculas/obsesion.html",
-  img: "https://image.tmdb.org/t/p/original/e1qJyp8AE5ejXAaQjxWPTsWeTb.jpg",
-  title: "🍿 Nuevo estreno disponible",
-  text: "Obsesión (2026) ya forma parte del catálogo de Digital Knight. Disponible en audio latino e inglés con subtítulos.",
-  seen: false
-});
-notifications.push({
-  href: "Animacion/minions-monstruos.html",
-  img: "https://image.tmdb.org/t/p/original/sfGdosEmaYJQha8esMcP8YuCpaj.jpg",
-  title: "💛 ¡Los Minions están de regreso!",
-  text: "Minions & Monstruos (2026) ya está disponible. Disfruta de esta nueva aventura en audio latino.",
+  href: "series/no-tengo-miedo.html",
+  img: "https://od.lk/s/M18zMzA4MTA3NzBf/no%20tengo%20miedo%20wallapaper.jpg",
+  title: "😨 ¡Nueva serie disponible!",
+  text: "No tengo miedo (2026) ya está disponible en Digital Knight. Descubre este oscuro misterio y disfruta todos sus episodios.",
   seen: false
 });
 

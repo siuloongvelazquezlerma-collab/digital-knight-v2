@@ -775,7 +775,7 @@ function closeFloatingNotification() {
 // ⭐⭐ LLAMADA AQUÍ MISMO ⭐⭐
 showNotificationOnce("notificationTelegram", "v5", 1500);
 
-showNotificationOnce("notificationEpisodio", "v9", 2000);
+showNotificationOnce("notificationEpisodio", "v10", 2000);
 
 showNotificationOnce("notificationPelicula", "v27", 2500);
 
