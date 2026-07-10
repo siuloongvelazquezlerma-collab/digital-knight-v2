@@ -40,19 +40,20 @@
     }
 
     body, html {
-      background-color: #01011d;
-      font-family: 'Roboto', sans-serif;
-      color: white;
-      min-height: 100%;
-      overflow-x: hidden;
-      overscroll-behavior-y: contain;
-    }
+  background-color: #01011d;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
-    body {
-      display: flex;
-      justify-content: center;
-      padding: 40px;
-    }
+   body {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  min-height: 100vh;
+}
 
    h2{
     text-align:center;
@@ -127,6 +128,107 @@
       font-size: 12px;
       opacity: 0.7;
     }
+
+    /* ===========================
+   BUSCADOR
+=========================== */
+
+#search {
+  margin-bottom: 5px;
+}
+
+#searchResults {
+  display: none;
+  background: #1c1c28;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 6px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.search-item:hover {
+  background: rgba(124,92,255,.18);
+}
+
+.search-item img {
+  width: 120px;
+  height: 70px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+}
+
+.search-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.search-details {
+  color: #8f8fa7;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+
+/* ===========================
+   VISTA PREVIA
+=========================== */
+
+#preview {
+  display:none;
+  background:#171722;
+  border-radius:16px;
+  padding:18px;
+  margin:20px auto;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.05);
+}
+
+
+#previewPoster {
+
+  width:220px;
+  height:125px;
+  object-fit:cover;
+  border-radius:14px;
+  display:block;
+  margin:auto;
+
+}
+
+
+#previewTitle {
+
+  margin-top:15px;
+  font-size:22px;
+  font-weight:bold;
+
+}
+
+
+#previewDetails {
+
+  margin-top:8px;
+  color:#8f8fa7;
+
+}
+
   </style>
 </head>
 
@@ -136,20 +238,109 @@
 
     <h2>📺 Digital Knight Admin Panel</h2>
 
-    <div class="section-title">Contenido principal</div>
-    <input id="title" placeholder="Título (ej: Nuevo episodio)">
-    <textarea id="body" placeholder="Mensaje"></textarea>
+    <!-- ========================= -->
+    <!-- BUSCADOR -->
+    <!-- ========================= -->
 
-    <div class="section-title">Imagen (poster / portada)</div>
-    <input id="image" placeholder="URL de imagen (ej: poster.jpg o link)">
+    <div class="section-title">
+        🔎 Buscar película o serie
+    </div>
 
-    <div class="section-title">Acción al tocar notificación</div>
-    <input id="action" placeholder="Ej: /movie/123 o /episode/5">
+    <input
+        id="search"
+        type="text"
+        placeholder="Escribe el nombre...">
 
-    <button onclick="send()">Enviar Notificación</button>
+    <div id="searchResults"></div>
 
-    <div class="status" id="status"></div>
-  </div>
+
+    <!-- ========================= -->
+    <!-- INFORMACIÓN -->
+    <!-- ========================= -->
+
+   <div id="preview" style="display:none;">
+
+        <img id="previewPoster" src="" alt="Poster">
+
+        <h3 id="previewTitle"></h3>
+
+        <div id="previewDetails"></div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- TÍTULO PUSH -->
+    <!-- ========================= -->
+
+    <div class="section-title">
+        Título de la notificación
+    </div>
+
+    <input
+        id="pushTitle"
+        type="text"
+        placeholder="Ej: 🍿 Ya disponible">
+
+
+    <!-- ========================= -->
+    <!-- MENSAJE -->
+    <!-- ========================= -->
+
+    <div class="section-title">
+        Mensaje
+    </div>
+
+    <textarea
+        id="body"
+        placeholder="Escribe el mensaje..."></textarea>
+
+
+   
+
+    <!-- ========================= -->
+    <!-- DATOS -->
+    <!-- ========================= -->
+
+    <div class="section-title">
+        Acción
+    </div>
+
+    <input
+        id="previewAction"
+        readonly>
+
+    <div class="section-title">
+        Poster
+    </div>
+
+    <input
+        id="previewImage"
+        readonly>
+
+
+    <!-- Ocultos para Supabase -->
+
+    <input id="title" type="hidden">
+    <input id="image" type="hidden">
+    <input id="action" type="hidden">
+
+
+    <button onclick="send()">
+        🚀 Enviar Notificación
+    </button>
+
+    <div
+        id="status"
+        class="status">
+    </div>
+
+</div>
+
+
+   
+
+
 
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
@@ -158,6 +349,190 @@
       "https://wplyrhcszuoordgaphax.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU"
     );
+
+    // ==========================
+// Cargar catálogo
+// ==========================
+
+let movies = [];
+
+async function loadMovies() {
+
+  try {
+
+    const res = await fetch("movies.json");
+
+    movies = await res.json();
+
+    console.log("✅ Catálogo cargado:", movies.length);
+
+  } catch (e) {
+
+    console.error("No se pudo cargar movies.json", e);
+
+  }
+
+}
+
+loadMovies();
+
+
+
+// ==========================
+// Buscador
+// ==========================
+
+const search = document.getElementById("search");
+const searchResults = document.getElementById("searchResults");
+
+search.addEventListener("input", () => {
+
+    const text = search.value.trim().toLowerCase();
+
+    if (text.length < 2) {
+        searchResults.style.display = "none";
+        searchResults.innerHTML = "";
+        return;
+    }
+
+    const results = movies.filter(movie => {
+
+        if (movie.title &&
+            movie.title.toLowerCase().includes(text))
+            return true;
+
+        if (movie.hiddenTitles) {
+
+            return movie.hiddenTitles.some(t =>
+                t.toLowerCase().includes(text)
+            );
+
+        }
+
+        return false;
+
+    }).slice(0,8);
+
+    showResults(results);
+
+});
+
+function showResults(results){
+
+    if(results.length===0){
+
+        searchResults.style.display="none";
+        searchResults.innerHTML="";
+
+        return;
+    }
+
+    searchResults.style.display="block";
+
+    searchResults.innerHTML = results.map(movie=>`
+
+<div class="search-item"
+     onclick='selectMovie(${JSON.stringify(movie.title)})'>
+
+    <img src="${movie.poster}">
+
+    <div class="search-info">
+
+        <div class="search-title">
+            ${movie.title}
+        </div>
+
+        <div class="search-details">
+            ${movie.details}
+        </div>
+
+    </div>
+
+</div>
+
+`).join("");
+
+}
+
+window.selectMovie = function (title) {
+
+console.log("Seleccionada:", title);
+
+const movie = movies.find(m => m.title === title);
+
+    if (!movie) return;
+
+    // ==========================
+    // Datos de la película
+    // ==========================
+
+
+    // ==========================
+// Datos de la película
+
+document.getElementById("previewPoster").src =
+    movie.poster;
+
+document.getElementById("previewTitle").innerText =
+    movie.title;
+
+document.getElementById("previewDetails").innerText =
+    movie.details;
+
+    // ==========================
+    // Link automático
+    // ==========================
+
+    let action = movie.link || "";
+
+    if (!action.startsWith("/")) {
+        action = "/" + action;
+    }
+
+    document.getElementById("previewAction").value =
+        action;
+
+    document.getElementById("previewImage").value =
+        movie.poster;
+
+   // ==========================
+// Campos ocultos (Supabase)
+// ==========================
+
+document.getElementById("title").value =
+    "🍿 Ya disponible: " + movie.title;
+
+document.getElementById("image").value =
+    movie.poster;
+
+document.getElementById("action").value =
+    action;
+
+
+// ==========================
+// Campo editable
+// ==========================
+
+document.getElementById("pushTitle").value =
+    "🍿 Ya disponible: " + movie.title;
+
+
+// Mostrar película seleccionada
+
+document.getElementById("preview").style.display = "block";
+
+
+// Ocultar resultados
+
+searchResults.style.display = "none";
+
+
+// Dejar solo la película elegida
+
+search.value = movie.title;
+
+
+}
 
       let sending = false;
 
