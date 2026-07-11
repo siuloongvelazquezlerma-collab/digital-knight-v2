@@ -836,3 +836,235 @@ window.addEventListener("hashchange", () => {
   });
 
 });
+
+
+/* ===============================
+   NOTIFICACIONES FLOTANTES DINÁMICAS
+   DESDE SUPABASE
+================================= */
+
+async function loadFloatingNotification() {
+
+  const { data, error } = await supabase
+    .from("floating_notifications")
+    .select("*")
+    .eq("enabled", true)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    console.log("No hay notificación flotante:", error);
+    return;
+  }
+
+  if (!data) return;
+
+  // ===============================
+  // Buscar el contenido en movies.json
+  // ===============================
+
+  const movies = await fetch("movies.json")
+    .then(r => r.json());
+
+  const movie = movies.find(m =>
+    ("/" + m.link).replace("//", "/") === data.action
+  );
+
+  console.log("🎬 Contenido encontrado:", movie);
+
+  console.log("TIPO SUPABASE:", data.type);
+
+  let header = data.title;
+let description = data.message;
+let year = "";
+let originalDescription = data.message;
+
+  if (movie) {
+
+  year =
+    (movie.details.match(/\d{4}/) || [""])[0];
+
+
+  if (data.type === "series") {
+
+    header = `
+    ¡Nueva serie disponible!<br>
+    <strong>“${movie.title}”</strong><br>
+    (${year})
+    `;
+
+  } else {
+
+    header = `
+    ¡Nueva película disponible!<br>
+    <strong>“${movie.title}”</strong><br>
+    (${year})
+    `;
+
+  }
+
+
+
+    // ===============================
+    // Obtener descripción desde la página
+    // ===============================
+
+    try {
+
+      const response = await fetch(movie.link);
+
+      const html = await response.text();
+
+      const doc = new DOMParser().parseFromString(
+        html,
+        "text/html"
+      );
+
+   originalDescription =
+  doc.querySelector(".description")
+    ?.textContent
+    .trim() || data.message;
+
+
+if (originalDescription.length > 100) {
+  originalDescription =
+    originalDescription.substring(0,100).trim() + "...";
+}
+
+
+
+
+// Solo descripción de la historia
+let enjoyText = "";
+
+if (data.type === "series") {
+  enjoyText = "Disfruta todos los episodios en Digital Knight.";
+} else {
+  enjoyText = "Disfruta esta película en Digital Knight.";
+}
+
+
+description = `
+${originalDescription}
+<br><br>
+${enjoyText}
+`;
+      
+
+      // Resaltar automáticamente el título
+const escapedTitle = movie.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+description = description.replace(
+  new RegExp(escapedTitle, "gi"),
+  `<strong>${movie.title}</strong>`
+);
+
+      console.log("📝 Descripción:", description);
+
+    } catch (err) {
+
+      console.error(
+        "Error cargando descripción:",
+        err
+      );
+
+    }
+
+  }
+
+  // ===============================
+  // CONTROL MOSTRAR UNA SOLA VEZ
+  // ===============================
+
+  const notificationKey =
+    `floating_seen_${data.id}_${data.version}`;
+
+  if (
+    data.show_once &&
+    localStorage.getItem(notificationKey)
+  ) {
+    console.log(
+      "⏩ Flotante ya vista:",
+      notificationKey
+    );
+    return;
+  }
+
+  const box =
+    document.getElementById(
+      "dynamicFloatingNotification"
+    );
+
+  if (!box) return;
+
+  document.getElementById(
+    "dynamicNotificationImage"
+  ).src = data.image;
+
+console.log("HEADER FINAL:", header);
+console.log("DESCRIPTION FINAL:", description);
+
+  document.getElementById(
+  "dynamicNotificationTitle"
+).innerHTML = header;
+
+
+document.getElementById(
+  "dynamicNotificationMessage"
+).innerHTML = description;
+
+  const button =
+    document.getElementById(
+      "dynamicNotificationButton"
+    );
+
+  button.href =
+    data.action.replace(/^\//, "");
+
+  button.textContent =
+    data.button_text || "VER AHORA";
+
+  box.style.display = "block";
+
+  const overlay =
+    document.getElementById(
+      "notificationOverlay"
+    );
+
+  if (overlay) {
+    overlay.style.display = "block";
+  }
+
+  box.querySelectorAll("[data-close]")
+    .forEach(btn => {
+
+      btn.onclick = () => {
+
+        if (data.show_once) {
+
+          localStorage.setItem(
+            notificationKey,
+            "true"
+          );
+
+          console.log(
+            "✅ Flotante guardada como vista:",
+            notificationKey
+          );
+
+        }
+
+        box.style.display = "none";
+
+        if (overlay) {
+          overlay.style.display = "none";
+        }
+
+      };
+
+    });
+
+}
+
+loadFloatingNotification();

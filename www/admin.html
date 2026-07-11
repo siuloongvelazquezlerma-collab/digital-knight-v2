@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <title>Admin Notification Panel</title>
-  <script src="loader.min.js"></script>
+ 
   <meta name="theme-color" content="#01011d">
   <meta name="background-color" content="#01011d">
 <meta name="msapplication-navbutton-color" content="#01011d">
@@ -23,7 +25,7 @@
 <meta name="twitter:image" content="" id="twImage">
 
 
-  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+ 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
@@ -330,6 +332,10 @@
         🚀 Enviar Notificación
     </button>
 
+    <button onclick="saveFloating()">
+    📢 Guardar notificación flotante
+</button>
+
     <div
         id="status"
         class="status">
@@ -592,6 +598,58 @@ search.value = movie.title;
 
     sending = false;
   }
+
+
+  window.saveFloating = async function () {
+
+  const title = document.getElementById("pushTitle").value.trim();
+  const message = document.getElementById("body").value.trim();
+  const image = document.getElementById("image").value.trim();
+  const action = document.getElementById("action").value.trim();
+  const status = document.getElementById("status");
+
+  if (!title || !message) {
+    status.innerText = "⚠️ Completa título y mensaje";
+    return;
+  }
+
+  const contentId =
+    action.split("/").pop().replace(".html", "");
+
+  let type = "custom";
+
+  if (action.includes("/series/")) {
+    type = "series";
+  } else if (action.includes("/peliculas/")) {
+    type = "movie";
+  }
+
+  const { error } = await supabase
+    .from("floating_notifications")
+    .insert([
+      {
+        enabled: true,
+        title,
+        message,
+        image,
+        action,
+        button_text: "VER AHORA",
+        type,
+        content_id: contentId,
+        version: "v1",
+        priority: 1,
+        show_once: true
+      }
+    ]);
+
+  if (error) {
+    console.log(error);
+    status.innerText = "❌ Error al guardar flotante";
+    return;
+  }
+
+  status.innerText = "✅ Notificación flotante guardada";
+}
 </script>
 
 </body>

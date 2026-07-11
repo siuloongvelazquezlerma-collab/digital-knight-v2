@@ -4,7 +4,7 @@ const STORAGE_KEY = "notifications_data";
 const CLEARED_KEY = "notifications_cleared";
 const VERSION_KEY = "notifications_version";
 const NOTIFICATIONS_VERSION = "2.9";
-
+const SWIPE_HELP_KEY = "notification_swipe_help";
 /* ================= ESTADO GLOBAL ================= */
 
 // 🔥 AQUÍ estaba tu bug principal (faltaba esto)
@@ -116,8 +116,99 @@ function renderNotifications() {
   notifications.forEach((n, index) => {
 
     const a = document.createElement("a");
-    a.className = `notification-item ${n.seen ? "seen" : "new"}`;
-    a.href = n.href;
+
+a.className =
+  `notification-item ${n.seen ? "seen" : "new"}`;
+
+a.href = n.href;
+
+let startX = 0;
+let currentX = 0;
+
+
+a.addEventListener(
+  "touchstart",
+  e => {
+
+    startX = e.touches[0].clientX;
+
+  }
+);
+
+
+a.addEventListener(
+  "touchmove",
+  e => {
+
+    currentX = e.touches[0].clientX;
+
+    const move =
+      currentX - startX;
+
+
+    if (Math.abs(move) > 10) {
+
+      a.style.transform =
+        `translateX(${move}px)`;
+
+    }
+
+  }
+);
+
+
+a.addEventListener(
+  "touchend",
+  () => {
+
+    const distance =
+      currentX - startX;
+
+
+    if (Math.abs(distance) > 120) {
+
+
+      notifications =
+        notifications.filter(
+          item => item !== n
+        );
+
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(notifications)
+      );
+
+
+      a.style.transition =
+        "0.3s";
+
+
+      a.style.opacity =
+        "0";
+
+
+      a.style.transform =
+        `translateX(${distance > 0 ? 500 : -500}px)`;
+
+
+      setTimeout(() => {
+
+        refreshUI();
+
+      },300);
+
+
+    } else {
+
+      a.style.transform =
+        "";
+
+    }
+
+
+  }
+);
 
     a.innerHTML = `
       <img src="${n.img}" class="notification-image">
@@ -159,10 +250,54 @@ function refreshUI() {
   renderNotifications();
 }
 
+function showSwipeHelp() {
+
+  if (localStorage.getItem(SWIPE_HELP_KEY)) {
+    return;
+  }
+
+
+  const container =
+    document.getElementById("notificationsContainer");
+
+
+  if (!container) return;
+
+
+  const help = document.createElement("div");
+
+  help.className = "swipe-help";
+
+  help.innerHTML = `
+    👈 Desliza una notificación hacia un lado para eliminarla 👉
+  `;
+
+
+  container.prepend(help);
+
+
+  setTimeout(() => {
+
+    help.remove();
+
+    localStorage.setItem(
+      SWIPE_HELP_KEY,
+      "true"
+    );
+
+  }, 5000);
+
+}
+
 /* ================= INIT GLOBAL ================= */
 
 function initNotifications() {
+
   addNotification();
+
   refreshUI();
+
+  showSwipeHelp();
+
 }
 
