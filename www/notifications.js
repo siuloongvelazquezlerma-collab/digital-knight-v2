@@ -1,5 +1,3 @@
-alert("notifications.js cargado");
-
 /* ================= NOTIFICACIONES ================= */
 
 const STORAGE_KEY = "notifications_data";
