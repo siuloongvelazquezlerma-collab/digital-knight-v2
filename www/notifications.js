@@ -1,3 +1,5 @@
+console.log("✅ notifications.js actualizado con push listener");
+
 /* ================= NOTIFICACIONES ================= */
 
 const STORAGE_KEY = "notifications_data";
@@ -10,6 +12,37 @@ const NOTIFICATIONS_VERSION = "2.9";
 // 🔥 AQUÍ estaba tu bug principal (faltaba esto)
 let notifications =
   JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+  /* ================= PUSH DESDE ANDROID ================= */
+
+window.addEventListener('pushNotificationReceived', (event) => {
+
+  console.log("🔔 Push recibido desde Android:", event.detail);
+
+  const data = event.detail;
+
+  notifications =
+    JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+
+  notifications.unshift({
+    href: data.action || "#",
+    img: data.image || "logo-2025.png",
+    title: data.title,
+    text: data.body,
+    seen: false
+  });
+
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(notifications)
+  );
+
+
+  refreshUI();
+
+});
 
 /* ================= BADGE REUTILIZABLE ================= */
 
