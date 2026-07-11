@@ -843,20 +843,23 @@ video.addEventListener('timeupdate', () => {
   }
 
   // Botón reiniciar
-  if (currentTime > 5 && currentTime < totalDuration - 5) {
+  const percentPlayed = currentTime / totalDuration;
+
+if (currentTime > 5 && percentPlayed < 0.8) {
     showRestartButton();
     localStorage.setItem(`hasStarted_${movieId}`, 'true');
-  }
+} else {
+    hideRestartButton();
+}
 
-  // Cambiar texto del botón
-  const percentPlayed = currentTime / totalDuration;
-  if (percentPlayed >= 0.8) {
+// Cambiar texto del botón
+if (percentPlayed >= 0.8) {
     watchButtonText.textContent = "Volver a ver";
-  } else if (currentTime > 10) {
+} else if (currentTime > 10) {
     watchButtonText.textContent = "Continuar viendo";
-  } else {
+} else {
     watchButtonText.textContent = "Ver ahora";
-  }
+}
 });
 
 // Evento final real
