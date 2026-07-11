@@ -1,4 +1,4 @@
-console.log("✅ notifications.js actualizado con push listener");
+alert("notifications.js cargado");
 
 /* ================= NOTIFICACIONES ================= */
 
