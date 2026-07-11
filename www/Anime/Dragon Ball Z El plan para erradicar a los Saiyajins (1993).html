@@ -849,7 +849,9 @@ video.addEventListener('timeupdate', () => {
   // Botón reiniciar
   const percentPlayed = currentTime / totalDuration;
 
-if (currentTime > 5 && percentPlayed < 0.8) {
+if (watchButtonText.textContent === "Volver a ver") {
+    hideRestartButton();
+} else if (currentTime > 5 && percentPlayed < 0.8) {
     showRestartButton();
     localStorage.setItem(`hasStarted_${movieId}`, 'true');
 } else {
@@ -1278,13 +1280,16 @@ function showRestartButton() {
   const percentPlayed = currentTime / totalDuration;
 
   // Solo mostrar si la película NO terminó (menos de 90%)
-  if (percentPlayed < 0.8) {
-    restartButton.style.display = 'flex';
-    restartButton.classList.add('shown');
-    document.getElementById('restartSpacer').style.height = '60px'; // ajusta según el alto del botón
-  } else {
+  if (percentPlayed < 0.8 &&
+    watchButtonText.textContent !== "Volver a ver") {
+
+    restartButton.style.display = "flex";
+    restartButton.classList.add("shown");
+    document.getElementById("restartSpacer").style.height = "60px";
+
+} else {
     hideRestartButton();
-  }
+}
 }
 
 function hideRestartButton() {
