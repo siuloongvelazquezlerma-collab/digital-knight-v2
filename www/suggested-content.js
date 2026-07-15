@@ -56,14 +56,37 @@ overflow:hidden;
 
 }
 
+#suggestionBackground{
+
+position:absolute;
+
+inset:0;
+
+background-size:cover;
+
+background-position:center;
+
+background-repeat:no-repeat;
+
+z-index:0;
+
+filter:brightness(.35);
+
+}
+
+
 #suggestionVideo{
+
+position:relative;
+
+z-index:1;
 
 width:100%;
 height:100%;
 
 object-fit:contain;
 
-background:black;
+background:transparent;
 
 }
 
@@ -181,6 +204,15 @@ console.log("Video:", document.getElementById("suggestionVideo"));
 
     const availableSuggestions =
     window.suggestionsLibrary.filter(x => x.active);
+
+
+const item =
+    availableSuggestions[
+        Math.floor(Math.random() * availableSuggestions.length)
+    ];
+
+
+if (!item) return;
 
 
 const background =
