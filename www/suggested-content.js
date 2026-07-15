@@ -15,6 +15,7 @@ function createSuggestionOverlay() {
 <video
     id="suggestionVideo"
     playsinline
+    muted
     preload="auto">
 </video>
 
@@ -61,7 +62,9 @@ height:100%;
 
 object-fit:contain;
 
-background:black;
+background:#000;
+
+display:block;
 
 }
 
@@ -195,6 +198,9 @@ const item =
 video.src = item.video;
 video.load();
 
+video.style.background = "#000";
+video.controls = false;
+
 const progressFill =
 document.getElementById("suggestionProgressFill");
 
@@ -258,7 +264,7 @@ const countdown = setInterval(() => {
 }, 1000);
 
 
-
+video.muted = false;
     video.play().then(()=>{
 
     console.log("▶️ Trailer iniciado");
