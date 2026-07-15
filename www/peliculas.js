@@ -27,7 +27,11 @@ window.addEventListener('load', function () {
 });
 
 
-const video = document.getElementById('video');
+const videoElement = document.getElementById('video');
+const video = videoElement.tagName === "VIDEO"
+  ? videoElement
+  : document.getElementById('video_html5_api');
+console.log("Al cargar la página:", video);
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -241,17 +245,44 @@ function showPlayer() {
 
 
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+
+player.addEventListener('click', () => {
+    showControls();
+});
+
+player.addEventListener('touchstart', showControls, { passive: true });
 
 function enterFullscreen() {
-  if (player.requestFullscreen) {
-    player.requestFullscreen();
-  } else if (player.webkitRequestFullscreen) {
-    player.webkitRequestFullscreen();
-  } else if (player.msRequestFullscreen) {
-    player.msRequestFullscreen();
-  }
+
+    console.trace("📺 enterFullscreen()");
+
+    if (document.fullscreenElement) {
+        console.log("⚠️ Ya está en fullscreen");
+        return;
+    }
+
+    try {
+
+        if (player.requestFullscreen) {
+
+            player.requestFullscreen();
+
+        } else if (player.webkitRequestFullscreen) {
+
+            player.webkitRequestFullscreen();
+
+        } else if (player.msRequestFullscreen) {
+
+            player.msRequestFullscreen();
+
+        }
+
+    } catch (e) {
+
+        console.warn("❌ Error entrando fullscreen:", e);
+
+    }
+
 }
 
 function exitFullscreen() {

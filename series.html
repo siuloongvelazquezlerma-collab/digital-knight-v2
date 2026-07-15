@@ -1910,8 +1910,12 @@ function showPlayer() {
 video.on('timeupdate', updateProgress);
 video.on('loadedmetadata', updateProgress);
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+
+player.addEventListener('click', () => {
+    showControls();
+});
+
+player.addEventListener('touchstart', showControls, { passive: true });
 
 function enterFullscreen() {
   if (player.requestFullscreen) {
@@ -3740,6 +3744,8 @@ const tabs = document.querySelector('.tabs-secondary');
 
 </script>
 
+<script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
 <script src="../player-series.js"></script>
 <script type="module" src="../player-series-module.js"></script>
 <script src="../wakelock.js"></script>

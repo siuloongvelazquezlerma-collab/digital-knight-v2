@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="" id="twImage">
 
 
-  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+ 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
@@ -261,7 +261,7 @@
   
       <div class="bloque-botones">
         <div id="video-controls">
-          <button id="watchButton" class="watch-button" onclick="showPlayer()">
+          <button id="watchButton" class="watch-button">
             <span id="watchButtonIcon" class="material-icons">play_arrow</span>
             <div class="watch-text-wrapper">
               <span id="watchButtonText">Ver ahora</span>
@@ -491,6 +491,9 @@
  
 
  
+<script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
+ 
 <script>
 
 window.movieId = "x-men-36657";
@@ -520,7 +523,11 @@ window.addEventListener('load', function () {
 });
 
 
-const video = document.getElementById('video');
+const videoElement = document.getElementById('video');
+const video = videoElement.tagName === "VIDEO"
+  ? videoElement
+  : document.getElementById('video_html5_api');
+console.log("Al cargar la página:", video);
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -1026,12 +1033,37 @@ function updateWatchButtonFromStorage() {
 }
 
 // Botón principal
-document.getElementById('watchButton').addEventListener('click', () => {
-  if (watchButtonText.textContent.includes("Volver a ver")) {
-    restartMovie();
-  } else {
-    showPlayer();
-  }
+
+
+document.getElementById('watchButton').addEventListener('click', async () => {
+
+    console.log("🟢 CLICK EN VER AHORA");
+
+
+    if (!window.suggestionShown) {
+
+        console.log("⏳ Lanzando sugerencia");
+
+        await window.showSuggestedContent();
+
+        console.log("✅ Sugerencia terminada");
+
+    }
+
+
+    console.log("🎬 Voy a abrir reproductor");
+
+
+    if (watchButtonText.textContent.includes("Volver a ver")) {
+
+        restartMovie();
+
+    } else {
+
+        showPlayer();
+
+    }
+
 });
 
 // Reiniciar
@@ -1135,6 +1167,7 @@ const overlayTop = document.getElementById('overlayTop');
 const overlayBottom = document.getElementById('overlayBottom');
 
 function showControls() {
+  console.log("🟢 showControls()");
   controls.classList.remove('hidden');
   overlay.classList.add('visible');
   overlayTop.classList.add('visible');
@@ -1218,39 +1251,93 @@ if (isTouchDevice) {
 }
 
 function showPlayer() {
-  cover.style.display = 'none';
-  player.style.display = 'flex';
-  video.play();
-  playPauseBtn.textContent = 'pause';
-  showControls();
 
-  // 🔥 IMPORTANTE: primero Android, luego fullscreen
-  if (window.Android) {
-    Android.setLandscape();
-  } else {
-    console.log("❌ Android no disponible");
-  }
+    console.trace("🎬 showPlayer()");
 
-  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
-  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-    progressBar.style.display = "block";
-    showRestartButton();
-  }
+    player.style.pointerEvents = "auto";
+
+    cover.style.display = 'none';
+    player.style.display = 'flex';
+
+
+    // 🔥 IMPORTANTE: primero Android, luego fullscreen
+    if (window.Android) {
+        Android.setLandscape();
+    } else {
+        console.log("❌ Android no disponible");
+    }
+
+
+    video.play();
+
+    playPauseBtn.textContent = 'pause';
+
+    showControls();
+
+
+    // 🔥 Entrar fullscreen solo si no estamos ya dentro
+    if (!document.fullscreenElement) {
+        enterFullscreen();
+    }
+
+
+    // Mostrar controles después de la transición
+    setTimeout(() => {
+        showControls();
+    }, 500);
+
+
+    // Mostrar barra y botón si ya hay progreso
+    if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+
+        progressBar.style.display = "block";
+        showRestartButton();
+
+    }
+
 }
 
 
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+
+player.addEventListener('click', () => {
+    showControls();
+});
+
+player.addEventListener('touchstart', showControls, { passive: true });
+
 
 function enterFullscreen() {
-  if (player.requestFullscreen) {
-    player.requestFullscreen();
-  } else if (player.webkitRequestFullscreen) {
-    player.webkitRequestFullscreen();
-  } else if (player.msRequestFullscreen) {
-    player.msRequestFullscreen();
-  }
+
+    console.trace("📺 enterFullscreen()");
+
+    if (document.fullscreenElement) {
+        console.log("⚠️ Ya está en fullscreen");
+        return;
+    }
+
+    try {
+
+        if (player.requestFullscreen) {
+
+            player.requestFullscreen();
+
+        } else if (player.webkitRequestFullscreen) {
+
+            player.webkitRequestFullscreen();
+
+        } else if (player.msRequestFullscreen) {
+
+            player.msRequestFullscreen();
+
+        }
+
+    } catch (e) {
+
+        console.warn("❌ Error entrando fullscreen:", e);
+
+    }
+
 }
 
 function exitFullscreen() {
@@ -1263,36 +1350,68 @@ function exitFullscreen() {
   }
 }
 
+let changingFromSuggestion = false;
+
 document.addEventListener('fullscreenchange', () => {
+
   const isFullscreen = document.fullscreenElement;
+
   if (!isFullscreen) {
+
+    if (window.changingFromSuggestion) {
+
+      window.changingFromSuggestion = false;
+      return;
+
+    }
+
+
     if (!video.paused) {
       video.pause();
     }
+
+
     playPauseBtn.textContent = 'play_arrow';
+
     player.style.display = 'none';
     cover.style.display = 'flex';
+
   }
+
 });
+
 
 let hasStarted = false;
 let reiniciaTimer = null;
 
 video.addEventListener('play', () => {
+
   if (!hasStarted && video.currentTime < video.duration - 5) {
+
     hasStarted = true;
 
     reiniciaTimer = setTimeout(() => {
+
       if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+
         showRestartButton();
         localStorage.setItem(`hasStarted_${movieId}`, 'true');
         progressBar.style.display = "block";
+
       }
+
     }, 5000);
 
-    // 🆕 Forzar fullscreen la primera vez que empieza
-    enterFullscreen();
+
+    // 📱 Android maneja orientación
+    if (window.Android) {
+
+      Android.setLandscape();
+
+    }
+
   }
+
 });
 
 
@@ -1308,7 +1427,7 @@ function showRestartButton() {
 
     restartButton.style.display = "flex";
     restartButton.classList.add("shown");
-    document.getElementById("restartSpacer").style.height = "60px";
+    // document.getElementById("restartSpacer").style.height = "60px";
 
 } else {
     hideRestartButton();
@@ -1318,7 +1437,7 @@ function showRestartButton() {
 function hideRestartButton() {
   restartButton.style.display = 'none';
   restartButton.classList.remove('shown');
-  document.getElementById('restartSpacer').style.height = '0px';
+  // document.getElementById("restartSpacer").style.height = "0px";
 }
 
 function actualizarMediaSession() {

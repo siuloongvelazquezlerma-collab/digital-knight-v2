@@ -1898,28 +1898,57 @@ function showControls() {
 
 
 function showPlayer() {
-  cover.style.display = 'none';
-  player.style.display = 'flex';
-  video.play();
-  playPauseBtn.textContent = 'pause';
-  showControls();
+
+    console.trace("🎬 showPlayer()");
+
+    player.style.pointerEvents = "auto";
+
+    cover.style.display = 'none';
+    player.style.display = 'flex';
   enterFullscreen();
 }
 
 video.on('timeupdate', updateProgress);
 video.on('loadedmetadata', updateProgress);
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+
+player.addEventListener('click', () => {
+    showControls();
+});
+
+player.addEventListener('touchstart', showControls, { passive: true });
 
 function enterFullscreen() {
-  if (player.requestFullscreen) {
-    player.requestFullscreen();
-  } else if (player.webkitRequestFullscreen) {
-    player.webkitRequestFullscreen();
-  } else if (player.msRequestFullscreen) {
-    player.msRequestFullscreen();
-  }
+
+    console.trace("📺 enterFullscreen()");
+
+    if (document.fullscreenElement) {
+        console.log("⚠️ Ya está en fullscreen");
+        return;
+    }
+
+    try {
+
+        if (player.requestFullscreen) {
+
+            player.requestFullscreen();
+
+        } else if (player.webkitRequestFullscreen) {
+
+            player.webkitRequestFullscreen();
+
+        } else if (player.msRequestFullscreen) {
+
+            player.msRequestFullscreen();
+
+        }
+
+    } catch (e) {
+
+        console.warn("❌ Error entrando fullscreen:", e);
+
+    }
+
 }
 
 function exitFullscreen() {
@@ -3159,6 +3188,8 @@ const tabs = document.querySelector('.tabs-secondary');
 
 </script>
 
+<script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
 <script src="../player-series.js"></script>
 <script type="module" src="../player-series-module.js"></script>
 <script src="../wakelock.js"></script>

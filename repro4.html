@@ -366,7 +366,11 @@
 
   <!-- Playlist embebida como JSON -->
   <script>
-    const video = document.getElementById('video');
+    const videoElement = document.getElementById('video');
+const video = videoElement.tagName === "VIDEO"
+  ? videoElement
+  : document.getElementById('video_html5_api');
+console.log("Al cargar la página:", video);
 const controls = document.getElementById('controls');
 const player = document.getElementById('player');
 const progress = document.getElementById('progress');
@@ -535,8 +539,12 @@ function showControls() {
 }
 
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+
+player.addEventListener('click', () => {
+    showControls();
+});
+
+player.addEventListener('touchstart', showControls, { passive: true });
 
 showControls(); // Mostrar controles al cargar
 

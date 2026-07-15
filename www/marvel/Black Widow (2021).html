@@ -261,7 +261,7 @@
   
       <div class="bloque-botones">
         <div id="video-controls">
-          <button id="watchButton" class="watch-button" onclick="showPlayer()">
+          <button id="watchButton" class="watch-button">
             <span id="watchButtonIcon" class="material-icons">play_arrow</span>
             <div class="watch-text-wrapper">
               <span id="watchButtonText">Ver ahora</span>
@@ -492,6 +492,9 @@
  
 
  
+<script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
+ 
 <script>
 
 window.movieId = "black-widow-497698";
@@ -547,7 +550,11 @@ window.addEventListener('load', function () {
 });
 
 
-const video = document.getElementById('video');
+const videoElement = document.getElementById('video');
+const video = videoElement.tagName === "VIDEO"
+  ? videoElement
+  : document.getElementById('video_html5_api');
+console.log("Al cargar la página:", video);
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -1053,12 +1060,35 @@ function updateWatchButtonFromStorage() {
 }
 
 // Botón principal
-document.getElementById('watchButton').addEventListener('click', () => {
-  if (watchButtonText.textContent.includes("Volver a ver")) {
-    restartMovie();
-  } else {
-    showPlayer();
-  }
+document.getElementById('watchButton').addEventListener('click', async () => {
+
+    console.log("🟢 CLICK EN VER AHORA");
+
+
+    if (!window.suggestionShown) {
+
+        console.log("⏳ Lanzando sugerencia");
+
+        await window.showSuggestedContent();
+
+        console.log("✅ Sugerencia terminada");
+
+    }
+
+
+    console.log("🎬 Voy a abrir reproductor");
+
+
+    if (watchButtonText.textContent.includes("Volver a ver")) {
+
+        restartMovie();
+
+    } else {
+
+        showPlayer();
+
+    }
+
 });
 
 // Reiniciar
@@ -1245,11 +1275,13 @@ if (isTouchDevice) {
 }
 
 function showPlayer() {
-  cover.style.display = 'none';
-  player.style.display = 'flex';
-  video.play();
-  playPauseBtn.textContent = 'pause';
-  showControls();
+
+    console.trace("🎬 showPlayer()");
+
+    player.style.pointerEvents = "auto";
+
+    cover.style.display = 'none';
+    player.style.display = 'flex';
 
   // 🔥 IMPORTANTE: primero Android, luego fullscreen
   if (window.Android) {
@@ -1258,26 +1290,75 @@ function showPlayer() {
     console.log("❌ Android no disponible");
   }
 
-  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
-  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-    progressBar.style.display = "block";
-    showRestartButton();
-  }
+  video.play();
+
+    playPauseBtn.textContent = 'pause';
+
+    showControls();
+
+
+    // 🔥 Entrar fullscreen solo si no estamos ya dentro
+    if (!document.fullscreenElement) {
+        enterFullscreen();
+    }
+
+
+    // Mostrar controles después de la transición
+    setTimeout(() => {
+        showControls();
+    }, 500);
+
+
+    // Mostrar barra y botón si ya hay progreso
+    if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+
+        progressBar.style.display = "block";
+        showRestartButton();
+
+    }
+
 }
 
 
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+
+player.addEventListener('click', () => {
+    showControls();
+});
+
+player.addEventListener('touchstart', showControls, { passive: true });
 
 function enterFullscreen() {
-  if (player.requestFullscreen) {
-    player.requestFullscreen();
-  } else if (player.webkitRequestFullscreen) {
-    player.webkitRequestFullscreen();
-  } else if (player.msRequestFullscreen) {
-    player.msRequestFullscreen();
-  }
+
+    console.trace("📺 enterFullscreen()");
+
+    if (document.fullscreenElement) {
+        console.log("⚠️ Ya está en fullscreen");
+        return;
+    }
+
+    try {
+
+        if (player.requestFullscreen) {
+
+            player.requestFullscreen();
+
+        } else if (player.webkitRequestFullscreen) {
+
+            player.webkitRequestFullscreen();
+
+        } else if (player.msRequestFullscreen) {
+
+            player.msRequestFullscreen();
+
+        }
+
+    } catch (e) {
+
+        console.warn("❌ Error entrando fullscreen:", e);
+
+    }
+
 }
 
 function exitFullscreen() {
@@ -1290,36 +1371,68 @@ function exitFullscreen() {
   }
 }
 
+let changingFromSuggestion = false;
+
 document.addEventListener('fullscreenchange', () => {
+
   const isFullscreen = document.fullscreenElement;
+
   if (!isFullscreen) {
+
+    if (window.changingFromSuggestion) {
+
+      window.changingFromSuggestion = false;
+      return;
+
+    }
+
+
     if (!video.paused) {
       video.pause();
     }
+
+
     playPauseBtn.textContent = 'play_arrow';
+
     player.style.display = 'none';
     cover.style.display = 'flex';
+
   }
+
 });
+
 
 let hasStarted = false;
 let reiniciaTimer = null;
 
 video.addEventListener('play', () => {
+
   if (!hasStarted && video.currentTime < video.duration - 5) {
+
     hasStarted = true;
 
     reiniciaTimer = setTimeout(() => {
+
       if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+
         showRestartButton();
         localStorage.setItem(`hasStarted_${movieId}`, 'true');
         progressBar.style.display = "block";
+
       }
+
     }, 5000);
 
-    // 🆕 Forzar fullscreen la primera vez que empieza
-    enterFullscreen();
+
+    // 📱 Android maneja orientación
+    if (window.Android) {
+
+      Android.setLandscape();
+
+    }
+
   }
+
 });
 
 
