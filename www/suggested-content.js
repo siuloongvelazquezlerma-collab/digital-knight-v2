@@ -247,7 +247,7 @@ video.ontimeupdate = ()=>{
 
 };
 
-    // document.getElementById("suggestionPoster").src = item.poster;
+    document.getElementById("suggestionPoster").src = item.poster;
 
 
     suggestionOverlay.style.display = "flex";
