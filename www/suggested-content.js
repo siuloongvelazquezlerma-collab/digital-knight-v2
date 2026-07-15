@@ -12,12 +12,14 @@ function createSuggestionOverlay() {
 
    suggestionOverlay.innerHTML = `
 
-<video
-    id="suggestionVideo"
-    playsinline
-    preload="auto"
-    poster="">
-</video>
+<div id="suggestionVideoContainer">
+    <video
+        id="suggestionVideo"
+        playsinline
+        preload="auto"
+        poster="https://wallpapercave.com/wp/wp5415042.jpg">
+    </video>
+</div>
 
 
 <div id="suggestionLabel"></div>
@@ -55,19 +57,25 @@ overflow:hidden;
 
 }
 
+#suggestionVideoContainer{
+
+    position:absolute;
+    inset:0;
+
+    background:#000;
+
+}
 
 #suggestionVideo{
 
-position:relative;
+    width:100%;
+    height:100%;
 
-z-index:1;
+    display:block;
 
-width:100%;
-height:100%;
+    object-fit:contain;
 
-object-fit:contain;
-
-background:black;
+    background:transparent;
 
 }
 
@@ -157,18 +165,6 @@ border-radius:20px;
 
 }
 
-#suggestionLabel{
-    z-index:10;
-}
-
-#suggestionSkip{
-    z-index:10;
-}
-
-#suggestionProgress{
-    z-index:10;
-}
-
 `;
 
     document.head.appendChild(style);
@@ -204,23 +200,14 @@ const item =
         Math.floor(Math.random() * availableSuggestions.length)
     ];
 
-
-if (!item) return;
-
-
     document.getElementById("suggestionLabel").textContent =
     "⭐ " + item.label;
 
     if (!item) return;
     const video = document.getElementById("suggestionVideo");
 
-video.poster = item.poster || "";
 video.src = item.video;
 video.load();
-
-video.onplaying = () => {
-    background.style.display = "none";
-};
 
 const progressFill =
 document.getElementById("suggestionProgressFill");
@@ -235,7 +222,7 @@ video.ontimeupdate = ()=>{
 
 };
 
-    
+    // document.getElementById("suggestionPoster").src = item.poster;
 
 
     suggestionOverlay.style.display = "flex";
