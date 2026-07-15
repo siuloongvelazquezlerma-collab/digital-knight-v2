@@ -12,12 +12,11 @@ function createSuggestionOverlay() {
 
    suggestionOverlay.innerHTML = `
 
-<div id="suggestionBackground"></div>
-
 <video
- id="suggestionVideo"
- playsinline
- preload="auto">
+    id="suggestionVideo"
+    playsinline
+    preload="auto"
+    poster="">
 </video>
 
 
@@ -56,24 +55,6 @@ overflow:hidden;
 
 }
 
-#suggestionBackground{
-
-position:absolute;
-
-inset:0;
-
-background-size:cover;
-
-background-position:center;
-
-background-repeat:no-repeat;
-
-z-index:0;
-
-filter:brightness(.35);
-
-}
-
 
 #suggestionVideo{
 
@@ -86,7 +67,7 @@ height:100%;
 
 object-fit:contain;
 
-background:transparent;
+background:black;
 
 }
 
@@ -176,6 +157,18 @@ border-radius:20px;
 
 }
 
+#suggestionLabel{
+    z-index:10;
+}
+
+#suggestionSkip{
+    z-index:10;
+}
+
+#suggestionProgress{
+    z-index:10;
+}
+
 `;
 
     document.head.appendChild(style);
@@ -215,24 +208,19 @@ const item =
 if (!item) return;
 
 
-const background =
-document.getElementById("suggestionBackground");
-
-if(background && item.poster){
-
-    background.style.backgroundImage =
-    `url("${item.poster}")`;
-
-}
-
     document.getElementById("suggestionLabel").textContent =
     "⭐ " + item.label;
 
     if (!item) return;
     const video = document.getElementById("suggestionVideo");
 
+video.poster = item.poster || "";
 video.src = item.video;
 video.load();
+
+video.onplaying = () => {
+    background.style.display = "none";
+};
 
 const progressFill =
 document.getElementById("suggestionProgressFill");
@@ -247,7 +235,7 @@ video.ontimeupdate = ()=>{
 
 };
 
-    document.getElementById("suggestionPoster").src = item.poster;
+    
 
 
     suggestionOverlay.style.display = "flex";
