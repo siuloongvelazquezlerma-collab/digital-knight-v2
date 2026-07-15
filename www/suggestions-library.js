@@ -2380,5 +2380,437 @@ window.suggestionsLibrary = [
   skipAfter: 10,
   active: true
 },
+{
+  id: "ant-man-and-the-wasp",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Ant-Man and the Wasp",
+  description: "El universo Marvel sigue creciendo.",
+  video: "https://od.lk/s/M18zMDQ4NjEzNDVf/Ant-Man%20and%20the%20Wasp%20-%20Trailer%20%232%20Espa%C3%B1ol%20Latino.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "ant-man-quantumania",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Ant-Man y The Wasp: Quantumania",
+  description: "Una nueva aventura dentro del Reino Cuántico.",
+  video: "https://od.lk/s/M18zMDQ4ODg5MTBf/Ant-Man%20and%20The%20Wasp_%20Quantumania%20-%20Tr%C3%A1iler%20Oficial%20%28Full%20HD%20120fps%20Latino%29.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "ant-man",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Ant-Man",
+  description: "El héroe más pequeño con la aventura más grande.",
+  video: "https://od.lk/s/M18zMDQ3OTYwMzdf/Ant-Man_%20El%20hombre%20hormiga%20-%20Tr%C3%A1iler%20Oficial%20%28Doblado%20al%20espa%C3%B1ol%29.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "avengers-endgame",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Avengers: Endgame",
+  description: "La batalla final de los héroes más poderosos.",
+  video: "https://od.lk/s/M18zMDQ4ODIyNjhf/Avengers%204_%20Endgame%20%28Tr%C3%A1iler%201%20_%20Doblado%20Espa%C3%B1ol%20Latino%29%20_IMAX_.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "avengers-infinity-war",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Avengers: Infinity War",
+  description: "Los héroes enfrentan la amenaza definitiva.",
+  video: "https://od.lk/s/M18zMDQ4NzkwODVf/Avengers%20Infinity%20War%20-%20Trailer%202%20ESPA%C3%91OL%20LATINO%202018.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "avengers-ultron",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Avengers: Era de Ultrón",
+  description: "Una nueva amenaza pone a prueba a los Vengadores.",
+  video: "https://od.lk/s/M18zMDQ3OTU4OTlf/Avengers_%20Era%20de%20Ultr%C3%B3n%20-%20Tr%C3%A1iler%20Oficial%20%28Doblado%20al%20espa%C3%B1ol%29.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "black-widow",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Black Widow",
+  description: "La historia de Natasha Romanoff llega a la pantalla.",
+  video: "https://od.lk/s/M18zMDQ3OTg5NzBf/Black%20Widow%20de%20Marvel%20Studios%20%E2%80%93%20Tr%C3%A1iler%20oficial%20%231%20%28Doblado%29.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "capitan-america-primer-vengador",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Capitán América: El Primer Vengador",
+  description: "El nacimiento de una leyenda.",
+  video: "https://od.lk/s/M18zMDQ3OTEyNzBf/Capit%C3%A1n%20Am%C3%A9rica%20El%20Primer%20Vengador%20%282011%29%20Tr%C3%A1iler%20Oficial%20%231%20Doblado%20al%20Espa%C3%B1ol%20Latino.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "capitan-america-winter-soldier",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Capitán América y el Soldado del Invierno",
+  description: "Una misión que cambiará todo.",
+  video: "https://od.lk/s/M18zMDQ3OTQ3NjZf/Capit%C3%A1n%20Am%C3%A9rica%20y%20el%20Soldado%20del%20Invierno%20-%20Contenido%20Exclusivo%20-%20Latinoam%C3%A9rica%20%28doblado%29.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+  id: "capitan-america-civil-war",
+  type: "recommended",
+  label: "Recomendado para ti",
+  title: "Capitán América: Civil War",
+  description: "Los héroes se dividen y comienza el conflicto.",
+  video: "https://od.lk/s/M18zMDQ3OTcyMTdf/Capit%C3%A1n%20Am%C3%A9rica_%20Civil%20War%20-%20tr%C3%A1iler%20oficial%20%231%20Espa%C3%B1ol%20Latino%20%5BHD%5D.mp4",
+  poster: "",
+  skipAfter: 10,
+  active: true
+},
+
+{
+id:"capitana-marvel",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Capitana Marvel",
+description:"Una nueva heroína llega para cambiar el universo.",
+video:"https://od.lk/s/M18zMDQ3OTEyNzNf/Capitana%20Marvel%20-%20Trailer%20%231%20Espa%C3%B1ol%20Latino.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"deadpool-wolverine",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Deadpool & Wolverine",
+description:"Dos leyendas se unen en una aventura inesperada.",
+video:"https://od.lk/s/M18zMDU4MTM1OTJf/Deadpool%20%26%20Wolverine%20_%20Tr%C3%A1iler%20Oficial%20_%20Doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"doctor-strange-multiverso",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Doctor Strange en el Multiverso de la Locura",
+description:"El multiverso se abre y nada volverá a ser igual.",
+video:"https://od.lk/s/M18zMDQ4MjgzNjhf/Doctor%20Strange%20en%20el%20Multiverso%20de%20la%20Locura%20_%20Tr%C3%A1iler%20Oficial%20_%20Doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"doctor-strange-multiverso-2",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Doctor Strange en el Multiverso de la Locura",
+description:"Explora nuevas dimensiones del universo Marvel.",
+video:"https://od.lk/s/M18zMDQ4ODg1ODVf/Doctor%20Strange%20en%20el%20Multiverso%20de%20la%20Locura%20_%20Tr%C3%A1iler%20Oficial%20_%20Doblado%20%281%29.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"doctor-strange",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Doctor Strange",
+description:"El hechicero supremo comienza su camino.",
+video:"https://od.lk/s/M18zMDQ4MjgzNjdf/Doctor%20Strange%20Hechicero%20Supremo%20%282016%29%20Teaser%20Tr%C3%A1iler%20%231%20Doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"eternals",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Eternals",
+description:"Héroes antiguos regresan para proteger la Tierra.",
+video:"https://od.lk/s/M18zMDQ4ODUwMThf/Eternals%20de%20Marvel%20Studios%20_%20Tr%C3%A1iler%20Oficial%20_%C2%A0Doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"guardianes-galaxia",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Guardianes de la Galaxia",
+description:"Una aventura espacial llena de acción y humor.",
+video:"https://od.lk/s/M18zMDQ3OTQ4MTVf/Guardianes%20de%20la%20Galaxia%20tr%C3%A1iler%20%20--%20Oficial%20%28Doblado%29.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"guardianes-galaxia-vol3",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Guardianes de la Galaxia Vol. 3",
+description:"El equipo vuelve para una última gran misión.",
+video:"https://od.lk/s/M18zMDQ4OTMyMzJf/Guardianes%20de%20la%20Galaxia%20Vol%20%203%20Tr%C3%A1iler%20Espa%C3%B1ol%20Latino.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"guardianes-galaxia-vol2",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Guardianes de la Galaxia Vol. 2",
+description:"Más aventuras con los héroes más extraños del espacio.",
+video:"https://od.lk/s/M18zMDQ3OTU4OTNf/Guardianes%20de%20la%20Galaxia%20Vol.%202%20%E2%80%93%20Primer%20adelanto.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"iron-man-3",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Iron Man 3",
+description:"Tony Stark enfrenta su mayor desafío.",
+video:"https://od.lk/s/M18zMDQ3OTQ2Mjlf/Iron%20Man%203_%20Tr%C3%A1iler%20Oficial%20Doblado%20--%20Latinoam%C3%A9rica.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+{
+id:"iron-man-1",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Iron Man",
+description:"El inicio del héroe que cambió el universo Marvel.",
+video:"https://od.lk/s/M18zMDQ3OTEyODFf/Ironman%201%20trailer%20latino.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"iron-man-2",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Iron Man 2",
+description:"Tony Stark regresa con nuevos enemigos.",
+video:"https://od.lk/s/M18zMDQ3OTMxMzlf/IronMan%202%20-%20Trailer%20Espa%C3%B1ol%20Latino%20HD%20%5B720p%5D.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"pantera-negra-wakanda",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Pantera Negra: Wakanda Por Siempre",
+description:"Wakanda lucha por mantener vivo su legado.",
+video:"https://od.lk/s/M18zMDQ4ODc0MThf/Pantera%20Negra%20-%20Wakanda%20Por%20Siempre%20-%20Trailer%20Oficial%20Doblado%20Espa%C3%B1ol%20Latino..mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"pantera-negra",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Pantera Negra",
+description:"El rey de Wakanda llega al universo Marvel.",
+video:"https://od.lk/s/M18zMDQ4MDAyNjNf/Pantera%20Negra%2C%20de%20Marvel%20Studios%20%E2%80%93%20Nuevo%20Tr%C3%A1iler.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"shang-chi",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Shang-Chi y la Leyenda de los Diez Anillos",
+description:"Un nuevo héroe descubre su verdadero poder.",
+video:"https://od.lk/s/M18zMDQ4ODQ4Mzhf/Shang-Chi%20y%20la%20Leyenda%20de%20los%20Diez%20Anillos%20_%20Marvel%20Studios%20_%20Tr%C3%A1iler%20doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"avengers",
+type:"recommended",
+label:"Recomendado para ti",
+title:"The Avengers: Los Vengadores",
+description:"Los héroes más poderosos de la Tierra se reúnen.",
+video:"https://od.lk/s/M18zMDQ3OTQzNTJf/The%20Avengers_%20Los%20Vengadores%20-%20Tr%C3%A1iler%20Oficial%20-%20Doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"the-marvels",
+type:"recommended",
+label:"Recomendado para ti",
+title:"The Marvels",
+description:"Nuevas heroínas unen sus fuerzas.",
+video:"https://od.lk/s/M18zMDQ5MDkyODlf/The%20Marvels%20de%20Marvel%20Studios%20_%20Tr%C3%A1iler%20Oficial%20_%20Subtitulado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"thor-love-thunder",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Thor: Amor y Trueno",
+description:"El dios del trueno vuelve a la batalla.",
+video:"https://od.lk/s/M18zMDQ4ODc3ODRf/Thor%20%20Amor%20y%20Trueno%20-%20Tr%C3%A1iler%20Oficial%20%28Espa%C3%B1ol%20Latino%29.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"thor-ragnarok",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Thor: Ragnarok",
+description:"Thor enfrenta una amenaza que cambiará todo.",
+video:"https://od.lk/s/M18zMDQ4NjA3NDdf/Thor%20-%20Ragnarok_%20Primer%20adelanto.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"thor-2011",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Thor",
+description:"El príncipe de Asgard descubre su destino.",
+video:"https://od.lk/s/M18zMDQ3OTMxOTRf/THOR%20%282011%29%20_%20Tr%C3%A1iler%20Oficial%20Doblado%20Espa%C3%B1ol%20Latino%E3%80%90HD%E3%80%91.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"thor-dark-world",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Thor: Un Mundo Oscuro",
+description:"Una nueva amenaza pone en peligro los nueve reinos.",
+video:"https://od.lk/s/M18zMDQ3OTQ1MzRf/Thor_%20Un%20Mundo%20Oscuro%20-%20Tr%C3%A1iler%20Oficial%20Doblado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+{
+id:"crepusculo-amanecer-parte-1",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Crepúsculo: Amanecer - Parte 1",
+description:"La historia de Bella y Edward continúa en una nueva etapa.",
+video:"https://od.lk/s/M18zMDUxMzQwNTNf/Crep%C3%BAsculo%20La%20Saga_%20Amanecer%20Parte%201%20Trailer%20Oficial.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"crepusculo-eclipse",
+type:"recommended",
+label:"Recomendado para ti",
+title:"La Saga Crepúsculo: Eclipse",
+description:"Un nuevo peligro amenaza la historia de amor entre Bella y Edward.",
+video:"https://od.lk/s/M18zMDUxMzM0ODBf/Crep%C3%BAsculo%20la%20Saga_%20ECLIPSE%20-%20Tr%C3%A1iler%20oficial%20de%20la%20pel%C3%ADcula%20subititulado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"crepusculo-amanecer-parte-2",
+type:"recommended",
+label:"Recomendado para ti",
+title:"La Saga Crepúsculo: Amanecer - Parte 2",
+description:"El capítulo final de la saga llega con una nueva batalla.",
+video:"https://od.lk/s/M18zMDUxMzQzOTBf/LA%20SAGA%20CREP%C3%9ASCULO_%20AMANECER%20%28PARTE%202%29%20-%20Teaser%20trailer%20subtitulado.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"crepusculo-luna-nueva",
+type:"recommended",
+label:"Recomendado para ti",
+title:"La Saga Crepúsculo: Luna Nueva",
+description:"Bella enfrenta una nueva etapa lejos de Edward.",
+video:"https://od.lk/s/M18zMDUxMzMxMzNf/The%20Twilight%20Saga_%20New%20Moon%20%5BTrailer%20Sub%20Espa%C3%B1ol%5D%20HD.mp4",
+poster:"",
+skipAfter:10,
+active:true
+},
+
+{
+id:"crepusculo",
+type:"recommended",
+label:"Recomendado para ti",
+title:"Crepúsculo",
+description:"El comienzo de una historia de amor sobrenatural.",
+video:"https://od.lk/s/M18zMDUxMzE4NDZf/Twilight%20-%20Official%20Trailer%20%28Subtitulado%20en%20Espa%C3%B1ol%29.mp4",
+poster:"",
+skipAfter:10,
+active:true
+}
+
+
+
 
 ];
