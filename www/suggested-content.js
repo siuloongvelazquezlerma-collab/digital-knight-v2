@@ -16,6 +16,7 @@ function createSuggestionOverlay() {
     id="suggestionVideo"
     playsinline
     muted
+    autoplay
     preload="auto">
 </video>
 
@@ -196,10 +197,13 @@ const item =
     const video = document.getElementById("suggestionVideo");
 
 video.src = item.video;
-video.load();
+
+video.controls = false;
+video.muted = true;
 
 video.style.background = "#000";
-video.controls = false;
+
+video.load();
 
 const progressFill =
 document.getElementById("suggestionProgressFill");
@@ -264,7 +268,7 @@ const countdown = setInterval(() => {
 }, 1000);
 
 
-video.muted = false;
+
     video.play().then(()=>{
 
     console.log("▶️ Trailer iniciado");
@@ -272,6 +276,12 @@ video.muted = false;
 }).catch(err=>{
 
     console.warn("No se pudo reproducir el trailer:",err);
+
+});
+
+video.addEventListener("playing", () => {
+
+    video.style.background = "transparent";
 
 });
 
