@@ -62,6 +62,46 @@ body {
 }
 
 
+/* 📱 Samsung Fold / plegables abiertos */
+@media (min-aspect-ratio: 0.7/1) and (max-aspect-ratio: 1.1/1) {
+
+  .cover {
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  .cover-landscape {
+    display: block !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  /* ocultamos el poster vertical */
+  .cover {
+    background-image: none !important;
+  }
+
+  .cover-content {
+    padding-top: 80px;
+    transform: translateY(0);
+  }
+
+  .cover::before {
+    display:block;
+  }
+
+  .cover::after {
+    background: linear-gradient(
+      to top,
+      #01011d 0%,
+      #01011d 20%,
+      rgba(0,0,0,.75) 55%,
+      transparent 100%
+    );
+  }
+
+}
+
 
 
 /* Estilo general para el header */
@@ -1570,5 +1610,21 @@ z-index: 600000;
     }
   }
 
-  
+   .footer-icon.download-footer {
+    position: relative;
+    height: 40px;
+    justify-content: center;
+}
+
+.footer-icon.download-footer::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: #bbb;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
 

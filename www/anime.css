@@ -59,6 +59,33 @@ body {
   transition: background-image 0.5s ease;
 }
 
+/* Fold / tablets plegables abiertas */
+@media (min-aspect-ratio: 0.7/1) and (max-aspect-ratio: 1.1/1) {
+
+.cover-landscape {
+    display:block !important;
+}
+
+.cover {
+    background:none !important;
+}
+
+.cover-landscape {
+    position:absolute;
+    inset:0;
+
+    background-size:cover !important;
+    background-position:center center !important;
+}
+
+
+.cover::before,
+.cover::after {
+    display:none;
+}
+
+}
+
 /* Estilo general para el header */
 #header {
   position: fixed;
@@ -1945,4 +1972,22 @@ body.noir-mode {
 
 body.noir-mode .footer {
   filter: none;
+}
+
+ .footer-icon.download-footer {
+    position: relative;
+    height: 40px;
+    justify-content: center;
+}
+
+.footer-icon.download-footer::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: #bbb;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    border-radius: 2px;
 }
