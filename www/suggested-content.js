@@ -12,10 +12,12 @@ function createSuggestionOverlay() {
 
    suggestionOverlay.innerHTML = `
 
+<div id="suggestionBackground"></div>
+
 <video
-    id="suggestionVideo"
-    playsinline
-    preload="auto">
+ id="suggestionVideo"
+ playsinline
+ preload="auto">
 </video>
 
 
@@ -181,10 +183,15 @@ console.log("Video:", document.getElementById("suggestionVideo"));
     window.suggestionsLibrary.filter(x => x.active);
 
 
-const item =
-    availableSuggestions[
-        Math.floor(Math.random() * availableSuggestions.length)
-    ];
+const background =
+document.getElementById("suggestionBackground");
+
+if(background && item.poster){
+
+    background.style.backgroundImage =
+    `url("${item.poster}")`;
+
+}
 
     document.getElementById("suggestionLabel").textContent =
     "⭐ " + item.label;
