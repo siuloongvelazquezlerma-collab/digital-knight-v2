@@ -2808,7 +2808,150 @@ video:"https://od.lk/s/M18zMDUxMzE4NDZf/Twilight%20-%20Official%20Trailer%20%28S
 poster:"",
 skipAfter:10,
 active:true
-}
+},
+{
+    id: "aristogatos",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Los Aristogatos",
+    description: "Un clásico inolvidable para toda la familia.",
+    video: "https://od.lk/s/M18zMDY1NjU2Nzlf/_Los%20Aristogatos_%20%28The%20Aristocats%29%20-%20Tr%C3%A1iler%20VE.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "101-dalmatas",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "101 Dálmatas",
+    description: "Una aventura llena de cachorros y villanos.",
+    video: "https://od.lk/s/M18zMDY0NDk1MDlf/101%20Dalmatas%20trailer.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "aladdin",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Aladdín",
+    description: "Un viaje mágico por Agrabah.",
+    video: "https://od.lk/s/M18zMDY4NDM0MTVf/Aladd%C3%ADn%20-%20Trailer%20DVD%20Edici%C3%B3n%20Especial.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "alicia",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Alicia en el País de las Maravillas",
+    description: "Descubre un mundo lleno de fantasía.",
+    video: "https://od.lk/s/M18zMDcyMzIxMTlf/Alicia%20en%20el%20Pa%C3%ADs%20de%20las%20Maravillas%20-%20Trailer%20DVD%20Edici%C3%B3n%20Especial.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "bambi",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Bambi",
+    description: "La emotiva historia del pequeño ciervo.",
+    video: "https://od.lk/s/M18zMDcxMTk3NDNf/Bambi%20%281942%29%20Trailer%20Doblado%20Edici%C3%B3n%20Diamante.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "dumbo",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Dumbo",
+    description: "El elefante con las orejas más famosas.",
+    video: "https://od.lk/s/M18zMDY0NTQ4NjFf/DUMBO%201941%20trailer%20oficial.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "libro-selva",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "El Libro de la Selva",
+    description: "La aventura de Mowgli en la jungla.",
+    video: "https://od.lk/s/M18zMDcxMTc4MzZf/El%20Libro%20de%20la%20Selva%20%281967%29%20Trailer%20Doblado.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "rey-leon",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "El Rey León",
+    description: "El ciclo de la vida comienza.",
+    video: "https://od.lk/s/M18zMDY1Mjc2NTlf/El%20Rey%20Le%C3%B3n%20%281994%29%20Trailer%20Doblado.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "dama-vagabundo",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "La Dama y el Vagabundo",
+    description: "Una historia de amor inolvidable.",
+    video: "https://od.lk/s/M18zMDY1NDQ2MDhf/La%20Dama%20y%20el%20Vagabundo%20-%20Trailer%20DVD%20Edici%C3%B3n%20Especial.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "espada-piedra",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "La Espada en la Piedra",
+    description: "La leyenda del joven Arturo.",
+    video: "https://od.lk/s/M18zMDY1NTQ4NzJf/la%20espada%20en%20la%20piedra%20disney%20%20-Trailer%20espa%C3%B1ol%20latino.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "lilo-stitch",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Lilo y Stitch",
+    description: "Ohana significa familia.",
+    video: "https://od.lk/s/M18zMDcxMTIzMzBf/Lilo%20y%20Stitch%20-%20Trailer%20La%20Bella%20y%20la%20Bestia.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
+
+{
+    id: "peter-pan",
+    type: "recommended",
+    label: "Recomendado para ti",
+    title: "Peter Pan",
+    description: "Nunca dejes de creer en la magia.",
+    video: "https://od.lk/s/M18zMDY1NjkzMzhf/PETER%20PAN%20%28Trailer%20espa%C3%B1ol%29.mp4",
+    poster: "https://wallpapercave.com/wp/wp5415042.jpg",
+    skipAfter: 15,
+    active: true
+},
 
 
 
