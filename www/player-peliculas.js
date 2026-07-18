@@ -575,26 +575,17 @@ if (isTouchDevice) {
 }
 
 function showPlayer() {
-  cover.style.display = 'none';
-  player.style.display = 'flex';
-
-  playPauseBtn.textContent = 'pause';
-  showControls();
+  cover.style.display = "none";
+  player.style.display = "flex";
 
   if (window.Android) {
-    // 📱 Android: la app se encarga del fullscreen
     Android.setLandscape();
-    video.play().catch(() => {});
-  } else {
-    // 💻 Navegador: usar Fullscreen API
-    if (player.requestFullscreen) {
-      player.requestFullscreen().catch(() => {});
-    } else if (video.requestFullscreen) {
-      video.requestFullscreen().catch(() => {});
-    }
-
-    video.play().catch(() => {});
   }
+
+  video.play().catch(() => {});
+
+  playPauseBtn.textContent = "pause";
+  showControls();
 
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
     progressBar.style.display = "block";
