@@ -589,14 +589,22 @@ function showPlayer() {
   setTimeout(async () => {
 
     try {
-      if (player.requestFullscreen) {
-        await player.requestFullscreen();
-      } else if (video.requestFullscreen) {
-        await video.requestFullscreen();
-      }
-    } catch (e) {}
 
-    video.play().catch(err => console.log("Play:", err));
+      if (!window.Android) {
+        if (player.requestFullscreen) {
+          await player.requestFullscreen();
+        } else if (video.requestFullscreen) {
+          await video.requestFullscreen();
+        }
+      }
+
+    } catch (e) {
+      console.log("Fullscreen no disponible:", e);
+    }
+
+    video.play()
+      .then(() => console.log("▶️ Reproduciendo"))
+      .catch(err => console.error("❌ Error play:", err));
 
   }, 250);
 
