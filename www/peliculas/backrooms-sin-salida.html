@@ -413,8 +413,8 @@
   
   <div id="langMenu" class="lang-menu">
     <div class="lang-option" data-lang="latino">
-      <span class="check"></span> Español (Latino)
-    </div>
+              <span class="check"></span> Latino
+            </div>
     <div class="lang-option" data-lang="ingles">
       <span class="check"></span> Inglés (Subtitulada)
     </div>
@@ -529,6 +529,31 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
+/* =============================
+   🔥 INTEGRACIÓN CON EL VIDEO
+============================= */
+
+// Activar WakeLock cuando empieza
+video.addEventListener("play", () => {
+  requestWakeLock();
+});
+
+// Reintentar cuando pone fullscreen
+video.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    requestWakeLock();
+  }
+});
+
+// Quitar WakeLock al pausar
+video.addEventListener("pause", () => {
+  releaseWakeLock();
+});
+
+// Quitar WakeLock al terminar
+video.addEventListener("ended", () => {
+  releaseWakeLock();
+});
 
 
 (function () {
