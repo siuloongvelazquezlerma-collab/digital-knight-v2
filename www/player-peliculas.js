@@ -23,11 +23,7 @@ window.addEventListener('load', function () {
 });
 
 
-const videoElement = document.getElementById('video');
-const video = videoElement.tagName === "VIDEO"
-  ? videoElement
-  : document.getElementById('video_html5_api');
-console.log("Al cargar la página:", video);
+const video = document.getElementById('video');
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -36,6 +32,9 @@ const duration = document.getElementById('duration');
 const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.material-icons');
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
+
+
+
 
 // ------------------------
 // 2️⃣ Función para actualizar barra y thumb
@@ -162,7 +161,98 @@ const watchButtonText = document.getElementById('watchButtonText');
 const restartButton = document.getElementById('restartButton');
 
 // NUEVO: Barra visual de progreso
+const progressBar = document.getElementById('watchProgressBar');
 
+let hideControlsTimeout;
+
+// Reanudar desde donde se dejó
+// Reanudar desde donde se dejó
+video.addEventListener('loadedmetadata', () => {
+  const savedTime = localStorage.getItem(`progress_${movieId}`);
+  if (savedTime) {
+    video.currentTime = parseFloat(savedTime);
+  }
+  updateProgress();
+
+  // ✅ Mostrar barra y botón si aplica
+  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+    progressBar.style.display = "block";
+    showRestartButton();
+    watchButtonText.textContent = "Continuar viendo";
+  }
+
+  // 🛰️ Sincronizar con Supabase al cargar metadata
+  if (typeof throttledSyncData === 'function') {
+    throttledSyncData(movieId);
+  }
+});
+
+let lastSync = 0; // Estado inicial del botón al cargar la página
+updateWatchButtonFromStorage();
+
+// Guardar progreso y actualizar UI
+video.addEventListener('timeupdate', () => {
+  updateProgress();
+
+  const currentTime = video.currentTime;
+  const totalDuration = video.duration || 1;
+
+  // Guardar en localStorage
+  localStorage.setItem(`progress_${movieId}`, currentTime);
+  localStorage.setItem(`duration_${movieId}`, totalDuration);
+  localStorage.setItem(`movie_${movieId}`, JSON.stringify({
+    tipo: 'movie',
+    title: document.querySelector(".title")?.textContent?.trim() || 'Sin título',
+    subtitle: document.getElementById("episodeSubtitle")?.textContent?.trim() || '',
+    poster: document.getElementById("favoritoImagen")?.src || '',
+    link: document.getElementById("favoritoEnlace")?.href || window.location.href,
+    progress: currentTime,
+    duration: totalDuration
+  }));
+
+  // Sincronizar cada 5 segundos
+  const now = Date.now();
+  if (typeof throttledSyncData === 'function' && now - lastSync > 5000) {
+    throttledSyncData(movieId);
+    lastSync = now;
+  }
+
+  // Barra de progreso
+  if (progressBar && totalDuration) {
+    const percent = (currentTime / totalDuration) * 100;
+    progressBar.firstElementChild?.style.setProperty("width", `${percent}%`);
+
+    if (currentTime > 5 && currentTime < totalDuration - 0.5) {
+      progressBar.style.display = "block";
+    }
+  }
+
+  // Botón reiniciar
+  const percentPlayed = currentTime / totalDuration;
+
+if (watchButtonText.textContent === "Volver a ver") {
+    hideRestartButton();
+} else if (currentTime > 5 && percentPlayed < 0.8) {
+    showRestartButton();
+    localStorage.setItem(`hasStarted_${movieId}`, 'true');
+} else {
+    hideRestartButton();
+}
+
+// Cambiar texto del botón
+if (percentPlayed >= 0.8) {
+    watchButtonText.textContent = "Volver a ver";
+} else if (currentTime > 10) {
+    watchButtonText.textContent = "Continuar viendo";
+} else {
+    watchButtonText.textContent = "Ver ahora";
+}
+});
+
+// Evento final real
+video.addEventListener('ended', () => {
+  endMovieCleanup(true); // 🔹 Indicamos que terminó al 100%
+});
 
 // Limpieza del estado
 function endMovieCleanup(finished = false) {
@@ -294,35 +384,12 @@ function updateWatchButtonFromStorage() {
 }
 
 // Botón principal
-document.getElementById('watchButton').addEventListener('click', async () => {
-
-    console.log("🟢 CLICK EN VER AHORA");
-
-
-    if (!window.suggestionShown) {
-
-        console.log("⏳ Lanzando sugerencia");
-
-        await window.showSuggestedContent();
-
-        console.log("✅ Sugerencia terminada");
-
-    }
-
-
-    console.log("🎬 Voy a abrir reproductor");
-
-
-    if (watchButtonText.textContent.includes("Volver a ver")) {
-
-        restartMovie();
-
-    } else {
-
-        showPlayer();
-
-    }
-
+document.getElementById('watchButton').addEventListener('click', () => {
+  if (watchButtonText.textContent.includes("Volver a ver")) {
+    restartMovie();
+  } else {
+    showPlayer();
+  }
 });
 
 // Reiniciar
@@ -511,6 +578,7 @@ if (isTouchDevice) {
 function showPlayer() {
   cover.style.display = 'none';
   player.style.display = 'flex';
+
   video.play();
   playPauseBtn.textContent = 'pause';
   showControls();
@@ -522,75 +590,33 @@ function showPlayer() {
     console.log("❌ Android no disponible");
   }
 
-  video.play();
+  // 🔥 Intentar entrar en pantalla completa
+  if (player.requestFullscreen) {
+    player.requestFullscreen().catch(() => {});
+  } else if (video.requestFullscreen) {
+    video.requestFullscreen().catch(() => {});
+  }
 
-    playPauseBtn.textContent = 'pause';
-
-    showControls();
-
-
-    // 🔥 Entrar fullscreen solo si no estamos ya dentro
-    if (!document.fullscreenElement) {
-        enterFullscreen();
-    }
-
-
-    // Mostrar controles después de la transición
-    setTimeout(() => {
-        showControls();
-    }, 500);
-
-
-    // Mostrar barra y botón si ya hay progreso
-    if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-
-        progressBar.style.display = "block";
-        showRestartButton();
-
-    }
-
+  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
+  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+    progressBar.style.display = "block";
+    showRestartButton();
+  }
 }
 
 
 player.addEventListener('mousemove', showControls);
-
-player.addEventListener('click', () => {
-    showControls();
-});
-
-player.addEventListener('touchstart', showControls, { passive: true });
+player.addEventListener('click', showControls);
+player.addEventListener('touchstart', showControls);
 
 function enterFullscreen() {
-
-    console.trace("📺 enterFullscreen()");
-
-    if (document.fullscreenElement) {
-        console.log("⚠️ Ya está en fullscreen");
-        return;
-    }
-
-    try {
-
-        if (player.requestFullscreen) {
-
-            player.requestFullscreen();
-
-        } else if (player.webkitRequestFullscreen) {
-
-            player.webkitRequestFullscreen();
-
-        } else if (player.msRequestFullscreen) {
-
-            player.msRequestFullscreen();
-
-        }
-
-    } catch (e) {
-
-        console.warn("❌ Error entrando fullscreen:", e);
-
-    }
-
+  if (player.requestFullscreen) {
+    player.requestFullscreen();
+  } else if (player.webkitRequestFullscreen) {
+    player.webkitRequestFullscreen();
+  } else if (player.msRequestFullscreen) {
+    player.msRequestFullscreen();
+  }
 }
 
 function exitFullscreen() {
@@ -603,68 +629,46 @@ function exitFullscreen() {
   }
 }
 
-let changingFromSuggestion = false;
-
 document.addEventListener('fullscreenchange', () => {
 
   const isFullscreen = document.fullscreenElement;
 
   if (!isFullscreen) {
 
-    if (window.changingFromSuggestion) {
-
-      window.changingFromSuggestion = false;
-      return;
-
-    }
-
-
     if (!video.paused) {
-      video.pause();
-    }
 
+      video.pause();
+
+    }
+    
 
     playPauseBtn.textContent = 'play_arrow';
 
     player.style.display = 'none';
-    cover.style.display = 'flex';
 
+    cover.style.display = 'flex';
   }
 
 });
-
 
 let hasStarted = false;
 let reiniciaTimer = null;
 
 video.addEventListener('play', () => {
-
   if (!hasStarted && video.currentTime < video.duration - 5) {
-
     hasStarted = true;
 
     reiniciaTimer = setTimeout(() => {
-
       if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-
         showRestartButton();
         localStorage.setItem(`hasStarted_${movieId}`, 'true');
         progressBar.style.display = "block";
-
       }
-
     }, 5000);
 
-
-    // 📱 Android maneja orientación
-    if (window.Android) {
-
-      Android.setLandscape();
-
-    }
-
+    // 🆕 Forzar fullscreen la primera vez que empieza
+    enterFullscreen();
   }
-
 });
 
 
@@ -766,6 +770,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pageTitle.style.opacity = titleOpacity;
   });
 });
+
 
 
 const favoritoBtn = document.getElementById('favoritoBtn');
@@ -898,41 +903,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProfileImage(savedProfileImage);
   }
 });
-// Función para cambiar todas las imágenes de perfil
-function updateProfileImage(src) {
-  const ids = [
-    "footerIconImg",
-    "footerProfileImage",
-    "profileImage",
-    "profilePageImage",
-    "editableProfile",
-    "editableProfileInModal",
-    "headerProfileIcon"
-  ];
 
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.src = src;
-  });
-
-  // Ocultar iconos por defecto si existen
-  const defaultIcon = document.getElementById("defaultProfileIcon");
-  if (defaultIcon) defaultIcon.style.display = "none";
-
-  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
-  if (defaultIconAlt) defaultIconAlt.style.display = "none";
-
-  // Guardar en localStorage
-  localStorage.setItem("profileImage", src);
-}
-
-// Restaurar la imagen de perfil guardada al cargar la página
-window.addEventListener("load", () => {
-  const storedProfileImage = localStorage.getItem("profileImage");
-  if (storedProfileImage) {
-    updateProfileImage(storedProfileImage); // Reutilizamos la función
-  }
-});
 
 
 var lastScrollTop = 0;
@@ -1152,3 +1123,6 @@ if (typeof Android !== "undefined") {
   window.open(url, "_blank");
 }
 }
+
+
+
