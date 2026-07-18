@@ -579,25 +579,28 @@ function showPlayer() {
   cover.style.display = 'none';
   player.style.display = 'flex';
 
-  video.play();
   playPauseBtn.textContent = 'pause';
   showControls();
 
-  // 🔥 IMPORTANTE: primero Android, luego fullscreen
   if (window.Android) {
     Android.setLandscape();
   } else {
     console.log("❌ Android no disponible");
   }
 
-  // 🔥 Intentar entrar en pantalla completa
-  if (player.requestFullscreen) {
-    player.requestFullscreen().catch(() => {});
-  } else if (video.requestFullscreen) {
-    video.requestFullscreen().catch(() => {});
-  }
+  // Esperar a que Android termine de rotar
+  setTimeout(() => {
 
-  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
+    if (player.requestFullscreen) {
+      player.requestFullscreen().catch(() => {});
+    } else if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {});
+    }
+
+    video.play().catch(()=>{});
+
+  }, 250);
+
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
     progressBar.style.display = "block";
     showRestartButton();
