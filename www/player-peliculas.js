@@ -584,20 +584,19 @@ function showPlayer() {
 
   if (window.Android) {
     Android.setLandscape();
-  } else {
-    console.log("❌ Android no disponible");
   }
 
-  // Esperar a que Android termine de rotar
-  setTimeout(() => {
+  setTimeout(async () => {
 
-    if (player.requestFullscreen) {
-      player.requestFullscreen().catch(() => {});
-    } else if (video.requestFullscreen) {
-      video.requestFullscreen().catch(() => {});
-    }
+    try {
+      if (player.requestFullscreen) {
+        await player.requestFullscreen();
+      } else if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      }
+    } catch (e) {}
 
-    video.play().catch(()=>{});
+    video.play().catch(err => console.log("Play:", err));
 
   }, 250);
 
