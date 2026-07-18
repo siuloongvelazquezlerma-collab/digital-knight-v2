@@ -626,11 +626,16 @@ video.load();
 
   // Confirmar selección y reanudar
   function confirmAndPlay() {
-    if (selectedLang && selectedLang !== currentLang) {
-      currentLang = selectedLang;
-    }
-    closeMenu(true);
+  if (selectedLang && selectedLang !== currentLang) {
+    currentLang = selectedLang;
   }
+
+  closeMenu(false);
+
+  video.play()
+    .then(() => console.log("▶️ Idioma reproducido:", currentLang))
+    .catch(err => console.log("Error play idioma:", err));
+}
 
   // Inicializar opción activa al cargar
   document.addEventListener('DOMContentLoaded', () => {
