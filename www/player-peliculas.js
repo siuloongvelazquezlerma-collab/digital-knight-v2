@@ -583,30 +583,19 @@ function showPlayer() {
   showControls();
 
   if (window.Android) {
+    // 📱 Android: la app se encarga del fullscreen
     Android.setLandscape();
-  }
-
-  setTimeout(async () => {
-
-    try {
-
-      if (!window.Android) {
-        if (player.requestFullscreen) {
-          await player.requestFullscreen();
-        } else if (video.requestFullscreen) {
-          await video.requestFullscreen();
-        }
-      }
-
-    } catch (e) {
-      console.log("Fullscreen no disponible:", e);
+    video.play().catch(() => {});
+  } else {
+    // 💻 Navegador: usar Fullscreen API
+    if (player.requestFullscreen) {
+      player.requestFullscreen().catch(() => {});
+    } else if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {});
     }
 
-    video.play()
-      .then(() => console.log("▶️ Reproduciendo"))
-      .catch(err => console.error("❌ Error play:", err));
-
-  }, 250);
+    video.play().catch(() => {});
+  }
 
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
     progressBar.style.display = "block";
