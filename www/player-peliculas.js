@@ -1,5 +1,4 @@
-// 🆔 Asegura que tengas el ID de la película global
-const movieId = window.movieId || 'unknown-id';
+
 
 // Prevenir gestos táctiles no deseados
 document.addEventListener('touchmove', function (event) {
@@ -579,25 +578,24 @@ function showPlayer() {
   cover.style.display = 'none';
   player.style.display = 'flex';
 
-  video.play();
   playPauseBtn.textContent = 'pause';
   showControls();
 
-  // 🔥 IMPORTANTE: primero Android, luego fullscreen
   if (window.Android) {
+    // 📱 Android: la app se encarga del fullscreen
     Android.setLandscape();
+    video.play().catch(() => {});
   } else {
-    console.log("❌ Android no disponible");
+    // 💻 Navegador: usar Fullscreen API
+    if (player.requestFullscreen) {
+      player.requestFullscreen().catch(() => {});
+    } else if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {});
+    }
+
+    video.play().catch(() => {});
   }
 
-  // 🔥 Intentar entrar en pantalla completa
-  if (player.requestFullscreen) {
-    player.requestFullscreen().catch(() => {});
-  } else if (video.requestFullscreen) {
-    video.requestFullscreen().catch(() => {});
-  }
-
-  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
     progressBar.style.display = "block";
     showRestartButton();
