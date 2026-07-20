@@ -300,7 +300,8 @@
           </div>
       
           <!-- Botón de Descargar -->
-          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzEzNjU2NTRf/La%20Odisea%20%282026%29%20%5BFull%201080p%5D%20%7BUNVS%2B%7D%20WEB-DL%20%5BLatino%5D%20vip.hdlatino.us.mkv')">
+          <!-- Botón de Descargar -->
+          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzE0MTgzMjFf/The%20Odyssey.mp4')">
             <i class="material-icons">arrow_downward</i>
             <span class="underline"></span>
             Descargar
@@ -316,39 +317,42 @@
     </div>
   </div>
 
- <!-- QUIZÁ TAMBIÉN TE GUSTE -->
+<!-- QUIZÁ TAMBIÉN TE GUSTE -->
  <div class="page-content">
-  <div class="sugerencias-section">
-    <div class="sugerencias-header">
-      <h2 class="sugerencias-titulo">Quizá también te guste</h2>
-      <div class="sugerencias-tabs-line"></div>
-    </div>
+<div class="sugerencias-section">
+  <div class="sugerencias-header">
+    <h2 class="sugerencias-titulo">Quizá también te guste</h2>
+    <div class="sugerencias-tabs-line"></div>
+  </div>
     <div class="sugerencias-grid">
     
       
-        <a href="Interesterlar.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interesterlar">
-      <p class="sugerencia-titulo">Interesterlar</p>
-      <p class="sugerencia-sub">Dob | Lat</p>
-    </a>
-    
-    <a href="El astronauta.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg" alt="El astronauta">
-      <p class="sugerencia-titulo">El astronauta</p>
-      <p class="sugerencia-sub">Dob | Lat</p>
-    </a>
-    
-    <a href="la otra cara de la luna.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/1pXljjKlkaIPdThhUYzNyEJ7K1x.jpg" alt="la otra cara de la luna">
-      <p class="sugerencia-titulo">la otra cara de la luna</p>
-      <p class="sugerencia-sub">Dob | Lat</p>
-    </a>
-    
-    <a href="Oblivion.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/bYLM3GpNUZnoFElPXp1zlhDPdtv.jpg" alt="Oblivion">
-      <p class="sugerencia-titulo">Oblivion</p>
-      <p class="sugerencia-sub">Dob | Lat</p>
-    </a>      
+        <a href="inmortales.html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/w300/3L1iVZBtzFUavfVG9LGfFjfsYvC.jpg" alt="Inmortales">
+    <p class="sugerencia-titulo">Inmortales</p>
+    <p class="sugerencia-sub">Dob | Lat</p>
+  </a>
+
+      
+        <a href="corazon-de-dragon-5-la-venganza.html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/w300/mPGAlXyPH21qg38GF1Ydd0xDg7B.jpg" alt="Corazón de Dragón 5: La venganza">
+    <p class="sugerencia-titulo">Corazón de Dragón 5: La venganza</p>
+    <p class="sugerencia-sub">Dob | Lat</p>
+  </a>
+
+      
+        <a href="the-legion.html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/w300/6ssoBXQOxNhrsGJoM6Tcvm57V79.jpg" alt="The Legion">
+    <p class="sugerencia-titulo">The Legion</p>
+    <p class="sugerencia-sub">Dob | Lat</p>
+  </a>
+
+      
+        <a href="hercules.html" class="sugerencia-item">
+    <img src="https://image.tmdb.org/t/p/w300/2q9Ic0Q4vMcs2AbTE640fRuB0Qe.jpg" alt="Hércules">
+    <p class="sugerencia-titulo">Hércules</p>
+    <p class="sugerencia-sub">Dob | Lat</p>
+  </a>
   </div>
 </div>
 </div>
@@ -461,7 +465,7 @@
         <span class="material-icons-outlined">bookmark_border</span>
         <span class="material-icons">bookmark</span>
     </a>
-    <a href="../downloads.html" class="footer-icon download-footer">
+     <a href="../downloads.html" class="footer-icon download-footer">
     <span class="material-icons-outlined">arrow_downward</span>
     <span class="material-icons">arrow_downward</span>
 </a>
@@ -470,10 +474,12 @@
         <span class="material-icons">search</span>
     </a>
   </footer>
+
   <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
 
   <script src="../suggestions-library.js"></script>
 <script src="../suggested-content.js"></script>
+
  
 <script>
 
@@ -507,7 +513,11 @@ window.addEventListener('load', function () {
 });
 
 
-const video = document.getElementById('video');
+const videoElement = document.getElementById('video');
+const video = videoElement.tagName === "VIDEO"
+  ? videoElement
+  : document.getElementById('video_html5_api');
+console.log("Al cargar la página:", video);
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -530,8 +540,8 @@ const thumb = document.getElementById('thumb'); // si existe
   const overlayBg = document.getElementById("overlay");
 
   const videos = {
-    latino: "",
-    ingles: ""
+    latino: "https://od.lk/s/M18zMzE0MTgzMjFf/The%20Odyssey.mp4",
+    ingles: "https://od.lk/s/M18zMzE0MTgzMjFf/The%20Odyssey.mp4"
   };
 
   let currentLang = "latino";       // idioma que está reproduciéndose
@@ -570,24 +580,35 @@ const thumb = document.getElementById('thumb'); // si existe
     source.src = videos[selectedLang];
     video.load();
 
-    const onLoadedMeta = () => {
-      try {
-        video.currentTime = Math.min(curTime, video.duration || curTime);
-      } catch {}
-      video.removeEventListener('loadedmetadata', onLoadedMeta);
-    };
-    video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+    // Preparar listener antes de cargar
+const onLoadedMeta = () => {
+  try {
+    video.currentTime = Math.min(curTime, video.duration || curTime);
+  } catch {}
+  
+  video.removeEventListener('loadedmetadata', onLoadedMeta);
+};
+
+video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+
+source.src = videos[selectedLang];
+video.load();
 
     console.log('Idioma seleccionado (precargando):', selectedLang);
   }
 
   // Confirmar selección y reanudar
   function confirmAndPlay() {
-    if (selectedLang && selectedLang !== currentLang) {
-      currentLang = selectedLang;
-    }
-    closeMenu(true);
+  if (selectedLang && selectedLang !== currentLang) {
+    currentLang = selectedLang;
   }
+
+  closeMenu(false);
+
+  video.play()
+    .then(() => console.log("▶️ Idioma reproducido:", currentLang))
+    .catch(err => console.log("Error play idioma:", err));
+}
 
   // Inicializar opción activa al cargar
   document.addEventListener('DOMContentLoaded', () => {
@@ -636,7 +657,6 @@ const thumb = document.getElementById('thumb'); // si existe
 
 })();
 */
-
 
 
 // ------------------------
