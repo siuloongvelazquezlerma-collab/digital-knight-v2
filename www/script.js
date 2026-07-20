@@ -565,6 +565,11 @@ function updateProfileImage(src) {
     }
   });
 
+  // Actualizar todos los iconos del header
+document.querySelectorAll(".headerProfileIcon").forEach(img => {
+  img.src = avatar;
+});
+
   // Ocultar iconos por defecto si existen
   ['defaultProfileIcon', 'defaultProfileIconAlt'].forEach(id => {
     const icon = document.getElementById(id);
