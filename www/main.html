@@ -374,6 +374,80 @@
 </div>
 
 
+<div class="movie-section upcoming-section">
+
+    <h2>Próximamente en Digital Knight</h2>
+
+    <div class="horizontal-scroll-container upcoming-scroll">
+
+        <!-- Tarjeta -->
+        <a href="Marvel/spider-man-un-nuevo-dia.html?play=true" class="upcoming-card">
+
+            <div class="poster-wrapper">
+
+                <img
+                    src="https://image.tmdb.org/t/p/original/r1ubLKr9XIZN6enAwOWelj47zgU.jpg"
+                   
+                    alt="Mortal Kombat II">
+
+                <button class="play-icon">
+                    ▶
+                </button>
+
+                <button
+class="card-menu"
+
+data-title="Mortal Kombat II - Tráiler"
+
+data-description="¡Elige a tu luchador! Disfruta de un adelanto de Mortal Kombat II."
+
+data-trailer="Marvel/spider-man-un-nuevo-dia.html?play=true">
+
+⋮
+
+</button>
+
+            </div>
+
+            <div class="upcoming-info">
+                <h3>Mortal Kombat II - Tráiler</h3>
+                <span>18+</span>
+            </div>
+
+        </a>
+
+        <!-- Tarjeta -->
+        <a href="trailers/president-curtis.html" class="upcoming-card">
+
+            <div class="poster-wrapper">
+
+                <img
+                    src="https://image.tmdb.org/t/p/original/POSTER2.jpg"
+                    
+                    alt="President Curtis">
+
+                <button class="play-icon">
+                    ▶
+                </button>
+
+                <button class="card-menu">
+                    ⋮
+                </button>
+
+            </div>
+
+            <div class="upcoming-info">
+                <h3>President Curtis</h3>
+                <span>16+</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+
 
 <div class="movie-section">
   <h2>Estrenos 2026</h2>
@@ -4207,6 +4281,30 @@
 <div id="notificationOverlay"></div>
 
 
+<div id="bottomSheetOverlay"></div>
+
+<div id="bottomSheet">
+
+    <div class="sheet-handle"></div>
+
+    <h2 id="sheetTitle">Título</h2>
+
+    <p id="sheetDescription">
+        Descripción...
+    </p>
+
+    <button class="sheet-btn" id="watchTrailerBtn">
+        ▶ Ver tráiler
+    </button>
+
+ 
+
+  
+
+</div>
+
+
+
 <!-- SwiperJS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
@@ -4311,6 +4409,69 @@ async function cargarContinuarViendo() {
 function descargarAPK(url) {
     window.location.href = url;
 }
+
+const sheet=document.getElementById("bottomSheet");
+const overlay=document.getElementById("bottomSheetOverlay");
+
+const title=document.getElementById("sheetTitle");
+const description=document.getElementById("sheetDescription");
+
+const trailerBtn=document.getElementById("watchTrailerBtn");
+
+const addToListBtn = document.getElementById("addToListBtn");
+
+let currentCard = null;
+
+document.querySelectorAll(".card-menu").forEach(btn=>{
+
+    btn.addEventListener("click",(e)=>{
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        currentCard = btn;
+
+        title.textContent = btn.dataset.title;
+        description.textContent = btn.dataset.description;
+
+        trailerBtn.onclick = ()=>{
+            location.href = btn.dataset.trailer;
+        };
+
+        sheet.classList.add("show");
+        overlay.classList.add("show");
+        document.body.classList.add("sheet-open");
+
+    });
+
+});
+
+overlay.onclick=closeSheet;
+
+function closeSheet(){
+
+    sheet.classList.remove("show");
+
+    overlay.classList.remove("show");
+
+    document.body.classList.remove("sheet-open");
+
+}
+
+addToListBtn.onclick = ()=>{
+
+    // Si esta página ya tiene el botón favorito
+    const favoritoBtn = document.getElementById("favoritoBtn");
+
+    if(favoritoBtn){
+
+        favoritoBtn.click();
+
+    }
+
+    closeSheet();
+
+};
 </script>
 
   
