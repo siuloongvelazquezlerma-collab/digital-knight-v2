@@ -1018,16 +1018,8 @@ function skip(seconds) {
 function goBack() {
 
 // 🔥 SALIR DE LANDSCAPE (ANDROID)
-if (window.Android && Android.setLandscape) {
-
-    Android.setLandscape();
-
-    console.log("📱 Modo APK - Landscape");
-
-} else {
-
-    console.log("🌐 Modo navegador");
-
+if (window.Android) {
+  Android.setPortrait();
 }
 
 // 🔥 SALIR DE FULLSCREEN WEB
@@ -1172,44 +1164,25 @@ if (isTouchDevice) {
   video.addEventListener('play', enableCursorAutoHide);
 }
 
-async function showPlayer() {
-
+function showPlayer() {
   cover.style.display = 'none';
   player.style.display = 'flex';
-
+  video.play();
+  playPauseBtn.textContent = 'pause';
   showControls();
 
-
-  // 🔥 Cambiar orientación
+  // 🔥 IMPORTANTE: primero Android, luego fullscreen
   if (window.Android) {
-
     Android.setLandscape();
-
   } else {
-
     console.log("❌ Android no disponible");
-
   }
 
-
-  // ▶ Reproducir
-  video.play();
-
-
-  playPauseBtn.textContent = 'pause';
-
-
-  // Barra progreso
-  if (
-    video.currentTime > 5 &&
-    video.currentTime < video.duration - 5
-  ){
-
-    progressBar.style.display="block";
+  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
+  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+    progressBar.style.display = "block";
     showRestartButton();
-
   }
-
 }
 
 
@@ -1217,41 +1190,14 @@ player.addEventListener('mousemove', showControls);
 player.addEventListener('click', showControls);
 player.addEventListener('touchstart', showControls);
 
-function enterFullscreen(){
-
-console.log("fullscreen llamado");
-
-
-if(player.requestFullscreen){
-
-    return player.requestFullscreen()
-    .then(()=>{
-
-        console.log("✅ fullscreen OK");
-
-    })
-    .catch(e=>{
-
-        console.log("❌ fullscreen error",e);
-
-    });
-
-}
-
-
-else if(player.webkitRequestFullscreen){
-
+function enterFullscreen() {
+  if (player.requestFullscreen) {
+    player.requestFullscreen();
+  } else if (player.webkitRequestFullscreen) {
     player.webkitRequestFullscreen();
-
-    return Promise.resolve();
-
-}
-
-
-console.log("❌ fullscreen no soportado");
-
-return Promise.resolve();
-
+  } else if (player.msRequestFullscreen) {
+    player.msRequestFullscreen();
+  }
 }
 
 function exitFullscreen() {
@@ -1279,39 +1225,21 @@ document.addEventListener('fullscreenchange', () => {
 let hasStarted = false;
 let reiniciaTimer = null;
 
-video.addEventListener('play', async () => {
-
+video.addEventListener('play', () => {
   if (!hasStarted && video.currentTime < video.duration - 5) {
-
     hasStarted = true;
 
-
     reiniciaTimer = setTimeout(() => {
-
       if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-
         showRestartButton();
-
         localStorage.setItem(`hasStarted_${movieId}`, 'true');
-
         progressBar.style.display = "block";
-
       }
-
     }, 5000);
 
-
-    // 🔳 Esperar que Android acomode orientación
-    await new Promise(r => setTimeout(r,500));
-
-
-    console.log("🔥 Intentando fullscreen");
-
-
+    // 🆕 Forzar fullscreen la primera vez que empieza
     enterFullscreen();
-
   }
-
 });
 
 
@@ -1767,60 +1695,7 @@ if (typeof Android !== "undefined") {
 }
 }
 
-window.addEventListener("DOMContentLoaded", ()=>{
 
-    const params = new URLSearchParams(window.location.search);
-
-    if(params.get("play") === "true"){
-
-        setTimeout(async ()=>{
-
-            showPlayer();
-
-            // Esperar a que el reproductor esté visible
-            await new Promise(resolve => setTimeout(resolve, 300));
-
-
-            // 📱 Android landscape
-            if(window.Android && Android.setLandscape){
-                Android.setLandscape();
-            }
-
-
-            // 🔳 Fullscreen
-            const playerContainer = document.getElementById("player");
-
-            if(playerContainer){
-
-                try{
-
-                    if(playerContainer.requestFullscreen){
-
-                        await playerContainer.requestFullscreen();
-
-                    }
-
-                }catch(e){
-
-                    console.warn(
-                        "Fullscreen bloqueado:",
-                        e
-                    );
-
-                }
-
-            }
-
-
-            // ▶ Reproducir después del fullscreen
-            video.play();
-
-
-        },500);
-
-    }
-
-});
 
 </script>
 
