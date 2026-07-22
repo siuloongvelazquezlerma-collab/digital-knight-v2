@@ -187,7 +187,7 @@
 
 </style>
 </head>
-<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+<body data-type="trailer" oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
   <div id="loader" class="loader"></div>
   <div class="overlay-loader"></div>
 
@@ -469,6 +469,7 @@
 window.movieId = "spider-man-un-nuevo-dia-969681";
 
 
+
 // 🆔 Asegura que tengas el ID de la película global
 const movieId = window.movieId || 'unknown-id';
 
@@ -493,7 +494,7 @@ window.addEventListener('load', function () {
     }, 1000);
 });
 
-
+ const IS_TRAILER = document.body.dataset.type === "trailer";
 const video = document.getElementById('video');
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
@@ -757,10 +758,14 @@ let hideControlsTimeout;
 // Reanudar desde donde se dejó
 // Reanudar desde donde se dejó
 video.addEventListener('loadedmetadata', () => {
+
+  if (IS_TRAILER) return;
+
   const savedTime = localStorage.getItem(`progress_${movieId}`);
   if (savedTime) {
     video.currentTime = parseFloat(savedTime);
   }
+
   updateProgress();
 
   // ✅ Mostrar barra y botón si aplica
@@ -770,17 +775,19 @@ video.addEventListener('loadedmetadata', () => {
     watchButtonText.textContent = "Continuar viendo";
   }
 
-  // 🛰️ Sincronizar con Supabase al cargar metadata
   if (typeof throttledSyncData === 'function') {
     throttledSyncData(movieId);
   }
+
 });
 
 let lastSync = 0; // Estado inicial del botón al cargar la página
-updateWatchButtonFromStorage();
+
+
 
 // Guardar progreso y actualizar UI
 video.addEventListener('timeupdate', () => {
+   if (IS_TRAILER) return;
   updateProgress();
 
   const currentTime = video.currentTime;
@@ -801,10 +808,10 @@ video.addEventListener('timeupdate', () => {
 
   // Sincronizar cada 5 segundos
   const now = Date.now();
-  if (typeof throttledSyncData === 'function' && now - lastSync > 5000) {
+  if (!IS_TRAILER && typeof throttledSyncData === 'function' && now - lastSync > 5000) {
     throttledSyncData(movieId);
     lastSync = now;
-  }
+}
 
   // Barra de progreso
   if (progressBar && totalDuration) {
@@ -834,13 +841,33 @@ if (percentPlayed >= 0.8) {
 } else if (currentTime > 10) {
     watchButtonText.textContent = "Continuar viendo";
 } else {
-    watchButtonText.textContent = "Ver tráiler";
+    watchButtonText.textContent = "Ver ahora";
 }
 });
 
 // Evento final real
 video.addEventListener('ended', () => {
-  endMovieCleanup(true); // 🔹 Indicamos que terminó al 100%
+
+    if (IS_TRAILER) {
+
+        video.pause();
+        video.currentTime = 0;
+
+        if (window.Android && Android.setPortrait) {
+            Android.setPortrait();
+        }
+
+        exitFullscreen();
+
+        player.style.display = 'none';
+        cover.style.display = 'flex';
+        playPauseBtn.textContent = 'play_arrow';
+
+        return;
+    }
+
+    endMovieCleanup(true);
+
 });
 
 // Limpieza del estado
@@ -862,10 +889,13 @@ function endMovieCleanup(finished = false) {
 
   // 🔹 Siempre actualizar el botón al cerrar el reproductor
   updateWatchButtonFromStorage();
+   
+
 }
 
 // Nueva función que actualiza el botón y la barra según progreso
 function updateWatchButton() {
+  if (IS_TRAILER) return;
   const savedTime = parseFloat(localStorage.getItem(`progress_${movieId}`) || "0");
   const totalDuration = parseFloat(localStorage.getItem(`duration_${movieId}`) || video.duration || 1);
   const currentTime = video.currentTime || 0;
@@ -882,7 +912,7 @@ function updateWatchButton() {
     restartButton.style.display = "inline-flex";
     progressBar.style.display = "block";
   } else {
-    watchButtonText.textContent = "Ver tráiler";
+    watchButtonText.textContent = "Ver ahora";
     restartButton.style.display = "none";
     progressBar.style.display = "none";
   }
@@ -904,6 +934,7 @@ video.addEventListener('play', updateWatchButton);
 // Nueva función que actualiza el botón y la barra según progreso
 // Nueva función que actualiza el botón y la barra según progreso
 function updateWatchButton() {
+  if (IS_TRAILER) return;
   const savedTime = parseFloat(localStorage.getItem(`progress_${movieId}`) || "0");
   const totalDuration = parseFloat(localStorage.getItem(`duration_${movieId}`) || video.duration || 1);
   const currentTime = video.currentTime || 0;
@@ -923,9 +954,9 @@ function updateWatchButton() {
     restartButton.style.display = "inline-flex"; // 👈 Aquí sí se ve
     progressBar.style.display = "block";
   } else {
-    // Caso: Ver tráiler
+    // Caso: Ver ahora
     watchButtonIcon.textContent = "play_arrow";
-    watchButtonText.textContent = "Ver tráiler";
+    watchButtonText.textContent = "Ver ahora";
     restartButton.style.display = "none";
     progressBar.style.display = "none";
   }
@@ -945,6 +976,8 @@ video.addEventListener('play', updateWatchButton);
 
 // Función para mantener compatibilidad con almacenamiento
 function updateWatchButtonFromStorage() {
+   if (IS_TRAILER) return;
+
   const savedTime = parseFloat(localStorage.getItem(`progress_${movieId}`) || "0");
   const savedDuration = parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
 
@@ -964,9 +997,9 @@ function updateWatchButtonFromStorage() {
     progressBar.style.display = "block";
     progressBar.firstElementChild.style.width = `${(savedTime / savedDuration) * 100}%`;
   } else {
-    // Caso: Ver tráiler
+    // Caso: Ver ahora
     watchButtonIcon.textContent = "play_arrow";
-    watchButtonText.textContent = "Ver tráiler";
+    watchButtonText.textContent = "Ver ahora";
     restartButton.style.display = "none";
     progressBar.style.display = "none";
   }
@@ -983,14 +1016,19 @@ document.getElementById('watchButton').addEventListener('click', () => {
 
 // Reiniciar
 function restartMovie() {
+
+  if (IS_TRAILER) return;
+
   localStorage.removeItem(`progress_${movieId}`);
   video.currentTime = 0;
   showPlayer();
+
   if (screen.orientation && screen.orientation.lock) {
     screen.orientation.lock('landscape').catch(err => {
-      console.warn('⚠️ No se pudo bloquear orientación en restart:', err);
+      console.warn(err);
     });
   }
+
 }
 
 
@@ -1164,25 +1202,38 @@ if (isTouchDevice) {
   video.addEventListener('play', enableCursorAutoHide);
 }
 
-function showPlayer() {
+async function showPlayer() {
+
   cover.style.display = 'none';
   player.style.display = 'flex';
-  video.play();
-  playPauseBtn.textContent = 'pause';
+
   showControls();
 
-  // 🔥 IMPORTANTE: primero Android, luego fullscreen
-  if (window.Android) {
+  // Android
+  if (window.Android && Android.setLandscape) {
     Android.setLandscape();
-  } else {
-    console.log("❌ Android no disponible");
   }
 
-  // ✅ Mostrar barra y botón si ya pasaron 5 segundos
+  // Fullscreen inmediatamente después del click
+  try {
+    if (player.requestFullscreen) {
+      await player.requestFullscreen();
+    } else if (player.webkitRequestFullscreen) {
+      player.webkitRequestFullscreen();
+    }
+  } catch(e){
+    console.log("No pudo entrar a fullscreen", e);
+  }
+
+  video.play();
+
+  playPauseBtn.textContent = 'pause';
+
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
     progressBar.style.display = "block";
     showRestartButton();
   }
+
 }
 
 
@@ -1190,14 +1241,16 @@ player.addEventListener('mousemove', showControls);
 player.addEventListener('click', showControls);
 player.addEventListener('touchstart', showControls);
 
-function enterFullscreen() {
+async function enterFullscreen() {
+
   if (player.requestFullscreen) {
-    player.requestFullscreen();
-  } else if (player.webkitRequestFullscreen) {
-    player.webkitRequestFullscreen();
-  } else if (player.msRequestFullscreen) {
-    player.msRequestFullscreen();
+    return player.requestFullscreen();
   }
+
+  if (player.webkitRequestFullscreen) {
+    player.webkitRequestFullscreen();
+  }
+
 }
 
 function exitFullscreen() {
@@ -1222,25 +1275,7 @@ document.addEventListener('fullscreenchange', () => {
   }
 });
 
-let hasStarted = false;
-let reiniciaTimer = null;
 
-video.addEventListener('play', () => {
-  if (!hasStarted && video.currentTime < video.duration - 5) {
-    hasStarted = true;
-
-    reiniciaTimer = setTimeout(() => {
-      if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-        showRestartButton();
-        localStorage.setItem(`hasStarted_${movieId}`, 'true');
-        progressBar.style.display = "block";
-      }
-    }, 5000);
-
-    // 🆕 Forzar fullscreen la primera vez que empieza
-    enterFullscreen();
-  }
-});
 
 
 // Función para mostrar el botón de "Reinicia"
@@ -1399,9 +1434,9 @@ async function toggleFavorito() {
   }
 
   // 🔄 Subir el cambio a Supabase también por si hay más datos
-  if (typeof throttledSyncData === 'function') {
+  if (!IS_TRAILER && typeof throttledSyncData === 'function') {
     throttledSyncData(movieId);
-  }
+}
 }
 
 
@@ -1694,8 +1729,6 @@ if (typeof Android !== "undefined") {
   window.open(url, "_blank");
 }
 }
-
-
 
 </script>
 
