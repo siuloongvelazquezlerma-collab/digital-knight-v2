@@ -4378,6 +4378,8 @@ data-trailer="https://www.opendrive.com/player/M18zMzE1MTI5MDBfNWZZVXo?autoplay"
   <div class="video-content">
     <button id="closeModal">✖</button>
 
+    <img id="videoPoster" class="video-poster">
+
     <iframe id="videoFrame"
     src=""
     height="320"
@@ -4385,7 +4387,7 @@ data-trailer="https://www.opendrive.com/player/M18zMzE1MTI5MDBfNWZZVXo?autoplay"
     style="border:0"
     scrolling="no"
     frameborder="0"
-    allow="autoplay; fullscreen"
+    allow="autoplay; fullscreen; picture-in-picture"
     allowfullscreen>
 </iframe>
 
@@ -4421,13 +4423,28 @@ document.querySelectorAll(".trailer-thumb, .play-icon").forEach(el => {
         }
 
 
-        videoFrame.src = trailerUrl;
+        const poster = el.closest(".upcoming-card")
+.querySelector(".trailer-thumb").src;
 
-        modal.style.display = "flex";
+
+// poner poster
+document.getElementById("videoPoster").src = poster;
 
 
-        // bloquear scroll de la página
-        document.body.style.overflow = "hidden";
+// abrir modal
+modal.style.display = "flex";
+
+
+// cargar video
+setTimeout(()=>{
+
+    videoFrame.src = trailerUrl;
+
+},300);
+
+
+// bloquear scroll
+document.body.style.overflow = "hidden";
 
     });
 
