@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>Digital Knight Player</title>
+
+<link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="player.css">
+
+<script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="player" id="player">
+
+    <video
+        id="video"
+        class="video-js vjs-default-skin"
+        preload="auto"
+        playsinline
+        webkit-playsinline
+        x-webkit-airplay="allow"
+        data-setup='{
+            "controls":false,
+            "autoplay":false,
+            "preload":"auto"
+        }'>
+
+        <source id="videoSource" src="" type="video/mp4">
+
+    </video>
+
+
+    <!-- Loader -->
+
+    <div class="video-loader hidden" id="videoLoader">
+
+        <div class="spinner"></div>
+
+    </div>
+
+
+
+    <!-- Aspect Ratio -->
+
+    <div id="aspectLabel">
+
+        Cover
+
+    </div>
+
+
+
+    <!-- Gradientes -->
+
+    <div id="overlayTop" class="overlay-top"></div>
+
+    <div id="overlayBottom" class="overlay-bottom"></div>
+
+
+
+    <!-- Overlay -->
+
+    <div id="overlay" class="overlay"></div>
+
+
+
+    <!-- Intro -->
+
+    <div class="skip-intro hidden" id="skipIntroBtn">
+
+        <span class="material-icons">
+
+            fast_forward
+
+        </span>
+
+        <span class="label">
+
+            Omitir Intro
+
+        </span>
+
+    </div>
+
+
+
+    <!-- Next Episode -->
+
+    <div class="next-episode hidden" id="nextEpisodeBtn">
+
+        <div class="icon-container">
+
+            <svg class="circle-timer" viewBox="0 0 36 36">
+
+                <path
+                    class="circle-bg"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 1 1 0 31.831
+                    a 15.9155 15.9155 0 1 1 0 -31.831"/>
+
+                <path
+                    id="circleProgress"
+                    class="circle-fill"
+                    stroke-dasharray="0,100"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 1 1 0 31.831
+                    a 15.9155 15.9155 0 1 1 0 -31.831"/>
+
+            </svg>
+
+            <span class="material-icons play-icon">
+
+                play_arrow
+
+            </span>
+
+        </div>
+
+        <span id="nextEpisodeLabel" class="label">
+
+            Siguiente episodio
+
+        </span>
+
+    </div>
+
+
+
+    <!-- CONTROLES -->
+
+    <div id="controls" class="controls">
+
+        <!-- TOP -->
+
+        <div class="top-bar">
+
+            <div
+                id="backButton"
+                class="icon-btn material-icons">
+
+                chevron_left
+
+            </div>
+
+            <div class="top-actions">
+
+                <!-- Audio -->
+
+                <div
+                    id="audioButton"
+                    class="icon-btn material-icons">
+
+                    audiotrack
+
+                </div>
+
+                <!-- Subtítulos -->
+
+                <div
+                    id="subtitleButton"
+                    class="icon-btn material-icons">
+
+                    subtitles
+
+                </div>
+
+                <!-- Idioma -->
+
+                <div id="langBtnWrapper">
+
+                    <span
+                        id="langIcon"
+                        class="material-icons">
+
+                        chat
+
+                    </span>
+
+                    <div id="langMenu" class="lang-menu">
+
+                    </div>
+
+                </div>
+
+                <!-- Cast -->
+
+                <div
+                    id="castButton"
+                    class="icon-btn material-icons">
+
+                    cast
+
+                </div>
+
+                <!-- Aspect -->
+
+                <div
+                    id="aspectButton"
+                    class="icon-btn material-icons">
+
+                    aspect_ratio
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CENTRO -->
+
+        <div class="center-controls">
+
+            <button
+                class="btn"
+                id="rewind10">
+
+                <span class="material-icons">
+
+                    replay_10
+
+                </span>
+
+            </button>
+
+
+            <button
+                class="btn"
+                id="playPauseBtn">
+
+                <span class="material-icons">
+
+                    play_arrow
+
+                </span>
+
+            </button>
+
+
+            <button
+                class="btn"
+                id="forward10">
+
+                <span class="material-icons">
+
+                    forward_10
+
+                </span>
+
+            </button>
+
+        </div>
+
+
+
+        <!-- BOTTOM -->
+
+        <div class="bottom-bar">
+
+            <div id="episodeHeader">
+
+                <div
+                    class="title"
+                    id="playerTitle">
+
+                    Cargando...
+
+                </div>
+
+                <div
+                    class="subtitle"
+                    id="episodeSubtitle">
+
+                </div>
+
+            </div>
+
+
+
+            <div class="progress-container">
+
+                <div
+                    id="bufferBar"
+                    class="buffer-bar">
+
+                </div>
+
+                <input
+                    id="progress"
+                    class="progress"
+                    type="range"
+                    value="0"
+                    min="0"
+                    max="100">
+
+                <div
+                    id="duration"
+                    class="time">
+
+                    00:00
+
+                </div>
+
+            </div>
+
+
+
+            <div class="extra-controls">
+
+                <button
+                    id="restartButton"
+                    class="btn">
+
+                    <span class="material-icons">
+
+                        skip_previous
+
+                    </span>
+
+                    <span class="label">
+
+                        Reiniciar
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="nextButton"
+                    class="btn">
+
+                    <span class="material-icons">
+
+                        skip_next
+
+                    </span>
+
+                    <span class="label">
+
+                        Sig. Epi
+
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="player.js"></script>
+
+<script src="player-controls.js"></script>
+
+<script src="player-storage.js"></script>
+
+<script src="player-android.js"></script>
+
+<script src="player-mediasession.js"></script>
+
+<script src="player-cast.js"></script>
+
+<script src="player-series.js"></script>
+
+<script src="player-trailer.js"></script>
+
+</body>
+</html>
