@@ -457,17 +457,26 @@
         <div class="time" id="duration">- 00:00</div>
       </div>
 
-      <!-- 🚀 Botones Extra (Reiniciar / Siguiente Episodio) -->
-      <div class="extra-controls">
-        <button class="btn" onclick="restartVideo()">
-          <span class="material-icons">skip_previous</span>
-          <span class="label">Reiniciar</span>
-        </button>
-        <button class="btn" onclick="playNextEpisode()">
-          <span class="material-icons">skip_next</span>
-          <span class="label">Sig. Epi</span>
-        </button>
-      </div>
+      <!-- 🚀 Botones Extra (Reiniciar / Blanco y Negro / Siguiente Episodio) -->
+<div class="extra-controls">
+
+  <button class="btn" onclick="restartVideo()">
+    <span class="material-icons">skip_previous</span>
+    <span class="label">Reiniciar</span>
+  </button>
+
+  <!-- 🎞️ Modo Blanco y Negro -->
+  <button class="btn" id="noirToggleBtnPlayer">
+  <span class="material-icons">contrast</span>
+  <span class="label">B/N</span>
+</button>
+
+  <button class="btn" onclick="playNextEpisode()">
+    <span class="material-icons">skip_next</span>
+    <span class="label">Sig. Epi</span>
+  </button>
+
+</div>
     </div>
   </div>
 </div>
@@ -673,7 +682,21 @@ WakeLockManager.disable();
 document.addEventListener("DOMContentLoaded", () => {
 
   const noirBtn = document.getElementById("noirToggleBtn");
+  const noirBtnPlayer = document.getElementById("noirToggleBtnPlayer");
   if (!noirBtn) return;
+
+  // 👇 AQUÍ
+function syncNoirButtons(enabled) {
+
+  if (!noirBtnPlayer) return;
+
+  noirBtnPlayer.querySelector(".label").textContent =
+    enabled ? "Color" : "B/N";
+
+  noirBtnPlayer.querySelector(".material-icons").textContent =
+    enabled ? "palette" : "contrast";
+
+}
 
   const cover = document.getElementById("cover");
   const coverLandscape = document.querySelector(".cover-landscape");
@@ -698,10 +721,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (noirSaved) {
 
+    if (!noirSaved) {
+  syncNoirButtons(false);
+}
+
     document.body.classList.add("noir-mode");
 
     noirBtn.querySelector("p").textContent = "Color";
     noirBtn.querySelector("span").textContent = "palette";
+    syncNoirButtons(true);
 
     if (cover) {
       cover.style.backgroundImage =
@@ -730,6 +758,8 @@ document.addEventListener("DOMContentLoaded", () => {
     noirBtn.querySelector("span").textContent =
       enabled ? "palette" : "contrast";
 
+      syncNoirButtons(enabled);
+
     if (enabled) {
 
       if (cover) {
@@ -755,7 +785,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    
+
   });
+
+  // Botón del reproductor (usa la misma lógica del botón principal)
+if (noirBtnPlayer) {
+
+  noirBtnPlayer.addEventListener("click", () => {
+    noirBtn.click();
+  });
+
+}
 
 });
 </script>
