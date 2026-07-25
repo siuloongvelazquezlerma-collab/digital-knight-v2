@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>Género</title>
+
+<script src="loader.min.js"></script>
+  <meta name="theme-color" content="#01011d">
+  <meta name="background-color" content="#01011d">
+<meta name="msapplication-navbutton-color" content="#01011d">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="" id="ogUrl">
+<meta property="og:type" content="video.movie">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+
+
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+   <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
+    <link rel="manifest" href="manifest.json">
+   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<style>
+
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+
+html,body{
+
+width:100%;
+min-height:100%;
+
+font-family:'Roboto',sans-serif;
+
+background:transparent;
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+
+/* IMAGEN FIJA DE FONDO */
+
+.background{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100vh;
+
+background-size:cover;
+
+background-position:center;
+
+background-repeat:no-repeat;
+
+z-index:0;
+
+}
+
+
+/* TITULO DEL GENERO */
+
+.genre-header{
+
+position:relative;
+
+z-index:5;
+
+padding-top:260px;
+
+padding-left:20px;
+
+font-size:28px;
+
+font-weight:bold;
+
+text-shadow:0 3px 10px black;
+
+}
+
+.genre-header,
+.movie-section,
+#collectionsContainer{
+
+position:relative;
+
+z-index:2;
+
+}
+
+/* CONTENEDORES */
+
+.movie-section{
+
+position:relative;
+
+z-index:3;
+
+margin-top:25px;
+
+}
+
+
+.movie-section h2{
+
+font-size:22px;
+
+padding-left:15px;
+
+margin-bottom:12px;
+
+}
+
+
+/* CARRUSEL */
+
+.scroll-container{
+
+display:flex;
+
+gap:12px;
+
+overflow-x:auto;
+
+padding:0 15px 20px;
+
+scroll-behavior:smooth;
+
+}
+
+
+
+/* OCULTAR SCROLL */
+
+.scroll-container::-webkit-scrollbar{
+
+display:none;
+
+}
+
+
+
+/* POSTERS */
+
+.movie-card{
+
+min-width:170px;
+
+max-width:170px;
+
+background:#11152b;
+
+border-radius:10px;
+
+overflow:hidden;
+
+}
+
+
+
+.movie-card img{
+
+width:170px;
+
+height:95px;
+
+object-fit:cover;
+
+display:block;
+
+}
+
+
+
+.info{
+
+padding:8px;
+
+}
+
+
+
+.title{
+
+font-size:13px;
+
+height:35px;
+
+overflow:hidden;
+
+}
+
+
+
+.details{
+
+font-size:11px;
+
+color:#bbb;
+
+}
+
+
+.type{
+
+display:none;
+
+}
+
+
+
+@media(max-width:600px){
+
+.movies-container{
+
+grid-template-columns:1fr;
+
+}
+
+
+}
+
+.collection-section{
+
+position:relative;
+
+margin:40px 10px;
+
+padding:25px 0 20px;
+
+overflow:hidden;
+
+border-radius:20px;
+
+min-height:250px;
+
+}
+
+
+.collection-background{
+
+position:absolute;
+
+inset:0;
+
+background-size:cover;
+
+background-position:center;
+
+filter:brightness(.45);
+
+z-index:0;
+
+}
+
+
+
+.collection-content{
+
+position:relative;
+
+z-index:2;
+
+}
+
+
+
+.collection-section h2{
+
+font-size:26px;
+
+text-align:center;
+
+margin-bottom:8px;
+
+text-shadow:0 3px 8px black;
+
+}
+
+
+
+.collection-info{
+
+text-align:center;
+
+font-size:14px;
+
+color:#ddd;
+
+margin-bottom:20px;
+
+}
+
+
+
+/* TARJETAS GRANDES DE COLECCION */
+
+
+.collection-section .movie-card{
+
+min-width:210px;
+
+max-width:210px;
+
+background:#11152b;
+
+}
+
+
+
+.collection-section .movie-card img{
+
+width:210px;
+
+height:118px;
+
+object-fit:cover;
+
+}
+
+
+
+.collection-section .title{
+
+font-size:14px;
+
+}
+
+
+
+.collection-section .details{
+
+font-size:12px;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="background"></div>
+
+
+<div class="genre-header" id="genreTitle">
+
+Cargando género...
+
+</div>
+
+
+
+<div id="sectionsContainer"></div>
+
+
+<div id="collectionsContainer"></div>
+
+
+<script>
+
+
+const params=new URLSearchParams(location.search);
+
+const genre=params.get("genre");
+
+
+const genreNames={
+
+accion:"Acción",
+aventura:"Aventura",
+comedia:"Comedia",
+drama:"Drama",
+terror:"Terror",
+romance:"Romance",
+fantasía:"Fantasía",
+animacion:"Animación",
+anime:"Anime"
+
+};
+
+const genreBackgrounds={
+
+accion:
+"https://od.lk/s/M18zMzE2OTg2NzRf/file_00000000c0c881fba7548e22559b634c.png",
+
+aventura:
+"https://tu-imagen-aventura.jpg",
+
+comedia:
+"https://od.lk/s/M18zMzE2OTg2Nzdf/file_000000008ddc81fb8d061f36970e8227.png",
+
+drama:
+"https://tu-imagen-drama.jpg",
+
+terror:
+"https://od.lk/s/M18zMzE2OTg2NzVf/file_00000000d2f081fb89974ef20f4a4778.png",
+
+romance:
+"https://od.lk/s/M18zMzE2OTg2NzZf/file_00000000d84c81fb93b6e637ca3cf571.png",
+
+"fantasía":
+"https://tu-imagen-fantasia.jpg",
+
+animacion:
+"https://tu-imagen-animacion.jpg",
+
+anime:
+"https://tu-imagen-anime.jpg"
+
+};
+
+
+
+document.getElementById("genreTitle").innerHTML=
+
+genreNames[genre] || genre;
+
+
+const bg = genreBackgrounds[genre];
+
+
+if(bg){
+
+document.querySelector(".background").style.backgroundImage=
+
+`
+linear-gradient(
+rgba(1,1,29,.55),
+rgba(1,1,29,.95)
+),
+url("${bg}")
+`;
+
+}
+
+
+
+function normalizar(texto){
+
+return texto
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+
+
+fetch("movies.json")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+
+let resultado=data.filter(item=>{
+
+
+return item.genres?.some(g=>
+
+normalizar(g)==normalizar(genre)
+
+);
+
+
+});
+
+
+
+const contenedor=document.getElementById("sectionsContainer");
+
+
+
+const grupos={
+
+movie:"Películas",
+
+animacion:"Animación",
+
+series:"Series",
+
+anime:"Anime"
+
+};
+
+
+
+Object.keys(grupos).forEach(tipo=>{
+
+
+let lista=resultado.filter(x=>{
+
+
+let tieneGenero=x.genres.some(g=>
+
+normalizar(g)==normalizar(genre)
+
+);
+
+
+
+if(!tieneGenero) return false;
+
+
+
+let esAnimacion=x.genres.some(g=>
+
+normalizar(g)==="animacion"
+
+);
+
+
+
+let esAnime=
+
+x.type==="anime" ||
+
+x.genres.some(g=>
+
+normalizar(g)==="anime"
+
+);
+
+
+
+if(tipo==="animacion"){
+
+return esAnimacion;
+
+}
+
+
+
+if(tipo==="anime"){
+
+return esAnime;
+
+}
+
+
+
+if(tipo==="movie"){
+
+return x.type==="movie" && !esAnimacion && !esAnime;
+
+}
+
+
+
+if(tipo==="series"){
+
+return x.type==="series";
+
+}
+
+
+
+});
+
+
+
+if(lista.length===0)return;
+
+
+
+let section=document.createElement("div");
+
+section.className="movie-section";
+
+
+
+section.innerHTML=`
+
+<h2>${grupos[tipo]}</h2>
+
+<div class="scroll-container"></div>
+
+`;
+
+
+
+let scroll=section.querySelector(".scroll-container");
+
+
+
+lista.forEach(movie=>{
+
+
+let card=document.createElement("div");
+
+
+card.className="movie-card";
+
+
+card.innerHTML=`
+
+<img src="${movie.poster}">
+
+
+<div class="info">
+
+<div class="title">
+${movie.title}
+</div>
+
+
+<div class="details">
+${movie.details}
+</div>
+
+
+</div>
+
+`;
+
+
+
+card.onclick=()=>{
+
+location.href=movie.link;
+
+};
+
+
+
+scroll.appendChild(card);
+
+
+
+});
+
+
+
+contenedor.appendChild(section);
+
+
+
+});
+
+
+
+});
+
+fetch("collections.json")
+
+.then(res=>res.json())
+
+.then(collections=>{
+
+
+const container=document.getElementById("collectionsContainer");
+
+
+
+fetch("movies.json")
+
+.then(res=>res.json())
+
+.then(movies=>{
+
+
+collections.forEach(col=>{
+
+
+let lista=movies.filter(movie=>{
+
+
+return movie.type==="movie" &&
+
+movie.collection===col.collection &&
+
+col.genres.some(g=>
+
+normalizar(g)==normalizar(genre)
+
+);
+
+
+});
+
+
+
+if(lista.length===0)return;
+
+
+
+let section=document.createElement("div");
+
+
+section.className="collection-section";
+
+
+
+section.innerHTML=`
+
+<div class="collection-background"
+
+style="background-image:url('${col.background}')">
+
+</div>
+
+
+<div class="collection-content">
+
+
+<h2>
+${col.title}
+</h2>
+
+
+<div class="collection-info">
+
+${lista.length} películas para maratonear
+
+</div>
+
+
+<div class="scroll-container"></div>
+
+
+</div>
+
+`;
+
+
+
+let scroll=section.querySelector(".scroll-container");
+
+
+
+lista.forEach(movie=>{
+
+
+let card=document.createElement("div");
+
+
+card.className="movie-card";
+
+
+card.innerHTML=`
+
+<img src="${movie.poster}">
+
+
+<div class="info">
+
+<div class="title">
+${movie.title}
+</div>
+
+
+<div class="details">
+${movie.details}
+</div>
+
+
+</div>
+
+`;
+
+
+
+card.onclick=()=>{
+
+location.href=movie.link;
+
+};
+
+
+
+scroll.appendChild(card);
+
+
+
+});
+
+
+
+container.appendChild(section);
+
+
+
+});
+
+
+});
+
+
+});
+
+
+</script>
+
+
+</body>
+</html>
