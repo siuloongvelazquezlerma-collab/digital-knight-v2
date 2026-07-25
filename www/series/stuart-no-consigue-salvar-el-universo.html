@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
 
-  <title>Stuart no consigue salvar el Universo</title>
+  <title>Stuart no logra salvar el Universo</title>
   <script src="../loader.min.js"></script>
   <meta name="theme-color" content="#01011d">
   <meta name="background-color" content="#01011d">
@@ -45,7 +45,7 @@
 .cover {
   position: relative;
   width: 100%;
-  background: url("https://image.tmdb.org/t/p/w500/iQbTbwmLX5Nh1nlH21YUJPWt3Zo.jpg") no-repeat center top;
+  background: url("https://image.tmdb.org/t/p/original/1ktXb0EGQJsxETWqqF55mXvbeW0.jpg") no-repeat center top;
   background-size: contain;
   background-position: center top;
   display: flex;
@@ -70,7 +70,7 @@
 .cover-landscape {
   position: absolute;
   inset: 0;
-  background: url("https://image.tmdb.org/t/p/original/2ngdvUiEKW8Q37ta8BBdydE2cuq.jpg") no-repeat center top;
+  background: url("https://image.tmdb.org/t/p/original/k5ujbFUxNlBQQ6sh3UmApwadVTV.jpg") no-repeat center top;
   background-size: cover;
   z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
   display: none;
@@ -175,7 +175,7 @@
         <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
             <span class="material-icons">chevron_left</span>
         </a>
-        <span id="page-title" class="page-title">Stuart no consigue salvar el Universo</span> <!-- Título oculto por defecto -->
+        <span id="page-title" class="page-title">Stuart no logra salvar el Universo</span> <!-- Título oculto por defecto -->
     </header>
     <!-- Tabs para pantallas grandes -->
 <div class="tabs tabs-secondary">
@@ -224,28 +224,33 @@
   <div class="cover-image-overlay"></div> <!-- Overlay para imagen portrait -->
   
   <div class="cover-content">
-    <img src="https://image.tmdb.org/t/p/original/sHUYYn9Pb4GeVOZ1gm3vK9NIp1Q.png" alt="Stuart no consigue salvar el Universo Logo "class="logo" oncontextmenu="return false" draggable="false">
-    <div class="meta">16+   Proximamente</div>
+    <img src="https://image.tmdb.org/t/p/original/9CXdmow13A9gM2W5HTaw8fqY6Ie.png" alt="Stuart no logra salvar el Universo Logo "class="logo" oncontextmenu="return false" draggable="false">
+    <div class="meta">16+   1 temporada   2026   Dob Lat</div>
   
       <button id="resumeButton" class="watch-button" onclick="playLastWatchedEpisode()" tabindex="3">
-        <span class="material-icons">play_arrow</span> Ver tráiler
+        <span class="material-icons">play_arrow</span> Mira T1 E1
       </button>
   
       <!-- NUEVO BLOQUE DE ICONOS -->
       <div class="iconos">
         <!-- Botón de Favoritos -->
-        <button id="favoritoBtn" data-identificador="Stuart no consigue salvar el Universo" onclick="toggleFavorito()">
+        <button id="favoritoBtn" data-identificador="Stuart no logra salvar el Universo" onclick="toggleFavorito()">
           <span id="favoritoIcon" class="material-icons-outlined">add</span>
           <p id="favoritoText">Favoritos</p>
         </button>
   
         <!-- Info oculta para localStorage -->
         <div id="favoritoData" style="display: none;">
-          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/6MmHhb6ooKI0gKCxgFB7lrk887I.jpg" alt="Poster de la Película">
-          <a id="favoritoEnlace" href="stuart-no-consigue-salvar-el-universo.html"></a>
-          <span id="nombre">Stuart no consigue salvar el Universo - Tráiler</span>
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/aBMzhUG4dKRrnudsiFmzlwQ1DIm.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="stuart-no-logra-salvar-el-universo.html"></a>
+          <span id="nombre">Stuart no logra salvar el Universo</span>
       </div>
   
+        <!-- Botón de Compartir -->
+        <div class="action-item" id="compartirBtn">
+          <span class="material-icons-outlined">share</span>
+          <p>Compartir</p>
+        </div>
               </div>
   
       <div class="description">
@@ -343,7 +348,7 @@
     height="100%"
     poster="https://wallpapercave.com/wp/wp5415042.jpg"
     data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
-    <source id="videoSource" src="https://od.lk/s/M18zMzE0OTM4MzZf/Stuart%20Fails%20to%20Save%20the%20Universe%20_%20Official%20Trailer%20_%20HBO%20Max.mp4" type="video/mp4" />
+    <source id="videoSource" src="tu video.mp4" type="video/mp4" />
   </video>
 
   <!-- Loader -->
@@ -397,7 +402,24 @@
   <div class="controls" id="controls">
     <div class="top-bar">
       <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
-      <div style="display: flex; gap: 15px;">
+  
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <!-- 🌐 Botón de idioma con mini menú -->
+        <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+          <span class="material-icons" id="langIcon">chat</span>
+  
+          <div id="langMenu" class="lang-menu">
+            <div class="lang-option" data-lang="latino">
+              <span class="check"></span> Latino
+            </div>
+            <div class="lang-option" data-lang="sub">
+              <span class="check"></span> Inglés (Subtítulos)
+            </div>
+            <button id="langConfirmBtn">Listo</button>
+          </div>
+        </div>
+        <!-- 🌐 Fin menú de idioma -->
+  
         <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
         <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
       </div>
@@ -417,7 +439,7 @@
 
     <div class="bottom-bar">
       <div id="episodeHeader">
-        <div class="title">Stuart no consigue salvar el Universo - Tráiler</div>
+        <div class="title">Stuart no logra salvar el Universo</div>
         <div class="subtitle" id="episodeSubtitle"></div>
       </div>
 
@@ -469,32 +491,50 @@
 
 <script>
 
-const seriesId = "stuart-no-consigue-salvar-el-universo-287620";
+const seriesId = "stuart-no-logra-salvar-el-universo-287620";
 window.seriesId = seriesId;
 
 // --- PLAYLIST ---
-const playlist = JSON.parse(`[
+window.playlist = [
   {
-    "season": "Temporada 1",
-    "episodes": [
+    season: "Temporada 1",
+    episodes: [
       {
-        "title": "",
-        "meta": "",
-        "thumbnail": "https://image.tmdb.org/t/p/original/6MmHhb6ooKI0gKCxgFB7lrk887I.jpg",
-        "videoUrl": "https://od.lk/s/M18zMzE0OTM4MzZf/Stuart%20Fails%20to%20Save%20the%20Universe%20_%20Official%20Trailer%20_%20HBO%20Max.mp4",
-        "downloadUrl": "",
-        "episodeCode": "",
-        "hiddenCode": "",
+        "title": "E1: Espóiler: Gary muere",
+        "meta": "16+ · 26m · 2026",
+        "thumbnail": "https://image.tmdb.org/t/p/w300/p8gItmVRaX6ubHUST5rLjB39kle.jpg",
+       videos: {
+          latino: "https://od.lk/s/M18zMzE2ODA0Nzhf/Stuart%20no%20consigue%20salvar%20el%20universo%20Temporada%201%20Capitulo%201.mp4",
+          sub: "https://od.lk/s/M18zMzE2ODM5MTdf/stuart%20sub.mp4"
+        },
+        "downloadUrl": "https://od.lk/d/M18zMzE2ODA0Nzhf/Stuart%20no%20consigue%20salvar%20el%20universo%20Temporada%201%20Capitulo%201.mp4",
+        "episodeCode": "T1 E1: Espóiler: Gary muere",
+        "hiddenCode": "T1 E1",
         "intro": {
-          "start": 0,
-          "end": 0
-        }
-      
-      }
+          "start": 145,
+          "end": 190
+        },
+        isNew: true
+     }
     ]
   }
-]`);
-    console.log(playlist);
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
 
 </script>
 <script src="../suggestions-library.js"></script>
