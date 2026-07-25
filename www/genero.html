@@ -365,6 +365,96 @@ font-size:12px;
 
 }
 
+.sort-menu{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    padding:15px 20px;
+
+    z-index:9999;
+
+}
+
+#sortButton{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 16px;
+
+    background:rgba(20,20,40,.75);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:16px;
+
+    color:white;
+
+    font-size:15px;
+
+    backdrop-filter:blur(12px);
+
+    cursor:pointer;
+
+}
+
+#sortButton:hover{
+
+    background:rgba(40,40,70,.85);
+
+}
+
+.sort-options{
+
+    position:absolute;
+
+    top:55px;
+
+    right:20px;
+
+    width:190px;
+
+    background:#12142b;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    display:none;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.45);
+
+    z-index:10000;
+
+}
+
+.sort-options.show{
+
+    display:block;
+
+}
+
+.sort-options div{
+
+    padding:14px 18px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.sort-options div:hover{
+
+    background:#20254a;
+
+}
+
 
 </style>
 
@@ -384,7 +474,33 @@ Cargando género...
 
 </div>
 
+<div class="sort-bar">
 
+<div class="sort-menu">
+
+    <button id="sortButton">
+        <span class="material-icons">sort</span>
+        Ordenar
+        <span class="material-icons">keyboard_arrow_down</span>
+    </button>
+
+    <div id="sortOptions" class="sort-options">
+
+        <div data-sort="default">
+            Predeterminado
+        </div>
+
+        <div data-sort="az">
+            A - Z
+        </div>
+
+        <div data-sort="za">
+            Z - A
+        </div>
+
+    </div>
+
+</div>
 
 <div id="sectionsContainer"></div>
 
@@ -398,6 +514,60 @@ Cargando género...
 const params=new URLSearchParams(location.search);
 
 const genre=params.get("genre");
+
+
+
+
+
+const sortMode =
+localStorage.getItem("genreSort") || "default";
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    const button=document.getElementById("sortButton");
+    const menu=document.getElementById("sortOptions");
+
+    button.onclick=()=>{
+
+        menu.classList.toggle("show");
+
+    };
+
+    document.querySelectorAll("#sortOptions div").forEach(opcion=>{
+
+        if(opcion.dataset.sort===sortMode){
+
+            opcion.innerHTML="✔ "+opcion.innerHTML;
+
+        }
+
+        opcion.onclick=()=>{
+
+            localStorage.setItem(
+                "genreSort",
+                opcion.dataset.sort
+            );
+
+            location.reload();
+
+        };
+
+    });
+
+    document.addEventListener("click",(e)=>{
+
+        if(
+            !button.contains(e.target) &&
+            !menu.contains(e.target)
+        ){
+
+            menu.classList.remove("show");
+
+        }
+
+    });
+
+});
 
 
 const genreNames={
@@ -502,6 +672,69 @@ normalizar(g)==normalizar(genre)
 
 });
 
+
+// ==========================
+// ORDEN ALEATORIO (SOLO UNA VEZ)
+// ==========================
+
+const storageKey = "genreOrder_" + genre;
+
+let savedOrder = JSON.parse(localStorage.getItem(storageKey));
+
+if (!savedOrder) {
+
+    // Mezclar los IDs solo la primera vez
+    savedOrder = resultado
+        .map(item => item.id)
+        .sort(() => Math.random() - 0.5);
+
+    localStorage.setItem(storageKey, JSON.stringify(savedOrder));
+
+}
+
+// Ordenar según el orden guardado
+resultado.sort((a, b) => {
+
+    let ia = savedOrder.indexOf(a.id);
+    let ib = savedOrder.indexOf(b.id);
+
+    if (ia === -1) ia = 999999;
+    if (ib === -1) ib = 999999;
+
+    return ia - ib;
+
+});
+
+const modo =
+localStorage.getItem("genreSort") || "default";
+
+if(modo==="az"){
+
+    resultado.sort((a,b)=>
+
+        a.title.localeCompare(
+            b.title,
+            'es',
+            {sensitivity:'base'}
+        )
+
+    );
+
+}
+
+if(modo==="za"){
+
+    resultado.sort((a,b)=>
+
+        b.title.localeCompare(
+            a.title,
+            'es',
+            {sensitivity:'base'}
+        )
+
+    );
+
+}
 
 
 const contenedor=document.getElementById("sectionsContainer");
