@@ -38,6 +38,7 @@
    <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="../peliculas.css">
+  
   <style>
   .cover::before {
   background: linear-gradient(to bottom,  #01011d, transparent 0%);
@@ -51,7 +52,7 @@
   position: relative;
   width: 100%;
   
-  background: url("https://image.tmdb.org/t/p/original/xoK3BNNbBfCR9Kt9ZCoxvtN6254.jpg") no-repeat center top;
+  background: url("https://od.lk/s/M18zMTIyNDM4MThf/nlG452icactoT6hbqECbSEVfGII.jpg") no-repeat center top;
   background-size: contain;
   display: flex;
   flex-direction: column;
@@ -75,7 +76,7 @@
 .cover-landscape {
   position: absolute;
   inset: 0;
-  background: url("https://image.tmdb.org/t/p/original/vWT91Ix4UTQScnCUIQrgimgVBB3.jpg") no-repeat center top;
+  background: url("https://image.tmdb.org/t/p/original/8K92dxdtyrhXB6fEnfGWmWnSFV7.jpg") no-repeat center top;
   background-size: cover;
   z-index: 0; /* <- Esto es clave para que se vea debajo del contenido, pero por encima del fondo negro */
   display: none;
@@ -118,7 +119,7 @@
 
 
 .cover-content img.logo {
-    width: 230px;
+    width: 260px;
     margin-bottom: 10px;
   }
 
@@ -126,7 +127,7 @@
     
   
     .cover-content img.logo {
-      width: 190px;
+      width: 210px;
       margin-bottom: 4px;
     }
   
@@ -138,52 +139,12 @@
   
     .cover-content img.logo {
       margin-top: 310px;
-      width: 370px;
+      width: 390px;
       margin-bottom: -10px;
     }
   
     
   } 
-
-
-/* General: espacio para header fijo en pantallas pequeñas */
-@media screen and (max-width: 1024px) {
-  .cover-content {
-    padding-top: 80px; /* deja espacio para el header fijo */
-  }
-}
-
-/* Móviles en portrait */
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  .cover-content {
-    padding-top: 90px; /* un poco más de espacio en modo vertical */
-  }
-
-  .cover {
-    padding-top: 0; /* el padding se maneja dentro de .cover-content */
-  }
-}
-
-/* Móviles en landscape (horizontal) */
-@media screen and (max-width: 768px) and (orientation: landscape) {
-  .cover-content {
-    padding-top: 60px;
-  }
-}
-
-/* Tablets en cualquier orientación */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  .cover-content {
-    padding-top: 70px;
-  }
-}
-
-/* PC: sin padding adicional */
-@media screen and (min-width: 1025px) {
-  .cover-content {
-    padding-top: 0;
-  }
-}
 
 
 
@@ -203,12 +164,14 @@
     </button>
   </div>
   <header id="header">
-    <a href="javascript:history.back();" id="back-link" class="icon-link" tabindex="1">
+    <a href="javascript:history.back();" id="back-link" class="icon-link">
         <span class="material-icons">chevron_left</span>
     </a>
-    <span id="page-title" class="page-title">El Libro de la Vida </span> <!-- Título oculto por defecto -->
+    <span id="page-title" class="page-title">El Libro de la Vida</span> <!-- Título oculto por defecto -->
 </header>
 
+<!-- Tabs para pantallas grandes -->
+<!-- Tabs para pantallas grandes -->
 <div class="tabs tabs-secondary">
   <!-- Logo a la izquierda -->
   <a href="../main.html">
@@ -245,6 +208,7 @@
 </div>
 
 
+
 <!-- COVER / PORTADA -->
 <div class="cover" id="cover">
     <!-- FONDO LANDSCAPE SOLO PARA MODO HORIZONTAL -->
@@ -253,8 +217,9 @@
     </div>
   
     <div class="cover-content">
-      <img src="https://image.tmdb.org/t/p/original/2bTme0AUzsvjogibBhMQSxzXuqt.png" alt="El Libro de la Vida  "class="logo" tabindex="2">
-      <div class="meta">7+    1h 35m   2014   Dob   Lat</div>
+      <img src="https://image.tmdb.org/t/p/original/2bTme0AUzsvjogibBhMQSxzXuqt.png" alt="El Libro de la Vida Logo" class="logo">
+      <div class="meta">7+    1h 35min   2014    Dob Lat</div>
+   
   
       <div class="bloque-botones">
         <div id="video-controls">
@@ -271,50 +236,53 @@
           <button id="restartButton" class="restart-button" onclick="restartMovie()"> 
             <span class="material-icons">replay</span> Reiniciar
           </button>
-      
+       
           <!-- Espacio opcional si quieres animar la separación (no obligatorio) -->
           <!-- <div id="restartSpacer" style="height: 0px; transition: height 0.3s ease;"></div> -->
         </div>
       
         <div class="iconos">
           <!-- Botón de Favoritos -->
-          <button id="favoritoBtn" data-identificador="El Libro de la Vida" onclick="toggleFavorito()" tabindex="4">
+          <button id="favoritoBtn" data-identificador="El Libro de la Vida" onclick="toggleFavorito()">
             <span id="favoritoIcon" class="material-icons-outlined">add</span>
             <p id="favoritoText">Favoritos</p>
           </button>
+          
       
-          <!-- Info oculta para localStorage -->
-          <div id="favoritoData" style="display: none;">
-            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/7TqMzvU3vYXnHgKYViYKZao7ZUI.jpg" alt="Poster de la Película">
-            <a id="favoritoEnlace" href="El Libro de la Vida (2014).html"></a>
-            <span id="nombre">El Libro de la Vida (2014) </span>
-          </div>
+         <!-- Info oculta para localStorage -->
+         <div id="favoritoData" style="display: none;">
+          <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/7TqMzvU3vYXnHgKYViYKZao7ZUI.jpg" alt="Poster de la Película">
+          <a id="favoritoEnlace" href="El Libro de la Vida (2014).html"></a>
+          <span id="nombre">El Libro de la Vida (2014) </span>
+        </div>
+
       
           
       
           <!-- Botón de Compartir -->
-          <div class="action-item" id="compartirBtn">
-            <span class="material-icons-outlined">share</span>
-            <p>Compartir</p>
-          </div>
+          <!-- Botón de Compartir -->
+<div class="action-item" id="compartirBtn">
+  <span class="material-icons-outlined">share</span>
+  <p>Compartir</p>
+</div>
       
           <!-- Botón de Descargar -->
-           <!-- Botón de Descargar -->
-           <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMTY3MTIxNTlf/El%20Libro%20de%20la%20Vida.mp4')">
+<div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMDUxMTQ0MzVf/The.Book.of.Life.2014.hd-latino-e-ingles-subt.c.mp4')">
             <i class="material-icons">arrow_downward</i>
             <span class="underline"></span>
             Descargar
           </div>
+
         </div>
       </div>
       
       <div class="description">
-        La película cuenta el viaje de Manolo, un joven torero que se debate entre cumplir con las expectativas de su familia o seguir su corazón y dedicarse a su verdadera pasión: la música.
+        Manolo, un joven torero que se debate entre cumplir con las expectativas de su familia o seguir su corazón y dedicarse a su verdadera pasión: la música.
       </div>
     </div>
   </div>
 
-   <!-- QUIZÁ TAMBIÉN TE GUSTE -->
+  <!-- QUIZÁ TAMBIÉN TE GUSTE -->
  <div class="page-content">
 <div class="sugerencias-section">
   <div class="sugerencias-header">
@@ -322,31 +290,46 @@
     <div class="sugerencias-tabs-line"></div>
   </div>
   <div class="sugerencias-grid">
-    <a href="../Disney/Coco.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/lUZZhYLLDU4g4XGQ5tvjYNVytxc.jpg" alt="Coco">
+    
+    <a href="Coco.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/98G7zRNJBGuJiJmWcCTv0whXltA.jpg" alt="Coco">
       <p class="sugerencia-titulo">Coco</p>
       <p class="sugerencia-sub">Dob | Lat</p>
     </a>
-  
-    <a href="patos.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/wyslVgKc8QcpSUR8vQcvouKmtL4.jpg" alt="¡Patos!">
-      <p class="sugerencia-titulo">¡Patos!</p>
+    
+    <a href="unidos.hmtl" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/yEvAI0XE6sCWyIAUwN1hdP3nf9b.jpg" alt="Onward">
+      <p class="sugerencia-titulo">Onward</p>
       <p class="sugerencia-sub">Dob | Lat</p>
     </a>
-  
-    <a href="mario bros.html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/zNKs1T0VZuJiVuhuL5GSCNkGdxf.jpg" alt="Super Mario Bros: La Película">
-      <p class="sugerencia-titulo">Super Mario Bros: La Película</p>
+    
+    <a href="un gran dinosaurio.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/AdBRNzPeeQHujTug9y4vSbibWF8.jpg" alt="The Good Dinosaur">
+      <p class="sugerencia-titulo">The Good Dinosaur</p>
       <p class="sugerencia-sub">Dob | Lat</p>
     </a>
-  
-    <a href="../Disney/Zootopia (2016).html" class="sugerencia-item">
-      <img src="https://image.tmdb.org/t/p/original/kyiEmCk6mOenJiL7s3LspVKkoZM.jpg" alt="Zootopia">
-      <p class="sugerencia-titulo">Zootopia</p>
+    
+    <a href="buscando a dory.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/o8lNBlTOXPUldnpqXetsfECpu3Q.jpg" alt="Finding Dory">
+      <p class="sugerencia-titulo">Finding Dory</p>
       <p class="sugerencia-sub">Dob | Lat</p>
     </a>
-  </div>    
-  
+    
+    <a href="bichos.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/vpkIWz6c0ajlpykGi5JYtjZiu6t.jpg" alt="A Bug's Life">
+      <p class="sugerencia-titulo">A Bug's Life</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+    
+    <a href="ratatouille.html" class="sugerencia-item">
+      <img src="https://image.tmdb.org/t/p/original/sDwCBLWHFebxgkqlfm0SwdD9vIn.jpg" alt="Ratatouille">
+      <p class="sugerencia-titulo">Ratatouille</p>
+      <p class="sugerencia-sub">Dob | Lat</p>
+    </a>
+    
+    
+ </div>
+</div>
 </div>
   
 
@@ -361,7 +344,7 @@
   height="100%"
   poster="https://wallpapercave.com/wp/wp5415042.jpg"
   data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
-  <source id="videoSource" src="https://od.lk/s/M18zMTY3MTIxNTlf/El%20Libro%20de%20la%20Vida.mp4" type="video/mp4" />
+  <source id="videoSource" src="https://od.lk/d/M18zMDUxMTQ0MzVf/The.Book.of.Life.2014.hd-latino-e-ingles-subt.c.mp4" type="video/mp4" />
 </video>
  <!-- Loader -->
  <div class="video-loader hidden" id="videoLoader">
@@ -439,6 +422,8 @@
           <div class="title">El Libro de la Vida</div>
           <div class="subtitle" id="episodeSubtitle"></div>
         </div>
+   
+      
   
         <div class="progress-container">
           <div class="buffer-bar"></div>  <!-- ✅ Agrega esto -->
@@ -450,33 +435,34 @@
   </div>
 
   <footer class="footer">
-    <a href="../main.html" class="footer-icon" tabindex="14">
+    <a href="../main.html" class="footer-icon">
         <span class="material-icons-outlined">home</span>
         <span class="material-icons">home</span>
     </a>
-    <a href="../new favoritos 2025.html" class="footer-icon" tabindex="15">
+    <a href="../new favoritos 2025.html" class="footer-icon">
         <span class="material-icons-outlined">bookmark_border</span>
         <span class="material-icons">bookmark</span>
     </a>
-    <a href="../New search page 2025.html" class="footer-icon" tabindex="16">
+     <a href="../downloads.html" class="footer-icon download-footer">
+    <span class="material-icons-outlined">arrow_downward</span>
+    <span class="material-icons">arrow_downward</span>
+</a>
+    <a href="../New search page 2025.html" class="footer-icon">
         <span class="material-icons-outlined">search</span>
         <span class="material-icons">search</span>
     </a>
-    <a href="../perfil digital Knight 2025.html" class="footer-icon" tabindex="17">
-        <img src="../logo-2025.png" alt="Icono de Perfil" id="footerIconImg" class="profile-icon-footer">
-    </a>
-</footer>
-
+  </footer>
   <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
 
  
 
+ 
 <script src="../suggestions-library.js"></script>
 <script src="../suggested-content.js"></script>
  
 <script>
 
-window.movieId = "libro-vida"; // cambia por el ID único que desees
+window.movieId = "el-libro-de-la-vida-228326";
 
 // 🆔 Asegura que tengas el ID de la película global
 const movieId = window.movieId || 'unknown-id';
@@ -1882,6 +1868,7 @@ if (typeof Android !== "undefined") {
 
 
 </script>
+
 
 
 </body>
