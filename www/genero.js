@@ -75,31 +75,30 @@ anime:"Anime"
 const genreBackgrounds={
 
 accion:
-"https://od.lk/s/M18zMzE2OTg2NzRf/file_00000000c0c881fba7548e22559b634c.png",
+"https://od.lk/s/M18zMzE3ODI1MTJf/crear-fondo-cartel-pelicula-accion_1061150-3693.avif",
 
 aventura:
-"https://tu-imagen-aventura.jpg",
+"https://od.lk/s/M18zMzE3ODM0Nzlf/expanding-boundaries-high-quality-ultra-hd-8k-hdr-free-photo.jpg",
 
 comedia:
-"https://od.lk/s/M18zMzE2OTg2Nzdf/file_000000008ddc81fb8d061f36970e8227.png",
+"https://od.lk/s/M18zMzE3ODM5MjJf/file_00000000928c81fdb6f295e964cba074.png",
 
 drama:
-"https://tu-imagen-drama.jpg",
+"https://od.lk/s/M18zMzE3ODI1MDZf/fondo-cuadros-negativos-pelicula-colores_875825-90424.jpg",
 
 terror:
-"https://od.lk/s/M18zMzE2OTg2NzVf/file_00000000d2f081fb89974ef20f4a4778.png",
+"https://od.lk/s/M18zMzE3ODI1MTNf/halloween-9112212_640.png",
 
 romance:
-"https://od.lk/s/M18zMzE2OTg2NzZf/file_00000000d84c81fb93b6e637ca3cf571.png",
+"https://od.lk/s/M18zMzE3ODI1MTBf/gente-romantica-esta-enamorada_23-2151103220.avif",
 
-"fantasía":
-"https://tu-imagen-fantasia.jpg",
+fantasía:
+"https://od.lk/s/M18zMzE3ODMxNjBf/aventura-espera-fondo_1015182-8515.avif",
 
 animacion:
-"https://tu-imagen-animacion.jpg",
+"https://od.lk/s/M18zMzE3ODMxNThf/ilustracion-vector-fondo-estilo-pelicula-dibujos-animados-retro_175838-2084.avif",
 
-anime:
-"https://tu-imagen-anime.jpg"
+
 
 };
 

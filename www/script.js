@@ -151,12 +151,18 @@ function activateTab(targetId, options = {}) {
         swiperInstances[targetId] = createSwiper(targetSwiperEl);
       }
 
-      const swiper = swiperInstances[targetId];
-      if (swiper) {
-        swiper.slideTo(0, 0, false); // 👈 sin animación
-        swiper.params.autoplay.delay = 14000;
-        swiper.autoplay.start();
-      }
+     const swiper = swiperInstances[targetId];
+if (swiper) {
+    swiper.slideTo(0, 0, false);
+
+    swiper.update();
+    swiper.updateSize();
+    swiper.updateSlides();
+    swiper.updateProgress();
+
+    swiper.params.autoplay.delay = 14000;
+    swiper.autoplay.start();
+}
       
       updateBackground(targetSwiperEl);
     }
