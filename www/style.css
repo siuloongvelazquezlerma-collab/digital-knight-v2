@@ -2500,6 +2500,31 @@ body.sheet-open{
     overscroll-behavior: contain;
 }
 
+/* Fondos especiales a ancho completo: el contenido interior conserva su propio espaciado. */
+.section-content .special-section.nick,
+.section-content .special-section.terror,
+.section-content .special-section.mexico,
+.section-content .special-section.novelas,
+.section-content .special-section.vampiros,
+.section-content .special-section.mexicanas-clasicas,
+.section-content .container .top-10 {
+  width: 100vw !important;
+  max-width: none !important;
+  align-self: center;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
+
+.section-content .special-section.nick,
+.section-content .special-section.terror,
+.section-content .special-section.mexico,
+.section-content .special-section.novelas,
+.section-content .special-section.vampiros,
+.section-content .special-section.mexicanas-clasicas {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 /* ============================= */
 /* SECCION GENEROS */
 /* ============================= */
@@ -2645,4 +2670,68 @@ body.sheet-open{
 }
 
 
+}
+
+/* Solo el fondo es "full bleed"; las tarjetas conservan la retícula normal. */
+.section-content .special-section.nick,
+.section-content .special-section.terror,
+.section-content .special-section.mexico,
+.section-content .special-section.novelas,
+.section-content .special-section.vampiros,
+.section-content .special-section.mexicanas-clasicas,
+.section-content .container .top-10 {
+  width: auto !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  isolation: isolate;
+}
+
+.section-content .special-section.nick,
+.section-content .special-section.terror,
+.section-content .special-section.mexico,
+.section-content .special-section.novelas,
+.section-content .special-section.vampiros,
+.section-content .special-section.mexicanas-clasicas {
+  background: none !important;
+}
+
+.section-content .special-section.nick::before,
+.section-content .special-section.terror::before,
+.section-content .special-section.mexico::before,
+.section-content .special-section.novelas::before,
+.section-content .special-section.vampiros::before,
+.section-content .special-section.mexicanas-clasicas::before,
+.section-content .container .top-10::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.section-content .special-section.nick::before { background: linear-gradient(to bottom, #fa7000, #00001094); }
+.section-content .special-section.terror::before { background-image: linear-gradient(to bottom, #020220e0, #00001094), url("https://od.lk/s/M18zMTg5NDY2MzRf/fondo-terror_173387-1447.avif"); }
+.section-content .special-section.mexico::before { background-image: linear-gradient(to bottom, #020220e0, #00001094), url("https://od.lk/s/M18zMzE4Nzc4MTJf/cine%20mexicano%20fondo.png"); }
+.section-content .special-section.novelas::before { background: linear-gradient(to bottom, #c5025363, #00001094); }
+.section-content .special-section.vampiros::before { background: linear-gradient(to bottom, #350303, #000010d7); }
+.section-content .special-section.mexicanas-clasicas::before { background-image: linear-gradient(to bottom, #00001094, #00001094), url("https://od.lk/s/M18zMTIyMDkyNjBf/Mexicanas%20section%20background.jpg"); }
+
+.section-content .container .top-10 {
+  width: 100% !important;
+  max-width: 600px !important;
+  background: none !important;
+}
+
+.section-content .container .top-10::before {
+  background: linear-gradient(to bottom, #11217913, #11217959, #1121796c, #112179a1, #112179b9, #112079);
+}
+
+@media (min-width: 1024px) {
+  .section-content .container .top-10 { max-width: 100% !important; }
 }
