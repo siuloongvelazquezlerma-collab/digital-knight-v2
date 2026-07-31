@@ -1386,23 +1386,24 @@ function showRestartButton() {
   const totalDuration = video.duration || parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
   const percentPlayed = currentTime / totalDuration;
 
-  // Solo mostrar si la película NO terminó (menos de 90%)
+  // Solo mostrar si la película NO terminó (menos de 80%)
   if (percentPlayed < 0.8 &&
-    watchButtonText.textContent !== "Volver a ver") {
+      watchButtonText.textContent !== "Volver a ver") {
 
     restartButton.style.display = "flex";
+
+    requestAnimationFrame(() => {
+      restartButton.style.opacity = "1";
+      restartButton.style.visibility = "visible";
+      restartButton.style.pointerEvents = "auto";
+    });
+
     restartButton.classList.add("shown");
     document.getElementById("restartSpacer").style.height = "60px";
 
-} else {
+  } else {
     hideRestartButton();
-}
-}
-
-function hideRestartButton() {
-  restartButton.style.display = 'none';
-  restartButton.classList.remove('shown');
-  document.getElementById('restartSpacer').style.height = '0px';
+  }
 }
 
 function actualizarMediaSession() {

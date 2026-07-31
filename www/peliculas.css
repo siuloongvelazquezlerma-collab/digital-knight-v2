@@ -362,11 +362,17 @@ screen and (min-width: 900px) {
   padding: 12px 20px;
   z-index: 1;
   position: relative;
+  opacity:0;
+visibility:hidden;
+pointer-events:none;
+transition:.25s;
 }
 
 .restart-button.shown {
   display: flex;
 }
+
+
 
   
   
@@ -1644,7 +1650,9 @@ z-index: 600000;
 
 .cover-landscape,
 .cover{
+    opacity:0;
     animation: fadeBackground .45s ease forwards;
+    animation-delay:.18s;
 }
 
 @keyframes fadeUp{
@@ -1664,12 +1672,17 @@ z-index: 600000;
 }
 
 @keyframes fadeBackground{
+
     from{
-        opacity:.15;
-        filter:blur(8px);
+        opacity:0;
+        filter:blur(10px);
+        transform:scale(1.03);
     }
+
     to{
         opacity:1;
         filter:blur(0);
+        transform:scale(1);
     }
+
 }
