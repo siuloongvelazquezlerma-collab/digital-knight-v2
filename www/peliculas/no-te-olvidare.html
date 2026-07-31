@@ -187,7 +187,10 @@
 
 </style>
 </head>
-<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+<body class="page-loading"
+      oncontextmenu="return false"
+      ondragstart="return false"
+      onselectstart="return false">
 
 
   <div class="custom-top-bar">
@@ -1873,6 +1876,17 @@ if (typeof Android !== "undefined") {
   window.open(url, "_blank");
 }
 }
+
+window.addEventListener("load", () => {
+
+    requestAnimationFrame(() => {
+
+        document.body.classList.remove("page-loading");
+        document.body.classList.add("page-loaded");
+
+    });
+
+});
 
 </script>
 
