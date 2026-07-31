@@ -507,6 +507,20 @@ document.addEventListener('touchmove', function (event) {
   }
 }, { passive: false });
 
+window.addEventListener('load', function () {
+  const overlay = document.querySelector('.overlay-loader');
+  const loader = document.getElementById('loader');
+
+  // Se mantiene el loader visible por 1 segundo
+  setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+            overlay.classList.add('hidden');
+        }, 100);
+    }, 100);
+});
+
 
 
 
