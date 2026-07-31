@@ -796,16 +796,10 @@ video.addEventListener('loadedmetadata', () => {
 
   // ✅ Mostrar barra y botón si aplica
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-
-    watchButtonText.textContent = "Continuar viendo";
-
     progressBar.style.display = "block";
-
-    requestAnimationFrame(() => {
-        showRestartButton();
-    });
-
-}
+    showRestartButton();
+    watchButtonText.textContent = "Continuar viendo";
+  }
 
   // 🛰️ Sincronizar con Supabase al cargar metadata
   if (typeof throttledSyncData === 'function') {
@@ -1461,18 +1455,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Solo mostrar el botón si ya empezó pero NO terminó
   if (percentPlayed < 0.8 && savedTime > 0 && hasStartedFlag === 'true') {
-
-    restartButton.style.display = "flex";
-
-    restartButton.style.opacity = "1";
-    restartButton.style.visibility = "visible";
-    restartButton.style.pointerEvents = "auto";
-
-} else {
-
+    showRestartButton();
+  } else {
     hideRestartButton();
-
-}
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
