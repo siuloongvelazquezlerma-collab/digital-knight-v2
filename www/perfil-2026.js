@@ -1,15 +1,23 @@
 window.addEventListener('load', function () {
-  const overlay = document.querySelector('.overlay-loader');
+  const overlay = document.getElementById("overlay");
   const loader = document.getElementById('loader');
 
   // Se mantiene el loader visible por 1 segundo
-  setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
+setTimeout(() => {
+
+    loader.style.opacity = '0';
+
+    setTimeout(() => {
+
+        loader.style.display = 'none';
+
+        if (overlay) {
             overlay.classList.add('hidden');
-        }, 300);
-    }, 1000);
+        }
+
+    }, 300);
+
+}, 1000);
 });
 
 
@@ -115,13 +123,16 @@ function selectAvatar(img) {
   markProfileAsChanged();
 }
 
-function saveAvatar() {
+async function saveAvatar() {
   const avatar =
     selectedAvatar ||
     localStorage.getItem('profileAvatar') ||
     DEFAULT_AVATAR;
 
   localStorage.setItem('profileAvatar', avatar);
+
+  await window.saveProfileToSupabase();
+
   selectedAvatar = null;
 
   syncPreviewData();
@@ -143,13 +154,16 @@ function selectCover(img) {
   markProfileAsChanged();
 }
 
-function saveCover() {
+async function saveCover() {
   const cover =
     selectedCover ||
     localStorage.getItem('profileCover') ||
     DEFAULT_COVER;
 
   localStorage.setItem('profileCover', cover);
+
+  await window.saveProfileToSupabase();
+
   selectedCover = null;
 
   syncPreviewData();
@@ -157,7 +171,7 @@ function saveCover() {
 }
 
 /* ================= PERFIL ================= */
-function saveFullProfile() {
+async function saveFullProfile() {
   const nameInput = document.querySelector(
     '#manage-profile-view #profileNameInput'
   );
@@ -177,6 +191,8 @@ function saveFullProfile() {
   localStorage.setItem('profileName', name);
   localStorage.setItem('profileAvatar', avatar);
   localStorage.setItem('profileCover', cover);
+
+  await window.saveProfileToSupabase();
 
   selectedAvatar = null;
   selectedCover = null;
