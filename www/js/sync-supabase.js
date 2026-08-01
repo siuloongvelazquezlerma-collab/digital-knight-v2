@@ -44,40 +44,43 @@ export async function initSession() {
 // (avatar, nombre, fondo)
 // ================================
 export async function loadProfileInfo() {
+
   try {
 
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
 
-    const email = session.user.email;
+    const userId = session.user.id;
 
     const { data, error } = await supabase
-      .from('profiles')
-      .select('avatar, background')
-      .eq('email', email)
+      .from("profiles")
+      .select("avatar, background, user_name")
+      .eq("id", userId)
       .maybeSingle();
 
-
     if (error) {
-      console.warn('⚠️ Error cargando perfil:', error);
+      console.warn("⚠️ Error cargando perfil:", error);
       return;
     }
 
     if (!data) return;
 
-
     if (data.avatar) {
-      localStorage.setItem('profileAvatar', data.avatar);
+      localStorage.setItem("profileAvatar", data.avatar);
     }
 
     if (data.background) {
-      localStorage.setItem('profileCover', data.background);
+      localStorage.setItem("profileCover", data.background);
     }
 
+    if (data.user_name) {
+      localStorage.setItem("profileName", data.user_name);
+    }
 
-  } catch(e) {
-    console.warn('⚠️ Error:', e);
+  } catch (e) {
+    console.warn("⚠️ Error:", e);
   }
+
 }
 
 // ================================
@@ -88,53 +91,35 @@ export async function saveProfileToSupabase() {
 
   try {
 
-    const { data:{session} } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase.auth.getSession();
 
-    if(!session) return;
+    if (!session) return;
 
-
+    const userId = session.user.id;
     const email = session.user.email;
 
-    const avatar =
-      localStorage.getItem('profileAvatar') || null;
+    const avatar = localStorage.getItem("profileAvatar") || null;
+    const userName = localStorage.getItem("profileName") || "Usuario";
+    const background = localStorage.getItem("profileCover") || null;
 
-    const background =
-      localStorage.getItem('profileCover') || null;
-
-
-    const {error} = await supabase
-      .from('profiles')
+    const { error } = await supabase
+      .from("profiles")
       .upsert({
-
+        id: userId,
         email,
+        user_name: userName,
         avatar,
         background
-
-      },{
-        onConflict:'email'
       });
 
-
-    if(error){
-
-      console.error(
-        "❌ Error guardando perfil:",
-        error
-      );
-
-    }else{
-
-      console.log(
-        "✅ Perfil sincronizado"
-      );
-
+    if (error) {
+      console.error("❌ Error guardando perfil:", error);
+    } else {
+      console.log("✅ Perfil sincronizado");
     }
 
-
-  }catch(e){
-
-    console.warn(e);
-
+  } catch (e) {
+    console.error("❌ Error:", e);
   }
 
 }
