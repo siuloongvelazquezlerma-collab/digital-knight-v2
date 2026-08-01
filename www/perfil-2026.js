@@ -116,9 +116,11 @@ function selectAvatar(img) {
     .forEach(i => i.classList.remove('selected'));
 
   img.classList.add('selected');
-  selectedAvatar = img.src;
 
-  if (window.avatarPreview) avatarPreview.src = img.src;
+  selectedAvatar = img.dataset.src || img.src;
+
+  if (window.avatarPreview)
+    avatarPreview.src = selectedAvatar;
 
   markProfileAsChanged();
 }
@@ -146,10 +148,11 @@ function selectCover(img) {
     .forEach(i => i.classList.remove('selected'));
 
   img.classList.add('selected');
-  selectedCover = img.src;
+
+  selectedCover = img.dataset.src || img.src;
 
   if (window.coverPreviewTemp)
-    coverPreviewTemp.style.backgroundImage = `url(${img.src})`;
+    coverPreviewTemp.style.backgroundImage = `url(${selectedCover})`;
 
   markProfileAsChanged();
 }
