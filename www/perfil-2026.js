@@ -1,23 +1,15 @@
 window.addEventListener('load', function () {
-  const overlay = document.getElementById("overlay");
+  const overlay = document.querySelector('.overlay-loader');
   const loader = document.getElementById('loader');
 
   // Se mantiene el loader visible por 1 segundo
-setTimeout(() => {
-
-    loader.style.opacity = '0';
-
-    setTimeout(() => {
-
-        loader.style.display = 'none';
-
-        if (overlay) {
+  setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
             overlay.classList.add('hidden');
-        }
-
-    }, 300);
-
-}, 1000);
+        }, 300);
+    }, 1000);
 });
 
 
@@ -116,25 +108,20 @@ function selectAvatar(img) {
     .forEach(i => i.classList.remove('selected'));
 
   img.classList.add('selected');
+  selectedAvatar = img.src;
 
-  selectedAvatar = img.dataset.src || img.src;
-
-  if (window.avatarPreview)
-    avatarPreview.src = selectedAvatar;
+  if (window.avatarPreview) avatarPreview.src = img.src;
 
   markProfileAsChanged();
 }
 
-async function saveAvatar() {
+function saveAvatar() {
   const avatar =
     selectedAvatar ||
     localStorage.getItem('profileAvatar') ||
     DEFAULT_AVATAR;
 
   localStorage.setItem('profileAvatar', avatar);
-
-  await window.saveProfileToSupabase();
-
   selectedAvatar = null;
 
   syncPreviewData();
@@ -148,25 +135,21 @@ function selectCover(img) {
     .forEach(i => i.classList.remove('selected'));
 
   img.classList.add('selected');
-
-  selectedCover = img.dataset.src || img.src;
+  selectedCover = img.src;
 
   if (window.coverPreviewTemp)
-    coverPreviewTemp.style.backgroundImage = `url(${selectedCover})`;
+    coverPreviewTemp.style.backgroundImage = `url(${img.src})`;
 
   markProfileAsChanged();
 }
 
-async function saveCover() {
+function saveCover() {
   const cover =
     selectedCover ||
     localStorage.getItem('profileCover') ||
     DEFAULT_COVER;
 
   localStorage.setItem('profileCover', cover);
-
-  await window.saveProfileToSupabase();
-
   selectedCover = null;
 
   syncPreviewData();
@@ -174,7 +157,7 @@ async function saveCover() {
 }
 
 /* ================= PERFIL ================= */
-async function saveFullProfile() {
+function saveFullProfile() {
   const nameInput = document.querySelector(
     '#manage-profile-view #profileNameInput'
   );
@@ -194,8 +177,6 @@ async function saveFullProfile() {
   localStorage.setItem('profileName', name);
   localStorage.setItem('profileAvatar', avatar);
   localStorage.setItem('profileCover', cover);
-
-  await window.saveProfileToSupabase();
 
   selectedAvatar = null;
   selectedCover = null;
