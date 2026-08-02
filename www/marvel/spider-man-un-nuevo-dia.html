@@ -50,7 +50,7 @@
     .cover {
       position: relative;
   width: 100%;
-  background: url("https://image.tmdb.org/t/p/original/yxOxOBxspl3NgC676W62G02g1cR.jpg") no-repeat center top;
+  background: url("https://image.tmdb.org/t/p/original/23ReR54BPzRRhsAi243VaHn6wqk.jpg") no-repeat center top;
   background-size: contain;
   display: flex;
   flex-direction: column;
@@ -117,7 +117,7 @@
 
 
 .cover-content img.logo {
-    width: 220px;
+    width: 280px;
     margin-bottom: 10px;
   }
 
@@ -187,7 +187,7 @@
 
 </style>
 </head>
-<body data-type="trailer" oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
   <div id="loader" class="loader"></div>
   <div class="overlay-loader"></div>
 
@@ -203,7 +203,7 @@
     <a href="javascript:history.back();" id="back-link" class="icon-link">
         <span class="material-icons">chevron_left</span>
     </a>
-    <span id="page-title" class="page-title">Spider-Man: Un nuevo día Trailer</span> <!-- Título oculto por defecto -->
+    <span id="page-title" class="page-title">Spider-Man: Un nuevo día</span> <!-- Título oculto por defecto -->
 </header>
 
 <!-- Tabs para pantallas grandes -->
@@ -253,16 +253,16 @@
     </div>
   
     <div class="cover-content">
-      <img src="https://image.tmdb.org/t/p/original/dGMb0iSnNp7UMAHkKX63Kh6AJvy.png" alt="Spider-Man: Un nuevo día"class="logo" tabindex="2">
-      <div class="meta">13+   Próximamente</div>
+      <img src="https://image.tmdb.org/t/p/original/g4YvZOWYmissloGtaVAeWybkPct.png" alt="Spider-Man: Un nuevo día"class="logo" tabindex="2">
+      <div class="meta">13+   2h 25min   2026   Dob Lat</div>
    
   
        <div class="bloque-botones">
         <div id="video-controls">
-          <button id="watchButton" class="watch-button" onclick="showPlayer()">
+          <button id="watchButton" class="watch-button">
             <span id="watchButtonIcon" class="material-icons">play_arrow</span>
             <div class="watch-text-wrapper">
-              <span id="watchButtonText">Ver tráiler</span>
+              <span id="watchButtonText">Ver ahora</span>
               <div id="watchProgressBar" class="watch-progress-bar">
                 <div></div>
               </div>
@@ -288,12 +288,23 @@
          <!-- Info oculta para localStorage -->
           <!-- Info oculta para localStorage -->
           <div id="favoritoData" style="display: none;">
-            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/r1ubLKr9XIZN6enAwOWelj47zgU.jpg" alt="Poster de la Película">
+            <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/f9mM7tDrZ3LlHPQu9I5A6TTxTb9.jpg" alt="Poster de la Película">
             <a id="favoritoEnlace" href="spider-man-un-nuevo-dia.html"></a>
             <span id="nombre">Spider-Man: Un nuevo día</span>
           </div>
       
-         
+          <!-- Botón de Compartir -->
+          <div class="action-item" id="compartirBtn">
+            <span class="material-icons-outlined">share</span>
+            <p>Compartir</p>
+          </div>
+      
+          <!-- Botón de Descargar -->
+          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzIyMTI0Nzhf/spidreman%20un%20nuevo%20dia.mp4')">
+            <i class="material-icons">arrow_downward</i>
+            <span class="underline"></span>
+            Descargar
+          </div>
 
         </div>
       </div>
@@ -314,13 +325,11 @@
   </div>
     <div class="sugerencias-grid">
     
-      
-        <a href="spider-man-sin-camino-a-casa.html" class="sugerencia-item">
-    <img src="https://image.tmdb.org/t/p/w300/miZFgV81xG324rpUknQX8dtXuBl.jpg" alt="Spider-Man: Sin camino a casa">
-    <p class="sugerencia-titulo">Spider-Man: Sin camino a casa</p>
-    <p class="sugerencia-sub">Dob | Lat</p>
-  </a>
-
+        <a href="el-hombre-arana.html" class="sugerencia-item">
+        <img src="https://image.tmdb.org/t/p/original/or6XJBVpcEbIkma0V9zshnbEtx4.jpg" alt="El hombre araña 2">
+        <p class="sugerencia-titulo">El hombre araña</p>
+        <p class="sugerencia-sub">Dob | Lat</p>
+      </a>
       
          <a href="el-hombre-arana-3.html" class="sugerencia-item">
     <img src="https://image.tmdb.org/t/p/w300/yqQRaD0uBWKLvSVe6LuMveb0ZLv.jpg" alt="El hombre araña 3">
@@ -335,8 +344,11 @@
     <p class="sugerencia-sub">Dob | Lat</p>
   </a>
 
-      
-       
+    <a href="el-sorprendente-hombre-arana.html" class="sugerencia-item">
+        <img src="https://image.tmdb.org/t/p/original/9MsCANWyLJmz2MAEqiy9vKMpyc8.jpg" alt="El sorprendente hombre araña">
+        <p class="sugerencia-titulo">El Sorprendente Hombre-Araña</p>
+        <p class="sugerencia-sub">Dob | Lat</p>
+      </a>
   </div>
 </div>
 </div>
@@ -351,7 +363,7 @@
   height="100%"
   poster="https://wallpapercave.com/wp/wp5415042.jpg"
   data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
-  <source id="videoSource" src="https://od.lk/s/M18zMzE0OTM4MzVf/Spider-Man%20Un%20Nuevo%20D%C3%ADa%20_%20Tr%C3%A1iler%20Oficial%20%28Doblado%29.mp4" type="video/mp4" />
+  <source id="videoSource" src="https://od.lk/s/M18zMzIyMTI0Nzhf/spidreman%20un%20nuevo%20dia.mp4" type="video/mp4" />
 </video>
 <!-- Loader -->
 <div class="video-loader hidden" id="videoLoader">
@@ -387,7 +399,7 @@
         <div style="display: flex; gap: 15px;">
   
          <!-- Botón de idioma con mini menú -->
-<!--
+
 <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
   <span class="material-icons" id="langIcon">chat</span>
   
@@ -401,7 +413,7 @@
     <button id="langConfirmBtn">Listo</button>
   </div>
 </div>
--->
+
   
   <!-- Botón Cast -->
   <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
@@ -461,12 +473,14 @@
 
   <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
 
- 
+  <script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
 
  
 <script>
 
 window.movieId = "spider-man-un-nuevo-dia-969681";
+
 
 
 
@@ -494,8 +508,12 @@ window.addEventListener('load', function () {
     }, 1000);
 });
 
- const IS_TRAILER = document.body.dataset.type === "trailer";
-const video = document.getElementById('video');
+
+const videoElement = document.getElementById('video');
+const video = videoElement.tagName === "VIDEO"
+  ? videoElement
+  : document.getElementById('video_html5_api');
+console.log("Al cargar la página:", video);
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -506,9 +524,9 @@ const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
 
-/*
+
 (function () {
-  const video = document.getElementById('video');
+  
   const source = document.getElementById("videoSource");
   const langBtnWrapper = document.getElementById("langBtnWrapper");
   const langMenu = document.getElementById("langMenu");
@@ -518,8 +536,8 @@ const thumb = document.getElementById('thumb'); // si existe
   const overlayBg = document.getElementById("overlay");
 
   const videos = {
-    latino: "https://od.lk/s/M18zMjE5NzA0ODRf/The_wolverine_2013_1080p_extended-dual-lat.mp4",
-    ingles: "https://od.lk/s/M18zMjE5NzA0ODRf/The_wolverine_2013_1080p_extended-dual-lat.mp4"
+    latino: "https://od.lk/s/M18zMzIyMTI0Nzhf/spidreman%20un%20nuevo%20dia.mp4",
+    ingles: "https://od.lk/s/M18zMzIyMTI0OTJf/Spiderman%20un%20nuevo%20dia%20sub.mp4"
   };
 
   let currentLang = "latino";       // idioma que está reproduciéndose
@@ -558,24 +576,35 @@ const thumb = document.getElementById('thumb'); // si existe
     source.src = videos[selectedLang];
     video.load();
 
-    const onLoadedMeta = () => {
-      try {
-        video.currentTime = Math.min(curTime, video.duration || curTime);
-      } catch {}
-      video.removeEventListener('loadedmetadata', onLoadedMeta);
-    };
-    video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+    // Preparar listener antes de cargar
+const onLoadedMeta = () => {
+  try {
+    video.currentTime = Math.min(curTime, video.duration || curTime);
+  } catch {}
+  
+  video.removeEventListener('loadedmetadata', onLoadedMeta);
+};
+
+video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+
+source.src = videos[selectedLang];
+video.load();
 
     console.log('Idioma seleccionado (precargando):', selectedLang);
   }
 
   // Confirmar selección y reanudar
   function confirmAndPlay() {
-    if (selectedLang && selectedLang !== currentLang) {
-      currentLang = selectedLang;
-    }
-    closeMenu(true);
+  if (selectedLang && selectedLang !== currentLang) {
+    currentLang = selectedLang;
   }
+
+  closeMenu(false);
+
+  video.play()
+    .then(() => console.log("▶️ Idioma reproducido:", currentLang))
+    .catch(err => console.log("Error play idioma:", err));
+}
 
   // Inicializar opción activa al cargar
   document.addEventListener('DOMContentLoaded', () => {
@@ -623,7 +652,7 @@ const thumb = document.getElementById('thumb'); // si existe
   document.addEventListener('touchstart', handleOutsideClose, true);
 
 })();
-*/
+
 
 
 // ------------------------
@@ -758,14 +787,10 @@ let hideControlsTimeout;
 // Reanudar desde donde se dejó
 // Reanudar desde donde se dejó
 video.addEventListener('loadedmetadata', () => {
-
-  if (IS_TRAILER) return;
-
   const savedTime = localStorage.getItem(`progress_${movieId}`);
   if (savedTime) {
     video.currentTime = parseFloat(savedTime);
   }
-
   updateProgress();
 
   // ✅ Mostrar barra y botón si aplica
@@ -775,19 +800,17 @@ video.addEventListener('loadedmetadata', () => {
     watchButtonText.textContent = "Continuar viendo";
   }
 
+  // 🛰️ Sincronizar con Supabase al cargar metadata
   if (typeof throttledSyncData === 'function') {
     throttledSyncData(movieId);
   }
-
 });
 
 let lastSync = 0; // Estado inicial del botón al cargar la página
-
-
+updateWatchButtonFromStorage();
 
 // Guardar progreso y actualizar UI
 video.addEventListener('timeupdate', () => {
-   if (IS_TRAILER) return;
   updateProgress();
 
   const currentTime = video.currentTime;
@@ -808,10 +831,10 @@ video.addEventListener('timeupdate', () => {
 
   // Sincronizar cada 5 segundos
   const now = Date.now();
-  if (!IS_TRAILER && typeof throttledSyncData === 'function' && now - lastSync > 5000) {
+  if (typeof throttledSyncData === 'function' && now - lastSync > 5000) {
     throttledSyncData(movieId);
     lastSync = now;
-}
+  }
 
   // Barra de progreso
   if (progressBar && totalDuration) {
@@ -847,27 +870,7 @@ if (percentPlayed >= 0.8) {
 
 // Evento final real
 video.addEventListener('ended', () => {
-
-    if (IS_TRAILER) {
-
-        video.pause();
-        video.currentTime = 0;
-
-        if (window.Android && Android.setPortrait) {
-            Android.setPortrait();
-        }
-
-        exitFullscreen();
-
-        player.style.display = 'none';
-        cover.style.display = 'flex';
-        playPauseBtn.textContent = 'play_arrow';
-
-        return;
-    }
-
-    endMovieCleanup(true);
-
+  endMovieCleanup(true); // 🔹 Indicamos que terminó al 100%
 });
 
 // Limpieza del estado
@@ -889,13 +892,10 @@ function endMovieCleanup(finished = false) {
 
   // 🔹 Siempre actualizar el botón al cerrar el reproductor
   updateWatchButtonFromStorage();
-   
-
 }
 
 // Nueva función que actualiza el botón y la barra según progreso
 function updateWatchButton() {
-  if (IS_TRAILER) return;
   const savedTime = parseFloat(localStorage.getItem(`progress_${movieId}`) || "0");
   const totalDuration = parseFloat(localStorage.getItem(`duration_${movieId}`) || video.duration || 1);
   const currentTime = video.currentTime || 0;
@@ -934,7 +934,6 @@ video.addEventListener('play', updateWatchButton);
 // Nueva función que actualiza el botón y la barra según progreso
 // Nueva función que actualiza el botón y la barra según progreso
 function updateWatchButton() {
-  if (IS_TRAILER) return;
   const savedTime = parseFloat(localStorage.getItem(`progress_${movieId}`) || "0");
   const totalDuration = parseFloat(localStorage.getItem(`duration_${movieId}`) || video.duration || 1);
   const currentTime = video.currentTime || 0;
@@ -976,8 +975,6 @@ video.addEventListener('play', updateWatchButton);
 
 // Función para mantener compatibilidad con almacenamiento
 function updateWatchButtonFromStorage() {
-   if (IS_TRAILER) return;
-
   const savedTime = parseFloat(localStorage.getItem(`progress_${movieId}`) || "0");
   const savedDuration = parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
 
@@ -1006,29 +1003,47 @@ function updateWatchButtonFromStorage() {
 }
 
 // Botón principal
-document.getElementById('watchButton').addEventListener('click', () => {
-  if (watchButtonText.textContent.includes("Volver a ver")) {
-    restartMovie();
-  } else {
-    showPlayer();
-  }
+document.getElementById('watchButton').addEventListener('click', async () => {
+
+    console.log("🟢 CLICK EN VER AHORA");
+
+
+    if (!window.suggestionShown) {
+
+        console.log("⏳ Lanzando sugerencia");
+
+        await window.showSuggestedContent();
+
+        console.log("✅ Sugerencia terminada");
+
+    }
+
+
+    console.log("🎬 Voy a abrir reproductor");
+
+
+    if (watchButtonText.textContent.includes("Volver a ver")) {
+
+        restartMovie();
+
+    } else {
+
+        showPlayer();
+
+    }
+
 });
 
 // Reiniciar
 function restartMovie() {
-
-  if (IS_TRAILER) return;
-
   localStorage.removeItem(`progress_${movieId}`);
   video.currentTime = 0;
   showPlayer();
-
   if (screen.orientation && screen.orientation.lock) {
     screen.orientation.lock('landscape').catch(err => {
-      console.warn(err);
+      console.warn('⚠️ No se pudo bloquear orientación en restart:', err);
     });
   }
-
 }
 
 
@@ -1202,54 +1217,90 @@ if (isTouchDevice) {
   video.addEventListener('play', enableCursorAutoHide);
 }
 
-async function showPlayer() {
+function showPlayer() {
 
-  cover.style.display = 'none';
-  player.style.display = 'flex';
+    console.trace("🎬 showPlayer()");
 
-  showControls();
+    player.style.pointerEvents = "auto";
 
-  // Android
-  if (window.Android && Android.setLandscape) {
+    cover.style.display = 'none';
+    player.style.display = 'flex';
+
+  // 🔥 IMPORTANTE: primero Android, luego fullscreen
+  if (window.Android) {
     Android.setLandscape();
-  }
-
-  // Fullscreen inmediatamente después del click
-  try {
-    if (player.requestFullscreen) {
-      await player.requestFullscreen();
-    } else if (player.webkitRequestFullscreen) {
-      player.webkitRequestFullscreen();
-    }
-  } catch(e){
-    console.log("No pudo entrar a fullscreen", e);
+  } else {
+    console.log("❌ Android no disponible");
   }
 
   video.play();
 
-  playPauseBtn.textContent = 'pause';
+    playPauseBtn.textContent = 'pause';
 
-  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-    progressBar.style.display = "block";
-    showRestartButton();
-  }
+    showControls();
+
+
+    // 🔥 Entrar fullscreen solo si no estamos ya dentro
+    if (!document.fullscreenElement) {
+        enterFullscreen();
+    }
+
+
+    // Mostrar controles después de la transición
+    setTimeout(() => {
+        showControls();
+    }, 500);
+
+
+    // Mostrar barra y botón si ya hay progreso
+    if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+
+        progressBar.style.display = "block";
+        showRestartButton();
+
+    }
 
 }
 
 
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
 
-async function enterFullscreen() {
+player.addEventListener('click', () => {
+    showControls();
+});
 
-  if (player.requestFullscreen) {
-    return player.requestFullscreen();
-  }
+player.addEventListener('touchstart', showControls, { passive: true });
 
-  if (player.webkitRequestFullscreen) {
-    player.webkitRequestFullscreen();
-  }
+function enterFullscreen() {
+
+    console.trace("📺 enterFullscreen()");
+
+    if (document.fullscreenElement) {
+        console.log("⚠️ Ya está en fullscreen");
+        return;
+    }
+
+    try {
+
+        if (player.requestFullscreen) {
+
+            player.requestFullscreen();
+
+        } else if (player.webkitRequestFullscreen) {
+
+            player.webkitRequestFullscreen();
+
+        } else if (player.msRequestFullscreen) {
+
+            player.msRequestFullscreen();
+
+        }
+
+    } catch (e) {
+
+        console.warn("❌ Error entrando fullscreen:", e);
+
+    }
 
 }
 
@@ -1263,19 +1314,69 @@ function exitFullscreen() {
   }
 }
 
+let changingFromSuggestion = false;
+
 document.addEventListener('fullscreenchange', () => {
+
   const isFullscreen = document.fullscreenElement;
+
   if (!isFullscreen) {
+
+    if (window.changingFromSuggestion) {
+
+      window.changingFromSuggestion = false;
+      return;
+
+    }
+
+
     if (!video.paused) {
       video.pause();
     }
+
+
     playPauseBtn.textContent = 'play_arrow';
+
     player.style.display = 'none';
     cover.style.display = 'flex';
+
   }
+
 });
 
 
+let hasStarted = false;
+let reiniciaTimer = null;
+
+video.addEventListener('play', () => {
+
+  if (!hasStarted && video.currentTime < video.duration - 5) {
+
+    hasStarted = true;
+
+    reiniciaTimer = setTimeout(() => {
+
+      if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+
+        showRestartButton();
+        localStorage.setItem(`hasStarted_${movieId}`, 'true');
+        progressBar.style.display = "block";
+
+      }
+
+    }, 5000);
+
+
+    // 📱 Android maneja orientación
+    if (window.Android) {
+
+      Android.setLandscape();
+
+    }
+
+  }
+
+});
 
 
 // Función para mostrar el botón de "Reinicia"
@@ -1378,7 +1479,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
 const favoritoBtn = document.getElementById('favoritoBtn');
 const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
 const identificador = favoritoBtn.getAttribute('data-identificador');
@@ -1434,9 +1534,9 @@ async function toggleFavorito() {
   }
 
   // 🔄 Subir el cambio a Supabase también por si hay más datos
-  if (!IS_TRAILER && typeof throttledSyncData === 'function') {
+  if (typeof throttledSyncData === 'function') {
     throttledSyncData(movieId);
-}
+  }
 }
 
 
@@ -1509,7 +1609,41 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProfileImage(savedProfileImage);
   }
 });
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  const ids = [
+    "footerIconImg",
+    "footerProfileImage",
+    "profileImage",
+    "profilePageImage",
+    "editableProfile",
+    "editableProfileInModal",
+    "headerProfileIcon"
+  ];
 
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.src = src;
+  });
+
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar en localStorage
+  localStorage.setItem("profileImage", src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener("load", () => {
+  const storedProfileImage = localStorage.getItem("profileImage");
+  if (storedProfileImage) {
+    updateProfileImage(storedProfileImage); // Reutilizamos la función
+  }
+});
 
 
 var lastScrollTop = 0;
