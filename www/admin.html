@@ -34,6 +34,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
     <link rel="manifest" href="manifest.json">
 
+    <link rel="stylesheet"
+      href="floating-notification.css">
+
   <style>
     * {
       margin: 0;
@@ -231,6 +234,7 @@
 
 }
 
+
   </style>
 </head>
 
@@ -293,11 +297,28 @@
         Mensaje
     </div>
 
+    <div class="section-title">
+Tipo de notificación
+</div>
+
     <textarea
         id="body"
         placeholder="Escribe el mensaje..."></textarea>
 
+<div class="section-title">
+    Tipo de notificación
+</div>
 
+<select id="notificationMode">
+    <option value="new_movie">🎬 Película nueva</option>
+    <option value="new_series">📺 Serie nueva</option>
+    <option value="movie">🎥 Película existente</option>
+    <option value="series">📺 Serie existente</option>
+    <option value="season">🆕 Nueva temporada</option>
+    <option value="collection">📚 Nueva colección</option>
+    <option value="update">🚀 Actualización</option>
+    <option value="custom">⭐ Personalizada</option>
+</select>
    
 
     <!-- ========================= -->
@@ -336,6 +357,10 @@
     📢 Guardar notificación flotante
 </button>
 
+<button onclick="previewFloating()">
+    👁 Vista previa
+</button>
+
     <div
         id="status"
         class="status">
@@ -343,10 +368,56 @@
 
 </div>
 
+<div id="notificationOverlay"></div>
 
-   
+<div id="dynamicFloatingNotification" class="floating-notification">
 
+    <div class="notification-content">
 
+        <img
+            src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png"
+            class="notification-logo"
+            alt="Digital Knight Logo">
+
+        <span class="close-btn" data-close>&times;</span>
+
+        <img
+            id="dynamicNotificationImage"
+            class="notification-banner"
+            alt="Notificación">
+
+        <div class="notification-text">
+
+            <h2
+                id="dynamicNotificationTitle"
+                class="notification-title">
+            </h2>
+
+            <p
+                id="dynamicNotificationMessage"
+                class="notification-description">
+            </p>
+
+        </div>
+
+        <a
+            id="dynamicNotificationButton"
+            class="notification-button primary"
+            data-close>
+            VER AHORA
+        </a>
+
+        <a
+            class="notification-button secondary"
+            data-close>
+            MÁS TARDE
+        </a>
+
+    </div>
+
+</div>
+
+<script src="floating-notification.js"></script>
 
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
@@ -468,6 +539,15 @@ const movie = movies.find(m => m.title === title);
 
     if (!movie) return;
 
+    const mode = document.getElementById("notificationMode");
+
+if (movie.type === "movie") {
+    mode.value = "new_movie";
+} else if (movie.type === "series") {
+    mode.value = "new_series";
+} else {
+    mode.value = "custom";
+}
     // ==========================
     // Datos de la película
     // ==========================
@@ -560,10 +640,13 @@ search.value = movie.title;
     if (sending) return;
 
     const title = document.getElementById("pushTitle").value.trim();
-    const body = document.getElementById("body").value.trim();
-    const image = document.getElementById("image").value.trim();
-    const action = document.getElementById("action").value.trim();
-    const status = document.getElementById("status");
+const message = document.getElementById("body").value.trim();
+const image = document.getElementById("image").value.trim();
+const action = document.getElementById("action").value.trim();
+
+
+
+const status = document.getElementById("status");
 
     if (!title || !body) {
       status.innerText = "⚠️ Completa título y mensaje";
@@ -629,30 +712,27 @@ search.value = movie.title;
   const contentId =
     action.split("/").pop().replace(".html", "");
 
-  let type = "custom";
-
-  if (action.includes("/series/")) {
-    type = "series";
-  } else if (action.includes("/peliculas/")) {
-    type = "movie";
-  }
+  const type =
+document.getElementById("notificationMode").value;
 
   const { error } = await supabase
     .from("floating_notifications")
     .insert([
       {
-        enabled: true,
-        title,
-        message,
-        image,
-        action,
-        button_text: "VER AHORA",
-        type,
-        content_id: contentId,
-        version: "v1",
-        priority: 1,
-        show_once: true
-      }
+    enabled: true,
+    title,
+    message,
+    image,
+    action,
+    button_text: "VER AHORA",
+
+    type,
+
+    content_id: contentId,
+    version: "v1",
+    priority: 1,
+    show_once: true
+}
     ]);
 
   if (error) {
@@ -662,6 +742,29 @@ search.value = movie.title;
 }
 
   status.innerText = "✅ Notificación flotante guardada";
+}
+
+window.previewFloating = function(){
+
+    showFloatingNotification({
+
+        title:
+            document.getElementById("pushTitle").value,
+
+        message:
+            document.getElementById("body").value,
+
+        image:
+            document.getElementById("image").value,
+
+        action:
+            document.getElementById("action").value,
+
+        type:
+            document.getElementById("notificationMode").value
+
+    });
+
 }
 </script>
 

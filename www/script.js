@@ -1002,79 +1002,25 @@ description = description.replace(
     return;
   }
 
-  const box =
-    document.getElementById(
-      "dynamicFloatingNotification"
-    );
+  showFloatingNotification({
 
-  if (!box) return;
+    title: header,
 
-  document.getElementById(
-    "dynamicNotificationImage"
-  ).src = data.image;
+    message: description,
 
-console.log("HEADER FINAL:", header);
-console.log("DESCRIPTION FINAL:", description);
+    image: data.image,
 
-  document.getElementById(
-  "dynamicNotificationTitle"
-).innerHTML = header;
+    action: data.action,
 
+    type: data.type,
 
-document.getElementById(
-  "dynamicNotificationMessage"
-).innerHTML = description;
+    button_text: data.button_text,
 
-  const button =
-    document.getElementById(
-      "dynamicNotificationButton"
-    );
+    show_once: data.show_once,
 
-  button.href =
-    data.action.replace(/^\//, "");
+    notificationKey
 
-  button.textContent =
-    data.button_text || "VER AHORA";
-
-  box.style.display = "block";
-
-  const overlay =
-    document.getElementById(
-      "notificationOverlay"
-    );
-
-  if (overlay) {
-    overlay.style.display = "block";
-  }
-
-  box.querySelectorAll("[data-close]")
-    .forEach(btn => {
-
-      btn.onclick = () => {
-
-        if (data.show_once) {
-
-          localStorage.setItem(
-            notificationKey,
-            "true"
-          );
-
-          console.log(
-            "✅ Flotante guardada como vista:",
-            notificationKey
-          );
-
-        }
-
-        box.style.display = "none";
-
-        if (overlay) {
-          overlay.style.display = "none";
-        }
-
-      };
-
-    });
+});
 
 }
 
