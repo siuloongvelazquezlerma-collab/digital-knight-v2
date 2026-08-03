@@ -897,23 +897,70 @@ let originalDescription = data.message;
     (movie.details.match(/\d{4}/) || [""])[0];
 
 
-  if (data.type === "series") {
+  switch (data.type) {
 
-    header = `
-    ¡Nueva serie disponible!<br>
-    <strong>“${movie.title}”</strong><br>
-    (${year})
-    `;
+    case "new_movie":
+        header = `
+        ¡Nueva película disponible!<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
 
-  } else {
+    case "new_series":
+        header = `
+        ¡Nueva serie disponible!<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
 
-    header = `
-    ¡Nueva película disponible!<br>
-    <strong>“${movie.title}”</strong><br>
-    (${year})
-    `;
+    case "movie":
+        header = `
+        Recomendación para ti<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
 
-  }
+    case "series":
+        header = `
+        No te pierdas esta serie<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
+
+    case "season":
+        header = `
+        Nueva temporada disponible<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
+
+    case "collection":
+        header = `
+        Nueva colección<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
+
+    case "update":
+        header = `
+        Nueva actualización<br>
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+        break;
+
+    default:
+        header = `
+        <strong>“${movie.title}”</strong><br>
+        (${year})
+        `;
+}
 
 
 
@@ -1002,25 +1049,79 @@ description = description.replace(
     return;
   }
 
-  showFloatingNotification({
+  const box =
+    document.getElementById(
+      "dynamicFloatingNotification"
+    );
 
-    title: header,
+  if (!box) return;
 
-    message: description,
+  document.getElementById(
+    "dynamicNotificationImage"
+  ).src = data.image;
 
-    image: data.image,
+console.log("HEADER FINAL:", header);
+console.log("DESCRIPTION FINAL:", description);
 
-    action: data.action,
+  document.getElementById(
+  "dynamicNotificationTitle"
+).innerHTML = header;
 
-    type: data.type,
 
-    button_text: data.button_text,
+document.getElementById(
+  "dynamicNotificationMessage"
+).innerHTML = description;
 
-    show_once: data.show_once,
+  const button =
+    document.getElementById(
+      "dynamicNotificationButton"
+    );
 
-    notificationKey
+  button.href =
+    data.action.replace(/^\//, "");
 
-});
+  button.textContent =
+    data.button_text || "VER AHORA";
+
+  box.style.display = "block";
+
+  const overlay =
+    document.getElementById(
+      "notificationOverlay"
+    );
+
+  if (overlay) {
+    overlay.style.display = "block";
+  }
+
+  box.querySelectorAll("[data-close]")
+    .forEach(btn => {
+
+      btn.onclick = () => {
+
+        if (data.show_once) {
+
+          localStorage.setItem(
+            notificationKey,
+            "true"
+          );
+
+          console.log(
+            "✅ Flotante guardada como vista:",
+            notificationKey
+          );
+
+        }
+
+        box.style.display = "none";
+
+        if (overlay) {
+          overlay.style.display = "none";
+        }
+
+      };
+
+    });
 
 }
 
