@@ -17,36 +17,54 @@
       box-sizing: border-box;
     }
 
-    body {
-      padding-top: 0px;
-      background: linear-gradient(135deg, #000013, #0a0a2a);
-      color: white;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      position: relative;
-      overflow: hidden;
-      padding: 0 10px;
-    }
+    body{
+
+padding-top:env(safe-area-inset-top);
+
+background:linear-gradient(135deg,#000013,#0a0a2a);
+
+color:white;
+
+font-family:sans-serif;
+
+display:flex;
+
+justify-content:center;
+
+align-items:flex-start;
+
+min-height:100vh;
+
+margin:0;
+
+position:relative;
+
+overflow-x:hidden;
+
+overflow-y:auto;
+
+padding:40px 10px 80px;
+
+}
 
   .top-image{
-    position:absolute;
-    inset:0;
 
-    background-image:
-    url("https://od.lk/s/M18zMjA1NjYyOTJf/APK%20FONDO.jpg");
+position:fixed;
 
-    background-repeat:no-repeat;
-    background-position:top center;
-    background-size:cover;
+inset:0;
 
-    /* AJUSTA EL BRILLO AQUÍ */
-    filter:brightness(.78);
+background-image:url("https://od.lk/s/M18zMjA1NjYyOTJf/APK%20FONDO.jpg");
 
-    z-index:0;
+background-repeat:no-repeat;
+
+background-position:center top;
+
+background-size:cover;
+
+filter:brightness(.78);
+
+z-index:0;
+
 }
 
 @media (orientation: landscape), (min-width:1024px){
@@ -63,66 +81,73 @@
 
 /* Overlay cinematográfico */
 .overlay{
-    position:absolute;
-    top:0;
-    left:0;
 
-    width:100%;
-    height:100vh;
+position:fixed;
 
-    pointer-events:none;
+inset:0;
 
-    z-index:1;
+pointer-events:none;
 
-    background:
+z-index:1;
 
-    /* Oscurecer arriba */
-    linear-gradient(
-        to bottom,
+background:
 
-        rgba(0,0,15,.80) 0%,
-        rgba(0,0,20,.55) 15%,
-        rgba(0,0,20,.15) 35%,
-        transparent 50%
+linear-gradient(
+to bottom,
+rgba(0,0,15,.80) 0%,
+rgba(0,0,20,.55) 15%,
+rgba(0,0,20,.15) 35%,
+transparent 50%
+),
 
-    ),
+linear-gradient(
+to top,
+#0a0a2a 0%,
+rgba(10,10,42,.98) 15%,
+rgba(10,10,42,.92) 30%,
+rgba(10,10,42,.80) 45%,
+rgba(10,10,42,.55) 60%,
+rgba(10,10,42,.25) 75%,
+transparent 100%
+);
 
-    /* Oscurecer abajo y hacerlo subir */
-    linear-gradient(
-        to top,
-
-        #0a0a2a 0%,
-        rgba(10,10,42,.98) 15%,
-        rgba(10,10,42,.92) 30%,
-        rgba(10,10,42,.80) 45%,
-        rgba(10,10,42,.55) 60%,
-        rgba(10,10,42,.25) 75%,
-        transparent 100%
-    );
 }
 
     /* Logo centrado sobre la imagen */
-    .logo-center {
-      position: absolute;
-      top: 300px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-    }
+    .logo-center{
 
-    .logo-center img {
-      height: 25px;
-    }
+position:absolute;
 
-    .login-box {
-  background: #111111;
-  padding: 1px 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 60px #00f7ff41;
-  max-width: 300px;
-  width: 100%;
-  z-index: 3;
-  margin-top: 350px;
+top:120px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+z-index:2;
+
+}
+
+.logo-center img{
+
+height:32px;
+
+}
+
+   .login-box{
+
+background:#111111;
+
+padding:18px 20px;
+
+border-radius:12px;
+
+box-shadow:0 0 60px #00f7ff41;
+
+width:100%;
+
+margin:0;
+
 }
 
 .login-box h2 {
@@ -242,33 +267,52 @@ select {
     }
   }
 
-  .footer-link {
-    position: absolute;
-    bottom: 65px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    color: #4ab3ff;
-    text-decoration: none;
-    z-index: 3;
-  }
+  .footer-link{
+
+display:block;
+
+position:relative;
+
+margin:40px auto;
+
+text-align:center;
+
+font-size:14px;
+
+color:#4ab3ff;
+
+text-decoration:none;
+
+z-index:3;
+
+}
 
   .footer-link:hover {
     text-decoration: underline;
   }
 
-  .intro-text {
-  position: absolute;
-  top: 350px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: white;
-  z-index: 2;
-  max-width: 340px;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 20px;
+  .intro-text{
+
+position:absolute;
+
+top:170px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+text-align:center;
+
+color:white;
+
+z-index:2;
+
+max-width:360px;
+
+width:100%;
+
+padding:0 20px;
+
 }
 
 @media (min-width: 1024px) {
@@ -301,32 +345,7 @@ select {
   transition: opacity 0.3s ease;
 }
 
-/* Layout horizontal y pantallas grandes */
-@media (orientation: landscape), (min-width: 1024px) {
-  .logo-center {
-    left: 60px;
-    top: 60px;
-    transform: none;
-    transition: all 0.4s ease;
-  }
 
-  .intro-text {
-    top: 130px;
-    left: 60px;
-    transform: none;
-    text-align: left;
-    max-width: 400px;
-    transition: all 0.4s ease;
-  }
-
-  .login-box {
-    position: absolute;
-    top: 250px;
-    left: 60px;
-    margin: 0;
-    transition: all 0.4s ease;
-  }
-}
 
 @media (max-width: 767px) and (orientation: landscape) {
   body {
@@ -399,52 +418,288 @@ select {
   pointer-events: auto !important;
 }
 
+.login-wrapper{
 
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+width:100%;
+
+max-width:340px;
+
+margin-top:280px;
+
+margin-bottom:100px;
+
+z-index:3;
+
+}
+
+.premium-box{
+
+background:rgba(17,17,17,.96);
+
+border-radius:12px;
+
+padding:18px;
+
+max-width:340px;
+
+width:100%;
+
+margin-top:18px;
+
+border:1px solid rgba(255,255,255,.08);
+
+box-shadow:0 0 50px rgba(0,247,255,.12);
+
+backdrop-filter:blur(12px);
+
+z-index:3;
+
+}
+
+.premium-header{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+margin-bottom:10px;
+
+}
+
+.premium-header h3{
+
+font-size:16px;
+
+margin:0;
+
+}
+
+.premium-box p{
+
+font-size:13px;
+
+color:#bdbdbd;
+
+line-height:1.5;
+
+margin-bottom:12px;
+
+}
+
+.premium-box ul{
+
+list-style:none;
+
+padding:0;
+
+margin:0 0 15px;
+
+}
+
+.premium-box li{
+
+font-size:13px;
+
+padding:4px 0;
+
+color:#fff;
+
+}
+
+#premiumBtn{
+
+width:100%;
+
+padding:10px;
+
+border:none;
+
+border-radius:8px;
+
+background:linear-gradient(135deg,#2f7cff,#6b3cff);
+
+color:#fff;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+#premiumBtn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 10px 25px rgba(0,120,255,.35);
+
+}
+
+
+/* ===========================
+   ESCRITORIO
+=========================== */
+@media (min-width:1024px){
+
+.logo-center{
+    top:120px;
+    left:60px;
+    transform:none;
+}
+
+.intro-text{
+    top:170px;
+    left:60px;
+    transform:none;
+    text-align:left;
+    max-width:480px;
+}
+
+.login-wrapper{
+
+    position:absolute;
+
+    top:260px;
+    left:60px;
+
+    display:flex;
+    flex-direction:row;
+    align-items:flex-start;
+    gap:30px;
+
+    width:auto;
+    max-width:none;
+
+    margin:0;
+
+}
+
+.login-box{
+
+    width:480px;
+    max-width:480px;
+
+}
+
+.premium-box{
+
+    width:360px;
+    max-width:360px;
+
+    margin-top:0;
+
+}
+
+.footer-link{
+
+    position:absolute;
+
+    top:100%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    margin-top:35px;
+
+    width:max-content;
+
+    text-align:center;
+
+}
+
+}
   </style>
 </head>
 <body>
 
   <!-- Imagen decorativa -->
-  <div class="top-image" id="topImage"></div>
-  <div class="overlay"></div>
+<div class="top-image" id="topImage"></div>
+<div class="overlay"></div>
 
-  <!-- Logo centrado -->
-  <div class="logo-center">
-    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" alt="Logo Digital Knight" />
-  </div>
-
-  <!-- Texto promocional -->
-<div class="intro-text">
-  <h1>Tu universo de cine, series y anime te espera.</h1>
-  <br>
-  <p>Inicia sesión o suscribete</p>
+<!-- Logo centrado -->
+<div class="logo-center">
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" alt="Logo Digital Knight">
 </div>
 
+<!-- Texto promocional -->
+<div class="intro-text">
+    <h1>Tu universo de cine, series y anime te espera.</h1>
+    <br>
+    <p>Inicia sesión o crea tu cuenta gratuitamente.</p>
+</div>
 
-  <!-- Caja de login -->
-  <div class="login-box">
-    <h2 id="mode-title">Iniciar Sesión</h2>
-    <input type="email" id="email" placeholder="Correo electrónico" />
-    <div style="position: relative;">
-      <input type="password" id="password" placeholder="Contraseña" style="padding-right: 40px;" />
-      <span id="togglePassword"
-      class="password-toggle"
-      role="button"
-      aria-label="Mostrar u ocultar contraseña"></span>
+<!-- Contenido -->
+<div class="login-wrapper">
 
+    <div class="login-box">
+
+        <h2 id="mode-title">Iniciar Sesión</h2>
+
+        <input type="email" id="email" placeholder="Correo electrónico">
+
+        <div style="position:relative;">
+            <input type="password" id="password" placeholder="Contraseña" style="padding-right:40px;">
+            <span id="togglePassword"
+                  class="password-toggle"
+                  role="button"
+                  aria-label="Mostrar u ocultar contraseña"></span>
+        </div>
+
+        <button id="actionBtn">Ingresar</button>
+
+        <p class="forgot-password" id="forgotPassword">
+            ¿Olvidaste tu contraseña?
+        </p>
+
+        <p class="toggle-mode" id="toggleMode">
+            ¿No tienes cuenta? Suscribete
+        </p>
+
+        <p class="error-msg" id="errorMsg"></p>
 
     </div>
-    
-    <button id="actionBtn">Ingresar</button>
-    <p class="forgot-password" id="forgotPassword">¿Olvidaste tu contraseña?</p>
-    <p class="toggle-mode" id="toggleMode">¿No tienes cuenta? Suscribete</p>
-    <p class="error-msg" id="errorMsg"></p>
-  </div>
 
-  <!-- Link de privacidad -->
-  <a class="footer-link" href="privacidad.html">Privacidad y Contenido</a>
-  <script src="nav.js"></script>
+    <div class="premium-box">
 
+        <div class="premium-header">
+            <span>⭐</span>
+            <h3>Digital Knight Premium</h3>
+        </div>
+
+        <p>
+            Apoya el desarrollo de Digital Knight y disfruta de beneficios exclusivos.
+        </p>
+
+        <ul>
+            <li>✓ Sin anuncios</li>
+            <li>✓ Sin trailers automáticos</li>
+            <li>✓ Hasta 3 dispositivos</li>
+            <li>✓ Promoción de lanzamiento</li>
+        </ul>
+
+        <button id="premiumBtn">
+            Conocer Premium
+        </button>
+
+    </div>
+
+    <a class="footer-link" href="privacidad.html">
+        Privacidad y Contenido
+    </a>
+
+</div>
+
+<script src="nav.js"></script>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
     
@@ -547,7 +802,46 @@ const eyeClosed = `
     throw error;
   }
 
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select(`
+      id,
+      email,
+      premium,
+      premium_since,
+      premium_until,
+      devices_limit,
+      avatar,
+      background
+    `)
+    .eq("id", data.user.id)
+    .single();
+
+
+  if(profileError){
+
+    console.error(
+      "Error cargando perfil:",
+      profileError
+    );
+
+  }else{
+
+    localStorage.setItem(
+      "dk_profile",
+      JSON.stringify(profile)
+    );
+
+    console.log(
+      "Perfil cargado:",
+      profile
+    );
+
+  }
+
+
   window.location.href = "main.html";
+
 }
 
     
@@ -615,6 +909,12 @@ togglePassword.addEventListener("click", () => {
     // =======================
     renderMode();
 
+
+document.getElementById("premiumBtn").addEventListener("click", () => {
+
+    window.location.href = "premium.html";
+
+});
     
     </script>
     

@@ -77,6 +77,15 @@ animation:bgMove 18s ease-in-out infinite alternate;
 
 }
 
+.hero-overlay{
+    display:none;
+}
+
+body::after{
+
+display:none;
+
+}
 
 body::after{
 
@@ -90,18 +99,11 @@ top:0;
 width:100%;
 height:100%;
 
-backdrop-filter:blur(70px);
+background:transparent;
 
-background:
+z-index:0;
 
-linear-gradient(
-180deg,
-rgba(1,1,29,.15),
-rgba(1,1,29,.55),
-rgba(1,1,29,.95)
-);
-
-z-index:-2;
+pointer-events:none;
 
 }
 
@@ -224,6 +226,9 @@ padding:
 70px 22px
 60px;
 
+position:relative;
+z-index:2;
+
 }
 
 
@@ -234,6 +239,8 @@ HERO PREMIUM
 .hero{
 
 position:relative;
+
+isolation:isolate;
 
 overflow:hidden;
 
@@ -252,7 +259,7 @@ rgba(255,255,255,.03)
 
 border:1px solid rgba(255,255,255,.08);
 
-backdrop-filter:blur(30px);
+backdrop-filter:none;
 
 box-shadow:
 0 25px 80px rgba(0,0,0,.55);
@@ -280,6 +287,8 @@ pointer-events:none;
 
 animation:heroGlow 8s ease-in-out infinite alternate;
 
+z-index:1;
+
 }
 
 .hero::after{
@@ -303,6 +312,8 @@ pointer-events:none;
 
 animation:heroGlow2 9s ease-in-out infinite alternate;
 
+z-index:1;
+
 }
 
 .hero-overlay{
@@ -311,19 +322,19 @@ position:absolute;
 
 inset:0;
 
-background:
-
-linear-gradient(
-180deg,
-rgba(1,1,29,.15),
-rgba(1,1,29,.45),
-rgba(1,1,29,.75)
-);
+background:transparent;
 
 pointer-events:none;
 
+z-index:0;
+
 }
 
+
+.hero > *{
+position:relative;
+z-index:2;
+}
 
 /*======================================
 LOGO
@@ -477,7 +488,7 @@ border:
 
 1px solid rgba(255,255,255,.08);
 
-backdrop-filter:blur(25px);
+backdrop-filter:none;
 
 position:relative;
 
@@ -1440,7 +1451,7 @@ filter:blur(25px);
 
 .fade-up{
 
-opacity:0;
+opacity:1;
 
 transform:translateY(40px);
 
@@ -1456,6 +1467,8 @@ opacity:1;
 transform:none;
 
 }
+
+
 
 </style>
 
@@ -1507,52 +1520,64 @@ sin trailers automáticos y podrás usar tu cuenta en hasta
 
 </p>
 
-    <div class="launch-offer">
+   <div class="user-premium-status">
 
-        <div class="offer-title">
+    <h3 id="premiumStatus">
+        Cargando estado...
+    </h3>
 
-            🔥 APOYA EL PROYECTO
+    <p id="devicesText"></p>
 
-        </div>
-
-        <div class="offer-price">
-
-            $40
-
-            <span>
-
-                MXN / mes
-
-            </span>
-
-        </div>
-
-       <div class="offer-time">
-
-Promoción de lanzamiento:
-<b>3 meses por $15 MXN</b>
+    <button class="premium-button" id="premiumAction">
+        ❤️ Quiero apoyar Digital Knight
+    </button>
 
 </div>
 
-       <div class="offer-after">
 
-Después tu apoyo será de
-<b>$40 MXN al mes</b>
+<!-- SOLO PARA USUARIOS NO PREMIUM -->
+<div class="launch-offer" id="premiumOffer">
 
-</div>
+    <div class="offer-title">
 
-        <button class="premium-button">
-
-❤️ Quiero apoyar Digital Knight
-
-</button>
+        🔥 APOYA EL PROYECTO
 
     </div>
+
+
+    <div class="offer-price">
+
+        $40
+
+        <span>
+            MXN / mes
+        </span>
+
+    </div>
+
+
+    <div class="offer-time">
+
+        Promoción de lanzamiento:
+        <b>3 meses por $15 MXN</b>
+
+    </div>
+
+
+    <div class="offer-after">
+
+        Después tu apoyo será de
+        <b>$40 MXN al mes</b>
+
+    </div>
+
+
+
 
 </div>
 
         
-<div class="benefits-grid">
+<div class="benefits-grid" id="premiumBenefits">
 
 <div class="benefit-card">
 
@@ -1720,7 +1745,7 @@ ni permanencia.
 
 
 
-<div class="payments">
+<div class="payments" id="paymentMethods">
 
 <h2>
 
@@ -1896,6 +1921,8 @@ Gracias por confiar en Digital Knight.
 
 
 <div class="mouse-glow"></div>
+
+<script type="module" src="premium.js"></script>
 
 <script>
 
