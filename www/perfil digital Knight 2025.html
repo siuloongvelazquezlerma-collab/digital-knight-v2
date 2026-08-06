@@ -37,10 +37,42 @@
   
       <div class="profile-options container py-3">
 
+          <div class="option-item"
+     id="premiumProfileOption"
+     onclick="window.location.href='premium.html'">
+
+  <div class="premium-info">
+
+    <span>
+      Digital Knight Premium ⭐
+    </span>
+
+     <span id="premiumBadge" class="premium-badge" style="display:none;">
+    PREMIUM
+  </span>
+
+    <small id="premiumProfileStatus">
+      Mejora tu experiencia en Digital Knight
+    </small>
+
+    <small id="premiumProfileDevices"></small>
+
+    <small id="premiumProfileDate"></small>
+
+  </div>
+
+  <span class="material-icons-outlined">
+    chevron_right
+  </span>
+
+</div>
+
         <div class="option-item" onclick="openView('manage-profile-view')">
           <span>Editar perfil</span>
           <span class="material-icons-outlined">chevron_right</span>
         </div>
+
+     
       
        <div class="option-item"
      onclick="window.location.href='notificaciones.html'">
@@ -1519,6 +1551,75 @@ import { loadProfileInfo } from "./js/sync-supabase.js";
  syncPreviewData();
 
 })();
+
+async function refreshPremiumStatus(){
+
+    const { data:{ session } } = await supabase.auth.getSession();
+
+    if(!session) return;
+
+
+    const { data: profile } = await supabase
+    .from("profiles")
+    .select(`
+        premium,
+        premium_since,
+        premium_until,
+        devices_limit
+    `)
+    .eq("id", session.user.id)
+    .single();
+
+
+    if(!profile) return;
+
+
+    const oldProfile =
+    JSON.parse(localStorage.getItem("dk_profile")) || {};
+
+
+    localStorage.setItem(
+        "dk_profile",
+        JSON.stringify({
+            ...oldProfile,
+            ...profile
+        })
+    );
+
+
+    const text =
+    document.getElementById("premiumProfileText");
+
+    const status =
+    document.getElementById("premiumProfileStatus");
+
+
+    if(text && status){
+
+        if(profile.premium){
+
+            text.textContent =
+            "⭐ Administrar Premium";
+
+            status.textContent =
+            "Tu cuenta Premium está activa";
+
+        }else{
+
+            text.textContent =
+            "⭐ Obtener Digital Knight Premium";
+
+            status.textContent =
+            "Disfruta más beneficios apoyando el proyecto";
+
+        }
+
+    }
+
+}
+
+
+refreshPremiumStatus();
 
 window.supabase = supabase;
 window.saveProfileToSupabase = saveProfileToSupabase;

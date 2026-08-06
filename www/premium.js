@@ -13,11 +13,12 @@ const {
     data:{session}
 }=await supabase.auth.getSession();
 
-
 if(!session){
 
-    console.log("Usuario no logueado");
-    window.location.href="login.html";
+    document.getElementById("premiumAction").onclick = () => {
+        window.location.href = "login.html";
+    };
+
     return;
 
 }
@@ -64,6 +65,9 @@ JSON.stringify(profile)
 const status = document.getElementById("premiumStatus");
 const devices = document.getElementById("devicesText");
 const button = document.getElementById("premiumAction");
+button.onclick = () => {
+    window.location.href = "perfil.html#premium";
+};
 const offer = document.getElementById("premiumOffer");
 
 console.log("STATUS:", status);
@@ -73,28 +77,21 @@ console.log("BUTTON:", button);
 
 if(profile.premium){
 
-status.textContent="⭐ Ya eres Digital Knight Premium";
+    status.textContent = "⭐ Ya eres Digital Knight Premium";
 
-devices.textContent =
-`Dispositivos permitidos: ${profile.devices_limit}`;
+    devices.textContent =
+    `Dispositivos permitidos: ${profile.devices_limit}`;
 
-button.textContent="Administrar Premium";
-
-document.getElementById("premiumOffer").remove();
-
-document.getElementById("paymentMethods").remove();
-
-document.getElementById("premiumBenefits").remove();
-
+    button.textContent = "Administrar Premium";
 
 }else{
 
-status.textContent="🚀 Mejora tu experiencia con Premium";
+    status.textContent = "🚀 Apoya Digital Knight Premium";
 
-devices.textContent =
-`Puedes usar hasta ${profile.devices_limit} dispositivos`;
+    devices.textContent =
+    "Administra tu suscripción desde tu perfil.";
 
-button.textContent="❤️ Quiero apoyar Digital Knight";
+    button.textContent = "Abrir perfil";
 
 }
 

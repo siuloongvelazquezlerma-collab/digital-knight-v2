@@ -564,3 +564,85 @@ window.addEventListener("load", () => {
     initNotifications();
   }
 });
+
+async function updatePremiumProfileButton(){
+
+    const text = document.querySelector("#premiumProfileOption span");
+
+    const status =
+    document.getElementById("premiumProfileStatus");
+
+    if(!text || !status) return;
+
+
+    const profile = JSON.parse(
+        localStorage.getItem("dk_profile")
+    );
+
+
+    if(!profile) return;
+
+
+    const devices =
+    document.getElementById("premiumProfileDevices");
+
+    const date =
+    document.getElementById("premiumProfileDate");
+
+    const badge =
+document.getElementById("premiumBadge");
+
+
+    if(profile.premium){
+
+        text.textContent =
+        "⭐ Administrar Premium";
+
+        status.textContent =
+        "Tu cuenta Premium está activa";
+
+
+        if(devices){
+            devices.textContent =
+            `Dispositivos permitidos: ${profile.devices_limit || 1}`;
+        }
+
+
+        if(date && profile.premium_until){
+
+            date.textContent =
+            `Activo hasta: ${new Date(profile.premium_until).toLocaleDateString()}`;
+
+        }
+
+        if(badge){
+    badge.style.display = "block";
+}
+
+
+    }else{
+
+        text.textContent =
+        "⭐ Obtener Digital Knight Premium";
+
+        status.textContent =
+        "Disfruta más beneficios apoyando el proyecto";
+
+
+        if(devices)
+            devices.textContent = "";
+
+
+        if(date)
+            date.textContent = "";
+
+        if(badge){
+    badge.style.display = "none";
+}
+
+    }
+
+}
+
+
+updatePremiumProfileButton();

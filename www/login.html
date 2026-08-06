@@ -618,6 +618,44 @@ box-shadow:0 10px 25px rgba(0,120,255,.35);
 }
 
 }
+
+#supportBtn{
+
+width:100%;
+
+padding:10px;
+
+margin-top:0;
+
+background:transparent;
+
+border:1px solid rgba(255,255,255,.18);
+
+border-radius:8px;
+
+color:#fff;
+
+font-weight:bold;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+#supportBtn:hover{
+
+background:rgba(255,255,255,.08);
+
+border-color:#00f7ff;
+
+}
+
+#actionBtn{
+    margin-bottom:8px;
+}
   </style>
 </head>
 <body>
@@ -657,19 +695,23 @@ box-shadow:0 10px 25px rgba(0,120,255,.35);
 
         <button id="actionBtn">Ingresar</button>
 
+        <button id="supportBtn" style="display:none;">
+    ⭐ Apoyar Digital Knight
+</button>
+
         <p class="forgot-password" id="forgotPassword">
             ¿Olvidaste tu contraseña?
         </p>
 
         <p class="toggle-mode" id="toggleMode">
-            ¿No tienes cuenta? Suscribete
-        </p>
+    ¿No tienes cuenta? Regístrate gratis
+</p>
 
         <p class="error-msg" id="errorMsg"></p>
 
     </div>
 
-    <div class="premium-box">
+    <div class="premium-box" style="display:none;">
 
         <div class="premium-header">
             <span>⭐</span>
@@ -736,6 +778,9 @@ const eyeClosed = `
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
+    const supportBtn = document.getElementById("supportBtn");
+    const introTitle = document.querySelector(".intro-text h1");
+const introText = document.querySelector(".intro-text p");
     
     let mode = "login"; // login | register | reset
     
@@ -749,23 +794,29 @@ const eyeClosed = `
       if (mode === "login") {
         modeTitle.textContent = "Iniciar Sesión";
         actionBtn.textContent = "Ingresar";
-        toggleMode.textContent = "¿No tienes cuenta? Suscribete";
+        toggleMode.textContent = "¿No tienes cuenta? Regístrate gratis";
         forgotPassword.style.display = "block";
         passwordInput.style.display = "block";
         togglePassword.style.display = "block";
         togglePassword.innerHTML = eyeOpen;
     passwordInput.type = "password";
+    supportBtn.style.display = "none";
+    introTitle.textContent = "Tu universo de cine, series y anime te espera.";
+introText.textContent = "Inicia sesión o crea tu cuenta gratuitamente.";
   }
     
       if (mode === "register") {
-        modeTitle.textContent = "Crear Cuenta";
-        actionBtn.textContent = "Registrarse";
+        modeTitle.textContent = "Crear cuenta gratis";
+        actionBtn.textContent = "Registrarme gratis";
         toggleMode.textContent = "¿Ya tienes cuenta? Inicia sesión";
         forgotPassword.style.display = "none";
         passwordInput.style.display = "block";
         togglePassword.style.display = "block";
         togglePassword.innerHTML = eyeOpen;
     passwordInput.type = "password";
+    supportBtn.style.display = "block";
+    introTitle.textContent = "Crea tu cuenta gratuita.";
+introText.textContent = "Empieza gratis y activa Premium cuando tú decidas.";
   }
     
       if (mode === "reset") {
@@ -775,6 +826,8 @@ const eyeClosed = `
         forgotPassword.style.display = "none";
         passwordInput.style.display = "none";
         togglePassword.style.display = "none";
+        introTitle.textContent = "Recupera el acceso a tu cuenta.";
+introText.textContent = "Te enviaremos un enlace para restablecer tu contraseña.";
       }
     }
     
@@ -916,6 +969,11 @@ document.getElementById("premiumBtn").addEventListener("click", () => {
 
 });
     
+    supportBtn.addEventListener("click", () => {
+
+    window.location.href = "premium.html";
+
+});
     </script>
     
   
