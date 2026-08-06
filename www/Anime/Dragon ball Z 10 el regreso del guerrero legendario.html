@@ -934,6 +934,16 @@ document.getElementById('watchButton').addEventListener('click', async () => {
 
     if (!window.suggestionShown) {
 
+    const profile = JSON.parse(
+        localStorage.getItem("dk_profile") || "{}"
+    );
+
+    if(profile.premium){
+
+        console.log("⭐ Premium: saltando sugerencia");
+
+    } else {
+
         console.log("⏳ Lanzando sugerencia");
 
         await window.showSuggestedContent();
@@ -941,6 +951,8 @@ document.getElementById('watchButton').addEventListener('click', async () => {
         console.log("✅ Sugerencia terminada");
 
     }
+
+}
 
 
     console.log("🎬 Voy a abrir reproductor");
