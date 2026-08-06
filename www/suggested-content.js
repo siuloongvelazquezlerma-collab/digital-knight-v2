@@ -177,6 +177,22 @@ window.suggestionShown = window.suggestionShown || false;
 
 window.showSuggestedContent = async function () {
 
+    // ==============================
+// USUARIO PREMIUM
+// ==============================
+
+const profile = JSON.parse(
+    localStorage.getItem("dk_profile") || "{}"
+);
+
+if(profile.premium){
+
+    console.log("⭐ Usuario Premium: omitiendo trailer.");
+
+    return;
+
+}
+
     console.log("🔥 showSuggestedContent llamado");
 
     if (window.suggestionShown) {
