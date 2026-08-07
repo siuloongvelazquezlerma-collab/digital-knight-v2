@@ -65,8 +65,42 @@ JSON.stringify(profile)
 const status = document.getElementById("premiumStatus");
 const devices = document.getElementById("devicesText");
 const button = document.getElementById("premiumAction");
-button.onclick = () => {
-    window.location.href = "perfil.html#premium";
+button.onclick = async () => {
+
+    console.log("💳 Creando pago Premium...");
+
+    try {
+
+        const response = await fetch("/api/create-payment", {
+            method: "POST"
+        });
+
+
+        const data = await response.json();
+
+
+        console.log("Respuesta Mercado Pago:", data);
+
+
+        if(data.init_point){
+
+            window.location.href = data.init_point;
+
+        }else{
+
+            alert("No se pudo crear el pago");
+
+        }
+
+
+    } catch(error){
+
+        console.error("Error creando pago:", error);
+
+        alert("Error conectando con Mercado Pago");
+
+    }
+
 };
 const offer = document.getElementById("premiumOffer");
 
