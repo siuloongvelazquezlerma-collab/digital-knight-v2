@@ -65,43 +65,31 @@ JSON.stringify(profile)
 const status = document.getElementById("premiumStatus");
 const devices = document.getElementById("devicesText");
 const button = document.getElementById("premiumAction");
-button.onclick = async () => {
-
-    console.log("💳 Creando pago Premium...");
-
-    try {
-
-        const response = await fetch("/api/create-payment", {
-            method: "POST"
-        });
 
 
-        const data = await response.json();
+if(button){
+
+button.onclick = () => {
+
+    const profile = JSON.parse(
+        localStorage.getItem("dk_profile") || "{}"
+    );
 
 
-        console.log("Respuesta Mercado Pago:", data);
+    if(!profile.id){
 
+        window.location.href = "login.html";
 
-        if(data.init_point){
-
-            window.location.href = data.init_point;
-
-        }else{
-
-            alert("No se pudo crear el pago");
-
-        }
-
-
-    } catch(error){
-
-        console.error("Error creando pago:", error);
-
-        alert("Error conectando con Mercado Pago");
+        return;
 
     }
 
+
+    console.log("Usuario listo para elegir método de pago");
+
 };
+
+}
 const offer = document.getElementById("premiumOffer");
 
 console.log("STATUS:", status);
@@ -134,3 +122,66 @@ if(profile.premium){
 
 
 loadPremium();
+
+const mercadoPagoBtn = document.getElementById("mercadoPagoBtn");
+
+
+if(mercadoPagoBtn){
+
+    mercadoPagoBtn.onclick = async()=>{
+
+        console.log("💳 Mercado Pago iniciado");
+
+
+        try{
+
+
+            const response = await fetch(
+                "/api/create-payment",
+                {
+                    method:"POST"
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            console.log(
+                "Respuesta Mercado Pago:",
+                data
+            );
+
+
+            if(data.init_point){
+
+                window.location.href =
+                data.init_point;
+
+            }else{
+
+                alert(
+                    "No se pudo crear el pago"
+                );
+
+            }
+
+
+        }catch(error){
+
+            console.error(
+                "Error Mercado Pago:",
+                error
+            );
+
+
+            alert(
+                "Error conectando con Mercado Pago"
+            );
+
+        }
+
+
+    };
+
+}
