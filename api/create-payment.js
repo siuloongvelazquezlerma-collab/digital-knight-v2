@@ -1,5 +1,13 @@
 export default async function handler(req, res) {
 
+    console.log("API CREATE PAYMENT FUNCIONANDO");
+
+    console.log(
+        "TOKEN EXISTE:",
+        process.env.MP_ACCESS_TOKEN ? "SI" : "NO"
+    );
+
+
     if (req.method !== "POST") {
         return res.status(405).json({
             error: "Método no permitido"
@@ -8,11 +16,6 @@ export default async function handler(req, res) {
 
 
     try {
-
-        console.log(
-    "TOKEN EXISTE:",
-    !!process.env.MP_ACCESS_TOKEN
-);
 
         const paymentData = {
             items: [
