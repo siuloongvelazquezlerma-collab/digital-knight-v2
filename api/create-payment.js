@@ -9,6 +9,11 @@ export default async function handler(req, res) {
 
     try {
 
+        console.log(
+    "TOKEN EXISTE:",
+    !!process.env.MP_ACCESS_TOKEN
+);
+
         const paymentData = {
             items: [
                 {
@@ -54,12 +59,12 @@ export default async function handler(req, res) {
 
     } catch(error) {
 
-        console.error(error);
+    console.error("ERROR MERCADO PAGO:", error);
 
-        return res.status(500).json({
-            error: "Error creando pago"
-        });
+    return res.status(500).json({
+        error: error.message
+    });
 
-    }
+}
 
 }
