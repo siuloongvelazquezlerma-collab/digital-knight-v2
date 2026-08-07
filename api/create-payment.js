@@ -55,12 +55,24 @@ export default async function handler(req, res) {
         const data = await response.json();
 
 
-        return res.status(200).json({
-            init_point: data.init_point
-        });
+console.log("RESPUESTA MERCADO PAGO:", data);
 
 
-    } catch(error) {
+if(!response.ok){
+
+    return res.status(response.status).json({
+        error: data
+    });
+
+}
+
+
+return res.status(200).json({
+    init_point: data.init_point
+});
+
+
+   } catch(error) {
 
     console.error("ERROR MERCADO PAGO:", error);
 

@@ -155,16 +155,17 @@ if(mercadoPagoBtn){
 
             if(data.init_point){
 
-                window.location.href =
-                data.init_point;
+    window.location.href = data.init_point;
 
-            }else{
+}else{
 
-                alert(
-                    "No se pudo crear el pago"
-                );
+    console.error("Respuesta sin init_point:", data);
 
-            }
+    alert(
+        "Mercado Pago respondió: " + JSON.stringify(data)
+    );
+
+}
 
 
         }catch(error){
