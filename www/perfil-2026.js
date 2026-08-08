@@ -1,18 +1,36 @@
-window.addEventListener('load', function () {
-  const overlay = document.querySelector('.overlay-loader');
+function hideLoader() {
+  const overlay = document.getElementById('overlay');
   const loader = document.getElementById('loader');
 
-  // Se mantiene el loader visible por 1 segundo
+  if (!loader || !overlay) return;
+
+  loader.style.opacity = '0';
+  overlay.style.opacity = '0';
+
   setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            overlay.classList.add('hidden');
-        }, 300);
-    }, 1000);
-});
+    loader.remove();
+    overlay.classList.add('hidden');
+  }, 250);
+}
 
+function setCoverBackground(element, imageUrl, animate = true) {
+  if (!element || !imageUrl) return;
 
+  if (animate) {
+    element.style.transition = 'opacity 0.3s ease';
+    element.style.opacity = '0.3';
+
+    window.requestAnimationFrame(() => {
+      setTimeout(() => {
+        element.style.backgroundImage = `url(${imageUrl})`;
+        element.style.opacity = '1';
+      }, 80);
+    });
+  } else {
+    element.style.backgroundImage = `url(${imageUrl})`;
+    element.style.opacity = '1';
+  }
+}
 
 /* ================= DEFAULTS ================= */
 const DEFAULT_AVATAR = 'avatar.jpg';
@@ -194,7 +212,7 @@ function saveFullProfile() {
 }
 
 /* ================= SINCRONIZAR ================= */
-function syncPreviewData() {
+function syncPreviewData(isInitial = false) {
   const avatar = localStorage.getItem('profileAvatar') || DEFAULT_AVATAR;
   const cover  = localStorage.getItem('profileCover')  || DEFAULT_COVER;
   const name   = localStorage.getItem('profileName')   || DEFAULT_NAME;
@@ -206,17 +224,18 @@ function syncPreviewData() {
   if (window.manageAvatar) manageAvatar.src = avatar;
 
   // FONDOS
+  const animateCover = !isInitial;
   if (window.mainCover)
-    mainCover.style.backgroundImage = `url(${cover})`;
+    setCoverBackground(mainCover, cover, animateCover);
 
   if (window.manageCover)
-    manageCover.style.backgroundImage = `url(${cover})`;
+    setCoverBackground(manageCover, cover, animateCover);
 
   if (window.coverPreviewTemp)
-    coverPreviewTemp.style.backgroundImage = `url(${cover})`;
+    setCoverBackground(coverPreviewTemp, cover, false);
 
   if (window.avatarEditCover)
-    avatarEditCover.style.backgroundImage = `url(${cover})`;
+    setCoverBackground(avatarEditCover, cover, false);
 
   // NOMBRE
   if (window.profileName) profileName.textContent = name;
@@ -231,9 +250,8 @@ function syncPreviewData() {
   if (input) input.value = name;
 
   // FOOTER ICON
-const footerIcon = document.getElementById('footerIconImg');
-if (footerIcon) footerIcon.src = avatar;
-
+  const footerIcon = document.getElementById('footerIconImg');
+  if (footerIcon) footerIcon.src = avatar;
 }
 
 const footer = document.querySelector(".footer");
@@ -278,34 +296,25 @@ function markProfileAsChanged() {
 
 /* ================= LOAD ================= */
 window.addEventListener('load', () => {
+  hideLoader();
   initProfileDefaults();
-  syncPreviewData();
+  syncPreviewData(true);
 
-  const nameInput = document.querySelector(
-    '#manage-profile-view #profileNameInput'
-  );
-
-  if (nameInput) {
-    nameInput.addEventListener('input', markProfileAsChanged);
-  }
-});
-
-window.addEventListener('load', () => {
-  initProfileDefaults();
-  syncPreviewData();
-
-  const nameInput = document.querySelector(
-    '#manage-profile-view #profileNameInput'
-  );
-
+  const nameInput = document.querySelector('#manage-profile-view #profileNameInput');
   if (nameInput) {
     nameInput.addEventListener('input', markProfileAsChanged);
   }
 
-  // 🔔 Actualizar badge
-  if (typeof initNotifications === "function") {
-  initNotifications();
-}
+  const saveBtn = document.getElementById('saveProfileBtn');
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.classList.remove('active', 'btn-light');
+    saveBtn.classList.add('btn-secondary');
+  }
+
+  if (typeof initNotifications === 'function') {
+    initNotifications();
+  }
 });
 
 
@@ -558,12 +567,6 @@ function cargarStorage() {
 if (document.getElementById("downloadsContainer")) {
   initDownloads();
 }
-
-window.addEventListener("load", () => {
-  if (typeof initNotifications === "function") {
-    initNotifications();
-  }
-});
 
 async function updatePremiumProfileButton(){
 
