@@ -534,7 +534,7 @@ window.playlist = [
       },
       {
         "title": "E3: Spoiler: Bert es Mágico",
-        "meta": "NR · 18m · 2026",
+        "meta": "16+· 18m · 2026",
         "thumbnail": "https://image.tmdb.org/t/p/w300/8gj2JlGZJqGhcGogXDVmB0YfgPk.jpg",
          videos: {
           latino: "https://od.lk/s/M18zMzMwMDY0NTJfVk5CYXE/Stuart%20s1e3.mp4",
@@ -552,23 +552,39 @@ window.playlist = [
     ]
   }
 ];
-
 // 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
 (function() {
-  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  const preferred =
+    localStorage.getItem('preferredLang') || 'latino';
 
   window.playlist.forEach(season => {
+
     season.episodes.forEach(ep => {
-      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+
+      // Mantener el videoUrl como referencia inicial
       if (!ep.videoUrl && ep.videos) {
-        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+
+        ep.videoUrl =
+          ep.videos[preferred] ||
+          ep.videos.latino ||
+          ep.videos.sub;
+
       }
+
+      // Guardar el episodio independientemente del idioma
+      ep.allVideoUrls = Object.values(ep.videos || {});
+
     });
+
   });
 
-  console.log('[playlist] Normalizada con idioma preferido:', preferred);
-})();
+  console.log(
+    '[playlist] Normalizada con idioma preferido:',
+    preferred
+  );
 
+})();
 </script>
 <script src="../suggestions-library.js"></script>
 <script src="../suggested-content.js"></script>

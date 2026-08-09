@@ -286,7 +286,12 @@ cover.style.display = 'flex';
 const videoUrl = video.currentSrc();
 const currentTime = video.currentTime();
 
-saveProgress(videoUrl, currentTime); // Esto ya actualiza localStorage y llama a updateResumeButton()
+saveProgress(
+    video,
+    videoUrl,
+    currentTime,
+    seriesId
+); // Esto ya actualiza localStorage y llama a updateResumeButton()
 
 // 💥 OPCIONAL: Si también tenés miniaturas con barras de progreso
 if (typeof updateThumbnailsProgress === 'function') {
@@ -668,60 +673,158 @@ console.log("🚀 Enviando progreso a saveSeriesProgress()", {
 
 // Helper para buscar datos del episodio
 function findEpisodeData(videoUrl) {
+
   for (let season of playlist) {
-    const episode = season.episodes.find(ep => ep.videoUrl === videoUrl);
+
+    const episode = season.episodes.find(ep =>
+      ep.videoUrl === videoUrl ||
+      Object.values(ep.videos || {}).includes(videoUrl)
+    );
+
     if (episode) {
-      return { episodeCode: episode.episodeCode, thumbnail: episode.thumbnail };
+
+      return {
+        episodeCode: episode.episodeCode,
+        thumbnail: episode.thumbnail
+      };
+
     }
   }
+
   return null;
 }
 
 
 // Helper para encontrar los índices de temporada y episodio
 function findEpisodeIndexes(videoUrl) {
-  for (let seasonIndex = 0; seasonIndex < playlist.length; seasonIndex++) {
+
+  for (
+    let seasonIndex = 0;
+    seasonIndex < playlist.length;
+    seasonIndex++
+  ) {
+
     const season = playlist[seasonIndex];
-    for (let episodeIndex = 0; episodeIndex < season.episodes.length; episodeIndex++) {
-      if (season.episodes[episodeIndex].videoUrl === videoUrl) {
-        return { seasonIndex, episodeIndex };
+
+    for (
+      let episodeIndex = 0;
+      episodeIndex < season.episodes.length;
+      episodeIndex++
+    ) {
+
+      const episode =
+        season.episodes[episodeIndex];
+
+      const isCurrentEpisode =
+        episode.videoUrl === videoUrl ||
+        Object.values(episode.videos || {})
+          .includes(videoUrl);
+
+      if (isCurrentEpisode) {
+
+        return {
+          seasonIndex,
+          episodeIndex
+        };
+
       }
     }
   }
+
   return null;
 }
 
 
 
 function loadProgress(videoUrl) {
+
   const key = `progress-${seriesId}`;
-  const data = JSON.parse(localStorage.getItem(key)) || {};
+  const data = JSON.parse(
+    localStorage.getItem(key) || '{}'
+  );
+
   const value = data[videoUrl];
-  if (value === -1) return 0; // Si está marcado como terminado, empieza de nuevo
-  return value || 0;
+
+  if (value === -1) {
+    return 0;
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    return Number(value.progress) || 0;
+  }
+
+  return Number(value) || 0;
 }
 
 
 // Buscar siguiente episodio
 function findNextEpisode(currentUrl) {
-  for (let seasonIndex = 0; seasonIndex < playlist.length; seasonIndex++) {
+
+  const preferred =
+    localStorage.getItem('preferredLang') || 'latino';
+
+  for (
+    let seasonIndex = 0;
+    seasonIndex < playlist.length;
+    seasonIndex++
+  ) {
+
     const season = playlist[seasonIndex];
-    for (let i = 0; i < season.episodes.length; i++) {
-      if (season.episodes[i].videoUrl === currentUrl) {
-        // Si hay un siguiente episodio en la misma temporada
-        if (season.episodes[i + 1]) {
-          return season.episodes[i + 1].videoUrl;
-        }
-        // Si no, buscar el primer episodio de la siguiente temporada
-        if (playlist[seasonIndex + 1] && playlist[seasonIndex + 1].episodes.length > 0) {
-          return playlist[seasonIndex + 1].episodes[0].videoUrl;
-        }
+
+    for (
+      let i = 0;
+      i < season.episodes.length;
+      i++
+    ) {
+
+      const episode = season.episodes[i];
+
+      // 🔥 Comprobar TODAS las versiones del episodio
+      const isCurrentEpisode =
+        episode.videoUrl === currentUrl ||
+        Object.values(episode.videos || {})
+          .includes(currentUrl);
+
+      if (!isCurrentEpisode) continue;
+
+
+      // ▶️ Siguiente episodio de la misma temporada
+      if (season.episodes[i + 1]) {
+
+        const nextEpisode =
+          season.episodes[i + 1];
+
+        return (
+          nextEpisode.videos?.[preferred] ||
+          nextEpisode.videos?.latino ||
+          nextEpisode.videos?.sub ||
+          nextEpisode.videoUrl
+        );
       }
+
+
+      // ▶️ Primera episodio de la siguiente temporada
+      if (
+        playlist[seasonIndex + 1] &&
+        playlist[seasonIndex + 1].episodes.length > 0
+      ) {
+
+        const nextEpisode =
+          playlist[seasonIndex + 1].episodes[0];
+
+        return (
+          nextEpisode.videos?.[preferred] ||
+          nextEpisode.videos?.latino ||
+          nextEpisode.videos?.sub ||
+          nextEpisode.videoUrl
+        );
+      }
+
     }
   }
-   return null; // Si no hay más episodios ni temporadas
-}
 
+  return null;
+}
 // Función para bloquear la orientación en landscape
 function lockOrientationLandscape() {
   if (screen.orientation && screen.orientation.lock) {
@@ -738,11 +841,19 @@ function lockOrientationLandscape() {
 // ▶ Reproducir episodio
 function playEpisode(videoUrl) {
 
-   window.episodeId = videoUrl; // 👈 AQUÍ
+window.episodeId = videoUrl;
 
-  localStorage.setItem(`last-episode-${seriesId}`, videoUrl);
+// 🔒 Guardar el EPISODIO, no la URL del idioma
+const indexes = findEpisodeIndexes(videoUrl);
 
-  video.src({
+if (indexes) {
+  localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({
+    seasonIndex: indexes.seasonIndex,
+    episodeIndex: indexes.episodeIndex
+  }));
+}
+
+video.src({
     type: 'video/mp4',
     src: videoUrl
   });
@@ -775,6 +886,12 @@ function playEpisode(videoUrl) {
   }
 
   video.on("loadedmetadata", setTimeOnce);
+
+window.dispatchEvent(
+    new CustomEvent('playEpisode', {
+        detail: findEpisodeByUrl(videoUrl)
+    })
+);
 }
 
 
@@ -788,8 +905,10 @@ function updateEpisodeUI(videoUrl) {
     const season = playlist[seasonIndex];
 
     const episode = season.episodes.find(
-      ep => ep.videoUrl === videoUrl
-    );
+  ep =>
+    ep.videoUrl === videoUrl ||
+    Object.values(ep.videos || {}).includes(videoUrl)
+);
 
     if (episode) {
 
@@ -1073,12 +1192,40 @@ video.on('timeupdate', () => {
 function playLastWatchedEpisode() {
   const lastKey = `last-episode-${seriesId}`;
   const progressKey = `progress-${seriesId}`;
-  const lastUrl = localStorage.getItem(lastKey);
+  const lastEpisodeData = JSON.parse(
+  localStorage.getItem(lastKey) || 'null'
+);
   const progressData = JSON.parse(localStorage.getItem(progressKey)) || {};
 
-  if (lastUrl) {
-    const lastTime = progressData[lastUrl] || 0;
-    const safeTime = lastTime < 5 ? 0 : lastTime;
+  if (lastEpisodeData) {
+
+  const seasonIndex = lastEpisodeData.seasonIndex;
+  const episodeIndex = lastEpisodeData.episodeIndex;
+
+  const episode =
+    playlist[seasonIndex]?.episodes[episodeIndex];
+
+  if (!episode) {
+    console.warn("No se encontró el último episodio guardado.");
+    return;
+  }
+
+  const preferred =
+    localStorage.getItem('preferredLang') || 'latino';
+
+  const lastUrl =
+    episode.videos?.[preferred] ||
+    episode.videoUrl;
+
+  const lastTimeData =
+    progressData[lastUrl];
+
+  const lastTime =
+    typeof lastTimeData === 'object'
+      ? (lastTimeData.progress || 0)
+      : (lastTimeData || 0);
+
+  const safeTime = lastTime < 5 ? 0 : lastTime;
 
     video.src({ type: 'video/mp4', src: lastUrl });
 
@@ -1159,55 +1306,161 @@ function playLastWatchedEpisode() {
 
 
 function updateResumeButton() {
-  const button = document.getElementById('resumeButton');
-  if (!button) return;
+    const button = document.getElementById('resumeButton');
+    if (!button) return;
 
-  const key = `last-episode-${seriesId}`;
-  const progressKey = `progress-${seriesId}`;
-  const lastUrl = localStorage.getItem(key);
-  const progressData = JSON.parse(localStorage.getItem(progressKey)) || {};
+    const key = `last-episode-${seriesId}`;
+    const progressKey = `progress-${seriesId}`;
 
-  if (lastUrl) {
-    const lastTime = progressData[lastUrl] || 0;
+    const lastEpisodeData = JSON.parse(
+        localStorage.getItem(key) || 'null'
+    );
 
-    for (const season of playlist) {
-      for (const ep of season.episodes) {
-        if (ep.videoUrl === lastUrl) {
-          const isComplete = lastTime === -1;
-          const label = isComplete ? 'Mira' : 'Continuar';
-          const durationMinutes = parseFloat(ep.meta?.match(/(\d+)m/)?.[1]) || 47;
-const durationSeconds = durationMinutes * 60;
-const percent = Math.min((lastTime / durationSeconds) * 100, 100);
+    const progressData = JSON.parse(
+        localStorage.getItem(progressKey) || '{}'
+    );
 
+    let episode = null;
+    let episodeUrl = null;
 
-          button.innerHTML = `
-            <div class="resume-text-wrapper">
-              <span class="material-icons">play_arrow</span>
-              <div class="text-with-bar">
-                <div class="resume-label">${label} ${ep.hiddenCode}</div>
-                ${percent > 0 ? `
-                <div class="resume-progress-track">
-                  <div class="resume-progress-bar" style="width: ${percent}%;"></div>
-                </div>` : ''}
-              </div>
-            </div>
-          `;
-          return;
+    // =====================================================
+    // 🔥 NUEVO FORMATO: { seasonIndex, episodeIndex }
+    // =====================================================
+    if (
+        lastEpisodeData &&
+        typeof lastEpisodeData === 'object' &&
+        Number.isInteger(lastEpisodeData.seasonIndex) &&
+        Number.isInteger(lastEpisodeData.episodeIndex)
+    ) {
+        const season =
+            playlist[lastEpisodeData.seasonIndex];
+
+        episode =
+            season?.episodes?.[lastEpisodeData.episodeIndex];
+
+        if (episode) {
+            const preferred =
+                localStorage.getItem('preferredLang') || 'latino';
+
+            episodeUrl =
+                episode.videos?.[preferred] ||
+                episode.videos?.latino ||
+                episode.videos?.sub ||
+                episode.videoUrl;
         }
-      }
     }
-  }
 
-  // Si no hay último episodio, mostrar el primero como predeterminado (sin barra)
-  const first = playlist[0].episodes[0];
-  button.innerHTML = `
-    <div class="resume-text-wrapper">
-      <span class="material-icons">play_arrow</span>
-      <div class="text-with-bar">
-        <div class="resume-label">Mira ${first.hiddenCode}</div>
-      </div>
-    </div>
-  `;
+    // =====================================================
+    // 🔙 COMPATIBILIDAD CON EL FORMATO ANTIGUO
+    // =====================================================
+    if (!episode && typeof lastEpisodeData === 'string') {
+
+        episodeUrl = lastEpisodeData;
+
+        for (const season of playlist) {
+            const found = season.episodes.find(ep =>
+                ep.videoUrl === episodeUrl ||
+                Object.values(ep.videos || {}).includes(episodeUrl)
+            );
+
+            if (found) {
+                episode = found;
+                break;
+            }
+        }
+    }
+
+    // =====================================================
+    // ▶️ SI ENCONTRAMOS EL EPISODIO
+    // =====================================================
+    if (episode) {
+
+        const progressDataForEpisode =
+            episodeUrl ? progressData[episodeUrl] : null;
+
+        let lastTime = 0;
+
+        if (
+            typeof progressDataForEpisode === 'object' &&
+            progressDataForEpisode !== null
+        ) {
+            lastTime =
+                Number(progressDataForEpisode.progress) || 0;
+        } else {
+            lastTime =
+                Number(progressDataForEpisode) || 0;
+        }
+
+        const isComplete = lastTime === -1;
+
+        const label = isComplete
+            ? 'Mira'
+            : 'Continuar';
+
+        const durationMinutes =
+            parseFloat(
+                episode.meta?.match(/(\d+)m/)?.[1]
+            ) || 47;
+
+        const durationSeconds =
+            durationMinutes * 60;
+
+        const percent =
+            isComplete
+                ? 100
+                : Math.min(
+                    (lastTime / durationSeconds) * 100,
+                    100
+                );
+
+        button.innerHTML = `
+            <div class="resume-text-wrapper">
+                <span class="material-icons">play_arrow</span>
+
+                <div class="text-with-bar">
+
+                    <div class="resume-label">
+                        ${label} ${episode.hiddenCode || episode.episodeCode}
+                    </div>
+
+                    ${
+                        percent > 0
+                        ? `
+                        <div class="resume-progress-track">
+                            <div
+                                class="resume-progress-bar"
+                                style="width: ${percent}%;">
+                            </div>
+                        </div>
+                        `
+                        : ''
+                    }
+
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    // =====================================================
+    // ▶️ NO HAY EPISODIO GUARDADO → PRIMER EPISODIO
+    // =====================================================
+    const first = playlist?.[0]?.episodes?.[0];
+
+    if (!first) return;
+
+    button.innerHTML = `
+        <div class="resume-text-wrapper">
+            <span class="material-icons">play_arrow</span>
+
+            <div class="text-with-bar">
+                <div class="resume-label">
+                    Mira ${first.hiddenCode || first.episodeCode}
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 updateResumeButton();
@@ -1700,26 +1953,29 @@ const tabs = document.querySelector('.tabs-secondary');
   let menuOpen = false;
 
   function findEpisodeByUrl(url) {
-    if (!url || !window.playlist) return null;
-  
-    for (const season of window.playlist) {
-      for (const ep of season.episodes) {
-        // ✅ Buscar en ambos formatos (videoUrl y videos.latino/sub)
-        if (
-          ep.videoUrl === url ||
-          ep.videos?.latino === url ||
-          ep.videos?.sub === url ||
-          url.includes(ep.videoUrl?.split('/').pop()) ||
-          url.includes(ep.videos?.latino?.split('/').pop()) ||
-          url.includes(ep.videos?.sub?.split('/').pop())
-        ) {
-          return ep;
-        }
+
+  if (!url || !window.playlist) return null;
+
+  for (const season of window.playlist) {
+
+    for (const ep of season.episodes) {
+
+      // El episodio puede tener varias URLs:
+      // latino, sub, inglés, etc.
+      const urls = Object.values(ep.videos || {});
+
+      if (
+        ep.videoUrl === url ||
+        urls.includes(url)
+      ) {
+        return ep;
       }
+
     }
-  
-    return null;
   }
+
+  return null;
+}
   
   
 
@@ -1750,13 +2006,38 @@ const tabs = document.querySelector('.tabs-secondary');
 function confirmAndPlay() {
   const p = getPlayer();
 
-  // 1️⃣ Detectar episodio actual
-  if (!currentEpisode) {
-    const cur = p && typeof p.currentSrc === 'function'
-      ? p.currentSrc()
-      : (document.getElementById('videoSource')?.src || null);
-    currentEpisode = findEpisodeByUrl(cur);
+  // 1️⃣ Detectar SIEMPRE el episodio actual desde la URL
+//    Nunca confiar únicamente en currentEpisode porque puede estar desactualizado.
+const cur = p && typeof p.currentSrc === 'function'
+    ? p.currentSrc()
+    : (document.getElementById('videoSource')?.src || null);
+
+const detectedEpisode = findEpisodeByUrl(cur);
+
+if (detectedEpisode) {
+    currentEpisode = detectedEpisode;
+}
+
+console.log(
+    '[lang] Episodio detectado:',
+    currentEpisode?.episodeCode,
+    'URL actual:',
+    cur
+);
+
+  // 🔒 Guardar exactamente qué episodio estamos viendo
+let currentSeasonIndex = -1;
+let currentEpisodeIndex = -1;
+
+for (let s = 0; s < window.playlist.length; s++) {
+  const index = window.playlist[s].episodes.indexOf(currentEpisode);
+
+  if (index !== -1) {
+    currentSeasonIndex = s;
+    currentEpisodeIndex = index;
+    break;
   }
+}
 
   if (!currentEpisode) {
     console.warn('[lang] No se detectó episodio actual.');
@@ -1775,7 +2056,26 @@ function confirmAndPlay() {
   if (langIcon) langIcon.textContent = (currentLang === 'latino') ? 'chat' : 'subtitles';
 
   // 4️⃣ Obtener URL correspondiente al idioma
-  const newUrl = currentEpisode.videos?.[currentLang];
+  // 🔒 Obtener nuevamente el episodio por su posición,
+// no por la URL del idioma anterior
+if (
+  currentSeasonIndex >= 0 &&
+  currentEpisodeIndex >= 0 &&
+  window.playlist[currentSeasonIndex]?.episodes[currentEpisodeIndex]
+) {
+  currentEpisode =
+    window.playlist[currentSeasonIndex]
+      .episodes[currentEpisodeIndex];
+}
+
+const newUrl = currentEpisode.videos?.[currentLang];
+
+// 🔒 Mantener siempre el mismo episodio al cambiar idioma
+localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({
+  seasonIndex: currentSeasonIndex,
+  episodeIndex: currentEpisodeIndex
+}));
+
   if (!newUrl) {
     console.warn('[lang] No existe URL para el idioma seleccionado.', currentEpisode.videos);
     closeMenu(true);
@@ -1786,7 +2086,9 @@ function confirmAndPlay() {
 
   // 5️⃣ Cambiar fuente en el reproductor o DOM
   if (p && typeof p.src === 'function') {
-    try { p.off && p.off('loadedmetadata'); } catch(e){}
+    try {
+    // NO borrar todos los listeners de loadedmetadata.
+} catch (e) {}
 
     p.pause && p.pause();
     p.src({ type: 'video/mp4', src: newUrl });
@@ -1850,15 +2152,40 @@ function confirmAndPlay() {
   }
 
   // 6️⃣ Guardar progreso actualizado
-  try {
-    const key = `progress-${seriesId}`;
-    const episodios = JSON.parse(localStorage.getItem(key) || '{}');
-    episodios[newUrl] = { progress: oldTime, updated_at: Date.now() };
-    localStorage.setItem(key, JSON.stringify(episodios));
-    localStorage.setItem(`last-episode-${seriesId}`, newUrl);
-  } catch (e) {
-    console.warn('[lang] no se pudo guardar progreso:', e);
-  }
+ // 6️⃣ Guardar progreso actualizado
+try {
+
+  const key = `progress-${seriesId}`;
+  const episodios =
+    JSON.parse(localStorage.getItem(key) || '{}');
+
+  // Guardar el progreso en la URL nueva
+  episodios[newUrl] = {
+    progress: oldTime,
+    updated_at: Date.now()
+  };
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(episodios)
+  );
+
+  // 🔥 IMPORTANTE:
+  // last-episode debe representar el episodio,
+  // no la versión de idioma.
+  //
+  // Guardamos la URL nueva solamente como la versión
+  // que se está reproduciendo actualmente.
+  
+
+} catch (e) {
+
+  console.warn(
+    '[lang] no se pudo guardar progreso:',
+    e
+  );
+
+}
 
   // 7️⃣ 🔁 Actualizar el botón "Continuar viendo" en vivo
   try {
@@ -1917,9 +2244,20 @@ function confirmAndPlay() {
   const p0 = getPlayer();
   if (p0 && typeof p0.on === 'function') {
     p0.on('loadedmetadata', function() {
-      const cur = p0 && typeof p0.currentSrc === 'function' ? p0.currentSrc() : (document.getElementById('videoSource')?.src || null);
-      currentEpisode = findEpisodeByUrl(cur);
-    });
+
+  const cur =
+    p0 && typeof p0.currentSrc === 'function'
+      ? p0.currentSrc()
+      : (document.getElementById('videoSource')?.src || null);
+
+  const detectedEpisode = findEpisodeByUrl(cur);
+
+  if (detectedEpisode) {
+    currentEpisode = detectedEpisode;
+  }
+
+});
+
   } else {
     const dom = document.getElementById('video');
     dom && dom.addEventListener('loadedmetadata', function() {
