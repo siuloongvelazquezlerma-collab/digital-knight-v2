@@ -1,36 +1,40 @@
 /* Optimizaciones seguras para main-optimizado.html.
-   No cambia rutas, datos de Supabase, favoritos ni "Continuar viendo". */
+   Reduce solo el tamaño de las imágenes TMDB, sin cambiar el contenido. */
 (function () {
-  const originalPath = '/t/p/original/';
+  const tmdbOriginalRegex = /https?:\/\/(?:image\.tmdb\.org|www\.themoviedb\.org)\/t\/p\/original\//i;
 
   function tmdbSizeFor(image) {
     if (image.closest('.swiper, .hero, .banner, .featured')) return 'w1280';
-    if (image.closest('.movie-item, .continue-watching')) return 'w500';
-    return 'w342';
+    if (image.closest('.continue-watching, .top-10, .card, .scroll-container, .scroll-wrapper, .horizontal-scroll-container, .movie-section, .poster-wrapper')) return 'w300';
+    if (image.closest('.movie-item')) return 'w500';
+    return 'w300';
   }
 
-  function optimizeTmdbUrl(url, size) {
-    return typeof url === 'string' && url.includes('image.tmdb.org' + originalPath)
-      ? url.replace(originalPath, '/t/p/' + size + '/')
-      : url;
+  function replaceTmdbOriginal(url, size) {
+    if (typeof url !== 'string' || !tmdbOriginalRegex.test(url)) return url;
+    return url.replace(tmdbOriginalRegex, `https://image.tmdb.org/t/p/${size}/`);
+  }
+
+  function optimizeAttribute(element, attribute) {
+    const value = element.getAttribute(attribute);
+    if (!value) return;
+    const optimized = replaceTmdbOriginal(value, tmdbSizeFor(element));
+    if (optimized !== value) element.setAttribute(attribute, optimized);
   }
 
   document.querySelectorAll('img[data-src], img[src]').forEach((image) => {
-    const attribute = image.dataset.src ? 'data-src' : 'src';
-    const current = image.getAttribute(attribute);
-    const optimized = optimizeTmdbUrl(current, tmdbSizeFor(image));
-    if (optimized !== current) image.setAttribute(attribute, optimized);
+    if (image.dataset.src) optimizeAttribute(image, 'data-src');
+    if (image.src) optimizeAttribute(image, 'src');
+    if (image.srcset) optimizeAttribute(image, 'srcset');
     image.decoding = 'async';
   });
 
-  document.querySelectorAll('[style*="image.tmdb.org/t/p/original/"]').forEach((element) => {
-    const value = element.getAttribute('style');
-    if (!value) return;
-    const optimized = value.replaceAll('/t/p/original/', '/t/p/w1280/');
-    element.setAttribute('style', optimized);
+  document.querySelectorAll('[style]').forEach((element) => {
+    const styleValue = element.getAttribute('style');
+    if (!styleValue || !tmdbOriginalRegex.test(styleValue)) return;
+    element.setAttribute('style', replaceTmdbOriginal(styleValue, 'w1280'));
   });
 
-  /* Las imágenes críticas se priorizan; el resto conserva el lazy load original. */
   document.querySelectorAll('#inicio .swiper-slide img').forEach((image, index) => {
     if (index === 0) image.fetchPriority = 'high';
   });

@@ -292,7 +292,6 @@
     <h2>Colecciones</h2>
 
     <div class="scroll-wrapper">
-      
       <div class="scroll-container">
 
          <a href="peliculas/Actividad paranormal Colección.html">
@@ -635,7 +634,17 @@
 </div>
 
 
+<!-- Modal del reproductor -->
+<div id="videoModal" class="video-modal" style="display:none;">
+  <div class="video-content">
+    <button id="closeModal">✖</button>
+    <video id="dkPlayer" controls></video>
+  </div>
+</div>
 
+<!-- Primero cargas tu script del reproductor -->
+<script src="js/player.js"></script>
+<script src="js/player-controls.js"></script>
 
 <div class="movie-section upcoming-section">
 
@@ -4812,244 +4821,8 @@ addToListBtn.onclick = ()=>{
   });
 </script>
 
- <script>
-/* =========================================================
-   FLECHAS AUTOMÁTICAS PARA TODOS LOS CARRUSELES
-   PC / TV
-   No es necesario modificar el HTML manualmente
-   ========================================================= */
+  
 
-(function () {
-
-    const SELECTORES_CARRUSEL = [
-        '.scroll-container',
-        '.horizontal-scroll-container',
-        '.mexicanas-scroll-container',
-        '.scrollable',
-        '.upcoming-scroll',
-        '#continueWatchingContainer'
-    ];
-
-    function obtenerCarruseles() {
-        return document.querySelectorAll(
-            SELECTORES_CARRUSEL.join(',')
-        );
-    }
-
-    function crearFlechas(container) {
-
-        // Si ya está dentro de un scroll-wrapper,
-        // simplemente usamos ese wrapper.
-        let wrapper = container.closest('.scroll-wrapper');
-
-        if (!wrapper) {
-
-            wrapper = document.createElement('div');
-            wrapper.className = 'scroll-wrapper';
-
-            // Colocamos el wrapper en el lugar del container
-            container.parentNode.insertBefore(wrapper, container);
-
-            // Movemos el container dentro del wrapper
-            wrapper.appendChild(container);
-        }
-
-        // Evitar crear flechas duplicadas
-        if (!wrapper.querySelector('.scroll-btn.left')) {
-
-            const leftButton = document.createElement('button');
-
-            leftButton.className = 'scroll-btn left';
-            leftButton.type = 'button';
-            leftButton.setAttribute('aria-label', 'Desplazar hacia la izquierda');
-            leftButton.innerHTML = '‹';
-
-            wrapper.insertBefore(leftButton, container);
-        }
-
-        if (!wrapper.querySelector('.scroll-btn.right')) {
-
-            const rightButton = document.createElement('button');
-
-            rightButton.className = 'scroll-btn right';
-            rightButton.type = 'button';
-            rightButton.setAttribute('aria-label', 'Desplazar hacia la derecha');
-            rightButton.innerHTML = '›';
-
-            wrapper.appendChild(rightButton);
-        }
-
-        const leftButton = wrapper.querySelector('.scroll-btn.left');
-        const rightButton = wrapper.querySelector('.scroll-btn.right');
-
-        // Evitar agregar los eventos más de una vez
-        if (!container.dataset.arrowsReady) {
-
-            leftButton.addEventListener('click', function () {
-
-                container.scrollBy({
-                    left: -container.clientWidth * 2.5,
-                    behavior: 'smooth'
-                });
-
-            });
-
-            rightButton.addEventListener('click', function () {
-
-                container.scrollBy({
-                    left: container.clientWidth * 2.5,
-                    behavior: 'smooth'
-                });
-
-            });
-
-            container.dataset.arrowsReady = 'true';
-        }
-
-        actualizarFlechas(container);
-
-        return wrapper;
-    }
-
-
-    function actualizarFlechas(container) {
-
-        const wrapper = container.closest('.scroll-wrapper');
-
-        if (!wrapper) return;
-
-        const leftButton = wrapper.querySelector('.scroll-btn.left');
-        const rightButton = wrapper.querySelector('.scroll-btn.right');
-
-        if (!leftButton || !rightButton) return;
-
-        // ¿Realmente existe contenido para desplazar?
-        const tieneScroll =
-            container.scrollWidth > container.clientWidth + 5;
-
-        if (!tieneScroll) {
-            leftButton.style.visibility = 'hidden';
-            rightButton.style.visibility = 'hidden';
-            return;
-        }
-
-        // Flecha izquierda
-        if (container.scrollLeft <= 5) {
-            leftButton.style.visibility = 'hidden';
-        } else {
-            leftButton.style.visibility = 'visible';
-        }
-
-        // Flecha derecha
-        if (
-            container.scrollLeft + container.clientWidth
-            >= container.scrollWidth - 5
-        ) {
-            rightButton.style.visibility = 'hidden';
-        } else {
-            rightButton.style.visibility = 'visible';
-        }
-    }
-
-
-    function prepararCarruseles() {
-
-        const carruseles = obtenerCarruseles();
-
-        carruseles.forEach(function (container) {
-
-            // Evita procesar el mismo elemento varias veces
-            crearFlechas(container);
-
-        });
-
-        actualizarTodos();
-    }
-
-
-    function actualizarTodos() {
-
-        const carruseles = obtenerCarruseles();
-
-        carruseles.forEach(function (container) {
-            actualizarFlechas(container);
-        });
-    }
-
-
-    // Inicializar cuando la página esté lista
-    if (document.readyState === 'loading') {
-
-        document.addEventListener('DOMContentLoaded', prepararCarruseles);
-
-    } else {
-
-        prepararCarruseles();
-
-    }
-
-
-    // Actualizar al hacer scroll
-    document.addEventListener('scroll', function (event) {
-
-        const container = event.target;
-
-        if (
-            container &&
-            container.matches &&
-            SELECTORES_CARRUSEL.some(selector =>
-                container.matches(selector)
-            )
-        ) {
-            actualizarFlechas(container);
-        }
-
-    }, true);
-
-
-    // Actualizar cuando cambia el tamaño de pantalla
-    window.addEventListener('resize', function () {
-
-        actualizarTodos();
-
-    });
-
-
-    /*
-     * Algunos carruseles de Digital Knight se generan
-     * dinámicamente con JavaScript.
-     *
-     * Este observer detecta nuevos carruseles automáticamente.
-     */
-    const observer = new MutationObserver(function (mutations) {
-
-        let hayCambios = false;
-
-        mutations.forEach(function (mutation) {
-
-            if (mutation.addedNodes.length > 0) {
-                hayCambios = true;
-            }
-
-        });
-
-        if (hayCambios) {
-
-            prepararCarruseles();
-
-        }
-
-    });
-
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-
-
-})();
-</script>
 
   
   

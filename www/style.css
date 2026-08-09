@@ -2746,3 +2746,106 @@ body.page-transition {
 .close-btn:hover {
   color: #fff;
 }
+
+/* =========================================
+   FLECHAS DE NAVEGACIÓN PARA CARRUSELES
+   PC / TV
+   ========================================= */
+
+.scroll-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Flechas ocultas por defecto */
+.scroll-wrapper .scroll-btn {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    
+    border: none;
+    border-radius: 50%;
+    
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    
+    font-size: 28px;
+    line-height: 42px;
+    text-align: center;
+    
+    cursor: pointer;
+    z-index: 20;
+    
+    transition: all 0.2s ease;
+}
+
+/* Flecha izquierda */
+.scroll-wrapper .scroll-btn.left {
+    left: 8px;
+}
+
+/* Flecha derecha */
+.scroll-wrapper .scroll-btn.right {
+    right: 8px;
+}
+
+/* Efecto al pasar el mouse */
+.scroll-wrapper .scroll-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    transform: translateY(-50%) scale(1.08);
+}
+
+
+/* =========================================
+   SOLO PC / TV
+   ========================================= */
+
+@media screen and (min-width: 1024px) {
+
+    .scroll-wrapper .scroll-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+
+/* =========================================
+   MÓVIL / TABLET
+   ========================================= */
+
+@media screen and (max-width: 1023px) {
+
+    .scroll-wrapper .scroll-btn {
+        display: none !important;
+    }
+
+}
+
+/* Ocultar barras de desplazamiento de los carruseles */
+.scroll-container,
+.horizontal-scroll-container,
+.mexicanas-scroll-container,
+.scrollable,
+.upcoming-scroll,
+#continueWatchingContainer {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Chrome, Edge, Safari y navegadores de TV */
+.scroll-container::-webkit-scrollbar,
+.horizontal-scroll-container::-webkit-scrollbar,
+.mexicanas-scroll-container::-webkit-scrollbar,
+.scrollable::-webkit-scrollbar,
+.upcoming-scroll::-webkit-scrollbar,
+#continueWatchingContainer::-webkit-scrollbar {
+    display: none;
+}

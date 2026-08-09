@@ -158,5 +158,29 @@
     });
   });
   
-  
+  document.querySelectorAll('.scroll-wrapper').forEach(wrapper => {
+
+    const container = wrapper.querySelector('.scroll-container');
+    const leftBtn = wrapper.querySelector('.scroll-btn.left');
+    const rightBtn = wrapper.querySelector('.scroll-btn.right');
+
+    if (!container || !leftBtn || !rightBtn) return;
+
+    const scrollAmount = 500;
+
+    leftBtn.addEventListener('click', () => {
+        container.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    rightBtn.addEventListener('click', () => {
+        container.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+});
   

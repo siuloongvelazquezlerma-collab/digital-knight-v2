@@ -142,6 +142,14 @@ return texto
 
 }
 
+function optimizeTmdbPoster(url, size = 'w300') {
+  if (!url || typeof url !== 'string') return url;
+  return url.replace(
+    /https?:\/\/(?:image\.tmdb\.org|www\.themoviedb\.org)\/t\/p\/original\//i,
+    `https://image.tmdb.org/t/p/${size}/`
+  );
+}
+
 function activarCarrusel(scroll){
 
 
@@ -485,11 +493,11 @@ let card=document.createElement("div");
 
 
 card.className="movie-card";
-
+const posterUrl = optimizeTmdbPoster(movie.poster, 'w300');
 
 card.innerHTML=`
 
-<img src="${movie.poster}">
+<img src="${posterUrl}" loading="lazy" decoding="async" alt="${movie.title}">
 
 
 <div class="info">
