@@ -200,15 +200,7 @@ video.addEventListener('timeupdate', () => {
   // Guardar en localStorage
   localStorage.setItem(`progress_${movieId}`, currentTime);
   localStorage.setItem(`duration_${movieId}`, totalDuration);
-  localStorage.setItem(`movie_${movieId}`, JSON.stringify({
-    tipo: 'movie',
-    title: document.querySelector(".title")?.textContent?.trim() || 'Sin título',
-    subtitle: document.getElementById("episodeSubtitle")?.textContent?.trim() || '',
-    poster: document.getElementById("favoritoImagen")?.src || '',
-    link: document.getElementById("favoritoEnlace")?.href || window.location.href,
-    progress: currentTime,
-    duration: totalDuration
-  }));
+  
 
   // Sincronizar cada 5 segundos
   const now = Date.now();
