@@ -248,7 +248,14 @@ video.addEventListener('ended', () => {
 
 // Limpieza del estado
 function endMovieCleanup(finished = false) {
+
+  // 🔥 Al terminar la película: salir de fullscreen y volver a vertical
   exitFullscreen();
+
+  if (window.Android) {
+    Android.setPortrait();
+  }
+
   player.style.display = 'none';
   cover.style.display = 'flex';
   video.pause();
