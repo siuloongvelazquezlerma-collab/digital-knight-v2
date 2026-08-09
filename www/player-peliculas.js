@@ -1168,36 +1168,6 @@ function castCurrentVideo() {
 }
 
 
-const mainTitle = document.querySelector(".title").textContent.trim();
-const subTitle = document.getElementById("episodeSubtitle").textContent.trim();
-const moviePoster = document.getElementById("favoritoImagen").src;
-const movieLink = document.getElementById("favoritoEnlace").href;
-
-// Guarda automáticamente al actualizar el tiempo
-video.addEventListener("timeupdate", () => {
-    const currentTime = video.currentTime;
-    const duration = video.duration || 1;
-
-    // Guarda datos individuales (para posibles usos futuros)
-    localStorage.setItem(`progress_${movieId}`, currentTime);
-    localStorage.setItem(`duration_${movieId}`, duration);
-
-    // Guarda el objeto completo para la sección "Continuar Viendo"
-    const movieData = {
-        title: mainTitle || 'Sin título',
-        subtitle: subTitle || '',
-        poster: moviePoster || '',
-        link: movieLink || '',
-        progress: currentTime,
-        duration: duration
-    };
-
-    localStorage.setItem(`movie_${movieId}`, JSON.stringify(movieData));
-});
-
-
-
-
 // Detectar teclas y mover el foco
 document.addEventListener('keydown', function(e) {
   const focusable = Array.from(document.querySelectorAll('[tabindex]:not([disabled])'));
