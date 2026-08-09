@@ -486,6 +486,12 @@
  
 <script src="../suggestions-library.js"></script>
 <script src="../suggested-content.js"></script>
+<script src="../player-peliculas.js"></script>
+<script src="../pip.js"></script>
+<script src="../share.js"></script>
+<script type="module" src="../player-peliculas-module.js"></script>
+<script src="../wakelock.js"></script>
+<script src="../nav.js"></script>
  
 <script>
 
@@ -494,29 +500,7 @@ window.movieId = "operacion-dragon-9461";
 
 
 
-// 🆔 Asegura que tengas el ID de la película global
-const movieId = window.movieId || 'unknown-id';
 
-// Prevenir gestos táctiles no deseados
-document.addEventListener('touchmove', function (event) {
-  if (event.touches.length > 1) {
-    event.preventDefault();
-  }
-}, { passive: false });
-
-window.addEventListener('load', function () {
-  const overlay = document.querySelector('.overlay-loader');
-  const loader = document.getElementById('loader');
-
-  // Se mantiene el loader visible por 1 segundo
-  setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            overlay.classList.add('hidden');
-        }, 300);
-    }, 1000);
-});
 
 
 
@@ -653,27 +637,12 @@ window.addEventListener('load', function () {
 <script src="../player-peliculas.js"></script>
 function descargarPelicula(url) {
 
-const nombre = document.getElementById("nombre")?.innerText.trim() || "Película";
-const img = document.getElementById("favoritoImagen")?.src || "";
 
-if (typeof Android !== "undefined") {
+*/
 
-  // 🔥 importante: tipo = movie
-  const data = "Película|" + nombre + "|" + img + "|movie";
 
-  Android.downloadFile(url, data);
 
-} else {
-  window.open(url, "_blank");
-}
-}
 
-</script>
-
-<script src="../pip.js"></script>
-<script src="../share.js"></script>
-<script type="module" src="../player-peliculas-module.js"></script>
-<script src="../wakelock.js"></script>
 
 
 </body>
