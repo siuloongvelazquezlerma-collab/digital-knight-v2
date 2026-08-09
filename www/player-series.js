@@ -404,6 +404,7 @@ async function renderEpisodes() {
     return `
   <div class="episode" data-url="${ep.videoUrl}" onclick="playEpisode('${ep.videoUrl}')" tabindex="0">
   <div class="thumbnail-container">
+   <div class="episode-play-icon">▶</div>
   ${newBadge}
 
   <img src="${ep.thumbnail}" alt="${ep.title}"
