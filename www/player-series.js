@@ -248,8 +248,20 @@ video.on('pause', () => {
 });
 
 player.addEventListener('mousemove', showControls);
-player.addEventListener('click', showControls);
-player.addEventListener('touchstart', showControls);
+// Por este:
+player.addEventListener('click', toggleControls);
+player.addEventListener('touchstart', toggleControls);
+
+function toggleControls() {
+  if (controlsVisible) {
+    // Si ya están visibles, los ocultamos de inmediato
+    hideControls();
+    clearTimeout(hideControlsTimeout);
+  } else {
+    // Si están ocultos, los mostramos y activamos el timeout
+    showControls();
+  }
+}
 
 function enterFullscreen() {
 if (player.requestFullscreen) {
