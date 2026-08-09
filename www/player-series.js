@@ -1539,74 +1539,116 @@ function stopCircleAnimation() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const header = document.getElementById('header');
-    const pageTitle = document.getElementById('page-title');
+  const header = document.getElementById('header');
+  const pageTitle = document.getElementById('page-title');
 
-    if (!header || !pageTitle) return;
+  if (!header || !pageTitle) return;
 
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const maxScroll = 300;
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
 
-        const opacity = Math.min(scrollY / maxScroll, 1); // Gradiente del header
-        const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0; // El título aparece después de 150px
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0;
 
-        header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
-        pageTitle.style.opacity = titleOpacity;
-    });
+    // Usamos #01011d con transparencia
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageTitle.style.opacity = titleOpacity;
+  });
 });
+// ================================
+// 👤 PERFIL – sincronizar imágenes
+// ================================
+function updateProfileImage(src) {
+  if (!src) return;
 
-// Gestión de imágenes de perfil
-const footerProfileIcon = document.getElementById("footerIconImg");
-const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
-const profileImage = document.getElementById("profileImage");
-const profilePageImage = document.getElementById("profilePageImage");
+  const ids = [
+    "footerIconImg",
+    "profileImage",
+    "profilePageImage",
+    "headerProfileIcon",
+    "editableProfile",
+    "editableProfileInModal"
+  ];
 
-const defaultProfileIcon = document.getElementById("defaultProfileIcon");
-const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.tagName === "IMG") {
+      el.src = src;
+    }
+  });
 
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar imagen
+  localStorage.setItem("profileImage", src);
+}
+
+// Restaurar al cargar página
+document.addEventListener("DOMContentLoaded", () => {
+  const savedProfileImage = localStorage.getItem("profileImage");
+  if (savedProfileImage) {
+    updateProfileImage(savedProfileImage);
+  }
+});
 // Función para cambiar todas las imágenes de perfil
 function updateProfileImage(src) {
-  if (profileImage) profileImage.src = src;
-  if (profilePageImage) profilePageImage.src = src;
-  if (footerProfileIcon) footerProfileIcon.src = src;
-  if (headerProfileIcon) headerProfileIcon.src = src;
+  const ids = [
+    "footerIconImg",
+    "footerProfileImage",
+    "profileImage",
+    "profilePageImage",
+    "editableProfile",
+    "editableProfileInModal",
+    "headerProfileIcon"
+  ];
 
-  if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
-  if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.src = src;
+  });
 
-  localStorage.setItem('profileImage', src);
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar en localStorage
+  localStorage.setItem("profileImage", src);
 }
 
 // Restaurar la imagen de perfil guardada al cargar la página
-window.addEventListener('load', function () {
-  const storedProfileImage = localStorage.getItem('profileImage');
+window.addEventListener("load", () => {
+  const storedProfileImage = localStorage.getItem("profileImage");
   if (storedProfileImage) {
-    if (footerProfileIcon) footerProfileIcon.src = storedProfileImage;
-    if (headerProfileIcon) headerProfileIcon.src = storedProfileImage;
-    if (profileImage) profileImage.src = storedProfileImage;
-    if (profilePageImage) profilePageImage.src = storedProfileImage;
-
-    if (defaultProfileIcon) defaultProfileIcon.style.display = 'none';
-    if (defaultProfileIconAlt) defaultProfileIconAlt.style.display = 'none';
+    updateProfileImage(storedProfileImage); // Reutilizamos la función
   }
 });
-  
-  // Ocultar footer al hacer scroll hacia abajo
-  var lastScrollTop = 0;
-  var footer = document.querySelector(".footer");
-  
-  window.addEventListener("scroll", function () {
-      var currentScroll = window.scrollY;
-  
-      if (currentScroll > lastScrollTop) {
-          footer.classList.add("hidden");
-      } else {
-          footer.classList.remove("hidden");
-      }
-  
-      lastScrollTop = currentScroll;
-  });
+
+
+var lastScrollTop = 0;
+    var footer = document.querySelector(".footer");
+
+    window.addEventListener("scroll", function () {
+        var currentScroll = window.scrollY;
+
+        if (currentScroll > lastScrollTop) {
+            // Desliza hacia abajo -> Ocultar footer
+            footer.classList.add("hidden");
+        } else {
+            // Desliza hacia arriba -> Mostrar footer
+            footer.classList.remove("hidden");
+        }
+
+        lastScrollTop = currentScroll;
+    });
 
 const favoritoBtn = document.getElementById('favoritoBtn');
 const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
