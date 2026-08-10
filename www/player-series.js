@@ -248,9 +248,26 @@ video.on('pause', () => {
 });
 
 player.addEventListener('mousemove', showControls);
-// Por este:
-player.addEventListener('click', toggleControls);
-player.addEventListener('touchstart', toggleControls);
+
+// 🎬 Tocar una zona vacía alterna los controles.
+// Los botones y elementos interactivos NO cuentan como segundo toque.
+function handlePlayerInteraction(e) {
+
+  const interactiveElement = e.target.closest(
+    'button, .btn, .icon-btn, .lang-menu, .lang-option, #langConfirmBtn, ' +
+    '#progress, .progress-container, .episode-actions, ' +
+    '[onclick], input, select'
+  );
+
+  if (interactiveElement) {
+    return;
+  }
+
+  toggleControls();
+}
+
+player.addEventListener('click', handlePlayerInteraction);
+player.addEventListener('touchstart', handlePlayerInteraction);
 
 function toggleControls() {
   if (controlsVisible) {
