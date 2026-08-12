@@ -40,22 +40,39 @@
 
         /* TARJETAS NORMALES */
 
-        if (
-            img.closest(
-                '.continue-watching,' +
-                '.top-10,' +
-                '.card,' +
-                '.scroll-container,' +
-                '.scroll-wrapper,' +
-                '.horizontal-scroll-container,' +
-                '.movie-section,' +
-                '.poster-wrapper,' +
-                '.genre-scroll,' +
-                '.mexicanas-scroll-container'
-            )
-        ) {
-            return isMobile ? 'w185' : 'w300';
-        }
+       /* =====================================================
+   CARRUSELES DE PELÍCULAS
+   Más resolución para evitar pérdida de calidad
+===================================================== */
+
+if (
+    img.closest(
+        '.scroll-container,' +
+        '.scroll-wrapper,' +
+        '.horizontal-scroll-container,' +
+        '.genre-scroll,' +
+        '.mexicanas-scroll-container'
+    )
+) {
+    return 'w500';
+}
+
+
+/* =====================================================
+   TARJETAS NORMALES
+===================================================== */
+
+if (
+    img.closest(
+        '.continue-watching,' +
+        '.top-10,' +
+        '.card,' +
+        '.movie-section,' +
+        '.poster-wrapper'
+    )
+) {
+    return isMobile ? 'w185' : 'w300';
+}
 
 
         return isMobile ? 'w185' : 'w300';
@@ -116,7 +133,12 @@ if (isOpenDrive) {
     const openDriveIndex =
         Array.from(openDriveImages).indexOf(img);
 
-    if (openDriveIndex === 0) {
+    /*
+     * Las primeras 2 imágenes de OpenDrive
+     * empiezan a cargar inmediatamente.
+     */
+
+    if (openDriveIndex < 2) {
 
         img.loading = 'eager';
         img.fetchPriority = 'high';
@@ -129,6 +151,7 @@ if (isOpenDrive) {
     }
 
     img.decoding = 'async';
+    img.draggable = false;
 
     return;
 }
@@ -465,6 +488,54 @@ node
         backgrounds.add(element);
 
     });
+
+    /* =====================================================
+   OPENDRIVE — CARGA INTELIGENTE
+===================================================== */
+
+const openDriveObserver = new IntersectionObserver(
+    entries => {
+
+        entries.forEach(entry => {
+
+            if (!entry.isIntersecting) {
+                return;
+            }
+
+            const img = entry.target;
+
+            /*
+             * Si la imagen tiene data-src de OpenDrive,
+             * la pasamos a src solamente cuando está cerca
+             * de aparecer en pantalla.
+             */
+
+            const dataSrc =
+                img.getAttribute('data-src');
+
+            if (
+                dataSrc &&
+                /opendrive\.com/i.test(dataSrc)
+            ) {
+
+                img.src = dataSrc;
+                img.removeAttribute('data-src');
+
+            }
+
+            img.loading = 'eager';
+            img.fetchPriority = 'high';
+
+            openDriveObserver.unobserve(img);
+
+        });
+
+    },
+    {
+        rootMargin: '400px 0px',
+        threshold: 0
+    }
+);
 
 
 /* Procesar backgrounds */
