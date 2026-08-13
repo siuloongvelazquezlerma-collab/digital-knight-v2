@@ -102,19 +102,40 @@ async function cargarSwiperInicio() {
 
                 const slide = document.createElement('div');
 
-                slide.className = 'swiper-slide';
+slide.className = 'swiper-slide';
 
-                slide.style.setProperty(
-                    '--bg',
-                    `url("${item.poster}")`
-                );
+/* ==========================================
+   FONDOS DEL SWIPER
+   poster  → vertical
+   backdrop → horizontal
+   ========================================== */
 
-                slide.style.setProperty(
-                    '--bg-land',
-                    `url("${item.backdrop || item.poster}")`
-                );
+if (item.poster) {
 
-                slide.innerHTML = `
+    slide.style.setProperty(
+        '--bg',
+        `url("${item.poster}")`
+    );
+
+}
+
+if (item.backdrop) {
+
+    slide.style.setProperty(
+        '--bg-land',
+        `url("${item.backdrop}")`
+    );
+
+} else if (item.poster) {
+
+    slide.style.setProperty(
+        '--bg-land',
+        `url("${item.poster}")`
+    );
+
+}
+
+slide.innerHTML = `
                     <div class="slide-overlay-top"></div>
                     <div class="overlay"></div>
 
@@ -297,18 +318,61 @@ function createSwiper(swiperEl) {
 
 
 function updateBackground(swiperEl) {
-  const activeSlide = swiperEl.querySelector('.swiper-slide-active');
-  if (!activeSlide) return;
 
-  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-  const bg = isLandscape
-    ? activeSlide.style.getPropertyValue('--bg-land')
-    : activeSlide.style.getPropertyValue('--bg');
-  document.body.style.backgroundImage = bg;
-  document.body.style.backgroundSize = 'cover';
-  document.body.style.backgroundPosition = 'center';
+    const activeSlide =
+        swiperEl.querySelector('.swiper-slide-active');
+
+    if (!activeSlide) return;
+
+    const isLandscape =
+        window.matchMedia("(orientation: landscape)").matches;
+
+    const bg = isLandscape
+        ? activeSlide.style.getPropertyValue('--bg-land')
+        : activeSlide.style.getPropertyValue('--bg');
+
+    if (!bg) return;
+
+    document.body.style.backgroundImage = bg;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
 }
 
+// ==========================================
+// CAMBIO DE ORIENTACIÓN
+// ==========================================
+
+window.addEventListener('orientationchange', () => {
+
+    setTimeout(() => {
+
+        const swiperActivo =
+            document.querySelector('.mySwiper[style*="display: block"]');
+
+        if (!swiperActivo) return;
+
+        updateBackground(swiperActivo);
+
+    }, 300);
+
+});
+
+window.addEventListener('resize', () => {
+
+    clearTimeout(window._dkOrientationTimer);
+
+    window._dkOrientationTimer = setTimeout(() => {
+
+        const swiperActivo =
+            document.querySelector('.mySwiper[style*="display: block"]');
+
+        if (!swiperActivo) return;
+
+        updateBackground(swiperActivo);
+
+    }, 200);
+
+});
 
 
 // Oculta los demás de entrada
