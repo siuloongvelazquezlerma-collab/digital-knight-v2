@@ -51,47 +51,228 @@ const tabs = document.querySelectorAll('.tab');
 const sections = document.querySelectorAll('.mySwiper');
 const overlay = document.getElementById('transitionOverlay');
 const sectionContents = document.querySelectorAll('.section-content'); 
+async function cargarSwiperInicio() {
 
+    console.log("🔵 Cargando swiper-data.json...");
+
+    try {
+
+        const respuesta = await fetch('swiper-data.json');
+
+        if (!respuesta.ok) {
+            throw new Error('No se pudo cargar swiper-data.json');
+        }
+
+        const datos = await respuesta.json();
+
+        console.log("🟢 JSON cargado:", datos);
+
+        // Cargar cada sección que exista en el JSON
+        Object.keys(datos).forEach(sectionId => {
+
+            const wrapper = document.querySelector(
+                `#${sectionId} .swiper-wrapper`
+            );
+
+            if (!wrapper) return;
+
+            wrapper.innerHTML = '';
+
+            datos[sectionId].forEach(item => {
+
+                const slide = document.createElement('div');
+
+                slide.className = 'swiper-slide';
+
+                slide.style.setProperty(
+                    '--bg',
+                    `url("${item.poster}")`
+                );
+
+                slide.style.setProperty(
+                    '--bg-land',
+                    `url("${item.backdrop || item.poster}")`
+                );
+
+                slide.innerHTML = `
+                    <div class="slide-overlay-top"></div>
+                    <div class="overlay"></div>
+
+                    <div class="content">
+
+                        <div class="title">
+
+                            ${
+                                item.logo
+                                ? `
+                                    <img
+                                        src="${item.logo}"
+                                        alt="${item.titulo}"
+                                        class="title-logo ${item.logoClass || ''}"
+                                        loading="eager"
+                                    >
+                                `
+                                : `
+                                    <div class="swiper-title-fallback">
+                                        ${item.titulo}
+                                    </div>
+                                `
+                            }
+
+                        </div>
+
+                        <div class="meta">
+                            ${item.meta || ''}
+                        </div>
+
+                        <div class="description">
+                            ${item.descripcion || ''}
+                        </div>
+
+                        <div class="button-wrapper">
+
+                            <a
+                                href="${item.archivo}"
+                                class="cta-button swiper-content-link"
+                                onclick="event.stopPropagation();"
+                            >
+                                Ir a ${
+                                    item.tipo === 'movie'
+                                    ? 'la película'
+                                    : 'la serie'
+                                }
+                            </a>
+
+                        </div>
+
+                    </div>
+                `;
+
+                slide.addEventListener('click', function(e) {
+
+                    if (e.target.closest('.cta-button')) {
+                        return;
+                    }
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    window.location.assign(item.archivo);
+
+                });
+
+                wrapper.appendChild(slide);
+
+            });
+
+            console.log(
+                `🟢 ${sectionId}: ${datos[sectionId].length} slides`
+            );
+
+        });
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            '🔴 Error cargando swiper-data.json:',
+            error
+        );
+
+        return false;
+    }
+}
+
+// ==========================================
+// INICIALIZAR SWIPER DE INICIO
+// ==========================================
+
+// ==========================================
+// CREAR SWIPER
+// ==========================================
 
 function createSwiper(swiperEl) {
-  const swiper = new Swiper(swiperEl, {
+
+    const swiper = new Swiper(swiperEl, {
     loop: false,
+
+    slidesPerView: 1,
+
     resistanceRatio: 0,
-    autoplay: false, // 👈 SIN autoplay al inicio
-    pagination: {
-      el: swiperEl.querySelector('.swiper-pagination'),
-      clickable: true,
-    },
-    navigation: {
-      nextEl: swiperEl.querySelector('.swiper-button-next'),
-      prevEl: swiperEl.querySelector('.swiper-button-prev'),
-    },
+
     speed: 1000,
+
     effect: 'fade',
-    fadeEffect: { crossFade: true },
+
+    fadeEffect: {
+        crossFade: true
+    },
+
+    autoplay: {
+        delay: 7000,
+        disableOnInteraction: false,
+        stopOnLastSlide: true
+    },
+
+    navigation: {
+        nextEl: swiperEl.querySelector('.swiper-button-next'),
+        prevEl: swiperEl.querySelector('.swiper-button-prev')
+    },
+
+    pagination: {
+        el: swiperEl.querySelector('.swiper-pagination'),
+        clickable: true
+    },
+
+    observer: true,
+    observeParents: true,
+    watchSlidesProgress: true,
+
     on: {
-      slideChangeTransitionStart(swiper) {
-        updateBackground(swiperEl);
-    
-        // 🕒 Solo la primera transición dura más (14s)
-        if (swiper.el.id === "inicio") {
-          if (swiper.realIndex === 0) {
-            swiper.params.autoplay.delay = 14000;
-          } else {
-            swiper.params.autoplay.delay = 6000;
-          }
-          if (swiper.autoplay && swiper.autoplay.running) {
-            swiper.autoplay.start(); // aplicar el cambio inmediatamente
-          }
+
+        init(swiper) {
+
+            updateBackground(swiperEl);
+
+            // 🎲 Empezar en un slide aleatorio
+            if (swiperEl.id !== 'inicio' && swiper.slides.length > 1) {
+
+                const randomIndex =
+                    Math.floor(Math.random() * swiper.slides.length);
+
+                swiper.slideTo(randomIndex, 0, false);
+
+            }
+
+            console.log(
+                `🟢 Swiper inicializado: ${swiperEl.id}`
+            );
+        },
+
+        slideChangeTransitionStart(swiper) {
+
+            updateBackground(swiperEl);
+
+        },
+
+        reachEnd(swiper) {
+
+            console.log(
+                `🛑 Último slide alcanzado en ${swiperEl.id}`
+            );
+
+            if (swiper.autoplay) {
+                swiper.autoplay.stop();
+            }
+
         }
-    
-        // 🛑 Detener autoplay en el último slide
-        if (swiper.realIndex === swiper.slides.length - 1) swiper.autoplay.stop();
-      }
+
     }
-    
-  });
-  return swiper;
+
+});
+
+    return swiper;
 }
 
 
@@ -120,7 +301,7 @@ sections.forEach(swiperEl => {
 let lastTabId = null;
 
 // --- Función central para activar tab con overlay fade ---
-function activateTab(targetId, options = {}) {
+async function activateTab(targetId, options = {}) {
   const { skipScroll = false, skipSlideReset = false, skipOverlay = false } = options;
 
   if (!skipOverlay) {
@@ -128,7 +309,7 @@ function activateTab(targetId, options = {}) {
     overlay.classList.add('show');
   }
 
-  setTimeout(() => {
+  setTimeout(async () => {
     // Activar visualmente la tab
     tabs.forEach(t => t.classList.remove('active'));
     const targetTab = document.querySelector(`.tab[data-tab="${targetId}"]`);
@@ -142,49 +323,86 @@ function activateTab(targetId, options = {}) {
     });
 
     // Mostrar Swiper correspondiente
-    const targetSwiperEl = document.getElementById(targetId);
-    if (targetSwiperEl) {
-      targetSwiperEl.style.display = 'block';
+    // Mostrar Swiper correspondiente
+const targetSwiperEl = document.getElementById(targetId);
 
-      // ⚡ Crear Swiper solo al primer uso
-      if (!swiperInstances[targetId]) {
+if (targetSwiperEl) {
+
+    targetSwiperEl.style.display = 'block';
+
+    // Crear Swiper solo al primer uso
+    if (!swiperInstances[targetId]) {
         swiperInstances[targetId] = createSwiper(targetSwiperEl);
-      }
-
-     const swiper = swiperInstances[targetId];
-if (swiper) {
-    swiper.slideTo(0, 0, false);
-
-    swiper.update();
-    swiper.updateSize();
-    swiper.updateSlides();
-    swiper.updateProgress();
-
-    swiper.params.autoplay.delay = 14000;
-    swiper.autoplay.start();
-}
-      
-      updateBackground(targetSwiperEl);
     }
 
-    // Mostrar sección de contenido
-    sectionContents.forEach(sectionContent => {
-      sectionContent.style.display =
-        sectionContent.dataset.section === targetId ? 'block' : 'none';
+    const swiper = swiperInstances[targetId];
+
+    if (swiper) {
+
+        swiper.slideTo(0, 0, false);
+
+        swiper.update();
+        swiper.updateSize();
+        swiper.updateSlides();
+        swiper.updateProgress();
+
+        swiper.params.autoplay.delay = 7000;
+
+        swiper.autoplay.start();
+    }
+
+    updateBackground(targetSwiperEl);
+}
+
+
+// ==========================================
+// Mostrar sección de contenido
+// ==========================================
+
+sectionContents.forEach(sectionContent => {
+
+    sectionContent.style.display =
+        sectionContent.dataset.section === targetId
+            ? 'block'
+            : 'none';
+
+});
+
+
+// ==========================================
+// Scroll de la tab
+// ==========================================
+
+if (!skipScroll && targetTab) {
+
+    targetTab.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest'
     });
 
-    // Scroll de la tab
-    if (!skipScroll && targetTab) {
-      targetTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-    }
+}
 
-    if (!skipOverlay) {
-      overlay.classList.remove('show');
-      setTimeout(() => overlay.classList.add('hidden'), 400);
-    }
 
-    lastTabId = targetId;
-  }, skipOverlay ? 0 : 200);
+// ==========================================
+// Ocultar overlay
+// ==========================================
+
+if (!skipOverlay) {
+
+    overlay.classList.remove('show');
+
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, 400);
+
+}
+
+
+lastTabId = targetId;
+
+}, skipOverlay ? 0 : 200);
+
 }
 
 // Click en tabs
@@ -1128,3 +1346,40 @@ document.getElementById(
 loadFloatingNotification();
 
 
+document.addEventListener('DOMContentLoaded', async () => {
+
+    console.log('🚀 script.js cargado');
+
+    const cargado = await cargarSwiperInicio();
+
+    if (cargado) {
+
+        console.log('✅ swiper-data.json conectado correctamente');
+
+        const inicio = document.getElementById('inicio');
+
+        if (inicio && !swiperInstances.inicio) {
+
+            swiperInstances.inicio = createSwiper(inicio);
+
+            swiperInstances.inicio.update();
+
+            swiperInstances.inicio.updateSize();
+
+            swiperInstances.inicio.updateSlides();
+
+            updateBackground(inicio);
+
+            swiperInstances.inicio.autoplay.start();
+
+        }
+
+    } else {
+
+        console.error(
+            '❌ No se pudo cargar el contenido de Inicio'
+        );
+
+    }
+
+});

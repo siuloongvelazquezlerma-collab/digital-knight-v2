@@ -47,12 +47,22 @@ document.addEventListener("click", function(e){
     // Solo enlaces internos
     if (link.origin !== location.origin) return;
 
-    // Ignorar enlaces especiales
-    if (
-        link.target === "_blank" ||
-        link.href.includes("#") ||
-        link.hasAttribute("download")
-    ) return;
+   // Ignorar enlaces especiales
+if (
+    link.target === "_blank" ||
+    link.href.includes("#") ||
+    link.hasAttribute("download") ||
+    link.classList.contains("swiper-content-link") ||
+    link.closest(".swiper-slide")
+) return;
+
+e.preventDefault();
+
+document.body.classList.add("page-transition");
+
+setTimeout(() => {
+    location.href = link.href;
+}, 120);
 
     e.preventDefault();
 
