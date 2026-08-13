@@ -67,8 +67,28 @@ async function cargarSwiperInicio() {
 
         console.log("🟢 JSON cargado:", datos);
 
-        // Cargar cada sección que exista en el JSON
-        Object.keys(datos).forEach(sectionId => {
+        // ==========================================
+        // ELEGIR UN SOLO CONJUNTO POR APERTURA
+        // ==========================================
+
+        const nombresConjuntos = Object.keys(datos);
+
+        const conjuntoElegido =
+            nombresConjuntos[
+                Math.floor(Math.random() * nombresConjuntos.length)
+            ];
+
+        const conjunto = datos[conjuntoElegido];
+
+        console.log(
+            `🎲 Conjunto elegido al abrir la app: ${conjuntoElegido}`
+        );
+
+        // ==========================================
+        // CARGAR LAS SECCIONES DEL CONJUNTO ELEGIDO
+        // ==========================================
+
+        Object.keys(conjunto).forEach(sectionId => {
 
             const wrapper = document.querySelector(
                 `#${sectionId} .swiper-wrapper`
@@ -78,7 +98,7 @@ async function cargarSwiperInicio() {
 
             wrapper.innerHTML = '';
 
-            datos[sectionId].forEach(item => {
+            conjunto[sectionId].forEach(item => {
 
                 const slide = document.createElement('div');
 
@@ -166,7 +186,7 @@ async function cargarSwiperInicio() {
             });
 
             console.log(
-                `🟢 ${sectionId}: ${datos[sectionId].length} slides`
+                `🟢 ${sectionId}: ${conjunto[sectionId].length} slides`
             );
 
         });
