@@ -17,7 +17,7 @@ Write-Host ""
 # COMPROBAR JSON
 # =========================================================
 
-if (-not (Test-Path $JsonFile)) {
+if (-not (Test-Path -LiteralPath $JsonFile)) {
 
     Write-Host "ERROR: No existe swiper-data.json" -ForegroundColor Red
     exit
@@ -32,7 +32,7 @@ Write-Host ""
 
 try {
 
-    $json = Get-Content $JsonFile -Raw -Encoding UTF8 |
+    $json = Get-Content -LiteralPath $JsonFile -Raw -Encoding UTF8 |
         ConvertFrom-Json
 
 }
@@ -53,6 +53,22 @@ $htmlNoEncontrados = 0
 $posterEncontrados = 0
 $backdropEncontrados = 0
 $logoEncontrados = 0
+$descripcionEncontradas = 0
+
+# =========================================================
+# OBTENER TODOS LOS HTML UNA SOLA VEZ
+# =========================================================
+
+Write-Host "Buscando archivos HTML..." -ForegroundColor DarkGray
+
+$todosLosHtml = Get-ChildItem `
+    -LiteralPath $ProjectRoot `
+    -Recurse `
+    -File `
+    -Filter "*.html"
+
+Write-Host "HTML disponibles: $($todosLosHtml.Count)" -ForegroundColor DarkGray
+Write-Host ""
 
 # =========================================================
 # RECORRER CONJUNTOS
@@ -88,34 +104,55 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
         # RECORRER ITEMS
         # =================================================
 
-        foreach ($item in $seccion) {
+        for ($i = 0; $i -lt $seccion.Count; $i++) {
 
-            if ([string]::IsNullOrWhiteSpace($item.archivo)) {
+            $item = $seccion[$i]
+
+            if ($null -eq $item) {
+                continue
+            }
+
+            if ([string]::IsNullOrWhiteSpace([string]$item.archivo)) {
                 continue
             }
 
             $total++
 
-            $relativePath = $item.archivo -replace "/", "\"
-            $htmlPath = Join-Path $ProjectRoot $relativePath
+            # =================================================
+            # DATOS DEL ITEM
+            # =================================================
+
+            $relativePath = ([string]$item.archivo) -replace "/", "\"
+            $nombreArchivo = Split-Path $relativePath -Leaf
 
             Write-Host ""
             Write-Host "[$total] $($item.titulo)" -ForegroundColor White
-            Write-Host "    Archivo: $relativePath" -ForegroundColor DarkGray
+            Write-Host "    JSON: $relativePath" -ForegroundColor DarkGray
 
             # =================================================
-            # COMPROBAR HTML
+            # BUSCAR HTML REAL
             # =================================================
 
-            if (-not (Test-Path $htmlPath)) {
+            $archivoEncontrado = $todosLosHtml |
+                Where-Object {
+                    $_.Name -ieq $nombreArchivo
+                } |
+                Select-Object -First 1
 
-                Write-Host "    HTML NO ENCONTRADO" -ForegroundColor Red
+            if (-not $archivoEncontrado) {
+
+                Write-Host "    HTML NO ENCONTRADO: $nombreArchivo" -ForegroundColor Red
 
                 $htmlNoEncontrados++
+
                 continue
             }
 
+            $htmlPath = $archivoEncontrado.FullName
+
             $htmlEncontrados++
+
+            Write-Host "    HTML REAL: $htmlPath" -ForegroundColor Green
 
             # =================================================
             # LEER HTML
@@ -123,7 +160,10 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
 
             try {
 
-                $html = Get-Content $htmlPath -Raw -Encoding UTF8
+                $html = Get-Content `
+                    -LiteralPath $htmlPath `
+                    -Raw `
+                    -Encoding UTF8
 
             }
             catch {
@@ -132,138 +172,301 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
                 continue
             }
 
-# =================================================
-# POSTER
-# =================================================
+            # =================================================
+            # ARCHIVO
+            # =================================================
 
-$poster = ""
+            $hrefMatch = [regex]::Match(
+                $html,
+                '(?is)<a\b[^>]*\bid\s*=\s*["'']favoritoEnlace["''][^>]*\bhref\s*=\s*["'']([^"'']+)["'']'
+            )
 
-$coverStart = $html.IndexOf(".cover {")
+            if (-not $hrefMatch.Success) {
 
-if ($coverStart -ge 0) {
+                $hrefMatch = [regex]::Match(
+                    $html,
+                    '(?is)<a\b[^>]*\bhref\s*=\s*["'']([^"'']+)["''][^>]*\bid\s*=\s*["'']favoritoEnlace["'']'
+                )
+            }
 
-    $coverEnd = $html.IndexOf("}", $coverStart)
+            if ($hrefMatch.Success) {
 
-    if ($coverEnd -gt $coverStart) {
+                $href = $hrefMatch.Groups[1].Value.Trim()
 
-        $coverBlock = $html.Substring(
-            $coverStart,
-            $coverEnd - $coverStart
-        )
+                # =================================================
+                # OBTENER CARPETA REAL SIN GetRelativePath
+                # =================================================
 
-        # Buscar únicamente background dentro de .cover
-        $urlMatch = [regex]::Match(
-    $coverBlock,
-    "background\s*:\s*(?:var\([^,]+,\s*)?url\(\s*['""]?([^'"")]+)"
-)
+                $projectRootNormalizado = $ProjectRoot.TrimEnd("\","/")
+                $htmlNormalizado = $htmlPath
 
-        if ($urlMatch.Success) {
-            $poster = $urlMatch.Groups[1].Value.Trim()
-        }
-    }
-}
+                if ($htmlNormalizado.StartsWith(
+                    $projectRootNormalizado,
+                    [System.StringComparison]::OrdinalIgnoreCase
+                )) {
 
-if ($poster) {
+                    $relativeReal = $htmlNormalizado.Substring(
+                        $projectRootNormalizado.Length
+                    ).TrimStart("\","/")
 
-    Write-Host "    POSTER encontrado" -ForegroundColor Green
+                }
+                else {
 
-    $item.poster = $poster
-    $posterEncontrados++
-}
-else {
+                    $relativeReal = $relativePath
+                }
 
-    Write-Host "    POSTER no encontrado" -ForegroundColor Yellow
-}
+                $carpetaReal = Split-Path $relativeReal -Parent
 
+                if ($carpetaReal -and $carpetaReal -ne ".") {
 
-# =================================================
-# BACKDROP
-# =================================================
+                    $nuevoArchivo = (
+                        $carpetaReal + "\" + $href
+                    ) -replace "\\", "/"
 
-$backdrop = ""
+                }
+                else {
 
-$landStart = $html.IndexOf(".cover-landscape {")
+                    $nuevoArchivo = $href -replace "\\", "/"
+                }
 
-if ($landStart -ge 0) {
+                $item.archivo = $nuevoArchivo
 
-    $landEnd = $html.IndexOf("}", $landStart)
+                Write-Host "    ARCHIVO: $nuevoArchivo" -ForegroundColor Green
+            }
 
-    if ($landEnd -gt $landStart) {
+            # =================================================
+            # POSTER
+            # =================================================
 
-        $landBlock = $html.Substring(
-            $landStart,
-            $landEnd - $landStart
-        )
+            $poster = ""
 
-        # Buscar únicamente background dentro de .cover-landscape
-        $urlMatch = [regex]::Match(
-    $landBlock,
-    "background\s*:\s*(?:var\([^,]+,\s*)?url\(\s*['""]?([^'"")]+)"
-)
+            $coverMatches = [regex]::Matches(
+                $html,
+                '(?is)\.cover\s*\{(.*?)\}'
+            )
 
-        if ($urlMatch.Success) {
-            $backdrop = $urlMatch.Groups[1].Value.Trim()
-        }
-    }
-}
+            foreach ($coverMatch in $coverMatches) {
 
-if ($backdrop) {
+                $coverBlock = $coverMatch.Groups[1].Value
 
-    Write-Host "    BACKDROP encontrado" -ForegroundColor Green
+                $urlMatch = [regex]::Match(
+                    $coverBlock,
+                    '(?is)background(?:-image)?\s*:\s*url\s*\(\s*["'']?([^"'')]+)["'']?\s*\)'
+                )
 
-    $item.backdrop = $backdrop
-    $backdropEncontrados++
-}
-else {
+                if ($urlMatch.Success) {
 
-    Write-Host "    BACKDROP no encontrado" -ForegroundColor Yellow
-}
+                    $poster = $urlMatch.Groups[1].Value.Trim()
 
+                    break
+                }
+            }
 
-# =========================================================
-# EXTRAER LOGO DESDE .cover-content
-# =========================================================
+            if ($poster) {
 
-$logo = ""
+                $item.poster = $poster
+                $posterEncontrados++
 
-$logoMatch = [regex]::Match(
-    $html,
-    '(?is)<div[^>]*class\s*=\s*["''][^"'']*\bcover-content\b[^"'']*["''][^>]*>.*?<img\b[^>]*\bclass\s*=\s*["''][^"'']*\blogo\b[^"'']*["''][^"'']*["''][^>]*\bsrc\s*=\s*["'']([^"'']+)["'']'
-)
+                Write-Host "    POSTER: $poster" -ForegroundColor Green
+            }
+            else {
 
-if ($logoMatch.Success) {
+                Write-Host "    POSTER no encontrado" -ForegroundColor Yellow
+            }
 
-    $logo = $logoMatch.Groups[1].Value.Trim()
-}
-else {
+            # =================================================
+            # BACKDROP
+            # =================================================
 
-    # Segundo intento:
-    # permite que src aparezca antes que class
-    $logoMatch = [regex]::Match(
-        $html,
-        '(?is)<div[^>]*class\s*=\s*["''][^"'']*\bcover-content\b[^"'']*["''][^>]*>.*?<img\b[^>]*\bsrc\s*=\s*["'']([^"'']+)["''][^>]*\bclass\s*=\s*["''][^"'']*\blogo\b[^"'']*["'']'
-    )
+            $backdrop = ""
 
-    if ($logoMatch.Success) {
+            $landscapeMatches = [regex]::Matches(
+                $html,
+                '(?is)\.cover-landscape\s*\{(.*?)\}'
+            )
 
-        $logo = $logoMatch.Groups[1].Value.Trim()
-    }
-}
+            foreach ($landscapeMatch in $landscapeMatches) {
 
+                $landscapeBlock = $landscapeMatch.Groups[1].Value
 
-if ($logo) {
+                $urlMatch = [regex]::Match(
+                    $landscapeBlock,
+                    '(?is)background(?:-image)?\s*:\s*url\s*\(\s*["'']?([^"'')]+)["'']?\s*\)'
+                )
 
-    Write-Host "    LOGO encontrado" -ForegroundColor Green
+                if ($urlMatch.Success) {
 
-    $item.logo = $logo
-    $logoEncontrados++
-}
-else {
+                    $backdrop = $urlMatch.Groups[1].Value.Trim()
 
-    Write-Host "    LOGO no encontrado" -ForegroundColor Yellow
-}
+                    break
+                }
+            }
 
+            if ($backdrop) {
 
+                $item.backdrop = $backdrop
+                $backdropEncontrados++
+
+                Write-Host "    BACKDROP: $backdrop" -ForegroundColor Green
+            }
+            else {
+
+                Write-Host "    BACKDROP no encontrado" -ForegroundColor Yellow
+            }
+
+            # =================================================
+            # LOGO
+            # =================================================
+            #
+            # IMPORTANTE:
+            # NO buscamos el primer logo del HTML.
+            #
+            # Primero localizamos cover-content.
+            # Después buscamos todos los IMG.logo que aparecen
+            # DESPUES de cover-content.
+            #
+            # Así NO debe agarrar Knight.png del encabezado.
+            # =================================================
+
+            $logo = ""
+
+            $coverContentIndex = $html.IndexOf(
+                'class="cover-content"',
+                [System.StringComparison]::OrdinalIgnoreCase
+            )
+
+            if ($coverContentIndex -lt 0) {
+
+                $coverContentIndex = $html.IndexOf(
+                    "class='cover-content'",
+                    [System.StringComparison]::OrdinalIgnoreCase
+                )
+            }
+
+            if ($coverContentIndex -ge 0) {
+
+                $htmlDespuesCover = $html.Substring(
+                    $coverContentIndex
+                )
+
+                $logoMatches = [regex]::Matches(
+                    $htmlDespuesCover,
+                    '(?is)<img\b[^>]*\bclass\s*=\s*["''][^"'']*\blogo\b[^"'']*["''][^>]*>'
+                )
+
+                foreach ($logoMatch in $logoMatches) {
+
+                    $imgTag = $logoMatch.Value
+
+                    $srcMatch = [regex]::Match(
+                        $imgTag,
+                        '(?is)\bsrc\s*=\s*["'']([^"'']+)["'']'
+                    )
+
+                    if ($srcMatch.Success) {
+
+                        $posibleLogo = $srcMatch.Groups[1].Value.Trim()
+
+                        if (
+                            $posibleLogo -and
+                            $posibleLogo -notmatch "Knight\.png"
+                        ) {
+
+                            $logo = $posibleLogo
+
+                            break
+                        }
+                    }
+                }
+            }
+
+            # =================================================
+            # SEGUNDO METODO DE LOGO
+            # =================================================
+            #
+            # Si la página no tiene cover-content exactamente
+            # como esperamos, buscamos el IMG.logo que esté
+            # cerca del contenido de portada.
+            # =================================================
+
+            if (-not $logo) {
+
+                $logoMatches = [regex]::Matches(
+                    $html,
+                    '(?is)<img\b[^>]*\bclass\s*=\s*["''][^"'']*\blogo\b[^"'']*["''][^>]*>'
+                )
+
+                foreach ($logoMatch in $logoMatches) {
+
+                    $imgTag = $logoMatch.Value
+
+                    $srcMatch = [regex]::Match(
+                        $imgTag,
+                        '(?is)\bsrc\s*=\s*["'']([^"'']+)["'']'
+                    )
+
+                    if ($srcMatch.Success) {
+
+                        $posibleLogo = $srcMatch.Groups[1].Value.Trim()
+
+                        if (
+                            $posibleLogo -and
+                            $posibleLogo -notmatch "Knight\.png"
+                        ) {
+
+                            $logo = $posibleLogo
+
+                            break
+                        }
+                    }
+                }
+            }
+
+            if ($logo) {
+
+                $item.logo = $logo
+                $logoEncontrados++
+
+                Write-Host "    LOGO: $logo" -ForegroundColor Green
+            }
+            else {
+
+                Write-Host "    LOGO no encontrado" -ForegroundColor Yellow
+            }
+
+            # =================================================
+            # DESCRIPCION
+            # =================================================
+
+            $descripcion = ""
+
+            $descriptionMatch = [regex]::Match(
+                $html,
+                '(?is)<div\b[^>]*class\s*=\s*["''][^"'']*\bdescription\b[^"'']*["''][^>]*>(.*?)</div>'
+            )
+
+            if ($descriptionMatch.Success) {
+
+                $descripcion = $descriptionMatch.Groups[1].Value.Trim()
+
+                $descripcion = [regex]::Replace(
+                    $descripcion,
+                    '\s+',
+                    ' '
+                ).Trim()
+            }
+
+            if ($descripcion) {
+
+                $item.descripcion = $descripcion
+                $descripcionEncontradas++
+
+                Write-Host "    DESCRIPCION encontrada" -ForegroundColor Green
+            }
+            else {
+
+                Write-Host "    DESCRIPCION no encontrada" -ForegroundColor Yellow
+            }
         }
     }
 }
@@ -303,13 +506,14 @@ Write-Host "              RESULTADO" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "Elementos procesados : $total"
-Write-Host "HTML encontrados     : $htmlEncontrados" -ForegroundColor Green
-Write-Host "HTML no encontrados  : $htmlNoEncontrados" -ForegroundColor Red
+Write-Host "Elementos procesados      : $total"
+Write-Host "HTML encontrados          : $htmlEncontrados" -ForegroundColor Green
+Write-Host "HTML no encontrados       : $htmlNoEncontrados" -ForegroundColor Red
 Write-Host ""
-Write-Host "Posters encontrados  : $posterEncontrados" -ForegroundColor Green
-Write-Host "Backdrops encontrados: $backdropEncontrados" -ForegroundColor Green
-Write-Host "Logos encontrados    : $logoEncontrados" -ForegroundColor Green
+Write-Host "Posters encontrados       : $posterEncontrados" -ForegroundColor Green
+Write-Host "Backdrops encontrados     : $backdropEncontrados" -ForegroundColor Green
+Write-Host "Logos encontrados         : $logoEncontrados" -ForegroundColor Green
+Write-Host "Descripciones encontradas : $descripcionEncontradas" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "============================================" -ForegroundColor Cyan
