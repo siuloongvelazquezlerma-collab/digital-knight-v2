@@ -54,6 +54,9 @@ $posterEncontrados = 0
 $backdropEncontrados = 0
 $logoEncontrados = 0
 $descripcionEncontradas = 0
+$metasEncontradas = 0
+$archivoActualizados = 0
+$titulosActualizados = 0
 
 # =========================================================
 # OBTENER TODOS LOS HTML UNA SOLA VEZ
@@ -69,6 +72,19 @@ $todosLosHtml = Get-ChildItem `
 
 Write-Host "HTML disponibles: $($todosLosHtml.Count)" -ForegroundColor DarkGray
 Write-Host ""
+
+function Convertir-AClaveArchivo {
+    param([string]$Texto)
+
+    if ([string]::IsNullOrWhiteSpace($Texto)) {
+        return ""
+    }
+
+    $sinAcentos = $Texto.Normalize([System.Text.NormalizationForm]::FormD) `
+        -replace '\p{Mn}', ''
+
+    return ($sinAcentos.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-')
+}
 
 # =========================================================
 # RECORRER CONJUNTOS
@@ -139,6 +155,75 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
                 } |
                 Select-Object -First 1
 
+            # Tras sincronizar, titulo y el archivo tienen el mismo nombre
+            # base. Esto permite recuperar una página aunque archivo tenga una
+            # ruta antigua o se haya movido de carpeta.
+            if (-not $archivoEncontrado -and -not [string]::IsNullOrWhiteSpace([string]$item.titulo)) {
+
+                $nombrePorTitulo = ([string]$item.titulo).Trim()
+
+                if ($nombrePorTitulo -notmatch '(?i)\.html$') {
+                    $nombrePorTitulo += ".html"
+                }
+
+                $archivoEncontrado = $todosLosHtml |
+                    Where-Object {
+                        $_.Name -ieq $nombrePorTitulo
+                    } |
+                    Select-Object -First 1
+
+                if ($archivoEncontrado) {
+                    Write-Host "    HTML encontrado por TITULO: $nombrePorTitulo" -ForegroundColor DarkYellow
+                }
+            }
+
+            # Último recurso: título correcto, pero archivo guardado con otro
+            # nombre. Se busca solo este título (no se recorren todos los HTML
+            # en memoria) y se exige coincidencia única.
+            if (-not $archivoEncontrado) {
+
+                $tituloBuscado = ([string]$item.titulo).Trim()
+
+                $rutasPorTitulo = @()
+
+                if ($tituloBuscado -and (Get-Command rg -ErrorAction SilentlyContinue)) {
+
+                    $patronTitulo = '<title\b[^>]*>\s*' +
+                        [regex]::Escape($tituloBuscado) +
+                        '\s*</title>'
+
+                    $rutasPorTitulo = @(
+                        & rg --files-with-matches --ignore-case --glob "*.html" `
+                            -- $patronTitulo $ProjectRoot 2>$null
+                    )
+                }
+
+                # WALL·E y wall-e son el mismo nombre para buscar; la ruta
+                # guardada sigue saliendo del href exacto de la página.
+                if ($rutasPorTitulo.Count -eq 0 -and $tituloBuscado) {
+
+                    $claveBuscada = Convertir-AClaveArchivo $tituloBuscado
+
+                    if ($claveBuscada) {
+                        $rutasPorTitulo = @(
+                            $todosLosHtml | Where-Object {
+                                (Convertir-AClaveArchivo (
+                                    [System.IO.Path]::GetFileNameWithoutExtension($_.Name)
+                                )) -ceq $claveBuscada
+                            } | Select-Object -ExpandProperty FullName
+                        )
+                    }
+                }
+
+                if ($rutasPorTitulo.Count -eq 1) {
+                    $archivoEncontrado = Get-Item -LiteralPath $rutasPorTitulo[0]
+                    Write-Host "    HTML encontrado por titulo: $($archivoEncontrado.Name)" -ForegroundColor DarkYellow
+                }
+                elseif ($rutasPorTitulo.Count -gt 1) {
+                    Write-Host "    TITULO ambiguo; se omite: $($item.titulo)" -ForegroundColor Yellow
+                }
+            }
+
             if (-not $archivoEncontrado) {
 
                 Write-Host "    HTML NO ENCONTRADO: $nombreArchivo" -ForegroundColor Red
@@ -191,47 +276,71 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
 
             if ($hrefMatch.Success) {
 
-                $href = $hrefMatch.Groups[1].Value.Trim()
+                # favoritoEnlace contiene el nombre real del archivo. Los
+                # parámetros y anclas no deben guardarse en swiper-data.json.
+                $href = $hrefMatch.Groups[1].Value.Trim() -replace '[?#].*$', ''
 
                 # =================================================
-                # OBTENER CARPETA REAL SIN GetRelativePath
+                # RESOLVER RUTA REAL SIN GetRelativePath
                 # =================================================
 
                 $projectRootNormalizado = $ProjectRoot.TrimEnd("\","/")
-                $htmlNormalizado = $htmlPath
+                $esEnlaceLocal = $href -and
+                    $href -notmatch '^(?i:https?:|//|mailto:|tel:|javascript:)'
 
-                if ($htmlNormalizado.StartsWith(
-                    $projectRootNormalizado,
-                    [System.StringComparison]::OrdinalIgnoreCase
-                )) {
+                if ($esEnlaceLocal) {
 
-                    $relativeReal = $htmlNormalizado.Substring(
-                        $projectRootNormalizado.Length
-                    ).TrimStart("\","/")
+                    # Resuelve también ../series/serie.html sin dejar ../
+                    # dentro de la ruta que se guarda en el JSON.
+                    if ($href.StartsWith("/")) {
+                        $rutaDestino = Join-Path $ProjectRoot $href.TrimStart("/", "\")
+                    }
+                    else {
+                        $rutaDestino = Join-Path (Split-Path $htmlPath -Parent) $href
+                    }
 
+                    $rutaDestino = [System.IO.Path]::GetFullPath($rutaDestino)
+
+                    if ($rutaDestino.StartsWith(
+                        $projectRootNormalizado + "\",
+                        [System.StringComparison]::OrdinalIgnoreCase
+                    )) {
+
+                        $nuevoArchivo = $rutaDestino.Substring(
+                            $projectRootNormalizado.Length
+                        ).TrimStart("\", "/") -replace "\\", "/"
+
+                        # -cne conserva también las mayúsculas reales de la
+                        # carpeta; esto evita enlaces rotos en servidores Linux.
+                        if ($item.archivo -cne $nuevoArchivo) {
+                            $item.archivo = $nuevoArchivo
+                            $archivoActualizados++
+                        }
+
+                        # El generador puede dar un título distinto al nombre
+                        # guardado. Usamos el href para que ambos queden ligados
+                        # al mismo archivo: SMALLVILLEnew.html -> SMALLVILLEnew.
+                        $nuevoTitulo = [System.IO.Path]::GetFileNameWithoutExtension(
+                            [System.IO.Path]::GetFileName($href.Replace("/", "\"))
+                        )
+
+                        # -cne distingue mayúsculas/minúsculas: el título debe
+                        # quedar exactamente igual al nombre del archivo.
+                        if ($nuevoTitulo -and $item.titulo -cne $nuevoTitulo) {
+                            $item.titulo = $nuevoTitulo
+                            $titulosActualizados++
+                        }
+
+                        Write-Host "    ARCHIVO: $nuevoArchivo" -ForegroundColor Green
+                        Write-Host "    TITULO: $nuevoTitulo" -ForegroundColor Green
+                    }
+                    else {
+                        Write-Host "    ARCHIVO fuera de www; se omite: $href" -ForegroundColor Yellow
+                    }
                 }
                 else {
-
-                    $relativeReal = $relativePath
+                    Write-Host "    ARCHIVO no es un enlace local; se omite: $href" -ForegroundColor Yellow
                 }
-
-                $carpetaReal = Split-Path $relativeReal -Parent
-
-                if ($carpetaReal -and $carpetaReal -ne ".") {
-
-                    $nuevoArchivo = (
-                        $carpetaReal + "\" + $href
-                    ) -replace "\\", "/"
-
-                }
-                else {
-
-                    $nuevoArchivo = $href -replace "\\", "/"
-                }
-
-                $item.archivo = $nuevoArchivo
-
-                Write-Host "    ARCHIVO: $nuevoArchivo" -ForegroundColor Green
             }
 
             # =================================================
@@ -435,6 +544,35 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
             }
 
             # =================================================
+            # META
+            # =================================================
+
+            $meta = ""
+
+            $metaMatch = [regex]::Match(
+                $html,
+                '(?is)<(?:div|span)\b[^>]*\bclass\s*=\s*["''][^"'']*\bmeta\b[^"'']*["''][^>]*>(.*?)</(?:div|span)>'
+            )
+
+            if ($metaMatch.Success) {
+
+                $meta = [regex]::Replace($metaMatch.Groups[1].Value, '(?is)<[^>]+>', '')
+                $meta = [regex]::Replace($meta, '\s+', ' ').Trim()
+            }
+
+            if ($meta) {
+
+                $item.meta = $meta
+                $metasEncontradas++
+
+                Write-Host "    META: $meta" -ForegroundColor Green
+            }
+            else {
+
+                Write-Host "    META no encontrada" -ForegroundColor Yellow
+            }
+
+            # =================================================
             # DESCRIPCION
             # =================================================
 
@@ -509,10 +647,13 @@ Write-Host ""
 Write-Host "Elementos procesados      : $total"
 Write-Host "HTML encontrados          : $htmlEncontrados" -ForegroundColor Green
 Write-Host "HTML no encontrados       : $htmlNoEncontrados" -ForegroundColor Red
+Write-Host "Archivos actualizados     : $archivoActualizados" -ForegroundColor Green
+Write-Host "Títulos actualizados      : $titulosActualizados" -ForegroundColor Green
 Write-Host ""
 Write-Host "Posters encontrados       : $posterEncontrados" -ForegroundColor Green
 Write-Host "Backdrops encontrados     : $backdropEncontrados" -ForegroundColor Green
 Write-Host "Logos encontrados         : $logoEncontrados" -ForegroundColor Green
+Write-Host "Metas encontradas         : $metasEncontradas" -ForegroundColor Green
 Write-Host "Descripciones encontradas : $descripcionEncontradas" -ForegroundColor Green
 
 Write-Host ""
