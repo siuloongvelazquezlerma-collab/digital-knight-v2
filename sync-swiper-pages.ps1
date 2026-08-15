@@ -610,6 +610,34 @@ foreach ($conjuntoProp in $json.PSObject.Properties) {
 }
 
 # =========================================================
+# COMPROBAR MI_LISTA
+# =========================================================
+
+Write-Host ""
+Write-Host "============================================" -ForegroundColor Yellow
+Write-Host "      COMPROBACION DE MI_LISTA" -ForegroundColor Yellow
+Write-Host "============================================" -ForegroundColor Yellow
+
+if ($json.conjunto3 -and $json.conjunto3.mi_lista) {
+
+    Write-Host "OK: conjunto3.mi_lista EXISTE" -ForegroundColor Green
+    Write-Host "Elementos en mi_lista: $($json.conjunto3.mi_lista.Count)" -ForegroundColor Green
+
+    foreach ($itemLista in $json.conjunto3.mi_lista) {
+        Write-Host "  - $($itemLista.titulo)" -ForegroundColor White
+    }
+
+}
+else {
+
+    Write-Host "ERROR: conjunto3.mi_lista NO EXISTE" -ForegroundColor Red
+
+}
+
+Write-Host "============================================" -ForegroundColor Yellow
+Write-Host ""
+
+# =========================================================
 # GUARDAR JSON
 # =========================================================
 
@@ -619,6 +647,13 @@ Write-Host "Guardando swiper-data.json..." -ForegroundColor Cyan
 try {
 
     $jsonFinal = $json | ConvertTo-Json -Depth 50
+
+    if ($jsonFinal -match '"mi_lista"') {
+    Write-Host "OK: mi_lista ESTA PRESENTE EN EL JSON FINAL" -ForegroundColor Green
+}
+else {
+    Write-Host "ERROR: mi_lista NO ESTA EN EL JSON FINAL" -ForegroundColor Red
+}
 
     [System.IO.File]::WriteAllText(
         $JsonFile,
