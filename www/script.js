@@ -68,21 +68,75 @@ async function cargarSwiperInicio() {
         console.log("🟢 JSON cargado:", datos);
 
         // ==========================================
-        // ELEGIR UN SOLO CONJUNTO POR APERTURA
-        // ==========================================
+// 🎲 ELEGIR UN CONJUNTO CADA 30 MINUTOS
+// ==========================================
 
-        const nombresConjuntos = Object.keys(datos);
+const nombresConjuntos = Object.keys(datos);
 
-        const conjuntoElegido =
-            nombresConjuntos[
-                Math.floor(Math.random() * nombresConjuntos.length)
-            ];
+const STORAGE_CONJUNTO = 'dk_swiper_conjunto';
+const STORAGE_TIEMPO = 'dk_swiper_conjunto_time';
 
-        const conjunto = datos[conjuntoElegido];
+const ahora = Date.now();
 
-        console.log(
-            `🎲 Conjunto elegido al abrir la app: ${conjuntoElegido}`
-        );
+let conjuntoElegido =
+    localStorage.getItem(STORAGE_CONJUNTO);
+
+const tiempoGuardado =
+    parseInt(localStorage.getItem(STORAGE_TIEMPO) || '0', 10);
+
+const TREINTA_MINUTOS = 30 * 60 * 1000;
+
+
+// ==========================================
+// COMPROBAR SI EL CONJUNTO SIGUE VIGENTE
+// ==========================================
+
+const conjuntoValido =
+    conjuntoElegido &&
+    nombresConjuntos.includes(conjuntoElegido) &&
+    (ahora - tiempoGuardado) < TREINTA_MINUTOS;
+
+
+// ==========================================
+// SI YA PASARON 30 MINUTOS
+// ELEGIR UNO NUEVO
+// ==========================================
+
+if (!conjuntoValido) {
+
+    conjuntoElegido =
+        nombresConjuntos[
+            Math.floor(Math.random() * nombresConjuntos.length)
+        ];
+
+    localStorage.setItem(
+        STORAGE_CONJUNTO,
+        conjuntoElegido
+    );
+
+    localStorage.setItem(
+        STORAGE_TIEMPO,
+        ahora.toString()
+    );
+
+    console.log(
+        `🎲 Nuevo conjunto elegido: ${conjuntoElegido}`
+    );
+
+} else {
+
+    console.log(
+        `♻️ Manteniendo conjunto: ${conjuntoElegido}`
+    );
+
+}
+
+
+// ==========================================
+// OBTENER CONJUNTO
+// ==========================================
+
+const conjunto = datos[conjuntoElegido];
 
         // ==========================================
         // CARGAR LAS SECCIONES DEL CONJUNTO ELEGIDO
@@ -900,6 +954,8 @@ window.addEventListener('load', () => {
   // Ocultar footer al hacer scroll hacia abajo
   var lastScrollTop = 0;
   var footer = document.querySelector(".footer");
+
+  
   
   window.addEventListener("scroll", function () {
       var currentScroll = window.scrollY;
@@ -1467,3 +1523,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 });
+
+

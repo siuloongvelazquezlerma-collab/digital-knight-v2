@@ -57,6 +57,8 @@ function initProfileDefaults() {
   }
 }
 
+
+
 function openView(id) {
   document.querySelectorAll('.view').forEach(v =>
     v.classList.remove('active')
