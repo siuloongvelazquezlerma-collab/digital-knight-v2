@@ -242,6 +242,143 @@ function Obtener-Descripcion {
     return ""
 }
 
+# ============================================================
+# META
+#
+# EJEMPLO HTML:
+#
+# <div class="meta">7+   7 temporadas   1991   Dob Lat</div>
+#
+# RESULTADO:
+#
+# Serie · 7+ · 1991 · 7 Temporadas
+#
+# IMPORTANTE:
+# - SOLO LEE EL HTML
+# - NUNCA MODIFICA EL HTML
+# - ELIMINA "Dob Lat"
+# ============================================================
+
+function Obtener-Meta {
+
+    param([string]$Contenido)
+
+    if (
+        $Contenido -match
+        '(?is)<div[^>]*class\s*=\s*["''][^"'']*\bmeta\b[^"'']*["''][^>]*>\s*(.*?)\s*</div>'
+    ) {
+
+        $meta = $matches[1]
+
+        # Quitar HTML interno
+        $meta = $meta -replace '<[^>]+>', ' '
+
+        # Decodificar entidades HTML
+        $meta = [System.Net.WebUtility]::HtmlDecode($meta)
+
+        # Convertir espacios especiales
+        $meta = $meta -replace '[\u00A0\u2007\u202F]', ' '
+
+        # Quitar Dob Lat
+        $meta = $meta -replace '(?i)\s*Dob\s+Lat\s*$', ''
+
+        # Quitar Dob o Lat si aparecen solos al final
+        $meta = $meta -replace '(?i)\s+(Dob|Lat)\s*$', ''
+
+        # Normalizar espacios
+        $meta = $meta -replace '\s+', ' '
+        $meta = $meta.Trim()
+
+        if ([string]::IsNullOrWhiteSpace($meta)) {
+            return ""
+        }
+
+
+        # ====================================================
+        # SERIE
+        #
+        # Ejemplo:
+        # 7+ 7 temporadas 1991
+        #
+        # Resultado:
+        # Serie · 7+ · 1991 · 7 Temporadas
+        # ====================================================
+
+        if (
+            $meta -match
+            '^(?<edad>\d+\+)\s+(?<temporadas>\d+\s+temporadas?)\s+(?<anio>(?:19|20)\d{2})$'
+        ) {
+
+            $edad = $matches["edad"].Trim()
+            $temporadas = $matches["temporadas"].Trim()
+            $anio = $matches["anio"].Trim()
+
+            $temporadas = $temporadas -replace '(?i)temporadas?', 'Temporadas'
+
+            return ("Serie " + [char]0x00B7 + " " + $edad + " " + [char]0x00B7 + " " + $anio + " " + [char]0x00B7 + " " + $temporadas)
+        }
+
+
+        # ====================================================
+        # SERIE
+        #
+        # También acepta:
+        #
+        # 13+ 5 temporadas 1992
+        # 13+ 1 temporada 2020
+        # ====================================================
+
+        if (
+            $meta -match
+            '^(?<edad>\d+\+)\s+(?<temporadas>\d+\s+temporadas?)\s+(?<anio>(?:19|20)\d{2})'
+        ) {
+
+            $edad = $matches["edad"].Trim()
+            $temporadas = $matches["temporadas"].Trim()
+            $anio = $matches["anio"].Trim()
+
+            $temporadas = $temporadas -replace '(?i)temporadas?', 'Temporadas'
+
+            return ("Serie " + [char]0x00B7 + " " + $edad + " " + [char]0x00B7 + " " + $anio + " " + [char]0x00B7 + " " + $temporadas)
+        }
+
+
+        # ====================================================
+        # PELICULA
+        #
+        # Ejemplo:
+        #
+        # 15+ 1h 45min 2018
+        #
+        # Resultado:
+        #
+        # Película · 15+ · 1h 45min · 2018
+        # ====================================================
+
+        if (
+            $meta -match
+            '^(?<edad>\d+\+)\s+(?<duracion>.+?)\s+(?<anio>(?:19|20)\d{2})$'
+        ) {
+
+            $edad = $matches["edad"].Trim()
+            $duracion = $matches["duracion"].Trim()
+            $anio = $matches["anio"].Trim()
+
+            return ("Pel" + [char]0x00ED + "cula " + [char]0x00B7 + " " + $edad + " " + [char]0x00B7 + " " + $duracion + " " + [char]0x00B7 + " " + $anio)
+        }
+
+
+        # ====================================================
+        # SI NO PUDO CLASIFICAR
+        #
+        # Devuelve el contenido limpio sin Dob Lat.
+        # ====================================================
+
+        return $meta
+    }
+
+    return ""
+}
 
 # ============================================================
 # CARGAR JSON
@@ -280,6 +417,7 @@ $posters = 0
 $backdrops = 0
 $logos = 0
 $descripciones = 0
+$metas = 0
 
 # ============================================================
 # PROCESAR JSON
@@ -420,6 +558,8 @@ foreach ($prop in $datos.PSObject.Properties) {
 
             $descripcionHTML = Obtener-Descripcion $contenido
 
+            $metaHTML = Obtener-Meta $contenido
+
 
             # ====================================================
             # MOSTRAR LO ENCONTRADO
@@ -481,6 +621,23 @@ foreach ($prop in $datos.PSObject.Properties) {
 
                 Write-Host "  Descripcion  : NO" -ForegroundColor DarkYellow
             }
+
+            # ====================================================
+# META
+# ====================================================
+
+if ($metaHTML) {
+
+    Write-Host "  Meta         : $metaHTML" -ForegroundColor Green
+
+    $item.meta = $metaHTML
+
+    $metas++
+}
+else {
+
+    Write-Host "  Meta         : NO" -ForegroundColor DarkYellow
+}
 
 
             # ====================================================
@@ -569,6 +726,7 @@ Write-Host "Posters encontrados       : $posters"
 Write-Host "Backdrops encontrados     : $backdrops"
 Write-Host "Logos encontrados         : $logos"
 Write-Host "Descripciones encontradas : $descripciones"
+Write-Host "Metas encontradas         : $metas"
 
 Write-Host ""
 
