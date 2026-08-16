@@ -476,6 +476,100 @@ tabindex="0">
   updateResumeButton();
 }
 
+// =========================================================
+// NAVEGACIÓN AUTOMÁTICA DE EPISODIOS
+// =========================================================
+
+function inicializarNavegacionEpisodios() {
+
+    const episodeList = document.getElementById("episodeList");
+
+    if (!episodeList) return;
+
+    // Evitar crear las flechas más de una vez
+    if (episodeList.parentElement?.classList.contains("episodes-carousel")) {
+        actualizarFlechasEpisodios();
+        return;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "episodes-carousel";
+
+    const left = document.createElement("button");
+    left.className = "episode-nav episode-nav-left";
+    left.innerHTML = `<span class="material-icons">chevron_left</span>`;
+
+    const right = document.createElement("button");
+    right.className = "episode-nav episode-nav-right";
+    right.innerHTML = `<span class="material-icons">chevron_right</span>`;
+
+    episodeList.parentNode.insertBefore(wrapper, episodeList);
+
+    wrapper.appendChild(left);
+    wrapper.appendChild(episodeList);
+    wrapper.appendChild(right);
+
+    left.addEventListener("click", () => {
+        episodeList.scrollBy({
+            left: -500,
+            behavior: "smooth"
+        });
+    });
+
+    right.addEventListener("click", () => {
+        episodeList.scrollBy({
+            left: 500,
+            behavior: "smooth"
+        });
+    });
+
+    episodeList.addEventListener(
+        "scroll",
+        actualizarFlechasEpisodios
+    );
+
+    window.addEventListener(
+        "resize",
+        actualizarFlechasEpisodios
+    );
+
+    actualizarFlechasEpisodios();
+}
+
+
+function actualizarFlechasEpisodios() {
+
+    const episodeList = document.getElementById("episodeList");
+
+    if (!episodeList) return;
+
+    const wrapper = episodeList.parentElement;
+
+    if (!wrapper.classList.contains("episodes-carousel")) return;
+
+    const left = wrapper.querySelector(".episode-nav-left");
+    const right = wrapper.querySelector(".episode-nav-right");
+
+    if (!left || !right) return;
+
+    const puedeDesplazar =
+        episodeList.scrollWidth >
+        episodeList.clientWidth + 5;
+
+    left.classList.toggle(
+        "hidden",
+        !puedeDesplazar ||
+        episodeList.scrollLeft <= 5
+    );
+
+    right.classList.toggle(
+        "hidden",
+        !puedeDesplazar ||
+        episodeList.scrollLeft + episodeList.clientWidth >=
+        episodeList.scrollWidth - 5
+    );
+}
+
 
 function descargarEpisodio(url, title, img) {
 
@@ -609,7 +703,9 @@ document.getElementById("seasonSelect").addEventListener("click", () => {
 
 // Inicializar
 populateSeasons();
-renderEpisodes();
+renderEpisodes().then(() => {
+    inicializarNavegacionEpisodios();
+});
 
 
 

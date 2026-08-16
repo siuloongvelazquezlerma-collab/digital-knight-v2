@@ -771,6 +771,97 @@ body {
   
   }
 
+  /* =========================================================
+   CARRUSEL DE EPISODIOS
+   ========================================================= */
+
+.episodes-carousel {
+    position: relative;
+    width: 100%;
+}
+
+.episode-nav {
+    display: none;
+}
+
+
+/* =========================================================
+   PC / TV / HORIZONTAL
+   ========================================================= */
+
+@media (orientation: landscape) and (min-width: 768px) {
+
+    .episodes-carousel {
+        position: relative;
+        width: 100%;
+        padding: 0 45px;
+        box-sizing: border-box;
+    }
+
+    .episode-nav {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        
+        width: 42px;
+        height: 42px;
+
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(0, 0, 0, 0.65);
+        border: none;
+        border-radius: 50%;
+
+        color: white;
+        cursor: pointer;
+
+        z-index: 20;
+
+        transition:
+            opacity 0.25s ease,
+            background 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    .episode-nav:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-50%) scale(1.08);
+    }
+
+    .episode-nav .material-icons {
+        font-size: 32px;
+    }
+
+    .episode-nav-left {
+        left: 0;
+    }
+
+    .episode-nav-right {
+        right: 0;
+    }
+
+    .episode-nav.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    #episodeList {
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        scroll-behavior: smooth;
+    }
+
+    #episodeList::-webkit-scrollbar {
+        display: none;
+    }
+}
+
   .thumbnail-container{
     position: relative;
 }
