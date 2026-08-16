@@ -53,14 +53,13 @@
       localStorage.getItem('profileAvatar') ||
       'avatar.jpg';
 
-    const preload = document.createElement('link');
-
-    preload.rel = 'preload';
-    preload.as = 'image';
-    preload.href = avatar;
-    preload.fetchPriority = 'high';
-
-    document.head.appendChild(preload);
+    document.write(`
+      <style>
+        .headerProfileIcon {
+          content: url("${avatar}");
+        }
+      </style>
+    `);
   } catch (e) {}
 })();
 </script>
