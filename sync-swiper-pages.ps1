@@ -120,18 +120,170 @@ function Obtener-TituloHTML {
 
 
 # ============================================================
+# BUSCAR PAGINA HTML
+#
+# ORDEN:
+# 1. Intenta la ruta exacta indicada en "archivo"
+# 2. Si no existe, busca dentro de TODO WWW
+#    comparando "titulo" del JSON contra <title> del HTML
+#
+# La comparación ignora:
+# - Mayúsculas/minúsculas
+# - Acentos
+# - Guiones
+# - Espacios
+# - Puntos
+# - Comillas
+# - Paréntesis
+# - Caracteres especiales
+# ============================================================
+
+function Buscar-PaginaHTML {
+
+    param(
+        [string]$TituloJSON,
+        [string]$ArchivoJSON
+    )
+
+    # ========================================================
+    # 1. RUTA EXACTA DEL JSON
+    # ========================================================
+
+    if (-not [string]::IsNullOrWhiteSpace($ArchivoJSON)) {
+
+        $rutaRelativa = $ArchivoJSON -replace '/', '\'
+        $rutaExacta = Join-Path $WWW $rutaRelativa
+
+        if (Test-Path $rutaExacta -PathType Leaf) {
+
+            Write-Host "  Ruta exacta encontrada." -ForegroundColor Green
+
+            return $rutaExacta
+        }
+    }
+
+
+    # ========================================================
+    # 2. BUSQUEDA POR <TITLE>
+    # ========================================================
+
+    if ([string]::IsNullOrWhiteSpace($TituloJSON)) {
+
+        return $null
+    }
+
+    $tituloNormalizado = Normalizar-Texto $TituloJSON
+
+    if ([string]::IsNullOrWhiteSpace($tituloNormalizado)) {
+
+        return $null
+    }
+
+
+    Write-Host "  Ruta no encontrada. Buscando por <title>..." -ForegroundColor Yellow
+    Write-Host "  Titulo buscado: $TituloJSON" -ForegroundColor DarkGray
+
+
+    # Obtener todos los HTML dentro de WWW y subcarpetas
+
+    $archivosHTML = Get-ChildItem `
+        -Path $WWW `
+        -Filter "*.html" `
+        -File `
+        -Recurse `
+        -ErrorAction SilentlyContinue
+
+
+    foreach ($archivoHTML in $archivosHTML) {
+
+        try {
+
+            $contenidoHTML = Get-Content `
+                $archivoHTML.FullName `
+                -Raw `
+                -Encoding UTF8 `
+                -ErrorAction Stop
+
+        }
+        catch {
+
+            continue
+        }
+
+
+        if ([string]::IsNullOrWhiteSpace($contenidoHTML)) {
+
+            continue
+        }
+
+
+        # Obtener <title>
+
+        $tituloHTML = Obtener-TituloHTML $contenidoHTML
+
+        if ([string]::IsNullOrWhiteSpace($tituloHTML)) {
+
+            continue
+        }
+
+
+        # Normalizar titulo HTML
+
+        $tituloHTMLNormalizado = Normalizar-Texto $tituloHTML
+
+
+        # ====================================================
+        # COMPARACION EXACTA NORMALIZADA
+        # ====================================================
+
+        if ($tituloHTMLNormalizado -eq $tituloNormalizado) {
+
+            Write-Host "  ENCONTRADO POR <title>:" -ForegroundColor Green
+            Write-Host "  $($archivoHTML.FullName)" -ForegroundColor Green
+            Write-Host "  <title>: $tituloHTML" -ForegroundColor DarkGray
+
+            return $archivoHTML.FullName
+        }
+    }
+
+
+    # ========================================================
+    # NO ENCONTRADO
+    # ========================================================
+
+    Write-Host "  No se encontro ninguna pagina por <title>." -ForegroundColor Red
+
+    return $null
+}
+
+
+# ============================================================
 # POSTER
 #
 # Busca el background de .cover
+# ============================================================
+
+# ============================================================
+# POSTER
+#
+# Busca el background de .cover
+# Acepta:
+#
+# background: url("...")
+#
+# y también:
+#
+# background: var(--episode-background, url("..."))
 # ============================================================
 
 function Obtener-Poster {
 
     param([string]$Contenido)
 
+    # Buscar dentro de .cover
     if (
         $Contenido -match
-        '(?is)\.cover\s*\{.*?background\s*:\s*url\(["'']?([^)"'']+)["'']?\)'
+        '(?is)\.cover\s*\{.*?background\s*:\s*.*?url\(\s*["'']([^"'']+)["'']\s*\)'
     ) {
 
         return $matches[1].Trim()
@@ -145,15 +297,24 @@ function Obtener-Poster {
 # BACKDROP
 #
 # Busca el background de .cover-landscape
+#
+# Acepta:
+#
+# background: url("...")
+#
+# y también:
+#
+# background: var(--episode-background, url("..."))
 # ============================================================
 
 function Obtener-Backdrop {
 
     param([string]$Contenido)
 
+    # Buscar dentro de .cover-landscape
     if (
         $Contenido -match
-        '(?is)\.cover-landscape\s*\{.*?background\s*:\s*url\(["'']?([^)"'']+)["'']?\)'
+        '(?is)\.cover-landscape\s*\{.*?background\s*:\s*.*?url\(\s*["'']([^"'']+)["'']\s*\)'
     ) {
 
         return $matches[1].Trim()
@@ -471,19 +632,16 @@ foreach ($prop in $datos.PSObject.Properties) {
             }
 
 
-            # ====================================================
-            # LA RUTA DEL JSON ES LA RUTA PRINCIPAL
-            #
-            # Ejemplo:
-            #
-            # Anime/Sailor Moon (1992).html
-            #
-            # -> www\Anime\Sailor Moon (1992).html
-            # ====================================================
+           # ============================================================
+# LOCALIZAR HTML
+#
+# 1. Primero intenta la ruta indicada en "archivo"
+# 2. Si no existe, busca por el <title> dentro de TODO WWW
+# ============================================================
 
-            $rutaRelativa = $archivoJSON -replace '/', '\'
-
-            $rutaHTML = Join-Path $WWW $rutaRelativa
+$rutaHTML = Buscar-PaginaHTML `
+    -TituloJSON $tituloJSON `
+    -ArchivoJSON $archivoJSON
 
 
             Write-Host ""
@@ -496,16 +654,15 @@ foreach ($prop in $datos.PSObject.Properties) {
             # 1. ARCHIVO EXACTO
             # ====================================================
 
-            if (!(Test-Path $rutaHTML)) {
+            if ([string]::IsNullOrWhiteSpace($rutaHTML)) {
 
-                Write-Host "NO ENCONTRADO" -ForegroundColor Red
-                Write-Host "  $rutaHTML" -ForegroundColor Red
+    Write-Host "NO ENCONTRADO" -ForegroundColor Red
+    Write-Host "  No se pudo localizar la pagina." -ForegroundColor Red
 
-                $noEncontrados++
+    $noEncontrados++
 
-                continue
-            }
-
+    continue
+}
 
             # ====================================================
             # LEER HTML
