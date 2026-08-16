@@ -337,20 +337,31 @@ if (logo) {
 
 function createSwiper(swiperEl) {
 
-    const swiper = new Swiper(swiperEl, {
+   const swiper = new Swiper(swiperEl, {
     loop: false,
 
     slidesPerView: 1,
 
-    resistanceRatio: 0,
+    resistance: true,
+    resistanceRatio: 0.25,
 
-    speed: 1000,
+    speed: 500,
 
-    effect: 'fade',
+    effect: 'slide',
 
-    fadeEffect: {
-        crossFade: true
-    },
+    touchRatio: 1,
+    touchAngle: 45,
+    threshold: 3,
+
+    followFinger: true,
+
+    longSwipes: true,
+    longSwipesRatio: 0.12,
+    longSwipesMs: 150,
+
+    shortSwipes: true,
+
+    allowTouchMove: true,
 
     autoplay: {
         delay: 7000,
@@ -378,14 +389,12 @@ function createSwiper(swiperEl) {
 
             updateBackground(swiperEl);
 
-            // 🎲 Empezar en un slide aleatorio
             if (swiperEl.id !== 'inicio' && swiper.slides.length > 1) {
 
                 const randomIndex =
                     Math.floor(Math.random() * swiper.slides.length);
 
                 swiper.slideTo(randomIndex, 0, false);
-
             }
 
             console.log(
@@ -412,7 +421,6 @@ function createSwiper(swiperEl) {
         }
 
     }
-
 });
 
     return swiper;
