@@ -33,7 +33,7 @@ function setCoverBackground(element, imageUrl, animate = true) {
 }
 
 /* ================= DEFAULTS ================= */
-const DEFAULT_AVATAR = 'avatar.jpg';
+const DEFAULT_AVATAR = 'logo-2025.png';
 const DEFAULT_COVER = 'cover.jpg';
 const DEFAULT_NAME = 'Usuario';
 
