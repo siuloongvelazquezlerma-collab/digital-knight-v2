@@ -527,156 +527,140 @@ window.movieId = "la-guerra-de-las-galaxias-11";
 
 
 
+</script>
 
 
 
+<script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
+<script src="../player-peliculas.js"></script>
+<script src="../pip.js"></script>
+<script src="../share.js"></script>
+<script type="module" src="../player-peliculas-module.js"></script>
+<script src="../wakelock.js"></script>
+<script src="../nav.js"></script>
 
 
-const source = document.getElementById("videoSource");
 
-const langBtnWrapper = document.getElementById("langBtnWrapper");
-const langMenu = document.getElementById("langMenu");
-const langOptions = document.querySelectorAll(".lang-option");
+<script>
 
-const langIcon = document.getElementById("langIcon");
+
+
+(function () {
+ const source = document.getElementById("videoSource");
+  const langBtnWrapper = document.getElementById("langBtnWrapper");
+  const langMenu = document.getElementById("langMenu");
+  const langOptions = document.querySelectorAll(".lang-option");
+  const langIcon = document.getElementById("langIcon");
+  const langConfirmBtn = document.getElementById("langConfirmBtn");
+  const overlayBg = document.getElementById("overlay");
 
 const videos = {
   latino: "https://od.lk/d/M18zMDI0NTc4Mjhf/04.Star.Wars.Episodio.IV.Una.Nueva.Esperanza.mp4",
   ingles: "https://od.lk/s/M18zMTk2NTM3Njhf/star%20wars%20ep%204%20sub.mp4"
 };
 
-let currentLang = "latino";
+let currentLang = "latino";       // idioma que está reproduciéndose
+  let selectedLang = currentLang;   // idioma elegido dentro del menú (temporal)
+  let menuOpen = false;             // 👈 bandera de estado del menú
 
-// 🔹 Inicializar check al cargar
-document.addEventListener("DOMContentLoaded", () => {
-  langOptions.forEach(opt => {
-    if (opt.dataset.lang === currentLang) {
-      opt.classList.add("active");
-    }
-  });
-});
-
-// Mostrar / ocultar menú
-langBtnWrapper.addEventListener("click", (e) => {
-  e.stopPropagation();
-  langMenu.classList.toggle("hidden");
-});
-
-// Cerrar menú si clic fuera
-document.addEventListener("click", (e) => {
-  if (!langBtnWrapper.contains(e.target)) {
-    langMenu.classList.add("hidden");
-  }
-});
-
-// Selección de idioma
-langOptions.forEach(option => {
-  option.addEventListener("click", (e) => {
-    e.stopPropagation(); // 🔹 Evita que el clic suba a document
-    const selectedLang = e.currentTarget.dataset.lang;
-    if (selectedLang !== currentLang) {
-      changeLanguage(selectedLang);
-    }
-    // 🔹 Cerrar menú inmediatamente al elegir idioma
-    langMenu.classList.add("hidden");
-  });
-});
-
-
-
-function changeLanguage(lang) {
-  const currentTime = video.currentTime;
-  const isPlaying = !video.paused;
-
-  currentLang = lang;
-  source.src = videos[currentLang];
-  video.load();
-  video.currentTime = currentTime;
-  if (isPlaying) video.play();
-
-  // Actualizar icono del botón
-  if (currentLang === "latino") {
-    langIcon.textContent = "chat";       // icono tipo mensaje
-  } else {
-    langIcon.textContent = "subtitles";  // icono subtítulos
+  // helper: mostrar/ocultar modal
+  function openMenu() {
+    selectedLang = currentLang;
+    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
+    langMenu.style.display = 'flex';
+    if (overlayBg) overlayBg.style.display = 'block';
+    video.pause();
+    menuOpen = true; // 👈 marcar que el menú está abierto
   }
 
-  // Activar check en menú
-  langOptions.forEach(opt => {
-    if (opt.dataset.lang === currentLang) {
-      opt.classList.add("active");
-    } else {
-      opt.classList.remove("active");
+  function closeMenu(hacerPlay = true) {
+    langMenu.style.display = 'none';
+    if (overlayBg) overlayBg.style.display = 'none';
+    if (hacerPlay) {
+      video.play().catch(()=>{});
     }
+    menuOpen = false; // 👈 menú cerrado
+  }
+
+  // Selección de idioma: precarga la fuente (pero no reproduce aún)
+  function selectLanguage(lang) {
+    if (!videos[lang]) return;
+    const curTime = video.currentTime || 0;
+    selectedLang = lang;
+
+    // Marcar visualmente la opción
+    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
+    langIcon.textContent = (selectedLang === 'latino') ? 'chat' : 'subtitles';
+
+    source.src = videos[selectedLang];
+    video.load();
+
+    const onLoadedMeta = () => {
+      try {
+        video.currentTime = Math.min(curTime, video.duration || curTime);
+      } catch {}
+      video.removeEventListener('loadedmetadata', onLoadedMeta);
+    };
+    video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+
+    console.log('Idioma seleccionado (precargando):', selectedLang);
+  }
+
+  // Confirmar selección y reanudar
+  function confirmAndPlay() {
+    if (selectedLang && selectedLang !== currentLang) {
+      currentLang = selectedLang;
+    }
+    closeMenu(true);
+  }
+
+  // Inicializar opción activa al cargar
+  document.addEventListener('DOMContentLoaded', () => {
+    langOptions.forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.lang === currentLang);
+    });
   });
-}
 
+  // Abrir menú
+  langBtnWrapper.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openMenu();
+  });
 
+  // Selección de idioma
+  langOptions.forEach(option => {
+    option.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const lang = option.dataset.lang;
+      selectLanguage(lang);
+    });
+  });
 
+  // Confirmación con botón "Listo"
+  if (langConfirmBtn) {
+    langConfirmBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      console.log('Listo clicado');
+      confirmAndPlay();
+    });
+  }
 
+  // 👉 Detectar click/touch global (desktop y móvil)
+  function handleOutsideClose(e) {
+    if (!menuOpen) return; // si no está abierto, nada
+    if (!langMenu.contains(e.target) && !langBtnWrapper.contains(e.target)) {
+      console.log('Clic/touch fuera: cerrar menú');
+      e.stopPropagation(); // evitar que afecte a controles
+      e.preventDefault();
+      confirmAndPlay();
+    }
+  }
 
+  document.addEventListener('click', handleOutsideClose, true);
+  document.addEventListener('touchstart', handleOutsideClose, true);
 
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-function descargarPelicula(url) {
-
-
-*/
+  })();
 
 
 </script>
