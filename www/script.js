@@ -340,28 +340,32 @@ function createSwiper(swiperEl) {
    const swiper = new Swiper(swiperEl, {
     loop: false,
 
-    slidesPerView: 1,
+slidesPerView: 1,
 
-    resistance: true,
-    resistanceRatio: 0.25,
+resistance: false,
 
-    speed: 500,
+resistanceRatio: 0,
 
-    effect: 'slide',
+speed: 700,
 
-    touchRatio: 1,
-    touchAngle: 45,
-    threshold: 3,
+effect: 'fade',
 
-    followFinger: true,
+fadeEffect: {
+    crossFade: true
+},
 
-    longSwipes: true,
-    longSwipesRatio: 0.12,
-    longSwipesMs: 150,
+touchRatio: 1,
+touchAngle: 45,
+threshold: 5,
 
-    shortSwipes: true,
+followFinger: true,
 
-    allowTouchMove: true,
+longSwipes: true,
+longSwipesRatio: 0.15,
+longSwipesMs: 200,
+
+shortSwipes: true,
+allowTouchMove: true,
 
     autoplay: {
         delay: 7000,
