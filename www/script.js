@@ -243,28 +243,52 @@ slide.innerHTML = `
                     </div>
                 `;
 
-                const logo = slide.querySelector('.title-logo');
+               // =========================================================
+// DETECTAR AUTOMÁTICAMENTE LA PROPORCIÓN DEL LOGO
+// =========================================================
+
+const logo = slide.querySelector('.title-logo');
 
 if (logo) {
 
-    logo.addEventListener('load', function () {
+    const ajustarLogo = () => {
 
-        const ratio = this.naturalWidth / this.naturalHeight;
+        const ancho = logo.naturalWidth;
+        const alto = logo.naturalHeight;
 
-        if (ratio < 0.75) {
+        if (!ancho || !alto) return;
 
-            // Logo muy vertical
-            this.classList.add('logo-vertical');
+        const proporcion = ancho / alto;
 
-        } else if (ratio < 1.25) {
+        // Logo vertical
+        if (proporcion < 0.75) {
 
-            // Logo cuadrado o redondo
-            this.classList.add('logo-compact');
+            logo.classList.add('logo-auto-vertical');
 
         }
 
-    });
+        // Logo cuadrado / redondo
+        else if (proporcion <= 1.25) {
 
+            logo.classList.add('logo-auto-square');
+
+        }
+
+        // Logo horizontal
+        else {
+
+            logo.classList.add('logo-auto-horizontal');
+
+        }
+    };
+
+    if (logo.complete) {
+        ajustarLogo();
+    } else {
+        logo.addEventListener('load', ajustarLogo, {
+            once: true
+        });
+    }
 }
 
                 slide.addEventListener('click', function(e) {
