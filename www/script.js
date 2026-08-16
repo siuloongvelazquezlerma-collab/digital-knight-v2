@@ -243,6 +243,30 @@ slide.innerHTML = `
                     </div>
                 `;
 
+                const logo = slide.querySelector('.title-logo');
+
+if (logo) {
+
+    logo.addEventListener('load', function () {
+
+        const ratio = this.naturalWidth / this.naturalHeight;
+
+        if (ratio < 0.75) {
+
+            // Logo muy vertical
+            this.classList.add('logo-vertical');
+
+        } else if (ratio < 1.25) {
+
+            // Logo cuadrado o redondo
+            this.classList.add('logo-compact');
+
+        }
+
+    });
+
+}
+
                 slide.addEventListener('click', function(e) {
 
                     if (e.target.closest('.cta-button')) {
