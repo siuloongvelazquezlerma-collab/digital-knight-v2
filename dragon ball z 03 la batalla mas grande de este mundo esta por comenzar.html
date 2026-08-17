@@ -37,73 +37,15 @@
     <link rel="manifest" href="../manifest.json">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      padding-top: env(safe-area-inset-top);
-      background-color: #01011d !important;
-      background: black;
-      height: 100%;
-      font-family: 'Roboto', sans-serif;
-      color: white;
-    }
-
-     /* Estilo general para el header */
-  #header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0); /* Fondo del header transparente al inicio */
-    display: flex;
-    justify-content: space-between; /* Mantiene espacio entre la flecha y otros elementos */
-    align-items: center;
-    padding: 10px;
-    z-index: 3000; /* Asegura que el header esté por encima de otros elementos */
-    transition: background-color 0.3s ease; /* Transición suave del fondo */
+   .cover::before {
+  background: linear-gradient(to bottom,  #01011d, transparent 20%);
 }
 
-/* Estilo de los enlaces */
-.icon-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff; /* Color del ícono */
-    text-decoration: none; /* Quitar subrayado */
-    z-index: 3001;
+.cover::after {
+  background: linear-gradient(to top,  #01011d, #01011d,  #010118,  #000000, rgba(0, 0, 0, 0.664), transparent 60%);
 }
 
-/* Flecha a la izquierda */
-#back-link {
-    background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
-    border-radius: 50%; /* Hace el fondo circular */
-    width: 36px; /* Tamaño del círculo */
-    height: 36px;
-    font-size: 20px; /* Tamaño del ícono */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#page-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    text-align: center;
-    width: 100%;
-    opacity: 0; /* Lo ocultamos por defecto */
-    transition: opacity 0.3s ease-in-out; /* Transición suave */
-}
-
-
-
-/* Hover efectos */
-.icon-link:hover {
-    opacity: 0.8; /* Ligera transparencia al hacer hover */
-}
-
-   .cover {
+    .cover {
   position: relative;
   width: 100%;
   
@@ -1338,89 +1280,6 @@ window.movieId = "dragon-ball-z-la-batalla-mas-grande-de-este-mundo-esta-por-com
 
 
 
-
-
-
-
-
-
-
-  
-
-
-
-
-
- 
-  
- 
-
-function castCurrentVideo() {
-  const video = document.getElementById("video");
-  let currentSrc = video?.currentSrc;
-
-  // Si currentSrc está vacío, intenta obtenerlo del <source>
-  if (!currentSrc) {
-    const sourceEl = video.querySelector('source');
-    currentSrc = sourceEl ? sourceEl.src : null;
-  }
-
-  if (!currentSrc) {
-    alert("No se encontró el enlace del video.");
-    return;
-  }
-
-  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
-  const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
-
-  const transmitLink = document.createElement('a');
-  transmitLink.href = appLink;
-  transmitLink.style.display = 'none';
-  document.body.appendChild(transmitLink);
-
-  let appOpened = false;
-  transmitLink.click();
-
-  setTimeout(() => {
-    if (!appOpened) {
-      window.location.href = storeLink;
-    }
-    document.body.removeChild(transmitLink);
-  }, 1000);
-
-  window.addEventListener("blur", () => {
-    appOpened = true;
-  }, { once: true });
-}
-
-
-const mainTitle = document.querySelector(".title")?.textContent?.trim() || "Sin título";
-    const subTitle = document.querySelector("#episodeSubtitle")?.textContent?.trim() || "Sin subtítulo";
-const moviePoster = document.getElementById("favoritoImagen")?.src || "";
-const movieLink = document.getElementById("favoritoEnlace")?.href || window.location.href;
-
-// Guarda automáticamente al actualizar el tiempo
-video.addEventListener("timeupdate", () => {
-      const currentTime = video.currentTime;
-      const duration = video.duration || 1;
-
-      // Guarda datos individuales
-      localStorage.setItem(`progress_${movieId}`, currentTime);
-      localStorage.setItem(`duration_${movieId}`, duration);
-
-      // Guarda el objeto completo
-      localStorage.setItem(`movie_${movieId}`, JSON.stringify({
-        title: mainTitle,
-        subtitle: subTitle,
-        poster: moviePoster,
-        link: movieLink,
-        progress: currentTime,
-        duration: duration
-      }));
-
-      // Flag para recargar sección al volver
-      localStorage.setItem("justReturnedFromSeries", "true");
-    });
 
 
 </script>

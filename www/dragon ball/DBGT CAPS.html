@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script src="scripts/main.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="//site.com/playerjs.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="https://api.themoviedb.org/3/movie/11?api_key=4b77886f6f12c73066c0d0509038df60">
+
+   
+<title>Dragon ball GT</title>
+
+<style>
+  *{user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+
+  ::-webkit-scrollbar{width: 0px;}
+body{margin: 0;
+            padding: 0;
+            background-image: url(https://od.lk/s/M18zMDc1NDc5MTJf/fondo.png); /* Cambia la URL por la de tu imagen */
+            background-position: center center;
+            background-repeat: repeat;
+            background-size: cover;
+            height: 100vh;}
+.container{background:transparent;width:100%;height:100%;position:relative;overflow-Y:scroll;margin-top:0.5em;}
+play{background:transparent;color:#fff;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;margin-top:10px;padding:10px;}
+.single-item img{height:100%;width:100%;border-radius:5px; margin-top: 0px;}
+.single-item{position:relative;}
+.slick-dots li button:before{color:white;opacity:1;text-shadow:0px 3px 6px #404;}
+.slick-dots li.slick-active button:before{color:rgb(256, 217, 0);opacity:1;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<style>
+.alignleft{ float:left; margin-left:5px; color:#fff; font-weight:bold; font-size:16px;} 
+.alignright{ float:right; margin-right:10px; color:#fff; font-size:14px; font-weight:bold ;} 
+h4{ margin-left:5px; color:#fff; font-weight:bold; font-size:15px;margin-left:5px;}
+.poster{position:relative;overflow:hidden;} 
+div.scrollmenu{background:transparent;overflow:auto;white-space:nowrap;position:relative;overflow-y:hidden;} 
+div.scrollmenu a { display: inline-block; color: #000; text-align:center; padding: 4px; text-decoration: none;}
+div.scrollmenu a:hover{ background:transparent;}
+.card{ position:relative ; text-align:center; color:white;}
+/*.centered{ font-size:12px; font-weight:bold; position:absolute; top:80%; left: 56%; transform:translate(-56%,-56%)} 
+.cent{ font-size:auto; position:absolute ; top:95%; left: 56%; transform:translate(-56%,-56%)} */
+.imgcard{ width:100px;border-radius:7px;height:140px;z-index:1; margin-left:5px; }
+.mnt{width:100px; border-radius:100px;height:100px;margin-left:5px;}
+#xs-header{background:transparent;left:0;position:fixed;top:-10px;width:100%;z-index:90;height:8%; margin-left:10px;}
+
+  .player {
+      background-color: #000;
+    
+
+      }
+      
+  
+.playlist_poster {
+  width: 100%;
+  height: 100%;
+  margin-right: 100%;
+}
+
+.playlist_duration {
+  position: absolute;
+  right: 165px;
+  bottom: 32px;
+  background: #0a0a0a8e;
+  color: #fff;
+  padding: 0 6px;
+  font-size: 100%;
+  border-radius: 5px;
+  
+}
+.playlist_title{
+  text-align: right;
+  padding: 0 8px;
+  font-size: 100%;
+  margin-right: 100%;
+}
+  body {
+background: #0a0a0a;
+}  
+
+#favoritoBtn {
+   
+   color:white;
+   font-size:25px;
+   background:transparent;
+
+   border: 2px solid transparent;
+   border-radius:12px;
+   margin: center;
+   margin-top: 10px;
+
+}
+.Trsa {
+   Font-weight:700;
+   color:white;
+   font-size:16px;
+   background:rgba(0, 0, 0,.5);
+   padding:04px 03px;
+   border: 1px solid transparent;
+   border-radius:37px;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+
+
+
+
+</style>
+
+<body>
+
+  <div id="player"></div>
+  <script src="https://od.lk/s/M18zMDkzMjkyODBf/new%20dragon%20ball%20gt%20player%202024.js"></script>
+
+  <div id="player1"></div>
+  
+  <center>  <div class="post-header__info">
+    <img alt="" src="https://image.tmdb.org/t/p/original/drHB3PsMGTUtjPLhvR9Zj5MzGsG.png"  width="50%" height="50%">
+  <p class="original-title">
+    
+    1996  •Animación, Sci-Fi & Fantasy, Action & Adventure</p></center>
+     <div class="meta">
+        
+       
+<br>
+<div id="favoritoData" style="display: none;">
+  <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/yXPNpIrmtDeJ790wUKOsmcCeMqs.jpg" alt="Poster de la Película">
+  <a id="favoritoEnlace" href="go:DBGT"></a>
+  <span id="nombre">Dragon ball GT</span>
+</div>   
+<center>    <button id="favoritoBtn" data-identificador="dragonballgt" onclick="toggleFavorito()">Agregar a Favoritos</button></center>
+<center><h5><p>Mis favoritos</p></h5> </center>
+
+
+ <br>
+ <h4 class="alignleft"> Capitulos</h4><h4 class="alignright"><a id="transmitButton"  href="#" data-intent="wvc-x-callback://open?url=https://od.lk/s/M18zMDkzMjg5OTJf/DBGT%20CAPS.html" onclick="abrirApp()" "=""><img src="https://od.lk/s/M18zMDM4NDYxOTNf/chromecast%20logo.png"  width="25" height="20" class="alignright"></img> </a></h4></a></div>
+<br>
+ <div id="playlist_container"></div>
+ <br>
+<script>
+
+    
+document.getElementById("player1").addEventListener("init",PlayerInit);
+   var player = new Playerjs({
+      id:"player1",
+     file: [{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NTlf/GT1.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap1","t1":"Dragon Ball GT","t2":"E1. Unas misteriosas esferas del Dragon aparecen","file":"https://od.lk/s/M18zMDE0MTk1Nzdf/01%20DBGT%2001%20-%20Unas%20misteriosas%20esferas%20del%20drag%C3%B3n%20aparecen.mp4",download:"https://od.lk/d/M18zMDE0MTk1Nzdf/01%20DBGT%2001%20-%20Unas%20misteriosas%20esferas%20del%20drag%C3%B3n%20aparecen.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NjBf/GT2.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap2","t1":"Dragon Ball GT","t2":"E2. Pan viaja en la nave espacial","file":"https://od.lk/s/M18zMDE0MTk4MDJf/DBGT2%20-%20Pan%20viaja%20en%20la%20nave%20espacial.mp4",download:"https://od.lk/d/M18zMDE0MTk4MDJf/DBGT2%20-%20Pan%20viaja%20en%20la%20nave%20espacial.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NjFf/GT3.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap3","t1":"Dragon Ball GT","t2":"E3. Los comerciantes del planeta Imega","file":"https://od.lk/s/M18zMDE0MjAxNTBf/DBGT3%20-%20Los%20comerciantes%20del%20planeta%20Imega.mp4",download:"https://od.lk/d/M18zMDE0MjAxNTBf/DBGT3%20-%20Los%20comerciantes%20del%20planeta%20Imega.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NjJf/GT4.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap4","t1":"Dragon Ball GT","t2":"E4. Goku y los demás se convierten en criminales","file":"https://od.lk/s/M18zMDE0MjAzODNf/DBGT4%20-%20Goku%20y%20los%20demas%20se%20convierten%20criminales.mp4",download:"https://od.lk/d/M18zMDE0MjAzODNf/DBGT4%20-%20Goku%20y%20los%20demas%20se%20convierten%20criminales.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NjNf/GT5.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap5","t1":"Dragon Ball GT","t2":"E5. El poderoso Lezick","file":"https://od.lk/s/M18zMDE0MjA2NzFf/DBGT5%20-%20El%20poderoso%20Lezick.mp4",download:"https://od.lk/d/M18zMDE0MjA2NzFf/DBGT5%20-%20El%20poderoso%20Lezick.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NjRf/GT6.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap6","t1":"Dragon Ball GT","t2":"E6. El dentista Goku","file":"https://od.lk/s/M18zMDE0MjEwMjBf/DBGT6%20-%20El%20dentista%20Goku.mp4",download:"https://od.lk/d/M18zMDE0MjEwMjBf/DBGT6%20-%20El%20dentista%20Goku.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NjVf/GT7.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap7","t1":"Dragon Ball GT","t2":"E7. Trunks se viste de novia","file":"https://od.lk/s/M18zMDE0MjEzNzJf/DBGT7%20-%20Trunks%20se%20viste%20de%20novia.mp4",download:"https://od.lk/d/M18zMDE0MjEzNzJf/DBGT7%20-%20Trunks%20se%20viste%20de%20novia.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1Njdf/GT8.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap8","t1":"Dragon Ball GT","t2":"E8. Los bigotes de Zunama","file":"https://od.lk/s/M18zMDE0MjE3NzZf/DBGT8%20-%20Los%20bigotes%20de%20Zunama.mp4",download:"https://od.lk/d/M18zMDE0MjE3NzZf/DBGT8%20-%20Los%20bigotes%20de%20Zunama.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1Njhf/GT9.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap9","t1":"Dragon Ball GT","t2":"E9. El planeta peligroso","file":"https://od.lk/s/M18zMDE0MjIyNjVf/DBGT9%20-%20El%20planeta%20peligroso.mp4",download:"https://od.lk/d/M18zMDE0MjIyNjVf/DBGT9%20-%20El%20planeta%20peligroso.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1Njlf/GT10.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap10","t1":"Dragon Ball GT","t2":"E10. El baile Bon-Pa-Ppa","file":"https://od.lk/s/M18zMDE0MjI2NThf/DBGT10%20-%20El%20baile%20Bon-Pa-PPa.mp4",download:"https://od.lk/d/M18zMDE0MjI2NThf/DBGT10%20-%20El%20baile%20Bon-Pa-PPa.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzBf/GT11.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap11","t1":"Dragon Ball GT","t2":"E11. Pan es convertida en muñeca","file":"https://od.lk/s/M18zMDE0MjMwODVf/DBGT11%20-%20Pan%20es%20convertida%20en%20mu%C3%B1eca.mp4",download:"https://od.lk/d/M18zMDE0MjMwODVf/DBGT11%20-%20Pan%20es%20convertida%20en%20mu%C3%B1eca.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzFf/GT12.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap12","t1":"Dragon Ball GT","t2":"E12. El despertar de Rudo","file":"https://od.lk/s/M18zMDE0MjM1Njdf/DBGT12%20-%20El%20despertar%20de%20Rudo.mp4",download:"https://od.lk/d/M18zMDE0MjM1Njdf/DBGT12%20-%20El%20despertar%20de%20Rudo.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzJf/GT13.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap13","t1":"Dragon Ball GT","t2":"E13. El misterioso científico llamado Myu","file":"https://od.lk/s/M18zMDE0MjM5NzVf/DBGT13%20-%20El%20misterioso%20cientifico%20llamado%20Myu.mp4",download:"https://od.lk/d/M18zMDE0MjM5NzVf/DBGT13%20-%20El%20misterioso%20cientifico%20llamado%20Myu.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzNf/GT14.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap14","t1":"Dragon Ball GT","t2":"E14. La destrucción de Rudo","file":"https://od.lk/s/M18zMDE0MjQyNzlf/DBGT14%20-%20La%20destruccion%20de%20Rudo.mp4",download:"https://od.lk/d/M18zMDE0MjQyNzlf/DBGT14%20-%20La%20destruccion%20de%20Rudo.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzRf/GT15.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap15","t1":"Dragon Ball GT","t2":"E15. Pan se escapa","file":"https://od.lk/s/M18zMDE0MjQ2ODNf/DBGT15%20-%20Pan%20se%20escapa.mp4",download:"https://od.lk/d/M18zMDE0MjQ2ODNf/DBGT15%20-%20Pan%20se%20escapa.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzVf/GT16.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap16","t1":"Dragon Ball GT","t2":"E16. El planeta de las maquinas M2","file":"https://od.lk/s/M18zMDE0MjUwMzdf/DBGT16%20-%20El%20planeta%20de%20las%20maquinas.mp4",download:"https://od.lk/d/M18zMDE0MjUwMzdf/DBGT16%20-%20El%20planeta%20de%20las%20maquinas.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1NzZf/GT17.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap17","t1":"Dragon Ball GT","t2":"E17. El plan de Pan","file":"https://od.lk/s/M18zMDE0MjU0MjJf/DBGT17%20-%20El%20plan%20de%20Pan.mp4",download:"https://od.lk/d/M18zMDE0MjU0MjJf/DBGT17%20-%20El%20plan%20de%20Pan.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1Nzdf/GT18.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap18","t1":"Dragon Ball GT","t2":"E18. Lafuria de Goku","file":"https://od.lk/s/M18zMDE0MjU3OTBf/DBGT18%20-%20La%20furia%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDE0MjU3OTBf/DBGT18%20-%20La%20furia%20de%20Goku.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1Nzhf/GT19.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap19","t1":"Dragon Ball GT","t2":"E19. El poderoso mutante Rildo","file":"https://od.lk/s/M18zMDE0MjYyMjZf/DBGT19%20-%20El%20poderoso%20mutante%20Rildo.mp4",download:"https://od.lk/d/M18zMDE0MjYyMjZf/DBGT19%20-%20El%20poderoso%20mutante%20Rildo.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1Nzlf/GT20.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap20","t1":"Dragon Ball GT","t2":"E20. Goku es atacado por un tsunami hecha de metal","file":"https://od.lk/s/M18zMDE0MjY2MDhf/DBGT20%20-%20Goku%20es%20atacado%20por%20una%20tsunami%20hecha%20de%20metal.mp4",download:"https://od.lk/d/M18zMDE0MjY2MDhf/DBGT20%20-%20Goku%20es%20atacado%20por%20una%20tsunami%20hecha%20de%20metal.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODBf/GT21.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap21","t1":"Dragon Ball GT","t2":"E21. Goku es atrapado en una placa de metal","file":"https://od.lk/s/M18zMDE0MjcwMDlf/DBGT21%20-%20Goku%20queda%20atrapado%20en%20un%20placa%20de%20metal.mp4",download:"https://od.lk/d/M18zMDE0MjcwMDlf/DBGT21%20-%20Goku%20queda%20atrapado%20en%20un%20placa%20de%20metal.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODFf/GT22.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap22","t1":"Dragon Ball GT","t2":"E22. El maligno Baby","file":"https://od.lk/s/M18zMDE0MTkzOTJf/DBGT22%20-%20El%20maligno%20Baby.mp4",download:"https://od.lk/d/M18zMDE0MTkzOTJf/DBGT22%20-%20El%20maligno%20Baby.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODJf/GT23.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap23","t1":"Dragon Ball GT","t2":"E23. El joven misterioso de la nave naufragada","file":"https://od.lk/s/M18zMDE0NTkyMTFf/DBGT23%20-%20El%20joven%20misterioso%20de%20la%20nave%20naufragada.mp4",download:"https://od.lk/d/M18zMDE0NTkyMTFf/DBGT23%20-%20El%20joven%20misterioso%20de%20la%20nave%20naufragada.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODNf/GT24.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap24","t1":"Dragon Ball GT","t2":"E24. El ataque de Baby","file":"https://od.lk/s/M18zMDE0NTk1NTZf/DBGT24%20-%20El%20ataque%20de%20Baby.mp4",download:"https://od.lk/d/M18zMDE0NTk1NTZf/DBGT24%20-%20El%20ataque%20de%20Baby.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMjk4OTBf/GT25.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap25","t1":"Dragon Ball GT","t2":"E25. Baby llega a la Tierra","file":"https://od.lk/s/M18zMDE0NTg5NDBf/DBGT25%20-%20Baby%20llega%20a%20la%20tierra.mp4",download:"https://od.lk/d/M18zMDE0NTg5NDBf/DBGT25%20-%20Baby%20llega%20a%20la%20tierra.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODRf/GT26.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap26","t1":"Dragon Ball GT","t2":"E26. Una pelea entre hermanos","file":"https://od.lk/s/M18zMDE1NDQ2Mzdf/DBGT26%20-%20Una%20pelea%20entre%20hermanos.mp4",download:"https://od.lk/d/M18zMDE1NDQ2Mzdf/DBGT26%20-%20Una%20pelea%20entre%20hermanos.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODVf/GT27.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap27","t1":"Dragon Ball GT","t2":"E27. Vegeta es poseído por Baby","file":"https://od.lk/s/M18zMDE1NDQ2NDBf/DBGT27%20-%20Vegeta%20es%20poseido%20por%20Baby.mp4",download:"https://od.lk/d/M18zMDE1NDQ2NDBf/DBGT27%20-%20Vegeta%20es%20poseido%20por%20Baby.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODZf/GT28.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap28","t1":"Dragon Ball GT","t2":"E28. ¿Todos son mis enemigos?","file":"https://od.lk/s/M18zMDE1NDQ2NTBf/DBGT28%20-%20Todos%20son%20mis%20enemigos.mp4",download:"https://od.lk/d/M18zMDE1NDQ2NTBf/DBGT28%20-%20Todos%20son%20mis%20enemigos.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODdf/GT29.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap29","t1":"Dragon Ball GT","t2":"E29. El poder del super saiyajin 3 es derrotado","file":"https://od.lk/s/M18zMDE1NDQ2NTRf/DBGT29%20-%20El%20poder%20del%20Super%20Saiyajin%203%20es%20derrotado.mp4",download:"https://od.lk/d/M18zMDE1NDQ2NTRf/DBGT29%20-%20El%20poder%20del%20Super%20Saiyajin%203%20es%20derrotado.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODhf/GT30.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap30","t1":"Dragon Ball GT","t2":"E30. Goku es eliminado","file":"https://od.lk/s/M18zMDE1NDQ2NTVf/DBGT30%20-%20Goku%20es%20eliminado.mp4",download:"https://od.lk/d/M18zMDE1NDQ2NTVf/DBGT30%20-%20Goku%20es%20eliminado.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1ODlf/GT31.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap31","t1":"Dragon Ball GT","t2":"E31. La destrucción de la dimensión de la oca","file":"https://od.lk/s/M18zMDE1NDQ2NTZf/DBGT31%20-%20La%20destruccion%20de%20la%20dimension%20de%20la%20Oca.mp4",download:"https://od.lk/d/M18zMDE1NDQ2NTZf/DBGT31%20-%20La%20destruccion%20de%20la%20dimension%20de%20la%20Oca.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTBf/GT32.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap32","t1":"Dragon Ball GT","t2":"E32. La furia del guerrero Ub","file":"https://od.lk/s/M18zMDIwOTU1Nzdf/DBGT32%20-%20La%20furia%20del%20guerrero%20Oob.mkv",download:"https://od.lk/d/M18zMDIwOTU1Nzdf/DBGT32%20-%20La%20furia%20del%20guerrero%20Oob.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTFf/GT33.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap33","t1":"Dragon Ball GT","t2":"E33. El poder del nuevo Ub","file":"https://od.lk/s/M18zMDIwOTU4Mzlf/DBGT33%20-%20El%20poder%20del%20nuevo%20Oob.mkv",download:"https://od.lk/d/M18zMDIwOTU4Mzlf/DBGT33%20-%20El%20poder%20del%20nuevo%20Oob.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTJf/GT34.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap34","t1":"Dragon Ball GT","t2":"E34. Goku fracasa en su transformación","file":"https://od.lk/s/M18zMDIwOTYwNTNf/DBGT34%20-%20Goku%20fracasa%20en%20su%20transformaci%C3%B3n.mkv",download:"https://od.lk/d/M18zMDIwOTYwNTNf/DBGT34%20-%20Goku%20fracasa%20en%20su%20transformaci%C3%B3n.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTNf/GT35.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap35","t1":"Dragon Ball GT","t2":"E35. Goku se convierte en super saiyajin 4","file":"https://od.lk/s/M18zMDIwOTYzMTdf/DBGT35%20-%20Goku%20se%20convierte%20en%20Super%20Saiyajin%204.mkv",download:"https://od.lk/d/M18zMDIwOTYzMTdf/DBGT35%20-%20Goku%20se%20convierte%20en%20Super%20Saiyajin%204.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTVf/GT36.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap36","t1":"Dragon Ball GT","t2":"E36. El gigantesco mono Baby","file":"https://od.lk/s/M18zMDIwNDQyMDBf/DBGT36%20-%20El%20gigantesco%20mono%20Baby.mkv",download:"https://od.lk/d/M18zMDIwNDQyMDBf/DBGT36%20-%20El%20gigantesco%20mono%20Baby.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTZf/GT37.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap37","t1":"Dragon Ball GT","t2":"E37. Doble K. O.","file":"https://od.lk/s/M18zMDIwNDQ4Mzhf/DBGT37%20-%20Doble%20K.O.mkv",download:"https://od.lk/d/M18zMDIwNDQ4Mzhf/DBGT37%20-%20Doble%20K.O.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTdf/GT38.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap38","t1":"Dragon Ball GT","t2":"E38. Goku recupera sus poderes","file":"https://od.lk/s/M18zMDIwNDU3MTZf/DBGT38%20-%20Goku%20recupera%20sus%20poderes.mkv",download:"https://od.lk/d/M18zMDIwNDU3MTZf/DBGT38%20-%20Goku%20recupera%20sus%20poderes.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OThf/GT39.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap39","t1":"Dragon Ball GT","t2":"E39. Baby muere","file":"https://od.lk/s/M18zMDIwNDYyNjZf/DBGT39%20-%20Baby%20muere.mkv",download:"https://od.lk/d/M18zMDIwNDYyNjZf/DBGT39%20-%20Baby%20muere.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM1OTlf/GT40.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap40","t1":"Dragon Ball GT","t2":"E40. La importante decisión de Pikoro","file":"https://od.lk/s/M18zMDIwNDY5NTdf/DBGT40%20-%20La%20importante%20desicion%20de%20Pikoro.mkv",download:"https://od.lk/d/M18zMDIwNDY5NTdf/DBGT40%20-%20La%20importante%20desicion%20de%20Pikoro.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDBf/GT41.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap41","t1":"Dragon Ball GT","t2":"E41. ¿Quién será el sucesor de Mr. Satán?","file":"https://od.lk/s/M18zMDIwNDc3OThf/DBGT41%20-%20Quien%20ser%C3%A1%20el%20sucesor%20de%20Mr.%20Satan.mkv",download:"https://od.lk/d/M18zMDIwNDc3OThf/DBGT41%20-%20Quien%20ser%C3%A1%20el%20sucesor%20de%20Mr.%20Satan.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDFf/GT42.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap42","t1":"Dragon Ball GT","t2":"E42. Goku se enfrenta con enemigos poderosos del infierno","file":"https://od.lk/s/M18zMDIwNDgyNzNf/DBGT42%20-%20Goku%20se%20enfrenta%20con%20enemigos%20poderosos%20del%20infierno.mkv",download:"https://od.lk/d/M18zMDIwNDgyNzNf/DBGT42%20-%20Goku%20se%20enfrenta%20con%20enemigos%20poderosos%20del%20infierno.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDJf/GT43.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap43","t1":"Dragon Ball GT","t2":"E43. Cell y Freezer regresan","file":"https://od.lk/s/M18zMDIwNDg1ODlf/DBGT43%20-%20Cell%20y%20Freezer%20regresan.mkv",download:"https://od.lk/d/M18zMDIwNDg1ODlf/DBGT43%20-%20Cell%20y%20Freezer%20regresan.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDNf/GT44.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap44","t1":"Dragon Ball GT","t2":"E44. El androide más poderoso","file":"https://od.lk/s/M18zMDIwNDg4NDhf/DBGT44%20-%20El%20androide%20m%C3%A1s%20poderoso.mkv",download:"https://od.lk/d/M18zMDIwNDg4NDhf/DBGT44%20-%20El%20androide%20m%C3%A1s%20poderoso.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDRf/GT45.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap45","t1":"Dragon Ball GT","t2":"E45. Goku escapa del infierno","file":"https://od.lk/s/M18zMDIwNDkxMjJf/DBGT45%20-%20Goku%20escapa%20del%20infierno.mkv",download:"https://od.lk/d/M18zMDIwNDkxMjJf/DBGT45%20-%20Goku%20escapa%20del%20infierno.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDVf/GT46.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap46","t1":"Dragon Ball GT","t2":"E46. El super saiyajin 4 contra super No. !7","file":"https://od.lk/s/M18zMDIwNDk0MDVf/DBGT46%20-%20El%20Super%20Saiyajin%204%20vs%20Super%20Numero%2017.mkv",download:"https://od.lk/d/M18zMDIwNDk0MDVf/DBGT46%20-%20El%20Super%20Saiyajin%204%20vs%20Super%20Numero%2017.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDZf/GT47.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap47","t1":"Dragon Ball GT","t2":"E47. Goku y No. 18 pelean juntos","file":"https://od.lk/s/M18zMDIwNDk3MTVf/DBGT47%20-%20Goku%20y%20No.%2018%20pelean%20juntos.mkv",download:"https://od.lk/d/M18zMDIwNDk3MTVf/DBGT47%20-%20Goku%20y%20No.%2018%20pelean%20juntos.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDdf/GT48.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap48","t1":"Dragon Ball GT","t2":"E48. ¿Shen-long es nuestro enemigo?","file":"https://od.lk/s/M18zMDIwNTAxMzJf/DBGT48%20-%20Shen%20Long%20es%20nuestro%20enemigo.mkv",download:"https://od.lk/d/M18zMDIwNTAxMzJf/DBGT48%20-%20Shen%20Long%20es%20nuestro%20enemigo.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDhf/GT49.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap49","t1":"Dragon Ball GT","t2":"E49. El Dragón que pelea de una manera diferente","file":"https://od.lk/s/M18zMDIwNTA1ODlf/DBGT49%20-%20El%20dragon%20que%20pelea%20de%20una%20manera%20diferente.mkv",download:"https://od.lk/d/M18zMDIwNTA1ODlf/DBGT49%20-%20El%20dragon%20que%20pelea%20de%20una%20manera%20diferente.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MDlf/GT50.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap50","t1":"Dragon Ball GT","t2":"E50. El Dragón electrico","file":"https://od.lk/s/M18zMDIwNTA5NTRf/DBGT50%20-%20El%20dragon%20electrico.mkv",download:"https://od.lk/d/M18zMDIwNTA5NTRf/DBGT50%20-%20El%20dragon%20electrico.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTBf/GT51.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap51","t1":"Dragon Ball GT","t2":"E51. El ataque del torbellino","file":"https://od.lk/s/M18zMDIwNTExODFf/DBGT51%20-%20El%20ataque%20del%20torbellino.mkv",download:"https://od.lk/d/M18zMDIwNTExODFf/DBGT51%20-%20El%20ataque%20del%20torbellino.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTFf/GT52.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap52","t1":"Dragon Ball GT","t2":"E52. La técnica secreta del Dragón de siete estrellas","file":"https://od.lk/s/M18zMDIwNTE1NTFf/DBGT52%20-%20Pancorre%20peligro.mkv",download:"https://od.lk/d/M18zMDIwNTE1NTFf/DBGT52%20-%20Pancorre%20peligro.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTJf/GT53.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap53","t1":"Dragon Ball GT","t2":"E53. ¿Pan desaparece?","file":"https://od.lk/s/M18zMDIwNTIwMTVf/DBGT53%20-%20%C2%BFPan%20desaparece.mkv",download:"https://od.lk/d/M18zMDIwNTIwMTVf/DBGT53%20-%20%C2%BFPan%20desaparece.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTNf/GT54.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap54","t1":"Dragon Ball GT","t2":"E54. El guerrero del sol","file":"https://od.lk/s/M18zMDIwNTI3MjJf/DBGT54%20-%20El%20guerrero%20del%20Sol.mkv",download:"https://od.lk/d/M18zMDIwNTI3MjJf/DBGT54%20-%20El%20guerrero%20del%20Sol.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTRf/GT55.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap55","t1":"Dragon Ball GT","t2":"E55. El plan de Vegeta y Bulma","file":"https://od.lk/s/M18zMDIwNTMwMzhf/DBGT55%20-%20Bulma%20actua.%20El%20plan%20de%20Vegeta.mkv",download:"https://od.lk/d/M18zMDIwNTMwMzhf/DBGT55%20-%20Bulma%20actua.%20El%20plan%20de%20Vegeta.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTVf/GT56.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap56","t1":"Dragon Ball GT","t2":"E56. Los hermanos de hielo y fuego","file":"https://od.lk/s/M18zMDIwNzI3NjVf/DBGT56%20-%20Los%20hermanos%20del%20calor%20y%20el%20frio.mkv",download:"https://od.lk/d/M18zMDIwNzI3NjVf/DBGT56%20-%20Los%20hermanos%20del%20calor%20y%20el%20frio.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTZf/GT57.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap57","t1":"Dragon Ball GT","t2":"E57. El Dragón más poderoso","file":"https://od.lk/s/M18zMDIwNzMwNTRf/DBGT57%20-%20Al%20final%20aparece%20Ih%20Shin%20Rong.mkv",download:"https://od.lk/s/M18zMDEwNDU4NTRf/Dragon%20Ball%20001%20%5B960p%5D%20-%20El%20secreto%20de%20la%20esfera%20del%20drag%C3%B3n.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTdf/GT58.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap58","t1":"Dragon Ball GT","t2":"E58. Goku supera los poderes del super saiyajin 4","file":"https://od.lk/s/M18zMDIwNzMzODJf/DBGT58%20-%20El%20super%20saiyan%204%20superado.mkv",download:"https://od.lk/d/M18zMDIwNzMzODJf/DBGT58%20-%20El%20super%20saiyan%204%20superado.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MThf/GT59.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap59","t1":"Dragon Ball GT","t2":"E59. Vegeta se convierte en un mono gigante","file":"https://od.lk/s/M18zMDIwNzM3NDFf/DBGT59%20-%20El%20super%20saiyajin%20Vegeta%20enfurecido.mkv",download:"https://od.lk/d/M18zMDIwNzM3NDFf/DBGT59%20-%20El%20super%20saiyajin%20Vegeta%20enfurecido.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MTlf/GT60.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap60","t1":"Dragon Ball GT","t2":"E60. Super Gogeta","file":"https://od.lk/s/M18zMDIwNzQwMjdf/DBGT60%20-%20FEl%20super%20Gogeta%20definitivo.mkv",download:"https://od.lk/d/M18zMDIwNzQwMjdf/DBGT60%20-%20FEl%20super%20Gogeta%20definitivo.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MjBf/GT61.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap61","t1":"Dragon Ball GT","t2":"E61. Goku se come la esfera de cuatro estrellas","file":"https://od.lk/s/M18zMDIwNzQyODFf/DBGT61%20-%20Goku%20engulle%20la%20Shu%20Shin%20Chu.mkv",download:"https://od.lk/d/M18zMDIwNzQyODFf/DBGT61%20-%20Goku%20engulle%20la%20Shu%20Shin%20Chu.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MjFf/GT62.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap62","t1":"Dragon Ball GT","t2":"E62. Cuatro estrellas salva a Goku","file":"https://od.lk/s/M18zMDIwNzQ1NTRf/DBGT62%20-%20Aparece%20el%20ultimo%20aliado.mkv",download:"https://od.lk/d/M18zMDIwNzQ1NTRf/DBGT62%20-%20Aparece%20el%20ultimo%20aliado.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MjJf/GT63.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap63","t1":"Dragon Ball GT","t2":"E63. Goku salva el Universo","file":"https://od.lk/s/M18zMDIwNzQ4ODVf/DBGT63%20-%20Goku%20pide%20ayuda%20al%20universo.mkv",download:"https://od.lk/d/M18zMDIwNzQ4ODVf/DBGT63%20-%20Goku%20pide%20ayuda%20al%20universo.mkv"},
+{"title":"<img src='https://od.lk/s/M18zMDIwMTM2MjRf/GT64.png'class='playlist_poster'><div class='playlist_duration'>25min</div><div class='playlist_title'>DBGT Cap64","t1":"Dragon Ball GT","t2":"E64. ¡Adiós Goku!","file":"https://od.lk/s/M18zMDIwNzUzMDJf/DBGT64%20-%20Adios%20Goku.%20Hasta%20que%20nos%20volvamos%20a%20encontrar.mkv",download:"https://od.lk/d/M18zMDIwNzUzMDJf/DBGT64%20-%20Adios%20Goku.%20Hasta%20que%20nos%20volvamos%20a%20encontrar.mkv"},
+]
+    });
+    function PlayerInit(){
+      player.api("moveplaylist","playlist_container");
+   }
+   var playlist = $("#player_playlist");
+$(".up_scroll_button").click(function() {
+   playlist.animate({
+      scrollTop: playlist.scrollTop()-100
+   }, 500);
+});
+$(".down_scroll_button").click(function() {
+   playlist.animate({
+      scrollTop: playlist.scrollTop()+100
+   }, 500);
+});
+</script>
+</body>
+
+</html>
+
+                                   
+                                    
+    </svg></button></div>
+</div>
+<script>
+  const favoritoBtn = document.getElementById('favoritoBtn');
+  const identificador = favoritoBtn.getAttribute('data-identificador');
+
+  function toggleFavorito() {
+    const favoritoEnlace = document.getElementById('favoritoEnlace');
+    const imagen = document.getElementById('favoritoImagen');
+    const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+    const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+    const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+    if (encontrado) {
+      const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+      favoritoBtn.textContent = '✚';
+      localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    } else {
+      favoritos.push({
+        identificador: identificador,
+        imagen: imagen.outerHTML,
+        enlace: favoritoEnlace.href,
+        nombre: nombre, // Agregar el nombre al objeto
+      });
+
+      favoritoBtn.textContent = '✔';
+      localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    }
+  }
+
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+  if (encontradoInicial) {
+    favoritoBtn.textContent = '✔';
+  } else {
+    favoritoBtn.textContent = '✚';
+  }
+</script>      
+<script>
+  function abrirApp() {
+    var intentUrl = document.getElementById("transmitButton").getAttribute("data-intent");
+    
+    // Crear un elemento "iframe" oculto para intentar abrir la URL personalizada
+    var iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = intentUrl;
+    document.body.appendChild(iframe);
+    
+    // Esperar un tiempo breve y redirigir al enlace si el intent no se ejecutó
+    setTimeout(function() {
+      document.body.removeChild(iframe);
+      window.location.href = "#"; // Redirige al enlace original
+    }, 3000); // Espera 3 segundos antes de redirigir (ajusta según necesites)
+  }
+
+  window.addEventListener('orientationchange', () => {
+        if (screen.orientation.angle === 90 || screen.orientation.angle === -90) {
+            player.style.width = '100vw';
+            player.style.height = '100vh';
+        } else {
+            player.style.width = '100%';
+            player.style.height = 'auto';
+        }
+    });
+  </script>              
+                                                     
+                                                     <style>
+                                                      * {
+                                                      margin: 1;
+                                                      }		
+                                                      
+                                                      ::-webkit-scrollbar{width: 0px;}
+body{margin: 0;
+            padding: 0;
+            background-image: url(https://od.lk/s/M18zMDc1NDc5MTJf/fondo.png); /* Cambia la URL por la de tu imagen */
+            background-position: center center;
+            background-repeat: repeat;
+            background-size: cover;
+            height: 100vh;}
+                                                      
+                                                      
+                                                      
+                                                      h3 {
+                                                      color: #fafaf6;
+                                                      }
+                                                      
+                                                      .info p {
+                                                      color: #fcfcfa;
+                                                      }
+                                                      
+                                                      
+                                                   
+                                                      
+                                                      h2 {
+                                                      color: rgb(252, 250, 250);
+                                                      margin: 10px;
+                                                      }
+                                                      
+                                                      p {
+                                                      color: #f8f1f1
+                                                      }
+                                                      
+                                                      
+                                                      </style>		
+                                                      
+                                                      </html>
+                                                          
+                                                      
+                                                                      <!-- If we need navigation buttons -->
+                                                                     
+                                                                  </div>
+                                                              </section>
+                                                              </main>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <label class='fCls' for='offNav'></label>
+                                                              </div>
+                                                              <div id="slider">
+                                                                  <figure>
+                                                                      </play>
+                                                              </div>
+                                                      
+                                                          
+                                                      
+                                                      <br>
+                                                      <br>
+                                                      
+                                                      
+                                                         
+                                                      </body>
+                                                      
+                                                      </html>
+                                                      </style>
+                                                         <link rel="stylesheet" href="renderer.css">
+</head>
+</head>
+                                                      <body>
+                                                      <menu>
+                                                      
+                                                      <br>
+                                                      
+                                                     
+                                                      
+                                                      <style type="text/css">
+                                                      :root {
+                                                          --colorOne: #000000;
+                                                          --colorTwo: #c41111;
+                                                          --colorWhite: #e5e5e5;
+                                                      
+                                                          --tileBorderRadius: 4px;
+                                                      
+                                                          --fontOne: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                                                      }
+                                                      
+                                                      * {
+                                                          padding: 0;
+                                                          margin: 0;
+                                                          box-sizing: border-box;
+                                                      }
+                                                      
+                                                      .header {
+                                                          padding: 0 2%;
+                                                      }
+                                                      
+                                                      body {
+                                                          font-family: var(--fontOne);
+                                                          background-color: var(--colorOne);
+                                                      }
+                                                      
+                                                      .headerLogo {
+                                                          width: 120px;
+                                                      }
+                                                      
+                                                      .thumbSection {
+                                                          padding-top: 3%;
+                                                          color: var(--colorWhite);
+                                                      }
+                                                      
+                                                      .thumbTitle {
+                                                          font-size: 16px;
+                                                          line-height: 14px;
+                                                          font-weight: 500;
+                                                          margin: 0 4% 12px;
+                                                      }
+                                                      
+                                                      .thumbTiles.swiper-container {
+                                                          padding: 0 4%;
+                                                      }
+                                                      
+                                                      .thumbTile {
+                                                          width: 20%;
+                                                      }
+                                                      
+                                                      .thumbTile__image {
+                                                          width: 100%;
+                                                          border-radius: var(--tileBorderRadius);
+                                                      }
+                                                      
+                                                      .thumbTiles .swiper-button-prev,
+                                                      .thumbTiles .swiper-button-next {
+                                                          height: 100%;
+                                                          width: 4%;
+                                                          width: calc(4% - 5px);
+                                                          top: 0;
+                                                          bottom: 0;
+                                                          margin: 0;
+                                                          background-color: rgba(0, 0, 0, 0.5);
+                                                      }
+                                                      
+                                                      .thumbTiles .swiper-button-prev {
+                                                          left: 0;
+                                                          border-top-right-radius: var(--tileBorderRadius);
+                                                          border-bottom-right-radius: var(--tileBorderRadius);
+                                                      }
+                                                      
+                                                      .thumbTiles .swiper-button-next {
+                                                          right: 0;
+                                                          border-top-left-radius: var(--tileBorderRadius);
+                                                          border-bottom-left-radius: var(--tileBorderRadius);
+                                                      }
+                                                      
+                                                      .thumbTiles .swiper-button-prev::after,
+                                                      .thumbTiles .swiper-button-next::after {
+                                                          color: #fff;
+                                                          font-size: 4vw;
+                                                          font-weight: bold;
+                                                          transition: transform 0.1s ease-out;
+                                                      }
+                                                      
+                                                      
+                                                      

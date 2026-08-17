@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script src="scripts/main.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="//site.com/playerjs.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="https://api.themoviedb.org/3/movie/11?api_key=4b77886f6f12c73066c0d0509038df60">
+  <link rel="icon" type="image/png" sizes="512×512"
+  href="https://od.lk/s/M18zMDc1MjMzOTdf/DIGITAL%20KNIGHT2.png">
+   
+<title>Dragon ball Z</title>
+
+<style>
+  *{user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+
+  ::-webkit-scrollbar{width: 0px;}
+body{margin: 0;
+            padding: 0;
+            background-image: url(https://od.lk/s/M18zMDc1NDc5MTJf/fondo.png); /* Cambia la URL por la de tu imagen */
+            background-position: center center;
+            background-repeat: repeat;
+            background-size: cover;
+            height: 100vh;}
+.container{background:transparent;width:100%;height:100%;position:relative;overflow-Y:scroll;margin-top:0.5em;}
+play{background:transparent;color:#fff;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;margin-top:10px;padding:10px;}
+.single-item img{height:100%;width:100%;border-radius:5px; margin-top: 0px;}
+.single-item{position:relative;}
+.slick-dots li button:before{color:white;opacity:1;text-shadow:0px 3px 6px #404;}
+.slick-dots li.slick-active button:before{color:rgb(256, 217, 0);opacity:1;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<style>
+.alignleft{ float:left; margin-left:5px; color:#fff; font-weight:bold; font-size:16px;} 
+.alignright{ float:right; margin-right:10px; color:#fff; font-size:14px; font-weight:bold ;} 
+h4{ margin-left:5px; color:#fff; font-weight:bold; font-size:15px;margin-left:5px;}
+.poster{position:relative;overflow:hidden;} 
+div.scrollmenu{background:transparent;overflow:auto;white-space:nowrap;position:relative;overflow-y:hidden;} 
+div.scrollmenu a { display: inline-block; color: #000; text-align:center; padding: 4px; text-decoration: none;}
+div.scrollmenu a:hover{ background:transparent;}
+.card{ position:relative ; text-align:center; color:white;}
+/*.centered{ font-size:12px; font-weight:bold; position:absolute; top:80%; left: 56%; transform:translate(-56%,-56%)} 
+.cent{ font-size:auto; position:absolute ; top:95%; left: 56%; transform:translate(-56%,-56%)} */
+.imgcard{ width:100px;border-radius:7px;height:140px;z-index:1; margin-left:5px; }
+.mnt{width:100px; border-radius:100px;height:100px;margin-left:5px;}
+#xs-header{background:transparent;left:0;position:fixed;top:-10px;width:100%;z-index:90;height:8%; margin-left:10px;}
+
+  .player {
+      background-color: #000;
+    
+
+      }
+      
+  
+.playlist_poster {
+  width: 100%;
+  height: 100%;
+  margin-right: 100%;
+
+  
+}
+.playlist_title{
+  text-align: right;
+  padding: 0 8px;
+  font-size: 100%;
+  margin-right: 100%;
+}
+  body {
+background: #0a0a0a;
+}  
+
+#favoritoBtn {
+   
+   color:white;
+   font-size:25px;
+   background:transparent;
+
+   border: 2px solid transparent;
+   border-radius:12px;
+   margin: center;
+   margin-top: 10px;
+
+}
+.Trsa {
+   Font-weight:700;
+   color:white;
+   font-size:16px;
+   background:rgba(0, 0, 0,.5);
+   padding:04px 03px;
+   border: 1px solid transparent;
+   border-radius:37px;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+
+
+
+
+</style>
+
+<body>
+  <div id="player"></div>
+
+  <script src="https://od.lk/s/M18zMDkzMjk3NTlf/New%20dragon%20ball%20palyer%202024.js"></script>
+
+  <div id="player1"></div>
+  
+  <center>  <div class="post-header__info">
+    <img alt="" src="https://image.tmdb.org/t/p/original/kImgLDlDYB21boSzwc2fHyQVQON.png"  width="50%" height="50%">
+  <p class="original-title">
+                      <p> <span aria-hidden="true">1986  • Animación, Ciencia ficción, Acción</span>  </p></center>
+                      <br>
+                      <div id="favoritoData" style="display: none;">
+                        <img id="favoritoImagen" class="poster" src="https://image.tmdb.org/t/p/original/gwasExt5LrDna0dkr5H95mebovd.jpg" alt="Poster de la Película">
+                        <a id="favoritoEnlace" href="go:Dragon1"></a>
+                        <span id="nombre">Dragon Ball inicio </span>
+                      </div>   
+                      <center>   <button id="favoritoBtn" data-identificador="dragon" onclick="toggleFavorito()">Agregar a Favoritos</button></center>
+      
+      <center><h5><p>Mis favoritos</p></h5> </center>
+
+
+      
+      
+ <br>
+<h4 class="alignleft"> Capitulos</h4><h4 class="alignright"><a id="transmitButton"  href="#" data-intent="wvc-x-callback://open?url=https://od.lk/s/M18zMDkzMTc3NzBf/DB%20Caps.html" onclick="abrirApp()" "=""><img src="https://od.lk/s/M18zMDM4NDYxOTNf/chromecast%20logo.png"  width="25" height="20" class="alignright"></img> </a></h4></a></div>
+
+  <br><br>
+<div id="playlist_container"></div>
+<script>
+
+    
+   document.getElementById("player1").addEventListener("init",PlayerInit);
+   var player = new Playerjs({
+      id:"player1",
+      file: [{"title":"<img src='https://od.lk/s/M18zMDEwOTU1Mzdf/1.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap1","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDU4NTRf/Dragon%20Ball%20001%20%5B960p%5D%20-%20El%20secreto%20de%20la%20esfera%20del%20drag%C3%B3n.mp4",download:"https://od.lk/d/M18zMDEwNDU4NTRf/Dragon%20Ball%20001%20%5B960p%5D%20-%20El%20secreto%20de%20la%20esfera%20del%20drag%C3%B3n.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1Mzhf/2.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap2","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDU4NTVf/Dragon%20Ball%20002%20%5B960p%5D%20-%20La%20b%C3%BAsqueda%20del%20emperador.mp4",download:"https://od.lk/d/M18zMDEwNDU4NTVf/Dragon%20Ball%20002%20%5B960p%5D%20-%20La%20b%C3%BAsqueda%20del%20emperador.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1Mzlf/3.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap3","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDU4NTlf/Dragon%20Ball%20003%20%5B960p%5D%20-%20La%20nube%20dorada%20de%20Roshi.mp4",download:"https://od.lk/d/M18zMDEwNDU4NTlf/Dragon%20Ball%20003%20%5B960p%5D%20-%20La%20nube%20dorada%20de%20Roshi.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDBf/4.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap4","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDgwOThf/Dragon%20Ball%20004%20%5B960p%5D%20-%20Oolong%2C%20el%20secuestrador%20de%20ni%C3%B1as.mp4",download:"https://od.lk/d/M18zMDEwNDgwOThf/Dragon%20Ball%20004%20%5B960p%5D%20-%20Oolong%2C%20el%20secuestrador%20de%20ni%C3%B1as.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDFf/5.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap5","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDgyNDdf/Dragon%20Ball%20005%20%5B960p%5D%20-%20El%20misterioso%20y%20malvado%20Yamcha%20vive%20en%20el%20desierto.mp4",download:"https://od.lk/d/M18zMDEwNDgyNDdf/Dragon%20Ball%20005%20%5B960p%5D%20-%20El%20misterioso%20y%20malvado%20Yamcha%20vive%20en%20el%20desierto.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDJf/6.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap6","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDgzODhf/Dragon%20Ball%20006%20%5B960p%5D%20-%20Vigila%20la%20esfera%20del%20drag%C3%B3n.mp4",download:"https://od.lk/d/M18zMDEwNDgzODhf/Dragon%20Ball%20006%20%5B960p%5D%20-%20Vigila%20la%20esfera%20del%20drag%C3%B3n.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDNf/7.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap7","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDg0NzVf/Dragon%20Ball%20007%20%5B960p%5D%20-%20Ox-Sat%C3%A1n%20en%20la%20monta%C3%B1a%20de%20fuego.mp4",download:"https://od.lk/d/M18zMDEwNDg0NzVf/Dragon%20Ball%20007%20%5B960p%5D%20-%20Ox-Sat%C3%A1n%20en%20la%20monta%C3%B1a%20de%20fuego.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDRf/8.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap8","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDg1NzJf/Dragon%20Ball%20008%20%5B960p%5D%20-%20La%20onda%20glaciar%20de%20Roshi.mp4",download:"https://od.lk/d/M18zMDEwNDg1NzJf/Dragon%20Ball%20008%20%5B960p%5D%20-%20La%20onda%20glaciar%20de%20Roshi.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDVf/9.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap9","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDg2NzJf/Dragon%20Ball%20009%20%5B960p%5D%20-%20El%20truco%20especial%20del%20Jefe%20Conejo.mp4",download:"https://od.lk/d/M18zMDEwNDg2NzJf/Dragon%20Ball%20009%20%5B960p%5D%20-%20El%20truco%20especial%20del%20Jefe%20Conejo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1NDZf/10.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap10","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDg4MTBf/Dragon%20Ball%20010%20%5B960p%5D%20-%20Las%20esferas%20del%20drag%C3%B3n%20han%20sido%20robadas.mp4",download:"https://od.lk/d/M18zMDEwNDg4MTBf/Dragon%20Ball%20010%20%5B960p%5D%20-%20Las%20esferas%20del%20drag%C3%B3n%20han%20sido%20robadas.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU1MzZf/11.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap11","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDg5NTRf/Dragon%20Ball%20011%20%5B960p%5D%20-%20El%20drag%C3%B3n%20ha%20sido%20llamado.mp4",download:"https://od.lk/d/M18zMDEwNDg5NTRf/Dragon%20Ball%20011%20%5B960p%5D%20-%20El%20drag%C3%B3n%20ha%20sido%20llamado.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0Mjdf/12.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap12","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDkwNDhf/Dragon%20Ball%20012%20%5B960p%5D%20-%20Un%20deseo%20pedido%20al%20Dios%20drag%C3%B3n.mp4",download:"https://od.lk/d/M18zMDEwNDkwNDhf/Dragon%20Ball%20012%20%5B960p%5D%20-%20Un%20deseo%20pedido%20al%20Dios%20drag%C3%B3n.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0Mjhf/13.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap13","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDc4OTZf/Dragon%20Ball%20013%20%5B960p%5D%20-%20La%20metamorfosis%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwNDc4OTZf/Dragon%20Ball%20013%20%5B960p%5D%20-%20La%20metamorfosis%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0Mjlf/14.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap14","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNDkxOTlf/Dragon%20Ball%20014%20%5B960p%5D%20-%20El%20rival%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwNDkxOTlf/Dragon%20Ball%20014%20%5B960p%5D%20-%20El%20rival%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzBf/15.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap15","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0Njlf/Dragon%20Ball%20015%20%5B960p%5D%20-%20La%20misteriosa%20ni%C3%B1a%20Lunch.mp4",download:"https://od.lk/d/M18zMDEwNzA0Njlf/Dragon%20Ball%20015%20%5B960p%5D%20-%20La%20misteriosa%20ni%C3%B1a%20Lunch.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzFf/16.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap16","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0NzFf/Dragon%20Ball%20016%20%5B960p%5D%20-%20La%20cacer%C3%ADa%20de%20piedras.mp4",download:"https://od.lk/d/M18zMDEwNzA0NzFf/Dragon%20Ball%20016%20%5B960p%5D%20-%20La%20cacer%C3%ADa%20de%20piedras.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzJf/17.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap17","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0NzJf/Dragon%20Ball%20017%20%5B960p%5D%20-%20Los%20repartidores%20de%20leche.mp4",download:"https://od.lk/d/M18zMDEwNzA0NzJf/Dragon%20Ball%20017%20%5B960p%5D%20-%20Los%20repartidores%20de%20leche.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzNf/18.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap18","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0NzNf/Dragon%20Ball%20018%20%5B960p%5D%20-%20Entrenando%20al%20estilo%20de%20Roshi.mp4",download:"https://od.lk/d/M18zMDEwNzA0NzNf/Dragon%20Ball%20018%20%5B960p%5D%20-%20Entrenando%20al%20estilo%20de%20Roshi.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzRf/19.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap19","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0MDNf/Dragon%20Ball%20019%20%5B962p%5D%20-%20El%20gran%20torneo%20de%20las%20Artes%20Marciales.mp4",download:"https://od.lk/d/M18zMDEwNzA0MDNf/Dragon%20Ball%20019%20%5B962p%5D%20-%20El%20gran%20torneo%20de%20las%20Artes%20Marciales.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzVf/20.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap20","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0MDRf/Dragon%20Ball%20020%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20el%20duro%20entrenamiento%20ser%20puesto%20en%20pr%C3%A1ctica.mp4",download:"https://od.lk/d/M18zMDEwNzA0MDRf/Dragon%20Ball%20020%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20el%20duro%20entrenamiento%20ser%20puesto%20en%20pr%C3%A1ctica.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MzZf/21.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap21","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0MTJf/Dragon%20Ball%20021%20%5B960p%5D%20-%20%C2%A1Alerta%20Krilin%21.mp4",download:"https://od.lk/d/M18zMDEwNzA0MTJf/Dragon%20Ball%20021%20%5B960p%5D%20-%20%C2%A1Alerta%20Krilin%21.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0Mzdf/22.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap22","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzAzODhf/Dragon%20Ball%20022%20%5B960p%5D%20-%20%C2%A1Yamcha%20vs%20Jackie%20Chun%21.mp4",download:"https://od.lk/d/M18zMDEwNzAzODhf/Dragon%20Ball%20022%20%5B960p%5D%20-%20%C2%A1Yamcha%20vs%20Jackie%20Chun%21.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0Mzhf/23.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap23","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0NjRf/Dragon%20Ball%20023%20%5B960p%5D%20-%20El%20horrible%20Guilan.mp4",download:"https://od.lk/d/M18zMDEwNzA0NjRf/Dragon%20Ball%20023%20%5B960p%5D%20-%20El%20horrible%20Guilan.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0Mzlf/24.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap24","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0NjVf/Dragon%20Ball%20024%20%5B960p%5D%20-%20El%20fren%C3%A9tico%20ataque%20de%20krilin.mp4",download:"https://od.lk/d/M18zMDEwNzA0NjVf/Dragon%20Ball%20024%20%5B960p%5D%20-%20El%20fren%C3%A9tico%20ataque%20de%20krilin.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDBf/25.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap25","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0Njhf/Dragon%20Ball%20025%20%5B960p%5D%20-%20El%20terrible%20ataque%20a%C3%A9reo%20de%20Nam.mp4",download:"https://od.lk/d/M18zMDEwNzA0Njhf/Dragon%20Ball%20025%20%5B960p%5D%20-%20El%20terrible%20ataque%20a%C3%A9reo%20de%20Nam.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDFf/26.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap26","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA1MDJf/Dragon%20Ball%20026%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20al%20ataque.mp4",download:"https://od.lk/d/M18zMDEwNzA1MDJf/Dragon%20Ball%20026%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20al%20ataque.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDJf/27.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap27","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwNzA0OThf/Dragon%20Ball%20027%20%5B960p%5D%20-%20Goku%20en%20graves%20aprietos.mp4",download:"https://od.lk/d/M18zMDEwNzA0OThf/Dragon%20Ball%20027%20%5B960p%5D%20-%20Goku%20en%20graves%20aprietos.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDNf/28.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap28","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgxMTZf/Dragon%20Ball%20028%20%5B960p%5D%20-%20Goku%20ha%20desaparecido.mp4",download:"https://od.lk/d/M18zMDEwODgxMTZf/Dragon%20Ball%20028%20%5B960p%5D%20-%20Goku%20ha%20desaparecido.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDRf/29.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap29","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM0NDVf/Dragon%20Ball%20029%20%5B960p%5D%20-%20El%20r%C3%ADo%20que%20pod%C3%ADa%20moverse.mp4",download:"https://od.lk/d/M18zMDEwODM0NDVf/Dragon%20Ball%20029%20%5B960p%5D%20-%20El%20r%C3%ADo%20que%20pod%C3%ADa%20moverse.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDVf/30.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap30","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM0NjZf/Dragon%20Ball%20030%20%5B960p%5D%20-%20El%20marciano%20y%20La%20patrulla%20misteriosa.mp4",download:"https://od.lk/d/M18zMDEwODM0NjZf/Dragon%20Ball%20030%20%5B960p%5D%20-%20El%20marciano%20y%20La%20patrulla%20misteriosa.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDZf/31.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap31","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM0ODBf/Dragon%20Ball%20031%20%5B960p%5D%20-%20Goku%20crey%C3%B3%20encontrarla.mp4",download:"https://od.lk/d/M18zMDEwODM0ODBf/Dragon%20Ball%20031%20%5B960p%5D%20-%20Goku%20crey%C3%B3%20encontrarla.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDdf/32.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap32","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM0OTBf/Dragon%20Ball%20032%20%5B960p%5D%20-%20La%20fortaleza%20voladora%20desapareci%C3%B3.mp4",download:"https://od.lk/d/M18zMDEwODM0OTBf/Dragon%20Ball%20032%20%5B960p%5D%20-%20La%20fortaleza%20voladora%20desapareci%C3%B3.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDhf/33.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap33","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1MDNf/Dragon%20Ball%20033%20%5B960p%5D%20-%20La%20leyenda%20del%20Drag%C3%B3n.mp4",download:"https://od.lk/d/M18zMDEwODM1MDNf/Dragon%20Ball%20033%20%5B960p%5D%20-%20La%20leyenda%20del%20Drag%C3%B3n.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0NDlf/34.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap34","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1MTRf/Dragon%20Ball%20034%20%5B960p%5D%20-%20El%20ej%C3%A9rcito%20list%C3%B3n%20rojo%20y%20su%20cruel%20comandante%20general.mp4",download:"https://od.lk/d/M18zMDEwODM1MTRf/Dragon%20Ball%20034%20%5B960p%5D%20-%20El%20ej%C3%A9rcito%20list%C3%B3n%20rojo%20y%20su%20cruel%20comandante%20general.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEwOTU0MjZf/35.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap35","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1Mjhf/Dragon%20Ball%20035%20%5B960p%5D%20-%20Suno%2C%20la%20peque%C3%B1a%20ni%C3%B1a%20de%20la%20aldea%20del%20norte.mp4",download:"https://od.lk/d/M18zMDEwODM1Mjhf/Dragon%20Ball%20035%20%5B960p%5D%20-%20Suno%2C%20la%20peque%C3%B1a%20ni%C3%B1a%20de%20la%20aldea%20del%20norte.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NDlf/36.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap36","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1Mzdf/Dragon%20Ball%20036%20%5B960p%5D%20-%20La%20batalla%20con%20el%20sargento%20Met%C3%A1lico.mp4",download:"https://od.lk/d/M18zMDEwODM1Mzdf/Dragon%20Ball%20036%20%5B960p%5D%20-%20La%20batalla%20con%20el%20sargento%20Met%C3%A1lico.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTBf/37.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap37","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1NTFf/Dragon%20Ball%20037%20%5B960p%5D%20-%20Lleg%C3%B3%20el%20ninja%20P%C3%BArpura.mp4",download:"https://od.lk/d/M18zMDEwODM1NTFf/Dragon%20Ball%20037%20%5B960p%5D%20-%20Lleg%C3%B3%20el%20ninja%20P%C3%BArpura.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTFf/38.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap38","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1NjJf/Dragon%20Ball%20038%20%5B960p%5D%20-%20Cinco%20ninjas%20en%20contra%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwODM1NjJf/Dragon%20Ball%20038%20%5B960p%5D%20-%20Cinco%20ninjas%20en%20contra%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTJf/39.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap39","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1Nzhf/Dragon%20Ball%20039%20%5B960p%5D%20-%20El%20encuentro%20con%20el%20misterioso%20robot%20N%C2%BA8.mp4",download:"https://od.lk/d/M18zMDEwODM1Nzhf/Dragon%20Ball%20039%20%5B960p%5D%20-%20El%20encuentro%20con%20el%20misterioso%20robot%20N%C2%BA8.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTNf/40.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap40","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1ODNf/Dragon%20Ball%20040%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20contra%20el%20temible%20Buyon.mp4",download:"https://od.lk/d/M18zMDEwODM1ODNf/Dragon%20Ball%20040%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20contra%20el%20temible%20Buyon.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTRf/41.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap41","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1ODdf/Dragon%20Ball%20041%20%5B960p%5D%20-%20El%20%C3%BAltimo%20d%C3%ADa%20en%20la%20torre%20de%20la%20fuerza.mp4",download:"https://od.lk/d/M18zMDEwODM1ODdf/Dragon%20Ball%20041%20%5B960p%5D%20-%20El%20%C3%BAltimo%20d%C3%ADa%20en%20la%20torre%20de%20la%20fuerza.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTVf/42.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap42","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1OTJf/Dragon%20Ball%20042%20%5B960p%5D%20-%20El%20inesperado%20secreto%20del%20Dr.%20Flappe.mp4",download:"https://od.lk/d/M18zMDEwODM1OTJf/Dragon%20Ball%20042%20%5B960p%5D%20-%20El%20inesperado%20secreto%20del%20Dr.%20Flappe.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTZf/43.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap43","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1OTNf/Dragon%20Ball%20043%20%5B960p%5D%20-%20La%20casa%20de%20Bulma%20al%20oeste%20de%20la%20Metr%C3%B3poli.mp4",download:"https://od.lk/d/M18zMDEwODM1OTNf/Dragon%20Ball%20043%20%5B960p%5D%20-%20La%20casa%20de%20Bulma%20al%20oeste%20de%20la%20Metr%C3%B3poli.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTdf/44.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap44","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM1OTVf/Dragon%20Ball%20044%20%5B960p%5D%20-%20Goku%20y%20sus%20amigos%20en%20terribles%20aprietos.mp4",download:"https://od.lk/d/M18zMDEwODM1OTVf/Dragon%20Ball%20044%20%5B960p%5D%20-%20Goku%20y%20sus%20amigos%20en%20terribles%20aprietos.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NThf/45.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap45","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2MzZf/Dragon%20Ball%20045%20%5B960p%5D%20-%20Cuidado%2C%20hay%20una%20trampa.mp4",download:"https://od.lk/d/M18zMDEwODM2MzZf/Dragon%20Ball%20045%20%5B960p%5D%20-%20Cuidado%2C%20hay%20una%20trampa.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NTlf/46.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap46","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2MzZf/Dragon%20Ball%20045%20%5B960p%5D%20-%20Cuidado%2C%20hay%20una%20trampa.mp4",download:"https://od.lk/d/M18zMDEwODM2Mzdf/Dragon%20Ball%20046%20%5B960p%5D%20-%20El%20fracaso%20total%20de%20Bulma.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzA3NDhf/47.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap47","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2Mzdf/Dragon%20Ball%20046%20%5B960p%5D%20-%20El%20fracaso%20total%20de%20Bulma.mp4",download:"https://od.lk/d/M18zMDEwODM2Mzhf/Dragon%20Ball%20047%20%5B960p%5D%20-%20Encuentran%20la%20casa%20de%20Roshi.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NDhf/48.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap48","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2Mzhf/Dragon%20Ball%20047%20%5B960p%5D%20-%20Encuentran%20la%20casa%20de%20Roshi.mp4",download:"https://od.lk/d/M18zMDEwODM2NTRf/Dragon%20Ball%20048%20%5B960p%5D%20-%20El%20General%20Blue%20empieza%20a%20atacar.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NDlf/49.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap49","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2NTRf/Dragon%20Ball%20048%20%5B960p%5D%20-%20El%20General%20Blue%20empieza%20a%20atacar.mp4",download:"https://od.lk/d/M18zMDEwODM2NjNf/Dragon%20Ball%20049%20%5B960p%5D%20-%20Cuidado%20con%20el%20enemigo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTBf/50.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap50","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2NjNf/Dragon%20Ball%20049%20%5B960p%5D%20-%20Cuidado%20con%20el%20enemigo.mp4",download:"https://od.lk/d/M18zMDEwODM2Njlf/Dragon%20Ball%20050%20%5B960p%5D%20-%20El%20secreto%20de%20los%20piratas.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTFf/51.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap51","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2Njlf/Dragon%20Ball%20050%20%5B960p%5D%20-%20El%20secreto%20de%20los%20piratas.mp4",download:"https://od.lk/d/M18zMDEwODM2Nzhf/Dragon%20Ball%20051%20%5B960p%5D%20-%20El%20guardia%20de%20las%20profundidades.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTJf/52.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap52","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODM2Nzhf/Dragon%20Ball%20051%20%5B960p%5D%20-%20El%20guardia%20de%20las%20profundidades.mp4",download:"https://od.lk/d/M18zMDEwODQ3MzNf/Dragon%20Ball%20052%20%5B960p%5D%20-%20%C2%A1Grandioso%21%20Hemos%20encontrado%20el%20tesoro.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTNf/53.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap53","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODQ3MzNf/Dragon%20Ball%20052%20%5B960p%5D%20-%20%C2%A1Grandioso%21%20Hemos%20encontrado%20el%20tesoro.mp4",download:"https://od.lk/d/M18zMDEwODQ3MzRf/Dragon%20Ball%20053%20%5B960p%5D%20-%20La%20cueva%20siniestra.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTRf/54.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap54","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODQ3MzRf/Dragon%20Ball%20053%20%5B960p%5D%20-%20La%20cueva%20siniestra.mp4",download:"https://od.lk/d/M18zMDEwODgwMjlf/Dragon%20Ball%20054%20%5B960p%5D%20-%20El%20escape.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTVf/55.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap55","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMjlf/Dragon%20Ball%20054%20%5B960p%5D%20-%20El%2<div class='playlist_title'>0escape.mp4",download:"https://od.lk/d/M18zMDEwODgwMzBf/Dragon%20Ball%20055%20%5B960p%5D%20-%20Camino%20a%20Villa%20Ping%C3%BCino.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTZf/56.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap56","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMzBf/Dragon%20Ball%20055%20%5B960p%5D%20-%20Camino%20a%20Villa%20Ping%C3%BCino.mp4",download:"https://od.lk/d/M18zMDEwODgwMzJf/Dragon%20Ball%20056%20%5B960p%5D%20-%20Arale%20viaja%20en%20la%20nube%20voladora.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTdf/57.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap57","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMzJf/Dragon%20Ball%20056%20%5B960p%5D%20-%20Arale%20viaja%20en%20la%20nube%20voladora.mp4",download:"https://od.lk/d/M18zMDEwODgwMzNf/Dragon%20Ball%20057%20%5B960p%5D%20-%20Arale%20contra%20el%20General%20Blue.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NThf/58.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap58","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMzNf/Dragon%20Ball%20057%20%5B960p%5D%20-%20Arale%20contra%20el%20General%20Blue.mp4",download:"https://od.lk/d/M18zMDEwODgwMzVf/Dragon%20Ball%20058%20%5B960p%5D%20-%20La%20Tierra%20Sagrada.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NTlf/59.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap59","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMzVf/Dragon%20Ball%20058%20%5B960p%5D%20-%20La%20Tierra%20Sagrada.mp4",download:"https://od.lk/d/M18zMDEwODgwMzZf/Dragon%20Ball%20059%20%5B960p%5D%20-%20Tao%20PaiPai%2C%20el%20exterminador%20m%C3%A1s%20famoso%20del%20mundo%20ha%20llegado.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzE5NDdf/60.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap60","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMzZf/Dragon%20Ball%20059%20%5B960p%5D%20-%20Tao%20PaiPai%2C%20el%20exterminador%20m%C3%A1s%20famoso%20del%20mundo%20ha%20llegado.mp4",download:"https://od.lk/d/M18zMDEwODgwMzdf/Dragon%20Ball%20060%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20contra%20Tao%20Pai%20Pai.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTBf/61.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap61","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwMzdf/Dragon%20Ball%20060%20%5B960p%5D%20-%20La%20fuerza%20Kame%20Hame%20contra%20Tao%20Pai%20Pai.mp4",download:"https://od.lk/d/M18zMDEwODgwNDBf/Dragon%20Ball%20061%20%5B960p%5D%20-%20La%20torre%20del%20maestro%20Karin.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTFf/62.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap62","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDBf/Dragon%20Ball%20061%20%5B960p%5D%20-%20La%20torre%20del%20maestro%20Karin.mp4",download:"https://od.lk/d/M18zMDEwODgwNDJf/Dragon%20Ball%20062%20%5B960p%5D%20-%20El%20beneficio%20del%20agua%20ultra%20sagrada.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTJf/63.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap63","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDJf/Dragon%20Ball%20062%20%5B960p%5D%20-%20El%20beneficio%20del%20agua%20ultra%20sagrada.mp4",download:"https://od.lk/d/M18zMDEwODgwNDVf/Dragon%20Ball%20063%20%5B960p%5D%20-%20Goku%20contraataca.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTNf/64.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap64","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDVf/Dragon%20Ball%20063%20%5B960p%5D%20-%20Goku%20contraataca.mp4",download:"https://od.lk/d/M18zMDEwODgwNDZf/Dragon%20Ball%20064%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Tao%20Pai%20Pai.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTRf/65.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap65","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDZf/Dragon%20Ball%20064%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Tao%20Pai%20Pai.mp4",download:"https://od.lk/d/M18zMDEwODgwNDdf/Dragon%20Ball%20065%20%5B960p%5D%20-%20%C2%A1Vamos%20Goku%21%20Comienza%20la%20pelea.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTVf/66.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap66","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDdf/Dragon%20Ball%20065%20%5B960p%5D%20-%20%C2%A1Vamos%20Goku%21%20Comienza%20la%20pelea.mp4",download:"https://od.lk/d/M18zMDEwODgwNDhf/Dragon%20Ball%20066%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo%20de%20la%20Patrulla%20Roja.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTZf/67.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap67","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDhf/Dragon%20Ball%20066%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo%20de%20la%20Patrulla%20Roja.mp4",download:"https://od.lk/d/M18zMDEwODgwNDlf/Dragon%20Ball%20067%20%5B960p%5D%20-%20El%20comandante%20de%20la%20patrulla%20roja%20muere.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTdf/68.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap68","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNDlf/Dragon%20Ball%20067%20%5B960p%5D%20-%20El%20comandante%20de%20la%20patrulla%20roja%20muere.mp4",download:"https://od.lk/d/M18zMDEwODgwNTFf/Dragon%20Ball%20068%20%5B960p%5D%20-%20La%20%C3%BAltima%20Esfera%20del%20Drag%C3%B3n.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OThf/69.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap69","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNTFf/Dragon%20Ball%20068%20%5B960p%5D%20-%20La%20%C3%BAltima%20Esfera%20del%20Drag%C3%B3n.mp4",download:"https://od.lk/d/M18zMDEwODgwNzBf/Dragon%20Ball%20069%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20Uranai%20Baba.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4OTlf/70.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap70","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNzBf/Dragon%20Ball%20069%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20Uranai%20Baba.mp4",download:"https://od.lk/d/M18zMDEwODgwNzFf/Dragon%20Ball%20070%20%5B960p%5D%20-%20El%20ataque%20de%20los%20cinco%20guerreros.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDBf/71.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap71","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgwNzFf/Dragon%20Ball%20070%20%5B960p%5D%20-%20El%20ataque%20de%20los%20cinco%20guerreros.mp4",download:"https://od.lk/d/M18zMDEwODgxMDdf/Dragon%20Ball%20071%20%5B960p%5D%20-%20Una%20batalla%20sangrienta%20y%20mortal.mp4"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDFf/72.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap72","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgxMDdf/Dragon%20Ball%20071%20%5B960p%5D%20-%20Una%20batalla%20sangrienta%20y%20mortal.mp4",download:"https://od.lk/d/M18zMDEwODgxMTNf/Dragon%20Ball%20072%20%5B960p%5D%20-%20La%20pelea%20de%20Goku%20en%20el%20ba%C3%B1o%20del%20diablo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDJf/73.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap73","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgxMTRf/Dragon%20Ball%20073%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20es%20el%20resplandor%20mortal%20del%20diablo.mp4",download:"https://od.lk/d/M18zMDEwODgxMTRf/Dragon%20Ball%20073%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20es%20el%20resplandor%20mortal%20del%20diablo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDNf/74.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap74","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODgxMTVf/Dragon%20Ball%20074%20%5B960p%5D%20-%20El%20misterioso%20quinto%20participante.mp4",download:"https://od.lk/d/M18zMDEwODgxMTVf/Dragon%20Ball%20074%20%5B960p%5D%20-%20El%20misterioso%20quinto%20participante.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDRf/75.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap75","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1Mzlf/Dragon%20Ball%20075%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20%C2%A1El%20poderoso%20adversario%20result%C3%B3%20ser%20un%20viejo%20amigo%21.mp4",download:"https://od.lk/d/M18zMDEwODk1Mzlf/Dragon%20Ball%20075%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%20%C2%A1El%20poderoso%20adversario%20result%C3%B3%20ser%20un%20viejo%20amigo%21.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDVf/76.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap76","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NDJf/Dragon%20Ball%20076%20%5B960p%5D%20-%20La%20verdadera%20identidad%20del%20hombre%20enmascarado%20es....mp4",download:"https://od.lk/d/M18zMDEwODk1NDJf/Dragon%20Ball%20076%20%5B960p%5D%20-%20La%20verdadera%20identidad%20del%20hombre%20enmascarado%20es....mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDZf/77.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap77","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NDZf/Dragon%20Ball%20077%20%5B960p%5D%20-%20El%20gran%20plan%20de%20Pilaf.mp4",download:"https://od.lk/d/M18zMDEwODk1NDZf/Dragon%20Ball%20077%20%5B960p%5D%20-%20El%20gran%20plan%20de%20Pilaf.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDdf/78.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap78","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NDdf/Dragon%20Ball%20078%20%5B960p%5D%20-%20Otra%20vez%20el%20Dios%20Drag%C3%B3n.mp4",download:"https://od.lk/d/M18zMDEwODk1NDdf/Dragon%20Ball%20078%20%5B960p%5D%20-%20Otra%20vez%20el%20Dios%20Drag%C3%B3n.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDhf/79.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap79","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NDhf/Dragon%20Ball%20079%20%5B960p%5D%20-%20Oro%2C%20Plata%20y%20una%20cantimplora%20come%20hombres.mp4",download:"https://od.lk/d/M18zMDEwODk1NDhf/Dragon%20Ball%20079%20%5B960p%5D%20-%20Oro%2C%20Plata%20y%20una%20cantimplora%20come%20hombres.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MDlf/80.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap80","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NDlf/Dragon%20Ball%20080%20%5B960p%5D%20-%20Una%20pelea%20ante%20la%20presencia%20del%20rey%2C%20Goku%20contra%20Ten%20Long.mp4",download:"https://od.lk/d/M18zMDEwODk1NDlf/Dragon%20Ball%20080%20%5B960p%5D%20-%20Una%20pelea%20ante%20la%20presencia%20del%20rey%2C%20Goku%20contra%20Ten%20Long.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTBf/81.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap81","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NTBf/Dragon%20Ball%20081%20%5B960p%5D%20-%20Goku%20va%20a%20la%20tierra%20del%20Demonio.mp4",download:"https://od.lk/d/M18zMDEwODk1NTBf/Dragon%20Ball%20081%20%5B960p%5D%20-%20Goku%20va%20a%20la%20tierra%20del%20Demonio.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTFf/82.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap82","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NTFf/Dragon%20Ball%20082%20%5B960p%5D%20-%20Un%20monstruo%20violento%20llamado%20Inoch-ka-cho.mp4",download:"https://od.lk/d/M18zMDEwODk1NTFf/Dragon%20Ball%20082%20%5B960p%5D%20-%20Un%20monstruo%20violento%20llamado%20Inoch-ka-cho.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTJf/83.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap83","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NTNf/Dragon%20Ball%20083%20%5B960p%5D%20-%20%C2%A1Apres%C3%BArate%20Goku%21%20El%20Torneo%20de%20las%20Artes%20Marciales%20se%20avecina.mp4",download:"https://od.lk/d/M18zMDEwODk1NTNf/Dragon%20Ball%20083%20%5B960p%5D%20-%20%C2%A1Apres%C3%BArate%20Goku%21%20El%20Torneo%20de%20las%20Artes%20Marciales%20se%20avecina.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTNf/84.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap84","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NTVf/Dragon%20Ball%20084%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",download:"https://od.lk/d/M18zMDEwODk1NTVf/Dragon%20Ball%20084%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20es%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTRf/85.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap85","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NTdf/Dragon%20Ball%20085%20%5B960p%5D%20-%20Tenemos%20que%20ganar%21%20%C2%BFQui%C3%A9n%20llegar%C3%A1%20a%20las%20preliminares.mp4",download:"https://od.lk/d/M18zMDEwODk1NTdf/Dragon%20Ball%20085%20%5B960p%5D%20-%20Tenemos%20que%20ganar%21%20%C2%BFQui%C3%A9n%20llegar%C3%A1%20a%20las%20preliminares.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTVf/86.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap86","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NjBf/Dragon%20Ball%20086%20%5B960p%5D%20-%20Los%20ocho%20finalistas.mp4",download:"https://od.lk/d/M18zMDEwODk1NjBf/Dragon%20Ball%20086%20%5B960p%5D%20-%20Los%20ocho%20finalistas.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTZf/87.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap87","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NjJf/Dragon%20Ball%20087%20%5B960p%5D%20-%20Yamcha%20contra%20Ten%20Shin%20Han.mp4",download:"https://od.lk/d/M18zMDEwODk1NjJf/Dragon%20Ball%20087%20%5B960p%5D%20-%20Yamcha%20contra%20Ten%20Shin%20Han.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTdf/88.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap88","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NjNf/Dragon%20Ball%20088%20%5B960p%5D%20-%20%C2%A1Ten%20cuidado%20Yamcha%21%20El%20temible%20Ten%20Shin%20Han%20es%20muy%20peligroso.mp4",download:"https://od.lk/d/M18zMDEwODk1NjNf/Dragon%20Ball%20088%20%5B960p%5D%20-%20%C2%A1Ten%20cuidado%20Yamcha%21%20El%20temible%20Ten%20Shin%20Han%20es%20muy%20peligroso.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MThf/89.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap89","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NjZf/Dragon%20Ball%20089%20%5B960p%5D%20-%20%C2%A1Terror%21%20El%20misterio%20de%20la%20luna%20llena.mp4",download:"https://od.lk/d/M18zMDEwODk1NjZf/Dragon%20Ball%20089%20%5B960p%5D%20-%20%C2%A1Terror%21%20El%20misterio%20de%20la%20luna%20llena.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MTlf/90.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap90","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NzNf/Dragon%20Ball%20090%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%E2%80%A6Qu%C3%A9%E2%80%A6Qu%C3%A9%20%C2%BFQu%C3%A9%20%C2%BFDodonpa.mp4",download:"https://od.lk/d/M18zMDEwODk1NzNf/Dragon%20Ball%20090%20%5B960p%5D%20-%20%C2%BFQu%C3%A9%E2%80%A6Qu%C3%A9%E2%80%A6Qu%C3%A9%20%C2%BFQu%C3%A9%20%C2%BFDodonpa.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjBf/91.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap91","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1NzVf/Dragon%20Ball%20091%20%5B960p%5D%20-%20%C2%A1La%20situaci%C3%B3n%20ha%20cambiado%21%20El%20plan%20matem%C3%A1tico%20de%20Krilin.mp4",download:"https://od.lk/d/M18zMDEwODk1NzVf/Dragon%20Ball%20091%20%5B960p%5D%20-%20%C2%A1La%20situaci%C3%B3n%20ha%20cambiado%21%20El%20plan%20matem%C3%A1tico%20de%20Krilin.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjFf/92.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap92","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1Nzdf/Dragon%20Ball%20092%20%5B960p%5D%20-%20Finalmente...%20El%20turno%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwODk1Nzdf/Dragon%20Ball%20092%20%5B960p%5D%20-%20Finalmente...%20El%20turno%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjJf/93.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap93","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1ODJf/Dragon%20Ball%20093%20%5B960p%5D%20-%20Una%20pelea%20muy%20dif%C3%ADcil%20Ten%20Shin%20Han%20contra%20Jackie%20Chun.mp4",download:"https://od.lk/d/M18zMDEwODk1ODJf/Dragon%20Ball%20093%20%5B960p%5D%20-%20Una%20pelea%20muy%20dif%C3%ADcil%20Ten%20Shin%20Han%20contra%20Jackie%20Chun.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjNf/94.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap94","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1ODNf/Dragon%20Ball%20094%20%5B960p%5D%20-%20%C2%A1Qu%C3%A9%21%20La%20t%C3%A9cnica%20del%20maestro%20Tsuru%20Taiyouken..mp4",download:"https://od.lk/d/M18zMDEwODk1ODNf/Dragon%20Ball%20094%20%5B960p%5D%20-%20%C2%A1Qu%C3%A9%21%20La%20t%C3%A9cnica%20del%20maestro%20Tsuru%20Taiyouken..mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjRf/95.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap95","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1ODRf/Dragon%20Ball%20095%20%5B960p%5D%20-%20%C2%A1A%20pelear%21%20%C2%A1Goku%20contra%20Krilin%21.mp4",download:"https://od.lk/d/M18zMDEwODk1ODRf/Dragon%20Ball%20095%20%5B960p%5D%20-%20%C2%A1A%20pelear%21%20%C2%A1Goku%20contra%20Krilin%21.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjVf/96.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap96","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1ODVf/Dragon%20Ball%20096%20%5B960p%5D%20-%20La%20sorpresa%20de%20Goku%20y%20el%20plan%20de%20Krilin.mp4",download:"https://od.lk/d/M18zMDEwODk1ODVf/Dragon%20Ball%20096%20%5B960p%5D%20-%20La%20sorpresa%20de%20Goku%20y%20el%20plan%20de%20Krilin.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MjZf/97.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap97","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1ODZf/Dragon%20Ball%20097%20%5B960p%5D%20-%20El%20%C3%BAltimo%20combate.%20%C2%BFQui%C3%A9n%20ser%C3%A1%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",download:"https://od.lk/d/M18zMDEwODk1ODZf/Dragon%20Ball%20097%20%5B960p%5D%20-%20El%20%C3%BAltimo%20combate.%20%C2%BFQui%C3%A9n%20ser%C3%A1%20el%20mejor%20peleador%20de%20las%20Artes%20Marciales.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5Mjdf/98.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap98","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2Mjdf/Dragon%20Ball%20098%20%5B960p%5D%20-%20Las%20t%C3%A9cnicas%20secretas%20Tay%20yu%20ken%20contra%20el%20poder%20de%20combate.mp4",download:"https://od.lk/d/M18zMDEwODk2Mjdf/Dragon%20Ball%20098%20%5B960p%5D%20-%20Las%20t%C3%A9cnicas%20secretas%20Tay%20yu%20ken%20contra%20el%20poder%20de%20combate.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5Mjhf/99.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap99","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2MzFf/Dragon%20Ball%20099%20%5B960p%5D%20-%20La%20angustia%20de%20Ten%20Shin%20Han.mp4",download:"https://od.lk/d/M18zMDEwODk2MzFf/Dragon%20Ball%20099%20%5B960p%5D%20-%20La%20angustia%20de%20Ten%20Shin%20Han.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5Mjlf/100.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap100","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2MzJf/Dragon%20Ball%20100%20%5B960p%5D%20-%20Vivir%20o%20morir%20la%20%C3%BAltima%20alternativa.mp4",download:"https://od.lk/d/M18zMDEwODk2MzJf/Dragon%20Ball%20100%20%5B960p%5D%20-%20Vivir%20o%20morir%20la%20%C3%BAltima%20alternativa.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzBf/101.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap101","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2MzNf/Dragon%20Ball%20101%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20terminado.%20%C2%BFY%20ahora%20que.mp4",download:"https://od.lk/d/M18zMDEwODk2MzNf/Dragon%20Ball%20101%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20terminado.%20%C2%BFY%20ahora%20que.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzFf/102.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap102","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2MzRf/Dragon%20Ball%20102%20%5B960p%5D%20-%20La%20muerte%20de%20Krilin%21%20Un%20complot.mp4",download:"https://od.lk/d/M18zMDEwODk2MzRf/Dragon%20Ball%20102%20%5B960p%5D%20-%20La%20muerte%20de%20Krilin%21%20Un%20complot.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzJf/103.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap103","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2MzZf/Dragon%20Ball%20103%20%5B960p%5D%20-%20El%20temible%20Pikoro%20Dai-ma-ku%5D.mp4",download:"https://od.lk/d/M18zMDEwODk2MzZf/Dragon%20Ball%20103%20%5B960p%5D%20-%20El%20temible%20Pikoro%20Dai-ma-ku%5D.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzNf/104.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap104","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk2Mzdf/Dragon%20Ball%20104%20%5B960p%5D%20-%20Goku%20regresa.mp4",download:"https://od.lk/d/M18zMDEwODk2Mzdf/Dragon%20Ball%20104%20%5B960p%5D%20-%20Goku%20regresa.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzRf/105.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap105","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1MzZf/Dragon%20Ball%20105%20%5B960p%5D%20-%20El%20gran%20Yayirobe.mp4",download:"https://od.lk/d/M18zMDEwODk1MzZf/Dragon%20Ball%20105%20%5B960p%5D%20-%20El%20gran%20Yayirobe.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzVf/106.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap106","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1Mzdf/Dragon%20Ball%20106%20%5B960p%5D%20-%20El%20malvado%20Tamborin%20se%20acerca.mp4",download:"https://od.lk/d/M18zMDEwODk1Mzdf/Dragon%20Ball%20106%20%5B960p%5D%20-%20El%20malvado%20Tamborin%20se%20acerca.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5MzZf/107.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap107","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwODk1Mzhf/Dragon%20Ball%20107%20%5B960p%5D%20-%20Goku%20se%20enfurece.mp4",download:"https://od.lk/d/M18zMDEwODk1Mzhf/Dragon%20Ball%20107%20%5B960p%5D%20-%20Goku%20se%20enfurece.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5Mzdf/108.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap108","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMDdf/Dragon%20Ball%20108%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Pikoro%20Dai-ma-ku.mp4",download:"https://od.lk/d/M18zMDEwOTAyMDdf/Dragon%20Ball%20108%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Pikoro%20Dai-ma-ku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI5Mzhf/109.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap109","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMDhf/Dragon%20Ball%20109%20%5B960p%5D%20-%20Goku%20contra%20Pikoro%20Dai-ma-ku.mp4",download:"https://od.lk/d/M18zMDEwOTAyMDhf/Dragon%20Ball%20109%20%5B960p%5D%20-%20Goku%20contra%20Pikoro%20Dai-ma-ku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzI4ODlf/110.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap110","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMTNf/Dragon%20Ball%20110%20%5B960p%5D%20-%20%C2%A1T%C3%BA%20puedes%20Goku%21.mp4",download:"https://od.lk/d/M18zMDEwOTAyMTNf/Dragon%20Ball%20110%20%5B960p%5D%20-%20%C2%A1T%C3%BA%20puedes%20Goku%21.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjRf/111.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap111","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMTVf/Dragon%20Ball%20111%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Ma-Fuu-Ba%20del%20maestro%20Roshi.mp4",download:"https://od.lk/d/M18zMDEwOTAyMTVf/Dragon%20Ball%20111%20%5B960p%5D%20-%20El%20%C3%BAltimo%20Ma-Fuu-Ba%20del%20maestro%20Roshi.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjVf/112.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap112","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMTZf/Dragon%20Ball%20112%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20Pikoro%20Dai-ma-ku%20recuperar%20la%20juventud.mp4",download:"https://od.lk/d/M18zMDEwOTAyMTZf/Dragon%20Ball%20112%20%5B960p%5D%20-%20%C2%BFPodr%C3%A1%20Pikoro%20Dai-ma-ku%20recuperar%20la%20juventud.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjZf/113.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap113","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMTdf/Dragon%20Ball%20113%20%5B960p%5D%20-%20Ataque%20al%20Castillo%20del%20Rey.mp4",download:"https://od.lk/d/M18zMDEwOTAyMTdf/Dragon%20Ball%20113%20%5B960p%5D%20-%20Ataque%20al%20Castillo%20del%20Rey.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjdf/114.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap114","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMjJf/Dragon%20Ball%20114%20%5B960p%5D%20-%20La%20esperanza%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwOTAyMjJf/Dragon%20Ball%20114%20%5B960p%5D%20-%20La%20esperanza%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjhf/115.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap115","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMjRf/Dragon%20Ball%20115%20%5B960p%5D%20-%20Vamos%20por%20la%20misteriosa%20agua%20de%20los%20Dioses.mp4",download:"https://od.lk/d/M18zMDEwOTAyMjRf/Dragon%20Ball%20115%20%5B960p%5D%20-%20Vamos%20por%20la%20misteriosa%20agua%20de%20los%20Dioses.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjlf/116.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap116","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMjVf/Dragon%20Ball%20116%20%5B960p%5D%20-%20%C2%BFEl%20Maestro%20Roshi%20est%C3%A1%20vivo.mp4",download:"https://od.lk/d/M18zMDEwOTAyMjVf/Dragon%20Ball%20116%20%5B960p%5D%20-%20%C2%BFEl%20Maestro%20Roshi%20est%C3%A1%20vivo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzBf/117.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap117","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMzFf/Dragon%20Ball%20117%20%5B960p%5D%20-%20Goku%20despierta.mp4",download:"https://od.lk/d/M18zMDEwOTAyMzFf/Dragon%20Ball%20117%20%5B960p%5D%20-%20Goku%20despierta.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzFf/118.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap118","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMzJf/Dragon%20Ball%20118%20%5B960p%5D%20-%20La%20decisi%C3%B3n%20de%20Ten%20Shin%20Han.mp4",download:"https://od.lk/d/M18zMDEwOTAyMzJf/Dragon%20Ball%20118%20%5B960p%5D%20-%20La%20decisi%C3%B3n%20de%20Ten%20Shin%20Han.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzJf/119.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap119","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMzVf/Dragon%20Ball%20119%20%5B960p%5D%20-%20La%20legendaria%20t%C3%A9cnica%20Ma-Fuu-Ba.mp4",download:"https://od.lk/d/M18zMDEwOTAyMzVf/Dragon%20Ball%20119%20%5B960p%5D%20-%20La%20legendaria%20t%C3%A9cnica%20Ma-Fuu-Ba.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzNf/120.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap120","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyMzZf/Dragon%20Ball%20120%20%5B960p%5D%20-%20La%20ira%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwOTAyMzZf/Dragon%20Ball%20120%20%5B960p%5D%20-%20La%20ira%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzRf/121.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap121","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNDFf/Dragon%20Ball%20121%20%5B960p%5D%20-%20El%20momento%20crucial%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwOTAyNDFf/Dragon%20Ball%20121%20%5B960p%5D%20-%20El%20momento%20crucial%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzVf/122.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap122","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNDRf/Dragon%20Ball%20122%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo.mp4",download:"https://od.lk/d/M18zMDEwOTAyNDRf/Dragon%20Ball%20122%20%5B960p%5D%20-%20El%20%C3%BAltimo%20esfuerzo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzZf/123.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap123","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNDdf/Dragon%20Ball%20123%20%5B960p%5D%20-%20El%20secreto%20del%20b%C3%A1culo%20sagrado.mp4",download:"https://od.lk/d/M18zMDEwOTAyNDdf/Dragon%20Ball%20123%20%5B960p%5D%20-%20El%20secreto%20del%20b%C3%A1culo%20sagrado.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzdf/124.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap124","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNTNf/Dragon%20Ball%20124%20%5B960p%5D%20-%20El%20templo%20sagrado%20que%20est%C3%A1%20arriba%20de%20las%20nubes.mp4",download:"https://od.lk/d/M18zMDEwOTAyNTNf/Dragon%20Ball%20124%20%5B960p%5D%20-%20El%20templo%20sagrado%20que%20est%C3%A1%20arriba%20de%20las%20nubes.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzhf/125.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap125","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNTlf/Dragon%20Ball%20125%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Kami-Sama.mp4",download:"https://od.lk/d/M18zMDEwOTAyNTlf/Dragon%20Ball%20125%20%5B960p%5D%20-%20La%20aparici%C3%B3n%20de%20Kami-Sama.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNzlf/126.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap126","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNjBf/Dragon%20Ball%20126%20%5B960p%5D%20-%20Shen-Long%20revive.mp4",download:"https://od.lk/d/M18zMDEwOTAyNjBf/Dragon%20Ball%20126%20%5B960p%5D%20-%20Shen-Long%20revive.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODBf/127.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap127","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNjVf/Dragon%20Ball%20127%20%5B960p%5D%20-%20M%C3%A1s%20r%C3%A1pido%20que%20un%20rel%C3%A1mpago.mp4",download:"https://od.lk/d/M18zMDEwOTAyNjVf/Dragon%20Ball%20127%20%5B960p%5D%20-%20M%C3%A1s%20r%C3%A1pido%20que%20un%20rel%C3%A1mpago.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODFf/128.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap128","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNjdf/Dragon%20Ball%20128%20%5B960p%5D%20-%20Tranquilo%20como%20el%20cielo.mp4",download:"https://od.lk/d/M18zMDEwOTAyNjdf/Dragon%20Ball%20128%20%5B960p%5D%20-%20Tranquilo%20como%20el%20cielo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODJf/129.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap129","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTAyNjhf/Dragon%20Ball%20129%20%5B960p%5D%20-%20Goku%20viaja%20a%20trav%C3%A9s%20del%20tiempo.mp4",download:"https://od.lk/d/M18zMDEwOTAyNjhf/Dragon%20Ball%20129%20%5B960p%5D%20-%20Goku%20viaja%20a%20trav%C3%A9s%20del%20tiempo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODNf/130.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap130","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMDJf/Dragon%20Ball%20130%20%5B960p%5D%20-%20El%20oponente%20de%20Goku%20es...%20%C2%BFGoku.mp4",download:"https://od.lk/d/M18zMDEwOTYyMDJf/Dragon%20Ball%20130%20%5B960p%5D%20-%20El%20oponente%20de%20Goku%20es...%20%C2%BFGoku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODRf/131.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap131","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMDRf/Dragon%20Ball%20131%20%5B960p%5D%20-%20Cada%20qui%C3%A9n%20toma%20un%20camino%20diferente.mp4",download:"https://od.lk/d/M18zMDEwOTYyMDRf/Dragon%20Ball%20131%20%5B960p%5D%20-%20Cada%20qui%C3%A9n%20toma%20un%20camino%20diferente.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODVf/132.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap132","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMDdf/Dragon%20Ball%20132%20%5B960p%5D%20-%20M%C3%A1s%20caliente%20que%20el%20magma.mp4",download:"https://od.lk/d/M18zMDEwOTYyMDdf/Dragon%20Ball%20132%20%5B960p%5D%20-%20M%C3%A1s%20caliente%20que%20el%20magma.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODZf/133.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap133","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMTNf/Dragon%20Ball%20133%20%5B960p%5D%20-%20Una%20reuni%C3%B3n%20despu%C3%A9s%20de%20la%20tormenta.mp4",download:"https://od.lk/d/M18zMDEwOTYyMTNf/Dragon%20Ball%20133%20%5B960p%5D%20-%20Una%20reuni%C3%B3n%20despu%C3%A9s%20de%20la%20tormenta.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODdf/134.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap134","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMTVf/Dragon%20Ball%20134%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20comenzado.mp4",download:"https://od.lk/d/M18zMDEwOTYyMTVf/Dragon%20Ball%20134%20%5B960p%5D%20-%20El%20torneo%20de%20las%20Artes%20Marciales%20ha%20comenzado.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODhf/135.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap135","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMThf/Dragon%20Ball%20135%20%5B960p%5D%20-%20Los%20ocho%20peleadores.mp4",download:"https://od.lk/d/M18zMDEwOTYyMThf/Dragon%20Ball%20135%20%5B960p%5D%20-%20Los%20ocho%20peleadores.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyODlf/136.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap136","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMjBf/Dragon%20Ball%20136%20%5B960p%5D%20-%20El%20contraataque%20del%20asesino%20Tao-pai-Pai.mp4",download:"https://od.lk/d/M18zMDEwOTYyMjBf/Dragon%20Ball%20136%20%5B960p%5D%20-%20El%20contraataque%20del%20asesino%20Tao-pai-Pai.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTBf/137.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap137","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMjNf/Dragon%20Ball%20137%20%5B960p%5D%20-%20La%20promesa%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwOTYyMjNf/Dragon%20Ball%20137%20%5B960p%5D%20-%20La%20promesa%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTFf/138.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap138","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMjhf/Dragon%20Ball%20138%20%5B960p%5D%20-%20El%20misterioso%20hombre%20llamado%20Shen.mp4",download:"https://od.lk/d/M18zMDEwOTYyMjhf/Dragon%20Ball%20138%20%5B960p%5D%20-%20El%20misterioso%20hombre%20llamado%20Shen.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTJf/139.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap139","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMzBf/Dragon%20Ball%20139%20%5B960p%5D%20-%20Nuevamente%20una%20pelea%20violenta.%20Gok%C5%AB%20contra%20Ten-shin-han.mp4",download:"https://od.lk/d/M18zMDEwOTYyMzBf/Dragon%20Ball%20139%20%5B960p%5D%20-%20Nuevamente%20una%20pelea%20violenta.%20Gok%C5%AB%20contra%20Ten-shin-han.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTNf/140.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap140","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMzFf/Dragon%20Ball%20140%20%5B960p%5D%20-%20El%20verdadero%20poder.mp4",download:"https://od.lk/d/M18zMDEwOTYyMzFf/Dragon%20Ball%20140%20%5B960p%5D%20-%20El%20verdadero%20poder.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTRf/141.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap141","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMzhf/Dragon%20Ball%20141%20%5B960p%5D%20-%20Cuatro%20Ten-shin-hans.mp4",download:"https://od.lk/d/M18zMDEwOTYyMzhf/Dragon%20Ball%20141%20%5B960p%5D%20-%20Cuatro%20Ten-shin-hans.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTVf/142.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap142","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNDNf/Dragon%20Ball%20142%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20ser%C3%A1%20m%C3%A1s%20fuerte%20KamiSama%20contra%20Pikoro%20Dai-ma-ku.mp4",download:"https://od.lk/d/M18zMDEwOTYyNDNf/Dragon%20Ball%20142%20%5B960p%5D%20-%20%C2%BFQui%C3%A9n%20ser%C3%A1%20m%C3%A1s%20fuerte%20KamiSama%20contra%20Pikoro%20Dai-ma-ku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTZf/143.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap143","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNDVf/Dragon%20Ball%20143%20%5B960p%5D%20-%20El%20destino%20del%20mundo%20corre%20peligro.mp4",download:"https://od.lk/d/M18zMDEwOTYyNDVf/Dragon%20Ball%20143%20%5B960p%5D%20-%20El%20destino%20del%20mundo%20corre%20peligro.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTdf/144.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap144","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNDlf/Dragon%20Ball%20144%20%5B960p%5D%20-%20El%20s%C3%BAper%20Kame-Hame-Ha.mp4",download:"https://od.lk/d/M18zMDEwOTYyNDlf/Dragon%20Ball%20144%20%5B960p%5D%20-%20El%20s%C3%BAper%20Kame-Hame-Ha.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOThf/145.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap145","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNTRf/Dragon%20Ball%20145%20%5B960p%5D%20-%20El%20gigante%20Pikoro%20Daimaku.mp4",download:"https://od.lk/d/M18zMDEwOTYyNTRf/Dragon%20Ball%20145%20%5B960p%5D%20-%20El%20gigante%20Pikoro%20Daimaku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyOTlf/146.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap146","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNTlf/Dragon%20Ball%20146%20%5B960p%5D%20-%20La%20trampa%20de%20Goku.mp4",download:"https://od.lk/d/M18zMDEwOTYyNTlf/Dragon%20Ball%20146%20%5B960p%5D%20-%20La%20trampa%20de%20Goku.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMzMDBf/147.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap147","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNjJf/Dragon%20Ball%20147%20%5B960p%5D%20-%20Todo%20se%20ha%20perdido.mp4",download:"https://od.lk/d/M18zMDEwOTYyNjJf/Dragon%20Ball%20147%20%5B960p%5D%20-%20Todo%20se%20ha%20perdido.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMzMDFf/148.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap148","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNzFf/Dragon%20Ball%20148%20%5B960p%5D%20-%20El%20hombre%20m%C3%A1s%20fuerte%20del%20mundo.mp4",download:"https://od.lk/d/M18zMDEwOTYyNzFf/Dragon%20Ball%20148%20%5B960p%5D%20-%20El%20hombre%20m%C3%A1s%20fuerte%20del%20mundo.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMzMDJf/149.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap149","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyNzdf/Dragon%20Ball%20149%20%5B960p%5D%20-%20El%20vestido%20de%20novia%20rodeado%20por%20las%20llamas.mp4",download:"https://od.lk/d/M18zMDEwOTYyNzdf/Dragon%20Ball%20149%20%5B960p%5D%20-%20El%20vestido%20de%20novia%20rodeado%20por%20las%20llamas.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMzMDNf/150.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap150","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYxNjJf/Dragon%20Ball%20150%20%5B960p%5D%20-%20El%20ave%20traga%20fuego.mp4",download:"https://od.lk/d/M18zMDEwOTYxNjJf/Dragon%20Ball%20150%20%5B960p%5D%20-%20El%20ave%20traga%20fuego.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMzMDRf/151.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap151","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYxNjZf/Dragon%20Ball%20151%20%5B960p%5D%20-%20Milk%20entrena%20dur%C3%B3%20para%20ser%20una%20buena%20esposa.mp4",download:"https://od.lk/d/M18zMDEwOTYxNjZf/Dragon%20Ball%20151%20%5B960p%5D%20-%20Milk%20entrena%20dur%C3%B3%20para%20ser%20una%20buena%20esposa.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMzMDVf/152.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap152","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYxOTFf/Dragon%20Ball%20152%20%5B960p%5D%20-%20%C2%A1Apres%C3%BArate%20Goku%21%20El%20misterio%20de%20la%20monta%C3%B1a%20de%20los%20cinco%20elementos.mp4",download:"https://od.lk/d/M18zMDEwOTYxOTFf/Dragon%20Ball%20152%20%5B960p%5D%20-%20%C2%A1Apres%C3%BArate%20Goku%21%20El%20misterio%20de%20la%20monta%C3%B1a%20de%20los%20cinco%20elementos.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"},
+{"title":"<img src='https://od.lk/s/M18zMDEyMzMyNjNf/153.png'class='playlist_poster'><div class='playlist_duration'></div><div class='playlist_title'>DB Cap153","t1":"Dragon Ball Z","t2":"E1. ¡Aparece un mini Gokū! Su Nombre es Gohan","file":"https://od.lk/s/M18zMDEwOTYyMDBf/Dragon%20Ball%20153%20%5B960p%5D%20-%20La%20monta%C3%B1a%20Fry-Pan%20esta%20en%20llamas%2C%20una%20decisi%C3%B3n%20de%20vida%20o%20muerte.mp4",download:"https://od.lk/d/M18zMDEwOTYyMDBf/Dragon%20Ball%20153%20%5B960p%5D%20-%20La%20monta%C3%B1a%20Fry-Pan%20esta%20en%20llamas%2C%20una%20decisi%C3%B3n%20de%20vida%20o%20muerte.mp4",poster:"https://image.tmdb.org/t/p/original/1YMx2eZs8kr32Y2gxrRN9MdPNr.jpg"}]
+});
+   
+    player.api("plduration");
+    player.api("playlist","played");
+    console.log(player.api("id"));
+player.api("play");
+    function PlayerInit(){
+      player.api("moveplaylist","playlist_container");
+   }
+   var playlist = $("#player_playlist");
+$(".up_scroll_button").click(function() {
+   playlist.animate({
+      scrollTop: playlist.scrollTop()-100
+   }, 500);
+});
+$(".down_scroll_button").click(function() {
+   playlist.animate({
+      scrollTop: playlist.scrollTop()+100
+   }, 500);
+});
+</script>
+</body>
+
+</html>
+
+                                   
+                                    
+    </svg></button></div>
+</div>
+<script>
+  const favoritoBtn = document.getElementById('favoritoBtn');
+  const identificador = favoritoBtn.getAttribute('data-identificador');
+
+  function toggleFavorito() {
+    const favoritoEnlace = document.getElementById('favoritoEnlace');
+    const imagen = document.getElementById('favoritoImagen');
+    const nombre = document.getElementById('nombre').textContent; // Obtener el texto del span
+    const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+    const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+    if (encontrado) {
+      const nuevosFavoritos = favoritos.filter(favorito => favorito.identificador !== identificador);
+      favoritoBtn.textContent = '✚';
+      localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    } else {
+      favoritos.push({
+        identificador: identificador,
+        imagen: imagen.outerHTML,
+        enlace: favoritoEnlace.href,
+        nombre: nombre, // Agregar el nombre al objeto
+      });
+
+      favoritoBtn.textContent = '✔';
+      localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    }
+  }
+
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const encontradoInicial = favoritos.some(favorito => favorito.identificador === identificador);
+
+  if (encontradoInicial) {
+    favoritoBtn.textContent = '✔';
+  } else {
+    favoritoBtn.textContent = '✚';
+  }
+</script>      
+<script>
+  function abrirApp() {
+    var intentUrl = document.getElementById("transmitButton").getAttribute("data-intent");
+    
+    // Crear un elemento "iframe" oculto para intentar abrir la URL personalizada
+    var iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = intentUrl;
+    document.body.appendChild(iframe);
+    
+    // Esperar un tiempo breve y redirigir al enlace si el intent no se ejecutó
+    setTimeout(function() {
+      document.body.removeChild(iframe);
+      window.location.href = "#"; // Redirige al enlace original
+    }, 3000); // Espera 3 segundos antes de redirigir (ajusta según necesites)
+  }
+  </script>            
+                                                     
+    <style>
+    * {
+    margin: 1;
+    }		
+    
+    ::-webkit-scrollbar{width: 0px;}
+body{margin: 0;
+            padding: 0;
+            background-image: url(https://od.lk/s/M18zMDc1NDc5MTJf/fondo.png); /* Cambia la URL por la de tu imagen */
+            background-position: center center;
+            background-repeat: repeat;
+            background-size: cover;
+            height: 100vh;}
+    
+    
+    
+    h3 {
+    color: #fafaf6;
+    }
+    
+    .info p {
+    color: #fcfcfa;
+    }
+    
+    
+ 
+    
+    h2 {
+    color: rgb(252, 250, 250);
+    margin: 10px;
+    }
+    
+    p {
+    color: #f8f1f1
+    }
+    
+    
+    </style>		
+    
+    </html>
+        
+    
+
+    <body>
+    <menu>
+    
+    <br>
+    
+    <head>
+<script src="scripts/main.js"></script>
+
+        <meta name="viewport" content="width=device- width">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <style>
+          body {
+            margin: 0 0 6px 0;
+            }
+            .nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            box-shadow: 10px 10px10px rgba(236, 4, 4, 0.438);
+            background-color: #000000d0;
+            display: flex;
+            overflow-x: auto;
+            }
+            .nav__link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 56px;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: sans-serif;
+            font-size: 18px;
+            color: #949393;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+            margin-right:2px;
+            }
+            .nav__link:hover {
+            background-color: rgba(7, 7, 7, 0.082);
+            }
+            .nav__link--active {
+            color: #f8f4f4;}
+            .nav__icon {
+            font-size: 20px;
+            margin-right:10px;
+          }
+          </style>
+         
+    
+    <style type="text/css">
+    :root {
+        --colorOne: #000000;
+        --colorTwo: #c41111;
+        --colorWhite: #e5e5e5;
+    
+        --tileBorderRadius: 4px;
+    
+        --fontOne: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    
+    .header {
+        padding: 0 2%;
+    }
+    
+    body {
+        font-family: var(--fontOne);
+        background-color: var(--colorOne);
+    }
+    
+    .headerLogo {
+        width: 120px;
+    }
+    
+    .thumbSection {
+        padding-top: 3%;
+        color: var(--colorWhite);
+    }
+    
+    .thumbTitle {
+        font-size: 16px;
+        line-height: 14px;
+        font-weight: 500;
+        margin: 0 4% 12px;
+    }
+    
+    .thumbTiles.swiper-container {
+        padding: 0 4%;
+    }
+    
+    .thumbTile {
+        width: 20%;
+    }
+    
+    .thumbTile__image {
+        width: 100%;
+        border-radius: var(--tileBorderRadius);
+    }
+    
+    .thumbTiles .swiper-button-prev,
+    .thumbTiles .swiper-button-next {
+        height: 100%;
+        width: 4%;
+        width: calc(4% - 5px);
+        top: 0;
+        bottom: 0;
+        margin: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .thumbTiles .swiper-button-prev {
+        left: 0;
+        border-top-right-radius: var(--tileBorderRadius);
+        border-bottom-right-radius: var(--tileBorderRadius);
+    }
+    
+    .thumbTiles .swiper-button-next {
+        right: 0;
+        border-top-left-radius: var(--tileBorderRadius);
+        border-bottom-left-radius: var(--tileBorderRadius);
+    }
+    
+    .thumbTiles .swiper-button-prev::after,
+    .thumbTiles .swiper-button-next::after {
+        color: #fff;
+        font-size: 4vw;
+        font-weight: bold;
+        transition: transform 0.1s ease-out;
+    }
+    
+    
+    
