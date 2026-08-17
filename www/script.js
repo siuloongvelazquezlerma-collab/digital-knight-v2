@@ -67,8 +67,12 @@ async function cargarSwiperInicio() {
 
         console.log("🟢 JSON cargado:", datos);
 
-        // ==========================================
-// 🎲 ELEGIR UN CONJUNTO CADA 30 MINUTOS
+      // ==========================================
+// 🎲 SELECCIÓN INTELIGENTE DE CONJUNTO
+//
+// PRIORIDAD:
+// 1. Si existe un estreno → mostrar su conjunto inmediatamente
+// 2. Si no hay estreno → sistema normal de 30 minutos
 // ==========================================
 
 const nombresConjuntos = Object.keys(datos);
@@ -82,32 +86,79 @@ let conjuntoElegido =
     localStorage.getItem(STORAGE_CONJUNTO);
 
 const tiempoGuardado =
-    parseInt(localStorage.getItem(STORAGE_TIEMPO) || '0', 10);
+    parseInt(
+        localStorage.getItem(STORAGE_TIEMPO) || '0',
+        10
+    );
 
 const TREINTA_MINUTOS = 30 * 60 * 1000;
 
 
 // ==========================================
-// COMPROBAR SI EL CONJUNTO SIGUE VIGENTE
+// 🔥 BUSCAR CONJUNTOS QUE TENGAN ESTRENO
 // ==========================================
 
-const conjuntoValido =
-    conjuntoElegido &&
-    nombresConjuntos.includes(conjuntoElegido) &&
-    (ahora - tiempoGuardado) < TREINTA_MINUTOS;
+const conjuntosConEstreno = [];
+
+nombresConjuntos.forEach(nombreConjunto => {
+
+    const conjuntoActual = datos[nombreConjunto];
+
+    if (!conjuntoActual) return;
+
+    let tieneEstreno = false;
+
+    Object.keys(conjuntoActual).forEach(sectionId => {
+
+        const lista = conjuntoActual[sectionId];
+
+        if (!Array.isArray(lista)) return;
+
+        const encontrado = lista.some(item =>
+            item &&
+            item.estreno === true
+        );
+
+        if (encontrado) {
+            tieneEstreno = true;
+        }
+
+    });
+
+    if (tieneEstreno) {
+
+        conjuntosConEstreno.push(
+            nombreConjunto
+        );
+
+    }
+
+});
 
 
 // ==========================================
-// SI YA PASARON 30 MINUTOS
-// ELEGIR UNO NUEVO
+// 🚨 SI EXISTE UN ESTRENO
+//
+// EL ESTRENO TIENE PRIORIDAD ABSOLUTA
+// NO IMPORTA SI TODAVÍA NO HAN PASADO 30 MINUTOS
 // ==========================================
 
-if (!conjuntoValido) {
+if (conjuntosConEstreno.length > 0) {
+
+    // Si hay varios conjuntos con estreno,
+    // elegir uno de ellos aleatoriamente.
 
     conjuntoElegido =
-        nombresConjuntos[
-            Math.floor(Math.random() * nombresConjuntos.length)
+        conjuntosConEstreno[
+            Math.floor(
+                Math.random() *
+                conjuntosConEstreno.length
+            )
         ];
+
+
+    // Guardamos inmediatamente el conjunto
+    // para mantenerlo mientras exista el estreno.
 
     localStorage.setItem(
         STORAGE_CONJUNTO,
@@ -119,14 +170,97 @@ if (!conjuntoValido) {
         ahora.toString()
     );
 
+
     console.log(
-        `🎲 Nuevo conjunto elegido: ${conjuntoElegido}`
+        `🔥 ESTRENO DETECTADO → prioridad inmediata: ${conjuntoElegido}`
     );
 
-} else {
-
     console.log(
-        `♻️ Manteniendo conjunto: ${conjuntoElegido}`
+        `📌 Conjuntos con estreno:`,
+        conjuntosConEstreno
+    );
+
+}
+
+
+// ==========================================
+// 🎲 SI NO HAY ESTRENOS
+//
+// FUNCIONAMIENTO NORMAL DE 30 MINUTOS
+// ==========================================
+
+else {
+
+    const conjuntoValido =
+        conjuntoElegido &&
+        nombresConjuntos.includes(conjuntoElegido) &&
+        (ahora - tiempoGuardado) < TREINTA_MINUTOS;
+
+
+    // ==========================================
+    // SI YA PASARON 30 MINUTOS
+    // ==========================================
+
+    if (!conjuntoValido) {
+
+        conjuntoElegido =
+            nombresConjuntos[
+                Math.floor(
+                    Math.random() *
+                    nombresConjuntos.length
+                )
+            ];
+
+        localStorage.setItem(
+            STORAGE_CONJUNTO,
+            conjuntoElegido
+        );
+
+        localStorage.setItem(
+            STORAGE_TIEMPO,
+            ahora.toString()
+        );
+
+        console.log(
+            `🎲 Nuevo conjunto elegido: ${conjuntoElegido}`
+        );
+
+    }
+
+    else {
+
+        console.log(
+            `♻️ Manteniendo conjunto: ${conjuntoElegido}`
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// 🛡️ SEGURIDAD
+//
+// Por si el JSON cambió y el conjunto guardado
+// ya no existe.
+// ==========================================
+
+if (
+    !conjuntoElegido ||
+    !nombresConjuntos.includes(conjuntoElegido)
+) {
+
+    conjuntoElegido =
+        nombresConjuntos[0];
+
+    localStorage.setItem(
+        STORAGE_CONJUNTO,
+        conjuntoElegido
+    );
+
+    localStorage.setItem(
+        STORAGE_TIEMPO,
+        ahora.toString()
     );
 
 }
@@ -137,6 +271,7 @@ if (!conjuntoValido) {
 // ==========================================
 
 const conjunto = datos[conjuntoElegido];
+
 
         // ==========================================
         // CARGAR LAS SECCIONES DEL CONJUNTO ELEGIDO
@@ -217,8 +352,16 @@ slide.innerHTML = `
                         </div>
 
                         <div class="meta">
-                            ${item.meta || ''}
-                        </div>
+
+            ${
+                item.estreno
+                ? `<span class="badge-estreno">Estreno</span>`
+                : ''
+            }
+
+            ${item.meta || ''}
+
+        </div>
 
                         <div class="description">
                             ${item.descripcion || ''}

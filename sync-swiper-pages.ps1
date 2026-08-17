@@ -1,12 +1,17 @@
+
 # ============================================================
-#       SINCRONIZADOR DE SWIPERS V5
+#       SINCRONIZADOR DE SWIPERS V6
 #       HTML -> swiper-data.json
+#
+#       NUEVO:
+#       - Detecta .badge-estreno en el HTML
+#       - Guarda estreno: true en swiper-data.json
+#       - Si se elimina el badge del HTML, elimina estreno
+#       - Los estrenos tienen prioridad dentro de su lista
 #
 #       IMPORTANTE:
 #       - NUNCA modifica archivos HTML
 #       - swiper-data.json es el UNICO archivo que se modifica
-#       - La ruta del JSON determina la carpeta y archivo
-#       - El HTML solamente sirve como fuente de informacion
 # ============================================================
 
 $ErrorActionPreference = "SilentlyContinue"
@@ -17,7 +22,7 @@ $JSON = Join-Path $WWW "swiper-data.json"
 
 Write-Host ""
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host "       SINCRONIZADOR DE SWIPERS V5" -ForegroundColor Cyan
+Write-Host "       SINCRONIZADOR DE SWIPERS V6" -ForegroundColor Cyan
 Write-Host "       HTML -> swiper-data.json" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
@@ -30,6 +35,7 @@ if (!(Test-Path $JSON)) {
 
 Write-Host "OK: swiper-data.json encontrado" -ForegroundColor Green
 Write-Host ""
+
 
 # ============================================================
 # FUNCIONES
@@ -121,21 +127,6 @@ function Obtener-TituloHTML {
 
 # ============================================================
 # BUSCAR PAGINA HTML
-#
-# ORDEN:
-# 1. Intenta la ruta exacta indicada en "archivo"
-# 2. Si no existe, busca dentro de TODO WWW
-#    comparando "titulo" del JSON contra <title> del HTML
-#
-# La comparación ignora:
-# - Mayúsculas/minúsculas
-# - Acentos
-# - Guiones
-# - Espacios
-# - Puntos
-# - Comillas
-# - Paréntesis
-# - Caracteres especiales
 # ============================================================
 
 function Buscar-PaginaHTML {
@@ -168,23 +159,18 @@ function Buscar-PaginaHTML {
     # ========================================================
 
     if ([string]::IsNullOrWhiteSpace($TituloJSON)) {
-
         return $null
     }
 
     $tituloNormalizado = Normalizar-Texto $TituloJSON
 
     if ([string]::IsNullOrWhiteSpace($tituloNormalizado)) {
-
         return $null
     }
-
 
     Write-Host "  Ruta no encontrada. Buscando por <title>..." -ForegroundColor Yellow
     Write-Host "  Titulo buscado: $TituloJSON" -ForegroundColor DarkGray
 
-
-    # Obtener todos los HTML dentro de WWW y subcarpetas
 
     $archivosHTML = Get-ChildItem `
         -Path $WWW `
@@ -206,35 +192,21 @@ function Buscar-PaginaHTML {
 
         }
         catch {
-
             continue
         }
-
 
         if ([string]::IsNullOrWhiteSpace($contenidoHTML)) {
-
             continue
         }
-
-
-        # Obtener <title>
 
         $tituloHTML = Obtener-TituloHTML $contenidoHTML
 
         if ([string]::IsNullOrWhiteSpace($tituloHTML)) {
-
             continue
         }
 
-
-        # Normalizar titulo HTML
-
         $tituloHTMLNormalizado = Normalizar-Texto $tituloHTML
 
-
-        # ====================================================
-        # COMPARACION EXACTA NORMALIZADA
-        # ====================================================
 
         if ($tituloHTMLNormalizado -eq $tituloNormalizado) {
 
@@ -246,11 +218,6 @@ function Buscar-PaginaHTML {
         }
     }
 
-
-    # ========================================================
-    # NO ENCONTRADO
-    # ========================================================
-
     Write-Host "  No se encontro ninguna pagina por <title>." -ForegroundColor Red
 
     return $null
@@ -259,28 +226,12 @@ function Buscar-PaginaHTML {
 
 # ============================================================
 # POSTER
-#
-# Busca el background de .cover
-# ============================================================
-
-# ============================================================
-# POSTER
-#
-# Busca el background de .cover
-# Acepta:
-#
-# background: url("...")
-#
-# y también:
-#
-# background: var(--episode-background, url("..."))
 # ============================================================
 
 function Obtener-Poster {
 
     param([string]$Contenido)
 
-    # Buscar dentro de .cover
     if (
         $Contenido -match
         '(?is)\.cover\s*\{.*?background\s*:\s*.*?url\(\s*["'']([^"'']+)["'']\s*\)'
@@ -295,23 +246,12 @@ function Obtener-Poster {
 
 # ============================================================
 # BACKDROP
-#
-# Busca el background de .cover-landscape
-#
-# Acepta:
-#
-# background: url("...")
-#
-# y también:
-#
-# background: var(--episode-background, url("..."))
 # ============================================================
 
 function Obtener-Backdrop {
 
     param([string]$Contenido)
 
-    # Buscar dentro de .cover-landscape
     if (
         $Contenido -match
         '(?is)\.cover-landscape\s*\{.*?background\s*:\s*.*?url\(\s*["'']([^"'']+)["'']\s*\)'
@@ -326,23 +266,11 @@ function Obtener-Backdrop {
 
 # ============================================================
 # LOGO
-#
-# IMPORTANTE:
-#
-# NO toma:
-#
-# <img ... class="logo">
-#
-# del encabezado.
-#
-# Busca especificamente el logo dentro de .cover-content
 # ============================================================
 
 function Obtener-Logo {
 
     param([string]$Contenido)
-
-    # Primero localizar cover-content
 
     if (
         $Contenido -match
@@ -351,8 +279,6 @@ function Obtener-Logo {
 
         $coverContent = $matches[1]
 
-        # Buscar img class="logo" dentro de cover-content
-
         if (
             $coverContent -match
             '(?is)<img[^>]*class\s*=\s*["''][^"'']*\blogo\b[^"'']*["''][^>]*src\s*=\s*["'']([^"'']+)["'']'
@@ -360,8 +286,6 @@ function Obtener-Logo {
 
             return $matches[1].Trim()
         }
-
-        # Caso donde src aparece antes que class
 
         if (
             $coverContent -match
@@ -403,21 +327,9 @@ function Obtener-Descripcion {
     return ""
 }
 
+
 # ============================================================
 # META
-#
-# EJEMPLO HTML:
-#
-# <div class="meta">7+   7 temporadas   1991   Dob Lat</div>
-#
-# RESULTADO:
-#
-# Serie · 7+ · 1991 · 7 Temporadas
-#
-# IMPORTANTE:
-# - SOLO LEE EL HTML
-# - NUNCA MODIFICA EL HTML
-# - ELIMINA "Dob Lat"
 # ============================================================
 
 function Obtener-Meta {
@@ -431,22 +343,18 @@ function Obtener-Meta {
 
         $meta = $matches[1]
 
-        # Quitar HTML interno
+        $meta = $meta -replace '(?is)<span[^>]*class\s*=\s*["''][^"'']*\bbadge-estreno\b[^"'']*["''][^>]*>.*?</span>', ''
+
         $meta = $meta -replace '<[^>]+>', ' '
 
-        # Decodificar entidades HTML
         $meta = [System.Net.WebUtility]::HtmlDecode($meta)
 
-        # Convertir espacios especiales
         $meta = $meta -replace '[\u00A0\u2007\u202F]', ' '
 
-        # Quitar Dob Lat
         $meta = $meta -replace '(?i)\s*Dob\s+Lat\s*$', ''
 
-        # Quitar Dob o Lat si aparecen solos al final
         $meta = $meta -replace '(?i)\s+(Dob|Lat)\s*$', ''
 
-        # Normalizar espacios
         $meta = $meta -replace '\s+', ' '
         $meta = $meta.Trim()
 
@@ -457,12 +365,6 @@ function Obtener-Meta {
 
         # ====================================================
         # SERIE
-        #
-        # Ejemplo:
-        # 7+ 7 temporadas 1991
-        #
-        # Resultado:
-        # Serie · 7+ · 1991 · 7 Temporadas
         # ====================================================
 
         if (
@@ -482,11 +384,6 @@ function Obtener-Meta {
 
         # ====================================================
         # SERIE
-        #
-        # También acepta:
-        #
-        # 13+ 5 temporadas 1992
-        # 13+ 1 temporada 2020
         # ====================================================
 
         if (
@@ -506,14 +403,6 @@ function Obtener-Meta {
 
         # ====================================================
         # PELICULA
-        #
-        # Ejemplo:
-        #
-        # 15+ 1h 45min 2018
-        #
-        # Resultado:
-        #
-        # Película · 15+ · 1h 45min · 2018
         # ====================================================
 
         if (
@@ -529,17 +418,48 @@ function Obtener-Meta {
         }
 
 
-        # ====================================================
-        # SI NO PUDO CLASIFICAR
-        #
-        # Devuelve el contenido limpio sin Dob Lat.
-        # ====================================================
-
         return $meta
     }
 
     return ""
 }
+
+
+# ============================================================
+# NUEVO: DETECTAR ESTRENO
+#
+# El HTML es la fuente.
+#
+# Detecta:
+#
+# <span class="badge-estreno">Estreno</span>
+#
+# También funciona si la clase tiene otras clases:
+#
+# class="algo badge-estreno otra-clase"
+#
+# Si existe:
+#     estreno = true
+#
+# Si NO existe:
+#     estreno se elimina del JSON.
+# ============================================================
+
+function Obtener-Estreno {
+
+    param([string]$Contenido)
+
+    if (
+        $Contenido -match
+        '(?is)class\s*=\s*["''][^"'']*\bbadge-estreno\b[^"'']*["'']'
+    ) {
+
+        return $true
+    }
+
+    return $false
+}
+
 
 # ============================================================
 # CARGAR JSON
@@ -579,6 +499,10 @@ $backdrops = 0
 $logos = 0
 $descripciones = 0
 $metas = 0
+
+$estrenos = 0
+$estrenosQuitados = 0
+
 
 # ============================================================
 # PROCESAR JSON
@@ -632,16 +556,13 @@ foreach ($prop in $datos.PSObject.Properties) {
             }
 
 
-           # ============================================================
-# LOCALIZAR HTML
-#
-# 1. Primero intenta la ruta indicada en "archivo"
-# 2. Si no existe, busca por el <title> dentro de TODO WWW
-# ============================================================
+            # ====================================================
+            # LOCALIZAR HTML
+            # ====================================================
 
-$rutaHTML = Buscar-PaginaHTML `
-    -TituloJSON $tituloJSON `
-    -ArchivoJSON $archivoJSON
+            $rutaHTML = Buscar-PaginaHTML `
+                -TituloJSON $tituloJSON `
+                -ArchivoJSON $archivoJSON
 
 
             Write-Host ""
@@ -650,24 +571,19 @@ $rutaHTML = Buscar-PaginaHTML `
             Write-Host "RUTA   : $archivoJSON" -ForegroundColor DarkGray
 
 
-            # ====================================================
-            # 1. ARCHIVO EXACTO
-            # ====================================================
-
             if ([string]::IsNullOrWhiteSpace($rutaHTML)) {
 
-    Write-Host "NO ENCONTRADO" -ForegroundColor Red
-    Write-Host "  No se pudo localizar la pagina." -ForegroundColor Red
+                Write-Host "NO ENCONTRADO" -ForegroundColor Red
+                Write-Host "  No se pudo localizar la pagina." -ForegroundColor Red
 
-    $noEncontrados++
+                $noEncontrados++
 
-    continue
-}
+                continue
+            }
+
 
             # ====================================================
             # LEER HTML
-            #
-            # SOLO LECTURA
             # ====================================================
 
             try {
@@ -717,12 +633,19 @@ $rutaHTML = Buscar-PaginaHTML `
 
             $metaHTML = Obtener-Meta $contenido
 
+            $estrenoHTML = Obtener-Estreno $contenido
+
 
             # ====================================================
             # MOSTRAR LO ENCONTRADO
             # ====================================================
 
             Write-Host "ENCONTRADO" -ForegroundColor Green
+
+
+            # ====================================================
+            # POSTER
+            # ====================================================
 
             if ($posterHTML) {
 
@@ -738,6 +661,10 @@ $rutaHTML = Buscar-PaginaHTML `
             }
 
 
+            # ====================================================
+            # BACKDROP
+            # ====================================================
+
             if ($backdropHTML) {
 
                 Write-Host "  Backdrop     : OK" -ForegroundColor Green
@@ -751,6 +678,10 @@ $rutaHTML = Buscar-PaginaHTML `
                 Write-Host "  Backdrop     : NO" -ForegroundColor DarkYellow
             }
 
+
+            # ====================================================
+            # LOGO
+            # ====================================================
 
             if ($logoHTML) {
 
@@ -766,6 +697,10 @@ $rutaHTML = Buscar-PaginaHTML `
             }
 
 
+            # ====================================================
+            # DESCRIPCION
+            # ====================================================
+
             if ($descripcionHTML) {
 
                 Write-Host "  Descripcion  : OK" -ForegroundColor Green
@@ -779,36 +714,146 @@ $rutaHTML = Buscar-PaginaHTML `
                 Write-Host "  Descripcion  : NO" -ForegroundColor DarkYellow
             }
 
-            # ====================================================
-# META
-# ====================================================
-
-if ($metaHTML) {
-
-    Write-Host "  Meta         : $metaHTML" -ForegroundColor Green
-
-    $item.meta = $metaHTML
-
-    $metas++
-}
-else {
-
-    Write-Host "  Meta         : NO" -ForegroundColor DarkYellow
-}
-
 
             # ====================================================
-            # IMPORTANTE
-            #
-            # AQUI NO SE MODIFICA:
-            #
-            # $contenido
-            # $rutaHTML
-            #
-            # EL HTML QUEDA INTACTO.
-            #
+            # META
             # ====================================================
+
+            if ($metaHTML) {
+
+                Write-Host "  Meta         : $metaHTML" -ForegroundColor Green
+
+                $item.meta = $metaHTML
+
+                $metas++
+            }
+            else {
+
+                Write-Host "  Meta         : NO" -ForegroundColor DarkYellow
+            }
+
+
+            # ====================================================
+            # ESTRENO
+            # ====================================================
+
+            if ($estrenoHTML) {
+
+                Write-Host "  ESTRENO      : SI" -ForegroundColor Magenta
+
+                # Se crea/actualiza la propiedad
+                $item | Add-Member `
+                    -MemberType NoteProperty `
+                    -Name "estreno" `
+                    -Value $true `
+                    -Force
+
+                $estrenos++
+
+            }
+            else {
+
+                Write-Host "  ESTRENO      : NO" -ForegroundColor DarkGray
+
+                # Si antes era estreno, se elimina.
+                # Esto hace que el badge NO permanezca para siempre.
+                if ($item.PSObject.Properties.Name -contains "estreno") {
+
+                    $item.PSObject.Properties.Remove("estreno")
+
+                    $estrenosQuitados++
+                }
+            }
         }
+    }
+}
+
+
+# ============================================================
+# PRIORIDAD DE ESTRENOS
+#
+# Los elementos con:
+#
+#     "estreno": true
+#
+# se colocan primero dentro de CADA LISTA.
+#
+# NO se mezclan conjuntos.
+# NO se modifican otras listas.
+# ============================================================
+
+Write-Host ""
+Write-Host "============================================" -ForegroundColor Cyan
+Write-Host "APLICANDO PRIORIDAD DE ESTRENOS..." -ForegroundColor Yellow
+Write-Host "============================================" -ForegroundColor Cyan
+
+
+foreach ($prop in $datos.PSObject.Properties) {
+
+    $listas = $prop.Value
+
+    if ($null -eq $listas) {
+        continue
+    }
+
+    foreach ($listaProp in $listas.PSObject.Properties) {
+
+        $lista = $listaProp.Value
+
+        if ($null -eq $lista) {
+            continue
+        }
+
+        if (
+            $lista -isnot [System.Collections.IEnumerable] -or
+            $lista -is [string]
+        ) {
+            continue
+        }
+
+
+        # Convertimos temporalmente a array
+        $itemsArray = @($lista)
+
+
+        # Si no hay elementos, continuar
+        if ($itemsArray.Count -eq 0) {
+            continue
+        }
+
+
+        # ====================================================
+        # IMPORTANTE:
+        #
+        # Estrenos primero.
+        # El resto conserva su orden relativo.
+        # ====================================================
+
+        $ordenados = @(
+            $itemsArray | Where-Object {
+                $_.PSObject.Properties.Name -contains "estreno" -and
+                $_.estreno -eq $true
+            }
+        )
+
+        $normales = @(
+            $itemsArray | Where-Object {
+                -not (
+                    $_.PSObject.Properties.Name -contains "estreno" -and
+                    $_.estreno -eq $true
+                )
+            }
+        )
+
+
+        $nuevoOrden = @($ordenados + $normales)
+
+
+        # ====================================================
+        # REEMPLAZAR CONTENIDO DE LA LISTA
+        # ====================================================
+
+        $listaProp.Value = $nuevoOrden
     }
 }
 
@@ -827,9 +872,13 @@ try {
 
     # Crear respaldo antes de modificar JSON
 
-    $backup = Join-Path $ROOT "swiper-data-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss').json"
+    $backup = Join-Path `
+        $ROOT `
+        "swiper-data-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss').json"
+
 
     Copy-Item $JSON $backup -Force
+
 
     Write-Host ""
     Write-Host "Backup creado:" -ForegroundColor Green
@@ -887,6 +936,11 @@ Write-Host "Metas encontradas         : $metas"
 
 Write-Host ""
 
+Write-Host "Estrenos detectados       : $estrenos" -ForegroundColor Magenta
+Write-Host "Estrenos quitados         : $estrenosQuitados" -ForegroundColor Yellow
+
+Write-Host ""
+
 Write-Host "HTML MODIFICADOS : 0" -ForegroundColor Green
 Write-Host "JSON MODIFICADO  : swiper-data.json" -ForegroundColor Green
 
@@ -895,3 +949,4 @@ Write-Host "============================================" -ForegroundColor Cyan
 Write-Host "              FIN DEL PROCESO" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
+
