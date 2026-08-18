@@ -47,6 +47,7 @@
   
   background: url("https://od.lk/s/M18zMTcxNjczMTJf/saint%20%20seiya%20poster.jpg") no-repeat center top;
   background-size: contain;
+  background-position: center top;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -369,7 +370,7 @@
   
 <!-- PLAYER -->
 <div class="player" id="player">
-  <video
+  <video playsinline webkit-playsinline
     id="video"
     class="video-js vjs-default-skin"
     preload="auto"
@@ -508,7 +509,7 @@ const seriesId = "saint-seiya";
 window.seriesId = seriesId;
 
 // --- PLAYLIST ---
-const playlist = [
+window.playlist = [
 {
     "season": "Temporada 1",
     "episodes": [
@@ -1650,26 +1651,46 @@ const playlist = [
         "downloadUrl": "https://od.lk/d/M18zMDI4MDQzMzVf/114%20El%20combate%20de%20los%20dioses%20BD1080p.mkv",
         "episodeCode": "T1 E114: ¡Brillad estrellas de la amistad! La leyenda eterna de los jóvenes",
         "hiddenCode": "T1 E114",
-        "intro": { "start": 5, "end": 90 }
+        "intro": { "start": 5, "end": 90  },
+        isNew: true
       }
-      
     ]
   }
 ];
 
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
 
 </script>
 
-<script src="../suggestions-library.js"></script>
-<script src="../suggested-content.js"></script>
+
 <script src="../player-series.js"></script>
 <script type="module" src="../player-series-module.js"></script>
 <script src="../wakelock.js"></script>
 <script src="../nav.js"></script>
 
+<script>
+  // cuando arranque el player
+  WakeLockManager.enable();
 
-
+  // cuando cierres el player
+  WakeLockManager.disable();
 </script>
+
+
 
 </body>
 </html>
