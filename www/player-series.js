@@ -370,9 +370,24 @@ if (remoteData?.ultimo_visto) {
 
   // ▶️ Cargar episodio pendiente
   const resumeData = finalResume;
-  if (resumeData && resumeData.videoUrl) {
-    playEpisode(resumeData.videoUrl);
+
+if (resumeData && resumeData.videoUrl) {
+
+  const indexes = findEpisodeIndexes(resumeData.videoUrl);
+
+  if (indexes) {
+
+    localStorage.setItem(
+      `last-episode-${seriesId}`,
+      JSON.stringify({
+        seasonIndex: indexes.seasonIndex,
+        episodeIndex: indexes.episodeIndex
+      })
+    );
   }
+
+  updateResumeButton();
+}
 
   // Cuando el usuario cambie de temporada, actualizamos los episodios
   document.getElementById("seasonSelect").addEventListener('change', () => {
@@ -980,6 +995,8 @@ if (indexes) {
   }));
 }
 
+updateResumeButton();
+
 video.src({
     type: 'video/mp4',
     src: videoUrl
@@ -1437,6 +1454,7 @@ localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({
 
 
 function updateResumeButton() {
+
     const button = document.getElementById('resumeButton');
     if (!button) return;
 
@@ -1455,14 +1473,16 @@ function updateResumeButton() {
     let episodeUrl = null;
 
     // =====================================================
-    // 🔥 NUEVO FORMATO: { seasonIndex, episodeIndex }
+    // 1. BUSCAR EL ÚLTIMO EPISODIO GUARDADO
     // =====================================================
+
     if (
         lastEpisodeData &&
         typeof lastEpisodeData === 'object' &&
         Number.isInteger(lastEpisodeData.seasonIndex) &&
         Number.isInteger(lastEpisodeData.episodeIndex)
     ) {
+
         const season =
             playlist[lastEpisodeData.seasonIndex];
 
@@ -1470,6 +1490,7 @@ function updateResumeButton() {
             season?.episodes?.[lastEpisodeData.episodeIndex];
 
         if (episode) {
+
             const preferred =
                 localStorage.getItem('preferredLang') || 'latino';
 
@@ -1482,13 +1503,15 @@ function updateResumeButton() {
     }
 
     // =====================================================
-    // 🔙 COMPATIBILIDAD CON EL FORMATO ANTIGUO
+    // 2. COMPATIBILIDAD CON FORMATO ANTIGUO
     // =====================================================
+
     if (!episode && typeof lastEpisodeData === 'string') {
 
         episodeUrl = lastEpisodeData;
 
         for (const season of playlist) {
+
             const found = season.episodes.find(ep =>
                 ep.videoUrl === episodeUrl ||
                 Object.values(ep.videos || {}).includes(episodeUrl)
@@ -1502,96 +1525,151 @@ function updateResumeButton() {
     }
 
     // =====================================================
-    // ▶️ SI ENCONTRAMOS EL EPISODIO
+    // 3. SI NO EXISTE last-episode
+    //    USAR EL PRIMER EPISODIO
     // =====================================================
-    if (episode) {
 
-        const progressDataForEpisode =
-            episodeUrl ? progressData[episodeUrl] : null;
+    if (!episode) {
 
-        let lastTime = 0;
+        episode = playlist?.[0]?.episodes?.[0];
 
-        if (
-            typeof progressDataForEpisode === 'object' &&
-            progressDataForEpisode !== null
-        ) {
-            lastTime =
-                Number(progressDataForEpisode.progress) || 0;
-        } else {
-            lastTime =
-                Number(progressDataForEpisode) || 0;
+        if (episode) {
+
+            const preferred =
+                localStorage.getItem('preferredLang') || 'latino';
+
+            episodeUrl =
+                episode.videos?.[preferred] ||
+                episode.videos?.latino ||
+                episode.videos?.sub ||
+                episode.videoUrl;
         }
+    }
 
-        const isComplete = lastTime === -1;
+    // =====================================================
+    // 4. SI NO HAY EPISODIO, SALIR
+    // =====================================================
 
-        const label = isComplete
-            ? 'Mira'
-            : 'Continuar';
-
-        const durationMinutes =
-            parseFloat(
-                episode.meta?.match(/(\d+)m/)?.[1]
-            ) || 47;
-
-        const durationSeconds =
-            durationMinutes * 60;
-
-        const percent =
-            isComplete
-                ? 100
-                : Math.min(
-                    (lastTime / durationSeconds) * 100,
-                    100
-                );
-
-        button.innerHTML = `
-            <div class="resume-text-wrapper">
-                <span class="material-icons">play_arrow</span>
-
-                <div class="text-with-bar">
-
-                    <div class="resume-label">
-                        ${label} ${episode.hiddenCode || episode.episodeCode}
-                    </div>
-
-                    ${
-                        percent > 0
-                        ? `
-                        <div class="resume-progress-track">
-                            <div
-                                class="resume-progress-bar"
-                                style="width: ${percent}%;">
-                            </div>
-                        </div>
-                        `
-                        : ''
-                    }
-
-                </div>
-            </div>
-        `;
-
+    if (!episode || !episodeUrl) {
+        console.warn("⚠️ No se encontró episodio para Continuar.");
         return;
     }
 
     // =====================================================
-    // ▶️ NO HAY EPISODIO GUARDADO → PRIMER EPISODIO
+    // 5. OBTENER PROGRESO
     // =====================================================
-    const first = playlist?.[0]?.episodes?.[0];
 
-    if (!first) return;
+    const progressDataForEpisode =
+        progressData[episodeUrl];
+
+    let lastTime = 0;
+
+    if (
+        typeof progressDataForEpisode === 'object' &&
+        progressDataForEpisode !== null
+    ) {
+
+        lastTime =
+            Number(progressDataForEpisode.progress) || 0;
+
+    } else {
+
+        lastTime =
+            Number(progressDataForEpisode) || 0;
+    }
+
+    const isComplete = lastTime === -1;
+
+    const label = isComplete
+        ? 'Mira'
+        : lastTime > 0
+            ? 'Continuar'
+            : 'Mira';
+
+    // =====================================================
+    // 6. DURACIÓN
+    // =====================================================
+
+    const durationMinutes =
+        parseFloat(
+            episode.meta?.match(/(\d+)m/)?.[1]
+        ) || 47;
+
+    const durationSeconds =
+        durationMinutes * 60;
+
+    const percent =
+        isComplete
+            ? 100
+            : Math.min(
+                (lastTime / durationSeconds) * 100,
+                100
+            );
+
+    // =====================================================
+    // 7. CREAR BOTÓN
+    // =====================================================
 
     button.innerHTML = `
         <div class="resume-text-wrapper">
             <span class="material-icons">play_arrow</span>
 
             <div class="text-with-bar">
+
                 <div class="resume-label">
-                    Mira ${first.hiddenCode || first.episodeCode}
+                    ${label} ${episode.hiddenCode || episode.episodeCode}
                 </div>
+
+                ${
+                    percent > 0
+                    ? `
+                    <div class="resume-progress-track">
+                        <div
+                            class="resume-progress-bar"
+                            style="width: ${percent}%;"
+                        ></div>
+                    </div>
+                    `
+                    : ''
+                }
+
             </div>
         </div>
     `;
+
+    // =====================================================
+    // 8. 🔥 CLAVE:
+    //    EL BOTÓN AHORA SABE DIRECTAMENTE QUÉ REPRODUCIR
+    // =====================================================
+
+    button.onclick = function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log(
+            "▶️ Continuar presionado:",
+            episode.episodeCode,
+            episodeUrl
+        );
+
+        // Guardar qué episodio estamos reproduciendo
+        const indexes = findEpisodeIndexes(episodeUrl);
+
+        if (indexes) {
+
+            localStorage.setItem(
+                `last-episode-${seriesId}`,
+                JSON.stringify({
+                    seasonIndex: indexes.seasonIndex,
+                    episodeIndex: indexes.episodeIndex
+                })
+            );
+        }
+
+        // Reproducir directamente
+        playEpisode(episodeUrl);
+    };
 }
 
 updateResumeButton();
