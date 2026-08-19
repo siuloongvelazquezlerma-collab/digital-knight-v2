@@ -1396,8 +1396,12 @@ function playLastWatchedEpisode() {
 
   // No hay último guardado: reproducir el primero
   const firstUrl = playlist[0].episodes[0].videoUrl;
-  video.src({ type: 'video/mp4', src: firstUrl });
-  localStorage.setItem(`last-episode-${seriesId}`, firstUrl);
+video.src({ type: 'video/mp4', src: firstUrl });
+
+localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({
+  seasonIndex: 0,
+  episodeIndex: 0
+}));
 
   video.ready(function () {
     video.currentTime(0);
