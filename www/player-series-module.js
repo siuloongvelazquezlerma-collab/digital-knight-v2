@@ -31,8 +31,8 @@ async function main() {
   const video = videojs('video');
  
 
-  // 📺 Reanudar episodio más reciente
-  if (resume?.videoUrl) {
+  // 📺 Reanudar episodio más reciente (solo si el usuario aún no inició la reproducción)
+  if (resume?.videoUrl && !window.__userStartedPlayback) {
     console.log('⏯️ Reanudando desde episodio:', resume.videoUrl);
     video.src({ src: resume.videoUrl, type: 'video/mp4' });
 

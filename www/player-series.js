@@ -340,10 +340,17 @@ function showTab(tabId) {
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
-  seriesId = params.get('id');
-  if (!seriesId) return;
+  const idParam = params.get('id');
+  // La página ya define seriesId (const global + window.seriesId).
+  // No reasignar seriesId aquí: reasignarla cuando es `const` lanzaba un
+  // TypeError que abortaba init() (y con ello la restauración del último episodio).
+  if (!window.seriesId && idParam) {
+    window.seriesId = idParam;
+  }
+  const activeSeriesId = window.seriesId;
+  if (!activeSeriesId) return;
 
-  const remoteData = await loadMostRecentProgress(seriesId);
+  const remoteData = await loadMostRecentProgress(activeSeriesId);
 
   let finalResume = JSON.parse(localStorage.getItem(`continue_${seriesId}`));
 
@@ -981,9 +988,32 @@ function lockOrientationLandscape() {
 
 
 // ▶ Reproducir episodio
+// Helper GLOBAL para buscar el episodio por URL.
+// Compatible con páginas que usan window.playlist y con las que usan
+// `const playlist` (falla silenciosamente si se usaba solo window.playlist).
+// Antes esta función solo existía dentro del IIFE del menú de idiomas, por lo
+// que playEpisode() lanzaba `ReferenceError: findEpisodeByUrl is not defined`.
+function findEpisodeByUrl(url) {
+  if (!url) return null;
+  const list =
+    (typeof window !== 'undefined' && window.playlist) ||
+    (typeof playlist !== 'undefined' ? playlist : null);
+  if (!list) return null;
+  const seasons = Array.isArray(list) ? list : [];
+  for (const season of seasons) {
+    for (const ep of season.episodes || []) {
+      const urls = Object.values(ep.videos || {});
+      if (ep.videoUrl === url || urls.includes(url)) return ep;
+    }
+  }
+  return null;
+}
+window.findEpisodeByUrl = findEpisodeByUrl;
+
 function playEpisode(videoUrl) {
 
 window.episodeId = videoUrl;
+window.__userStartedPlayback = true;
 
 // 🔒 Guardar el EPISODIO, no la URL del idioma
 const indexes = findEpisodeIndexes(videoUrl);
@@ -1667,8 +1697,12 @@ function updateResumeButton() {
             );
         }
 
-        // Reproducir directamente
-        playEpisode(episodeUrl);
+        // Reproducir directamente (con respaldo si por algún motivo no hay URL)
+        playEpisode(
+          episodeUrl ||
+          episode.videoUrl ||
+          playlist?.[0]?.episodes?.[0]?.videoUrl
+        );
     };
 }
 
@@ -2204,29 +2238,9 @@ const tabs = document.querySelector('.tabs-secondary');
   let menuOpen = false;
 
   function findEpisodeByUrl(url) {
-
-  if (!url || !window.playlist) return null;
-
-  for (const season of window.playlist) {
-
-    for (const ep of season.episodes) {
-
-      // El episodio puede tener varias URLs:
-      // latino, sub, inglés, etc.
-      const urls = Object.values(ep.videos || {});
-
-      if (
-        ep.videoUrl === url ||
-        urls.includes(url)
-      ) {
-        return ep;
-      }
-
-    }
+    // Delegar a la versión global (maneja window.playlist y const playlist)
+    return window.findEpisodeByUrl ? window.findEpisodeByUrl(url) : null;
   }
-
-  return null;
-}
   
   
 
