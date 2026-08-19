@@ -247,6 +247,46 @@ video.on('pause', () => {
 
 });
 
+// Mostrar un mensaje claro si el video no se puede reproducir
+// (p. ej. formato .mkv/.avi/.flv no soportado por el navegador, o enlace roto).
+function showPlayerErrorMsg(text) {
+  let msgEl = document.getElementById('playerErrorMsg');
+  if (!msgEl) {
+    msgEl = document.createElement('div');
+    msgEl.id = 'playerErrorMsg';
+    msgEl.style.cssText =
+      'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);' +
+      'background:rgba(0,0,0,.88);color:#fff;padding:18px 22px;border-radius:14px;' +
+      'font-size:14px;text-align:center;z-index:99999;max-width:80%;line-height:1.5;';
+    const pl = document.getElementById('player');
+    if (pl) pl.appendChild(msgEl);
+  }
+  if (msgEl) {
+    msgEl.textContent = text;
+    msgEl.style.display = 'block';
+  }
+}
+function hidePlayerErrorMsg() {
+  const msgEl = document.getElementById('playerErrorMsg');
+  if (msgEl) msgEl.style.display = 'none';
+}
+video.on('error', function () {
+  const src = video.currentSrc() || '';
+  const ext = (src.split('?')[0].split('.').pop() || '').toLowerCase();
+  if (ext === 'mkv' || ext === 'avi' || ext === 'flv' || ext === 'wmv') {
+    showPlayerErrorMsg(
+      'Este capítulo está en formato .' + ext +
+      ', que el navegador no puede reproducir.\n' +
+      'Busca una versión en .mp4 para poder verlo.'
+    );
+  } else {
+    showPlayerErrorMsg('No se pudo reproducir este video (enlace caído o formato no compatible).');
+  }
+});
+// Ocultar el mensaje cuando el video arranque o cambie de capítulo
+video.on('playing', hidePlayerErrorMsg);
+video.on('loadstart', hidePlayerErrorMsg);
+
 player.addEventListener('mousemove', showControls);
 
 // 🎬 Tocar una zona vacía alterna los controles.
