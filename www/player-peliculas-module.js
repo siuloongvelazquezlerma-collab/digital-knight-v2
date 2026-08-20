@@ -20,6 +20,9 @@ console.log("TAG:", video?.tagName);
 const progressBar = document.getElementById("watchProgressBar");
 const restartButton = document.getElementById("restartButton");
 let hasStarted = false;
+
+// ☁️ Guardar en Supabase cada 5 segundos
+const SUPABASE_SAVE_INTERVAL = 5000;
 let lastSupabaseSave = 0;
 
 
@@ -150,6 +153,23 @@ video.addEventListener("timeupdate", async () => {
   );
 
   console.log("💾 Progreso guardado localmente:", currentTime);
+
+  // ☁️ Guardar progreso en Supabase cada 5 segundos
+const now = Date.now();
+
+if (now - lastSupabaseSave >= SUPABASE_SAVE_INTERVAL) {
+  lastSupabaseSave = now;
+
+  console.log("☁️ Guardando progreso en Supabase:", currentTime);
+
+  await saveMovieProgress({
+    movieId,
+    ultimoVisto: {
+      ...movieData,
+      updatedAt: new Date().toISOString()
+    }
+  });
+}
 
 });
 
