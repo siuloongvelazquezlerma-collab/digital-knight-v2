@@ -1,0 +1,170 @@
+:root {
+  --dk-gutter: clamp(12px, 3.2vw, 36px);
+  --dk-rail-gap: clamp(9px, 1.4vw, 18px);
+}
+
+/* Esta capa corrige los márgenes acumulados de la portada sin tocar style.css. */
+.section-content {
+  width: 100%;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-inline: var(--dk-gutter) !important;
+  overflow: visible;
+}
+
+.movie-section,
+.genre-container {
+  margin-top: 32px !important;
+  margin-bottom: 0 !important;
+  padding-inline: 0 !important;
+}
+
+.section-content > :first-child {
+  margin-top: 28px !important;
+}
+
+.movie-section h2,
+.genre-title {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-inline: 0 !important;
+}
+
+.scroll-container,
+.scrollable,
+.horizontal-scroll-container,
+.mexicanas-scroll-container,
+.genre-scroll {
+  width: 100%;
+  margin-inline: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  gap: var(--dk-rail-gap) !important;
+  scroll-padding-inline: var(--dk-gutter);
+  overscroll-behavior-inline: contain;
+}
+
+.scroll-container > :first-child,
+.scrollable > :first-child,
+.horizontal-scroll-container > :first-child,
+.mexicanas-scroll-container > :first-child,
+.genre-scroll > :first-child {
+  margin-left: 0 !important;
+}
+
+.chevron-link {
+  margin-right: 0 !important;
+}
+
+/* Fondos de colección a pantalla completa; sus tarjetas conservan un margen interno. */
+.section-content .special-section.terror,
+.section-content .special-section.novelas {
+  width: calc(100% + var(--dk-gutter) + var(--dk-gutter));
+  margin-left: calc(0px - var(--dk-gutter)) !important;
+  margin-right: calc(0px - var(--dk-gutter)) !important;
+  padding: 34px var(--dk-gutter) 30px !important;
+}
+
+/* Los Top 10 usan una envoltura propia: se extiende el fondo, no las tarjetas. */
+.section-content > .container {
+  width: calc(100% + var(--dk-gutter) + var(--dk-gutter));
+  margin-left: calc(0px - var(--dk-gutter)) !important;
+  margin-right: calc(0px - var(--dk-gutter)) !important;
+}
+
+.section-content > .container .top-10 {
+  width: 100%;
+  max-width: none;
+}
+
+.top-10 .top-header,
+.top-10 .scrollable {
+  padding-left: var(--dk-gutter) !important;
+  padding-right: var(--dk-gutter) !important;
+  scroll-padding-inline: var(--dk-gutter);
+}
+
+.top-10 .card {
+  left: 10%;
+}
+
+/* Anula cualquier límite heredado: estos fondos deben llegar al borde de pantalla. */
+.section-content .special-section.nick,
+.section-content .special-section.terror,
+.section-content .special-section.mexico,
+.section-content .special-section.novelas,
+.section-content .special-section.vampiros,
+.section-content .special-section.mexicanas-clasicas,
+.section-content .container .top-10 {
+  width: 100vw !important;
+  max-width: none !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
+
+/* Evita pequeños saltos visuales mientras se cargan los pósters. */
+.lazy-img {
+  background: #111328;
+}
+
+@media (max-width: 767px) {
+  .section-content {
+    margin-top: -145px;
+  }
+
+  .movie-section,
+  .genre-container {
+    margin-top: 28px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .movie-section,
+  .genre-container {
+    margin-top: 38px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* En la copia optimizada el fondo sale del contenedor, nunca el carrusel. */
+.section-content .special-section.nick,
+.section-content .special-section.terror,
+.section-content .special-section.mexico,
+.section-content .special-section.novelas,
+.section-content .special-section.vampiros,
+.section-content .special-section.mexicanas-clasicas,
+.section-content .container .top-10 {
+  width: auto !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.section-content .container .top-10 {
+  width: 100% !important;
+  max-width: 600px !important;
+}
+
+@media (min-width: 1024px) {
+  .section-content .container .top-10 { max-width: 100% !important; }
+}
+
+/* Transición entre páginas */
+body {
+    opacity: 1;
+    transition: opacity 0.1s ease;
+}
+
+body.page-transition {
+    opacity: 0;
+}
+
+

@@ -127,74 +127,58 @@ export async function saveProfileToSupabase() {
 // ================================
 // 📺 Guardar progreso de series
 // ================================
+// ================================
+// 📺 Registrar que el usuario está viendo una serie
+// ================================
 export async function saveSeriesProgress({
-  seriesId,
-  ultimoVisto,
-  episodios
+  seriesId
 }) {
-  console.log("🔥 saveSeriesProgress EJECUTADO", {
-    seriesId,
-    ultimoVisto,
-    episodios
-  });
+
+  console.log("📺 saveSeriesProgress EJECUTADO:", seriesId);
 
   try {
-    const { data: { session } } = await supabase.auth.getSession();
 
-    if (!session) {
-      console.warn("⚠️ No hay sesión activa, no se guarda progreso");
+    const { data: { session } } =
+      await supabase.auth.getSession();
+
+    if (!session?.user) {
+      console.warn("⚠️ No hay sesión activa");
       return false;
     }
 
     const userId = session.user.id;
 
-    // Obtener episodios ya guardados
-const { data: existente, error: fetchError } = await supabase
-  .from('progresos')
-  .select('episodios')
-  .eq('email', session.user.email)
-  .eq('series_id', seriesId)
-  .maybeSingle();
-
-if (fetchError) {
-      console.error("❌ Error leyendo progreso existente:", fetchError);
-    }
-
-    const episodiosCompletos = {
-      ...(existente?.episodios || {}),
-      ...(episodios || {})
-    };
-
-     console.log("📦 Datos finales a guardar:", {
-      id: userId,
-      series_id: seriesId,
-      ultimo_visto: ultimoVisto,
-      episodios: episodiosCompletos
-    });
-
     const { error } = await supabase
       .from('progresos')
       .upsert({
         id: userId,
-        series_id: seriesId,
-        ultimo_visto: ultimoVisto,
-        episodios: episodiosCompletos,
-        updated_at: new Date().toISOString()
+        series_id: seriesId
       }, {
         onConflict: 'id,series_id'
       });
 
     if (error) {
-      console.error("❌ Error guardando progreso:", error);
+      console.error(
+        "❌ Error registrando serie:",
+        error
+      );
       return false;
     }
 
-    console.log("✅ Progreso de serie sincronizado en Supabase");
+    console.log(
+      "✅ Serie registrada en Supabase:",
+      seriesId
+    );
 
     return true;
 
   } catch (e) {
-    console.error("❌ Error general sincronizando progreso:", e);
+
+    console.error(
+      "❌ Error general registrando serie:",
+      e
+    );
+
     return false;
   }
 }

@@ -47,23 +47,22 @@ let hideControlsTimeout;
 
 
 // ✅ 👇 Aquí mismo agrega este
+// Guarda el progreso
 video.on('timeupdate', () => {
 
-  console.log("video.currentTime:", video.currentTime);
-  console.log("video.currentTime():", video.currentTime?.());
-
   const currentTime = video.currentTime();
-const videoUrl = video.currentSrc();
-const seriesId = window.seriesId;
+  const videoUrl = video.currentSrc();
+  const seriesId = window.seriesId;
 
-if (!videoUrl || !seriesId) return;
+  if (!videoUrl || !seriesId) return;
 
-const key = `progress-${seriesId}`;
-const episodios = JSON.parse(localStorage.getItem(key) || '{}');
-episodios[videoUrl] = {
-  progress: currentTime,
-  updated_at: Date.now()
-};  
+  const key = `progress-${seriesId}`;
+  const episodios = JSON.parse(localStorage.getItem(key) || '{}');
+
+  episodios[videoUrl] = {
+    progress: currentTime,
+    updated_at: Date.now()
+  };
 localStorage.setItem(key, JSON.stringify(episodios));
 
 const resumeItem = JSON.parse(localStorage.getItem(`continue_${seriesId}`) || '{}');
@@ -72,9 +71,7 @@ if (resumeItem?.videoUrl === videoUrl) {
   localStorage.setItem(`continue_${seriesId}`, JSON.stringify(resumeItem));
 }
 
-if (window.throttledSyncData) {
-    window.throttledSyncData(seriesId);
-}
+
 });
 
 
@@ -773,86 +770,105 @@ renderEpisodes().then(() => {
 
 
 // Guardar y cargar progreso
-async function saveProgress(video, videoUrl, currentTime, seriesId) {
-  const key = `progress-${seriesId}`;
-  const data = JSON.parse(localStorage.getItem(key)) || {};
-  data[videoUrl] = currentTime;
-  localStorage.setItem(key, JSON.stringify(data));
+// Guardar progreso LOCAL
+function saveProgress(video, videoUrl, currentTime, seriesId) {
 
-  const duration = video.duration() || 1;
-  const progressKey = `progress_${seriesId}_${videoUrl}`;
-  const durationKey = `duration_${seriesId}_${videoUrl}`;
-  const episodeData = findEpisodeData(videoUrl);
+  // =====================================================
+  // 🟢 PROGRESO REAL DE REPRODUCCIÓN → LOCALSTORAGE
+  // =====================================================
+
+  const key = `progress-${seriesId}`;
+
+  const data =
+    JSON.parse(localStorage.getItem(key)) || {};
+
+  data[videoUrl] = currentTime;
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(data)
+  );
+
+
+  // =====================================================
+  // 🟢 GUARDAR DATOS DEL EPISODIO LOCALMENTE
+  // =====================================================
+
+  const duration =
+    video.duration() || 1;
+
+  const progressKey =
+    `progress_${seriesId}_${videoUrl}`;
+
+  const durationKey =
+    `duration_${seriesId}_${videoUrl}`;
+
+  const episodeData =
+    findEpisodeData(videoUrl);
+
   if (!episodeData) return;
 
-  const { episodeCode, thumbnail } = episodeData;
-  const seriesTitle = document.getElementById('page-title')?.textContent || 'Serie';
-  const seriesLink = document.getElementById('favoritoEnlace')?.href || window.location.href;
+  const {
+    episodeCode,
+    thumbnail
+  } = episodeData;
 
-  localStorage.setItem(progressKey, currentTime || 0);
-  localStorage.setItem(durationKey, duration);
+  const seriesTitle =
+    document.getElementById('page-title')?.textContent ||
+    'Serie';
 
-  const indexes = findEpisodeIndexes(videoUrl);
+  const seriesLink =
+    document.getElementById('favoritoEnlace')?.href ||
+    window.location.href;
 
-  localStorage.setItem(`continue_${seriesId}`, JSON.stringify({
-    seriesId,
-    seriesTitle,
-    episodeTitle: episodeCode,
-    poster: thumbnail,
-    link: seriesLink,
-    progress: currentTime || 0,
-    duration,
-    videoUrl,
-    season_index: indexes?.seasonIndex ?? 0,
-    episode_index: indexes?.episodeIndex ?? 0,
-     updatedAt: Date.now()
-  }));
 
-  
-/*
-  // 📌 Registrar vista en user_views
-  try {
-    if (duration > 0 && currentTime / duration >= 0.8) {
-      await onPlayEpisode(session.user.id, seriesId, episodeCode, Math.floor(currentTime));
-      console.log('✅ Vista registrada en user_views para episodio:', episodeCode);
-    }
-  } catch (err) {
-    console.error('❌ Error registrando vista en user_views:', err);
-  }
-*/
+  localStorage.setItem(
+    progressKey,
+    currentTime || 0
+  );
 
-console.log("🚀 Enviando progreso a saveSeriesProgress()", {
-  seriesId,
-  videoUrl,
-  currentTime,
-  duration
-});
-  // ✅ Sincronizar con tabla progresos
-  try {
-  await saveSeriesProgress({
-  id: seriesId,
-  series_id: seriesId,
-  video_url: videoUrl,
-  episodio: episodeCode,
+  localStorage.setItem(
+    durationKey,
+    duration
+  );
 
-  progreso: currentTime || 0,
-  duration,
 
-  poster: thumbnail,
-  link: seriesLink,
+  // =====================================================
+  // 🟢 CONTINUAR VIENDO → LOCALSTORAGE
+  // =====================================================
 
-  season_index: indexes?.seasonIndex ?? 0,
-  episode_index: indexes?.episodeIndex ?? 0,
+  const indexes =
+    findEpisodeIndexes(videoUrl);
 
-  visto_en: new Date().toISOString()
-});
+  localStorage.setItem(
+    `continue_${seriesId}`,
+    JSON.stringify({
+      seriesId,
+      seriesTitle,
+      episodeTitle: episodeCode,
+      poster: thumbnail,
+      link: seriesLink,
+      progress: currentTime || 0,
+      duration,
+      videoUrl,
+      season_index:
+        indexes?.seasonIndex ?? 0,
+      episode_index:
+        indexes?.episodeIndex ?? 0,
+      updatedAt: Date.now()
+    })
+  );
 
-  console.log("✅ Progreso enviado mediante saveSeriesProgress()");
-} catch (error) {
-  console.error("❌ Error sincronizando:", error);
-}
 
-  localStorage.setItem('justReturnedFromSeries', 'true');
+  // =====================================================
+  // 🟢 ACTUALIZAR INTERFAZ
+  // =====================================================
+
+  localStorage.setItem(
+    'justReturnedFromSeries',
+    'true'
+  );
+
   updateResumeButton();
 }
 
@@ -1328,28 +1344,7 @@ video.on('ended', () => {
       updateResumeButton?.();
 
       // 🔄 Sincronizar Supabase
-     try {
-  await saveSeriesProgress({
-    seriesId,
-    ultimoVisto: continueData,
-    episodios: {
-      [nextUrl]: {
-        progress: 0,
-        duration,
-        seriesTitle: item.series_title,
-        episodeTitle: episodeData.episodeCode,
-        poster: episodeData.thumbnail,
-        season_index: indexes?.seasonIndex ?? 0,
-        episode_index: indexes?.episodeIndex ?? 0,
-        updatedAt: Date.now()
-      }
-    }
-  });
-
-  console.log("✅ Siguiente episodio sincronizado");
-} catch (err) {
-  console.error("❌ Error sincronizando:", err);
-}
+  
     });
 
   } else {
