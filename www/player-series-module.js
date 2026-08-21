@@ -40,15 +40,33 @@ async function main() {
 
     if (!user) return;
 
-    await registerView(
-  user.id,
-  seriesId,
-  'series',
-  0
-);
+    // Nombre de la serie y episodio actual (para registrar "lo visto")
+    const seriesName =
+      document.getElementById('nombre')?.innerText?.trim() ||
+      window.seriesName ||
+      'Serie';
 
-await saveSeriesProgress({
-  seriesId
+    const currentUrl =
+      (typeof video.currentSrc === 'function') ? video.currentSrc() : '';
+
+    const ep =
+      (typeof window.findEpisodeByUrl === 'function')
+        ? window.findEpisodeByUrl(currentUrl)
+        : null;
+
+    // Contador de vistas (user_views, solo QUÉ se vio, sin progreso)
+    await registerView(
+      user.id,
+      seriesId,
+      'series'
+    );
+
+    await saveSeriesProgress({
+  seriesId,
+  seriesName,
+  episodeName: ep?.episodeCode || ep?.title || '',
+  poster: ep?.thumbnail || '',
+  link: document.getElementById('favoritoEnlace')?.href || window.location.href
 });
 
 seriesViewRegistered = true;

@@ -21,9 +21,8 @@ const progressBar = document.getElementById("watchProgressBar");
 const restartButton = document.getElementById("restartButton");
 let hasStarted = false;
 
-// ☁️ Guardar en Supabase cada 5 segundos
-const SUPABASE_SAVE_INTERVAL = 5000;
-let lastSupabaseSave = 0;
+// ☁️ (Eliminado) Supabase ya NO guardaba el progreso cada 5s.
+// El progreso es 100% local; Supabase solo registra "lo visto".
 
 
 (async () => {
@@ -154,34 +153,46 @@ video.addEventListener("timeupdate", async () => {
 
   console.log("💾 Progreso guardado localmente:", currentTime);
 
-  // ☁️ Guardar progreso en Supabase cada 5 segundos
-const now = Date.now();
-
-if (now - lastSupabaseSave >= SUPABASE_SAVE_INTERVAL) {
-  lastSupabaseSave = now;
-
-  console.log("☁️ Guardando progreso en Supabase:", currentTime);
-
-  await saveMovieProgress({
-    movieId,
-    ultimoVisto: {
-      ...movieData,
-      updatedAt: new Date().toISOString()
-    }
-  });
-}
+  // ☁️ Eliminado: Supabase NO recibe el progreso (segundos/duration).
+  // El registro "visto" (solo el nombre) se hace en el listener de "play".
 
 });
 
-// ⛳ Pantalla completa en el primer play
+// ⛳ Pantalla completa en el primer play + registrar "lo visto" en Supabase
+function getPeliculaVisto() {
+  return {
+    tipo: 'movie',
+    id: movieId,
+    title:
+      document.querySelector(".title")?.textContent?.trim() ||
+      document.getElementById("nombre")?.textContent?.trim() ||
+      "Sin título",
+    subtitle: document.getElementById("episodeSubtitle")?.textContent?.trim() || '',
+    poster: document.getElementById("favoritoImagen")?.src || '',
+    link: document.getElementById("favoritoEnlace")?.href || window.location.href
+  };
+}
+
 video.addEventListener('play', async () => {
   if (!hasStarted) {
     hasStarted = true;
     if (video.requestFullscreen) video.requestFullscreen();
     else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
     else if (video.msRequestFullscreen) video.msRequestFullscreen();
-  }
 
+    // 🔒 Supabase SOLO guarda "lo visto" (nombre de la película), nunca el progreso.
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        await saveMovieProgress({
+          movieId,
+          ultimoVisto: getPeliculaVisto()
+        });
+      }
+    } catch (err) {
+      console.warn("⚠️ No se pudo registrar la película vista en Supabase:", err);
+    }
+  }
 });
 
 // 🔘 Función para mostrar el botón de reinicio
@@ -210,12 +221,11 @@ video.addEventListener('ended', async () => {
 
     const userId = session.user.id;
 
-    // Registrar vista en tabla de vistas
+    // Registrar vista en tabla de vistas (solo QUÉ se vio, sin progreso)
     await registerView(
       userId,
       movieId,
-      'movie',
-      Math.floor(video.duration)
+      'movie'
     );
 
     console.log('✅ Vista registrada:', movieId);

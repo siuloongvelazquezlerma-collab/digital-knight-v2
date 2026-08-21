@@ -392,19 +392,34 @@ async function init() {
   let finalResume = JSON.parse(localStorage.getItem(`continue_${seriesId}`));
 
 if (remoteData?.ultimo_visto) {
-  const localData = JSON.parse(localStorage.getItem(`continue_${seriesId}`));
+  const localData = JSON.parse(localStorage.getItem(`continue_${seriesId}`) || '{}');
 
+  const remoteVisto = remoteData.ultimo_visto || {};
   const remoteTime = new Date(remoteData.updated_at || 0).getTime();
   const localTime = new Date(localData?.updatedAt || 0).getTime();
 
-  if (!localData || remoteTime > localTime) {
-    finalResume = remoteData.ultimo_visto;
+  // 🔒 El progreso (segundos/videoUrl) es SOLO local: la nube solo aporta
+  // la info de "visto" (nombre). No sobreescribimos el progreso local.
+  const merged = {
+    ...(localData?.videoUrl ? localData : {}),
+    seriesTitle: remoteVisto.seriesTitle || localData?.seriesTitle || 'Serie',
+    episodeTitle: remoteVisto.episodeTitle || localData?.episodeTitle || '',
+    poster: remoteVisto.poster || localData?.poster || '',
+    link: remoteVisto.link || localData?.link || '',
+    progress: localData?.progress,
+    duration: localData?.duration,
+    videoUrl: localData?.videoUrl,
+    season_index: localData?.season_index,
+    episode_index: localData?.episode_index,
+    visto: true,
+    updatedAt: remoteTime || localData?.updatedAt || Date.now()
+  };
+  finalResume = merged;
 
-    localStorage.setItem(
-      `continue_${seriesId}`,
-      JSON.stringify(remoteData.ultimo_visto)
-    );
-  }
+  localStorage.setItem(
+    `continue_${seriesId}`,
+    JSON.stringify(merged)
+  );
 }
 
 

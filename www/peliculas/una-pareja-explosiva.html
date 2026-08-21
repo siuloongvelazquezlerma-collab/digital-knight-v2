@@ -648,20 +648,25 @@ async function syncMovieProgress() {
   const link = window.location.href;
 
   try {
+    // 🔒 Supabase SOLO guarda "lo visto" (nombre), nunca el progreso.
     await supabase.from('progresos').upsert({
       id: user.id,
-      movie_id: movieId,
-      progress: progressPercent,
-      duration: totalDuration,
-      title,
-      poster,
-      link,
+      series_id: `movie_${movieId}`,
+      ultimo_visto: {
+        seriesTitle: title,
+        episodeTitle: '',
+        poster,
+        link,
+        visto: true,
+        updatedAt: new Date().toISOString()
+      },
+      episodios: null,
       updated_at: new Date().toISOString(),
-    });
+    }, { onConflict: 'id,series_id' });
 
-    console.log(`🛰️ Progreso sincronizado con Supabase (${(progressPercent * 100).toFixed(1)}%)`);
+    console.log(`🛰️ Película registrada como vista: ${title}`);
   } catch (error) {
-    console.error('❌ Error al sincronizar progreso con Supabase:', error);
+    console.error('❌ Error al registrar película vista en Supabase:', error);
   }
 }
 
