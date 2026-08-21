@@ -902,30 +902,34 @@ async function loadContinueWatchingFromSupabase() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return [];
 
-    const { data, error } = await supabase
+        const { data, error } = await supabase
       .from('progresos')
-      .select('*')
+      .select('series_id, ultimo_visto, updated_at')
       .eq('id', user.id)
-      .order('visto_en', { ascending: false });
+      .order('updated_at', { ascending: false });
 
     if (error) {
       console.error(error);
       return [];
     }
 
-    return data.map(item => ({
-      key: `continue_${item.series_id}_${item.video_url}`,
-      data: {
-        seriesTitle: item.series_id,
-        episodeTitle: item.episodio,
-        poster: item.poster || '',
-        link: item.link || '',
-        progress: item.progreso || 0,
-        duration: item.duration || 1,
-        videoUrl: item.video_url || ''
-      },
-      type: 'series'
-    }));
+    return data
+      .filter(item => item.ultimo_visto)
+      .map(item => {
+        const visto = item.ultimo_visto || {};
+        return {
+          key: `continue_${item.series_id}`,
+          data: {
+            seriesTitle: visto.seriesTitle || item.series_id,
+            episodeTitle: visto.episodeTitle || '',
+            poster: visto.poster || '',
+            link: visto.link || '',
+            visto: true,
+            updatedAt: visto.updatedAt || 0
+          },
+          type: 'series'
+        };
+      });
 
   } catch (e) {
     console.error("Supabase error:", e);
@@ -1087,7 +1091,7 @@ async function initContinueWatching() {
   const localItems = loadContinueWatchingLocal();
   const supabaseItems = await loadContinueWatchingFromSupabase();
 
-  const merged = [...localItems, ...supabaseItems];
+    const merged = [...supabaseItems, ...localItems];
 
   renderContinueWatching(merged);
 }

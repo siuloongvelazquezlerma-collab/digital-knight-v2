@@ -7,7 +7,7 @@ import {
     loadProfileInfo,
     initSession
 } from './js/sync-supabase.js';
-import { registerView } from './js/viewsTracker.js';
+import { registerView } from './viewsTracker.js';
 window.supabase = supabase;
 window.saveSeriesProgress = saveSeriesProgress;
 window.loadMostRecentProgress = loadMostRecentProgress;
