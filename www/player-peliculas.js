@@ -1,5 +1,4 @@
-// 🆔 Asegura que tengas el ID de la película global
-const movieId = window.movieId || 'unknown-id';
+
 
 // Prevenir gestos táctiles no deseados
 document.addEventListener('touchmove', function (event) {
@@ -23,11 +22,7 @@ window.addEventListener('load', function () {
 });
 
 
-const videoElement = document.getElementById('video');
-const video = videoElement.tagName === "VIDEO"
-  ? videoElement
-  : document.getElementById('video_html5_api');
-console.log("Al cargar la página:", video);
+const video = document.getElementById('video');
 const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
@@ -36,6 +31,10 @@ const duration = document.getElementById('duration');
 const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.material-icons');
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
+
+
+
+
 // ------------------------
 // 2️⃣ Función para actualizar barra y thumb
 // ------------------------
@@ -200,7 +199,15 @@ video.addEventListener('timeupdate', () => {
   // Guardar en localStorage
   localStorage.setItem(`progress_${movieId}`, currentTime);
   localStorage.setItem(`duration_${movieId}`, totalDuration);
-  
+  localStorage.setItem(`movie_${movieId}`, JSON.stringify({
+    tipo: 'movie',
+    title: document.querySelector(".title")?.textContent?.trim() || 'Sin título',
+    subtitle: document.getElementById("episodeSubtitle")?.textContent?.trim() || '',
+    poster: document.getElementById("favoritoImagen")?.src || '',
+    link: document.getElementById("favoritoEnlace")?.href || window.location.href,
+    progress: currentTime,
+    duration: totalDuration
+  }));
 
   // Sincronizar cada 5 segundos
   const now = Date.now();
@@ -248,14 +255,7 @@ video.addEventListener('ended', () => {
 
 // Limpieza del estado
 function endMovieCleanup(finished = false) {
-
-  // 🔥 Al terminar la película: salir de fullscreen y volver a vertical
   exitFullscreen();
-
-  if (window.Android) {
-    Android.setPortrait();
-  }
-
   player.style.display = 'none';
   cover.style.display = 'flex';
   video.pause();
@@ -383,47 +383,12 @@ function updateWatchButtonFromStorage() {
 }
 
 // Botón principal
-document.getElementById('watchButton').addEventListener('click', async () => {
-
-    console.log("🟢 CLICK EN VER AHORA");
-
-
-    if (!window.suggestionShown) {
-
-    const profile = JSON.parse(
-        localStorage.getItem("dk_profile") || "{}"
-    );
-
-    if(profile.premium){
-
-        console.log("⭐ Premium: saltando sugerencia");
-
-    } else {
-
-        console.log("⏳ Lanzando sugerencia");
-
-        await window.showSuggestedContent();
-
-        console.log("✅ Sugerencia terminada");
-
-    }
-
-}
-
-
-    console.log("🎬 Voy a abrir reproductor");
-
-
-    if (watchButtonText.textContent.includes("Volver a ver")) {
-
-        restartMovie();
-
-    } else {
-
-        showPlayer();
-
-    }
-
+document.getElementById('watchButton').addEventListener('click', () => {
+  if (watchButtonText.textContent.includes("Volver a ver")) {
+    restartMovie();
+  } else {
+    showPlayer();
+  }
 });
 
 // Reiniciar
@@ -610,90 +575,37 @@ if (isTouchDevice) {
 }
 
 function showPlayer() {
+  cover.style.display = "none";
+  player.style.display = "flex";
 
-    console.trace("🎬 showPlayer()");
-
-    player.style.pointerEvents = "auto";
-
-    cover.style.display = 'none';
-    player.style.display = 'flex';
-
-  // 🔥 IMPORTANTE: primero Android, luego fullscreen
   if (window.Android) {
     Android.setLandscape();
-  } else {
-    console.log("❌ Android no disponible");
   }
 
-  video.play();
+  video.play().catch(() => {});
 
-    playPauseBtn.textContent = 'pause';
+  playPauseBtn.textContent = "pause";
+  showControls();
 
-    showControls();
-
-
-    // 🔥 Entrar fullscreen solo si no estamos ya dentro
-    if (!document.fullscreenElement) {
-        enterFullscreen();
-    }
-
-
-    // Mostrar controles después de la transición
-    setTimeout(() => {
-        showControls();
-    }, 500);
-
-
-    // Mostrar barra y botón si ya hay progreso
-    if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-
-        progressBar.style.display = "block";
-        showRestartButton();
-
-    }
-
+  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
+    progressBar.style.display = "block";
+    showRestartButton();
+  }
 }
 
 
 player.addEventListener('mousemove', showControls);
-
-player.addEventListener('click', () => {
-    showControls();
-});
-
-player.addEventListener('touchstart', showControls, { passive: true });
+player.addEventListener('click', showControls);
+player.addEventListener('touchstart', showControls);
 
 function enterFullscreen() {
-
-    console.trace("📺 enterFullscreen()");
-
-    if (document.fullscreenElement) {
-        console.log("⚠️ Ya está en fullscreen");
-        return;
-    }
-
-    try {
-
-        if (player.requestFullscreen) {
-
-            player.requestFullscreen();
-
-        } else if (player.webkitRequestFullscreen) {
-
-            player.webkitRequestFullscreen();
-
-        } else if (player.msRequestFullscreen) {
-
-            player.msRequestFullscreen();
-
-        }
-
-    } catch (e) {
-
-        console.warn("❌ Error entrando fullscreen:", e);
-
-    }
-
+  if (player.requestFullscreen) {
+    player.requestFullscreen();
+  } else if (player.webkitRequestFullscreen) {
+    player.webkitRequestFullscreen();
+  } else if (player.msRequestFullscreen) {
+    player.msRequestFullscreen();
+  }
 }
 
 function exitFullscreen() {
@@ -706,115 +618,72 @@ function exitFullscreen() {
   }
 }
 
-let changingFromSuggestion = false;
-
 document.addEventListener('fullscreenchange', () => {
 
   const isFullscreen = document.fullscreenElement;
 
   if (!isFullscreen) {
 
-    if (window.changingFromSuggestion) {
-
-      window.changingFromSuggestion = false;
-      return;
-
-    }
-
-
     if (!video.paused) {
-      video.pause();
-    }
 
+      video.pause();
+
+    }
+    
 
     playPauseBtn.textContent = 'play_arrow';
 
     player.style.display = 'none';
-    cover.style.display = 'flex';
 
+    cover.style.display = 'flex';
   }
 
 });
-
 
 let hasStarted = false;
 let reiniciaTimer = null;
 
 video.addEventListener('play', () => {
-
   if (!hasStarted && video.currentTime < video.duration - 5) {
-
     hasStarted = true;
 
     reiniciaTimer = setTimeout(() => {
-
       if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-
         showRestartButton();
         localStorage.setItem(`hasStarted_${movieId}`, 'true');
         progressBar.style.display = "block";
-
       }
-
     }, 5000);
 
-
-    // 📱 Android maneja orientación
-    if (window.Android) {
-
-      Android.setLandscape();
-
-    }
-
+    // 🆕 Forzar fullscreen la primera vez que empieza
+    enterFullscreen();
   }
-
 });
 
 
 // Función para mostrar el botón de "Reinicia"
-// Función para mostrar el botón de "Reinicia"
 function showRestartButton() {
   const currentTime = video.currentTime;
-  const totalDuration =
-    video.duration ||
-    parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
-
+  const totalDuration = video.duration || parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
   const percentPlayed = currentTime / totalDuration;
 
-  // Solo mostrar si la película NO terminó (menos de 80%)
-  if (
-    percentPlayed < 0.8 &&
-    watchButtonText.textContent !== "Volver a ver"
-  ) {
+  // Solo mostrar si la película NO terminó (menos de 90%)
+  if (percentPlayed < 0.8 &&
+    watchButtonText.textContent !== "Volver a ver") {
 
-    if (restartButton) {
-      restartButton.style.display = "flex";
-      restartButton.classList.add("shown");
-    }
+    restartButton.style.display = "flex";
+    restartButton.classList.add("shown");
+    document.getElementById("restartSpacer").style.height = "60px";
 
-    const spacer = document.getElementById("restartSpacer");
-
-    if (spacer) {
-      spacer.style.height = "60px";
-    }
-
-  } else {
+} else {
     hideRestartButton();
-  }
+}
 }
 
 function hideRestartButton() {
-
-  if (restartButton) {
-    restartButton.style.display = "none";
-    restartButton.classList.remove("shown");
-  }
-
-  const spacer = document.getElementById("restartSpacer");
-
-  if (spacer) {
-    spacer.style.height = "0px";
-  }
+  restartButton.style.display = 'none';
+  restartButton.classList.remove('shown');
+  document.getElementById('restartSpacer').style.height = '0px';
 }
 
 function actualizarMediaSession() {
@@ -890,6 +759,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pageTitle.style.opacity = titleOpacity;
   });
 });
+
 
 
 const favoritoBtn = document.getElementById('favoritoBtn');
@@ -1022,41 +892,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProfileImage(savedProfileImage);
   }
 });
-// Función para cambiar todas las imágenes de perfil
-function updateProfileImage(src) {
-  const ids = [
-    "footerIconImg",
-    "footerProfileImage",
-    "profileImage",
-    "profilePageImage",
-    "editableProfile",
-    "editableProfileInModal",
-    "headerProfileIcon"
-  ];
 
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.src = src;
-  });
-
-  // Ocultar iconos por defecto si existen
-  const defaultIcon = document.getElementById("defaultProfileIcon");
-  if (defaultIcon) defaultIcon.style.display = "none";
-
-  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
-  if (defaultIconAlt) defaultIconAlt.style.display = "none";
-
-  // Guardar en localStorage
-  localStorage.setItem("profileImage", src);
-}
-
-// Restaurar la imagen de perfil guardada al cargar la página
-window.addEventListener("load", () => {
-  const storedProfileImage = localStorage.getItem("profileImage");
-  if (storedProfileImage) {
-    updateProfileImage(storedProfileImage); // Reutilizamos la función
-  }
-});
 
 
 var lastScrollTop = 0;
@@ -1188,6 +1024,36 @@ function castCurrentVideo() {
 }
 
 
+const mainTitle = document.querySelector(".title").textContent.trim();
+const subTitle = document.getElementById("episodeSubtitle").textContent.trim();
+const moviePoster = document.getElementById("favoritoImagen").src;
+const movieLink = document.getElementById("favoritoEnlace").href;
+
+// Guarda automáticamente al actualizar el tiempo
+video.addEventListener("timeupdate", () => {
+    const currentTime = video.currentTime;
+    const duration = video.duration || 1;
+
+    // Guarda datos individuales (para posibles usos futuros)
+    localStorage.setItem(`progress_${movieId}`, currentTime);
+    localStorage.setItem(`duration_${movieId}`, duration);
+
+    // Guarda el objeto completo para la sección "Continuar Viendo"
+    const movieData = {
+        title: mainTitle || 'Sin título',
+        subtitle: subTitle || '',
+        poster: moviePoster || '',
+        link: movieLink || '',
+        progress: currentTime,
+        duration: duration
+    };
+
+    localStorage.setItem(`movie_${movieId}`, JSON.stringify(movieData));
+});
+
+
+
+
 // Detectar teclas y mover el foco
 document.addEventListener('keydown', function(e) {
   const focusable = Array.from(document.querySelectorAll('[tabindex]:not([disabled])'));
@@ -1228,6 +1094,8 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
+
+
 function descargarPelicula(url) {
 
 const nombre = document.getElementById("nombre")?.innerText.trim() || "Película";
@@ -1244,3 +1112,6 @@ if (typeof Android !== "undefined") {
   window.open(url, "_blank");
 }
 }
+
+
+
