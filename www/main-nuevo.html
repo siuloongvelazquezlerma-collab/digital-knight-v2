@@ -19,14 +19,14 @@
 <meta name="twitter:title" content="" id="twTitle">
 <meta name="twitter:description" content="" id="twDesc">
 <meta name="twitter:image" content="" id="twImage">
- <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-ChzD5StK818vBAQZL5n94vJUmJl+jz1Ro8AiyOsd0GWIT6saFOY+zG+VVM/LMxltwGPplT7tI9On7kVCXkmVc=" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSkt+PpBVx5hbBOss0l7zUUbzjgK6UIIV9W0rGIiXcR" crossorigin="anonymous">
        <link rel="icon" type="image/png" sizes="32x32" href="logo-2025.png">
-    <title>Digital Knight · Nuevo</title>
+    <title>Digital Knight</title>
     <link rel="manifest" href="manifest.json">
   
 
@@ -69,13 +69,128 @@
 </script>
 
     
-  <link rel="stylesheet" href="style-nuevo.css">
+  <link rel="stylesheet" href="style.css">
  
-  <link rel="stylesheet" href="main-optimizado-nuevo.css">
+  <link rel="stylesheet" href="main-optimizado.css">
 
 
  
-  </head>
+  
+<style id="nuevo-look">
+/* NUEVO LOOK v2 */
+:root{ --gold:#ccbf79; }
+html{scroll-behavior:smooth}
+body{transition:opacity .28s ease}
+body.page-leaving{opacity:0}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(600px 400px at 85% -5%, rgba(204,191,121,.07), transparent 60%),
+    radial-gradient(700px 500px at -10% 40%, rgba(90,80,200,.08), transparent 60%),
+    radial-gradient(500px 500px at 70% 100%, rgba(204,191,121,.05), transparent 60%);
+}
+header{
+  position:sticky;top:10px;z-index:50;
+  width:calc(100% - 24px);margin:10px auto 0;
+  border-radius:18px !important;
+  background:rgba(9,9,38,.82) !important;
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(204,191,121,.22);
+  box-shadow:0 10px 34px rgba(0,0,0,.45);
+  padding-top:calc(10px + env(safe-area-inset-top)) !important;
+  animation:headerIn .5s ease both;
+}
+@keyframes headerIn{from{transform:translateY(-14px);opacity:0}to{transform:none;opacity:1}}
+.movie-section{margin-top:34px !important;animation:sectionIn .5s ease both}
+@keyframes sectionIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.movie-section h2{
+  display:flex;align-items:center;gap:10px;
+  font-size:.82rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);padding-left:2px;
+}
+.movie-section h2::before{
+  content:'';width:4px;height:18px;border-radius:99px;
+  background:linear-gradient(180deg,var(--gold),rgba(204,191,121,.25));
+}
+.scroll-container{scroll-behavior:smooth;padding-left:20px !important;padding-right:20px !important;scroll-snap-type:x proximity}
+.movie-item,
+.scroll-container > a{
+  position:relative;display:inline-block;
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.06);
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s;
+  scroll-snap-align:start;
+}
+.movie-item:hover,.scroll-container > a:hover{
+  transform:translateY(-7px) scale(1.03);
+  box-shadow:0 16px 34px rgba(0,0,0,.65), inset 0 0 0 1px rgba(204,191,121,.35);
+  z-index:2;
+}
+.movie-item:active,.scroll-container > a:active{transform:scale(.96)}
+.movie-item::after,.scroll-container > a::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:44%;
+  background:linear-gradient(180deg,transparent,rgba(1,1,29,.88));
+  pointer-events:none;border-radius:0 0 16px 16px;
+}
+.continue-watching .progress-bar,
+.continue-watching .progress-bar i,
+.continue-watching .progress-bar > *{background:var(--gold) !important}
+.continue-watching .progress-bar-container{border-radius:99px;overflow:hidden}
+/* SWIPER HERO banner-card */
+.mySwiper{
+  width:calc(100% - 28px) !important;
+  margin:16px auto 0 !important;
+  height:50vh !important;min-height:330px;max-height:520px;
+  border-radius:24px !important;overflow:hidden;
+  border:1px solid rgba(204,191,121,.28);
+  box-shadow:0 20px 55px rgba(0,0,0,.6);
+}
+.mySwiper .swiper-slide img{width:100%;height:100%;object-fit:cover;border-radius:0 !important}
+.mySwiper .swiper-slide{position:relative;overflow:hidden;border-radius:24px}
+.mySwiper .swiper-slide::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(1,1,29,.25),transparent 30%,transparent 60%,rgba(1,1,29,.92)),
+    radial-gradient(120% 90% at 50% 110%, rgba(1,1,29,.55), transparent 60%);
+}
+.mySwiper .swiper-button-prev,
+.mySwiper .swiper-button-next{
+  width:40px;height:40px;border-radius:999px;
+  background:rgba(1,1,29,.55);backdrop-filter:blur(8px);
+  border:1px solid rgba(204,191,121,.3);
+  opacity:.65;transition:.25s;
+}
+.mySwiper .swiper-button-prev{left:12px !important}
+.mySwiper .swiper-button-next{right:12px !important}
+.mySwiper .swiper-button-prev:hover,.mySwiper .swiper-button-next:hover{
+  opacity:1;background:rgba(204,191,121,.25);transform:scale(1.08);
+}
+.mySwiper .swiper-button-prev::after,.mySwiper .swiper-button-next::after{font-size:18px;font-weight:900}
+.mySwiper .swiper-pagination{bottom:14px !important;text-align:right;padding-right:20px}
+.swiper-pagination-bullet{background:#fff !important;opacity:.45;transition:.3s}
+.swiper-pagination-bullet-active{background:var(--gold) !important;opacity:1;width:18px !important;border-radius:99px}
+/* Footer dock flotante */
+.footer{
+  position:fixed;left:0;right:0;margin:0 auto;
+  bottom:calc(12px + env(safe-area-inset-bottom));
+  width:min(94%,540px);
+  border-radius:22px !important;
+  background:rgba(11,11,46,.92) !important;
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(204,191,121,.24);
+  box-shadow:0 12px 34px rgba(0,0,0,.55);
+  padding-top:8px;padding-bottom:8px;
+  transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .3s;
+  z-index:60;
+}
+.footer.hidden{transform:translateY(150%) !important}
+#transitionOverlay{background:#01011d !important;opacity:0;pointer-events:none;transition:opacity .3s ease}
+#transitionOverlay:not(.hidden){opacity:1;pointer-events:auto}
+body{animation:pageIn .4s ease both}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
   <body>
    
       
@@ -83,38 +198,46 @@
 
   
  <!-- Header -->
- <header class="dk-header">
-  <div class="dk-header-inner">
-    <a href="main-nuevo.html" class="dk-brand"><img src="new-logo-2026.png" class="logo" alt="Digital Knight" /></a>
+ <header>
+  <a href="main.html"><img src="new-logo-2026.png" width="150px" class="logo" /></a>
+  <div class="icons">
 
-    <div class="icons dk-actions">
-      <a href="notificaciones.html" class="dk-icon-btn notification-icon" title="Notificaciones">
-        <span class="material-icons-outlined">notifications</span>
-        <span id="notificationBadge" class="notification-badge" style="display:none;"></span>
-      </a>
+  
 
-      <a href="perfil digital Knight 2025.html" class="dk-icon-btn mobile-profile">
-        <img src="logo-2025.png" alt="Perfil" class="profile-icon-footer headerProfileIcon">
-      </a>
+<a href="notificaciones.html" class="notification-icon" title="Notificaciones">
+  <span class="material-icons-outlined">notifications</span>
 
-      <!-- FAVORITOS -->
-      <a href="new favoritos 2025.html" class="dk-icon-btn header-only">
-        <span class="material-icons-outlined">bookmark_border</span>
-      </a>
+  <span id="notificationBadge" class="notification-badge" style="display:none;"></span>
+</a>
 
-      <!-- BUSCAR -->
-      <a href="New search page 2025.html" class="dk-icon-btn header-only">
-        <span class="material-icons-outlined">search</span>
-      </a>
+<a href="perfil digital Knight 2025.html" class="mobile-profile">
+  <img
+    src="logo-2025.png"
+    alt="Perfil"
+    class="profile-icon-footer headerProfileIcon">
+</a>
 
-      <!-- PERFIL -->
-      <a href="perfil digital Knight 2025.html" class="dk-icon-btn header-only">
-        <img src="logo-2025.png" alt="Perfil" class="profile-icon-footer headerProfileIcon">
-      </a>
-    </div>
+    <!-- FAVORITOS -->
+    <a href="new favoritos 2025.html" class="header-only">
+      <span class="material-icons-outlined">bookmark_border</span>
+    </a>
+
+    <!-- BUSCAR -->
+    <a href="New search page 2025.html" class="header-only">
+      <span class="material-icons-outlined">search</span>
+    </a>
+
+    <!-- PERFIL -->
+    <!-- PERFIL -->
+<a href="perfil digital Knight 2025.html" class="header-only">
+  <img
+    src="logo-2025.png"
+    alt="Perfil"
+    class="profile-icon-footer headerProfileIcon">
+</a>
+    
   </div>
 </header>
-
 
 
   
@@ -127,14 +250,14 @@
 
 
   <!-- Tabs -->
-  <nav class="tabs dk-tabs" aria-label="Categorías">
+  <div class="tabs">
     <div class="tab active" data-tab="inicio">Inicio</div>
     <div class="tab" data-tab="series">Películas</div>
     <div class="tab" data-tab="peliculas">Series</div>
     <div class="tab" data-tab="hbo">Anime</div>
     <div class="tab" data-tab="documentales">Familia</div>
     <div class="tab" data-tab="mi-lista">Doramas</div>
-  </nav>
+  </div>
   
 <!-- Sección "Inicio" -->
 <div id="inicio" class="swiper mySwiper active-tab" style="display:block;">
@@ -238,14 +361,14 @@
 
   <div class="scroll-container">
 
-    <a href="Peliculas/jackass-la-ultima-y-nos-vamos.html">
+    <a href="peliculas/jackass-la-ultima-y-nos-vamos.html">
       <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='200'></svg>"
            data-src="https://image.tmdb.org/t/p/original/4Dvt8Q0ywqrikGSW3qqfwFhMqBz.jpg"
            class="lazy-img"
            alt="jackass-la-ultima-y-nos-vamos">
     </a>
 
-    <a href="Peliculas/el-final-de-la-calle-oak.html">
+    <a href="peliculas/el-final-de-la-calle-oak.html">
       <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='200'></svg>"
            data-src="https://image.tmdb.org/t/p/w500/hT5qnmx9FXGkuBy5Vo1DkOoYyuS.jpg"
            class="lazy-img"
@@ -4534,27 +4657,23 @@
 <div id="continueContainer" style="display:none;"></div>
 
 
-<footer class="footer dk-footer">
+<footer class="footer">
   <a href="javascript:void(0)" class="footer-icon active" id="homeFooterButton">
     <span class="material-icons-outlined">home</span>
     <span class="material-icons">home</span>
-    <span class="dk-footer-label">Inicio</span>
-  </a>
+</a>
   <a href="new favoritos 2025.html" class="footer-icon">
-    <span class="material-icons-outlined">bookmark_border</span>
-    <span class="material-icons">bookmark</span>
-    <span class="dk-footer-label">Favoritos</span>
+      <span class="material-icons-outlined">bookmark_border</span>
+      <span class="material-icons">bookmark</span>
   </a>
   <a href="downloads.html" class="footer-icon download-footer">
     <span class="material-icons-outlined">arrow_downward</span>
     <span class="material-icons">arrow_downward</span>
-    <span class="dk-footer-label">Descargas</span>
-  </a>
-  <a href="New search page 2025.html" class="footer-icon">
-    <span class="material-icons-outlined">search</span>
-    <span class="material-icons">search</span>
-    <span class="dk-footer-label">Buscar</span>
-  </a>
+</a>
+ <a href="New search page 2025.html" class="footer-icon">
+        <span class="material-icons-outlined">search</span>
+        <span class="material-icons">search</span>
+    </a>
 </footer>
 
 
@@ -4642,7 +4761,7 @@
 
 
 
-  <script src="main-optimizado-nuevo.js"></script>
+  <script src="main-optimizado.js"></script>
   <script type="module" src="script.js"></script>
 <script src="notifications.js"></script>
 <script src="pjax.js"></script>
@@ -4682,7 +4801,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   await loadProfileInfo();
 
-// await syncContinueWatchingToLocal();
+   // await syncContinueWatchingToLocal();
 
   } catch (err) {
     console.error('❌ Error cargando datos:', err);
@@ -5073,5 +5192,21 @@ addToListBtn.onclick = ()=>{
 
   
   
+
+<script>
+(function(){
+  window.addEventListener('pageshow', function(e){ if(e.persisted) document.body.classList.remove('page-leaving'); });
+  document.addEventListener('click', function(e){
+    var a=e.target.closest('a[href]'); if(!a) return;
+    var href=a.getAttribute('href')||'';
+    if(!/\.html(\?|#|$)/i.test(href)) return;
+    if(a.target==='_blank'||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
+    if(href.indexOf('http')===0) return;
+    e.preventDefault();
+    document.body.classList.add('page-leaving');
+    setTimeout(function(){ window.location.href=href; },230);
+  },true);
+})();
+</script>
 </body>
 </html>

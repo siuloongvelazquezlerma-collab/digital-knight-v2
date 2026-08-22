@@ -3172,3 +3172,119 @@ body.page-transition {
 #continueWatchingContainer::-webkit-scrollbar {
     display: none;
 }
+
+/* =============================================================
+   FADE OSCURO INFERIOR EN CARRUSELES
+   Overlay que combina con el color de la app (#01011d)
+   Aplica a todas las tarjetas/imágenes de los carruseles
+   (verticales y horizontales)
+   ============================================================= */
+
+.scroll-container > a,
+.horizontal-scroll-container > a,
+.mexicanas-scroll-container > a,
+.wrapper-movie,
+.movie-item,
+.image-wrapper {
+    position: relative;
+}
+
+/* Overlay inferior sobre cada tarjeta en los carruseles normales */
+.scroll-container > a::after,
+.horizontal-scroll-container > a::after,
+.mexicanas-scroll-container > a::after,
+.wrapper-movie::after,
+.image-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40%;
+    /* degradado transparente -> marino de la app */
+    background: linear-gradient(180deg, transparent, rgba(1, 1, 29, 0) 40%, rgba(1, 1, 29, 0.85) 100%);
+    border-radius: 0 0 5px 5px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Sombra/overlay más marcado al pasar el cursor */
+.scroll-container > a:hover::after,
+.horizontal-scroll-container > a:hover::after,
+.mexicanas-scroll-container > a:hover::after,
+.wrapper-movie:hover::after,
+.image-wrapper:hover::after {
+    background: linear-gradient(180deg, transparent, rgba(1, 1, 29, 0) 25%, rgba(1, 1, 29, 0.92) 100%);
+}
+
+/* Las imágenes de los carruseles quedan por debajo del overlay */
+.scroll-container > a img,
+.horizontal-scroll-container > a img,
+.mexicanas-scroll-container > a img,
+.top-10 .card a img,
+.image-wrapper img.poster {
+    position: relative;
+    z-index: 1;
+    display: block;
+}
+
+/* -----------------------------------------
+   TOP 10 (películas y series)
+   La tarjeta .card contiene nº + <a><img>
+   ----------------------------------------- */
+.top-10 .card a {
+    position: relative;
+    display: block;
+}
+.top-10 .card a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 35%;
+    background: linear-gradient(180deg, transparent, rgba(1, 1, 29, 0) 40%, rgba(1, 1, 29, 0.85) 100%);
+    border-radius: 0 0 7px 7px;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* -----------------------------------------
+   ARREGLAR EL ZOOM EN HOVER
+   El zoom se hace en el contenedor completo
+   (imagen + fade), así el overlay acompaña y
+   no se descuadra con la imagen al agrandarse.
+   ----------------------------------------- */
+.scroll-container > a img,
+.horizontal-scroll-container > a img,
+.mexicanas-scroll-container > a img,
+.top-10 .card a img,
+.scroll-container img:hover,
+.horizontal-scroll-container img:hover,
+.mexicanas-scroll-container img:hover,
+.card img:hover,
+.top-10 .card img:hover {
+    transform: none !important;
+}
+
+.scroll-container > a,
+.horizontal-scroll-container > a,
+.mexicanas-scroll-container > a,
+.top-10 .card a {
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.scroll-container > a:hover,
+.horizontal-scroll-container > a:hover,
+.mexicanas-scroll-container > a:hover,
+.top-10 .card a:hover {
+    transform: scale(1.06);
+    z-index: 5;
+}
+
+/* Los números del Top 10 van POR DELANTE de la imagen y del fade */
+.top-10 .rank-number {
+    z-index: 8 !important;
+    pointer-events: none;
+}
