@@ -987,11 +987,18 @@ async function loadContinueWatchingFromSupabase() {
         const isMovie = item.series_id.startsWith('movie_');
         if (isMovie) {
           const movieId = item.series_id.replace('movie_', '');
+
+          // 📊 Cruzar con el progreso LOCAL para la barra de Continuar Viendo
+          const progress = parseFloat(localStorage.getItem(`progress_${movieId}`)) || 0;
+          const duration = parseFloat(localStorage.getItem(`duration_${movieId}`)) || 0;
+
           return {
             key: `continue_${item.series_id}`,
             data: {
               ...visto,
               movieId,
+              progress,
+              duration,
               tipo: 'movie',
               visto: true,
               updatedAt: visto.updatedAt || 0
@@ -999,15 +1006,35 @@ async function loadContinueWatchingFromSupabase() {
             type: 'movie'
           };
         }
+
+        // 📊 Series: progreso local desde continue_<sid> o por episodio
+        const sid = item.series_id;
+        let seriesLocal = {};
+        try {
+          seriesLocal = JSON.parse(localStorage.getItem(`continue_${sid}`) || '{}');
+        } catch (_) { seriesLocal = {}; }
+
+        let sProgress = parseFloat(seriesLocal.progress) || 0;
+        let sDuration = parseFloat(seriesLocal.duration) || 0;
+
+        // Fallback: progreso por episodio específico
+        if (!sDuration && visto.videoUrl) {
+          sProgress = parseFloat(localStorage.getItem(`progress_${sid}_${visto.videoUrl}`)) || 0;
+          sDuration = parseFloat(localStorage.getItem(`duration_${sid}_${visto.videoUrl}`)) || 0;
+        }
+
         return {
           key: `continue_${item.series_id}`,
           data: {
-            seriesTitle: visto.seriesTitle || item.series_id,
-            episodeTitle: visto.episodeTitle || '',
-            poster: visto.poster || '',
-            link: visto.link || '',
-            videoUrl: visto.videoUrl || '',
-            seriesId: item.series_id,
+            ...seriesLocal,
+            seriesTitle: visto.seriesTitle || seriesLocal.seriesTitle || item.series_id,
+            episodeTitle: visto.episodeTitle || seriesLocal.episodeTitle || '',
+            poster: visto.poster || seriesLocal.poster || '',
+            link: visto.link || seriesLocal.link || '',
+            videoUrl: visto.videoUrl || seriesLocal.videoUrl || '',
+            seriesId: sid,
+            progress: sProgress,
+            duration: sDuration,
             tipo: 'series',
             visto: true,
             updatedAt: visto.updatedAt || 0
@@ -1200,7 +1227,26 @@ async function initContinueWatching() {
   const localItems = loadContinueWatchingLocal();
   const supabaseItems = await loadContinueWatchingFromSupabase();
 
-    const merged = [...supabaseItems, ...localItems];
+    // 🔁 Dedupe: si un contenido existe tanto local como en Supabase,
+    // se prefiere la versión LOCAL (tiene progreso real para la barra)
+    const localSupabaseIds = new Set(
+      localItems.map(i => {
+        if (i.key && i.key.startsWith('progress_')) {
+          return `movie_${i.key.replace('progress_', '')}`;
+        }
+        if (i.key && i.key.startsWith('continue_')) {
+          return i.key.replace('continue_', '');
+        }
+        return null;
+      }).filter(Boolean)
+    );
+
+    const filteredSupabase = supabaseItems.filter(si => {
+      const sid = si.data?.seriesId || (si.data?.movieId ? `movie_${si.data.movieId}` : null);
+      return !sid || !localSupabaseIds.has(sid);
+    });
+
+    const merged = [...filteredSupabase, ...localItems];
 
   renderContinueWatching(merged);
 }
