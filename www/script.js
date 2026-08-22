@@ -1,5 +1,10 @@
 import { supabase } from './js/supabaseClient.js';
-import { isMovieCompleted, isSeriesCompleted } from './js/sync-supabase.js';
+import {
+  isMovieCompleted,
+  isSeriesCompleted,
+  getHiddenList,
+  hideFromContinueWatching
+} from './js/sync-supabase.js';
 // ⬅️ Quitar lazy inmediatamente si ya todas se cargaron antes
 if (localStorage.getItem("mainImagesLoaded") === "true") {
   document.addEventListener("DOMContentLoaded", () => {
@@ -945,17 +950,33 @@ async function loadContinueWatchingFromSupabase() {
 
         return data
       .filter(item => item.ultimo_visto)
-      // 🔒 Filtrar contenido YA COMPLETADO (no mostrar en "Continuar Viendo")
+      // 🔒 Filtrar contenido YA COMPLETADO o OCULTO localmente
       .filter(item => {
-        if (item.series_id.startsWith('movie_')) {
-          const movieId = item.series_id.replace('movie_', '');
+        const sid = item.series_id;
+        const visto = item.ultimo_visto || {};
+
+        // 1. Marcado como completado en Supabase → oculto en TODOS los dispositivos
+        if (visto.completado === true) {
+          console.log("✅ [FILTER] Contenido completado excluido:", sid);
+          return false;
+        }
+
+        // 2. Oculto manualmente en este dispositivo ("Quitar de continuar viendo")
+        if (getHiddenList().includes(sid)) {
+          console.log("🙈 [FILTER] Oculto localmente, excluido:", sid);
+          return false;
+        }
+
+        // 3. Completado según progreso local (≥90%)
+        if (sid.startsWith('movie_')) {
+          const movieId = sid.replace('movie_', '');
           if (isMovieCompleted(movieId)) {
             console.log("🎬 [FILTER] Película completada excluida:", movieId);
             return false;
           }
         } else {
-          if (isSeriesCompleted(item.series_id)) {
-            console.log("📺 [FILTER] Serie completada excluida:", item.series_id);
+          if (isSeriesCompleted(sid)) {
+            console.log("📺 [FILTER] Serie completada excluida:", sid);
             return false;
           }
         }
@@ -1072,41 +1093,20 @@ removeOption.addEventListener('click', (e) => {
     localStorage.removeItem(`movie_${movieId}`);
   }
 
-  // 2. ☁️ Borrar de Supabase para que NO vuelva a aparecer al recargar
-  (async () => {
-    try {
-      let supabaseId = null;
+  // 2. 🙈 Ocultar localmente (Supabase NO se toca — se conserva para estadísticas)
+  let supabaseId = null;
 
-      if (item.key && item.key.startsWith('continue_')) {
-        // Item que vino de Supabase o de series locales
-        // key = "continue_<series_id>" → series_id puede ser "movie_xxx" o el id de serie
-        supabaseId = item.key.replace('continue_', '');
-      } else if (item.key && item.key.startsWith('progress_')) {
-        // Película guardada solo en localStorage → su id en Supabase es movie_<movieId>
-        supabaseId = `movie_${item.key.replace('progress_', '')}`;
-      }
+  if (item.key && item.key.startsWith('continue_')) {
+    supabaseId = item.key.replace('continue_', '');
+  } else if (item.key && item.key.startsWith('progress_')) {
+    // Película guardada solo en localStorage → su id en Supabase es movie_<movieId>
+    supabaseId = `movie_${item.key.replace('progress_', '')}`;
+  }
 
-      if (supabaseId) {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          const { data: deleted, error } = await supabase
-            .from('progresos')
-            .delete()
-            .eq('id', session.user.id)
-            .eq('series_id', supabaseId)
-            .select();
-
-          if (error) {
-            console.error(`❌ ERROR quitando '${supabaseId}' de Supabase (revisa políticas RLS):`, error);
-          } else {
-            console.log(`🗑️ Quitado de Continuar Viendo en Supabase (${deleted?.length ?? 0} fila(s)):`, supabaseId);
-          }
-        }
-      }
-    } catch (err) {
-      console.warn('⚠️ No se pudo quitar de Supabase:', err);
-    }
-  })();
+  if (supabaseId) {
+    hideFromContinueWatching(supabaseId);
+    console.log('🙈 Ocultado de Continuar Viendo localmente:', supabaseId);
+  }
 
   div.remove();
 

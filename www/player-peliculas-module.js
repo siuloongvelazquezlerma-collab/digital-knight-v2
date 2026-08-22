@@ -3,7 +3,7 @@ import {
   loadProfileInfo,
   saveMovieProgress,
   initSession,
-  deleteProgressFromSupabase,
+  markContentCompletedInSupabase,
   isMovieCompleted
 } from './js/sync-supabase.js';
 import { registerView } from './viewsTracker.js';
@@ -238,11 +238,11 @@ video.addEventListener('ended', async () => {
 
     console.log('✅ Vista registrada:', movieId);
 
-    // 🗑️ Marcar como completada: borrar de la tabla progresos de Supabase
-    // para que NO aparezca en "Continuar Viendo" al volver a cargar
-    const deleted = await deleteProgressFromSupabase(movieId);
-    if (deleted) {
-      console.log('🗑️ Película borrada de "Continuar Viendo" en Supabase:', movieId);
+    // ✅ Marcar como COMPLETADO en Supabase (la fila SE CONSERVA para estadísticas,
+    // pero con completado:true para que NO aparezca en Continuar Viendo en ningún dispositivo)
+    const marked = await markContentCompletedInSupabase(`movie_${movieId}`);
+    if (marked) {
+      console.log('✅ Película marcada como completada:', movieId);
     }
 
     // Limpiar localStorage de progreso

@@ -330,6 +330,7 @@ function closeDeleteProgressModal() {
 
 function confirmDeleteProgress() {
   // 1. Borrar datos del localStorage
+  // NOTA: NO se toca 'dk_hidden_continue' (lista de ocultos) ni 'profileAvatar', etc.
   Object.keys(localStorage).forEach(key => {
     if (
       key.startsWith("progress_") ||
@@ -349,49 +350,51 @@ function confirmDeleteProgress() {
     }
   });
 
-  // 2. ☁️ Borrar datos de Supabase (tabla progresos y user_views)
-  // Usamos el MISMO cliente del proyecto para garantizar la sesión correcta
+  // 2. 🙈 Ocultar localmente TODO lo que existe en Supabase.
+  // Supabase NO se borra (se conserva para estadísticas de lo más visto),
+  // pero al añadir cada series_id a la lista de ocultos, nada volverá
+  // a aparecer en Continuar Viendo. Si el usuario vuelve a ver algo,
+  // ese contenido se desoculta automáticamente (unhide on play).
   (async () => {
     try {
       const { supabase } = await import('./js/supabaseClient.js');
 
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const userId = session.user.id;
-
-        const { data: deletedProgresos, error: errProgresos } = await supabase
-          .from('progresos')
-          .delete()
-          .eq('id', userId)
-          .select();
-
-        if (errProgresos) {
-          console.error('❌ ERROR borrando progresos en Supabase (revisa políticas RLS):', errProgresos);
-        } else {
-          console.log(`🗑️ ${deletedProgresos?.length ?? 0} filas borradas de 'progresos'`);
-        }
-
-        // user_views puede no existir — ignoramos ese caso silenciosamente
-        try {
-          const { data: deletedViews, error: errViews } = await supabase
-            .from('user_views')
-            .delete()
-            .eq('user_id', userId)
-            .select();
-
-          if (errViews) {
-            if (!/does not exist|42P01/i.test(errViews.message || '')) {
-              console.error('❌ ERROR borrando user_views en Supabase:', errViews);
-            }
-          } else {
-            console.log(`🗑️ ${deletedViews?.length ?? 0} filas borradas de 'user_views'`);
-          }
-        } catch (_) { /* tabla user_views no existe — ignorar */ }
-      } else {
-        console.warn('⚠️ No hay sesión en Supabase para borrar progresos');
+      if (!session?.user) {
+        console.warn('⚠️ No hay sesión — solo se limpió localStorage');
+        return;
       }
+
+      const userId = session.user.id;
+
+      const { data: rows, error } = await supabase
+        .from('progresos')
+        .select('series_id')
+        .eq('id', userId);
+
+      if (error) {
+        console.error('❌ ERROR leyendo progresos de Supabase:', error);
+        return;
+      }
+
+      // Leer lista de ocultos actual
+      let hidden = [];
+      try {
+        hidden = JSON.parse(localStorage.getItem('dk_hidden_continue') || '[]');
+      } catch (_) { hidden = []; }
+
+      let added = 0;
+      (rows || []).forEach(r => {
+        if (r.series_id && !hidden.includes(r.series_id)) {
+          hidden.push(r.series_id);
+          added++;
+        }
+      });
+
+      localStorage.setItem('dk_hidden_continue', JSON.stringify(hidden));
+      console.log(`🙈 ${added} contenido(s) ocultado(s) localmente. Supabase intacto (${rows?.length ?? 0} filas conservadas).`);
     } catch (e) {
-      console.error('❌ Error borrando de Supabase desde perfil-2026.js:', e);
+      console.error('❌ Error ocultando progreso desde perfil-2026.js:', e);
     }
   })();
 

@@ -7,7 +7,7 @@ import {
     loadProfileInfo,
     initSession,
     isSeriesCompleted,
-    deleteProgressFromSupabase
+    markContentCompletedInSupabase
 } from './js/sync-supabase.js';
 import { registerView } from './viewsTracker.js';
 window.supabase = supabase;
@@ -109,30 +109,21 @@ const videoEl =
 if (videoEl) {
   videoEl.addEventListener('play', registrarSerieVista);
 
-  // 🗑️ Al terminar el episodio, quitar la serie de "Continuar Viendo" en Supabase.
-  // Si el usuario vuelve a ver (siguiente episodio), el evento "play" la vuelve a guardar.
+  // ✅ Al terminar el episodio, MARCAR la serie como completada en Supabase.
+  // La fila SE CONSERVA (para estadísticas de lo más visto), pero con
+  // completado:true para que NO aparezca en Continuar Viendo.
+  // Si el usuario vuelve a ver, el evento "play" la re-guarda sin la marca.
   videoEl.addEventListener('ended', async () => {
     try {
       const seriesId = window.seriesId;
       if (!seriesId) return;
 
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) return;
-
-      const { data: deleted, error } = await supabase
-        .from('progresos')
-        .delete()
-        .eq('id', session.user.id)
-        .eq('series_id', seriesId)
-        .select();
-
-      if (error) {
-        console.error(`❌ ERROR quitando serie '${seriesId}' de Supabase al terminar episodio:`, error);
-      } else {
-        console.log(`🗑️ Episodio terminado — serie quitada de Continuar Viendo (${deleted?.length ?? 0} fila(s)):`, seriesId);
+      const marked = await markContentCompletedInSupabase(seriesId);
+      if (marked) {
+        console.log('✅ Episodio terminado — serie marcada como completada:', seriesId);
       }
     } catch (err) {
-      console.warn('⚠️ Error al limpiar serie de Supabase al terminar episodio:', err);
+      console.warn('⚠️ Error al marcar serie como completada:', err);
     }
   });
 }

@@ -142,6 +142,9 @@ export async function saveSeriesProgress({
 
   try {
 
+    // 👀 Si el usuario vuelve a ver la serie, dejarla de ocultar en Continuar Viendo
+    unhideFromContinueWatching(seriesId);
+
     const { data: { session } } =
       await supabase.auth.getSession();
 
@@ -314,6 +317,9 @@ export async function saveMovieProgress({
 
   try {
 
+    // 👀 Si el usuario vuelve a ver la película, dejarla de ocultar en Continuar Viendo
+    unhideFromContinueWatching(`movie_${movieId}`);
+
     const { data: { session } } = await supabase.auth.getSession();
 
     if (!session) {
@@ -395,7 +401,92 @@ export async function getMovieContinueWatching() {
 }
 
 // ================================
-// 🗑️ Borrar progreso de Supabase
+// 🙈 Lista local de ocultos de "Continuar Viendo"
+// (NO borra nada de Supabase — solo oculta en este dispositivo)
+// ================================
+const HIDDEN_KEY = 'dk_hidden_continue';
+
+export function getHiddenList() {
+  try {
+    return JSON.parse(localStorage.getItem(HIDDEN_KEY) || '[]');
+  } catch (_) {
+    return [];
+  }
+}
+
+export function hideFromContinueWatching(supabaseId) {
+  if (!supabaseId) return;
+  const list = getHiddenList();
+  if (!list.includes(supabaseId)) {
+    list.push(supabaseId);
+    localStorage.setItem(HIDDEN_KEY, JSON.stringify(list));
+  }
+}
+
+export function unhideFromContinueWatching(supabaseId) {
+  if (!supabaseId) return;
+  const list = getHiddenList();
+  const filtered = list.filter(id => id !== supabaseId);
+  if (filtered.length !== list.length) {
+    localStorage.setItem(HIDDEN_KEY, JSON.stringify(filtered));
+  }
+}
+
+// ================================
+// ✅ Marcar contenido como COMPLETADO en Supabase
+// La fila SE MANTIENE (para estadísticas de lo más visto),
+// pero se marca para que NO aparezca en Continuar Viendo
+// en NINGÚN dispositivo.
+// ================================
+export async function markContentCompletedInSupabase(seriesId) {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user || !seriesId) return false;
+
+    const userId = session.user.id;
+
+    // Traer la fila actual para no perder título/póster/episodios
+    const { data: existing } = await supabase
+      .from('progresos')
+      .select('ultimo_visto, episodios')
+      .eq('id', userId)
+      .eq('series_id', seriesId)
+      .maybeSingle();
+
+    const visto = {
+      ...(existing?.ultimo_visto || {}),
+      visto: true,
+      completado: true,
+      updatedAt: new Date().toISOString()
+    };
+
+    const { error } = await supabase
+      .from('progresos')
+      .upsert({
+        id: userId,
+        series_id: seriesId,
+        ultimo_visto: visto,
+        episodios: existing?.episodios ?? null,
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'id,series_id'
+      });
+
+    if (error) {
+      console.error('❌ Error marcando como completado:', error);
+      return false;
+    }
+
+    console.log('✅ Marcado como completado en Supabase (fila conservada):', seriesId);
+    return true;
+  } catch (e) {
+    console.error('❌ Error:', e);
+    return false;
+  }
+}
+
+// ================================
+// 🗑️ (Ya casi no se usan — se mantienen por compatibilidad)
 // ================================
 // Borra una película específica de la tabla `progresos`
 export async function deleteProgressFromSupabase(movieId) {
