@@ -8,9 +8,9 @@ import { supabase } from './supabaseClient.js';
 // (solo perfil local, nada más)
 // ================================
 function clearUserProfileFromLocalStorage() {
-  localStorage.removeItem('profileImage');
-  localStorage.removeItem('userName');
-  localStorage.removeItem('backgroundImage');
+  localStorage.removeItem('profileAvatar');
+localStorage.removeItem('profileName');
+localStorage.removeItem('profileCover');
 }
 
 export let currentSession = null;
@@ -45,16 +45,18 @@ export async function initSession() {
 // ================================
 export async function loadProfileInfo() {
   try {
+
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
 
-    const userId = session.user.id;
+    const email = session.user.email;
 
     const { data, error } = await supabase
       .from('profiles')
-      .select('avatar, user_name, background')
-      .eq('id', userId)
+      .select('avatar, background')
+      .eq('email', email)
       .maybeSingle();
+
 
     if (error) {
       console.warn('⚠️ Error cargando perfil:', error);
@@ -63,20 +65,18 @@ export async function loadProfileInfo() {
 
     if (!data) return;
 
-    if (data.avatar) {
-      localStorage.setItem('profileImage', data.avatar);
-    }
 
-    if (data.user_name) {
-      localStorage.setItem('userName', data.user_name);
+    if (data.avatar) {
+      localStorage.setItem('profileAvatar', data.avatar);
     }
 
     if (data.background) {
-      localStorage.setItem('backgroundImage', data.background);
+      localStorage.setItem('profileCover', data.background);
     }
 
-  } catch (e) {
-    console.warn('⚠️ Error cargando perfil:', e);
+
+  } catch(e) {
+    console.warn('⚠️ Error:', e);
   }
 }
 
@@ -85,34 +85,58 @@ export async function loadProfileInfo() {
 // (cuando el usuario cambia avatar/nombre)
 // ================================
 export async function saveProfileToSupabase() {
+
   try {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
 
-    const userId = session.user.id;
+    const { data:{session} } = await supabase.auth.getSession();
 
-    const avatar = localStorage.getItem('profileImage') || null;
-    const userName = localStorage.getItem('userName') || null;
-    const background = localStorage.getItem('backgroundImage') || null;
+    if(!session) return;
 
-    const { error } = await supabase
+
+    const email = session.user.email;
+
+    const avatar =
+      localStorage.getItem('profileAvatar') || null;
+
+    const background =
+      localStorage.getItem('profileCover') || null;
+
+
+    const {error} = await supabase
       .from('profiles')
       .upsert({
-        id: userId,
+
+        email,
         avatar,
-        user_name: userName,
         background
+
+      },{
+        onConflict:'email'
       });
 
-    if (error) {
-      console.error('❌ Error guardando perfil:', error);
-    } else {
-      console.log('✅ Perfil sincronizado con Supabase');
+
+    if(error){
+
+      console.error(
+        "❌ Error guardando perfil:",
+        error
+      );
+
+    }else{
+
+      console.log(
+        "✅ Perfil sincronizado"
+      );
+
     }
 
-  } catch (e) {
-    console.warn('⚠️ Error sincronizando perfil:', e);
+
+  }catch(e){
+
+    console.warn(e);
+
   }
+
 }
 
 // ================================
@@ -143,7 +167,7 @@ export async function saveSeriesProgress({
 const { data: existente, error: fetchError } = await supabase
   .from('progresos')
   .select('episodios')
-  .eq('id', userId)
+  .eq('email', session.user.email)
   .eq('series_id', seriesId)
   .maybeSingle();
 
@@ -287,3 +311,93 @@ export async function syncContinueWatchingToLocal() {
 
   console.log("✅ Continue Watching sincronizado desde Supabase");
 }
+
+// ================================
+// 🎬 Guardar progreso de películas
+// ================================
+export async function saveMovieProgress({
+  movieId,
+  ultimoVisto
+}) {
+
+  console.log("🎬 saveMovieProgress EJECUTADO", {
+    movieId,
+    ultimoVisto
+  });
+
+  try {
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      console.warn("⚠️ No hay sesión activa");
+      return false;
+    }
+
+    const userId = session.user.id;
+
+    const { data, error } = await supabase
+  .from('progresos')
+  .upsert({
+    id: userId,
+    series_id: `movie_${movieId}`,
+    ultimo_visto: ultimoVisto,
+    episodios: null,
+    updated_at: new Date().toISOString()
+  }, {
+    onConflict: 'id,series_id'
+  })
+  .select();
+
+console.log("📦 Respuesta Supabase:", {
+  data,
+  error
+});
+
+    if (error) {
+      console.error("❌ Error guardando película:", error);
+      return false;
+    }
+
+    console.log("✅ Película sincronizada");
+
+    return true;
+
+  } catch (e) {
+
+    console.error("❌ Error general:", e);
+    return false;
+
+  }
+
+}
+
+export async function getMovieContinueWatching() {
+
+  const { data: { session } } = await supabase.auth.getSession();
+  console.log("🔐 SESIÓN ACTUAL:", session);
+  if (!session?.user) return [];
+
+  const { data, error } = await supabase
+    .from('progresos')
+    .select('series_id, ultimo_visto')
+    .eq('id', session.user.id)
+    .like('series_id', 'movie_%');
+
+  if (error) {
+    console.error('❌ Error cargando películas:', error);
+    return [];
+  }
+
+  return data
+    .filter(item => item.ultimo_visto)
+    .map(item => ({
+      ...item.ultimo_visto,
+      movieId: item.series_id.replace('movie_', ''),
+      tipo: 'movie',
+      updatedAt: item.ultimo_visto.updatedAt || 0
+    }))
+    .sort((a, b) => b.updatedAt - a.updatedAt);
+}
+
+window.saveProfileToSupabase = saveProfileToSupabase;
