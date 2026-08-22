@@ -841,16 +841,45 @@ function loadContinueWatchingLocal() {
       if (!itemData || typeof itemData !== 'object') continue;
 
       // 🎬 Películas
-      if (key.startsWith('movie_')) {
+if (key.startsWith('progress_')) {
 
-        if (
-          typeof itemData.progress === 'number' &&
-          typeof itemData.duration === 'number' &&
-          itemData.progress < itemData.duration * 0.9
-        ) {
-          items.push({ key, data: itemData, type: 'movie' });
-        }
-      }
+  const movieId = key.replace('progress_', '');
+
+  const progress = parseFloat(localStorage.getItem(key)) || 0;
+
+  const duration =
+    parseFloat(localStorage.getItem(`duration_${movieId}`)) || 0;
+
+  if (
+    movieId &&
+    duration > 0 &&
+    progress > 5 &&
+    progress < duration * 0.9
+  ) {
+
+    const movieData = JSON.parse(
+      localStorage.getItem(`movie_${movieId}`) || '{}'
+    );
+
+    items.push({
+      key,
+      data: {
+        ...movieData,
+        movieId,
+        progress,
+        duration
+      },
+      type: 'movie'
+    });
+
+    console.log("🎬 AGREGANDO PELÍCULA:", {
+      movieId,
+      progress,
+      duration,
+      movieData
+    });
+  }
+}
 
       console.log("KEY:", key);
       // 📺 Series

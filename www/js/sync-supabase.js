@@ -44,40 +44,43 @@ export async function initSession() {
 // (avatar, nombre, fondo)
 // ================================
 export async function loadProfileInfo() {
+
   try {
 
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
 
-    const email = session.user.email;
+    const userId = session.user.id;
 
     const { data, error } = await supabase
-      .from('profiles')
-      .select('avatar, background')
-      .eq('email', email)
+      .from("profiles")
+      .select("avatar, background, user_name")
+      .eq("id", userId)
       .maybeSingle();
 
-
     if (error) {
-      console.warn('⚠️ Error cargando perfil:', error);
+      console.warn("⚠️ Error cargando perfil:", error);
       return;
     }
 
     if (!data) return;
 
-
     if (data.avatar) {
-      localStorage.setItem('profileAvatar', data.avatar);
+      localStorage.setItem("profileAvatar", data.avatar);
     }
 
     if (data.background) {
-      localStorage.setItem('profileCover', data.background);
+      localStorage.setItem("profileCover", data.background);
     }
 
+    if (data.user_name) {
+      localStorage.setItem("profileName", data.user_name);
+    }
 
-  } catch(e) {
-    console.warn('⚠️ Error:', e);
+  } catch (e) {
+    console.warn("⚠️ Error:", e);
   }
+
 }
 
 // ================================
@@ -88,53 +91,35 @@ export async function saveProfileToSupabase() {
 
   try {
 
-    const { data:{session} } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase.auth.getSession();
 
-    if(!session) return;
+    if (!session) return;
 
-
+    const userId = session.user.id;
     const email = session.user.email;
 
-    const avatar =
-      localStorage.getItem('profileAvatar') || null;
+    const avatar = localStorage.getItem("profileAvatar") || null;
+    const userName = localStorage.getItem("profileName") || "Usuario";
+    const background = localStorage.getItem("profileCover") || null;
 
-    const background =
-      localStorage.getItem('profileCover') || null;
-
-
-    const {error} = await supabase
-      .from('profiles')
+    const { error } = await supabase
+      .from("profiles")
       .upsert({
-
+        id: userId,
         email,
+        user_name: userName,
         avatar,
         background
-
-      },{
-        onConflict:'email'
       });
 
-
-    if(error){
-
-      console.error(
-        "❌ Error guardando perfil:",
-        error
-      );
-
-    }else{
-
-      console.log(
-        "✅ Perfil sincronizado"
-      );
-
+    if (error) {
+      console.error("❌ Error guardando perfil:", error);
+    } else {
+      console.log("✅ Perfil sincronizado");
     }
 
-
-  }catch(e){
-
-    console.warn(e);
-
+  } catch (e) {
+    console.error("❌ Error:", e);
   }
 
 }
@@ -142,50 +127,41 @@ export async function saveProfileToSupabase() {
 // ================================
 // 📺 Guardar progreso de series
 // ================================
+// ================================
+// 📺 Registrar que el usuario está viendo una serie
+// ================================
 export async function saveSeriesProgress({
   seriesId,
-  ultimoVisto,
-  episodios
+  seriesName = '',
+  episodeName = '',
+  poster = '',
+  link = ''
 }) {
-  console.log("🔥 saveSeriesProgress EJECUTADO", {
-    seriesId,
-    ultimoVisto,
-    episodios
-  });
+
+  console.log("📺 saveSeriesProgress EJECUTADO:", { seriesId, seriesName, episodeName });
 
   try {
-    const { data: { session } } = await supabase.auth.getSession();
 
-    if (!session) {
-      console.warn("⚠️ No hay sesión activa, no se guarda progreso");
+    const { data: { session } } =
+      await supabase.auth.getSession();
+
+    if (!session?.user) {
+      console.warn("⚠️ No hay sesión activa");
       return false;
     }
 
     const userId = session.user.id;
 
-    // Obtener episodios ya guardados
-const { data: existente, error: fetchError } = await supabase
-  .from('progresos')
-  .select('episodios')
-  .eq('email', session.user.email)
-  .eq('series_id', seriesId)
-  .maybeSingle();
-
-if (fetchError) {
-      console.error("❌ Error leyendo progreso existente:", fetchError);
-    }
-
-    const episodiosCompletos = {
-      ...(existente?.episodios || {}),
-      ...(episodios || {})
+    // 🔒 Supabase SOLO guarda "lo visto" (el nombre de la serie/episodio).
+    // El progreso real (tiempo/duration) es 100% local (localStorage).
+    const ultimoVisto = {
+      seriesTitle: seriesName || 'Serie',
+      episodeTitle: episodeName || '',
+      poster: poster || '',
+      link: link || '',
+      visto: true,
+      updatedAt: Date.now()
     };
-
-     console.log("📦 Datos finales a guardar:", {
-      id: userId,
-      series_id: seriesId,
-      ultimo_visto: ultimoVisto,
-      episodios: episodiosCompletos
-    });
 
     const { error } = await supabase
       .from('progresos')
@@ -193,23 +169,34 @@ if (fetchError) {
         id: userId,
         series_id: seriesId,
         ultimo_visto: ultimoVisto,
-        episodios: episodiosCompletos,
+        episodios: null,
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'id,series_id'
       });
 
     if (error) {
-      console.error("❌ Error guardando progreso:", error);
+      console.error(
+        "❌ Error registrando serie:",
+        error
+      );
       return false;
     }
 
-    console.log("✅ Progreso de serie sincronizado en Supabase");
+    console.log(
+      "✅ Serie (visto) registrada en Supabase:",
+      seriesId
+    );
 
     return true;
 
   } catch (e) {
-    console.error("❌ Error general sincronizando progreso:", e);
+
+    console.error(
+      "❌ Error general registrando serie:",
+      e
+    );
+
     return false;
   }
 }
@@ -280,32 +267,32 @@ export async function syncContinueWatchingToLocal() {
 
     if (!item.ultimo_visto) return;
 
-    const ultimo = item.ultimo_visto;
+    const visto = item.ultimo_visto;
 
     const continueKey = `continue_${item.series_id}`;
 
+    // El progreso (segundos/duration) vive SOLO en localStorage.
+    // Se fusiona la info "visto" (nombre) desde Supabase, pero NO
+    // se sobreescribe el progreso local con datos de la nube.
+    const local = JSON.parse(localStorage.getItem(continueKey) || '{}');
+
     localStorage.setItem(continueKey, JSON.stringify({
       seriesId: item.series_id,
-      seriesTitle: ultimo.seriesTitle,
-      episodeTitle: ultimo.episodeTitle,
-      poster: ultimo.poster,
-      link: ultimo.link,
-      progress: ultimo.progress,
-      duration: ultimo.duration,
-      videoUrl: ultimo.videoUrl,
-      season_index: ultimo.season_index,
-      episode_index: ultimo.episode_index
+      seriesTitle: visto.seriesTitle || local.seriesTitle || 'Serie',
+      episodeTitle: visto.episodeTitle || local.episodeTitle || '',
+      poster: visto.poster || local.poster || '',
+      link: visto.link || local.link || '',
+      progress: local.progress,
+      duration: local.duration,
+      videoUrl: local.videoUrl,
+      season_index: local.season_index,
+      episode_index: local.episode_index,
+      visto: true,
+      updatedAt: visto.updatedAt || Date.now()
     }));
 
-    localStorage.setItem(
-      `progress_${item.series_id}_${ultimo.videoUrl}`,
-      ultimo.progress
-    );
-
-    localStorage.setItem(
-      `duration_${item.series_id}_${ultimo.videoUrl}`,
-      ultimo.duration
-    );
+    // NOTA: No se escriben progress_*/duration_* desde Supabase,
+    // porque el progreso en segundos es exclusivo de localStorage.
 
   });
 
@@ -336,12 +323,19 @@ export async function saveMovieProgress({
 
     const userId = session.user.id;
 
+    // 🔒 Supabase SOLO guarda "lo visto" (nombre), nunca el progreso.
+    const { progress: _progreso, duration: _duracion, ...vistoInfo } = (ultimoVisto || {});
+
     const { data, error } = await supabase
   .from('progresos')
   .upsert({
     id: userId,
     series_id: `movie_${movieId}`,
-    ultimo_visto: ultimoVisto,
+    ultimo_visto: {
+      ...vistoInfo,
+      visto: true,
+      updatedAt: new Date().toISOString()
+    },
     episodios: null,
     updated_at: new Date().toISOString()
   }, {
