@@ -772,49 +772,28 @@ video.addEventListener('play', () => {
 
 
 // Función para mostrar el botón de "Reinicia"
-// Función para mostrar el botón de "Reinicia"
 function showRestartButton() {
   const currentTime = video.currentTime;
-  const totalDuration =
-    video.duration ||
-    parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
-
+  const totalDuration = video.duration || parseFloat(localStorage.getItem(`duration_${movieId}`) || "1");
   const percentPlayed = currentTime / totalDuration;
 
-  // Solo mostrar si la película NO terminó (menos de 80%)
-  if (
-    percentPlayed < 0.8 &&
-    watchButtonText.textContent !== "Volver a ver"
-  ) {
+  // Solo mostrar si la película NO terminó (menos de 90%)
+  if (percentPlayed < 0.8 &&
+    watchButtonText.textContent !== "Volver a ver") {
 
-    if (restartButton) {
-      restartButton.style.display = "flex";
-      restartButton.classList.add("shown");
-    }
+    restartButton.style.display = "flex";
+    restartButton.classList.add("shown");
+    document.getElementById("restartSpacer").style.height = "60px";
 
-    const spacer = document.getElementById("restartSpacer");
-
-    if (spacer) {
-      spacer.style.height = "60px";
-    }
-
-  } else {
+} else {
     hideRestartButton();
-  }
+}
 }
 
 function hideRestartButton() {
-
-  if (restartButton) {
-    restartButton.style.display = "none";
-    restartButton.classList.remove("shown");
-  }
-
-  const spacer = document.getElementById("restartSpacer");
-
-  if (spacer) {
-    spacer.style.height = "0px";
-  }
+  restartButton.style.display = 'none';
+  restartButton.classList.remove('shown');
+  document.getElementById('restartSpacer').style.height = '0px';
 }
 
 function actualizarMediaSession() {

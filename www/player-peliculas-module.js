@@ -1,14 +1,11 @@
 import { supabase } from './js/supabaseClient.js';
 import {
   loadProfileInfo,
-  saveMovieProgress,
-  initSession
+  saveMovieProgress
 } from './js/sync-supabase.js';
 import { registerView } from './viewsTracker.js';
 
 console.log("✅ Supabase listo:", !!supabase);
-window.supabase = supabase;
-window.saveMovieProgress = saveMovieProgress;
 console.log("✅ saveMovieProgress:", saveMovieProgress);
 
 const movieId = window.movieId || 'unknown-id';
@@ -21,14 +18,8 @@ const progressBar = document.getElementById("watchProgressBar");
 const restartButton = document.getElementById("restartButton");
 let hasStarted = false;
 
-// ☁️ (Eliminado) Supabase ya NO guardaba el progreso cada 5s.
-// El progreso es 100% local; Supabase solo registra "lo visto".
-
-
 (async () => {
   try {
-
-    await initSession();
 
     const { data: { session } } = await supabase.auth.getSession();
 
@@ -39,83 +30,71 @@ let hasStarted = false;
     console.log('🧠 Datos cargados desde Supabase y perfil');
 
   } catch (e) {
-    console.warn('⚠️ Error al inicializar sesión o cargar perfil:', e);
+    console.warn('⚠️ Error al cargar datos desde Supabase o perfil:', e);
   }
 })();
 
 // 📌 Restaurar progreso si hay
 video.addEventListener("loadedmetadata", () => {
-
   const savedTime = localStorage.getItem(`progress_${movieId}`);
-
-  if (savedTime) {
-    video.currentTime = parseFloat(savedTime);
-  }
+  if (savedTime) video.currentTime = parseFloat(savedTime);
 
   const duration = video.duration || 1;
   const currentTime = video.currentTime;
 
   const percent = (currentTime / duration) * 100;
+  progressBar.firstElementChild?.style.setProperty("width", `${percent}%`);
 
-  if (progressBar) {
-
-    progressBar.firstElementChild?.style.setProperty(
-      "width",
-      `${percent}%`
-    );
-
-    if (currentTime > 5 && currentTime < duration - 5) {
-      progressBar.style.display = "block";
-      showRestartButton();
-    }
+  if (currentTime > 5 && currentTime < duration - 5) {
+    progressBar.style.display = "block";
+    showRestartButton();
   }
 
+  // 🔄 Sincronizar apenas cargue
+  throttledSyncData(movieId);
 });
 
 console.log("🎬 TIMEUPDATE EJECUTANDO");
 console.log("🎬 movieId:", movieId);
 
 
-// 🔁 Guardar progreso
+// 🔁 Guardar progreso y sincronizar
 video.addEventListener("timeupdate", async () => {
-
+  
   const currentTime = video.currentTime;
   const duration = video.duration || 1;
-  const percent = (currentTime / duration) * 100;
+   
 
-  // 💾 Guardar progreso continuamente en localStorage
   localStorage.setItem(`progress_${movieId}`, currentTime);
   localStorage.setItem(`duration_${movieId}`, duration);
   localStorage.setItem(`hasStarted_${movieId}`, 'true');
+ 
 
-
-  // 📊 Barra visual
+  // Barra visual
   if (progressBar) {
-
-    progressBar.firstElementChild?.style.setProperty(
-      "width",
-      `${percent}%`
-    );
-
-    if (currentTime > 5 && currentTime < duration - 5) {
+    const percent = (currentTime / duration) * 100;
+    progressBar.firstElementChild?.style.setProperty("width", `${percent}%`);
+    if (
+      currentTime > 5 &&
+      currentTime < duration - 0.5 &&
+      progressBar.style.display !== "block"
+    ) {
       progressBar.style.display = "block";
-      showRestartButton();
     }
   }
+  
 
-
-  // 🔘 Mostrar botón reiniciar
+  // Mostrar botón reiniciar
   if (
     currentTime > 5 &&
     currentTime < duration - 5 &&
-    restartButton &&
     !restartButton.classList.contains('shown')
   ) {
     showRestartButton();
   }
+ 
 
-
-  // 🎬 Datos completos de la película
+  // Guardar objeto completo de la película
   const title =
     document.querySelector(".title")?.textContent?.trim() ||
     document.getElementById("nombre")?.textContent?.trim() ||
@@ -128,89 +107,77 @@ video.addEventListener("timeupdate", async () => {
     document.getElementById("favoritoImagen")?.src || '';
 
   const link =
-    document.getElementById("favoritoEnlace")?.href ||
-    window.location.href;
-
+    document.getElementById("favoritoEnlace")?.href || window.location.href;
 
   const movieData = {
-    tipo: 'movie',
-    id: movieId,
-    title,
-    subtitle,
-    poster,
-    link,
-    progress: currentTime,
-    duration,
+  tipo: 'movie',
+  id: movieId,
+  title,
+  subtitle,
+  poster,
+  link,
+  progress: currentTime,
+  duration,
+  updatedAt: new Date().toISOString()
+};
+
+
+
+  localStorage.setItem(`movie_${movieId}`, JSON.stringify(movieData));
+  
+
+console.log("🔥 Voy a llamar saveMovieProgress");
+
+
+await saveMovieProgress({
+  movieId,
+  ultimoVisto: {
+    ...movieData,
     updatedAt: new Date().toISOString()
-  };
-
-
-  // 💾 Guardar objeto completo SOLO en localStorage
-  localStorage.setItem(
-    `movie_${movieId}`,
-    JSON.stringify(movieData)
-  );
-
-  console.log("💾 Progreso guardado localmente:", currentTime);
-
-  // ☁️ Eliminado: Supabase NO recibe el progreso (segundos/duration).
-  // El registro "visto" (solo el nombre) se hace en el listener de "play".
-
+  }
 });
 
-// ⛳ Pantalla completa en el primer play + registrar "lo visto" en Supabase
-function getPeliculaVisto() {
-  return {
-    tipo: 'movie',
-    id: movieId,
-    title:
-      document.querySelector(".title")?.textContent?.trim() ||
-      document.getElementById("nombre")?.textContent?.trim() ||
-      "Sin título",
-    subtitle: document.getElementById("episodeSubtitle")?.textContent?.trim() || '',
-    poster: document.getElementById("favoritoImagen")?.src || '',
-    link: document.getElementById("favoritoEnlace")?.href || window.location.href
-  };
-}
+  // 🔄 Sincronizar con Supabase
+  throttledSyncData(movieId);
+});
 
+// ⛳ Pantalla completa en el primer play
 video.addEventListener('play', async () => {
   if (!hasStarted) {
     hasStarted = true;
     if (video.requestFullscreen) video.requestFullscreen();
     else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
     else if (video.msRequestFullscreen) video.msRequestFullscreen();
+  }
 
-    // 🔒 Supabase SOLO guarda "lo visto" (nombre de la película), nunca el progreso.
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        await saveMovieProgress({
-          movieId,
-          ultimoVisto: getPeliculaVisto()
-        });
-      }
-    } catch (err) {
-      console.warn("⚠️ No se pudo registrar la película vista en Supabase:", err);
-    }
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return console.warn("⚠️ No hay usuario logueado.");
+
+    const titulo =
+      document.querySelector(".title")?.textContent?.trim() || 'Sin título';
+
+    await supabase.from('reproducciones').insert({
+      id: user.id,
+      movie_id: movieId,
+      titulo,
+      visto_en: new Date().toISOString(),
+      progreso: video.currentTime || 0,
+      terminado: false
+    });
+
+    console.log(`🎬 Reproducción registrada: ${titulo}`);
+  } catch (err) {
+    console.warn("❌ Error registrando reproducción:", err);
   }
 });
 
 // 🔘 Función para mostrar el botón de reinicio
 function showRestartButton() {
-
-  if (!restartButton) {
-    console.warn("⚠️ restartButton no existe en esta página");
-    return;
-  }
-
   restartButton.style.display = 'flex';
   restartButton.classList.add('shown');
-
   const spacer = document.getElementById('restartSpacer');
-
-  if (spacer) {
-    spacer.style.height = '60px';
-  }
+  if (spacer) spacer.style.height = '60px';
 }
 
 // 🛰️ Registrar vista al finalizar la película
@@ -221,19 +188,27 @@ video.addEventListener('ended', async () => {
 
     const userId = session.user.id;
 
-    // Registrar vista en tabla de vistas (solo QUÉ se vio, sin progreso)
+    // Registrar vista en tabla de vistas
     await registerView(
       userId,
       movieId,
-      'movie'
+      'movie',
+      Math.floor(video.duration)
     );
 
     console.log('✅ Vista registrada:', movieId);
 
-    
+    // Marcar como terminada
+    await supabase
+      .from('reproducciones')
+      .update({ terminado: true })
+      .eq('id', userId)
+      .eq('movie_id', movieId);
+
+    console.log('🏁 Película marcada como terminada.');
 
     // Última sincronización
-  
+    throttledSyncData(movieId);
   } catch (err) {
     console.error('❌ Error al finalizar película:', err);
   }

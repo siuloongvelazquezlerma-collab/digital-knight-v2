@@ -127,41 +127,50 @@ export async function saveProfileToSupabase() {
 // ================================
 // 📺 Guardar progreso de series
 // ================================
-// ================================
-// 📺 Registrar que el usuario está viendo una serie
-// ================================
 export async function saveSeriesProgress({
   seriesId,
-  seriesName = '',
-  episodeName = '',
-  poster = '',
-  link = ''
+  ultimoVisto,
+  episodios
 }) {
-
-  console.log("📺 saveSeriesProgress EJECUTADO:", { seriesId, seriesName, episodeName });
+  console.log("🔥 saveSeriesProgress EJECUTADO", {
+    seriesId,
+    ultimoVisto,
+    episodios
+  });
 
   try {
+    const { data: { session } } = await supabase.auth.getSession();
 
-    const { data: { session } } =
-      await supabase.auth.getSession();
-
-    if (!session?.user) {
-      console.warn("⚠️ No hay sesión activa");
+    if (!session) {
+      console.warn("⚠️ No hay sesión activa, no se guarda progreso");
       return false;
     }
 
     const userId = session.user.id;
 
-    // 🔒 Supabase SOLO guarda "lo visto" (el nombre de la serie/episodio).
-    // El progreso real (tiempo/duration) es 100% local (localStorage).
-    const ultimoVisto = {
-      seriesTitle: seriesName || 'Serie',
-      episodeTitle: episodeName || '',
-      poster: poster || '',
-      link: link || '',
-      visto: true,
-      updatedAt: Date.now()
+    // Obtener episodios ya guardados
+const { data: existente, error: fetchError } = await supabase
+  .from('progresos')
+  .select('episodios')
+  .eq('email', session.user.email)
+  .eq('series_id', seriesId)
+  .maybeSingle();
+
+if (fetchError) {
+      console.error("❌ Error leyendo progreso existente:", fetchError);
+    }
+
+    const episodiosCompletos = {
+      ...(existente?.episodios || {}),
+      ...(episodios || {})
     };
+
+     console.log("📦 Datos finales a guardar:", {
+      id: userId,
+      series_id: seriesId,
+      ultimo_visto: ultimoVisto,
+      episodios: episodiosCompletos
+    });
 
     const { error } = await supabase
       .from('progresos')
@@ -169,34 +178,23 @@ export async function saveSeriesProgress({
         id: userId,
         series_id: seriesId,
         ultimo_visto: ultimoVisto,
-        episodios: null,
+        episodios: episodiosCompletos,
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'id,series_id'
       });
 
     if (error) {
-      console.error(
-        "❌ Error registrando serie:",
-        error
-      );
+      console.error("❌ Error guardando progreso:", error);
       return false;
     }
 
-    console.log(
-      "✅ Serie (visto) registrada en Supabase:",
-      seriesId
-    );
+    console.log("✅ Progreso de serie sincronizado en Supabase");
 
     return true;
 
   } catch (e) {
-
-    console.error(
-      "❌ Error general registrando serie:",
-      e
-    );
-
+    console.error("❌ Error general sincronizando progreso:", e);
     return false;
   }
 }
@@ -267,32 +265,32 @@ export async function syncContinueWatchingToLocal() {
 
     if (!item.ultimo_visto) return;
 
-    const visto = item.ultimo_visto;
+    const ultimo = item.ultimo_visto;
 
     const continueKey = `continue_${item.series_id}`;
 
-    // El progreso (segundos/duration) vive SOLO en localStorage.
-    // Se fusiona la info "visto" (nombre) desde Supabase, pero NO
-    // se sobreescribe el progreso local con datos de la nube.
-    const local = JSON.parse(localStorage.getItem(continueKey) || '{}');
-
     localStorage.setItem(continueKey, JSON.stringify({
       seriesId: item.series_id,
-      seriesTitle: visto.seriesTitle || local.seriesTitle || 'Serie',
-      episodeTitle: visto.episodeTitle || local.episodeTitle || '',
-      poster: visto.poster || local.poster || '',
-      link: visto.link || local.link || '',
-      progress: local.progress,
-      duration: local.duration,
-      videoUrl: local.videoUrl,
-      season_index: local.season_index,
-      episode_index: local.episode_index,
-      visto: true,
-      updatedAt: visto.updatedAt || Date.now()
+      seriesTitle: ultimo.seriesTitle,
+      episodeTitle: ultimo.episodeTitle,
+      poster: ultimo.poster,
+      link: ultimo.link,
+      progress: ultimo.progress,
+      duration: ultimo.duration,
+      videoUrl: ultimo.videoUrl,
+      season_index: ultimo.season_index,
+      episode_index: ultimo.episode_index
     }));
 
-    // NOTA: No se escriben progress_*/duration_* desde Supabase,
-    // porque el progreso en segundos es exclusivo de localStorage.
+    localStorage.setItem(
+      `progress_${item.series_id}_${ultimo.videoUrl}`,
+      ultimo.progress
+    );
+
+    localStorage.setItem(
+      `duration_${item.series_id}_${ultimo.videoUrl}`,
+      ultimo.duration
+    );
 
   });
 
@@ -323,19 +321,12 @@ export async function saveMovieProgress({
 
     const userId = session.user.id;
 
-    // 🔒 Supabase SOLO guarda "lo visto" (nombre), nunca el progreso.
-    const { progress: _progreso, duration: _duracion, ...vistoInfo } = (ultimoVisto || {});
-
     const { data, error } = await supabase
   .from('progresos')
   .upsert({
     id: userId,
     series_id: `movie_${movieId}`,
-    ultimo_visto: {
-      ...vistoInfo,
-      visto: true,
-      updatedAt: new Date().toISOString()
-    },
+    ultimo_visto: ultimoVisto,
     episodios: null,
     updated_at: new Date().toISOString()
   }, {
