@@ -363,7 +363,8 @@ function confirmDeleteProgress() {
       if (session?.user) {
         const userId = session.user.id;
         await supabase.from('progresos').delete().eq('id', userId);
-        console.log('🗑️ Progresos borrados de Supabase para usuario:', userId);
+        await supabase.from('user_views').delete().eq('user_id', userId);
+        console.log('🗑️ Progresos y vistas borrados de Supabase para usuario:', userId);
       } else {
         console.warn('⚠️ No hay sesión en Supabase para borrar progresos');
       }

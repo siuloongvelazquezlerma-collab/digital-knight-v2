@@ -1061,7 +1061,46 @@ removeOption.addEventListener('click', (e) => {
   e.preventDefault();
   e.stopPropagation();
 
+  // 1. Borrar de localStorage
   localStorage.removeItem(item.key);
+
+  // También limpiar claves relacionadas si es una película local
+  if (item.key && item.key.startsWith('progress_')) {
+    const movieId = item.key.replace('progress_', '');
+    localStorage.removeItem(`duration_${movieId}`);
+    localStorage.removeItem(`hasStarted_${movieId}`);
+    localStorage.removeItem(`movie_${movieId}`);
+  }
+
+  // 2. ☁️ Borrar de Supabase para que NO vuelva a aparecer al recargar
+  (async () => {
+    try {
+      let supabaseId = null;
+
+      if (item.key && item.key.startsWith('continue_')) {
+        // Item que vino de Supabase o de series locales
+        // key = "continue_<series_id>" → series_id puede ser "movie_xxx" o el id de serie
+        supabaseId = item.key.replace('continue_', '');
+      } else if (item.key && item.key.startsWith('progress_')) {
+        // Película guardada solo en localStorage → su id en Supabase es movie_<movieId>
+        supabaseId = `movie_${item.key.replace('progress_', '')}`;
+      }
+
+      if (supabaseId) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          await supabase
+            .from('progresos')
+            .delete()
+            .eq('id', session.user.id)
+            .eq('series_id', supabaseId);
+          console.log('🗑️ Quitado de Continuar Viendo en Supabase:', supabaseId);
+        }
+      }
+    } catch (err) {
+      console.warn('⚠️ No se pudo quitar de Supabase:', err);
+    }
+  })();
 
   div.remove();
 

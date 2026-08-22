@@ -108,6 +108,28 @@ const videoEl =
   document.querySelector('video');
 if (videoEl) {
   videoEl.addEventListener('play', registrarSerieVista);
+
+  // 🗑️ Al terminar el episodio, quitar la serie de "Continuar Viendo" en Supabase.
+  // Si el usuario vuelve a ver (siguiente episodio), el evento "play" la vuelve a guardar.
+  videoEl.addEventListener('ended', async () => {
+    try {
+      const seriesId = window.seriesId;
+      if (!seriesId) return;
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) return;
+
+      await supabase
+        .from('progresos')
+        .delete()
+        .eq('id', session.user.id)
+        .eq('series_id', seriesId);
+
+      console.log('🗑️ Episodio terminado — serie quitada de Continuar Viendo:', seriesId);
+    } catch (err) {
+      console.warn('⚠️ Error al limpiar serie de Supabase al terminar episodio:', err);
+    }
+  });
 }
 
 const vjs = getPlayer();

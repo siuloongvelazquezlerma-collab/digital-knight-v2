@@ -461,15 +461,11 @@ export function isMovieCompleted(movieId) {
   return progress >= duration * 0.9;
 }
 
-// Una serie/episodio está completado si no hay progreso local
-// (el progreso local se limpia al terminar, pero Supabase aún lo tiene)
+// Una serie/episodio está completado SOLO si hay progreso local y llegó al final.
+// Si NO hay datos locales, NO asumimos completado (para permitir sync entre dispositivos).
 export function isSeriesCompleted(seriesId) {
-  const continueKey = `continue_${seriesId}`;
-  const itemData = JSON.parse(localStorage.getItem(continueKey) || '{}');
-  if (!itemData.progress || !itemData.duration) {
-    // No hay progreso => asumimos completado si existe en Supabase
-    return true;
-  }
+  const itemData = JSON.parse(localStorage.getItem(`continue_${seriesId}`) || '{}');
+  if (!itemData.progress || !itemData.duration) return false;
   return itemData.progress >= itemData.duration * 0.9;
 }
 
