@@ -429,18 +429,29 @@ export async function deleteAllProgressFromSupabase() {
 
     const userId = session.user.id;
 
-    const { error: progresosError } = await supabase
+    const { data: deletedProgresos, error: progresosError } = await supabase
       .from('progresos')
       .delete()
-      .eq('id', userId);
+      .eq('id', userId)
+      .select();
 
-    const { error: viewsError } = await supabase
-      .from('user_views')
-      .delete()
-      .eq('user_id', userId);
+    if (progresosError) {
+      console.error('❌ Error borrando progresos (revisa políticas RLS):', progresosError);
+    } else {
+      console.log(`🗑️ ${deletedProgresos?.length ?? 0} filas borradas de 'progresos'`);
+    }
 
-    if (progresosError) console.error('❌ Error borrando progresos:', progresosError);
-    if (viewsError) console.error('❌ Error borrando vistas:', viewsError);
+    // user_views puede no existir — ignoramos ese caso silenciosamente
+    try {
+      const { error: viewsError } = await supabase
+        .from('user_views')
+        .delete()
+        .eq('user_id', userId);
+
+      if (viewsError && !/does not exist|42P01/i.test(viewsError.message || '')) {
+        console.error('❌ Error borrando vistas:', viewsError);
+      }
+    } catch (_) { /* tabla no existe — ignorar */ }
 
     console.log('✅ Todo el progreso de Supabase borrado para usuario:', userId);
     return true;

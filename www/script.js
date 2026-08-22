@@ -1089,12 +1089,18 @@ removeOption.addEventListener('click', (e) => {
       if (supabaseId) {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
-          await supabase
+          const { data: deleted, error } = await supabase
             .from('progresos')
             .delete()
             .eq('id', session.user.id)
-            .eq('series_id', supabaseId);
-          console.log('🗑️ Quitado de Continuar Viendo en Supabase:', supabaseId);
+            .eq('series_id', supabaseId)
+            .select();
+
+          if (error) {
+            console.error(`❌ ERROR quitando '${supabaseId}' de Supabase (revisa políticas RLS):`, error);
+          } else {
+            console.log(`🗑️ Quitado de Continuar Viendo en Supabase (${deleted?.length ?? 0} fila(s)):`, supabaseId);
+          }
         }
       }
     } catch (err) {

@@ -349,22 +349,44 @@ function confirmDeleteProgress() {
     }
   });
 
-  // 2. Borrar datos de Supabase (tabla progresos y user_views)
-  // Importamos dinámicamente el cliente para no romper el script global
+  // 2. ☁️ Borrar datos de Supabase (tabla progresos y user_views)
+  // Usamos el MISMO cliente del proyecto para garantizar la sesión correcta
   (async () => {
     try {
-      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
-      const supabase = createClient(
-        'https://wplyrhcszuoordgaphax.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
-      );
+      const { supabase } = await import('./js/supabaseClient.js');
 
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         const userId = session.user.id;
-        await supabase.from('progresos').delete().eq('id', userId);
-        await supabase.from('user_views').delete().eq('user_id', userId);
-        console.log('🗑️ Progresos y vistas borrados de Supabase para usuario:', userId);
+
+        const { data: deletedProgresos, error: errProgresos } = await supabase
+          .from('progresos')
+          .delete()
+          .eq('id', userId)
+          .select();
+
+        if (errProgresos) {
+          console.error('❌ ERROR borrando progresos en Supabase (revisa políticas RLS):', errProgresos);
+        } else {
+          console.log(`🗑️ ${deletedProgresos?.length ?? 0} filas borradas de 'progresos'`);
+        }
+
+        // user_views puede no existir — ignoramos ese caso silenciosamente
+        try {
+          const { data: deletedViews, error: errViews } = await supabase
+            .from('user_views')
+            .delete()
+            .eq('user_id', userId)
+            .select();
+
+          if (errViews) {
+            if (!/does not exist|42P01/i.test(errViews.message || '')) {
+              console.error('❌ ERROR borrando user_views en Supabase:', errViews);
+            }
+          } else {
+            console.log(`🗑️ ${deletedViews?.length ?? 0} filas borradas de 'user_views'`);
+          }
+        } catch (_) { /* tabla user_views no existe — ignorar */ }
       } else {
         console.warn('⚠️ No hay sesión en Supabase para borrar progresos');
       }

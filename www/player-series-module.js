@@ -119,13 +119,18 @@ if (videoEl) {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) return;
 
-      await supabase
+      const { data: deleted, error } = await supabase
         .from('progresos')
         .delete()
         .eq('id', session.user.id)
-        .eq('series_id', seriesId);
+        .eq('series_id', seriesId)
+        .select();
 
-      console.log('🗑️ Episodio terminado — serie quitada de Continuar Viendo:', seriesId);
+      if (error) {
+        console.error(`❌ ERROR quitando serie '${seriesId}' de Supabase al terminar episodio:`, error);
+      } else {
+        console.log(`🗑️ Episodio terminado — serie quitada de Continuar Viendo (${deleted?.length ?? 0} fila(s)):`, seriesId);
+      }
     } catch (err) {
       console.warn('⚠️ Error al limpiar serie de Supabase al terminar episodio:', err);
     }
