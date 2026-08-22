@@ -329,19 +329,48 @@ function closeDeleteProgressModal() {
 }
 
 function confirmDeleteProgress() {
+  // 1. Borrar datos del localStorage
   Object.keys(localStorage).forEach(key => {
     if (
       key.startsWith("progress_") ||
+      key.startsWith("progress-") ||
       key.startsWith("movie_") ||
       key.startsWith("series_") ||
+      key.startsWith("continue_") ||
+      key.startsWith("duration_") ||
+      key.startsWith("hasStarted_") ||
+      key.startsWith("last-episode-") ||
       key.includes("-serie") ||
       key.includes("-bebop") ||
       key.includes("cowboy") ||
-      key.includes("-") // 🔥 esto atrapará ids como cowboy-bebop
+      key.includes("last-user")
     ) {
       localStorage.removeItem(key);
     }
   });
+
+  // 2. Borrar datos de Supabase (tabla progresos y user_views)
+  // Importamos dinámicamente el cliente para no romper el script global
+  (async () => {
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+      const supabase = createClient(
+        'https://wplyrhcszuoordgaphax.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+      );
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const userId = session.user.id;
+        await supabase.from('progresos').delete().eq('id', userId);
+        console.log('🗑️ Progresos borrados de Supabase para usuario:', userId);
+      } else {
+        console.warn('⚠️ No hay sesión en Supabase para borrar progresos');
+      }
+    } catch (e) {
+      console.error('❌ Error borrando de Supabase desde perfil-2026.js:', e);
+    }
+  })();
 
   closeDeleteProgressModal();
   showToast("Progreso de reproducción eliminado");

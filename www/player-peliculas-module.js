@@ -2,7 +2,9 @@ import { supabase } from './js/supabaseClient.js';
 import {
   loadProfileInfo,
   saveMovieProgress,
-  initSession
+  initSession,
+  deleteProgressFromSupabase,
+  isMovieCompleted
 } from './js/sync-supabase.js';
 import { registerView } from './viewsTracker.js';
 
@@ -180,6 +182,12 @@ video.addEventListener('play', async () => {
     else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
     else if (video.msRequestFullscreen) video.msRequestFullscreen();
 
+    // 🔒 No registrar como "visto" si la película ya está completada
+    if (isMovieCompleted(movieId)) {
+      console.log("🎬 Película ya completada — no se re-guarda en Supabase");
+      return;
+    }
+
     // 🔒 Supabase SOLO guarda "lo visto" (nombre de la película), nunca el progreso.
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -230,10 +238,19 @@ video.addEventListener('ended', async () => {
 
     console.log('✅ Vista registrada:', movieId);
 
-    
+    // 🗑️ Marcar como completada: borrar de la tabla progresos de Supabase
+    // para que NO aparezca en "Continuar Viendo" al volver a cargar
+    const deleted = await deleteProgressFromSupabase(movieId);
+    if (deleted) {
+      console.log('🗑️ Película borrada de "Continuar Viendo" en Supabase:', movieId);
+    }
 
-    // Última sincronización
-  
+    // Limpiar localStorage de progreso
+    localStorage.removeItem(`progress_${movieId}`);
+    localStorage.removeItem(`duration_${movieId}`);
+    localStorage.removeItem(`hasStarted_${movieId}`);
+    localStorage.removeItem(`movie_${movieId}`);
+
   } catch (err) {
     console.error('❌ Error al finalizar película:', err);
   }

@@ -5,7 +5,9 @@ import {
     saveSeriesProgress,
     loadMostRecentProgress,
     loadProfileInfo,
-    initSession
+    initSession,
+    isSeriesCompleted,
+    deleteProgressFromSupabase
 } from './js/sync-supabase.js';
 import { registerView } from './viewsTracker.js';
 window.supabase = supabase;
@@ -68,6 +70,12 @@ async function registrarSerieVista() {
   if (!seriesId) return;
 
   try {
+    // 🔒 No registrar como "visto" si la serie/episodio ya está completado
+    if (isSeriesCompleted(seriesId)) {
+      console.log('📺 Serie/episodio ya completado — no se re-guarda en Supabase:', seriesId);
+      return;
+    }
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 

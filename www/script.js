@@ -1,4 +1,5 @@
 import { supabase } from './js/supabaseClient.js';
+import { isMovieCompleted, isSeriesCompleted } from './js/sync-supabase.js';
 // ⬅️ Quitar lazy inmediatamente si ya todas se cargaron antes
 if (localStorage.getItem("mainImagesLoaded") === "true") {
   document.addEventListener("DOMContentLoaded", () => {
@@ -942,10 +943,41 @@ async function loadContinueWatchingFromSupabase() {
       return [];
     }
 
-    return data
+        return data
       .filter(item => item.ultimo_visto)
+      // 🔒 Filtrar contenido YA COMPLETADO (no mostrar en "Continuar Viendo")
+      .filter(item => {
+        if (item.series_id.startsWith('movie_')) {
+          const movieId = item.series_id.replace('movie_', '');
+          if (isMovieCompleted(movieId)) {
+            console.log("🎬 [FILTER] Película completada excluida:", movieId);
+            return false;
+          }
+        } else {
+          if (isSeriesCompleted(item.series_id)) {
+            console.log("📺 [FILTER] Serie completada excluida:", item.series_id);
+            return false;
+          }
+        }
+        return true;
+      })
       .map(item => {
         const visto = item.ultimo_visto || {};
+        const isMovie = item.series_id.startsWith('movie_');
+        if (isMovie) {
+          const movieId = item.series_id.replace('movie_', '');
+          return {
+            key: `continue_${item.series_id}`,
+            data: {
+              ...visto,
+              movieId,
+              tipo: 'movie',
+              visto: true,
+              updatedAt: visto.updatedAt || 0
+            },
+            type: 'movie'
+          };
+        }
         return {
           key: `continue_${item.series_id}`,
           data: {
@@ -953,6 +985,9 @@ async function loadContinueWatchingFromSupabase() {
             episodeTitle: visto.episodeTitle || '',
             poster: visto.poster || '',
             link: visto.link || '',
+            videoUrl: visto.videoUrl || '',
+            seriesId: item.series_id,
+            tipo: 'series',
             visto: true,
             updatedAt: visto.updatedAt || 0
           },

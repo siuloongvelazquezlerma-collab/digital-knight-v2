@@ -90,17 +90,6 @@ let hideControlsTimeout;
 video.addEventListener('loadedmetadata', async () => {
   let savedTime = localStorage.getItem(`progress_${movieId}`);
 
-  if (!savedTime) {
-    // 🔁 Si no hay progreso local, intenta traerlo de Supabase
-    const { fetchProgress } = await import('../js/sync-supabase.js');
-    const remoteTime = await fetchProgress(movieId);
-
-    if (remoteTime && remoteTime > 5) {
-      savedTime = remoteTime;
-      localStorage.setItem(`progress_${movieId}`, remoteTime);
-    }
-  }
-
   if (savedTime) {
     video.currentTime = parseFloat(savedTime);
   }
@@ -157,11 +146,6 @@ video.addEventListener('timeupdate', async () => {
     progressBar.firstElementChild.style.width = "0%";
   }
 
-  // 👉 NUEVO: sincronizar con Supabase
-  if (video.currentTime > 5 && video.duration && video.currentTime < video.duration - 5) {
-    const { syncData } = await import('../js/sync-supabase.js');
-    syncData(movieId);
-  }
 });
 
 

@@ -394,4 +394,85 @@ export async function getMovieContinueWatching() {
     .sort((a, b) => b.updatedAt - a.updatedAt);
 }
 
+// ================================
+// 🗑️ Borrar progreso de Supabase
+// ================================
+// Borra una película específica de la tabla `progresos`
+export async function deleteProgressFromSupabase(movieId) {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const { error } = await supabase
+      .from('progresos')
+      .delete()
+      .eq('id', session.user.id)
+      .eq('series_id', `movie_${movieId}`);
+
+    if (error) {
+      console.error('❌ Error borrando progreso de película:', error);
+      return false;
+    }
+    console.log('✅ Progreso de película borrado de Supabase:', movieId);
+    return true;
+  } catch (e) {
+    console.error('❌ Error:', e);
+    return false;
+  }
+}
+
+// Borra TODO el progreso del usuario de Supabase
+export async function deleteAllProgressFromSupabase() {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const userId = session.user.id;
+
+    const { error: progresosError } = await supabase
+      .from('progresos')
+      .delete()
+      .eq('id', userId);
+
+    const { error: viewsError } = await supabase
+      .from('user_views')
+      .delete()
+      .eq('user_id', userId);
+
+    if (progresosError) console.error('❌ Error borrando progresos:', progresosError);
+    if (viewsError) console.error('❌ Error borrando vistas:', viewsError);
+
+    console.log('✅ Todo el progreso de Supabase borrado para usuario:', userId);
+    return true;
+  } catch (e) {
+    console.error('❌ Error:', e);
+    return false;
+  }
+}
+
+// ================================
+// 🔎 Verificar si contenido está completado
+// ================================
+// Una película está completada si progress >= duration * 0.9
+export function isMovieCompleted(movieId) {
+  const progress = parseFloat(localStorage.getItem(`progress_${movieId}`)) || 0;
+  const duration = parseFloat(localStorage.getItem(`duration_${movieId}`)) || 0;
+  if (!duration || duration <= 0) return false;
+  return progress >= duration * 0.9;
+}
+
+// Una serie/episodio está completado si no hay progreso local
+// (el progreso local se limpia al terminar, pero Supabase aún lo tiene)
+export function isSeriesCompleted(seriesId) {
+  const continueKey = `continue_${seriesId}`;
+  const itemData = JSON.parse(localStorage.getItem(continueKey) || '{}');
+  if (!itemData.progress || !itemData.duration) {
+    // No hay progreso => asumimos completado si existe en Supabase
+    return true;
+  }
+  return itemData.progress >= itemData.duration * 0.9;
+}
+
 window.saveProfileToSupabase = saveProfileToSupabase;
+window.deleteAllProgressFromSupabase = deleteAllProgressFromSupabase;
+window.isMovieCompleted = isMovieCompleted;
