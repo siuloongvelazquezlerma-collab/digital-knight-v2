@@ -1222,7 +1222,10 @@ header.hidden,
   height: 4px;
   background-color: #ebebeb4f;
   overflow: hidden;
-  z-index: 2;
+  /* Debajo del botón de menú (5) y del menú (10), pero POR ENCIMA del
+     fade inferior de la tarjeta (imagen-wrapper::after, z-index: 2),
+     de modo que el fade quede tras la barra pero delante de la miniatura. */
+  z-index: 4;
 }
 
 .progress-bar {
@@ -1608,9 +1611,17 @@ background: linear-gradient(
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 
+/* Brillo suave y difuminado DETRÁS del número para que resalte
+   sobre cualquier fondo (claro u oscuro), sin trazos de unión
+   de la fuente (no usamos text-stroke). */
+filter: drop-shadow(0 2px 4px rgba(0,0,21,.7))
+        drop-shadow(0 0 20px rgba(4,12,38,.45));
+
+/* Halo luminoso azulado alrededor del número + sombra de apoyo */
 text-shadow:
-    0 2px 4px rgba(0,0,0,.4),
-    0 0 10px rgba(180,210,255,.25);
+    0 2px 3px rgba(0,0,0,.45),
+    0 0 12px rgba(120,170,255,.55),
+    0 0 26px rgba(80,140,255,.4);
 
 left: -25px;
 top: 75%;

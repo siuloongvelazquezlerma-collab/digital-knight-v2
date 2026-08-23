@@ -1413,6 +1413,41 @@ video.on('timeupdate', () => {
 
 
 
+// ✅ Guarda el episodio ACTUAL en "Continuar viendo" (solo localStorage,
+//    NO toca Supabase). Se usa desde el botón "Ver ahora"/"Continuar"
+//    (playLastWatchedEpisode) para que la miniatura, el nombre del episodio
+//    y la temporada sean los del capítulo que se está reproduciendo, igual
+//    que cuando se reproduce desde la lista de episodios.
+function saveContinueLocal(episode, videoUrl, seasonIndex, episodeIndex) {
+  if (!episode) return;
+
+  const seriesTitle =
+    document.getElementById('page-title')?.textContent ||
+    'Serie';
+
+  const link =
+    document.getElementById('favoritoEnlace')?.href ||
+    window.location.href;
+
+  const duration = video?.duration?.() || episode.duration || 1;
+
+  localStorage.setItem(`continue_${seriesId}`, JSON.stringify({
+    seriesId,
+    seriesTitle,
+    episodeTitle: episode.hiddenCode || episode.episodeCode,
+    poster: episode.thumbnail,
+    link,
+    progress: 0,
+    duration,
+    videoUrl,
+    season_index: seasonIndex ?? 0,
+    episode_index: episodeIndex ?? 0,
+    updatedAt: Date.now()
+  }));
+
+  localStorage.setItem('justReturnedFromSeries', 'true');
+  updateResumeButton?.();
+}
 function playLastWatchedEpisode() {
   const lastKey = `last-episode-${seriesId}`;
   const progressKey = `progress-${seriesId}`;
@@ -1468,16 +1503,16 @@ function playLastWatchedEpisode() {
 
     showPlayer();
 
-    for (let seasonIndex = 0; seasonIndex < playlist.length; seasonIndex++) {
-      const season = playlist[seasonIndex];
-      const episode = season.episodes.find(ep => ep.videoUrl === lastUrl);
-      if (episode) {
-        document.getElementById("seasonSelect").value = seasonIndex;
-        document.getElementById("episodeSubtitle").textContent = episode.episodeCode;
+    for (let idx = 0; idx < playlist.length; idx++) {
+      const season = playlist[idx];
+      const foundEp = season.episodes.find(ep => ep.videoUrl === lastUrl || Object.values(ep.videos || {}).includes(lastUrl));
+      if (foundEp) {
+        document.getElementById("seasonSelect").value = idx;
+        document.getElementById("episodeSubtitle").textContent = foundEp.episodeCode;
 
-        if (episode.intro) {
-          skipIntroStart = episode.intro.start;
-          skipIntroEnd = episode.intro.end;
+        if (foundEp.intro) {
+          skipIntroStart = foundEp.intro.start;
+          skipIntroEnd = foundEp.intro.end;
           document.getElementById('skipIntroBtn').classList.remove('hidden');
         } else {
           skipIntroStart = skipIntroEnd = null;
@@ -1487,6 +1522,11 @@ function playLastWatchedEpisode() {
         break;
       }
     }
+
+    // ✅ Guardar el episodio actual en "Continuar viendo" (solo localStorage,
+    //    NO toca Supabase). Así la miniatura/nombre correctos del capítulo,
+    //    igual que cuando se reproduce desde la lista de episodios.
+    saveContinueLocal(episode, lastUrl, seasonIndex, episodeIndex);
 
     return;
   }
@@ -1527,6 +1567,10 @@ localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({
     skipIntroStart = skipIntroEnd = null;
     document.getElementById('skipIntroBtn').classList.add('hidden');
   }
+
+  // ✅ Guardar el episodio actual en "Continuar viendo" (solo localStorage,
+  //    NO toca Supabase) con su miniatura/nombre correctos.
+  saveContinueLocal(episode, firstUrl, 0, 0);
 
   updateResumeButton();
 }
