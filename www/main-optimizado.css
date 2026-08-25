@@ -167,4 +167,79 @@ body.page-transition {
     opacity: 0;
 }
 
+/* ==========================================================
+   🚀 SCROLL FLUIDO Y CARRUSELES PROFESIONALES
+   ========================================================== */
+
+/* Scroll vertical de página: suave y con aceleración por GPU */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* --- Carruseles horizontales: momentum + snap suave tipo Netflix --- */
+.scroll-container,
+.scrollable,
+.horizontal-scroll-container,
+.mexicanas-scroll-container,
+.genre-scroll {
+  -webkit-overflow-scrolling: touch;   /* momentum en iOS/WebView */
+  overscroll-behavior-x: contain;      /* evita rebotes raros */
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;       /* enganche suave, no brusco */
+  will-change: scroll-position;
+}
+
+/* Cada póster/tarjeta es un punto de anclaje suave */
+.scroll-container > a,
+.scrollable > a,
+.horizontal-scroll-container > a,
+.mexicanas-scroll-container > a,
+.genre-scroll > a {
+  scroll-snap-align: start;
+}
+
+/* Evita que las imágenes parpadeen o se corten al deslizar */
+.scroll-container img,
+.scrollable img,
+.horizontal-scroll-container img,
+.mexicanas-scroll-container img,
+.genre-scroll img {
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+              filter 0.35s ease;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Hover profesional en escritorio */
+@media (hover: hover) {
+  .scroll-container a:hover img,
+  .horizontal-scroll-container a:hover img,
+  .mexicanas-scroll-container a:hover img,
+  .genre-scroll a:hover img {
+    transform: translateZ(0) scale(1.06);
+  }
+}
+
+/* Flechas de navegación de escritorio: movimiento más natural */
+.scroll-btn {
+  transition: opacity 0.25s ease, background-color 0.25s ease,
+              transform 0.25s ease;
+}
+.scroll-btn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+/* Respeto a usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+
 
