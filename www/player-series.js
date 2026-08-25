@@ -39,10 +39,27 @@ const controls = document.getElementById('controls');
 const overlay = document.getElementById('overlay');
 const player = document.getElementById('player');
 const progress = document.getElementById('progress');
+const bufferBar = document.getElementById('bufferBar');
 const duration = document.getElementById('duration');
 const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.material-icons');
 const cover = document.getElementById('cover');
 let hideControlsTimeout;
+
+// --- Skip-intro state (declarado explícitamente para evitar globals implícitos) ---
+let skipIntroStart = null;
+let skipIntroEnd = null;
+
+// --- Smooth progress-loop state ---
+let progressRafId = null;
+let isScrubbing = false;
+
+// ⚡ CRÍTICO: por defecto <input type="range"> solo acepta valores ENTEROS (step="1").
+// Con max="100", cada paso entero equivale a duration/100 segundos (ej. ~13s en un
+// episodio de 22 min), haciendo que la barra salte en vez de moverse fluida.
+// Con step="any" aceptamos decimales y el thumb se mueve continuamente.
+if (progress) {
+  progress.step = 'any';
+}
 
 
 
@@ -136,6 +153,17 @@ playPauseBtn.textContent = 'pause';
 
 
 
+function updateBuffer() {
+  const v = videoElement;
+  const buffered = v.buffered;
+  const dur = video.duration();
+  if (buffered && buffered.length > 0 && dur > 0 && !isNaN(dur)) {
+    const bufferedEnd = buffered.end(buffered.length - 1);
+    const bufferPercent = Math.min((bufferedEnd / dur) * 100, 100);
+    if (bufferBar) bufferBar.style.width = `${bufferPercent}%`;
+  }
+}
+
 function updateProgress() {
 if (video.duration()) {
   const remaining = video.duration() - video.currentTime();
@@ -148,16 +176,26 @@ if (video.duration()) {
   // mover el thumb y actualizar el fondo
   progress.value = percent;
   progress.style.background = `linear-gradient(to right, white ${percent}%, #666 ${percent}%)`;
+
+  // actualizar la barra de buffer
+  updateBuffer();
 }
 }
 
 // cuando el usuario arrastra el thumb
 progress.addEventListener('input', () => {
+isScrubbing = true;
 const newTime = (progress.value / 100) * video.duration();
 video.currentTime(newTime);
 
 // esto hace que el thumb se mueva mientras arrastras
 updateProgress();
+});
+
+progress.addEventListener('change', () => {
+isScrubbing = false;
+updateProgress();
+updateBuffer();
 });
 
 
@@ -211,6 +249,39 @@ function showPlayer() {
 
 video.on('timeupdate', updateProgress);
 video.on('loadedmetadata', updateProgress);
+video.on('progress', updateBuffer);
+video.on('seeked', () => { updateProgress(); updateBuffer(); });
+
+// 🔄 Bucle de progreso fluido con requestAnimationFrame (60 FPS)
+// Actualiza el thumb y la barra de buffer de forma continua mientras
+// el video se reproduce, evitando saltos visibles.
+function startSmoothProgress() {
+  if (progressRafId !== null) return;
+
+  const loop = () => {
+    if (!isScrubbing) {
+      updateProgress();
+      updateBuffer();
+    }
+    if (!video.paused()) {
+      progressRafId = requestAnimationFrame(loop);
+    } else {
+      progressRafId = null;
+    }
+  };
+
+  progressRafId = requestAnimationFrame(loop);
+}
+
+video.on('play', startSmoothProgress);
+video.on('ended', () => {
+  if (progressRafId !== null) {
+    cancelAnimationFrame(progressRafId);
+    progressRafId = null;
+  }
+  updateProgress();
+  updateBuffer();
+});
 
 video.on('play', () => {
 
@@ -1215,27 +1286,16 @@ function updateEpisodeUI(videoUrl) {
 
       }, 100);
 
-      // Intro
+            // Intro — solo guardamos los valores; la visibilidad del botón
+      // se controla en tiempo real desde el timeupdate (evita flashes)
       if (episode.intro) {
-
-        skipIntroStart =
-          episode.intro.start;
-
-        skipIntroEnd =
-          episode.intro.end;
-
-        document
-          .getElementById('skipIntroBtn')
-          .classList.remove('hidden');
-
+        skipIntroStart = episode.intro.start;
+        skipIntroEnd = episode.intro.end;
       } else {
-
         skipIntroStart = null;
         skipIntroEnd = null;
-
-        document
-          .getElementById('skipIntroBtn')
-          .classList.add('hidden');
+        const btn = document.getElementById('skipIntroBtn');
+        if (btn) btn.classList.add('hidden');
       }
 
       updateResumeButton();
@@ -1304,6 +1364,9 @@ video.on('loadstart', () => {
   btn.classList.add('hidden');
   clearTimeout(skipIntroTimeoutId);
   lastIntroState = false;
+  // Resetear valores de intro obsoletos del episodio anterior
+  skipIntroStart = null;
+  skipIntroEnd = null;
 });
 
 // Acción del botón para saltar intro
@@ -1510,13 +1573,13 @@ function playLastWatchedEpisode() {
         document.getElementById("seasonSelect").value = idx;
         document.getElementById("episodeSubtitle").textContent = foundEp.episodeCode;
 
-        if (foundEp.intro) {
+                if (foundEp.intro) {
           skipIntroStart = foundEp.intro.start;
           skipIntroEnd = foundEp.intro.end;
-          document.getElementById('skipIntroBtn').classList.remove('hidden');
         } else {
           skipIntroStart = skipIntroEnd = null;
-          document.getElementById('skipIntroBtn').classList.add('hidden');
+          const _btn = document.getElementById('skipIntroBtn');
+          if (_btn) _btn.classList.add('hidden');
         }
 
         break;
@@ -1558,15 +1621,16 @@ localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({
   document.getElementById("seasonSelect").value = 0;
   document.getElementById("episodeSubtitle").textContent = playlist[0].episodes[0].episodeCode;
 
-  const episode = playlist[0].episodes[0];
+    const episode = playlist[0].episodes[0];
   if (episode.intro) {
     skipIntroStart = episode.intro.start;
     skipIntroEnd = episode.intro.end;
-    document.getElementById('skipIntroBtn').classList.remove('hidden');
   } else {
     skipIntroStart = skipIntroEnd = null;
-    document.getElementById('skipIntroBtn').classList.add('hidden');
+    const _btn = document.getElementById('skipIntroBtn');
+        if (_btn) _btn.classList.add('hidden');
   }
+
 
   // ✅ Guardar el episodio actual en "Continuar viendo" (solo localStorage,
   //    NO toca Supabase) con su miniatura/nombre correctos.
@@ -2428,6 +2492,16 @@ if (
 }
 
 const newUrl = currentEpisode.videos?.[currentLang];
+
+// 🔁 Actualizar estado del botón "Omitir intro" para el episodio actual
+// (evita que el botón de un episodio anterior quede visible con datos obsoletos)
+if (currentEpisode.intro) {
+  skipIntroStart = currentEpisode.intro.start;
+  skipIntroEnd = currentEpisode.intro.end;
+} else {
+  skipIntroStart = null;
+  skipIntroEnd = null;
+}
 
 // 🔒 Mantener siempre el mismo episodio al cambiar idioma
 localStorage.setItem(`last-episode-${seriesId}`, JSON.stringify({

@@ -1069,25 +1069,44 @@ body.video-active .custom-top-bar {
         gap: 8px;
       }
       
-      .progress {
-        flex: 1;
-        appearance: none;
-        height: 5px;
-        background: #666;
-        border-radius: 3px;
-        cursor: pointer;
-        outline: none;
-      }
+      .progress{
+
+appearance:none;
+
+flex:1;
+
+height:5px;
+
+border-radius:10px;
+
+background:#666;
+
+outline:none;
+
+cursor:pointer;
+
+position:relative;
+
+z-index:1;
+
+}
+
+      .progress::-webkit-slider-thumb{
+
+appearance:none;
+
+width:16px;
+
+height:16px;
+
+border-radius:50%;
+
+background:white;
+
+margin-top:-0px;
+
+}
       
-      .progress::-webkit-slider-thumb {
-        appearance: none;
-        height: 15px;
-        width: 15px;
-        border-radius: 50%;
-        background: rgb(255, 255, 255);
-        border: none;
-        pointer-events: auto; /* para poder arrastrar */
-      }
       
       .thumb {
         position: absolute;
@@ -1100,14 +1119,32 @@ body.video-active .custom-top-bar {
         transition: left 0.1s linear; /* movimiento suave */
         pointer-events: none; /* no interfiere con el input */
       }
-      
-      .progress::-webkit-slider-thumb {
-        transition: left 0.1s linear, background 0.1s linear;
-      }
-      
-      .progress::-moz-range-thumb {
-        transition: left 0.1s linear, background 0.1s linear;
-      }
+
+      .buffer-bar{
+
+position:absolute;
+
+left:0;
+
+top:50%;
+
+transform:translateY(-50%);
+
+height:5px;
+
+background:rgba(255,255,255,.5);
+
+border-radius:10px;
+
+width:0;
+
+pointer-events:none;
+
+z-index:2;
+
+transition:width 0.1s linear;
+
+}
       
   
       .time {

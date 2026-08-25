@@ -36,35 +36,21 @@ const duration = document.getElementById('duration');
 const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.material-icons');
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
-// ------------------------
-// 2️⃣ Función para actualizar barra y thumb
-// ------------------------
-function updateMovieProgress() {
-  if (!video.duration) return;
 
-  const remaining = video.duration - video.currentTime;
-  const hours = Math.floor(remaining / 3600);
-  const minutes = Math.floor((remaining % 3600) / 60);
-  const seconds = Math.floor(remaining % 60).toString().padStart(2, '0');
+// 🧩 Barra de buffer (div .buffer-bar dentro del contenedor de progreso)
+const bufferBar = document.querySelector('.progress-container .buffer-bar');
 
-  duration.textContent = hours > 0
-    ? `- ${hours}:${minutes.toString().padStart(2,'0')}:${seconds}`
-    : `- ${minutes}:${seconds}`;
-
-  const percent = (video.currentTime / video.duration) * 100;
-
-  progress.value = percent;
-  progress.style.background = `linear-gradient(to right, white ${percent}%, #666 ${percent}%)`;
-
-  if (thumb) {
-    const width = progress.offsetWidth;
-    thumb.style.left = `${(percent / 100) * width}px`;
-  }
+// ⚡ CRÍTICO: por defecto <input type="range"> solo acepta valores ENTEROS (step="1").
+// Con max="100", cada paso entero equivale a duration/100 segundos (ej. ~20s en una
+// película de 2h), haciendo que la barra salte en vez de moverse fluida.
+// Con step="any" aceptamos decimales y el thumb se mueve continuamente.
+if (progress) {
+  progress.step = 'any';
 }
 
+// Porcentaje de buffer actual (lo llena updateBufferBar)
+let currentBufferPercent = 0;
 
-
-// ------------------------
 // ------------------------
 // 2️⃣ Función para actualizar barra y thumb
 // ------------------------
@@ -83,7 +69,9 @@ function updateMovieProgress() {
   const percent = (video.currentTime / video.duration) * 100;
 
   progress.value = percent;
-  progress.style.background = `linear-gradient(to right, white ${percent}%, #666 ${percent}%)`;
+  // Gradiente con 3 zonas: reproducido (blanco) → buferado (blanco translúcido) → restante (#666)
+  progress.style.background =
+    `linear-gradient(to right, #fff ${percent}%, rgba(255,255,255,.4) ${percent}%, rgba(255,255,255,.4) ${currentBufferPercent}%, #666 ${currentBufferPercent}%)`;
 
   if (thumb) {
     const width = progress.offsetWidth;
@@ -98,52 +86,52 @@ function updateBufferBar() {
 
   try {
     const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-    const percent = (bufferedEnd / video.duration) * 100;
+    currentBufferPercent = Math.min((bufferedEnd / video.duration) * 100, 100);
 
-    // Actualiza el ancho del buffer visual
-    document.querySelector(".progress").style.setProperty("--buffer-width", `${percent}%`);
+    // Compatibilidad con el estilo anterior (--buffer-width)
+    document.querySelector(".progress")?.style.setProperty("--buffer-width", `${currentBufferPercent}%`);
+
+    // Barra de buffer dedicada (div .buffer-bar dentro del contenedor)
+    if (bufferBar) bufferBar.style.width = `${currentBufferPercent}%`;
   } catch (err) {
     console.warn("No se pudo leer buffer:", err);
   }
 }
 
-// ⚡ Refrescado continuo del buffer (más fluido)
-function smoothBufferUpdate() {
-  updateBufferBar();
-  if (!video.paused && !video.ended) {
-    requestAnimationFrame(smoothBufferUpdate);
-  }
+// 🔄 Bucle único de progreso fluido (60 FPS) — actualiza progreso + buffer
+// de forma continua mientras se reproduce, con protección contra bucles duplicados.
+let smoothRafId = null;
+
+function startSmoothLoop() {
+  if (smoothRafId !== null) return;
+
+  const loop = () => {
+    updateMovieProgress();
+    updateBufferBar();
+    if (!video.paused && !video.ended && video.duration) {
+      smoothRafId = requestAnimationFrame(loop);
+    } else {
+      smoothRafId = null;
+    }
+  };
+
+  smoothRafId = requestAnimationFrame(loop);
 }
 
-// Escuchar eventos principales (mantiene la precisión inicial)
+// Eventos principales
+video.addEventListener("play", startSmoothLoop);
 video.addEventListener("progress", updateBufferBar);
-video.addEventListener("loadedmetadata", updateBufferBar);
-
-// 🌀 Movimiento fluido del progreso + buffer
-function smoothProgressUpdate() {
-  updateMovieProgress();
-  if (!video.paused && !video.ended && video.duration) {
-    requestAnimationFrame(smoothProgressUpdate);
+video.addEventListener("loadedmetadata", () => { updateMovieProgress(); updateBufferBar(); });
+video.addEventListener("seeked", () => { updateMovieProgress(); updateBufferBar(); });
+video.addEventListener("pause", () => { updateMovieProgress(); updateBufferBar(); });
+video.addEventListener("ended", () => {
+  if (smoothRafId !== null) {
+    cancelAnimationFrame(smoothRafId);
+    smoothRafId = null;
   }
-}
-
-// Activar animaciones al reproducir
-video.addEventListener("play", () => {
-  requestAnimationFrame(smoothProgressUpdate);
-  requestAnimationFrame(smoothBufferUpdate);
-});
-
-// Mantener sincronización en pausas o saltos
-video.addEventListener("pause", () => {
   updateMovieProgress();
   updateBufferBar();
 });
-video.addEventListener("seeking", updateMovieProgress);
-
-
-// Mantener sincronización en pausas o saltos
-video.addEventListener("pause", updateMovieProgress);
-video.addEventListener("seeking", updateMovieProgress);
 // ------------------------
 // 3️⃣ Listeners del progreso
 // ------------------------
@@ -172,7 +160,7 @@ video.addEventListener('loadedmetadata', () => {
   if (savedTime) {
     video.currentTime = parseFloat(savedTime);
   }
-  updateProgress();
+  updateMovieProgress();
 
   // ✅ Mostrar barra y botón si aplica
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
@@ -192,7 +180,7 @@ updateWatchButtonFromStorage();
 
 // Guardar progreso y actualizar UI
 video.addEventListener('timeupdate', () => {
-  updateProgress();
+  updateMovieProgress();
 
   const currentTime = video.currentTime;
   const totalDuration = video.duration || 1;
