@@ -491,7 +491,11 @@ function createSwiper(swiperEl) {
 
 slidesPerView: 1,
 
-speed: 650,
+resistance: false,
+
+resistanceRatio: 0,
+
+speed: 700,
 
 effect: 'fade',
 
@@ -504,11 +508,12 @@ touchAngle: 45,
 threshold: 5,
 
 followFinger: true,
-touchReleaseOnEdges: false,
-shortSwipes: true,
+
 longSwipes: true,
 longSwipesRatio: 0.15,
 longSwipesMs: 200,
+
+shortSwipes: true,
 allowTouchMove: true,
 
     autoplay: {

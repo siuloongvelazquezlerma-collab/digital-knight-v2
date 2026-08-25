@@ -171,20 +171,7 @@ body.page-transition {
    🚀 SCROLL FLUIDO Y CARRUSELES PROFESIONALES
    ========================================================== */
 
-/* Scroll vertical de página: suave y con aceleración por GPU */
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* --- Carruseles horizontales: momentum + snap suave tipo Netflix --- */
+/* --- Carruseles horizontales: ligeros y suaves --- */
 .scroll-container,
 .scrollable,
 .horizontal-scroll-container,
@@ -192,18 +179,22 @@ body {
 .genre-scroll {
   -webkit-overflow-scrolling: touch;   /* momentum en iOS/WebView */
   overscroll-behavior-x: contain;      /* evita rebotes raros */
-  scroll-behavior: smooth;
-  scroll-snap-type: x proximity;       /* enganche suave, no brusco */
-  will-change: scroll-position;
 }
 
-/* Cada póster/tarjeta es un punto de anclaje suave */
+/* 🪶 Scroll ligero: sin snap que frene el deslizamiento */
+.scroll-container,
+.scrollable,
+.horizontal-scroll-container,
+.mexicanas-scroll-container,
+.genre-scroll {
+  scroll-snap-type: none;
+}
 .scroll-container > a,
 .scrollable > a,
 .horizontal-scroll-container > a,
 .mexicanas-scroll-container > a,
 .genre-scroll > a {
-  scroll-snap-align: start;
+  scroll-snap-align: none;
 }
 
 /* Evita que las imágenes parpadeen o se corten al deslizar */
@@ -240,6 +231,99 @@ body {
 /* Respeto a usuarios que prefieren menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
+}
+
+/* ==========================================================
+   🔍 IMÁGENES DE CARRUSELES MÁS GRANDES (todos los contenidos)
+   Solo se ajusta el ancho: la altura es automática para
+   respetar pósters verticales Y miniaturas horizontales.
+   ========================================================== */
+
+/* Carrusel general (incluye "Continuar viendo") */
+.scroll-container img {
+  width: 150px !important;
+  height: auto !important;
+}
+
+@media (min-width: 1024px) {
+  .scroll-container img {
+    width: 210px !important;
+  }
+}
+
+/* Top 10 */
+.card img {
+  width: 128px !important;
+  height: auto !important;
+}
+
+/* Carrusel horizontal genérico */
+.horizontal-scroll-container img {
+  width: 285px !important;
+  height: auto !important;
+}
+
+@media (min-width: 768px) {
+  .horizontal-scroll-container img {
+    width: 325px !important;
+  }
+}
+
+/* Colecciones mexicanas / secciones especiales */
+.mexicanas-scroll-container a img {
+  width: 150px !important;
+  height: auto !important;
+}
+
+@media (min-width: 1024px) {
+  .mexicanas-scroll-container a img {
+    width: 240px !important;
+  }
+}
+
+/* Carrusel de géneros (tarjetas cuadradas) */
+.genre-item {
+  width: 172px !important;
+  height: 172px !important;
+}
+
+@media (min-width: 1024px) {
+  .genre-item {
+    width: 205px !important;
+    height: 205px !important;
+  }
+}
+
+/* ==========================================================
+   🎬 CONTINUAR VIENDO: barra de progreso alineada a la miniatura
+   Las miniaturas horizontales conservan su tamaño diseñado
+   (la barra va al 100% del contenedor de la imagen).
+   ========================================================== */
+
+.scroll-container img.poster {
+  width: 210px !important;
+  height: 120px !important;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 1024px) {
+  .scroll-container img.poster {
+    width: 400px !important;
+    height: 225px !important;
+  }
+}
+
+/* La barra siempre mide exactamente lo mismo que la imagen */
+.progress-bar-container {
+  left: 0;
+  bottom: 0;
+  width: 100% !important;
+}
+
+.image-wrapper {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
 }
 
 
