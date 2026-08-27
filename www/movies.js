@@ -95,20 +95,8 @@ document.addEventListener("click", (e) => {
 });
 
 // --------------------
-// Loader
+// Loader (eliminado: la página ahora aparece con un fade suave definido en CSS)
 // --------------------
-window.addEventListener('load', function () {
-    const overlay = document.querySelector('.overlay');
-    const loader = document.getElementById('loader');
-
-    setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            overlay.classList.add('hidden');
-        }, 300);
-    }, 1000);
-});
 
 // --------------------
 // Gestión de imágenes de perfil

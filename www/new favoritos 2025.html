@@ -379,6 +379,7 @@
   }
   /* Overlay para oscurecer la página */
 .overlay {
+    display: none !important; /* Overlay eliminado de esta página */
     position: fixed;
     top: 0;
     left: 0;
@@ -399,7 +400,7 @@
 
 /* Loader */
 #loader {
-    display: block; /* Visible al cargar */
+    display: none !important; /* Loader eliminado de esta página */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -642,12 +643,31 @@ body, img, a, button, select, textarea, .tab, .tabs {
     border-radius: 2px;
 }
 
+/* ---------- Entrada suave de la página (sin loader ni overlay) ---------- */
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pageRiseIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    animation: pageFadeIn 0.9s ease-out both;
+  }
+  .custom-top-bar,
+  .search-container,
+  #noResults,
+  .movie-item {
+    animation: pageRiseIn 1.1s ease-out both;
+  }
+}
+
     </style>
 </head>
 <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
   <div id="overlayOpciones" class="overlay-opciones" onclick="cerrarVentanaOpciones()"></div>
-  <div id="loader" class="loader"></div>
-  <div class="overlay"></div>
 
   <div class="custom-top-bar">
     <button onclick="window.history.back()">
@@ -751,20 +771,7 @@ document.addEventListener('touchmove', function (event) {
         }, { passive: false });
 
 window.addEventListener('load', function () {
-    const overlay = document.querySelector('.overlay');
-    const loader = document.getElementById('loader');
-
-    // Se mantiene el loader visible por 1 segundo
-    setTimeout(() => {
-        // Hacer que el loader desaparezca rápidamente
-        loader.style.opacity = '0'; // Desvanecer loader
-        setTimeout(() => {
-            loader.style.display = 'none'; // Eliminarlo del flujo
-
-            // Se añade clase "hidden" al overlay para que se desvanezca lentamente
-            overlay.classList.add('hidden');
-        }, 300); // Tiempo de transición de 300ms para el loader
-    }, 1000); // Mantener el loader visible durante 1 segundo
+    // Loader y overlay eliminados: la página aparece con un fade suave (ver CSS)
 
     mostrarFavoritos(); // Llamar a la función de mostrar los favoritos
 
