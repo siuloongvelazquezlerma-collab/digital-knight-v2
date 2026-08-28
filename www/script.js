@@ -1313,23 +1313,27 @@ window.addEventListener('load', () => {
 });
 
   
-  // Ocultar footer al hacer scroll hacia abajo
+  // Ocultar footer al hacer scroll hacia abajo (con umbral para suavidad)
   var lastScrollTop = 0;
   var footer = document.querySelector(".footer");
+  var footerTicking = false;
 
-  
-  
   window.addEventListener("scroll", function () {
+    if (footerTicking) return;
+    footerTicking = true;
+    requestAnimationFrame(function () {
       var currentScroll = window.scrollY;
-  
-      if (currentScroll > lastScrollTop) {
-          footer.classList.add("hidden");
-      } else {
-          footer.classList.remove("hidden");
+
+      if (currentScroll > lastScrollTop + 5) {
+        footer.classList.add("hidden");
+      } else if (currentScroll < lastScrollTop - 5) {
+        footer.classList.remove("hidden");
       }
-  
+
       lastScrollTop = currentScroll;
-  });
+      footerTicking = false;
+    });
+  }, { passive: true });
 
   window.addEventListener("orientationchange", () => {
     setTimeout(() => {
@@ -1396,22 +1400,29 @@ window.addEventListener("load", () => {
 let lastScroll = 0;
 const header = document.querySelector('header');
 const tabsContainer = document.querySelector('.tabs');
+let headerTicking = false;
 
 window.addEventListener('scroll', () => {
-  const currentScroll = window.pageYOffset;
+  if (headerTicking) return;
+  headerTicking = true;
+  requestAnimationFrame(() => {
+    const currentScroll = window.pageYOffset;
 
-  if (currentScroll > lastScroll) {
-    // Scroll hacia abajo
-    header.classList.add('hidden');
-    tabsContainer.classList.add('hidden');
-  } else {
-    // Scroll hacia arriba
-    header.classList.remove('hidden');
-    tabsContainer.classList.remove('hidden');
-  }
+    // Umbral de 5px: evita parpadeo con micro-scrolls y trabajo innecesario
+    if (currentScroll > lastScroll + 5) {
+      // Scroll hacia abajo
+      header.classList.add('hidden');
+      tabsContainer.classList.add('hidden');
+    } else if (currentScroll < lastScroll - 5) {
+      // Scroll hacia arriba
+      header.classList.remove('hidden');
+      tabsContainer.classList.remove('hidden');
+    }
 
-  lastScroll = currentScroll;
-});
+    lastScroll = currentScroll;
+    headerTicking = false;
+  });
+}, { passive: true });
 
 
 // ==== Movie sections con flechas ====
@@ -1527,6 +1538,7 @@ const observer = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       const img = entry.target;
 
+      img.decoding = "async"; // decodifica sin bloquear el scroll
       img.src = img.dataset.src;
 
       img.onload = () => {
@@ -1537,7 +1549,9 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, {
-  rootMargin: "100px"
+  // Carga las imágenes ANTES de entrar en pantalla para que no aparezcan
+  // de golpe al deslizar (pop-in)
+  rootMargin: "600px 0px"
 });
 
 document.querySelectorAll(".lazy-img").forEach(img => {

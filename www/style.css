@@ -2322,13 +2322,14 @@ body.show-login .login-box {
   );
   background-size: 200% 100%;
   animation: loading 1.2s infinite;
-  filter: blur(2px); /* opcional, lo hace más suave */
+  opacity: .6; /* más barato que blur(2px): el blur en cientos de imágenes pesa en el scroll */
+  transition: opacity .4s ease;
 }
 
 .lazy-img.loaded {
   animation: none;
-  filter: blur(0);
-  transition: opacity 0.3s ease;
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 @keyframes loading {
