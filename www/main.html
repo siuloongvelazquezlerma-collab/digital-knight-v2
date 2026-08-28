@@ -4613,6 +4613,28 @@
         <span class="material-icons">search</span>
     </a>
 </footer>
+<script>
+  // Ocultar footer lentamente al deslizar el contenido hacia arriba (scroll hacia abajo)
+  (function () {
+    var footer = document.querySelector('.footer');
+    if (!footer) return;
+
+    var lastScrollTop = window.scrollY || 0;
+
+    window.addEventListener('scroll', function () {
+      var currentScroll = window.scrollY;
+
+      if (currentScroll > lastScrollTop + 5) {
+        footer.classList.add('hidden');   // baja el footer
+      } else if (currentScroll < lastScrollTop - 5) {
+        footer.classList.remove('hidden'); // vuelve a aparecer
+      }
+
+      lastScrollTop = currentScroll;
+    }, { passive: true });
+  })();
+</script>
+
 
 
 <!-- Notificación: Serie No tengo miedo -->
