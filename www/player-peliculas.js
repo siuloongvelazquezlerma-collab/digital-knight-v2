@@ -12,14 +12,15 @@ window.addEventListener('load', function () {
   const overlay = document.querySelector('.overlay-loader');
   const loader = document.getElementById('loader');
 
-  // Se mantiene el loader visible por 1 segundo
+  // El loader se sujeta un momento y luego hace fade SUAVE,
+  // revelando la animación de entrada sin blink ni salto
   setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            overlay.classList.add('hidden');
-        }, 300);
-    }, 1000);
+    loader.style.opacity = '0';
+    overlay.style.opacity = '0'; // fade del overlay (0.6s en CSS)
+    setTimeout(() => {
+      overlay.classList.add('hidden'); // display:none DESPUÉS del fade
+    }, 650);
+  }, 500);
 });
 
 
