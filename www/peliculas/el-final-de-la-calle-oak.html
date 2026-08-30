@@ -369,6 +369,7 @@
   <video
   id="video"
   class="video-js vjs-default-skin"
+  crossorigin="anonymous"
   preload="auto"
   width="100%"
   height="100%"
@@ -376,6 +377,9 @@
   data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
   <source id="videoSource" src="https://od.lk/s/M18zMzM5OTQ4NzJfWmlrenc/El%20final%20de%20la%20calle%20oak.mp4" type="video/mp4" />
 </video>
+<!-- Loader -->
+<!-- CONGELAR IMAGEN DURANTE CAMBIO DE IDIOMA -->
+<canvas id="languageFreezeFrame"></canvas>
 <!-- Loader -->
 <div class="video-loader hidden" id="videoLoader">
   <div class="spinner"></div>
@@ -412,17 +416,84 @@
          <!-- Botón de idioma con mini menú -->
 <!--
 <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+
   <span class="material-icons" id="langIcon">chat</span>
-  
+
   <div id="langMenu" class="lang-menu">
-    <div class="lang-option" data-lang="latino">
-      <span class="check"></span> Español (Latino)
+
+    <!-- BOTÓN CERRAR -->
+    <button class="lang-close" id="langCloseBtn" aria-label="Cerrar">
+      <span class="material-icons">close</span>
+    </button>
+
+
+    <div class="lang-columns">
+
+      <!-- =====================================================
+           SUBTÍTULOS
+           ===================================================== -->
+
+      <div class="lang-column">
+
+        <div class="lang-title">
+          Subtítulos
+        </div>
+
+        <div class="lang-line"></div>
+
+        <div class="lang-options">
+
+          <!-- SIN SUBTÍTULOS = LATINO -->
+          <div class="lang-option" data-lang="ingles">
+            <span class="lang-check material-icons">check</span>
+            <span>Apagado</span>
+          </div>
+
+          <!-- INGLÉS CON SUBTÍTULOS -->
+          <div class="lang-option" data-lang="inglessub">
+            <span class="lang-check material-icons">check</span>
+            <span>Español (América Latina) CC</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           AUDIO
+           ===================================================== -->
+
+      <div class="lang-column">
+
+        <div class="lang-title">
+          Audio
+        </div>
+
+        <div class="lang-line"></div>
+
+        <div class="lang-options">
+
+          <!-- INGLÉS -->
+          <div class="lang-option" data-lang="ingles">
+            <span class="lang-check material-icons">check</span>
+            <span>Inglés - Original</span>
+          </div>
+
+          <!-- LATINO -->
+          <div class="lang-option" data-lang="latino">
+            <span class="lang-check material-icons">check</span>
+            <span>Español (América Latina)</span>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
-    <div class="lang-option" data-lang="ingles">
-      <span class="check"></span> Inglés (Subtitulada)
-    </div>
-    <button id="langConfirmBtn">Listo</button>
+
   </div>
+
 </div>
 -->
   
@@ -510,130 +581,876 @@ window.movieId = "el-final-de-la-calle-oak-1101383";
 
 /*
 (function () {
-  
-  const source = document.getElementById("videoSource");
-  const langBtnWrapper = document.getElementById("langBtnWrapper");
-  const langMenu = document.getElementById("langMenu");
-  const langOptions = document.querySelectorAll(".lang-option");
-  const langIcon = document.getElementById("langIcon");
-  const langConfirmBtn = document.getElementById("langConfirmBtn");
-  const overlayBg = document.getElementById("overlay");
+
+  // ==========================================================
+  // ELEMENTOS
+  // ==========================================================
+
+  const langBtn = document.getElementById('langBtnWrapper');
+  const langMenu = document.getElementById('langMenu');
+  const langClose = document.getElementById('langCloseBtn');
+  const langOptions = document.querySelectorAll('#langMenu .lang-option');
+  const overlay = document.getElementById('overlay');
+
+  const videoElement = document.getElementById('video');
+
+  const freezeCanvas =
+    document.getElementById('languageFreezeFrame');
+
+  const freezeContext =
+    freezeCanvas
+      ? freezeCanvas.getContext('2d')
+      : null;
+
+
+  // ==========================================================
+  // VIDEOS
+  // ==========================================================
 
   const videos = {
     latino: "https://od.lk/s/M18zMzM5OTQ4NzJfWmlrenc/El%20final%20de%20la%20calle%20oak.mp4",
     ingles: "https://od.lk/s/M18zMzM5OTQ4NzJfWmlrenc/El%20final%20de%20la%20calle%20oak.mp4"
   };
 
-  let currentLang = "latino";       // idioma que está reproduciéndose
-  let selectedLang = currentLang;   // idioma elegido dentro del menú (temporal)
-  let menuOpen = false;             // 👈 bandera de estado del menú
-
-  // helper: mostrar/ocultar modal
-  function openMenu() {
-    selectedLang = currentLang;
-    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
-    langMenu.style.display = 'flex';
-    if (overlayBg) overlayBg.style.display = 'block';
-    video.pause();
-    menuOpen = true; // 👈 marcar que el menú está abierto
-  }
-
-  function closeMenu(hacerPlay = true) {
-    langMenu.style.display = 'none';
-    if (overlayBg) overlayBg.style.display = 'none';
-    if (hacerPlay) {
-      video.play().catch(()=>{});
-    }
-    menuOpen = false; // 👈 menú cerrado
-  }
-
-  // Selección de idioma: precarga la fuente (pero no reproduce aún)
-  function selectLanguage(lang) {
-    if (!videos[lang]) return;
-    const curTime = video.currentTime || 0;
-    selectedLang = lang;
-
-    // Marcar visualmente la opción
-    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
-    langIcon.textContent = (selectedLang === 'latino') ? 'chat' : 'subtitles';
-
-    source.src = videos[selectedLang];
-    video.load();
-
-    // Preparar listener antes de cargar
-const onLoadedMeta = () => {
-  try {
-    video.currentTime = Math.min(curTime, video.duration || curTime);
-  } catch {}
   
-  video.removeEventListener('loadedmetadata', onLoadedMeta);
-};
+  // ==========================================================
+  // ESTADO
+  // ==========================================================
 
-video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+  let currentLang = 'latino';
 
-source.src = videos[selectedLang];
-video.load();
+  let menuOpen = false;
 
-    console.log('Idioma seleccionado (precargando):', selectedLang);
+  let wasPlaying = false;
+
+  let savedTime = 0;
+
+  let changingVideo = false;
+
+
+  // ==========================================================
+  // OBTENER VIDEO.JS
+  // ==========================================================
+
+  function getPlayer() {
+
+    if (window.videoPlayer) {
+      return window.videoPlayer;
+    }
+
+    if (
+      typeof videojs !== 'undefined' &&
+      videoElement
+    ) {
+      return videojs.getPlayer('video');
+    }
+
+    return null;
   }
 
-  // Confirmar selección y reanudar
-  function confirmAndPlay() {
-  if (selectedLang && selectedLang !== currentLang) {
-    currentLang = selectedLang;
-  }
 
-  closeMenu(false);
+  // ==========================================================
+  // CONGELAR ÚLTIMO FOTOGRAMA
+  // ==========================================================
 
-  video.play()
-    .then(() => console.log("▶️ Idioma reproducido:", currentLang))
-    .catch(err => console.log("Error play idioma:", err));
-}
+  function freezeCurrentFrame() {
 
-  // Inicializar opción activa al cargar
-  document.addEventListener('DOMContentLoaded', () => {
-    langOptions.forEach(opt => {
-      opt.classList.toggle('active', opt.dataset.lang === currentLang);
-    });
-  });
+    if (
+      !freezeCanvas ||
+      !freezeContext ||
+      !videoElement
+    ) {
 
-  // Abrir menú
-  langBtnWrapper.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openMenu();
-  });
+      console.warn(
+        '⚠️ Canvas de congelado no disponible'
+      );
 
-  // Selección de idioma
-  langOptions.forEach(option => {
-    option.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const lang = option.dataset.lang;
-      selectLanguage(lang);
-    });
-  });
+      return false;
+    }
 
-  // Confirmación con botón "Listo"
-  if (langConfirmBtn) {
-    langConfirmBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      console.log('Listo clicado');
-      confirmAndPlay();
-    });
-  }
+    const width = videoElement.videoWidth;
+    const height = videoElement.videoHeight;
 
-  // 👉 Detectar click/touch global (desktop y móvil)
-  function handleOutsideClose(e) {
-    if (!menuOpen) return; // si no está abierto, nada
-    if (!langMenu.contains(e.target) && !langBtnWrapper.contains(e.target)) {
-      console.log('Clic/touch fuera: cerrar menú');
-      e.stopPropagation(); // evitar que afecte a controles
-      e.preventDefault();
-      confirmAndPlay();
+    console.log(
+      '🧊 CONGELANDO:',
+      width,
+      'x',
+      height,
+      '| tiempo:',
+      videoElement.currentTime
+    );
+
+    if (!width || !height) {
+
+      console.warn(
+        '⚠️ El video no tiene dimensiones todavía'
+      );
+
+      return false;
+    }
+
+    try {
+
+      freezeCanvas.width = width;
+      freezeCanvas.height = height;
+
+      freezeContext.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      freezeContext.drawImage(
+        videoElement,
+        0,
+        0,
+        width,
+        height
+      );
+
+      freezeCanvas.style.display = 'block';
+      freezeCanvas.style.zIndex = '99999';
+
+      console.log(
+        '🧊 FOTOGRAMA CONGELADO CORRECTAMENTE'
+      );
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        '❌ ERROR AL CONGELAR:',
+        error
+      );
+
+      return false;
     }
   }
 
-  document.addEventListener('click', handleOutsideClose, true);
-  document.addEventListener('touchstart', handleOutsideClose, true);
+
+  // ==========================================================
+  // QUITAR FOTOGRAMA
+  // ==========================================================
+
+  function removeFreezeFrame() {
+
+    if (!freezeCanvas) {
+      return;
+    }
+
+    freezeCanvas.style.display = 'none';
+
+    console.log(
+      '🎬 FOTOGRAMA CONGELADO RETIRADO'
+    );
+  }
+
+
+  // ==========================================================
+  // CHECKS
+  // ==========================================================
+
+  function updateChecks() {
+
+    langOptions.forEach(option => {
+
+      const active =
+        option.dataset.lang === currentLang;
+
+      option.classList.toggle(
+        'active',
+        active
+      );
+
+      const check =
+        option.querySelector('.lang-check');
+
+      if (check) {
+
+        check.style.opacity =
+          active ? '1' : '0';
+
+      }
+
+    });
+
+  }
+
+
+  // ==========================================================
+  // ABRIR MENÚ
+  // ==========================================================
+
+  langBtn.addEventListener('click', function (e) {
+
+    if (
+      e.target.closest('.lang-option') ||
+      e.target.closest('.lang-close')
+    ) {
+      return;
+    }
+
+    e.stopPropagation();
+
+    if (menuOpen) {
+      return;
+    }
+
+    const vp = getPlayer();
+
+    if (!vp) {
+
+      console.error(
+        '❌ No se encontró Video.js'
+      );
+
+      return;
+    }
+
+
+    // ======================================================
+    // GUARDAR ESTADO UNA SOLA VEZ
+    // ======================================================
+
+    wasPlaying = !vp.paused();
+
+    savedTime = vp.currentTime();
+
+    console.log(
+      '🌐 MENÚ ABIERTO'
+    );
+
+    console.log(
+      '⏱️ TIEMPO GUARDADO:',
+      savedTime
+    );
+
+    console.log(
+      '▶️ ESTABA REPRODUCIENDO:',
+      wasPlaying
+    );
+
+
+    // ======================================================
+    // PAUSAR
+    // ======================================================
+
+    vp.pause();
+
+
+    // ======================================================
+    // MOSTRAR MENÚ
+    // ======================================================
+
+    langMenu.style.display = 'flex';
+
+    if (overlay) {
+      overlay.style.display = 'block';
+    }
+
+    menuOpen = true;
+
+    updateChecks();
+
+  });
+
+
+  // ==========================================================
+  // CAMBIAR VIDEO / IDIOMA
+  // ==========================================================
+
+  langOptions.forEach(option => {
+
+    option.addEventListener('click', function (e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (changingVideo) {
+        return;
+      }
+
+      const lang =
+        option.dataset.lang;
+
+      const newUrl =
+        videos[lang];
+
+      if (!newUrl) {
+
+        console.error(
+          '❌ No existe URL para:',
+          lang
+        );
+
+        return;
+      }
+
+      const vp = getPlayer();
+
+      if (!vp) {
+
+        console.error(
+          '❌ Video.js no está disponible'
+        );
+
+        return;
+      }
+
+
+      // ====================================================
+      // BLOQUEAR CAMBIO
+      // ====================================================
+
+      changingVideo = true;
+
+
+      // ====================================================
+      // GUARDAR TIEMPO EXACTO
+      // ====================================================
+
+      const restoreTime =
+        vp.currentTime();
+
+      const resumeAfterChange =
+        wasPlaying;
+
+
+      console.log(
+        '======================================'
+      );
+
+      console.log(
+        '🌐 CAMBIO DE IDIOMA:',
+        lang
+      );
+
+      console.log(
+        '⏱️ TIEMPO:',
+        restoreTime
+      );
+
+      console.log(
+        '▶️ REANUDAR:',
+        resumeAfterChange
+      );
+
+
+      // ====================================================
+      // MARCAR CAMBIO DE IDIOMA
+      // ====================================================
+
+      window.languageChanging = true;
+
+      window.languageRestoreTime =
+        restoreTime;
+
+
+      // ====================================================
+      // ACTUALIZAR IDIOMA
+      // ====================================================
+
+      currentLang = lang;
+
+      savedTime = restoreTime;
+
+      updateChecks();
+
+
+      // ====================================================
+      // CERRAR MENÚ
+      // ====================================================
+
+      langMenu.style.display = 'none';
+
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+
+      menuOpen = false;
+
+
+      // ====================================================
+      // 🧊 CONGELAR ANTES DE CAMBIAR URL
+      // ====================================================
+
+      console.log(
+        '🧊 CONGELANDO FOTOGRAMA'
+      );
+
+      const frozen =
+        freezeCurrentFrame();
+
+
+      // ====================================================
+      // CAMBIAR FUENTE
+      // ====================================================
+
+      console.log(
+        '🔄 CAMBIANDO FUENTE:',
+        newUrl
+      );
+
+
+      /*
+       * IMPORTANTE:
+       *
+       * Aquí hacemos SOLO un cambio de src.
+       * No tocamos currentTime todavía.
+       *
+       * En móviles esto evita que el navegador
+       * intente buscar la posición mientras
+       * todavía está cargando el nuevo archivo.
+       */
+
+      vp.src({
+        src: newUrl,
+        type: 'video/mp4'
+      });
+
+
+      console.log(
+        '✅ NUEVA FUENTE ENVIADA'
+      );
+
+
+      // ====================================================
+      // CONTROL DE RESTAURACIÓN
+      // ====================================================
+
+      let positionRestored = false;
+
+
+      // ====================================================
+      // RESTAURAR POSICIÓN
+      // ====================================================
+
+      function restorePositionOnce() {
+
+        if (positionRestored) {
+          return;
+        }
+
+        const duration =
+          vp.duration();
+
+        if (
+          !isFinite(duration) ||
+          duration <= 0
+        ) {
+          return;
+        }
+
+
+        // ----------------------------------------------
+        // CALCULAR POSICIÓN SEGURA
+        // ----------------------------------------------
+
+        const safeTime =
+          Math.min(
+            restoreTime,
+            Math.max(
+              0,
+              duration - 0.5
+            )
+          );
+
+
+        console.log(
+          '🎯 RESTAURANDO UNA SOLA VEZ:',
+          safeTime
+        );
+
+
+        try {
+
+          /*
+           * IMPORTANTE:
+           *
+           * Usamos Video.js.
+           * NO hacemos además:
+           *
+           * videoElement.currentTime = ...
+           *
+           * porque eso puede provocar una segunda búsqueda
+           * especialmente en móviles.
+           */
+
+          vp.currentTime(
+            safeTime
+          );
+
+
+          window.languageRestoreTime =
+            safeTime;
+
+          positionRestored = true;
+
+
+          console.log(
+            '✅ POSICIÓN RESTAURADA:',
+            safeTime
+          );
+
+          return true;
+
+        } catch (error) {
+
+          console.warn(
+            '⚠️ No se pudo restaurar:',
+            error
+          );
+
+          return false;
+        }
+
+      }
+
+
+      // ====================================================
+      // METADATA
+      // ====================================================
+
+      vp.one(
+        'loadedmetadata',
+        function () {
+
+          console.log(
+            '📀 METADATA DEL NUEVO VIDEO'
+          );
+
+          /*
+           * NO restauramos aquí.
+           *
+           * En móviles es demasiado pronto.
+           * Esperamos a canplay.
+           */
+
+        }
+      );
+
+
+      // ====================================================
+      // CANPLAY
+      // ====================================================
+
+      vp.one(
+        'canplay',
+        function () {
+
+          console.log(
+            '🎬 CANPLAY DEL NUEVO VIDEO'
+          );
+
+
+          // ----------------------------------------------
+          // RESTAURAR POSICIÓN UNA SOLA VEZ
+          // ----------------------------------------------
+
+          restorePositionOnce();
+
+
+          // ----------------------------------------------
+          // SI ESTABA PAUSADO
+          // ----------------------------------------------
+
+          if (!resumeAfterChange) {
+
+            console.log(
+              '⏸️ EL VIDEO PERMANECE PAUSADO'
+            );
+
+            changingVideo = false;
+
+            window.languageChanging =
+              false;
+
+            window.languageRestoreTime =
+              null;
+
+            return;
+          }
+
+
+          // ==================================================
+          // ESPERAR AL SEEK
+          // ==================================================
+
+          const startPlayback =
+            function () {
+
+              console.log(
+                '▶️ INICIANDO NUEVO VIDEO EN:',
+                vp.currentTime()
+              );
+
+
+              const playPromise =
+                vp.play();
+
+
+              if (
+                playPromise &&
+                typeof playPromise.then === 'function'
+              ) {
+
+                playPromise
+                  .then(function () {
+
+                    console.log(
+                      '✅ NUEVO VIDEO REPRODUCIÉNDOSE'
+                    );
+
+                    console.log(
+                      '⏱️ TIEMPO ACTUAL:',
+                      vp.currentTime()
+                    );
+
+
+                    // --------------------------------
+                    // QUITAR CONGELADO
+                    // --------------------------------
+
+                    setTimeout(
+                      function () {
+
+                        removeFreezeFrame();
+
+                      },
+                      80
+                    );
+
+
+                    changingVideo = false;
+
+                    window.languageChanging =
+                      false;
+
+                    window.languageRestoreTime =
+                      null;
+
+                  })
+                  .catch(function (error) {
+
+                    console.warn(
+                      '⚠️ Error al reproducir:',
+                      error
+                    );
+
+                    /*
+                     * Segundo intento solamente si
+                     * Video.js falla.
+                     */
+
+                    videoElement.play()
+                      .then(function () {
+
+                        console.log(
+                          '✅ REANUDADO MEDIANTE HTML5'
+                        );
+
+
+                        setTimeout(
+                          function () {
+
+                            removeFreezeFrame();
+
+                          },
+                          80
+                        );
+
+
+                        changingVideo = false;
+
+                        window.languageChanging =
+                          false;
+
+                        window.languageRestoreTime =
+                          null;
+
+                      })
+                      .catch(function (error2) {
+
+                        console.warn(
+                          '⚠️ HTML5 tampoco pudo reproducir:',
+                          error2
+                        );
+
+                        /*
+                         * Si no se pudo reproducir,
+                         * dejamos el fotograma congelado
+                         * fuera para no bloquear el video.
+                         */
+
+                        removeFreezeFrame();
+
+                        changingVideo = false;
+
+                        window.languageChanging =
+                          false;
+
+                        window.languageRestoreTime =
+                          null;
+
+                      });
+
+                  });
+
+              } else {
+
+                console.log(
+                  '▶️ PLAY EJECUTADO'
+                );
+
+                setTimeout(
+                  function () {
+
+                    removeFreezeFrame();
+
+                  },
+                  100
+                );
+
+                changingVideo = false;
+
+                window.languageChanging =
+                  false;
+
+                window.languageRestoreTime =
+                  null;
+
+              }
+
+            };
+
+
+          // ==================================================
+          // ESPERAR SEEKED
+          // ==================================================
+
+          if (
+            positionRestored &&
+            Math.abs(
+              vp.currentTime() -
+              restoreTime
+            ) > 0.3
+          ) {
+
+            console.log(
+              '⏳ ESPERANDO SEEKED...'
+            );
+
+            vp.one(
+              'seeked',
+              function () {
+
+                console.log(
+                  '🎯 SEEKED:',
+                  vp.currentTime()
+                );
+
+                startPlayback();
+
+              }
+            );
+
+          } else {
+
+            /*
+             * Si el navegador ya quedó exactamente
+             * en la posición, reproducimos directamente.
+             */
+
+            startPlayback();
+
+          }
+
+        }
+      );
+
+
+      // ====================================================
+      // RESPALDO
+      // ====================================================
+
+      /*
+       * Algunos navegadores pueden disparar loadeddata
+       * antes de canplay.
+       *
+       * NO cambiamos currentTime aquí.
+       *
+       * Solo dejamos registro.
+       */
+
+      vp.one(
+        'loadeddata',
+        function () {
+
+          console.log(
+            '📦 LOADEDDATA DEL NUEVO VIDEO'
+          );
+
+        }
+      );
+
+    });
+
+  });
+
+
+  // ==========================================================
+  // CERRAR X
+  // ==========================================================
+
+  langClose.addEventListener(
+    'click',
+    function (e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      langMenu.style.display = 'none';
+
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+
+      menuOpen = false;
+
+      console.log(
+        '✖️ MENÚ CERRADO'
+      );
+
+    }
+  );
+
+
+  // ==========================================================
+  // NO CERRAR AL TOCAR DENTRO
+  // ==========================================================
+
+  langMenu.addEventListener(
+    'click',
+    function (e) {
+
+      e.stopPropagation();
+
+    }
+  );
+
+
+  // ==========================================================
+  // INICIAL
+  // ==========================================================
+
+  updateChecks();
+
+
+  console.log(
+    '✅ SISTEMA DE IDIOMAS CARGADO'
+  );
 
 })();
 */

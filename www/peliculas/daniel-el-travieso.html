@@ -371,6 +371,7 @@
   <video
   id="video"
   class="video-js vjs-default-skin"
+  crossorigin="anonymous"
   preload="auto"
   width="100%"
   height="100%"
@@ -379,7 +380,10 @@
   <source id="videoSource" src="https://od.lk/s/M18zMTk3ODA4ODhf/Daniel%20el%20travieso.mp4" type="video/mp4" />
 </video>
  <!-- Loader -->
- <div class="video-loader hidden" id="videoLoader">
+ <!-- CONGELAR IMAGEN DURANTE CAMBIO DE IDIOMA -->
+<canvas id="languageFreezeFrame"></canvas>
+<!-- Loader -->
+<div class="video-loader hidden" id="videoLoader">
   <div class="spinner"></div>
 </div>
 
@@ -526,14 +530,31 @@ window.movieId = "daniel-el-travieso-12139";
 
 <script>
 (function () {
-  
-  const source = document.getElementById("videoSource");
-  const langBtnWrapper = document.getElementById("langBtnWrapper");
-  const langMenu = document.getElementById("langMenu");
-  const langOptions = document.querySelectorAll(".lang-option");
-  const langIcon = document.getElementById("langIcon");
-  const langConfirmBtn = document.getElementById("langConfirmBtn");
-  const overlayBg = document.getElementById("overlay");
+
+  // ==========================================================
+  // ELEMENTOS
+  // ==========================================================
+
+  const langBtn = document.getElementById('langBtnWrapper');
+  const langMenu = document.getElementById('langMenu');
+  const langClose = document.getElementById('langCloseBtn');
+  const langOptions = document.querySelectorAll('#langMenu .lang-option');
+  const overlay = document.getElementById('overlay');
+
+  const videoElement = document.getElementById('video');
+
+  const freezeCanvas =
+    document.getElementById('languageFreezeFrame');
+
+  const freezeContext =
+    freezeCanvas
+      ? freezeCanvas.getContext('2d')
+      : null;
+
+
+  // ==========================================================
+  // VIDEOS
+  // ==========================================================
 
   const videos = {
     latino: "https://od.lk/s/M18zMTk3ODA4ODhf/Daniel%20el%20travieso.mp4",
