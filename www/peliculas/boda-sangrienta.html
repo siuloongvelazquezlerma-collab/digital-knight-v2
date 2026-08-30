@@ -564,6 +564,7 @@ window.movieId = "boda-sangrienta-567609";
   let menuOpen = false;             // 👈 bandera de estado del menú
   let wasPlaying = false;           // 👈 si estaba reproduciéndose al abrir el menú
   let pendingPlay = false;          // 👈 play() pendiente tras loadedmetadata
+  let suppressClickUntil = 0;       // 👈 bloquea el "ghost click" móvil tras tocar una opción
 
   // helper: reproducir sin bloquear
   function playVideo() {
@@ -717,9 +718,20 @@ window.movieId = "boda-sangrienta-567609";
       const onLoadedMeta = () => {
         if (myToken !== switchToken) return;
         if (restoreTime != null) {
-          try {
-            video.currentTime = Math.min(restoreTime, video.duration || restoreTime);
-          } catch (e) {}
+          const seekTo = () => {
+            try {
+              video.currentTime = Math.min(restoreTime, video.duration || restoreTime);
+            } catch (e) {}
+          };
+          seekTo();
+          // 📱 Móvil: algunos WebViews descartan el seek hecho en loadedmetadata
+          // (sin datos aún). Verificar al 'canplay' y re-intentar una vez.
+          const verifySeek = () => {
+            if (myToken !== switchToken) return;
+            if (restoreTime > 1 && Math.abs(video.currentTime - restoreTime) > 1.5) seekTo();
+          };
+          if (vjsPlayer) vjsPlayer.one("canplay", verifySeek);
+          else video.addEventListener("canplay", verifySeek, { once: true });
         }
         if (pendingPlay) {
           pendingPlay = false;
@@ -776,6 +788,7 @@ window.movieId = "boda-sangrienta-567609";
 
     // Cerrar el menú automáticamente (sin botón "Listo")
     closeMenu();
+    suppressClickUntil = Date.now() + 800; // evita que el click sintetizado del toque golpee al video/botones
 
     if (lang === currentLang) {
       // Mismo idioma: solo reanudar el estado anterior
@@ -843,6 +856,15 @@ window.movieId = "boda-sangrienta-567609";
     option.addEventListener('touchstart', fire, { passive: true }); // Android/WebView/TWA
     option.addEventListener('click', fire);                         // PC
   }
+
+  // 📱 Móvil: bloquear el "ghost click" sintetizado tras cerrar el menú con un toque,
+  // para que no golpee al video ni a los botones de controles
+  document.addEventListener('click', (e) => {
+    if (Date.now() < suppressClickUntil) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, true);
 
 })();
 
