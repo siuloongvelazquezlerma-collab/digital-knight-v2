@@ -36,7 +36,7 @@
     <link rel="manifest" href="../manifest.json">
    <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="../peliculas.css">
+  <link rel="stylesheet" href="../peliculas.css?v=2">
   
   <style>
    .cover::before {
@@ -212,7 +212,7 @@
 <div class="tabs tabs-secondary">
   <!-- Logo a la izquierda -->
   <a href="../main.html">
-    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+    <img src="https://opendrive.com/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
   </a>
 
   <!-- Tabs centradas -->
@@ -239,7 +239,7 @@
 
     <!-- PERFIL -->
     <a href="../perfil digital Knight 2025.html" class="header-only">
-      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+      <img src="https://opendrive.com/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
     </a>
   </div>
 </div>
@@ -301,7 +301,7 @@
           </div>
       
           <!-- Botón de Descargar -->
-          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4')">
+          <div class="action-item download-action" onclick="descargarPelicula('https://opendrive.com/d/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4')">
             <i class="material-icons">arrow_downward</i>
             <span class="underline"></span>
             Descargar
@@ -371,8 +371,39 @@
   height="100%"
   poster="https://wallpapercave.com/wp/wp5415042.jpg"
   data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
-  <source id="videoSource" src="https://od.lk/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4" type="video/mp4" />
+  <source id="videoSource" src="https://opendrive.com/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4" type="video/mp4" />
 </video>
+<!-- Menú de idioma estilo Netflix (dentro del player para quedar SIEMPRE sobre el video) -->
+<div id="nfMenu" class="nf-overlay" style="display:none;">
+  <div class="nf-inner">
+    <button class="nf-close" id="nfClose" aria-label="Cerrar">
+      <span class="material-icons">close</span>
+    </button>
+
+    <div class="nf-section">
+      <h2 class="nf-title">Audio</h2>
+      <div class="nf-list">
+        <div class="nf-option" style="pointer-events:none;"><span class="nf-label">Detectando idiomas disponibles…</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nf-hint">Puedes cambiar de idioma mientras se reproduce la película</div>
+</div>
+
+<!-- Frame congelado: mantiene la imagen visible durante el cambio de idioma -->
+<canvas id="freezeCanvas" style="
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.25s ease;
+  background: #000;
+"></canvas>
 <!-- Loader -->
 <div class="video-loader hidden" id="videoLoader">
   <div class="spinner"></div>
@@ -408,18 +439,8 @@
   
          <!-- Botón de idioma con mini menú -->
 
-<div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+<div class="icon-btn" id="langBtnWrapper" style="display:flex; align-items:center;">
   <span class="material-icons" id="langIcon">chat</span>
-  
-  <div id="langMenu" class="lang-menu">
-    <div class="lang-option" data-lang="latino">
-      <span class="check"></span> Español (Latino)
-    </div>
-    <div class="lang-option" data-lang="ingles">
-      <span class="check"></span> Inglés (Subtitulada)
-    </div>
-    <button id="langConfirmBtn">Listo</button>
-  </div>
 </div>
 
   
@@ -509,90 +530,271 @@ window.movieId = "boda-sangrienta-567609";
 (function () {
   
   const source = document.getElementById("videoSource");
+  const video = document.getElementById("video"); // referencia explícita (no depender del id global)
+
+  // Reproductor Video.js si está disponible (el <video> usa data-setup)
+  const vjsPlayer = (window.videojs && typeof videojs.getPlayer === "function")
+    ? videojs.getPlayer("video")
+    : null;
   const langBtnWrapper = document.getElementById("langBtnWrapper");
-  const langMenu = document.getElementById("langMenu");
-  const langOptions = document.querySelectorAll(".lang-option");
+  const langMenu = document.getElementById("nfMenu"); // overlay estilo Netflix
+  const nfCloseBtn = document.getElementById("nfClose");
+  const nfList = document.querySelector(".nf-list");
   const langIcon = document.getElementById("langIcon");
-  const langConfirmBtn = document.getElementById("langConfirmBtn");
-  const overlayBg = document.getElementById("overlay");
 
   const videos = {
-    latino: "https://od.lk/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4",
-    ingles: "https://od.lk/s/M18zMzQ4MTM5OTBfcGlIcHg/Boda%20Sangrienta%20eng.mp4"
+    latino: "https://opendrive.com/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4",
+    ingles: "https://opendrive.com/s/M18zMzQ4MTM5OTBfcGlIcHg/Boda%20Sangrienta%20eng.mp4",
+    inglessub: "https://opendrive.com/s/M18zMzQ5NjMwOTRfRWtMZTk/Boda%20sangrienta%20sub.mp4"
   };
+
+  // Catálogo de idiomas: agrega más entradas aquí (y en `videos`) y el menú
+  // las mostrará solas si el MP4 existe
+  const LANGS = [
+    { id: "latino", label: "Español (América Latina)" },
+    { id: "ingles", label: "Inglés - Original" },
+    { id: "inglessub", label: "Inglés (Subtitulada)" }
+  ];
+
+  let langOptions = [];            // opciones renderizadas en el menú
+  let availableLangs = null;       // idiomas cuyo MP4 existe (null = aún sin verificar)
 
   let currentLang = "latino";       // idioma que está reproduciéndose
   let selectedLang = currentLang;   // idioma elegido dentro del menú (temporal)
   let menuOpen = false;             // 👈 bandera de estado del menú
+  let wasPlaying = false;           // 👈 si estaba reproduciéndose al abrir el menú
+  let pendingPlay = false;          // 👈 play() pendiente tras loadedmetadata
 
-  // helper: mostrar/ocultar modal
+  // helper: reproducir sin bloquear
+  function playVideo() {
+    const p = vjsPlayer ? vjsPlayer.play() : video.play();
+    if (p && typeof p.catch === 'function') {
+      p.then(() => console.log('▶️ Reproduciendo:', currentLang))
+       .catch(err => console.log('Error play idioma:', err));
+    }
+  }
+
+  function resumeIfPlaying() {
+    if (wasPlaying) {
+      wasPlaying = false;
+      playVideo();
+    }
+  }
+
+  // ---- Precarga real de los otros idiomas (elementos ocultos vivos) ----
+  const warmPool = {};   // elementos <video> ocultos que mantienen datos en memoria
+  const directUrls = {}; // caché de la URL final (sin redirect 302 de opendrive.com)
+  let switchToken = 0;   // evita cargas en cascada si el usuario toca rápido
+
+  // Resuelve el redirect de OpenDrive UNA vez por idioma y cachea la URL final.
+  // Sin headers custom (no dispara preflight CORS); se aborta tras las cabeceras
+  // para no descargar el cuerpo del archivo.
+  async function resolveUrl(lang) {
+    if (directUrls[lang]) return directUrls[lang];
+    const ctrl = new AbortController();
+    try {
+      const res = await fetch(videos[lang], { signal: ctrl.signal });
+      if (res.ok && res.url) {
+        directUrls[lang] = res.url; // URL final (ya sin el 302 de opendrive.com)
+      }
+    } catch (e) { /* sin CORS/red: usar la URL original */ }
+    ctrl.abort(); // detener la descarga del cuerpo; solo necesitábamos res.url
+    return directUrls[lang] || videos[lang];
+  }
+
+  // Precarga un idioma con un <video> oculto en modo "auto" y lo mantiene vivo
+  // para que al elegirlo el cambio sea prácticamente instantáneo
+  function warmLanguage(lang) {
+    if (warmPool[lang] || lang === currentLang) return;
+    warmPool[lang] = true;
+    resolveUrl(lang).then(url => {
+      const v = document.createElement("video");
+      v.preload = "auto";
+      v.muted = true;
+      v.style.display = "none";
+      v.src = url;
+      v.load();
+      // El elemento permanece vivo durante la sesión (en warmPool)
+      warmPool[lang] = v;
+    });
+  }
+
+  function warmOthers() {
+    const langs = availableLangs || Object.keys(videos);
+    langs.forEach(lang => warmLanguage(lang));
+  }
+
+  // ---- Detección automática de MP4 disponibles y render del menú ----
+
+  // Verifica si el MP4 de un idioma existe (HEAD con redirect resuelto)
+  async function probeLang(lang) {
+    try {
+      const ctrl = new AbortController();
+      const res = await fetch(videos[lang], { method: "HEAD", signal: ctrl.signal });
+      ctrl.abort();
+      return res.ok || res.status === 206;
+    } catch (e) {
+      return true; // si no se puede verificar (red/CORS), mostrar la opción
+    }
+  }
+
+  function renderLangMenu() {
+    nfList.innerHTML = "";
+    availableLangs.forEach(id => {
+      const cfg = LANGS.find(l => l.id === id);
+      if (!cfg) return;
+      const div = document.createElement("div");
+      div.className = "nf-option" + (id === currentLang ? " selected" : "");
+      div.dataset.lang = id;
+      div.innerHTML = '<span class="nf-check material-icons">check</span><span class="nf-label"></span>';
+      div.querySelector(".nf-label").textContent = cfg.label;
+      bindOption(div);
+      nfList.appendChild(div);
+    });
+    langOptions = nfList.querySelectorAll(".nf-option");
+  }
+
+  // Al cargar: verificar qué MP4 existen y armar el menú solo con esos
+  (async function initLangMenu() {
+    const results = await Promise.all(LANGS.map(async l => ({ id: l.id, ok: await probeLang(l.id) })));
+    availableLangs = results.filter(r => r.ok).map(r => r.id);
+    if (!availableLangs.length) availableLangs = Object.keys(videos); // fallback: mostrar todos
+    if (!availableLangs.includes(currentLang)) currentLang = availableLangs[0];
+    selectedLang = currentLang;
+    renderLangMenu();
+    console.log('Idiomas disponibles:', availableLangs);
+  })();
+
+  // Precargar en cuanto la película arranque (3 s después, para no competir
+  // con el búfer inicial) y también al abrir el menú de idioma
+  video.addEventListener("playing", function onFirstPlaying() {
+    video.removeEventListener("playing", onFirstPlaying);
+    setTimeout(warmOthers, 3000);
+  }, { once: true });
+
+  // ---- Frame congelado: evita que la imagen desaparezca durante el cambio ----
+  const freezeCanvas = document.getElementById("freezeCanvas");
+
+  function freezeFrame() {
+    try {
+      if (video.readyState >= 2 && video.videoWidth) {
+        freezeCanvas.width = video.videoWidth;
+        freezeCanvas.height = video.videoHeight;
+        // Copiar el frame actual (drawImage funciona aunque el canvas quede "tainted")
+        freezeCanvas.getContext("2d").drawImage(video, 0, 0);
+        // Igualar el object-fit del video (contain / cover según el modo)
+        freezeCanvas.style.objectFit = getComputedStyle(video).objectFit || "contain";
+        freezeCanvas.style.display = "block";
+        freezeCanvas.style.opacity = "1";
+        return true;
+      }
+    } catch (e) { /* si falla, el cambio sigue siendo funcional */ }
+    return false;
+  }
+
+  function unfreeze() {
+    if (freezeCanvas.style.display === "none") return;
+    freezeCanvas.style.opacity = "0";
+    setTimeout(() => {
+      if (freezeCanvas.style.opacity === "0") {
+        freezeCanvas.style.display = "none";
+      }
+    }, 300);
+  }
+
+  // helper: cambiar de fuente (Video.js o elemento <video>) y restaurar el tiempo.
+  // Se ejecuta UNA sola vez por cambio; sin duplicar source.src / video.load()
+  function switchTo(lang, restoreTime) {
+    const myToken = ++switchToken;
+
+    const applySource = (url) => {
+      if (myToken !== switchToken) return; // el usuario ya eligió otro idioma
+
+      const onLoadedMeta = () => {
+        if (myToken !== switchToken) return;
+        if (restoreTime != null) {
+          try {
+            video.currentTime = Math.min(restoreTime, video.duration || restoreTime);
+          } catch (e) {}
+        }
+        if (pendingPlay) {
+          pendingPlay = false;
+          playVideo(); // continuar automáticamente si estaba reproduciéndose
+        }
+      };
+
+      // Quitar el frame congelado cuando el nuevo idioma ya muestra imagen
+      // ('playing' si reanuda solo; 'seeked' si estaba pausado)
+      video.addEventListener("playing", unfreeze, { once: true });
+      video.addEventListener("seeked", unfreeze, { once: true });
+
+      if (vjsPlayer) {
+        vjsPlayer.one("loadedmetadata", onLoadedMeta);
+        vjsPlayer.src({ src: url, type: "video/mp4" });
+      } else {
+        video.addEventListener("loadedmetadata", onLoadedMeta, { once: true });
+        source.src = url;
+        video.load();
+      }
+    };
+
+    resolveUrl(lang).then(applySource);
+  }
+
+  // helper: mostrar/ocultar el overlay estilo Netflix
   function openMenu() {
     selectedLang = currentLang;
-    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
-    langMenu.style.display = 'flex';
-    if (overlayBg) overlayBg.style.display = 'block';
+    langOptions.forEach(opt => opt.classList.toggle('selected', opt.dataset.lang === selectedLang));
+    langMenu.classList.add('open');
+    langMenu.style.display = 'flex'; // inline: gana sobre el display:none inicial
+    // Asegurar que los otros idiomas estén precargados al abrir el menú
+    warmOthers();
+    // Guardar si estaba reproduciéndose antes de pausar
+    wasPlaying = vjsPlayer ? !vjsPlayer.paused() : !video.paused;
     video.pause();
-    menuOpen = true; // 👈 marcar que el menú está abierto
+    menuOpen = true;
   }
 
-  function closeMenu(hacerPlay = true) {
+  function closeMenu() {
+    langMenu.classList.remove('open');
     langMenu.style.display = 'none';
-    if (overlayBg) overlayBg.style.display = 'none';
-    if (hacerPlay) {
-      video.play().catch(()=>{});
-    }
-    menuOpen = false; // 👈 menú cerrado
+    menuOpen = false;
   }
 
-  // Selección de idioma: precarga la fuente (pero no reproduce aún)
+  // Selección de idioma: cambia la fuente INMEDIATAMENTE al tocar la opción
   function selectLanguage(lang) {
     if (!videos[lang]) return;
-    const curTime = video.currentTime || 0;
     selectedLang = lang;
 
     // Marcar visualmente la opción
-    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
+    langOptions.forEach(opt => opt.classList.toggle('selected', opt.dataset.lang === selectedLang));
     langIcon.textContent = (selectedLang === 'latino') ? 'chat' : 'subtitles';
 
-    source.src = videos[selectedLang];
-    video.load();
+    // Cerrar el menú automáticamente (sin botón "Listo")
+    closeMenu();
 
-    // Preparar listener antes de cargar
-const onLoadedMeta = () => {
-  try {
-    video.currentTime = Math.min(curTime, video.duration || curTime);
-  } catch {}
-  
-  video.removeEventListener('loadedmetadata', onLoadedMeta);
-};
+    if (lang === currentLang) {
+      // Mismo idioma: solo reanudar el estado anterior
+      resumeIfPlaying();
+      return;
+    }
 
-video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+    // 1. Guardar el tiempo actual antes de cambiar la fuente
+    const curTime = video.currentTime || 0;
+    currentLang = lang;
 
-source.src = videos[selectedLang];
-video.load();
+    // 2. Si estaba reproduciéndose, continuar automáticamente tras la carga
+    pendingPlay = wasPlaying;
+    wasPlaying = false;
 
-    console.log('Idioma seleccionado (precargando):', selectedLang);
+    // Congelar el frame actual para que la imagen no desaparezca durante el cambio
+    freezeFrame();
+
+    // 3-4. Cambiar la fuente INMEDIATAMENTE (una sola vez, con URL directa cacheada)
+    switchTo(lang, curTime);
+
+    console.log('Idioma cambiado (cambio automático):', currentLang);
   }
-
-  // Confirmar selección y reanudar
-  function confirmAndPlay() {
-  if (selectedLang && selectedLang !== currentLang) {
-    currentLang = selectedLang;
-  }
-
-  closeMenu(false);
-
-  video.play()
-    .then(() => console.log("▶️ Idioma reproducido:", currentLang))
-    .catch(err => console.log("Error play idioma:", err));
-}
-
-  // Inicializar opción activa al cargar
-  document.addEventListener('DOMContentLoaded', () => {
-    langOptions.forEach(opt => {
-      opt.classList.toggle('active', opt.dataset.lang === currentLang);
-    });
-  });
 
   // Abrir menú
   langBtnWrapper.addEventListener('click', (e) => {
@@ -600,37 +802,35 @@ video.load();
     openMenu();
   });
 
-  // Selección de idioma
-  langOptions.forEach(option => {
-    option.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const lang = option.dataset.lang;
-      selectLanguage(lang);
-    });
+  // Cerrar con la ✕ (reanuda el estado anterior)
+  nfCloseBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeMenu();
+    if (!pendingPlay) resumeIfPlaying();
   });
 
-  // Confirmación con botón "Listo"
-  if (langConfirmBtn) {
-    langConfirmBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      console.log('Listo clicado');
-      confirmAndPlay();
-    });
-  }
-
-  // 👉 Detectar click/touch global (desktop y móvil)
-  function handleOutsideClose(e) {
-    if (!menuOpen) return; // si no está abierto, nada
-    if (!langMenu.contains(e.target) && !langBtnWrapper.contains(e.target)) {
-      console.log('Clic/touch fuera: cerrar menú');
-      e.stopPropagation(); // evitar que afecte a controles
-      e.preventDefault();
-      confirmAndPlay();
+  // Cerrar al tocar el fondo del overlay fuera de las opciones (mantiene ✕ como botón principal)
+  langMenu.addEventListener('click', (e) => {
+    if (e.target === langMenu) {
+      closeMenu();
+      if (!pendingPlay) resumeIfPlaying();
     }
-  }
+  });
 
-  document.addEventListener('click', handleOutsideClose, true);
-  document.addEventListener('touchstart', handleOutsideClose, true);
+  // Selección de idioma — disparo INMEDIATO en touchstart (móvil) + click (PC)
+  function bindOption(option) {
+    const lang = option.dataset.lang;
+    let lastFired = 0;
+    const fire = (e) => {
+      e.stopPropagation();
+      const now = Date.now();
+      if (now - lastFired < 600) return; // touchstart + click duplicado
+      lastFired = now;
+      selectLanguage(lang);
+    };
+    option.addEventListener('touchstart', fire, { passive: true }); // Android/WebView/TWA
+    option.addEventListener('click', fire);                         // PC
+  }
 
 })();
 

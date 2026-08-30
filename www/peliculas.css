@@ -1733,6 +1733,7 @@ z-index: 600000;
     max-width: 520px;
 }
 
+
 .countdown-title {
     font-size: 13px;
     font-weight: 600;
@@ -1853,5 +1854,150 @@ z-index: 600000;
   .suggested-section {
     animation: pageRiseIn 1s ease-out both;
     animation-delay: 0.5s;
+  }
+}
+
+/* ============================================================
+   Menú de Audio estilo Netflix (piloto: boda-sangrienta.html)
+   ============================================================ */
+.nf-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 12000;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  animation: nfFadeIn 0.2s ease;
+}
+
+.nf-overlay.open {
+  display: flex;
+}
+
+@keyframes nfFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.nf-inner {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 22px 28px 0;
+  position: relative;
+  flex: 1;
+}
+
+.nf-close {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  opacity: 0.9;
+  z-index: 2;
+}
+
+.nf-close:active,
+.nf-close:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.nf-close .material-icons {
+  font-size: 32px;
+}
+
+.nf-section {
+  max-width: 520px;
+}
+
+.nf-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  letter-spacing: 0.3px;
+}
+
+.nf-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.nf-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 8px;
+  font-size: 19px;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  user-select: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.nf-option:active,
+.nf-option:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nf-check {
+  font-size: 24px;
+  visibility: hidden;
+  flex-shrink: 0;
+}
+
+.nf-option.selected {
+  color: #fff;
+  font-weight: 700;
+}
+
+.nf-option.selected .nf-check {
+  visibility: visible;
+}
+
+.nf-hint {
+  align-self: center;
+  margin: 0 20px 26px;
+  padding: 14px 22px;
+  background: rgba(45, 45, 48, 0.95);
+  border-radius: 6px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+/* Móvil: tamaños compactos */
+@media (max-width: 600px) {
+  .nf-inner {
+    padding: 18px 20px 0;
+  }
+  .nf-close {
+    top: 16px;
+    right: 14px;
+  }
+  .nf-close .material-icons {
+    font-size: 28px;
+  }
+  .nf-title {
+    font-size: 19px;
+  }
+  .nf-option {
+    font-size: 17px;
+    padding: 18px 6px;
+  }
+  .nf-hint {
+    font-size: 13px;
+    margin-bottom: 20px;
   }
 }

@@ -92,8 +92,14 @@ function updateBufferBar() {
     // Compatibilidad con el estilo anterior (--buffer-width)
     document.querySelector(".progress")?.style.setProperty("--buffer-width", `${currentBufferPercent}%`);
 
-    // Barra de buffer dedicada (div .buffer-bar dentro del contenedor)
-    if (bufferBar) bufferBar.style.width = `${currentBufferPercent}%`;
+    // Barra de buffer dedicada (div .buffer-bar dentro del contenedor).
+    // 👇 Se mide sobre el SLIDER (flex:1), no sobre el contenedor completo,
+    //    para que nunca invada la etiqueta de tiempo al acercarse al 100%
+    if (bufferBar) {
+      const slider = document.querySelector(".progress");
+      const sliderWidth = (slider && slider.clientWidth) ? slider.clientWidth : 0;
+      bufferBar.style.width = `${(currentBufferPercent / 100) * sliderWidth}px`;
+    }
   } catch (err) {
     console.warn("No se pudo leer buffer:", err);
   }
@@ -309,11 +315,11 @@ function updateWatchButton() {
 
   const effectiveTime = Math.max(savedTime, currentTime);
 
-  if (effectiveTime >= totalDuration * 0.9) {
+  if (effectiveTime >= totalDuration * 0.8) {
     // Caso: Volver a ver
     watchButtonIcon.textContent = "replay";   // 👈 Cambié restart_alt por replay
     watchButtonText.textContent = "Volver a ver";
-    restartButton.style.display = "none";     // 👈 Oculto el botón extra
+    restartButton.style.display = "none";     // 👈 Oculto el botón extra (sin Reiniciar a partir del 80%)
     progressBar.style.display = "block";
   } else if (effectiveTime > 5) {
     // Caso: Continuar viendo
@@ -349,7 +355,7 @@ function updateWatchButtonFromStorage() {
 
   if (savedTime > 10) {
     const percentPlayed = savedTime / savedDuration;
-    if (percentPlayed >= 0.9) {
+    if (percentPlayed >= 0.8) {
       // Caso: Volver a ver
       watchButtonIcon.textContent = "replay";   // 👈 Cambiado
       watchButtonText.textContent = "Volver a ver";
@@ -463,6 +469,9 @@ player.style.display = 'none';
 cover.style.display = 'flex';
 video.pause();
 playPauseBtn.textContent = 'play_arrow';
+
+// 👇 Refrescar los botones de la portada según el progreso guardado
+updateWatchButtonFromStorage();
 }
 
 function cerrarReproductor() {
