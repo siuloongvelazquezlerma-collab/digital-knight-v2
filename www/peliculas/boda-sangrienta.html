@@ -575,6 +575,7 @@ window.movieId = "boda-sangrienta-567609";
 
 <script>
 
+
 (function () {
 
   // ==========================================================
@@ -586,15 +587,16 @@ window.movieId = "boda-sangrienta-567609";
   const langClose = document.getElementById('langCloseBtn');
   const langOptions = document.querySelectorAll('#langMenu .lang-option');
   const overlay = document.getElementById('overlay');
-  const langIcon = document.getElementById('langIcon');
 
   const videoElement = document.getElementById('video');
 
   const freezeCanvas =
-  document.getElementById('languageFreezeFrame');
+    document.getElementById('languageFreezeFrame');
 
-const freezeContext =
-  freezeCanvas ? freezeCanvas.getContext('2d') : null;
+  const freezeContext =
+    freezeCanvas
+      ? freezeCanvas.getContext('2d')
+      : null;
 
 
   // ==========================================================
@@ -650,121 +652,108 @@ const freezeContext =
     return null;
   }
 
+
   // ==========================================================
-// 🎬 CONGELAR ÚLTIMO FOTOGRAMA
-// ==========================================================
+  // CONGELAR ÚLTIMO FOTOGRAMA
+  // ==========================================================
 
-// ==========================================================
-// 🧊 CONGELAR ÚLTIMO FOTOGRAMA
-// ==========================================================
+  function freezeCurrentFrame() {
 
-function freezeCurrentFrame() {
+    if (
+      !freezeCanvas ||
+      !freezeContext ||
+      !videoElement
+    ) {
 
-  if (
-    !freezeCanvas ||
-    !freezeContext ||
-    !videoElement
-  ) {
+      console.warn(
+        '⚠️ Canvas de congelado no disponible'
+      );
 
-    console.warn(
-      '⚠️ Canvas de congelado no disponible'
-    );
+      return false;
+    }
 
-    return false;
-  }
-
-
-  const width = videoElement.videoWidth;
-  const height = videoElement.videoHeight;
-
-
-  console.log(
-    '🧊 INTENTANDO CONGELAR',
-    '| videoWidth:', width,
-    '| videoHeight:', height,
-    '| tiempo:', videoElement.currentTime
-  );
-
-
-  if (!width || !height) {
-
-    console.warn(
-      '⚠️ El video todavía no tiene dimensiones'
-    );
-
-    return false;
-  }
-
-
-  try {
-
-    // ======================================================
-    // CONFIGURAR CANVAS EXACTAMENTE AL TAMAÑO DEL VIDEO
-    // ======================================================
-
-    freezeCanvas.width = width;
-    freezeCanvas.height = height;
-
-
-    // ======================================================
-    // LIMPIAR
-    // ======================================================
-
-    freezeContext.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-
-
-    // ======================================================
-    // COPIAR FOTOGRAMA ACTUAL
-    // ======================================================
-
-    freezeContext.drawImage(
-      videoElement,
-      0,
-      0,
-      width,
-      height
-    );
-
-
-    // ======================================================
-    // MOSTRAR INMEDIATAMENTE
-    // ======================================================
-
-    freezeCanvas.style.display = 'block';
-
-
-    // Forzar que quede por encima del video
-    freezeCanvas.style.zIndex = '99999';
-
+    const width = videoElement.videoWidth;
+    const height = videoElement.videoHeight;
 
     console.log(
-      '🧊 FOTOGRAMA CONGELADO CORRECTAMENTE'
+      '🧊 CONGELANDO:',
+      width,
+      'x',
+      height,
+      '| tiempo:',
+      videoElement.currentTime
     );
 
+    if (!width || !height) {
 
-    return true;
+      console.warn(
+        '⚠️ El video no tiene dimensiones todavía'
+      );
 
-  } catch (error) {
+      return false;
+    }
 
-    console.error(
-      '❌ ERROR AL CONGELAR FOTOGRAMA:',
-      error
-    );
+    try {
+
+      freezeCanvas.width = width;
+      freezeCanvas.height = height;
+
+      freezeContext.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      freezeContext.drawImage(
+        videoElement,
+        0,
+        0,
+        width,
+        height
+      );
+
+      freezeCanvas.style.display = 'block';
+      freezeCanvas.style.zIndex = '99999';
+
+      console.log(
+        '🧊 FOTOGRAMA CONGELADO CORRECTAMENTE'
+      );
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        '❌ ERROR AL CONGELAR:',
+        error
+      );
+
+      return false;
+    }
+  }
+
+
+  // ==========================================================
+  // QUITAR FOTOGRAMA
+  // ==========================================================
+
+  function removeFreezeFrame() {
+
+    if (!freezeCanvas) {
+      return;
+    }
 
     freezeCanvas.style.display = 'none';
 
-    return false;
+    console.log(
+      '🎬 FOTOGRAMA CONGELADO RETIRADO'
+    );
   }
-}
 
 
   // ==========================================================
-  // CHECK
+  // CHECKS
   // ==========================================================
 
   function updateChecks() {
@@ -783,8 +772,10 @@ function freezeCurrentFrame() {
         option.querySelector('.lang-check');
 
       if (check) {
+
         check.style.opacity =
           active ? '1' : '0';
+
       }
 
     });
@@ -798,8 +789,6 @@ function freezeCurrentFrame() {
 
   langBtn.addEventListener('click', function (e) {
 
-    // No reaccionar cuando se pulsa una opción
-    // o la X.
     if (
       e.target.closest('.lang-option') ||
       e.target.closest('.lang-close')
@@ -809,60 +798,55 @@ function freezeCurrentFrame() {
 
     e.stopPropagation();
 
-
     if (menuOpen) {
       return;
     }
 
-
     const vp = getPlayer();
-
 
     if (!vp) {
 
       console.error(
-        '❌ No se encontró la instancia de Video.js'
+        '❌ No se encontró Video.js'
       );
 
       return;
-
     }
 
 
-    // ----------------------------------------------
-    // GUARDAR ESTADO
-    // ----------------------------------------------
+    // ======================================================
+    // GUARDAR ESTADO UNA SOLA VEZ
+    // ======================================================
 
     wasPlaying = !vp.paused();
 
     savedTime = vp.currentTime();
-
 
     console.log(
       '🌐 MENÚ ABIERTO'
     );
 
     console.log(
-      '⏱️ Tiempo:',
+      '⏱️ TIEMPO GUARDADO:',
       savedTime
     );
 
     console.log(
-      '▶️ Estaba reproduciendo:',
+      '▶️ ESTABA REPRODUCIENDO:',
       wasPlaying
     );
 
 
-    // ----------------------------------------------
+    // ======================================================
     // PAUSAR
-    // ----------------------------------------------
+    // ======================================================
 
     vp.pause();
 
 
-    // ----------------------------------------------
+    // ======================================================
     // MOSTRAR MENÚ
-    // ----------------------------------------------
+    // ======================================================
 
     langMenu.style.display = 'flex';
 
@@ -878,436 +862,587 @@ function freezeCurrentFrame() {
 
 
   // ==========================================================
-// CAMBIAR VIDEO
-// ==========================================================
+  // CAMBIAR VIDEO / IDIOMA
+  // ==========================================================
 
-langOptions.forEach(option => {
+  langOptions.forEach(option => {
 
-  option.addEventListener('click', function (e) {
+    option.addEventListener('click', function (e) {
 
-    e.preventDefault();
-    e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
 
-    if (changingVideo) return;
+      if (changingVideo) {
+        return;
+      }
 
-    const lang = option.dataset.lang;
-    const newUrl = videos[lang];
+      const lang =
+        option.dataset.lang;
 
-    if (!newUrl) {
-      console.error('❌ No existe URL para:', lang);
-      return;
-    }
+      const newUrl =
+        videos[lang];
 
-    const vp = getPlayer();
+      if (!newUrl) {
 
-    if (!vp) {
-      console.error('❌ Video.js no está disponible');
-      return;
-    }
-
-    // ======================================================
-    // BLOQUEAR CAMBIO
-    // ======================================================
-
-    changingVideo = true;
-
-    // ======================================================
-    // GUARDAR EXACTAMENTE DÓNDE ESTABA
-    // ======================================================
-
-    const restoreTime = vp.currentTime();
-
-    // MUY IMPORTANTE:
-    // usamos wasPlaying, NO vp.paused()
-    const resumeAfterChange = wasPlaying;
-    window.languageChanging = true;
-window.languageRestoreTime = restoreTime;
-
-    console.log('======================================');
-    console.log('👆 CAMBIANDO IDIOMA:', lang);
-    console.log('🔗 NUEVA URL:', newUrl);
-    console.log('⏱️ SEGUNDO GUARDADO:', restoreTime);
-    console.log('▶️ DEBE REANUDAR:', resumeAfterChange);
-
-    currentLang = lang;
-    savedTime = restoreTime;
-
-    updateChecks();
-
-    // ======================================================
-    // CERRAR MENÚ
-    // ======================================================
-
-    langMenu.style.display = 'none';
-
-    if (overlay) {
-      overlay.style.display = 'none';
-    }
-
-    menuOpen = false;
-
-    // ======================================================
-    // CAMBIAR VIDEO
-    // ======================================================
-
-    let positionRestored = false;
-    let playbackStarted = false;
-
-    // ======================================================
-    // RESTAURAR POSICIÓN
-    // ======================================================
-
-    function restorePosition() {
-
-  if (positionRestored) return;
-
-  const duration = vp.duration();
-
-  if (!isFinite(duration) || duration <= 0) {
-    return;
-  }
-
-  let safeTime = restoreTime;
-
-  if (duration > 0) {
-    safeTime = Math.min(
-      restoreTime,
-      Math.max(0, duration - 0.5)
-    );
-  }
-
-  console.log(
-    '🎯 RESTAURANDO POSICIÓN:',
-    safeTime
-  );
-
-  try {
-
-    // Video.js
-    vp.currentTime(safeTime);
-
-    // HTML5 directamente
-    videoElement.currentTime = safeTime;
-
-  } catch (error) {
-
-    console.warn(
-      '⚠️ Error restaurando posición:',
-      error
-    );
-
-    return;
-
-  }
-
-  // ======================================================
-  // MUY IMPORTANTE
-  // ======================================================
-  // Durante unos instantes protegemos esta posición
-  // contra otros listeners del reproductor.
-
-  window.languageRestoreTime = safeTime;
-
-  positionRestored = true;
-
-  console.log(
-    '✅ POSICIÓN RESTAURADA:',
-    vp.currentTime()
-  );
-
-}
-
-
-    // ======================================================
-    // CUANDO YA HAY METADATA
-    // ======================================================
-
-    vp.one('loadedmetadata', function () {
-
-      console.log(
-        '📀 NUEVO VIDEO: METADATA LISTA'
-      );
-
-      restorePosition();
-
-    });
-
-
-    // ======================================================
-    // CUANDO EL VIDEO YA PUEDE REPRODUCIRSE
-    // ======================================================
-
-    vp.one('canplay', function () {
-
-      console.log(
-        '🎬 NUEVO VIDEO: CANPLAY'
-      );
-
-      // Por si loadedmetadata todavía no consiguió
-      // restaurar la posición.
-      restorePosition();
-
-
-      // ====================================================
-      // REANUDAR AUTOMÁTICAMENTE
-      // ====================================================
-
-      if (resumeAfterChange && !playbackStarted) {
-
-        playbackStarted = true;
-
-        console.log(
-          '▶️ REANUDANDO AUTOMÁTICAMENTE EN:',
-          vp.currentTime()
+        console.error(
+          '❌ No existe URL para:',
+          lang
         );
 
-        const playPromise = vp.play();
+        return;
+      }
 
-if (playPromise !== undefined) {
+      const vp = getPlayer();
 
-  playPromise
-    .then(() => {
+      if (!vp) {
 
-  console.log(
-    '✅ VIDEO REANUDADO AUTOMÁTICAMENTE'
-  );
+        console.error(
+          '❌ Video.js no está disponible'
+        );
 
-  console.log(
-    '⏱️ SEGUNDO ACTUAL:',
-    vp.currentTime()
-  );
+        return;
+      }
 
 
-  // ==================================================
-  // 🎬 NUEVO VIDEO YA ESTÁ REPRODUCIÉNDOSE
-  // ==================================================
+      // ====================================================
+      // BLOQUEAR CAMBIO
+      // ====================================================
 
-  setTimeout(() => {
+      changingVideo = true;
 
-    if (freezeCanvas) {
 
-      freezeCanvas.style.display = 'none';
+      // ====================================================
+      // GUARDAR TIEMPO EXACTO
+      // ====================================================
+
+      const restoreTime =
+        vp.currentTime();
+
+      const resumeAfterChange =
+        wasPlaying;
+
 
       console.log(
-        '🎬 FOTOGRAMA CONGELADO RETIRADO'
+        '======================================'
       );
 
-    }
+      console.log(
+        '🌐 CAMBIO DE IDIOMA:',
+        lang
+      );
 
-  }, 100);
+      console.log(
+        '⏱️ TIEMPO:',
+        restoreTime
+      );
+
+      console.log(
+        '▶️ REANUDAR:',
+        resumeAfterChange
+      );
 
 
-  changingVideo = false;
+      // ====================================================
+      // MARCAR CAMBIO DE IDIOMA
+      // ====================================================
 
-})
-            .catch(error => {
+      window.languageChanging = true;
 
-              console.warn(
-                '⚠️ Video.js no pudo iniciar automáticamente:',
-                error
-              );
+      window.languageRestoreTime =
+        restoreTime;
 
-              // Segundo intento con el elemento HTML5
-              videoElement.play()
-                .then(() => {
 
-                  console.log(
-                    '✅ REANUDADO MEDIANTE HTML5'
-                  );
+      // ====================================================
+      // ACTUALIZAR IDIOMA
+      // ====================================================
 
-                  changingVideo = false;
+      currentLang = lang;
 
-                })
-                .catch(error2 => {
+      savedTime = restoreTime;
 
-                  console.warn(
-                    '⚠️ HTML5 tampoco pudo iniciar:',
-                    error2
-                  );
+      updateChecks();
 
-                  changingVideo = false;
 
-                });
+      // ====================================================
+      // CERRAR MENÚ
+      // ====================================================
 
-            });
+      langMenu.style.display = 'none';
 
-        } else {
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
 
-          changingVideo = false;
+      menuOpen = false;
 
+
+      // ====================================================
+      // 🧊 CONGELAR ANTES DE CAMBIAR URL
+      // ====================================================
+
+      console.log(
+        '🧊 CONGELANDO FOTOGRAMA'
+      );
+
+      const frozen =
+        freezeCurrentFrame();
+
+
+      // ====================================================
+      // CAMBIAR FUENTE
+      // ====================================================
+
+      console.log(
+        '🔄 CAMBIANDO FUENTE:',
+        newUrl
+      );
+
+
+      /*
+       * IMPORTANTE:
+       *
+       * Aquí hacemos SOLO un cambio de src.
+       * No tocamos currentTime todavía.
+       *
+       * En móviles esto evita que el navegador
+       * intente buscar la posición mientras
+       * todavía está cargando el nuevo archivo.
+       */
+
+      vp.src({
+        src: newUrl,
+        type: 'video/mp4'
+      });
+
+
+      console.log(
+        '✅ NUEVA FUENTE ENVIADA'
+      );
+
+
+      // ====================================================
+      // CONTROL DE RESTAURACIÓN
+      // ====================================================
+
+      let positionRestored = false;
+
+
+      // ====================================================
+      // RESTAURAR POSICIÓN
+      // ====================================================
+
+      function restorePositionOnce() {
+
+        if (positionRestored) {
+          return;
         }
 
-      } else {
+        const duration =
+          vp.duration();
+
+        if (
+          !isFinite(duration) ||
+          duration <= 0
+        ) {
+          return;
+        }
+
+
+        // ----------------------------------------------
+        // CALCULAR POSICIÓN SEGURA
+        // ----------------------------------------------
+
+        const safeTime =
+          Math.min(
+            restoreTime,
+            Math.max(
+              0,
+              duration - 0.5
+            )
+          );
+
 
         console.log(
-          '⏸️ El video permanecía pausado'
+          '🎯 RESTAURANDO UNA SOLA VEZ:',
+          safeTime
         );
 
-        changingVideo = false;
+
+        try {
+
+          /*
+           * IMPORTANTE:
+           *
+           * Usamos Video.js.
+           * NO hacemos además:
+           *
+           * videoElement.currentTime = ...
+           *
+           * porque eso puede provocar una segunda búsqueda
+           * especialmente en móviles.
+           */
+
+          vp.currentTime(
+            safeTime
+          );
+
+
+          window.languageRestoreTime =
+            safeTime;
+
+          positionRestored = true;
+
+
+          console.log(
+            '✅ POSICIÓN RESTAURADA:',
+            safeTime
+          );
+
+          return true;
+
+        } catch (error) {
+
+          console.warn(
+            '⚠️ No se pudo restaurar:',
+            error
+          );
+
+          return false;
+        }
 
       }
 
-    });
 
+      // ====================================================
+      // METADATA
+      // ====================================================
 
-    // ======================================================
-    // RESPALDO
-    // ======================================================
+      vp.one(
+        'loadedmetadata',
+        function () {
 
-    vp.one('loadeddata', function () {
+          console.log(
+            '📀 METADATA DEL NUEVO VIDEO'
+          );
 
-      console.log(
-        '📦 LOADEDDATA'
+          /*
+           * NO restauramos aquí.
+           *
+           * En móviles es demasiado pronto.
+           * Esperamos a canplay.
+           */
+
+        }
       );
 
-      restorePosition();
+
+      // ====================================================
+      // CANPLAY
+      // ====================================================
+
+      vp.one(
+        'canplay',
+        function () {
+
+          console.log(
+            '🎬 CANPLAY DEL NUEVO VIDEO'
+          );
+
+
+          // ----------------------------------------------
+          // RESTAURAR POSICIÓN UNA SOLA VEZ
+          // ----------------------------------------------
+
+          restorePositionOnce();
+
+
+          // ----------------------------------------------
+          // SI ESTABA PAUSADO
+          // ----------------------------------------------
+
+          if (!resumeAfterChange) {
+
+            console.log(
+              '⏸️ EL VIDEO PERMANECE PAUSADO'
+            );
+
+            changingVideo = false;
+
+            window.languageChanging =
+              false;
+
+            window.languageRestoreTime =
+              null;
+
+            return;
+          }
+
+
+          // ==================================================
+          // ESPERAR AL SEEK
+          // ==================================================
+
+          const startPlayback =
+            function () {
+
+              console.log(
+                '▶️ INICIANDO NUEVO VIDEO EN:',
+                vp.currentTime()
+              );
+
+
+              const playPromise =
+                vp.play();
+
+
+              if (
+                playPromise &&
+                typeof playPromise.then === 'function'
+              ) {
+
+                playPromise
+                  .then(function () {
+
+                    console.log(
+                      '✅ NUEVO VIDEO REPRODUCIÉNDOSE'
+                    );
+
+                    console.log(
+                      '⏱️ TIEMPO ACTUAL:',
+                      vp.currentTime()
+                    );
+
+
+                    // --------------------------------
+                    // QUITAR CONGELADO
+                    // --------------------------------
+
+                    setTimeout(
+                      function () {
+
+                        removeFreezeFrame();
+
+                      },
+                      80
+                    );
+
+
+                    changingVideo = false;
+
+                    window.languageChanging =
+                      false;
+
+                    window.languageRestoreTime =
+                      null;
+
+                  })
+                  .catch(function (error) {
+
+                    console.warn(
+                      '⚠️ Error al reproducir:',
+                      error
+                    );
+
+                    /*
+                     * Segundo intento solamente si
+                     * Video.js falla.
+                     */
+
+                    videoElement.play()
+                      .then(function () {
+
+                        console.log(
+                          '✅ REANUDADO MEDIANTE HTML5'
+                        );
+
+
+                        setTimeout(
+                          function () {
+
+                            removeFreezeFrame();
+
+                          },
+                          80
+                        );
+
+
+                        changingVideo = false;
+
+                        window.languageChanging =
+                          false;
+
+                        window.languageRestoreTime =
+                          null;
+
+                      })
+                      .catch(function (error2) {
+
+                        console.warn(
+                          '⚠️ HTML5 tampoco pudo reproducir:',
+                          error2
+                        );
+
+                        /*
+                         * Si no se pudo reproducir,
+                         * dejamos el fotograma congelado
+                         * fuera para no bloquear el video.
+                         */
+
+                        removeFreezeFrame();
+
+                        changingVideo = false;
+
+                        window.languageChanging =
+                          false;
+
+                        window.languageRestoreTime =
+                          null;
+
+                      });
+
+                  });
+
+              } else {
+
+                console.log(
+                  '▶️ PLAY EJECUTADO'
+                );
+
+                setTimeout(
+                  function () {
+
+                    removeFreezeFrame();
+
+                  },
+                  100
+                );
+
+                changingVideo = false;
+
+                window.languageChanging =
+                  false;
+
+                window.languageRestoreTime =
+                  null;
+
+              }
+
+            };
+
+
+          // ==================================================
+          // ESPERAR SEEKED
+          // ==================================================
+
+          if (
+            positionRestored &&
+            Math.abs(
+              vp.currentTime() -
+              restoreTime
+            ) > 0.3
+          ) {
+
+            console.log(
+              '⏳ ESPERANDO SEEKED...'
+            );
+
+            vp.one(
+              'seeked',
+              function () {
+
+                console.log(
+                  '🎯 SEEKED:',
+                  vp.currentTime()
+                );
+
+                startPlayback();
+
+              }
+            );
+
+          } else {
+
+            /*
+             * Si el navegador ya quedó exactamente
+             * en la posición, reproducimos directamente.
+             */
+
+            startPlayback();
+
+          }
+
+        }
+      );
+
+
+      // ====================================================
+      // RESPALDO
+      // ====================================================
+
+      /*
+       * Algunos navegadores pueden disparar loadeddata
+       * antes de canplay.
+       *
+       * NO cambiamos currentTime aquí.
+       *
+       * Solo dejamos registro.
+       */
+
+      vp.one(
+        'loadeddata',
+        function () {
+
+          console.log(
+            '📦 LOADEDDATA DEL NUEVO VIDEO'
+          );
+
+        }
+      );
 
     });
 
-
-  // ======================================================
-// 🧊 CONGELAR FOTOGRAMA
-// ======================================================
-
-console.log(
-  '🧊 CONGELANDO FOTOGRAMA ANTES DEL CAMBIO'
-);
-
-const frozen = freezeCurrentFrame();
-
-
-// ======================================================
-// PEQUEÑO TIEMPO PARA ASEGURAR QUE EL CANVAS
-// YA ESTÁ VISIBLE ANTES DE CAMBIAR EL VIDEO
-// ======================================================
-
-setTimeout(() => {
-
-  console.log(
-    '🔄 CAMBIANDO FUENTE A:',
-    newUrl
-  );
-
-
-  vp.src({
-    src: newUrl,
-    type: 'video/mp4'
   });
-
-
-  console.log(
-    '✅ NUEVA FUENTE ENVIADA'
-  );
-
-}, frozen ? 30 : 0);
-
-    // ======================================================
-// PROTEGER LA POSICIÓN DURANTE LA CARGA
-// ======================================================
-
-let protectionCount = 0;
-
-const protectPosition = setInterval(() => {
-
-  protectionCount++;
-
-  if (!window.languageChanging) {
-    clearInterval(protectPosition);
-    return;
-  }
-
-  if (!positionRestored) {
-    return;
-  }
-
-  const current = vp.currentTime();
-  const target = window.languageRestoreTime;
-
-  if (
-    isFinite(target) &&
-    isFinite(current) &&
-    Math.abs(current - target) > 1
-  ) {
-
-    console.log(
-      '🛡️ OTRO CÓDIGO CAMBIÓ EL TIEMPO:',
-      current,
-      '→ restaurando:',
-      target
-    );
-
-    try {
-      vp.currentTime(target);
-      videoElement.currentTime = target;
-    } catch (error) {
-      console.warn(
-        '⚠️ No se pudo proteger posición:',
-        error
-      );
-    }
-
-  }
-
-  // Protección durante aproximadamente 5 segundos
-  if (protectionCount >= 20) {
-
-    clearInterval(protectPosition);
-
-    window.languageChanging = false;
-    window.languageRestoreTime = null;
-
-    console.log(
-      '🛡️ PROTECCIÓN DE POSICIÓN FINALIZADA'
-    );
-
-  }
-
-}, 250);
-
-    console.log(
-      '✅ NUEVA FUENTE ENVIADA'
-    );
-
-  });
-
-});
 
 
   // ==========================================================
   // CERRAR X
   // ==========================================================
 
-  langClose.addEventListener('click', function (e) {
+  langClose.addEventListener(
+    'click',
+    function (e) {
 
-    e.preventDefault();
-    e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
 
+      langMenu.style.display = 'none';
 
-    langMenu.style.display = 'none';
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
 
-    if (overlay) {
-      overlay.style.display = 'none';
+      menuOpen = false;
+
+      console.log(
+        '✖️ MENÚ CERRADO'
+      );
+
     }
-
-    menuOpen = false;
-
-
-    console.log(
-      '✖️ MENÚ CERRADO'
-    );
-
-  });
+  );
 
 
   // ==========================================================
   // NO CERRAR AL TOCAR DENTRO
   // ==========================================================
 
-  langMenu.addEventListener('click', function (e) {
+  langMenu.addEventListener(
+    'click',
+    function (e) {
 
-    e.stopPropagation();
+      e.stopPropagation();
 
-  });
+    }
+  );
 
 
   // ==========================================================
@@ -1322,6 +1457,8 @@ const protectPosition = setInterval(() => {
   );
 
 })();
+
+
 
 
 
