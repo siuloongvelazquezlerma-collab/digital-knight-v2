@@ -36,7 +36,7 @@
     <link rel="manifest" href="../manifest.json">
    <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="../peliculas.css?v=2">
+  <link rel="stylesheet" href="../peliculas.css">
   
   <style>
    .cover::before {
@@ -212,7 +212,7 @@
 <div class="tabs tabs-secondary">
   <!-- Logo a la izquierda -->
   <a href="../main.html">
-    <img src="https://opendrive.com/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
+    <img src="https://od.lk/s/M18zMTIxODI5MjVf/Knight.png" width="150px" class="logo" />
   </a>
 
   <!-- Tabs centradas -->
@@ -239,7 +239,7 @@
 
     <!-- PERFIL -->
     <a href="../perfil digital Knight 2025.html" class="header-only">
-      <img src="https://opendrive.com/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
+      <img src="https://od.lk/s/M18zMTIxOTE0Mjlf/logo%202025.png" alt="Perfil" class="profile-icon-footer" id="headerProfileIcon" />
     </a>
   </div>
 </div>
@@ -301,7 +301,7 @@
           </div>
       
           <!-- Botón de Descargar -->
-          <div class="action-item download-action" onclick="descargarPelicula('https://opendrive.com/d/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4')">
+          <div class="action-item download-action" onclick="descargarPelicula('https://od.lk/d/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4')">
             <i class="material-icons">arrow_downward</i>
             <span class="underline"></span>
             Descargar
@@ -366,6 +366,7 @@
   <video
   id="video"
   class="video-js vjs-default-skin"
+  crossorigin="anonymous"
   preload="auto"
   width="100%"
   height="100%"
@@ -373,53 +374,9 @@
   data-setup='{"controls": false, "autoplay": false, "preload": "auto"}'>
   <source id="videoSource" src="https://od.lk/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4" type="video/mp4" />
 </video>
-<!-- Menú de idioma estilo Netflix (dentro del player para quedar SIEMPRE sobre el video) -->
-<div id="nfMenu" class="nf-overlay" style="display:none;">
-  <div class="nf-inner">
-    <button class="nf-close" id="nfClose" aria-label="Cerrar">
-      <span class="material-icons">close</span>
-    </button>
 
-    <div class="nf-section">
-      <h2 class="nf-title">Audio</h2>
-      <div class="nf-list">
-        <div class="nf-option" style="pointer-events:none;"><span class="nf-label">Detectando idiomas disponibles…</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="nf-hint">Puedes cambiar de idioma mientras se reproduce la película</div>
-</div>
-
-<!-- Frame congelado: mantiene la imagen visible durante el cambio de idioma -->
-<canvas id="freezeCanvas" style="
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  opacity: 1;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity 0.25s ease;
-  background: #000;
-"></canvas>
-<!-- 📱 Debug táctil: diagnostics del cambio de idioma (solo se muestra en dispositivos táctiles) -->
-<div id="nfDebug" style="
-  position: fixed;
-  top: 6px;
-  left: 6px;
-  max-width: 90%;
-  background: rgba(0,0,0,0.75);
-  color: #7CFC00;
-  font: 12px/1.5 monospace;
-  padding: 6px 8px;
-  border-radius: 6px;
-  z-index: 13000;
-  display: none;
-  pointer-events: none;
-  white-space: pre-wrap;
-"></div>
+<!-- CONGELAR IMAGEN DURANTE CAMBIO DE IDIOMA -->
+<canvas id="languageFreezeFrame"></canvas>
 <!-- Loader -->
 <div class="video-loader hidden" id="videoLoader">
   <div class="spinner"></div>
@@ -455,8 +412,85 @@
   
          <!-- Botón de idioma con mini menú -->
 
-<div class="icon-btn" id="langBtnWrapper" style="display:flex; align-items:center;">
+<div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+
   <span class="material-icons" id="langIcon">chat</span>
+
+  <div id="langMenu" class="lang-menu">
+
+    <!-- BOTÓN CERRAR -->
+    <button class="lang-close" id="langCloseBtn" aria-label="Cerrar">
+      <span class="material-icons">close</span>
+    </button>
+
+
+    <div class="lang-columns">
+
+      <!-- =====================================================
+           SUBTÍTULOS
+           ===================================================== -->
+
+      <div class="lang-column">
+
+        <div class="lang-title">
+          Subtítulos
+        </div>
+
+        <div class="lang-line"></div>
+
+        <div class="lang-options">
+
+          <!-- SIN SUBTÍTULOS = LATINO -->
+          <div class="lang-option" data-lang="latino">
+            <span class="lang-check material-icons">check</span>
+            <span>Apagado</span>
+          </div>
+
+          <!-- INGLÉS CON SUBTÍTULOS -->
+          <div class="lang-option" data-lang="inglessub">
+            <span class="lang-check material-icons">check</span>
+            <span>Español (América Latina) CC</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           AUDIO
+           ===================================================== -->
+
+      <div class="lang-column">
+
+        <div class="lang-title">
+          Audio
+        </div>
+
+        <div class="lang-line"></div>
+
+        <div class="lang-options">
+
+          <!-- INGLÉS -->
+          <div class="lang-option" data-lang="ingles">
+            <span class="lang-check material-icons">check</span>
+            <span>Inglés - Original</span>
+          </div>
+
+          <!-- LATINO -->
+          <div class="lang-option" data-lang="latino">
+            <span class="lang-check material-icons">check</span>
+            <span>Español (América Latina)</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
   
@@ -530,7 +564,7 @@ window.movieId = "boda-sangrienta-567609";
 
 <script src="../suggestions-library.js"></script>
 <script src="../suggested-content.js"></script>
-<script src="../player-peliculas.js?v=2"></script>
+<script src="../player-peliculas.js"></script>
 <script src="../pip.js"></script>
 <script src="../share.js"></script>
 <script type="module" src="../player-peliculas-module.js"></script>
@@ -541,378 +575,751 @@ window.movieId = "boda-sangrienta-567609";
 
 <script>
 
-
-
 (function () {
-  
-  const source = document.getElementById("videoSource");
-  const video = document.getElementById("video"); // referencia explícita (no depender del id global)
 
-  // Reproductor Video.js si está disponible (el <video> usa data-setup)
-  const vjsPlayer = (window.videojs && typeof videojs.getPlayer === "function")
-    ? videojs.getPlayer("video")
-    : null;
-  const langBtnWrapper = document.getElementById("langBtnWrapper");
-  const langMenu = document.getElementById("nfMenu"); // overlay estilo Netflix
-  const nfCloseBtn = document.getElementById("nfClose");
-  const nfList = document.querySelector(".nf-list");
-  const langIcon = document.getElementById("langIcon");
+  // ==========================================================
+  // ELEMENTOS
+  // ==========================================================
+
+  const langBtn = document.getElementById('langBtnWrapper');
+  const langMenu = document.getElementById('langMenu');
+  const langClose = document.getElementById('langCloseBtn');
+  const langOptions = document.querySelectorAll('#langMenu .lang-option');
+  const overlay = document.getElementById('overlay');
+  const langIcon = document.getElementById('langIcon');
+
+  const videoElement = document.getElementById('video');
+
+  const freezeCanvas =
+  document.getElementById('languageFreezeFrame');
+
+const freezeContext =
+  freezeCanvas ? freezeCanvas.getContext('2d') : null;
+
+
+  // ==========================================================
+  // VIDEOS
+  // ==========================================================
 
   const videos = {
-    latino: "https://od.lk/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4",
-    ingles: "https://od.lk/s/M18zMzQ4MTM5OTBfcGlIcHg/Boda%20Sangrienta%20eng.mp4",
-    inglessub: "https://od.lk/s/M18zMzQ5NjMwOTRfRWtMZTk/Boda%20sangrienta%20sub.mp4"
+
+    latino:
+      'https://od.lk/s/M18zMzQ4MTM5OTJfcnh0a3o/Boda%20Sangrienta.mp4',
+
+    ingles:
+      'https://od.lk/s/M18zMzQ4MTM5OTBfcGlIcHg/Boda%20Sangrienta%20eng.mp4',
+
+    inglessub:
+      'https://od.lk/s/M18zMzQ5NjMwOTRfRWtMZTk/Boda%20sangrienta%20sub.mp4'
+
   };
 
-  // Catálogo de idiomas: agrega más entradas aquí (y en `videos`) y el menú
-  // las mostrará solas si el MP4 existe
-  const LANGS = [
-    { id: "latino", label: "Español (América Latina)" },
-    { id: "ingles", label: "Inglés - Original" },
-    { id: "inglessub", label: "Inglés (Subtitulada)" }
-  ];
 
-  let langOptions = [];            // opciones renderizadas en el menú
-  let availableLangs = null;       // idiomas cuyo MP4 existe (null = aún sin verificar)
+  // ==========================================================
+  // ESTADO
+  // ==========================================================
 
-  let currentLang = "latino";       // idioma que está reproduciéndose
-  let selectedLang = currentLang;   // idioma elegido dentro del menú (temporal)
-  let menuOpen = false;             // 👈 bandera de estado del menú
-  let wasPlaying = false;           // 👈 si estaba reproduciéndose al abrir el menú
-  let pendingPlay = false;          // 👈 play() pendiente tras loadedmetadata
-  let suppressClickUntil = 0;       // 👈 bloquea el "ghost click" móvil tras tocar una opción
+  let currentLang = 'latino';
 
-  // 📱 Debug en pantalla (solo dispositivos táctiles): muestra el flujo del cambio de idioma
-  const nfDebugEl = document.getElementById("nfDebug");
-  const isTouch = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
-  function nfLog(msg) {
-    if (!isTouch || !nfDebugEl) return;
-    nfDebugEl.style.display = "block";
-    const t = (video && video.currentTime) ? video.currentTime.toFixed(1) : "0";
-    const lines = nfDebugEl.textContent.split("\n").slice(-5);
-    lines.push(msg + " [t=" + t + "]");
-    nfDebugEl.textContent = lines.join("\n");
-  }
+  let menuOpen = false;
 
-  // 📱 Marcador inmediato: si esto NO aparece en el celular, el teléfono está
-  // ejecutando una versión vieja/cacheada de esta página
-  if (isTouch && nfDebugEl) {
-    nfDebugEl.style.display = "block";
-    nfDebugEl.textContent = "v5 idiomas activo";
-    document.addEventListener('touchstart', () => {
-      if (!nfDebugEl.dataset.tap) {
-        nfDebugEl.dataset.tap = "1";
-        nfLog("tap detectado ✔");
-      }
-    }, true);
-  }
+  let wasPlaying = false;
 
-  // helper: reproducir sin bloquear
-  function playVideo() {
-    const p = vjsPlayer ? vjsPlayer.play() : video.play();
-    if (p && typeof p.catch === 'function') {
-      p.then(() => { nfLog("▶ play OK"); console.log('▶️ Reproduciendo:', currentLang); })
-       .catch(err => { nfLog("✖ play BLOQUEADO: " + (err && err.name)); console.log('Error play idioma:', err); });
+  let savedTime = 0;
+
+  let changingVideo = false;
+
+
+  // ==========================================================
+  // OBTENER VIDEO.JS
+  // ==========================================================
+
+  function getPlayer() {
+
+    if (window.videoPlayer) {
+      return window.videoPlayer;
     }
-  }
 
-  function resumeIfPlaying() {
-    if (wasPlaying) {
-      wasPlaying = false;
-      playVideo();
+    if (
+      typeof videojs !== 'undefined' &&
+      videoElement
+    ) {
+      return videojs.getPlayer('video');
     }
+
+    return null;
   }
 
-  // ---- Precarga real de los otros idiomas (elementos ocultos vivos) ----
-  const warmPool = {};   // elementos <video> ocultos que mantienen datos en memoria
-  const directUrls = {}; // caché de la URL final (sin redirect 302 de opendrive.com)
-  let switchToken = 0;   // evita cargas en cascada si el usuario toca rápido
+  // ==========================================================
+// 🎬 CONGELAR ÚLTIMO FOTOGRAMA
+// ==========================================================
 
-  // Resuelve el redirect de OpenDrive UNA vez por idioma y cachea la URL final.
-  // Sin headers custom (no dispara preflight CORS); se aborta tras las cabeceras
-  // para no descargar el cuerpo del archivo.
-  async function resolveUrl(lang) {
-    if (directUrls[lang]) return directUrls[lang];
-    const hasAbort = typeof AbortController !== "undefined";
-    const ctrl = hasAbort ? new AbortController() : null;
-    try {
-      const opts = ctrl ? { signal: ctrl.signal } : {};
-      const res = await fetch(videos[lang], opts);
-      if (res.ok && res.url) {
-        directUrls[lang] = res.url; // URL final (ya sin el 302 de opendrive.com)
-      }
-    } catch (e) { /* sin CORS/red: usar la URL original */ }
-    if (ctrl) ctrl.abort(); // detener la descarga del cuerpo; solo necesitábamos res.url
-    return directUrls[lang] || videos[lang];
-  }
+// ==========================================================
+// 🧊 CONGELAR ÚLTIMO FOTOGRAMA
+// ==========================================================
 
-  // Precarga un idioma con un <video> oculto en modo "auto" y lo mantiene vivo
-  // para que al elegirlo el cambio sea prácticamente instantáneo
-  function warmLanguage(lang) {
-    if (warmPool[lang] || lang === currentLang) return;
-    warmPool[lang] = true;
-    resolveUrl(lang).then(url => {
-      const v = document.createElement("video");
-      v.preload = "auto";
-      v.muted = true;
-      v.style.display = "none";
-      v.src = url;
-      v.load();
-      // El elemento permanece vivo durante la sesión (en warmPool)
-      warmPool[lang] = v;
-    });
-  }
+function freezeCurrentFrame() {
 
-  function warmOthers() {
-    const langs = availableLangs || Object.keys(videos);
-    langs.forEach(lang => warmLanguage(lang));
-  }
+  if (
+    !freezeCanvas ||
+    !freezeContext ||
+    !videoElement
+  ) {
 
-  // ---- Detección automática de MP4 disponibles y render del menú ----
+    console.warn(
+      '⚠️ Canvas de congelado no disponible'
+    );
 
-  // Verifica si el MP4 de un idioma existe (HEAD con redirect resuelto)
-  async function probeLang(lang) {
-    try {
-      const hasAbort = typeof AbortController !== "undefined";
-      const ctrl = hasAbort ? new AbortController() : null;
-      const opts = ctrl ? { method: "HEAD", signal: ctrl.signal } : { method: "HEAD" };
-      const res = await fetch(videos[lang], opts);
-      if (ctrl) ctrl.abort();
-      return res.ok || res.status === 206;
-    } catch (e) {
-      return true; // si no se puede verificar (red/CORS), mostrar la opción
-    }
-  }
-
-  function renderLangMenu() {
-    nfList.innerHTML = "";
-    availableLangs.forEach(id => {
-      const cfg = LANGS.find(l => l.id === id);
-      if (!cfg) return;
-      const div = document.createElement("div");
-      div.className = "nf-option" + (id === currentLang ? " selected" : "");
-      div.dataset.lang = id;
-      div.innerHTML = '<span class="nf-check material-icons">check</span><span class="nf-label"></span>';
-      div.querySelector(".nf-label").textContent = cfg.label;
-      bindOption(div);
-      nfList.appendChild(div);
-    });
-    langOptions = nfList.querySelectorAll(".nf-option");
-  }
-
-  // Al cargar: verificar qué MP4 existen y armar el menú solo con esos
-  (async function initLangMenu() {
-    const results = await Promise.all(LANGS.map(async l => ({ id: l.id, ok: await probeLang(l.id) })));
-    availableLangs = results.filter(r => r.ok).map(r => r.id);
-    if (!availableLangs.length) availableLangs = Object.keys(videos); // fallback: mostrar todos
-    if (!availableLangs.includes(currentLang)) currentLang = availableLangs[0];
-    selectedLang = currentLang;
-    renderLangMenu();
-    console.log('Idiomas disponibles:', availableLangs);
-  })();
-
-  // Precargar en cuanto la película arranque (3 s después, para no competir
-  // con el búfer inicial) y también al abrir el menú de idioma
-  video.addEventListener("playing", function onFirstPlaying() {
-    video.removeEventListener("playing", onFirstPlaying);
-    setTimeout(warmOthers, 3000);
-  }, { once: true });
-
-  // ---- Frame congelado: evita que la imagen desaparezca durante el cambio ----
-  const freezeCanvas = document.getElementById("freezeCanvas");
-
-  function freezeFrame() {
-    try {
-      if (video.readyState >= 2 && video.videoWidth) {
-        freezeCanvas.width = video.videoWidth;
-        freezeCanvas.height = video.videoHeight;
-        // Copiar el frame actual (drawImage funciona aunque el canvas quede "tainted")
-        freezeCanvas.getContext("2d").drawImage(video, 0, 0);
-        // Igualar el object-fit del video (contain / cover según el modo)
-        freezeCanvas.style.objectFit = getComputedStyle(video).objectFit || "contain";
-        freezeCanvas.style.display = "block";
-        freezeCanvas.style.opacity = "1";
-        return true;
-      }
-    } catch (e) { /* si falla, el cambio sigue siendo funcional */ }
     return false;
   }
 
-  function unfreeze() {
-    if (freezeCanvas.style.display === "none") return;
-    freezeCanvas.style.opacity = "0";
-    setTimeout(() => {
-      if (freezeCanvas.style.opacity === "0") {
-        freezeCanvas.style.display = "none";
+
+  const width = videoElement.videoWidth;
+  const height = videoElement.videoHeight;
+
+
+  console.log(
+    '🧊 INTENTANDO CONGELAR',
+    '| videoWidth:', width,
+    '| videoHeight:', height,
+    '| tiempo:', videoElement.currentTime
+  );
+
+
+  if (!width || !height) {
+
+    console.warn(
+      '⚠️ El video todavía no tiene dimensiones'
+    );
+
+    return false;
+  }
+
+
+  try {
+
+    // ======================================================
+    // CONFIGURAR CANVAS EXACTAMENTE AL TAMAÑO DEL VIDEO
+    // ======================================================
+
+    freezeCanvas.width = width;
+    freezeCanvas.height = height;
+
+
+    // ======================================================
+    // LIMPIAR
+    // ======================================================
+
+    freezeContext.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    // ======================================================
+    // COPIAR FOTOGRAMA ACTUAL
+    // ======================================================
+
+    freezeContext.drawImage(
+      videoElement,
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    // ======================================================
+    // MOSTRAR INMEDIATAMENTE
+    // ======================================================
+
+    freezeCanvas.style.display = 'block';
+
+
+    // Forzar que quede por encima del video
+    freezeCanvas.style.zIndex = '99999';
+
+
+    console.log(
+      '🧊 FOTOGRAMA CONGELADO CORRECTAMENTE'
+    );
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      '❌ ERROR AL CONGELAR FOTOGRAMA:',
+      error
+    );
+
+    freezeCanvas.style.display = 'none';
+
+    return false;
+  }
+}
+
+
+  // ==========================================================
+  // CHECK
+  // ==========================================================
+
+  function updateChecks() {
+
+    langOptions.forEach(option => {
+
+      const active =
+        option.dataset.lang === currentLang;
+
+      option.classList.toggle(
+        'active',
+        active
+      );
+
+      const check =
+        option.querySelector('.lang-check');
+
+      if (check) {
+        check.style.opacity =
+          active ? '1' : '0';
       }
-    }, 300);
+
+    });
+
   }
 
-  // helper: cambiar de fuente (Video.js o elemento <video>) y restaurar el tiempo.
-  // Se ejecuta UNA sola vez por cambio; sin duplicar source.src / video.load()
-  function switchTo(lang, restoreTime) {
-    const myToken = ++switchToken;
 
-    const applySource = (url) => {
-      if (myToken !== switchToken) return; // el usuario ya eligió otro idioma
+  // ==========================================================
+  // ABRIR MENÚ
+  // ==========================================================
 
-      const onLoadedMeta = () => {
-        if (myToken !== switchToken) return;
-        nfLog("meta " + currentLang + " dur=" + (video.duration || "?"));
-        if (restoreTime != null) {
-          const seekTo = () => {
-            try {
-              video.currentTime = Math.min(restoreTime, video.duration || restoreTime);
-            } catch (e) {}
-          };
-          seekTo();
-          nfLog("seek→" + restoreTime.toFixed(1) + " real=" + video.currentTime.toFixed(1));
-          // 📱 Móvil: algunos WebViews descartan el seek hecho en loadedmetadata
-          // (sin datos aún). Verificar al 'canplay' y re-intentar una vez.
-          const verifySeek = () => {
-            if (myToken !== switchToken) return;
-            if (restoreTime > 1 && Math.abs(video.currentTime - restoreTime) > 1.5) {
-              seekTo();
-              nfLog("re-seek→" + restoreTime.toFixed(1));
-            }
-          };
-          if (vjsPlayer) vjsPlayer.one("canplay", verifySeek);
-          else video.addEventListener("canplay", verifySeek, { once: true });
-        }
-        if (pendingPlay) {
-          pendingPlay = false;
-          playVideo(); // continuar automáticamente si estaba reproduciéndose
-        }
-      };
+  langBtn.addEventListener('click', function (e) {
 
-      // Quitar el frame congelado cuando el nuevo idioma ya muestra imagen
-      // ('playing' si reanuda solo; 'seeked' si estaba pausado)
-      video.addEventListener("playing", unfreeze, { once: true });
-      video.addEventListener("seeked", unfreeze, { once: true });
-
-      if (vjsPlayer) {
-        vjsPlayer.one("loadedmetadata", onLoadedMeta);
-        vjsPlayer.src({ src: url, type: "video/mp4" });
-      } else {
-        video.addEventListener("loadedmetadata", onLoadedMeta, { once: true });
-        source.src = url;
-        video.load();
-      }
-    };
-
-    resolveUrl(lang).then(applySource);
-  }
-
-  // helper: mostrar/ocultar el overlay estilo Netflix
-  function openMenu() {
-    selectedLang = currentLang;
-    langOptions.forEach(opt => opt.classList.toggle('selected', opt.dataset.lang === selectedLang));
-    langMenu.classList.add('open');
-    langMenu.style.display = 'flex'; // inline: gana sobre el display:none inicial
-    // Asegurar que los otros idiomas estén precargados al abrir el menú
-    warmOthers();
-    // Guardar si estaba reproduciéndose antes de pausar
-    wasPlaying = vjsPlayer ? !vjsPlayer.paused() : !video.paused;
-    video.pause();
-    nfLog(wasPlaying ? "menu: pausado (estaba ▶)" : "menu: ya estaba ⏸");
-    menuOpen = true;
-  }
-
-  function closeMenu() {
-    langMenu.classList.remove('open');
-    langMenu.style.display = 'none';
-    menuOpen = false;
-  }
-
-  // Selección de idioma: cambia la fuente INMEDIATAMENTE al tocar la opción
-  function selectLanguage(lang) {
-    if (!videos[lang]) return;
-    selectedLang = lang;
-
-    // Marcar visualmente la opción
-    langOptions.forEach(opt => opt.classList.toggle('selected', opt.dataset.lang === selectedLang));
-    langIcon.textContent = (selectedLang === 'latino') ? 'chat' : 'subtitles';
-
-    // Cerrar el menú automáticamente (sin botón "Listo")
-    closeMenu();
-    suppressClickUntil = Date.now() + 800; // evita que el click sintetizado del toque golpee al video/botones
-
-    if (lang === currentLang) {
-      // Mismo idioma: solo reanudar el estado anterior
-      resumeIfPlaying();
+    // No reaccionar cuando se pulsa una opción
+    // o la X.
+    if (
+      e.target.closest('.lang-option') ||
+      e.target.closest('.lang-close')
+    ) {
       return;
     }
 
-    // 1. Guardar el tiempo actual antes de cambiar la fuente
-    const curTime = video.currentTime || 0;
-    currentLang = lang;
-    nfLog("sel " + lang + " t=" + curTime.toFixed(1));
-
-    // 2. Si estaba reproduciéndose, continuar automáticamente tras la carga
-    pendingPlay = wasPlaying;
-    wasPlaying = false;
-
-    // Congelar el frame actual para que la imagen no desaparezca durante el cambio
-    freezeFrame();
-
-    // 3-4. Cambiar la fuente INMEDIATAMENTE (una sola vez, con URL directa cacheada)
-    switchTo(lang, curTime);
-
-    console.log('Idioma cambiado (cambio automático):', currentLang);
-  }
-
-  // Abrir menú — click (PC) + touchstart inmediato (móvil/WebView)
-  {
-    let lastOpen = 0;
-    const open = (e) => {
-      e.stopPropagation();
-      const now = Date.now();
-      if (now - lastOpen < 600) return; // evita touchstart + click duplicado
-      lastOpen = now;
-      openMenu();
-    };
-    langBtnWrapper.addEventListener('touchstart', open, { passive: true }); // móvil
-    langBtnWrapper.addEventListener('click', open);                         // PC
-  }
-
-  // Cerrar con la ✕ (reanuda el estado anterior)
-  nfCloseBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    closeMenu();
-    if (!pendingPlay) resumeIfPlaying();
-  });
 
-  // Cerrar al tocar el fondo del overlay fuera de las opciones (mantiene ✕ como botón principal)
-  langMenu.addEventListener('click', (e) => {
-    if (e.target === langMenu) {
-      closeMenu();
-      if (!pendingPlay) resumeIfPlaying();
+
+    if (menuOpen) {
+      return;
     }
+
+
+    const vp = getPlayer();
+
+
+    if (!vp) {
+
+      console.error(
+        '❌ No se encontró la instancia de Video.js'
+      );
+
+      return;
+
+    }
+
+
+    // ----------------------------------------------
+    // GUARDAR ESTADO
+    // ----------------------------------------------
+
+    wasPlaying = !vp.paused();
+
+    savedTime = vp.currentTime();
+
+
+    console.log(
+      '🌐 MENÚ ABIERTO'
+    );
+
+    console.log(
+      '⏱️ Tiempo:',
+      savedTime
+    );
+
+    console.log(
+      '▶️ Estaba reproduciendo:',
+      wasPlaying
+    );
+
+
+    // ----------------------------------------------
+    // PAUSAR
+    // ----------------------------------------------
+
+    vp.pause();
+
+
+    // ----------------------------------------------
+    // MOSTRAR MENÚ
+    // ----------------------------------------------
+
+    langMenu.style.display = 'flex';
+
+    if (overlay) {
+      overlay.style.display = 'block';
+    }
+
+    menuOpen = true;
+
+    updateChecks();
+
   });
 
-  // Selección de idioma — disparo INMEDIATO en touchstart (móvil) + click (PC)
-  function bindOption(option) {
+
+  // ==========================================================
+// CAMBIAR VIDEO
+// ==========================================================
+
+langOptions.forEach(option => {
+
+  option.addEventListener('click', function (e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (changingVideo) return;
+
     const lang = option.dataset.lang;
-    let lastFired = 0;
-    const fire = (e) => {
-      e.stopPropagation();
-      const now = Date.now();
-      if (now - lastFired < 600) return; // touchstart + click duplicado
-      lastFired = now;
-      selectLanguage(lang);
-    };
-    option.addEventListener('touchstart', fire, { passive: true }); // Android/WebView/TWA
-    option.addEventListener('click', fire);                         // PC
+    const newUrl = videos[lang];
+
+    if (!newUrl) {
+      console.error('❌ No existe URL para:', lang);
+      return;
+    }
+
+    const vp = getPlayer();
+
+    if (!vp) {
+      console.error('❌ Video.js no está disponible');
+      return;
+    }
+
+    // ======================================================
+    // BLOQUEAR CAMBIO
+    // ======================================================
+
+    changingVideo = true;
+
+    // ======================================================
+    // GUARDAR EXACTAMENTE DÓNDE ESTABA
+    // ======================================================
+
+    const restoreTime = vp.currentTime();
+
+    // MUY IMPORTANTE:
+    // usamos wasPlaying, NO vp.paused()
+    const resumeAfterChange = wasPlaying;
+    window.languageChanging = true;
+window.languageRestoreTime = restoreTime;
+
+    console.log('======================================');
+    console.log('👆 CAMBIANDO IDIOMA:', lang);
+    console.log('🔗 NUEVA URL:', newUrl);
+    console.log('⏱️ SEGUNDO GUARDADO:', restoreTime);
+    console.log('▶️ DEBE REANUDAR:', resumeAfterChange);
+
+    currentLang = lang;
+    savedTime = restoreTime;
+
+    updateChecks();
+
+    // ======================================================
+    // CERRAR MENÚ
+    // ======================================================
+
+    langMenu.style.display = 'none';
+
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+
+    menuOpen = false;
+
+    // ======================================================
+    // CAMBIAR VIDEO
+    // ======================================================
+
+    let positionRestored = false;
+    let playbackStarted = false;
+
+    // ======================================================
+    // RESTAURAR POSICIÓN
+    // ======================================================
+
+    function restorePosition() {
+
+  if (positionRestored) return;
+
+  const duration = vp.duration();
+
+  if (!isFinite(duration) || duration <= 0) {
+    return;
   }
 
-  // 📱 Móvil: bloquear el "ghost click" sintetizado tras cerrar el menú con un toque,
-  // para que no golpee al video ni a los botones de controles
-  document.addEventListener('click', (e) => {
-    if (Date.now() < suppressClickUntil) {
-      e.stopPropagation();
-      e.preventDefault();
+  let safeTime = restoreTime;
+
+  if (duration > 0) {
+    safeTime = Math.min(
+      restoreTime,
+      Math.max(0, duration - 0.5)
+    );
+  }
+
+  console.log(
+    '🎯 RESTAURANDO POSICIÓN:',
+    safeTime
+  );
+
+  try {
+
+    // Video.js
+    vp.currentTime(safeTime);
+
+    // HTML5 directamente
+    videoElement.currentTime = safeTime;
+
+  } catch (error) {
+
+    console.warn(
+      '⚠️ Error restaurando posición:',
+      error
+    );
+
+    return;
+
+  }
+
+  // ======================================================
+  // MUY IMPORTANTE
+  // ======================================================
+  // Durante unos instantes protegemos esta posición
+  // contra otros listeners del reproductor.
+
+  window.languageRestoreTime = safeTime;
+
+  positionRestored = true;
+
+  console.log(
+    '✅ POSICIÓN RESTAURADA:',
+    vp.currentTime()
+  );
+
+}
+
+
+    // ======================================================
+    // CUANDO YA HAY METADATA
+    // ======================================================
+
+    vp.one('loadedmetadata', function () {
+
+      console.log(
+        '📀 NUEVO VIDEO: METADATA LISTA'
+      );
+
+      restorePosition();
+
+    });
+
+
+    // ======================================================
+    // CUANDO EL VIDEO YA PUEDE REPRODUCIRSE
+    // ======================================================
+
+    vp.one('canplay', function () {
+
+      console.log(
+        '🎬 NUEVO VIDEO: CANPLAY'
+      );
+
+      // Por si loadedmetadata todavía no consiguió
+      // restaurar la posición.
+      restorePosition();
+
+
+      // ====================================================
+      // REANUDAR AUTOMÁTICAMENTE
+      // ====================================================
+
+      if (resumeAfterChange && !playbackStarted) {
+
+        playbackStarted = true;
+
+        console.log(
+          '▶️ REANUDANDO AUTOMÁTICAMENTE EN:',
+          vp.currentTime()
+        );
+
+        const playPromise = vp.play();
+
+if (playPromise !== undefined) {
+
+  playPromise
+    .then(() => {
+
+  console.log(
+    '✅ VIDEO REANUDADO AUTOMÁTICAMENTE'
+  );
+
+  console.log(
+    '⏱️ SEGUNDO ACTUAL:',
+    vp.currentTime()
+  );
+
+
+  // ==================================================
+  // 🎬 NUEVO VIDEO YA ESTÁ REPRODUCIÉNDOSE
+  // ==================================================
+
+  setTimeout(() => {
+
+    if (freezeCanvas) {
+
+      freezeCanvas.style.display = 'none';
+
+      console.log(
+        '🎬 FOTOGRAMA CONGELADO RETIRADO'
+      );
+
     }
-  }, true);
+
+  }, 100);
+
+
+  changingVideo = false;
+
+})
+            .catch(error => {
+
+              console.warn(
+                '⚠️ Video.js no pudo iniciar automáticamente:',
+                error
+              );
+
+              // Segundo intento con el elemento HTML5
+              videoElement.play()
+                .then(() => {
+
+                  console.log(
+                    '✅ REANUDADO MEDIANTE HTML5'
+                  );
+
+                  changingVideo = false;
+
+                })
+                .catch(error2 => {
+
+                  console.warn(
+                    '⚠️ HTML5 tampoco pudo iniciar:',
+                    error2
+                  );
+
+                  changingVideo = false;
+
+                });
+
+            });
+
+        } else {
+
+          changingVideo = false;
+
+        }
+
+      } else {
+
+        console.log(
+          '⏸️ El video permanecía pausado'
+        );
+
+        changingVideo = false;
+
+      }
+
+    });
+
+
+    // ======================================================
+    // RESPALDO
+    // ======================================================
+
+    vp.one('loadeddata', function () {
+
+      console.log(
+        '📦 LOADEDDATA'
+      );
+
+      restorePosition();
+
+    });
+
+
+  // ======================================================
+// 🧊 CONGELAR FOTOGRAMA
+// ======================================================
+
+console.log(
+  '🧊 CONGELANDO FOTOGRAMA ANTES DEL CAMBIO'
+);
+
+const frozen = freezeCurrentFrame();
+
+
+// ======================================================
+// PEQUEÑO TIEMPO PARA ASEGURAR QUE EL CANVAS
+// YA ESTÁ VISIBLE ANTES DE CAMBIAR EL VIDEO
+// ======================================================
+
+setTimeout(() => {
+
+  console.log(
+    '🔄 CAMBIANDO FUENTE A:',
+    newUrl
+  );
+
+
+  vp.src({
+    src: newUrl,
+    type: 'video/mp4'
+  });
+
+
+  console.log(
+    '✅ NUEVA FUENTE ENVIADA'
+  );
+
+}, frozen ? 30 : 0);
+
+    // ======================================================
+// PROTEGER LA POSICIÓN DURANTE LA CARGA
+// ======================================================
+
+let protectionCount = 0;
+
+const protectPosition = setInterval(() => {
+
+  protectionCount++;
+
+  if (!window.languageChanging) {
+    clearInterval(protectPosition);
+    return;
+  }
+
+  if (!positionRestored) {
+    return;
+  }
+
+  const current = vp.currentTime();
+  const target = window.languageRestoreTime;
+
+  if (
+    isFinite(target) &&
+    isFinite(current) &&
+    Math.abs(current - target) > 1
+  ) {
+
+    console.log(
+      '🛡️ OTRO CÓDIGO CAMBIÓ EL TIEMPO:',
+      current,
+      '→ restaurando:',
+      target
+    );
+
+    try {
+      vp.currentTime(target);
+      videoElement.currentTime = target;
+    } catch (error) {
+      console.warn(
+        '⚠️ No se pudo proteger posición:',
+        error
+      );
+    }
+
+  }
+
+  // Protección durante aproximadamente 5 segundos
+  if (protectionCount >= 20) {
+
+    clearInterval(protectPosition);
+
+    window.languageChanging = false;
+    window.languageRestoreTime = null;
+
+    console.log(
+      '🛡️ PROTECCIÓN DE POSICIÓN FINALIZADA'
+    );
+
+  }
+
+}, 250);
+
+    console.log(
+      '✅ NUEVA FUENTE ENVIADA'
+    );
+
+  });
+
+});
+
+
+  // ==========================================================
+  // CERRAR X
+  // ==========================================================
+
+  langClose.addEventListener('click', function (e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+
+    langMenu.style.display = 'none';
+
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+
+    menuOpen = false;
+
+
+    console.log(
+      '✖️ MENÚ CERRADO'
+    );
+
+  });
+
+
+  // ==========================================================
+  // NO CERRAR AL TOCAR DENTRO
+  // ==========================================================
+
+  langMenu.addEventListener('click', function (e) {
+
+    e.stopPropagation();
+
+  });
+
+
+  // ==========================================================
+  // INICIAL
+  // ==========================================================
+
+  updateChecks();
+
+
+  console.log(
+    '✅ SISTEMA DE IDIOMAS CARGADO'
+  );
 
 })();
 

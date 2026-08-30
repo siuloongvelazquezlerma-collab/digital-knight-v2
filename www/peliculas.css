@@ -1167,83 +1167,371 @@ screen and (min-width: 900px) {
     color: white;
   }
 
-  /* ======================= */
-/* Menú para pantallas grandes (desktop/tablet) */
-/* ======================= */
+  /* =========================================================
+   MENÚ DE IDIOMA — ESTILO STREAMING
+   ========================================================= */
+
 .lang-menu {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(20, 20, 20, 0.95);
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.96);
+
+  color: #fff;
+
   display: none;
   flex-direction: column;
-  gap: 10px;
-  min-width: 200px;
+
   z-index: 10000;
-  font-size: 16px;
+
+  padding: 58px 3vw 40px 3vw;
+
+  box-sizing: border-box;
+
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.lang-menu .lang-option {
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.2s;
+
+/* =========================================================
+   CONTENEDOR DE LAS DOS COLUMNAS
+   ========================================================= */
+
+.lang-columns {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
 }
 
-.lang-menu .lang-option:hover {
-  background: rgba(255, 255, 255, 0.15);
+
+/* =========================================================
+   COLUMNA
+   ========================================================= */
+
+.lang-column {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
 }
 
-.lang-menu .active {
-  background: rgba(0, 150, 255, 0.3);
+
+/* =========================================================
+   TÍTULOS
+   ========================================================= */
+
+.lang-title {
+  font-size: 25px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  padding-bottom: 25px;
 }
 
-.lang-menu button {
-  margin-top: 15px;
-  padding: 10px;
-  background: #2196F3;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
+
+/* =========================================================
+   LÍNEA DIVISORIA
+   ========================================================= */
+
+.lang-line {
+  width: 100%;
+
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   LISTA DE OPCIONES
+   ========================================================= */
+
+.lang-options {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0;
+}
+
+
+/* =========================================================
+   OPCIÓN
+   ========================================================= */
+
+.lang-option {
   position: relative;
-  z-index: 10001;
+
+  display: flex;
+
+  align-items: center;
+
+  min-height: 62px;
+
+  padding: 0 15px 0 56px;
+
+  box-sizing: border-box;
+
+  color: #f1f1f1;
+
+  font-size: 21px;
+
+  font-weight: 400;
+
+  cursor: pointer;
+
+  border-radius: 4px;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
-.lang-menu button:hover {
-  background: #1976D2;
+
+/* =========================================================
+   CHECK
+   ========================================================= */
+
+.lang-check {
+  position: absolute;
+
+  left: 8px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 28px;
+
+  font-size: 27px;
+
+  color: #fff;
+
+  opacity: 0;
 }
 
-/* ======================= */
-/* Ajustes para móviles (pantallas < 480px) */
-/* ======================= */
-@media screen and (max-width: 480px) {
+
+/* =========================================================
+   OPCIÓN ACTIVA
+   ========================================================= */
+
+.lang-option.active {
+  color: #fff;
+
+  font-weight: 700;
+}
+
+.lang-option.active .lang-check {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   EFECTO AL PASAR / TOCAR
+   ========================================================= */
+
+.lang-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-option:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =========================================================
+   BOTÓN X
+   ========================================================= */
+
+.lang-close {
+  position: absolute;
+
+  top: 30px;
+  right: 32px;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #fff;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 10002;
+
+  opacity: 0.95;
+}
+
+.lang-close .material-icons {
+  font-size: 30px;
+}
+
+.lang-close:hover {
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   TABLETS
+   ========================================================= */
+
+@media screen and (max-width: 800px) {
+
   .lang-menu {
-    padding: 12px;
-    border-radius: 8px;
-    gap: 6px;
-    min-width: 160px;
-    font-size: 14px;
+    padding: 50px 25px 30px 25px;
   }
 
-  .lang-menu .lang-option {
-    padding: 6px 8px;
+  .lang-columns {
+    gap: 12px;
   }
 
-  .lang-menu button {
-    margin-top: 10px;
-    padding: 6px 10px;
-    font-size: 13px;
-    border-radius: 6px;
+  .lang-title {
+    font-size: 22px;
+    padding-bottom: 20px;
+  }
+
+  .lang-option {
+    min-height: 56px;
+
+    font-size: 18px;
+
+    padding-left: 48px;
+  }
+
+  .lang-check {
+    left: 5px;
+    font-size: 24px;
+  }
+
+  .lang-close {
+    top: 20px;
+    right: 20px;
   }
 }
 
+
+/* =========================================================
+   CELULARES
+   ========================================================= */
+
+@media screen and (max-width: 600px) {
+
+  .lang-menu {
+    padding: 48px 18px 20px 18px;
+  }
+
+  .lang-columns {
+    grid-template-columns: 1fr;
+
+    overflow-y: auto;
+
+    gap: 30px;
+  }
+
+  .lang-title {
+    font-size: 20px;
+
+    padding-bottom: 15px;
+  }
+
+  .lang-line {
+    margin-bottom: 10px;
+  }
+
+  .lang-option {
+    min-height: 50px;
+
+    font-size: 16px;
+
+    padding-left: 42px;
+  }
+
+  .lang-check {
+    left: 3px;
+
+    font-size: 21px;
+  }
+
+  .lang-close {
+    top: 12px;
+    right: 12px;
+
+    width: 38px;
+    height: 38px;
+  }
+
+  .lang-close .material-icons {
+    font-size: 27px;
+  }
+}
+
+
+/* =========================================================
+   FOTOGRAMA CONGELADO DURANTE CAMBIO DE IDIOMA
+   ========================================================= */
+
+#languageFreezeFrame {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    z-index: 50;
+
+    pointer-events: none;
+
+    background: #000;
+}/* =========================================================
+   FOTOGRAMA CONGELADO DURANTE CAMBIO DE IDIOMA
+   ========================================================= */
+
+#languageFreezeFrame {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    z-index: 99999;
+
+    pointer-events: none;
+
+    object-fit: contain;
+
+    background: #000;
+}
 .overlay-top,
 .overlay-bottom {
   opacity: 0;
