@@ -591,14 +591,16 @@ window.movieId = "boda-sangrienta-567609";
   // para no descargar el cuerpo del archivo.
   async function resolveUrl(lang) {
     if (directUrls[lang]) return directUrls[lang];
-    const ctrl = new AbortController();
+    const hasAbort = typeof AbortController !== "undefined";
+    const ctrl = hasAbort ? new AbortController() : null;
     try {
-      const res = await fetch(videos[lang], { signal: ctrl.signal });
+      const opts = ctrl ? { signal: ctrl.signal } : {};
+      const res = await fetch(videos[lang], opts);
       if (res.ok && res.url) {
         directUrls[lang] = res.url; // URL final (ya sin el 302 de opendrive.com)
       }
     } catch (e) { /* sin CORS/red: usar la URL original */ }
-    ctrl.abort(); // detener la descarga del cuerpo; solo necesitábamos res.url
+    if (ctrl) ctrl.abort(); // detener la descarga del cuerpo; solo necesitábamos res.url
     return directUrls[lang] || videos[lang];
   }
 
@@ -629,9 +631,11 @@ window.movieId = "boda-sangrienta-567609";
   // Verifica si el MP4 de un idioma existe (HEAD con redirect resuelto)
   async function probeLang(lang) {
     try {
-      const ctrl = new AbortController();
-      const res = await fetch(videos[lang], { method: "HEAD", signal: ctrl.signal });
-      ctrl.abort();
+      const hasAbort = typeof AbortController !== "undefined";
+      const ctrl = hasAbort ? new AbortController() : null;
+      const opts = ctrl ? { method: "HEAD", signal: ctrl.signal } : { method: "HEAD" };
+      const res = await fetch(videos[lang], opts);
+      if (ctrl) ctrl.abort();
       return res.ok || res.status === 206;
     } catch (e) {
       return true; // si no se puede verificar (red/CORS), mostrar la opción
@@ -796,11 +800,19 @@ window.movieId = "boda-sangrienta-567609";
     console.log('Idioma cambiado (cambio automático):', currentLang);
   }
 
-  // Abrir menú
-  langBtnWrapper.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openMenu();
-  });
+  // Abrir menú — click (PC) + touchstart inmediato (móvil/WebView)
+  {
+    let lastOpen = 0;
+    const open = (e) => {
+      e.stopPropagation();
+      const now = Date.now();
+      if (now - lastOpen < 600) return; // evita touchstart + click duplicado
+      lastOpen = now;
+      openMenu();
+    };
+    langBtnWrapper.addEventListener('touchstart', open, { passive: true }); // móvil
+    langBtnWrapper.addEventListener('click', open);                         // PC
+  }
 
   // Cerrar con la ✕ (reanuda el estado anterior)
   nfCloseBtn.addEventListener('click', (e) => {
