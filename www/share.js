@@ -93,7 +93,7 @@ const rutaActual = window.location.pathname
 
 const linkCompleto = `${rutaActual}/${linkOriginal}`.replace(/\/+/g, "/");
     
-    const enlace = `https://digital-knight-v2.vercel.app/api/share?link=${encodeURIComponent(linkCompleto)}`;
+    const enlace = `https://digitalknightapp.com/api/share?link=${encodeURIComponent(linkCompleto)}`;
     const miniatura =
       data.querySelector("#favoritoImagen")?.src || "";
   
@@ -202,7 +202,7 @@ const rutaActual = window.location.pathname
 
 const linkCompleto = `${rutaActual}/${linkOriginal}`.replace(/\/+/g, "/");
       
-const enlace = `https://digital-knight-v2.vercel.app/api/share?link=${encodeURIComponent(linkCompleto)}`;
+const enlace = `https://digitalknightapp.com/api/share?link=${encodeURIComponent(linkCompleto)}`;
   
       const miniatura =
         data?.querySelector("#favoritoImagen")?.src || "";

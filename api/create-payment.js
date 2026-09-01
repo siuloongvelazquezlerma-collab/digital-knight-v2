@@ -27,9 +27,9 @@ export default async function handler(req, res) {
             ],
 
             back_urls: {
-                success: "https://digital-knight-v2.vercel.app/perfil.html",
-                failure: "https://digital-knight-v2.vercel.app/perfil.html",
-                pending: "https://digital-knight-v2.vercel.app/perfil.html"
+                success: "https://digitalknightapp.com/perfil.html",
+                failure: "https://digitalknightapp.com/perfil.html",
+                pending: "https://digitalknightapp.com/perfil.html"
             },
 
             auto_return: "approved"
@@ -55,31 +55,31 @@ export default async function handler(req, res) {
         const data = await response.json();
 
 
-console.log("RESPUESTA MERCADO PAGO:", data);
+        console.log("RESPUESTA MERCADO PAGO:", data);
 
 
-if(!response.ok){
+        if (!response.ok) {
 
-    return res.status(response.status).json({
-        error: data
-    });
+            return res.status(response.status).json({
+                error: data
+            });
 
-}
-
-
-return res.status(200).json({
-    init_point: data.init_point
-});
+        }
 
 
-   } catch(error) {
+        return res.status(200).json({
+            init_point: data.init_point
+        });
 
-    console.error("ERROR MERCADO PAGO:", error);
 
-    return res.status(500).json({
-        error: error.message
-    });
+    } catch (error) {
 
-}
+        console.error("ERROR MERCADO PAGO:", error);
+
+        return res.status(500).json({
+            error: error.message
+        });
+
+    }
 
 }

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     // 🔥 limpiar link
     link = link.replace(/^\/+/, "");
 
-    let url = `https://digital-knight-v2.vercel.app/${link}`;
+    let url = `https://digitalknightapp.com/${link}`;
 
     // 🔥 detectar carpeta automática
     if (!link.includes("/")) {
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       ];
 
       for (const ruta of posibles) {
-        const testUrl = `https://digital-knight-v2.vercel.app/${ruta}`;
+        const testUrl = `https://digitalknightapp.com/${ruta}`;
 
         try {
           const resTest = await fetch(testUrl, {
@@ -47,15 +47,21 @@ export default async function handler(req, res) {
     const titleMatch = html.match(/id="nombre"[^>]*>([^<]+)</i);
     const imageMatch = html.match(/id="favoritoImagen"[^>]*src="([^"]+)"/i);
 
-    const title = titleMatch ? titleMatch[1].trim() : "Digital Knight";
-    let image = imageMatch ? imageMatch[1] : "";
+    const title = titleMatch
+      ? titleMatch[1].trim()
+      : "Digital Knight";
+
+    let image = imageMatch
+      ? imageMatch[1]
+      : "";
 
     // 🔥 asegurar imagen absoluta
     if (image && !image.startsWith("http")) {
-      image = `https://digital-knight-v2.vercel.app/${image}`;
+      image = `https://digitalknightapp.com/${image}`;
     }
 
-    const description = `Mira "${title}" en Digital Knight`;
+    const description =
+      `Mira "${title}" en Digital Knight`;
 
     res.setHeader("Content-Type", "text/html");
 
@@ -81,7 +87,7 @@ export default async function handler(req, res) {
         <title>${title}</title>
 
         <!-- 🔥 SCRIPT INTELIGENTE -->
-      <script>
+        <script>
 
 const webUrl = "${url}";
 
