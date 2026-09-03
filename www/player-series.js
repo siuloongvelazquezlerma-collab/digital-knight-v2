@@ -161,10 +161,20 @@ function updateBuffer() {
   const v = videoElement;
   const buffered = v.buffered;
   const dur = video.duration();
-  if (buffered && buffered.length > 0 && dur > 0 && !isNaN(dur)) {
+  if (buffered && buffered.length > 0 && dur > 0 && !isNaN(dur) && bufferBar) {
     const bufferedEnd = buffered.end(buffered.length - 1);
-    const bufferPercent = Math.min((bufferedEnd / dur) * 100, 100);
-    if (bufferBar) bufferBar.style.width = `${bufferPercent}%`;
+    const fraction = Math.min(bufferedEnd / dur, 1);
+
+    // ⚠️ La barra de buffer NO debe anclarse al ancho total del contenedor,
+    // porque ese contenedor también incluye los números de tiempo (mm:ss).
+    // Si usáramos un % del contenedor, al acercarse al final del episodio
+    // el buffer se saldría de la pista y quedaría encima de los números.
+    // En su lugar medimos el ancho REAL de la pista (.progress) y aplicamos
+    // el mismo porcentaje pero en píxels, de modo que el buffer nunca invada
+    // la zona del contador de tiempo.
+    const trackWidth = progress.offsetWidth || 1;
+    const bufferPx = fraction * trackWidth;
+    bufferBar.style.width = `${bufferPx}px`;
   }
 }
 
@@ -200,6 +210,16 @@ progress.addEventListener('change', () => {
 isScrubbing = false;
 updateProgress();
 updateBuffer();
+});
+
+// Al rotar o redimensionar la pantalla, la pista (.progress) cambia de ancho.
+// Como updateBuffer ahora usa píxels (no %), hay que recalcular el buffer
+// para que nunca se quede desalineado ni invada los números de tiempo.
+window.addEventListener('resize', () => {
+  if (player.style.display === 'flex') {
+    updateProgress();
+    updateBuffer();
+  }
 });
 
 
