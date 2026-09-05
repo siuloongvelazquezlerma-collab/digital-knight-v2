@@ -220,13 +220,16 @@ if(mercadoPagoBtn){
 
             if(!response.ok){
 
-                const msg =
-                    (data.error &&
-                        (data.error.message ||
-                            (typeof data.error === "string" ? data.error : "")))
-                    || ("HTTP " + response.status);
+                const errObj = data.error || data;
 
-                alert("Error del servidor: " + msg);
+                const msg =
+                    (errObj && errObj.message)
+                    || (typeof errObj === "string" ? errObj : JSON.stringify(errObj));
+
+                alert(
+                    "Error del servidor: " + msg +
+                    (data.__src ? " [src=" + data.__src + "]" : "")
+                );
                 return;
 
             }

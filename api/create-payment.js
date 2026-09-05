@@ -104,13 +104,17 @@ export default async function handler(req, res) {
     console.log("RESPUESTA MERCADO PAGO:", data);
 
     if (!response.ok) {
-      return res.status(response.status).json({ error: data });
+      return res.status(response.status).json({
+        error: data,
+        __src: "V2-NO-SUPABASE", // ← marca de versión para debug
+      });
     }
 
     return res.status(200).json({
       init_point: data.init_point,
       sandbox_init_point: data.sandbox_init_point,
       id: data.id,
+      __src: "V2-NO-SUPABASE", // ← marca de versión para debug
     });
   } catch (error) {
     console.error("ERROR MERCADO PAGO:", error);
