@@ -186,7 +186,7 @@ if(mercadoPagoBtn){
             }
 
             const response = await fetch(
-                "/api/create-payment",
+                "/api/create-subscription",
                 {
                     method:"POST",
                     headers: {
@@ -194,6 +194,7 @@ if(mercadoPagoBtn){
                     },
                     body: JSON.stringify({
                         userId: userId,
+                        email: session?.user?.email || "",
                         plan: selectedPlan
                     })
                 }
