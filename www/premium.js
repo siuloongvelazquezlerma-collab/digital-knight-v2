@@ -7,6 +7,11 @@ const supabase = createClient(
 );
 
 
+// Plan seleccionado. "monthly" = $40 MXN/mes, "promo3" = $15 MXN por 3 meses.
+let selectedPlan = "monthly";
+let currentUser = null;
+
+
 async function loadPremium(){
 
 const {
@@ -19,12 +24,21 @@ if(!session){
         window.location.href = "login.html";
     };
 
+    // No hay sesión: el botón de Mercado Pago manda a login
+    const mpBtn = document.getElementById("mercadoPagoBtn");
+    if(mpBtn){
+        mpBtn.onclick = () => {
+            window.location.href = "login.html";
+        };
+    }
+
     return;
 
 }
 
 
 const user = session.user;
+currentUser = user;
 
 
 const { data: profile, error } = await supabase
@@ -123,6 +137,19 @@ if(profile.premium){
 
 loadPremium();
 
+
+// Si volvimos del checkout con estado, limpiar caché y recargar perfil
+const urlParams = new URLSearchParams(window.location.search);
+const payStatus = urlParams.get("status");
+
+if(payStatus){
+    // Limpiar la caché local para que se vuelva a leer desde Supabase
+    localStorage.removeItem("dk_profile");
+    // Recargar el perfil (muestra premium si ya se activó en el webhook)
+    loadPremium();
+}
+
+
 const mercadoPagoBtn = document.getElementById("mercadoPagoBtn");
 
 
@@ -132,19 +159,77 @@ if(mercadoPagoBtn){
 
         console.log("💳 Mercado Pago iniciado");
 
+        // El botón se guarda para evitar doble click
+        mercadoPagoBtn.disabled = true;
 
         try{
 
+            let userId = null;
+
+            // Leer la sesión actual de Supabase
+            const { data: sessionData } = await supabase.auth.getSession();
+            const session = sessionData.session;
+
+            if(session){
+                userId = session.user.id;
+            }else{
+                // Fallback a la caché local
+                const profile = JSON.parse(
+                    localStorage.getItem("dk_profile") || "{}"
+                );
+                userId = profile.id || null;
+            }
+
+            if(!userId){
+                window.location.href = "login.html";
+                return;
+            }
 
             const response = await fetch(
                 "/api/create-payment",
                 {
-                    method:"POST"
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        plan: selectedPlan
+                    })
                 }
             );
 
+            // Leer la respuesta como texto y convertir a JSON de forma segura
+            const rawText = await response.text();
 
-            const data = await response.json();
+            console.log(
+                "Respuesta cruda del servidor:",
+                response.status,
+                rawText
+            );
+
+            let data = {};
+            try {
+                data = JSON.parse(rawText);
+            } catch(e) {
+                data = { error: { message: "El servidor no devolvió JSON (status " + response.status + "): " + rawText.slice(0,200) } };
+            }
+
+            mercadoPagoBtn.disabled = false;
+
+
+            if(!response.ok){
+
+                const msg =
+                    (data.error &&
+                        (data.error.message ||
+                            (typeof data.error === "string" ? data.error : "")))
+                    || ("HTTP " + response.status);
+
+                alert("Error del servidor: " + msg);
+                return;
+
+            }
 
 
             console.log(
@@ -162,13 +247,15 @@ if(mercadoPagoBtn){
     console.error("Respuesta sin init_point:", data);
 
     alert(
-        "Mercado Pago respondió: " + JSON.stringify(data)
+        "No se pudo iniciar el pago: " + JSON.stringify(data)
     );
 
 }
 
 
         }catch(error){
+
+            mercadoPagoBtn.disabled = false;
 
             console.error(
                 "Error Mercado Pago:",
@@ -177,7 +264,8 @@ if(mercadoPagoBtn){
 
 
             alert(
-                "Error conectando con Mercado Pago"
+                "Error conectando con Mercado Pago: " +
+                (error && error.message ? error.message : error)
             );
 
         }
