@@ -5,7 +5,7 @@
 // pago: https://digitalknightapp.com/api/webhook
 //
 // Variables de entorno necesarias en Vercel:
-//   MP_ACCESS_TOKEN      -> Access Token de Mercado Pago (MODO TEST "TEST-...")
+//   MP_ACCESS_TOKEN      -> Access Token de Mercado Pago (PRODUCCION "APP_USR-...")
 //   SUPABASE_URL         -> https://wplyrhcszuoordgaphax.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY -> Service Role Key de tu proyecto Supabase
 //

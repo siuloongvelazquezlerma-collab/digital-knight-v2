@@ -3,7 +3,8 @@
 // ---------------------------------------------------------------------------
 // Variable de entorno necesaria en Vercel:
 //   MP_ACCESS_TOKEN -> Access Token de Mercado Pago
-//                       (en MODO TEST empieza con "TEST-")
+//                       - Produccion: empieza con "APP_USR-"
+//                       - Prueba:      empieza con "TEST-"
 //
 // Este endpoint SOLO crea la preferencia. La confirmación del pago y la
 // activación del premium las hace webhook.js
