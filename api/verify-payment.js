@@ -94,12 +94,33 @@ export default async function handler(req, res) {
 
     const existing = await profileRes.json();
 
-    if (!Array.isArray(existing) || existing.length === 0) {
+    // Si Supabase NO devolvio un array (ej. 401 "Invalid API key"),
+    // mostramos el detalle real para diagnosticar la causa.
+    if (!Array.isArray(existing)) {
+      return res.status(200).json({
+        ok: false,
+        paso: "buscar_perfil",
+        detalle:
+          "Supabase no devolvio filas validas. Revisa SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY.",
+        supabase_lookup: {
+          status: profileRes.status,
+          url_usada: supabaseUrl,
+          respuesta: existing,
+        },
+      });
+    }
+
+    if (existing.length === 0) {
       return res.status(200).json({
         ok: false,
         paso: "buscar_perfil",
         detalle:
           "No existe un perfil en Supabase con id=" + userId + ".",
+        supabase_lookup: {
+          status: profileRes.status,
+          url_usada: supabaseUrl,
+          filas: 0,
+        },
       });
     }
 
