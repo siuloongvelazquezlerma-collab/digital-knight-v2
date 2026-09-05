@@ -104,8 +104,15 @@ export default async function handler(req, res) {
     console.log("RESPUESTA MERCADO PAGO:", data);
 
     if (!response.ok) {
+      // Se devuelve TODO el body que Mercado Pago envió, para diagnosticar
       return res.status(response.status).json({
-        error: data,
+        error: {
+          status: response.status,
+          mercado_pago_raw: data,        // body completo de Mercado Pago
+          message:
+            (data && (data.message || data.error || JSON.stringify(data))) ||
+            ("HTTP " + response.status),
+        },
         __src: "V2-NO-SUPABASE", // ← marca de versión para debug
       });
     }

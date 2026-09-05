@@ -222,12 +222,13 @@ if(mercadoPagoBtn){
 
                 const errObj = data.error || data;
 
-                const msg =
-                    (errObj && errObj.message)
-                    || (typeof errObj === "string" ? errObj : JSON.stringify(errObj));
+                // Si Mercado Pago devolvió un body completo, mostrarlo entero
+                let detalle = errObj && errObj.mercado_pago_raw
+                    ? JSON.stringify(errObj.mercado_pago_raw)
+                    : (errObj && errObj.message ? errObj.message : JSON.stringify(errObj));
 
                 alert(
-                    "Error del servidor: " + msg +
+                    "Error del servidor: " + detalle +
                     (data.__src ? " [src=" + data.__src + "]" : "")
                 );
                 return;
