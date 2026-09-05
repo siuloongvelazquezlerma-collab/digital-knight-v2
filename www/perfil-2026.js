@@ -635,6 +635,43 @@ async function updatePremiumProfileButton(){
     if(!text || !status) return;
 
 
+    // --- Refrescar el perfil desde Supabase -----------------------------
+    // La caché local (dk_profile) puede estar vieja: el premium se activa
+    // en Supabase vía webhook DESPUÉS de que el usuario inició sesión.
+    // Por eso, si hay sesión, volvemos a leer el perfil real de Supabase.
+    try {
+
+        const { createClient } = await import(
+            'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+        );
+
+        const supabase = createClient(
+            'https://wplyrhcszuoordgaphax.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU'
+        );
+
+        const { data: sessionData } = await supabase.auth.getSession();
+        const session = sessionData.session;
+
+        if(session){
+
+            const { data: fresh, error } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", session.user.id)
+                .maybeSingle();
+
+            if(!error && fresh){
+                // Actualizar la caché local con el perfil real
+                localStorage.setItem("dk_profile", JSON.stringify(fresh));
+            }
+        }
+
+    } catch(e){
+        console.warn("No se pudo refrescar el perfil desde Supabase:", e);
+    }
+
+
     const profile = JSON.parse(
         localStorage.getItem("dk_profile")
     );
