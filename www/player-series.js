@@ -1,3 +1,50 @@
+// =========================================================
+// ⭐ DESCARGAS EXCLUSIVAS PREMIUM (series)
+// El botón de descarga por episodio solo se muestra a Premium.
+// =========================================================
+const DK_SB_URL = 'https://wplyrhcszuoordgaphax.supabase.co';
+const DK_SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU';
+
+function dkEsPremium(){
+  const p = JSON.parse(localStorage.getItem('dk_profile') || '{}');
+  if(!p.premium) return false;
+  if(p.premium_until && new Date(p.premium_until) < new Date()) return false;
+  return true;
+}
+
+// Refresca la caché del perfil desde Supabase (si hay sesión)
+async function dkRefrescarPerfil(){
+  try{
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+    const sb = createClient(DK_SB_URL, DK_SB_KEY);
+    const { data } = await sb.auth.getSession();
+    if(data.session){
+      const { data: fresh } = await sb.from('profiles')
+        .select('premium, premium_until, devices_limit')
+        .eq('id', data.session.user.id).maybeSingle();
+      if(fresh){
+        const old = JSON.parse(localStorage.getItem('dk_profile') || '{}');
+        localStorage.setItem('dk_profile', JSON.stringify({ ...old, ...fresh }));
+      }
+    }
+  }catch(e){ console.warn('No se pudo refrescar el perfil premium:', e); }
+}
+
+// Refrescar contra Supabase apenas carga (activa premium recién pagado)
+dkRefrescarPerfil();
+
+// Blindaje: interceptar clicks sobre botones de descarga ANTES del onclick
+document.addEventListener('click', function(e){
+  const el = e.target.closest('.episode-download, [onclick*="descargarEpisodio"]');
+  if(el && !dkEsPremium()){
+    e.preventDefault();
+    e.stopPropagation();
+    alert('⭐ Las descargas son exclusivas de Digital Knight Premium.\nHazte Premium para descargar episodios.');
+    window.location.href = '../premium.html';
+  }
+}, true);
+// =========================================================
+
 // Prevenir gestos táctiles no deseados
 document.addEventListener('touchmove', function (event) {
   if (event.touches.length > 1) {
@@ -628,6 +675,7 @@ async function renderEpisodes() {
     <div class="episode-title">${ep.title}</div>
     <div class="episode-meta">${ep.meta}</div>
   </div>
+  ${dkEsPremium() ? `
   <div class="episode-actions">
     <div class="episode-download"
 onclick="event.stopPropagation(); descargarEpisodio('${ep.downloadUrl}', '${ep.title}', '${ep.thumbnail}')"
@@ -636,6 +684,7 @@ tabindex="0">
   <div class="download-line"></div>
 </div>
   </div>
+  ` : ''}
 </div>
 `;
 
@@ -741,6 +790,13 @@ function actualizarFlechasEpisodios() {
 
 
 function descargarEpisodio(url, title, img) {
+
+  // Solo Premium puede descargar
+  if(!dkEsPremium()){
+    alert('⭐ Las descargas son exclusivas de Digital Knight Premium.\nHazte Premium para descargar episodios.');
+    window.location.href = '../premium.html';
+    return;
+  }
 
   const serieNombre = window.seriesName || "Serie";
 
