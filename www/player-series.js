@@ -96,7 +96,41 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 let hideControlsTimeout;
 
-// --- Skip-intro state (declarado explícitamente para evitar globals implícitos) ---
+// =========================================================
+// ⭐ ANUNCIO PREROLL (solo no premium)
+// =========================================================
+function mostrarPrerollSiNoPremium(cb) {
+  if (typeof window.DK_ADS !== 'undefined' && window.DK_ADS.mostrarVideoPreroll) {
+    window.DK_ADS.mostrarVideoPreroll(cb);
+  } else if (cb) { cb(); }
+}
+let prerollMostrado = false;
+const originalPlay = video.play;
+video.play = function() {
+  if (prerollMostrado || (typeof dkEsPremium === 'function' && dkEsPremium())) {
+    return originalPlay.apply(this, arguments);
+  }
+  prerollMostrado = true;
+  mostrarPrerollSiNoPremium(function() {
+    originalPlay.apply(video, arguments);
+    playPauseBtn.textContent = 'pause';
+    overlay.classList.remove('visible');
+  });
+  return Promise.resolve();
+};
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('#playPauseBtn, .vjs-big-play-button, .overlay-play');
+  if (btn && video.paused() && !prerollMostrado && (typeof dkEsPremium !== 'function' || !dkEsPremium())) {
+    e.preventDefault(); e.stopPropagation();
+    prerollMostrado = true;
+    mostrarPrerollSiNoPremium(function() {
+      video.play();
+      playPauseBtn.textContent = 'pause';
+      overlay.classList.remove('visible');
+    });
+  }
+}, true);
+// =========================================================
 let skipIntroStart = null;
 let skipIntroEnd = null;
 

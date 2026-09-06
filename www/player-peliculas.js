@@ -110,6 +110,49 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
+  // =========================================================
+  // ⭐ ANUNCIO PREROLL (solo no premium)
+  // Antes de reproducir, muestra un video de 5 segundos.
+  // =========================================================
+  function mostrarPrerollSiNoPremium(callback) {
+    if (typeof window.DK_ADS !== 'undefined' && window.DK_ADS.mostrarVideoPreroll) {
+      window.DK_ADS.mostrarVideoPreroll(callback);
+    } else if (callback) {
+      callback();
+    }
+  }
+
+  // Interceptar el botón de play para mostrar el preroll
+  const originalPlay = video.play;
+  let prerollMostrado = false;
+  video.play = function() {
+    if (prerollMostrado || (typeof dkEsPremium === 'function' && dkEsPremium())) {
+      return originalPlay.apply(this, arguments);
+    }
+    prerollMostrado = true;
+    mostrarPrerollSiNoPremium(function() {
+      originalPlay.apply(video, arguments);
+      playPauseBtn.textContent = 'pause';
+      overlay.classList.remove('visible');
+    });
+    return Promise.resolve();
+  };
+
+  // También interceptar click en el overlay/botón play
+  document.addEventListener('click', function(e) {
+    const playBtn = e.target.closest('#playPauseBtn, .vjs-big-play-button, .overlay-play');
+    if (playBtn && video.paused() && !prerollMostrado && (typeof dkEsPremium !== 'function' || !dkEsPremium())) {
+      e.preventDefault();
+      e.stopPropagation();
+      prerollMostrado = true;
+      mostrarPrerollSiNoPremium(function() {
+        video.play();
+        playPauseBtn.textContent = 'pause';
+        overlay.classList.remove('visible');
+      });
+    }
+  }, true);
+  // =========================================================
 // 🧩 Barra de buffer (div .buffer-bar dentro del contenedor de progreso)
 const bufferBar = document.querySelector('.progress-container .buffer-bar');
 
