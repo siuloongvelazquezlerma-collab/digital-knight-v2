@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
-    /* Tus estilos personalizados completos aquÃ­ */
+    /* Tus estilos personalizados completos aquí */
     body, html {
       margin: 0;
       padding: 0;
@@ -29,7 +29,7 @@
   
   
   .player {
-    display: none; /* â¬…ï¸ Esto es clave */
+    display: none; /* ⬅️ Esto es clave */
     position: relative;
     width: 100%;
     height: 100vh;
@@ -244,7 +244,7 @@
     display: none !important;
   }
   
-  /* AnimaciÃ³n de rotaciÃ³n */
+  /* Animación de rotación */
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -255,7 +255,7 @@
   }
   
   
-  /* AnimaciÃ³n de brillo */
+  /* Animación de brillo */
   @keyframes shine {
     0%, 100% {
       filter: brightness(1);
@@ -265,7 +265,7 @@
     }
   }
 
-    /* Incluye tus animaciones, estilos para los botones, etc. aquÃ­ */
+    /* Incluye tus animaciones, estilos para los botones, etc. aquí */
   </style>
 </head>
 <body>
@@ -359,7 +359,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const src = decodeURIComponent(urlParams.get("src") || "");
     window.movieId = urlParams.get("id") || "unknown-id";
-    const title = decodeURIComponent(urlParams.get("title") || "PelÃ­cula");
+    const title = decodeURIComponent(urlParams.get("title") || "Película");
     const poster = decodeURIComponent(urlParams.get("poster") || "");
 
     const video = document.getElementById("video");
@@ -368,7 +368,7 @@
     if (src) videoSource.src = src;
     if (poster) video.poster = poster;
 
-    // Actualiza tÃ­tulo en el reproductor si quieres
+    // Actualiza título en el reproductor si quieres
     const titleElem = document.querySelector("#episodeHeader .title");
     if (titleElem) titleElem.textContent = title;
 
@@ -376,7 +376,7 @@
     video.play();
 
     if (src) {
-  showPlayer(); // â¬…ï¸ esto activa el modo reproductor completo
+  showPlayer(); // ⬅️ esto activa el modo reproductor completo
 }
 
 
@@ -390,7 +390,7 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // ðŸ” Validar usuario actual y limpiar localStorage si es diferente
+  // 🔐 Validar usuario actual y limpiar localStorage si es diferente
   const { data: { user } } = await supabase.auth.getUser();
   const lastUserId = localStorage.getItem('last_user_id');
 
@@ -403,10 +403,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     localStorage.setItem('last_user_id', user?.id || '');
-    console.log('ðŸ§¹ Se limpiaron progresos por cambio de usuario');
+    console.log('🧹 Se limpiaron progresos por cambio de usuario');
   }
 
-  // ðŸ‘‡ Desde aquÃ­ sigue tu lÃ³gica normal (player, loader, etc.)
+  // 👇 Desde aquí sigue tu lógica normal (player, loader, etc.)
   window.videoPlayer = videojs('video', {
     controls: false,
     autoplay: false,
@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
-  // Mostrar barra y botÃ³n si ya pasaron 5 segundos
+  // Mostrar barra y botón si ya pasaron 5 segundos
   if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
     progressBar.style.display = "block";
     showRestartButton();
@@ -448,10 +448,10 @@ player.addEventListener('touchstart', showControls);
 
 function enterFullscreen() {
 
-    console.trace("ðŸ“º enterFullscreen()");
+    console.trace("📺 enterFullscreen()");
 
     if (document.fullscreenElement) {
-        console.log("âš ï¸ Ya estÃ¡ en fullscreen");
+        console.log("⚠️ Ya está en fullscreen");
         return;
     }
 
@@ -473,7 +473,7 @@ function enterFullscreen() {
 
     } catch (e) {
 
-        console.warn("âŒ Error entrando fullscreen:", e);
+        console.warn("❌ Error entrando fullscreen:", e);
 
     }
 
@@ -493,7 +493,7 @@ document.addEventListener('fullscreenchange', () => {
   const isFullscreen = document.fullscreenElement;
 
   if (!isFullscreen) {
-    // ðŸ”„ Volver a orientaciÃ³n vertical
+    // 🔄 Volver a orientación vertical
     if (screen.orientation && screen.orientation.unlock) {
       screen.orientation.unlock(); // Algunos navegadores soportan esto
     } else if (screen.orientation && screen.orientation.lock) {
@@ -525,7 +525,7 @@ function toggleAspectRatio() {
   // Aplica el modo al video
   video.style.objectFit = mode.includes('fit-') ? 'contain' : mode;
 
-  // Controla altura y ancho segÃºn modo
+  // Controla altura y ancho según modo
   switch (mode) {
     case 'fit-height':
       video.style.width = 'auto';
@@ -556,18 +556,18 @@ const loader = document.getElementById('videoLoader');
 
 
 
-  // âœ… Obtener instancia de Video.js
+  // ✅ Obtener instancia de Video.js
   const player = video?.player || videojs.getPlayer ? videojs.getPlayer("video") : null;
 
   if (!player) {
-    alert("No se encontrÃ³ el reproductor.");
+    alert("No se encontró el reproductor.");
     return;
   }
 
   const currentSrc = player.currentSrc();
 
   if (!currentSrc) {
-    alert("No se encontrÃ³ el enlace del video.");
+    alert("No se encontró el enlace del video.");
     return;
   }
 
@@ -595,10 +595,10 @@ const loader = document.getElementById('videoLoader');
 }
 
 
-    // TODO: Copia aquÃ­ todo tu JS del reproductor original
+    // TODO: Copia aquí todo tu JS del reproductor original
     // Incluye localStorage, controles, fullscreen, etc.
 
-    // AsegÃºrate que usas movieId en todo lo que guarda progreso
+    // Asegúrate que usas movieId en todo lo que guarda progreso
   </script>
 <script src="/ads.js" defer></script>
 </body>

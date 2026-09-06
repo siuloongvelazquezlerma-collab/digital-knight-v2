@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -173,7 +173,7 @@ video.ready {
   <div class="player" id="player">
   <div style="position:absolute; top: 10px; left: 10px; z-index:9999;">
     <label style="background: #333; padding: 10px; border-radius: 6px; cursor: pointer;">
-      ðŸ“ Buscar pelÃ­cula
+      📁 Buscar película
       <input type="file" accept="video/*" style="display:none;" onchange="cargarDesdeDispositivo(this)">
     </label>
   </div>
@@ -283,7 +283,7 @@ video.ready {
   // Mostrar controles al cargar
   showControls();
 
-  // TambiÃ©n controlar el overlay segÃºn play/pause de eventos externos
+  // También controlar el overlay según play/pause de eventos externos
   video.addEventListener('pause', () => overlay.classList.add('visible'));
   video.addEventListener('play', () => overlay.classList.remove('visible'));
 
@@ -291,14 +291,14 @@ video.ready {
   const video = document.getElementById('video');
   const videoSrc = localStorage.getItem("rutaParaReproducir");
 
-  // Solo establecer el src si aÃºn no hay uno activo
+  // Solo establecer el src si aún no hay uno activo
   if (!video.src || video.src === window.location.href) {
     if (videoSrc) {
       video.src = videoSrc.startsWith("file://") ? videoSrc : "file://" + videoSrc;
       video.load();
       video.play();
     } else {
-      console.log("No se encontrÃ³ ruta guardada en localStorage.");
+      console.log("No se encontró ruta guardada en localStorage.");
     }
   }
 });
@@ -316,11 +316,11 @@ function cargarDesdeDispositivo(input) {
     video.load();
     video.onloadeddata = () => {
       video.play().catch(err => {
-        alert("No se pudo reproducir automÃ¡ticamente. Pulsa play.");
+        alert("No se pudo reproducir automáticamente. Pulsa play.");
       });
     };
   } else {
-    alert("No se seleccionÃ³ ningÃºn archivo.");
+    alert("No se seleccionó ningún archivo.");
   }
 }
 
