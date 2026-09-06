@@ -112,6 +112,7 @@ export default async function handler(req, res) {
 
         await patchProfile(userId, {
           premium: true,
+          subscription_id: dataId,
           premium_since: sub.start_date || new Date().toISOString(),
           premium_until: until || addMonths(null, 1),
         });
@@ -160,6 +161,8 @@ export default async function handler(req, res) {
     const fields = {
       premium: true,
       devices_limit: currentDevices,
+      subscription_id:
+        payment.preapproval_id || profile?.subscription_id || null,
     };
 
     // Si el pago viene de una SUSCRIPCION (cobro mensual automatico),

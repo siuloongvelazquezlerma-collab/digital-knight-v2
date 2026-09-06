@@ -80,30 +80,6 @@ const status = document.getElementById("premiumStatus");
 const devices = document.getElementById("devicesText");
 const button = document.getElementById("premiumAction");
 
-
-if(button){
-
-button.onclick = () => {
-
-    const profile = JSON.parse(
-        localStorage.getItem("dk_profile") || "{}"
-    );
-
-
-    if(!profile.id){
-
-        window.location.href = "login.html";
-
-        return;
-
-    }
-
-
-    console.log("Usuario listo para elegir método de pago");
-
-};
-
-}
 const offer = document.getElementById("premiumOffer");
 
 console.log("STATUS:", status);
@@ -120,14 +96,23 @@ if(profile.premium){
 
     button.textContent = "Administrar Premium";
 
+    // Con Premium, el botón lleva a administrar/cancelar la suscripción
+    button.onclick = () => {
+        window.location.href = "manage-premium.html";
+    };
+
 }else{
 
     status.textContent = "🚀 Apoya Digital Knight Premium";
-
     devices.textContent =
     "Administra tu suscripción desde tu perfil.";
 
     button.textContent = "Abrir perfil";
+
+    // Sin Premium: a la app si ya hay sesión, o al login si no
+    button.onclick = () => {
+        window.location.href = profile.id ? "index.html" : "login.html";
+    };
 
 }
 
@@ -147,6 +132,28 @@ if(payStatus){
     localStorage.removeItem("dk_profile");
     // Recargar el perfil (muestra premium si ya se activó en el webhook)
     loadPremium();
+
+    // Tras terminar el pago, llevarlo automáticamente a la aplicación:
+    //  - con sesión iniciada -> la app
+    //  - sin sesión          -> al login
+    if(payStatus === "success"){
+
+        const button = document.getElementById("premiumAction");
+        if(button) button.textContent = "✅ Pago exitoso · Redirigiendo…";
+
+        setTimeout(async () => {
+
+            try{
+                const { data } = await supabase.auth.getSession();
+                window.location.href = data.session
+                    ? "index.html"
+                    : "login.html";
+            }catch(e){
+                window.location.href = "login.html";
+            }
+
+        }, 4000);
+    }
 }
 
 

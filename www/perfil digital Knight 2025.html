@@ -161,8 +161,7 @@
       <div class="profile-options container py-3">
 
           <div class="option-item"
-     id="premiumProfileOption"
-     onclick="window.location.href='premium.html'">
+     id="premiumProfileOption">
 
   <div class="premium-info">
 
@@ -1722,6 +1721,19 @@ async function refreshPremiumStatus(){
 
 
     if(!profile) return;
+
+
+    // Navegación de la opción Premium:
+    //  - con Premium  -> página para administrar / cancelar la suscripción
+    //  - sin Premium  -> página para contratarlo
+    const premiumOption =
+    document.getElementById("premiumProfileOption");
+    if(premiumOption){
+        premiumOption.onclick = () => {
+            window.location.href =
+            profile.premium ? "manage-premium.html" : "premium.html";
+        };
+    }
 
 
     const oldProfile =

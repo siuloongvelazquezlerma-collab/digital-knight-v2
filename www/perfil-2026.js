@@ -680,6 +680,19 @@ async function updatePremiumProfileButton(){
     if(!profile) return;
 
 
+    // Navegación de la opción Premium:
+    //  - con Premium  -> página para administrar / cancelar la suscripción
+    //  - sin Premium  -> página para contratarlo
+    const option =
+    document.getElementById("premiumProfileOption");
+    if(option){
+        option.onclick = () => {
+            window.location.href =
+            profile.premium ? "manage-premium.html" : "premium.html";
+        };
+    }
+
+
     const devices =
     document.getElementById("premiumProfileDevices");
 
