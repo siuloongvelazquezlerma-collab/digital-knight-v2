@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Digital Knight — Nuevo Diseño</title>
+<title>Digital Knight â€” Nuevo DiseÃ±o</title>
 <link rel="icon" type="image/png" href="logo-2025.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
@@ -131,7 +131,7 @@ button.nav-item.active,a.nav-item:hover{background:rgba(204,191,121,.14);color:v
 <nav class="drawer" id="drawer">
   <div class="brand"><img src="new-logo-2026.png" alt=""><span>DIGITAL KNIGHT</span></div>
   <button class="nav-item active" data-filter="todo"><span class="material-icons-outlined">home</span>Inicio</button>
-  <button class="nav-item" data-filter="peliculas"><span class="material-icons-outlined">movie</span>Películas</button>
+  <button class="nav-item" data-filter="peliculas"><span class="material-icons-outlined">movie</span>PelÃ­culas</button>
   <button class="nav-item" data-filter="series"><span class="material-icons-outlined">tv</span>Series</button>
   <button class="nav-item" data-filter="anime"><span class="material-icons-outlined">auto_awesome</span>Anime</button>
   <button class="nav-item" data-filter="familia"><span class="material-icons-outlined">family_restroom</span>Familia</button>
@@ -157,16 +157,16 @@ button.nav-item.active,a.nav-item:hover{background:rgba(204,191,121,.14);color:v
     <div class="rail" id="top10Rail"></div>
   </section>
   <section class="row-section" data-cat="todo peliculas">
-    <div class="row-head"><h3>Acción y aventura</h3><div class="line"></div></div>
-    <div class="rail" data-genre="Acción" data-type="movie"></div>
+    <div class="row-head"><h3>AcciÃ³n y aventura</h3><div class="line"></div></div>
+    <div class="rail" data-genre="AcciÃ³n" data-type="movie"></div>
   </section>
   <section class="row-section" data-cat="todo series">
     <div class="row-head"><h3>Series que te van a atrapar</h3><div class="line"></div></div>
     <div class="rail" data-type="series"></div>
   </section>
   <section class="row-section" data-cat="todo peliculas">
-    <div class="row-head"><h3>Ciencia ficción y fantasía</h3><div class="line"></div></div>
-    <div class="rail" data-genre="Ciencia ficción" data-type="movie"></div>
+    <div class="row-head"><h3>Ciencia ficciÃ³n y fantasÃ­a</h3><div class="line"></div></div>
+    <div class="rail" data-genre="Ciencia ficciÃ³n" data-type="movie"></div>
   </section>
   <section class="row-section" data-cat="todo familia">
     <div class="row-head"><h3>Para ver en familia</h3><div class="line"></div></div>
@@ -177,20 +177,20 @@ button.nav-item.active,a.nav-item:hover{background:rgba(204,191,121,.14);color:v
     <div class="rail" data-genre="Comedia" data-type="movie"></div>
   </section>
   <section class="row-section" data-cat="todo anime">
-    <div class="row-head"><h3>Anime y animación</h3><div class="line"></div></div>
+    <div class="row-head"><h3>Anime y animaciÃ³n</h3><div class="line"></div></div>
     <div class="rail" id="animeRail"></div>
   </section>
   <section class="row-section" data-cat="todo doramas">
     <div class="row-head"><h3>Doramas</h3><div class="line"></div></div>
     <div class="rail" id="doramasRail"></div>
   </section>
-  <footer class="mini-footer">Digital Knight © 2026 — Diseño experimental</footer>
+  <footer class="mini-footer">Digital Knight Â© 2026 â€” DiseÃ±o experimental</footer>
 </main>
 
 <div class="search-panel" id="searchPanel">
   <div class="search-bar">
     <span class="material-icons-outlined" style="color:var(--gold)">search</span>
-    <input type="text" id="searchInput" placeholder="Buscar películas o series..." autocomplete="off">
+    <input type="text" id="searchInput" placeholder="Buscar pelÃ­culas o series..." autocomplete="off">
     <button id="searchClose" style="background:none;border:none;color:#fff;cursor:pointer;padding:8px"><span class="material-icons-outlined">close</span></button>
   </div>
   <div class="search-results" id="searchResults"></div>
@@ -272,7 +272,7 @@ const fillRail = (el, items) => { if(el) el.innerHTML = items.map(cardHTML).join
           ${it.desc ? `<p class="desc">${esc(it.desc)}</p>` : ''}
           <div class="actions">
             <a href="${esc(it.link)}"><button class="btn-ver"><span class="material-icons-outlined" style="font-size:20px">play_arrow</span>Ver ahora</button></a>
-            <a href="${esc(it.link)}"><button class="btn-info">Más info</button></a>
+            <a href="${esc(it.link)}"><button class="btn-info">MÃ¡s info</button></a>
           </div>
         </div>
       </div>`).join('');
@@ -284,14 +284,14 @@ const fillRail = (el, items) => { if(el) el.innerHTML = items.map(cardHTML).join
     });
   } catch(e){ console.error('Hero:', e); }
 })();
-/* ============ CATÁLOGO ============ */
+/* ============ CATÃLOGO ============ */
 (async () => {
   document.querySelectorAll('.rail[data-type]').forEach(r => {
     r.innerHTML = '<div class="sk-card skeleton"></div>'.repeat(6);
   });
   let catalog = [];
   try { catalog = await (await fetch('./movies.json')).json(); }
-  catch(e){ console.error('Catálogo:', e); return; }
+  catch(e){ console.error('CatÃ¡logo:', e); return; }
 
   document.querySelectorAll('.rail[data-type]').forEach(rail => {
     const type = rail.dataset.type;
@@ -421,7 +421,7 @@ function renderCV(items){
     barW.appendChild(bar);
     a.appendChild(img); a.appendChild(barW); div.appendChild(a);
     const t = document.createElement('div'); t.className = 'card-title';
-    t.textContent = type === 'series' ? (data.seriesTitle || 'Serie') : (data.title || 'Película');
+    t.textContent = type === 'series' ? (data.seriesTitle || 'Serie') : (data.title || 'PelÃ­cula');
     div.appendChild(t);
     if (type === 'series' && data.episodeTitle){
       const e = document.createElement('div'); e.className = 'card-sub';
@@ -476,5 +476,6 @@ searchInput.addEventListener('input', () => {
     : '<p style="grid-column:1/-1;color:var(--txt-dim);padding:20px;text-align:center">Sin resultados.</p>';
 });
 </script>
+<script src="/ads.js" defer></script>
 </body>
 </html>

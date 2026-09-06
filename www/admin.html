@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -250,14 +250,14 @@ select{
 
   <div class="card">
 
-    <h2>📺 Digital Knight Admin Panel</h2>
+    <h2>ðŸ“º Digital Knight Admin Panel</h2>
 
     <!-- ========================= -->
     <!-- BUSCADOR -->
     <!-- ========================= -->
 
     <div class="section-title">
-        🔎 Buscar película o serie
+        ðŸ”Ž Buscar pelÃ­cula o serie
     </div>
 
     <input
@@ -269,7 +269,7 @@ select{
 
 
     <!-- ========================= -->
-    <!-- INFORMACIÓN -->
+    <!-- INFORMACIÃ“N -->
     <!-- ========================= -->
 
    <div id="preview" style="display:none;">
@@ -284,11 +284,11 @@ select{
 
 
     <!-- ========================= -->
-    <!-- TÍTULO PUSH -->
+    <!-- TÃTULO PUSH -->
     <!-- ========================= -->
 
     <div class="section-title">
-        Título de la notificación
+        TÃ­tulo de la notificaciÃ³n
     </div>
 
     <input
@@ -311,18 +311,18 @@ select{
 
 
         <div class="section-title">
-    Tipo de notificación flotante
+    Tipo de notificaciÃ³n flotante
 </div>
 
 <select id="notificationType">
-    <option value="new_movie">🍿 Nueva película</option>
-    <option value="new_series">📺 Nueva serie</option>
-    <option value="movie">🎬 Recomendación de película</option>
-    <option value="series">⭐ Recomendación de serie</option>
-    <option value="season">🆕 Nueva temporada</option>
-    <option value="collection">🎞️ Nueva colección</option>
-    <option value="update">🚀 Actualización</option>
-    <option value="custom">⭐ Personalizada</option>
+    <option value="new_movie">ðŸ¿ Nueva pelÃ­cula</option>
+    <option value="new_series">ðŸ“º Nueva serie</option>
+    <option value="movie">ðŸŽ¬ RecomendaciÃ³n de pelÃ­cula</option>
+    <option value="series">â­ RecomendaciÃ³n de serie</option>
+    <option value="season">ðŸ†• Nueva temporada</option>
+    <option value="collection">ðŸŽžï¸ Nueva colecciÃ³n</option>
+    <option value="update">ðŸš€ ActualizaciÃ³n</option>
+    <option value="custom">â­ Personalizada</option>
 </select>
    
 
@@ -331,7 +331,7 @@ select{
     <!-- ========================= -->
 
     <div class="section-title">
-        Acción
+        AcciÃ³n
     </div>
 
     <input
@@ -355,11 +355,11 @@ select{
 
 
     <button onclick="send()">
-        🚀 Enviar Notificación
+        ðŸš€ Enviar NotificaciÃ³n
     </button>
 
     <button onclick="saveFloating()">
-    📢 Guardar notificación flotante
+    ðŸ“¢ Guardar notificaciÃ³n flotante
 </button>
 
     <div
@@ -383,7 +383,7 @@ select{
     );
 
     // ==========================
-// Cargar catálogo
+// Cargar catÃ¡logo
 // ==========================
 
 let movies = [];
@@ -396,7 +396,7 @@ async function loadMovies() {
 
     movies = await res.json();
 
-    console.log("✅ Catálogo cargado:", movies.length);
+    console.log("âœ… CatÃ¡logo cargado:", movies.length);
 
   } catch (e) {
 
@@ -495,12 +495,12 @@ const movie = movies.find(m => m.title === title);
     if (!movie) return;
 
     // ==========================
-    // Datos de la película
+    // Datos de la pelÃ­cula
     // ==========================
 
 
     // ==========================
-// Datos de la película
+// Datos de la pelÃ­cula
 
 document.getElementById("previewPoster").src =
     movie.poster;
@@ -512,7 +512,7 @@ document.getElementById("previewDetails").innerText =
     movie.details;
 
     // ==========================
-    // Link automático
+    // Link automÃ¡tico
     // ==========================
 
     let action = movie.link || "";
@@ -552,7 +552,7 @@ document.getElementById("action").value =
 if (movie.type === "update") {
 
     document.getElementById("pushTitle").value =
-        "Nueva actualización disponible";
+        "Nueva actualizaciÃ³n disponible";
 
 } else {
 
@@ -562,7 +562,7 @@ if (movie.type === "update") {
 }
 
 
-// Mostrar película seleccionada
+// Mostrar pelÃ­cula seleccionada
 
 document.getElementById("preview").style.display = "block";
 
@@ -572,7 +572,7 @@ document.getElementById("preview").style.display = "block";
 searchResults.style.display = "none";
 
 
-// Dejar solo la película elegida
+// Dejar solo la pelÃ­cula elegida
 
 search.value = movie.title;
 
@@ -592,12 +592,12 @@ search.value = movie.title;
     const status = document.getElementById("status");
 
     if (!title || !body) {
-      status.innerText = "⚠️ Completa título y mensaje";
+      status.innerText = "âš ï¸ Completa tÃ­tulo y mensaje";
       return;
     }
 
     sending = true;
-    status.innerText = "⏳ Enviando...";
+    status.innerText = "â³ Enviando...";
 
     try {
       const { error } = await supabase
@@ -608,7 +608,7 @@ search.value = movie.title;
 
       if (error) {
         console.log(error);
-        status.innerText = "❌ Error al guardar en Supabase";
+        status.innerText = "âŒ Error al guardar en Supabase";
         sending = false;
         return;
       }
@@ -618,12 +618,12 @@ search.value = movie.title;
 
       if (fnError) {
         console.log(fnError);
-        status.innerText = "⚠️ Guardado pero error enviando push";
+        status.innerText = "âš ï¸ Guardado pero error enviando push";
         sending = false;
         return;
       }
 
-      status.innerText = "✔ Notificación enviada 📱";
+      status.innerText = "âœ” NotificaciÃ³n enviada ðŸ“±";
 
       document.getElementById("title").value = "";
       document.getElementById("body").value = "";
@@ -632,7 +632,7 @@ search.value = movie.title;
 
     } catch (e) {
       console.log(e);
-      status.innerText = "❌ Error inesperado";
+      status.innerText = "âŒ Error inesperado";
     }
 
     sending = false;
@@ -675,13 +675,14 @@ search.value = movie.title;
 
   if (error) {
     console.error("ERROR SUPABASE FLOATING:", error);
-    status.innerText = "❌ " + error.message;
+    status.innerText = "âŒ " + error.message;
     return;
 }
 
-  status.innerText = "✅ Notificación flotante guardada";
+  status.innerText = "âœ… NotificaciÃ³n flotante guardada";
 }
 </script>
 
+<script src="/ads.js" defer></script>
 </body>
 </html>

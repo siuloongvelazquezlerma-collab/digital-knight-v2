@@ -1,15 +1,15 @@
-
+﻿
 
 <script>
 
-    // Prevenir gestos táctiles no deseados
+    // Prevenir gestos tÃ¡ctiles no deseados
 document.addEventListener('touchmove', function (event) {
             if (event.touches.length > 1) {
                 event.preventDefault();
             }
         }, { passive: false });
 
-       var lastScrollTop = 0; // Última posición de desplazamiento
+       var lastScrollTop = 0; // Ãšltima posiciÃ³n de desplazamiento
 var header = document.querySelector('header');
 var tabs = document.querySelector('.tabs');
 var carouselItems = document.querySelectorAll('.carousel-item'); // Todos los elementos del carrusel
@@ -22,7 +22,7 @@ window.addEventListener('scroll', function() {
         header.classList.add('hidden');
         tabs.classList.add('hidden');
         
-        // Quitar oscurecimiento de las imágenes al desplazarse hacia abajo
+        // Quitar oscurecimiento de las imÃ¡genes al desplazarse hacia abajo
         carouselItems.forEach(item => {
             item.querySelector('.dark-overlay').style.opacity = '0';
         });
@@ -31,26 +31,26 @@ window.addEventListener('scroll', function() {
         header.classList.remove('hidden');
         tabs.classList.remove('hidden');
         
-        // Aplicar oscurecimiento solo si se está desplazando hacia arriba
+        // Aplicar oscurecimiento solo si se estÃ¡ desplazando hacia arriba
         carouselItems.forEach(item => {
             item.querySelector('.dark-overlay').style.opacity = '1'; // Oscurecer
         });
     }
 
-    // Actualiza la última posición de desplazamiento
+    // Actualiza la Ãºltima posiciÃ³n de desplazamiento
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Evitar que sea un valor negativo
 });
 
-// Mostrar el loader al cargar la página
+// Mostrar el loader al cargar la pÃ¡gina
 window.addEventListener('load', function () {
     const loader = document.getElementById('loader');
 
     setTimeout(() => {
-        loader.style.opacity = '0'; // Transición para desaparecer
-        setTimeout(() => { loader.style.display = 'none'; }, 300); // Ocultar completamente después de la transición
-    }, 1000); // Mantén el loader visible durante 1 segundo
+        loader.style.opacity = '0'; // TransiciÃ³n para desaparecer
+        setTimeout(() => { loader.style.display = 'none'; }, 300); // Ocultar completamente despuÃ©s de la transiciÃ³n
+    }, 1000); // MantÃ©n el loader visible durante 1 segundo
 
-    // Mostrar el contenido del body con la transición
+    // Mostrar el contenido del body con la transiciÃ³n
     document.body.classList.add('loaded');
 });
 
@@ -66,19 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             const tabId = tab.getAttribute('data-tab');
 
-            // Quitar la clase 'active' de todas las pestañas y contenidos
+            // Quitar la clase 'active' de todas las pestaÃ±as y contenidos
             tabs.forEach(t => t.classList.remove('active'));
             tabContents.forEach(tc => {
                 tc.classList.remove('active');
                 tc.style.opacity = 0;
                 const track = tc.querySelector('.carousel-track');
                 if (track) {
-                    resetCarousel(track); // Reiniciar el carrusel al cambiar de pestaña
+                    resetCarousel(track); // Reiniciar el carrusel al cambiar de pestaÃ±a
                     track.stopAutoScroll(); // Detener auto-scroll del carrusel
                 }
             });
 
-            // Agregar la clase 'active' a la pestaña y al contenido correspondiente
+            // Agregar la clase 'active' a la pestaÃ±a y al contenido correspondiente
             tab.classList.add('active');
             const activeContent = document.getElementById(tabId);
             activeContent.classList.add('active');
@@ -86,12 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeContent.style.opacity = 1;
             }, 50);
 
-            // Inicia el desplazamiento hacia la pestaña activa
+            // Inicia el desplazamiento hacia la pestaÃ±a activa
             if (["tab3", "tab4", "tab5", "tab6"].includes(tabId)) {
                 scrollToActiveTab(tab);
             }
 
-            // Reiniciar y activar el carrusel de la pestaña activa
+            // Reiniciar y activar el carrusel de la pestaÃ±a activa
             const carouselTrack = activeContent.querySelector('.carousel-track');
             if (carouselTrack) {
                 startCarouselForActiveTab(carouselTrack);
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tabRect = activeTab.getBoundingClientRect();
         const containerRect = tabsContainer.getBoundingClientRect();
 
-        // Calcula el desplazamiento absoluto para centrar la pestaña activa en el contenedor
+        // Calcula el desplazamiento absoluto para centrar la pestaÃ±a activa en el contenedor
         const offset = tabRect.left - containerRect.left + tabsContainer.scrollLeft
             - (containerRect.width / 2) + (tabRect.width / 2);
 
@@ -114,14 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Configuración del carrusel en cada tab
+    // ConfiguraciÃ³n del carrusel en cada tab
     const carousels = document.querySelectorAll('.carousel-track');
     carousels.forEach((track, index) => {
         let currentIndex = 0;
         const totalImages = track.children.length;
         const indicators = document.querySelectorAll(`#tab${index + 1} .indicator`);
         let autoScrollInterval;
-        let isAtEnd = false; // Verifica si el carrusel llegó al final
+        let isAtEnd = false; // Verifica si el carrusel llegÃ³ al final
         let startX = 0;
         let currentTranslate = 0;
         let previousTranslate = 0;
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 indicator.classList.toggle('active', ind === currentIndex);
             });
 
-            // Verifica si estamos en la última imagen
+            // Verifica si estamos en la Ãºltima imagen
             isAtEnd = currentIndex >= totalImages - 1;
         };
 
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isAtEnd) {
                     currentIndex++;
                     if (currentIndex >= totalImages) {
-                        currentIndex = totalImages - 1; // Detener en la última imagen
+                        currentIndex = totalImages - 1; // Detener en la Ãºltima imagen
                         clearInterval(autoScrollInterval); // Detener el auto-scroll
                         isAtEnd = true;
                     }
@@ -156,18 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(autoScrollInterval);
         };
 
-        // Vincular métodos al track para facilitar el control
+        // Vincular mÃ©todos al track para facilitar el control
         track.startAutoScroll = startAutoScroll;
         track.stopAutoScroll = stopAutoScroll;
 
-        // Detener carrusel al principio, ya que no debe estar activo hasta que la tab esté activa
+        // Detener carrusel al principio, ya que no debe estar activo hasta que la tab estÃ© activa
         track.stopAutoScroll();
 
-        // Lógica para movimiento manual
+        // LÃ³gica para movimiento manual
         const touchStart = (e) => {
             startX = e.touches[0].clientX;
             stopAutoScroll();
-            track.style.transition = 'none'; // Desactivar transición durante el movimiento manual
+            track.style.transition = 'none'; // Desactivar transiciÃ³n durante el movimiento manual
         };
 
         const touchMove = (e) => {
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const touchEnd = () => {
             const movedBy = currentTranslate - previousTranslate;
 
-            // Determinar si el usuario deslizó lo suficiente
+            // Determinar si el usuario deslizÃ³ lo suficiente
             if (movedBy < -50 && currentIndex < totalImages - 1) {
                 currentIndex++;
             }
@@ -191,13 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCarousel();
             previousTranslate = -currentIndex * track.offsetWidth;
 
-            // Si el carrusel no está al final, reiniciar auto-scroll
+            // Si el carrusel no estÃ¡ al final, reiniciar auto-scroll
             if (!isAtEnd) {
                 startAutoScroll();
             }
         };
 
-        // Vinculación de eventos táctiles
+        // VinculaciÃ³n de eventos tÃ¡ctiles
         track.addEventListener('touchstart', touchStart);
         track.addEventListener('touchmove', touchMove);
         track.addEventListener('touchend', touchEnd);
@@ -217,13 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
         track.resetCarousel();
     }
 
-    // Activar el carrusel solo cuando la tab correspondiente esté activa
+    // Activar el carrusel solo cuando la tab correspondiente estÃ© activa
     function startCarouselForActiveTab(track) {
         track.stopAutoScroll(); // Detener el carrusel antes de iniciarlo
         track.startAutoScroll(); // Iniciar el carrusel activo
     }
 
-    // Inicia el carrusel del primer tab automáticamente al cargar la página
+    // Inicia el carrusel del primer tab automÃ¡ticamente al cargar la pÃ¡gina
     const firstTabCarousel = document.querySelector('.tab-content.active .carousel-track');
     if (firstTabCarousel) {
         startCarouselForActiveTab(firstTabCarousel);
@@ -243,32 +243,32 @@ document.addEventListener('DOMContentLoaded', () => {
     footerIcons.forEach(icon => {
         icon.addEventListener('click', () => {
             footerIcons.forEach(i => i.classList.remove('active')); // Elimina la clase activa de todos los iconos
-            icon.classList.add('active'); // Añade la clase activa solo al icono seleccionado
+            icon.classList.add('active'); // AÃ±ade la clase activa solo al icono seleccionado
         });
     });
 });
 document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.tab'); // Selector para las pestañas
+    const tabs = document.querySelectorAll('.tab'); // Selector para las pestaÃ±as
     const loader = document.getElementById('loader');
 
     tabs.forEach(tab => {
         tab.addEventListener('click', (event) => {
             event.preventDefault();
-            loader.style.display = 'block'; // Asegura que esté visible para la transición
-            setTimeout(() => { loader.style.opacity = '1'; }, 20); // Inicia transición con un pequeño retardo
+            loader.style.display = 'block'; // Asegura que estÃ© visible para la transiciÃ³n
+            setTimeout(() => { loader.style.opacity = '1'; }, 20); // Inicia transiciÃ³n con un pequeÃ±o retardo
 
             setTimeout(() => {
-                // Aquí puedes añadir la lógica para cambiar de pestaña
+                // AquÃ­ puedes aÃ±adir la lÃ³gica para cambiar de pestaÃ±a
 
-                loader.style.opacity = '0'; // Oculta el loader con transición
-                setTimeout(() => { loader.style.display = 'none'; }, 300); // Desactiva después de la transición
-            }, 3000); // Ajusta el tiempo según la transición real
+                loader.style.opacity = '0'; // Oculta el loader con transiciÃ³n
+                setTimeout(() => { loader.style.display = 'none'; }, 300); // Desactiva despuÃ©s de la transiciÃ³n
+            }, 3000); // Ajusta el tiempo segÃºn la transiciÃ³n real
         });
     });
 });
 
 
-// Gestión de imágenes de perfil
+// GestiÃ³n de imÃ¡genes de perfil
 const footerProfileIcon = document.getElementById("footerIconImg");
 const headerProfileIcon = document.getElementById("headerProfileIcon"); // NUEVO
 const profileImage = document.getElementById("profileImage");
@@ -277,7 +277,7 @@ const profilePageImage = document.getElementById("profilePageImage");
 const defaultProfileIcon = document.getElementById("defaultProfileIcon");
 const defaultProfileIconAlt = document.getElementById("defaultProfileIconAlt");
 
-// Función para cambiar todas las imágenes de perfil
+// FunciÃ³n para cambiar todas las imÃ¡genes de perfil
 function updateProfileImage(src) {
   if (profileImage) profileImage.src = src;
   if (profilePageImage) profilePageImage.src = src;
@@ -290,7 +290,7 @@ function updateProfileImage(src) {
   localStorage.setItem('profileImage', src);
 }
 
-// Restaurar la imagen de perfil guardada al cargar la página
+// Restaurar la imagen de perfil guardada al cargar la pÃ¡gina
 window.addEventListener('load', function () {
   const storedProfileImage = localStorage.getItem('profileImage');
   if (storedProfileImage) {
@@ -325,21 +325,21 @@ const mockNotifications = [
 {
         header: "Nuevo Contenido",
         title: "Cool World: Mundo Cool",
-        body: "Un caricaturista queda atrapado en su propia creación...",
+        body: "Un caricaturista queda atrapado en su propia creaciÃ³n...",
         image: "https://image.tmdb.org/t/p/original/bJkxddZ4OhJa88TeH28pByJhkTM.jpg",
         link: "go:cool"
     },
     {
         header: "Nuevo Contenido",
         title: "Sonic: La pelicula",
-        body: "Tom Wachowski, el sheriff de la ciudad de Green Hills, viajará a San Francisco para ayudar a Sonic.",
+        body: "Tom Wachowski, el sheriff de la ciudad de Green Hills, viajarÃ¡ a San Francisco para ayudar a Sonic.",
         image: "https://image.tmdb.org/t/p/original/gmMNvS6GfpyRqnoR1uNp0gJK1YE.jpg",
         link: "go:sonic"
     },
     {
         header: "Nuevo Contenido",
         title: "Sonic 2",
-        body: "Sonic está ansioso por demostrar que tiene lo que se necesita para ser un verdadero héroe.",
+        body: "Sonic estÃ¡ ansioso por demostrar que tiene lo que se necesita para ser un verdadero hÃ©roe.",
         image: "https://image.tmdb.org/t/p/original/pedH8nEpJ29TQ4rHFLGmWRS9qY4.jpg",
         link: "go:sonic2"
     },
@@ -356,7 +356,7 @@ function fetchNotifications() {
     });
 }
 
-// Función para cargar notificaciones
+// FunciÃ³n para cargar notificaciones
 async function loadNotifications() {
     try {
         const notifications = await fetchNotifications();
@@ -380,7 +380,7 @@ async function loadNotifications() {
     }
 }
 
-// Crear el elemento HTML de la notificación
+// Crear el elemento HTML de la notificaciÃ³n
 function createNotificationElement(notification) {
     const notificationItem = document.createElement("a");
     notificationItem.href = notification.link || "#"; // Enlace por defecto
@@ -389,7 +389,7 @@ function createNotificationElement(notification) {
     notificationItem.innerHTML = `
         <img src="${notification.image}" alt="${notification.title}" class="notification-image">
         <div class="notification-text">
-            <h2>${notification.header || "Notificación"}</h2>
+            <h2>${notification.header || "NotificaciÃ³n"}</h2>
             <h3>${notification.title}</h3>
             <p>${notification.body}</p>
         </div>
@@ -397,21 +397,21 @@ function createNotificationElement(notification) {
     return notificationItem;
 }
 
-// Función para mostrar la sección de notificaciones
+// FunciÃ³n para mostrar la secciÃ³n de notificaciones
 function showNotifications() {
     const notificationsPage = document.getElementById("notificationsPage");
     notificationsPage.classList.remove("hidden");
-    updateNotificationBadge(); // Actualiza el badge al abrir la página
+    updateNotificationBadge(); // Actualiza el badge al abrir la pÃ¡gina
 }
 
-// Función para cerrar las notificaciones
+// FunciÃ³n para cerrar las notificaciones
 function closeNotifications() {
     const notificationsPage = document.getElementById("notificationsPage");
     notificationsPage.classList.add("hidden");
-    updateNotificationBadge(); // Actualiza el badge al cerrar la página
+    updateNotificationBadge(); // Actualiza el badge al cerrar la pÃ¡gina
 }
 
-// Función para actualizar el punto rojo en el ícono de notificaciones
+// FunciÃ³n para actualizar el punto rojo en el Ã­cono de notificaciones
 function updateNotificationBadge() {
     const notificationsContainer = document.getElementById("notificationsContainer");
     const notificationItems = notificationsContainer.querySelectorAll(".notification-item");
@@ -419,30 +419,30 @@ function updateNotificationBadge() {
 
     if (notificationItems.length > 0) {
         notificationBadge.style.display = "flex"; // Muestra el badge
-        notificationBadge.textContent = notificationItems.length; // Muestra el número de notificaciones
+        notificationBadge.textContent = notificationItems.length; // Muestra el nÃºmero de notificaciones
     } else {
         notificationBadge.style.display = "none"; // Oculta el badge si no hay notificaciones
     }
 }
 
-// Inicializa las notificaciones al cargar la página
+// Inicializa las notificaciones al cargar la pÃ¡gina
 window.addEventListener('DOMContentLoaded', () => {
     loadNotifications();
     updateNotificationBadge();
 });
 
 
-// Contenedor de la sección "Continuar Viendo"
+// Contenedor de la secciÃ³n "Continuar Viendo"
 var container = document.getElementById('continueWatchingContainer');
 var continueWatchingSection = document.querySelector('.movie-section.continue-watching');
 
-// Ocultar la sección inicialmente
+// Ocultar la secciÃ³n inicialmente
 continueWatchingSection.style.display = 'none';
 
-// Variable para rastrear si hay películas incompletas
+// Variable para rastrear si hay pelÃ­culas incompletas
 var hasIncompleteMovies = false;
 
-// Crear una lista temporal para ordenar y mostrar las películas más recientes primero
+// Crear una lista temporal para ordenar y mostrar las pelÃ­culas mÃ¡s recientes primero
 var moviesToRender = [];
 
 // Iterar sobre los datos de localStorage
@@ -454,8 +454,8 @@ for (var i = 0; i < localStorage.length; i++) {
         // Verificar que el objeto tenga los datos necesarios
         if (movieData && movieData.title && movieData.poster && movieData.link && movieData.progress !== undefined) {
             if (movieData.progress < 100) {
-                hasIncompleteMovies = true; // Marcar que hay películas incompletas
-                moviesToRender.push({ key: key, data: movieData }); // Guardar para renderizar después
+                hasIncompleteMovies = true; // Marcar que hay pelÃ­culas incompletas
+                moviesToRender.push({ key: key, data: movieData }); // Guardar para renderizar despuÃ©s
             }
         }
     } catch (e) {
@@ -463,19 +463,19 @@ for (var i = 0; i < localStorage.length; i++) {
     }
 }
 
-// Ordenar las películas por clave (esto simula agregar las más nuevas primero)
-moviesToRender.reverse(); // Revertimos el orden para que las últimas películas se muestren primero
+// Ordenar las pelÃ­culas por clave (esto simula agregar las mÃ¡s nuevas primero)
+moviesToRender.reverse(); // Revertimos el orden para que las Ãºltimas pelÃ­culas se muestren primero
 
-// Renderizar las películas en el DOM
+// Renderizar las pelÃ­culas en el DOM
 moviesToRender.forEach(function (movie) {
     var key = movie.key;
     var movieData = movie.data;
 
-    // Crear el contenedor para cada película
+    // Crear el contenedor para cada pelÃ­cula
     var movieDiv = document.createElement('div');
     movieDiv.classList.add('movie-item');
 
-    // Crear la imagen del póster
+    // Crear la imagen del pÃ³ster
     var img = document.createElement('img');
     img.src = movieData.poster;
     img.alt = movieData.title;
@@ -496,47 +496,47 @@ moviesToRender.forEach(function (movie) {
     // Crear la barra de progreso
     var progressBar = document.createElement('div');
     progressBar.classList.add('progress-bar');
-    progressBar.style.width = movieData.progress + '%'; // Progreso dinámico basado en localStorage
+    progressBar.style.width = movieData.progress + '%'; // Progreso dinÃ¡mico basado en localStorage
     progressBarContainer.appendChild(progressBar);
 
-    // Agregar la barra de progreso al contenedor de la película
+    // Agregar la barra de progreso al contenedor de la pelÃ­cula
     movieDiv.appendChild(progressBarContainer);
 
-    // Crear el título de la película
+    // Crear el tÃ­tulo de la pelÃ­cula
     var movieTitle = document.createElement('div');
     movieTitle.classList.add('movie-title');
     movieTitle.textContent = movieData.title;
 
-    // Agregar el título debajo de la barra de progreso
+    // Agregar el tÃ­tulo debajo de la barra de progreso
     movieDiv.appendChild(movieTitle);
 
-    // Crear el botón para eliminar la película
+    // Crear el botÃ³n para eliminar la pelÃ­cula
     var deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-button');
     deleteButton.textContent = 'X';
 
-    // Agregar evento para eliminar la película
+    // Agregar evento para eliminar la pelÃ­cula
     deleteButton.addEventListener('click', function () {
         // Eliminar el contenedor del DOM
         movieDiv.remove();
 
-        // Eliminar la película de localStorage
+        // Eliminar la pelÃ­cula de localStorage
         localStorage.removeItem(key);
 
-        // Verificar si quedan películas incompletas
+        // Verificar si quedan pelÃ­culas incompletas
         if (container.children.length === 0) {
-            continueWatchingSection.style.display = 'none'; // Ocultar la sección si está vacía
+            continueWatchingSection.style.display = 'none'; // Ocultar la secciÃ³n si estÃ¡ vacÃ­a
         }
     });
 
-    // Agregar el botón de eliminar al contenedor de la película
+    // Agregar el botÃ³n de eliminar al contenedor de la pelÃ­cula
     movieDiv.appendChild(deleteButton);
 
-    // Agregar el contenedor de la película al inicio del contenedor principal
+    // Agregar el contenedor de la pelÃ­cula al inicio del contenedor principal
     container.prepend(movieDiv);
 });
 
-// Mostrar la sección si hay películas incompletas
+// Mostrar la secciÃ³n si hay pelÃ­culas incompletas
 if (hasIncompleteMovies) {
     continueWatchingSection.style.display = 'block';
 }
@@ -549,5 +549,6 @@ if (hasIncompleteMovies) {
 
 </script>
 
+<script src="/ads.js" defer></script>
 </body>
 </html>
