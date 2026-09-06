@@ -37,6 +37,19 @@
       url: "premium.html",
       // cada cuánto vuelve a aparecer tras cerrarlo (horas). 0 = siempre
       recordatorioHoras: 12
+    },
+
+    // 3) ANUNCIO EN VIDEO a pantalla completa (intersticial propio)
+    //    videos: lista de links .mp4 (tuyos o de patrocinadores).
+    //    Se elige uno al azar. Se puede cerrar tras 'segundosAntesCerrar'.
+    videoAd: {
+      enabled: true,
+      videos: [
+        // ⬇️ PEGA AQUÍ TUS LINKS DE VIDEO (mp4). Ejemplo:
+        // "https://od.lk/d/xxxxx/mi-promo.mp4",
+      ],
+      segundosAntesCerrar: 5,   // el ✕ aparece después de estos segundos
+      frecuenciaHoras: 6        // cada cuánto puede volver a salir
     }
   };
 
@@ -154,6 +167,136 @@
   }
 
   // ------------------------------------------------------
+  // 🧹 LIMPIEZA: dar de baja el Service Worker de Monetag
+  // (el sitio fue rechazado; el SW ya no debe interceptar nada)
+  // ------------------------------------------------------
+  async function limpiarServiceWorkers(){
+    try{
+      if(!('serviceWorker' in navigator)) return;
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for(const reg of regs){
+        const url = reg.active?.scriptURL || reg.installing?.scriptURL || '';
+        if(url.includes('5gvci.com') || url.includes('monetag') || /\/sw\.js/.test(url)){
+          await reg.unregister();
+          console.log('[dk-ads] Service Worker de anuncios dado de baja:', url);
+        }
+      }
+    }catch(e){ /* silencioso */ }
+  }
+
+  // ------------------------------------------------------
+  // 3) ANUNCIO EN VIDEO a pantalla completa (intersticial)
+  // ------------------------------------------------------
+  function puedeMostrarVideoAd(){
+    if(!AD_CONFIG.videoAd.videos.length) return false;
+    if(AD_CONFIG.videoAd.frecuenciaHoras <= 0) return true;
+    const last = Number(localStorage.getItem('dk_videoad_at') || 0);
+    const horas = (Date.now() - last) / 1000 / 60 / 60;
+    return horas >= AD_CONFIG.videoAd.frecuenciaHoras;
+  }
+
+  function mostrarVideoAd(){
+    if(!AD_CONFIG.videoAd.enabled) return;
+    if(!puedeMostrarVideoAd()) return;
+
+    const src = AD_CONFIG.videoAd.videos[
+      Math.floor(Math.random() * AD_CONFIG.videoAd.videos.length)
+    ];
+
+    const overlay = document.createElement('div');
+    overlay.id = 'dk-video-ad';
+    overlay.innerHTML = `
+      <style>
+        #dk-video-ad{
+          position:fixed; inset:0; z-index:99999;
+          background:#000; display:flex; flex-direction:column;
+          align-items:center; justify-content:center;
+          font-family:'Segoe UI',system-ui,sans-serif;
+        }
+        #dk-video-ad video{
+          width:100%; height:100%; object-fit:contain; background:#000;
+        }
+        #dk-video-ad .dk-va-top{
+          position:absolute; top:0; left:0; right:0;
+          display:flex; align-items:center; justify-content:space-between;
+          padding:10px 14px;
+          background:linear-gradient(180deg,rgba(0,0,0,.8),transparent);
+        }
+        #dk-video-ad .dk-va-label{
+          color:#9fd9ff; font-size:12px; font-weight:700; letter-spacing:1px;
+        }
+        #dk-video-ad .dk-va-close{
+          display:none; align-items:center; gap:8px;
+          background:rgba(255,255,255,.12);
+          border:1px solid rgba(255,255,255,.35); color:#fff;
+          border-radius:20px; padding:7px 14px; font-size:13px; font-weight:700;
+          cursor:pointer; transition:.2s;
+        }
+        #dk-video-ad .dk-va-close:hover{background:rgba(255,255,255,.25)}
+        #dk-video-ad .dk-va-close.visible{display:flex}
+        #dk-video-ad .dk-va-bottom{
+          position:absolute; bottom:0; left:0; right:0;
+          display:flex; flex-direction:column; align-items:center; gap:8px;
+          padding:18px 14px;
+          background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);
+        }
+        #dk-video-ad .dk-va-cta{
+          background:linear-gradient(135deg,#007dff,#4358ff);
+          color:#fff; border:none; border-radius:10px; padding:11px 18px;
+          font-size:14px; font-weight:800; cursor:pointer; transition:.2s;
+        }
+        #dk-video-ad .dk-va-cta:hover{filter:brightness(1.15)}
+      </style>
+      <div class="dk-va-top">
+        <span class="dk-va-label">ANUNCIO · DIGITAL KNIGHT</span>
+        <button class="dk-va-close" id="dkVaClose">
+          Cerrar en <span id="dkVaCount">5</span>s
+        </button>
+      </div>
+      <video id="dkVaVideo" src="${src}" autoplay muted playsinline></video>
+      <div class="dk-va-bottom">
+        <button class="dk-va-cta" onclick="location.href='premium.html'">
+          ⭐ Quita los anuncios · Hazte Premium
+        </button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    localStorage.setItem('dk_videoad_at', String(Date.now()));
+
+    const video = overlay.querySelector('#dkVaVideo');
+    const closeBtn = overlay.querySelector('#dkVaClose');
+    let restantes = AD_CONFIG.videoAd.segundosAntesCerrar;
+    closeBtn.querySelector('#dkVaCount').textContent = restantes;
+
+    // Cuenta regresiva para habilitar el ✕
+    const timer = setInterval(() => {
+      restantes--;
+      if(restantes <= 0){
+        clearInterval(timer);
+        closeBtn.querySelector('#dkVaCount').textContent = '0';
+        closeBtn.classList.add('visible');
+        closeBtn.innerHTML = 'Cerrar ✕';
+        closeBtn.onclick = () => overlay.remove();
+      } else {
+        closeBtn.querySelector('#dkVaCount').textContent = restantes;
+      }
+    }, 1000);
+
+    // Si el video termina antes, cerrar de inmediato
+    video.addEventListener('ended', () => {
+      clearInterval(timer);
+      overlay.remove();
+    });
+
+    // Por si el video no carga, no dejar la pantalla en negro más de 10s
+    video.addEventListener('error', () => {
+      clearInterval(timer);
+      overlay.remove();
+    });
+  }
+
+  // ------------------------------------------------------
   // 1) RED DE ANUNCIOS (Monetag, etc.)
   // ------------------------------------------------------
   function cargarRed(){
@@ -173,6 +316,9 @@
   // 🚀 ARRANQUE
   // ------------------------------------------------------
   async function iniciarAds(){
+    // 0. Limpiar Service Workers viejos (Monetag)
+    limpiarServiceWorkers();
+
     // 1. Leer premium de la caché y refrescar contra Supabase
     await dkRefrescarPerfil();
 
@@ -182,8 +328,15 @@
     // 3. No premium -> cargar anuncios (excepto en reproductores)
     if(esPaginaReproductor()) return;
 
-    cargarRed();        // 1) red de anuncios (si está configurada)
-    mostrarSelfPromo(); // 2) anuncio propio
+    // 4. Video intersticial tiene prioridad; si no toca, banner propio
+    if(AD_CONFIG.videoAd.enabled && AD_CONFIG.videoAd.videos.length && puedeMostrarVideoAd()){
+      mostrarVideoAd();
+    } else {
+      mostrarSelfPromo();
+    }
+
+    // La red externa quedó desactivada (sitio rechazado por políticas)
+    // cargarRed(); // <- dejar comentado
   }
 
   if(document.readyState === 'loading'){
