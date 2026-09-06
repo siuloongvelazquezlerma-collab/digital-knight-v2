@@ -46,7 +46,14 @@
       enabled: true,
       videos: [
         // ⬇️ PEGA AQUÍ TUS LINKS DE VIDEO (mp4). Ejemplo:
-        // "https://od.lk/d/xxxxx/mi-promo.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NjJfeGp3R3g/%C2%A1Ya%20casi%21.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NjNfOWxDOEw/anuncio%20TV%20r_%20m%C3%B3bil%202026.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NzFfQWRBcmo/Prueba%20que%20el%20plan%20perfecto%20s%C3%AD%20existe.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NzJfemM4S20/Simulacro%20Nacional%202026_%20as%C3%AD%20llegar%C3%A1%20la%20alerta%20a%20tu%20celular.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NjRfWHJ6R2o/Coca-Cola%20_%20Para%20Todos%20_30.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NjZfT0NhYVI/Comercial%20Bonice%20Mutante%20Nuevos%20Sabores%202026.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NzNfVFJFVjk/Luis%20Miguel%20-%20Coca-Cola%20100%20A%C3%B1os.mp4",
+        "https://od.lk/s/M18zMzU3NTA0NzBfZ1htUkY/HARRY%20POTTER%20y%20la%20Piedra%20Filosofal%20Tr%C3%A1iler%202%20Espa%C3%B1ol%20Latino%20%282026%29.mp4",
       ],
       segundosAntesCerrar: 5,   // el ✕ aparece después de estos segundos
       frecuenciaHoras: 6        // cada cuánto puede volver a salir
