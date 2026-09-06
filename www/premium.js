@@ -24,10 +24,10 @@ if(!session){
         window.location.href = "login.html";
     };
 
-    // No hay sesión: el botón de Mercado Pago manda a login
-    const mpBtn = document.getElementById("mercadoPagoBtn");
-    if(mpBtn){
-        mpBtn.onclick = () => {
+    // No hay sesión: el botón de Tarjeta manda a login
+    const tarjetaBtnNoSession = document.getElementById("tarjetaBtn");
+    if(tarjetaBtnNoSession){
+        tarjetaBtnNoSession.onclick = () => {
             window.location.href = "login.html";
         };
     }
@@ -157,17 +157,17 @@ if(payStatus){
 }
 
 
-const mercadoPagoBtn = document.getElementById("mercadoPagoBtn");
+const tarjetaBtn = document.getElementById("tarjetaBtn");
 
 
-if(mercadoPagoBtn){
+if(tarjetaBtn){
 
-    mercadoPagoBtn.onclick = async()=>{
+    tarjetaBtn.onclick = async()=>{
 
-        console.log("💳 Mercado Pago iniciado");
+        console.log("💳 Pago con tarjeta iniciado (vía Mercado Pago)");
 
         // El botón se guarda para evitar doble click
-        mercadoPagoBtn.disabled = true;
+        tarjetaBtn.disabled = true;
 
         try{
 
@@ -223,7 +223,7 @@ if(mercadoPagoBtn){
                 data = { error: { message: "El servidor no devolvió JSON (status " + response.status + "): " + rawText.slice(0,200) } };
             }
 
-            mercadoPagoBtn.disabled = false;
+            tarjetaBtn.disabled = false;
 
 
             if(!response.ok){
@@ -267,10 +267,10 @@ if(mercadoPagoBtn){
 
         }catch(error){
 
-            mercadoPagoBtn.disabled = false;
+            tarjetaBtn.disabled = false;
 
             console.error(
-                "Error Mercado Pago:",
+                "Error en el pago:",
                 error
             );
 
