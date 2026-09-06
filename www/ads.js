@@ -13,9 +13,9 @@
 
   const AD_CONFIG = {
     videos: [
-      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+      'https://od.lk/s/M18zMzU3NTA0NjJfeGp3R3g/%C2%A1Ya%20casi%21.mp4',
+      'https://od.lk/s/M18zMzU3NTA0NjNfOWxDOEw/anuncio%20TV%20r_%20m%C3%B3bil%202026.mp4',
+      'https://od.lk/s/M18zMzU3NTA0NzJfemM4S20/Simulacro%20Nacional%202026_%20as%C3%AD%20llegar%C3%A1%20la%20alerta%20a%20tu%20celular.mp4'
     ],
     propios: [
       { imagen: 'https://via.placeholder.com/300x250/1a1a2e/e94560?text=Digital+Knight+Premium', titulo: 'Hazte Premium', descripcion: 'Sin anuncios, sin limites', link: '/premium.html' },
