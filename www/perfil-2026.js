@@ -752,6 +752,16 @@ document.getElementById("premiumBadge");
 
     }
 
+    // === CONTROL DE ANUNCIOS ANDROID ===
+    // Sincroniza el estado premium con Android para quitar/mostrar anuncios
+    if(window.Android){
+        if(profile.premium){
+            window.Android.ocultarAnuncios();
+        }else{
+            window.Android.mostrarAnuncios();
+        }
+    }
+
 }
 
 
