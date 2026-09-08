@@ -22,6 +22,7 @@
   function esPaginaExcluida() {
     const path = window.location.pathname.toLowerCase();
     const excluidas = [
+      "/index.html",
       "/premium.html",
       "/perfil-2026.html",
       "/perfil digital knight 2025.html",
@@ -43,7 +44,7 @@
 
     const banner = document.createElement("div");
     banner.id = "dk-banner-premium";
-    banner.style.cssText = "position:fixed;bottom:78px;left:12px;right:12px;background:linear-gradient(135deg,#01011d 0%,#05051d 100%);border:1px solid rgba(0,125,255,0.3);border-radius:14px;padding:12px 16px;z-index:2147483600;box-shadow:0 8px 32px rgba(0,125,255,0.15),0 4px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;backdrop-filter:blur(8px);";
+    banner.style.cssText = "position:fixed;bottom:120px;left:12px;right:12px;background:linear-gradient(135deg,#01011d 0%,#05051d 100%);border:1px solid rgba(0,125,255,0.3);border-radius:14px;padding:12px 16px;z-index:2147483600;box-shadow:0 8px 32px rgba(0,125,255,0.15),0 4px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;backdrop-filter:blur(8px);";
 
     const texto = document.createElement("div");
     texto.style.cssText = "flex:1;min-width:0;";
