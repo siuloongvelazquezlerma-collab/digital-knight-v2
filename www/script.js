@@ -102,7 +102,11 @@ function createUpdateModal() {
       btn.classList.remove('downloading');
       btn.classList.add('install');
       btnText.textContent = '✅ Instalar APK';
-      window.location.href = 'https://digitalknightapp.com/www/apk/DK-V1.3.7.apk';
+      // Descargar sin redirigir usando iframe oculto
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'https://digitalknightapp.com/www/apk/DK-V1.3.7.apk';
+      document.body.appendChild(iframe);
       setTimeout(() => overlay.remove(), 2000);
     }, 3000);
   };
