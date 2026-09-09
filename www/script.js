@@ -48,6 +48,67 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
+// ============================================
+// MODAL DE ACTIVACIÓN DE ACTUALIZACIÓN
+// Uso: showUpdateModal() para mostrar el modal
+// ============================================
+function createUpdateModal() {
+  if (document.getElementById('updateModalOverlay')) return;
+  const overlay = document.createElement('div');
+  overlay.id = 'updateModalOverlay';
+  overlay.innerHTML = `
+    <style>
+      #updateModalOverlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999999;display:flex;align-items:center;justify-content:center;animation:fadeIn .3s ease;backdrop-filter:blur(8px)}
+      @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+      @keyframes slideUp{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
+      @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+      @keyframes progress{0%{width:0%}100%{width:100%}}
+      .update-modal{background:linear-gradient(135deg,#0a0a2e 0%,#1a1a3e 100%);border-radius:24px;padding:30px 25px;width:90%;max-width:380px;text-align:center;animation:slideUp .4s ease;border:1px solid rgba(0,125,255,.3);box-shadow:0 20px 60px rgba(0,125,255,.2)}
+      .update-modal-logo{width:80px;height:80px;border-radius:20px;margin-bottom:15px;animation:pulse 2s infinite;box-shadow:0 8px 30px rgba(0,125,255,.3)}
+      .update-modal-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:8px}
+      .update-modal-subtitle{font-size:13px;color:#9aa3c7;margin-bottom:20px;line-height:1.5}
+      .update-modal-version{display:inline-block;background:linear-gradient(135deg,#007dff,#4358ff);color:#fff;padding:6px 16px;border-radius:20px;font-size:14px;font-weight:700;margin-bottom:20px}
+      .update-modal-btn{display:block;width:100%;background:linear-gradient(135deg,#007dff,#4358ff);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+      .update-modal-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,125,255,.4)}
+      .update-modal-btn:active{transform:scale(.98)}
+      .update-modal-btn .progress-bar{position:absolute;top:0;left:0;bottom:0;background:rgba(255,255,255,.2);width:0%;transition:width .3s}
+      .update-modal-btn .btn-text{position:relative;z-index:1}
+      .update-modal-btn.downloading{pointer-events:none}
+      .update-modal-btn.downloading .progress-bar{animation:progress 3s ease-in-out forwards}
+      .update-modal-btn.install{background:linear-gradient(135deg,#00c853,#00e676)}
+      .update-modal-close{display:block;margin-top:15px;color:#666;font-size:13px;cursor:pointer;background:none;border:none;width:100%;padding:8px}
+      .update-modal-close:hover{color:#999}
+    </style>
+    <div class="update-modal">
+      <img class="update-modal-logo" src="logo-2025.png" alt="Digital Knight">
+      <div class="update-modal-title">¡Nueva versión disponible!</div>
+      <div class="update-modal-subtitle">Actualización disponible para seguir disfrutando de las nuevas mejoras y correcciones</div>
+      <div class="update-modal-version">V1.3.7</div>
+      <button class="update-modal-btn" id="updateDownloadBtn">
+        <span class="progress-bar"></span>
+        <span class="btn-text">⬇ Descargar APK</span>
+      </button>
+      <button class="update-modal-close" id="updateCloseBtn">Más tarde</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('updateCloseBtn').onclick = () => overlay.remove();
+  document.getElementById('updateDownloadBtn').onclick = function() {
+    const btn = this;
+    const btnText = btn.querySelector('.btn-text');
+    btn.classList.add('downloading');
+    btnText.textContent = '⏳ Descargando...';
+    setTimeout(() => {
+      btn.classList.remove('downloading');
+      btn.classList.add('install');
+      btnText.textContent = '✅ Instalar APK';
+      window.location.href = 'https://digitalknightapp.com/www/apk/DK-V1.3.7.apk';
+      setTimeout(() => overlay.remove(), 2000);
+    }, 3000);
+  };
+}
+window.showUpdateModal = createUpdateModal;
+
 document.addEventListener("dragstart", function(event) {
     event.preventDefault();
 });
