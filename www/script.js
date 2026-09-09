@@ -101,19 +101,7 @@ function createUpdateModal() {
     overlay.remove();
   };
   document.getElementById('updateDownloadBtn').onclick = function() {
-    const btn = this;
-    const btnText = btn.querySelector('.btn-text');
-    btn.classList.add('downloading');
-    btnText.textContent = '⏳ Descargando...';
-    setTimeout(() => {
-      btn.classList.remove('downloading');
-      btn.classList.add('install');
-      btnText.textContent = '⬇ Instalar APK';
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = 'https://digitalknightapp.com/www/apk/DK-V1.3.7.apk';
-      document.body.appendChild(iframe);
-    }, 3000);
+    window.location.href = 'actualizacion.html';
   };
 }
 window.showUpdateModal = createUpdateModal;
