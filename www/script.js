@@ -109,6 +109,20 @@ function createUpdateModal() {
 }
 window.showUpdateModal = createUpdateModal;
 
+// === CONTROL MANUAL DE ACTUALIZACIONES ===
+// Cambia esta versión cuando quieras mostrar el modal
+const CURRENT_VERSION = "1.3.7";
+const LAST_SHOWN_VERSION = localStorage.getItem("lastUpdateShown");
+
+// Función para activar manualmente
+window.showUpdateModal = createUpdateModal;
+
+// Función para resetear (volver a mostrar)
+window.resetUpdateModal = () => {
+    localStorage.removeItem("lastUpdateShown");
+    showUpdateModal();
+};
+
 document.addEventListener("dragstart", function(event) {
     event.preventDefault();
 });
