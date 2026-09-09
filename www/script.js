@@ -109,19 +109,24 @@ function createUpdateModal() {
 }
 window.showUpdateModal = createUpdateModal;
 
-// === CONTROL MANUAL DE ACTUALIZACIONES ===
-// Cambia esta versión cuando quieras mostrar el modal
+// === CONTROL DE ACTUALIZACIONES ===
+// Solo cambia CURRENT_VERSION cuando haya una nueva actualización
+// El modal aparece automáticamente una vez por versión
+
 const CURRENT_VERSION = "1.3.7";
-const LAST_SHOWN_VERSION = localStorage.getItem("lastUpdateShown");
 
-// Función para activar manualmente
-window.showUpdateModal = createUpdateModal;
+function checkForUpdateModal() {
+    const lastShown = localStorage.getItem("lastUpdateShown");
+    if (lastShown !== CURRENT_VERSION) {
+        setTimeout(() => {
+            showUpdateModal();
+            localStorage.setItem("lastUpdateShown", CURRENT_VERSION);
+        }, 2000);
+    }
+}
 
-// Función para resetear (volver a mostrar)
-window.resetUpdateModal = () => {
-    localStorage.removeItem("lastUpdateShown");
-    showUpdateModal();
-};
+// Activar verificación al cargar la página
+document.addEventListener("DOMContentLoaded", checkForUpdateModal);
 
 document.addEventListener("dragstart", function(event) {
     event.preventDefault();
