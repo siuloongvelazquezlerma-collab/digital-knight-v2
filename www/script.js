@@ -78,6 +78,8 @@ function createUpdateModal() {
       .update-modal-btn.install{background:linear-gradient(135deg,#00c853,#00e676)}
       .update-modal-close{display:block;margin-top:15px;color:#666;font-size:13px;cursor:pointer;background:none;border:none;width:100%;padding:8px}
       .update-modal-close:hover{color:#999}
+      .update-modal-done{display:block;margin-top:10px;color:#007dff;font-size:13px;cursor:pointer;background:none;border:none;width:100%;padding:8px;font-weight:600}
+      .update-modal-done:hover{color:#4358ff}
     </style>
     <div class="update-modal">
       <img class="update-modal-logo" src="logo-2025.png" alt="Digital Knight">
@@ -88,11 +90,16 @@ function createUpdateModal() {
         <span class="progress-bar"></span>
         <span class="btn-text">⬇ Descargar APK</span>
       </button>
+      <button class="update-modal-done" id="updateDoneBtn">✅ Ya actualicé</button>
       <button class="update-modal-close" id="updateCloseBtn">Más tarde</button>
     </div>
   `;
   document.body.appendChild(overlay);
   document.getElementById('updateCloseBtn').onclick = () => overlay.remove();
+  document.getElementById('updateDoneBtn').onclick = () => {
+    localStorage.setItem("lastUpdateShown", CURRENT_VERSION);
+    overlay.remove();
+  };
   document.getElementById('updateDownloadBtn').onclick = function() {
     const btn = this;
     const btnText = btn.querySelector('.btn-text');
@@ -101,13 +108,11 @@ function createUpdateModal() {
     setTimeout(() => {
       btn.classList.remove('downloading');
       btn.classList.add('install');
-      btnText.textContent = '✅ Instalar APK';
-      // Descargar sin redirigir usando iframe oculto
+      btnText.textContent = '⬇ Instalar APK';
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none';
       iframe.src = 'https://digitalknightapp.com/www/apk/DK-V1.3.7.apk';
       document.body.appendChild(iframe);
-      setTimeout(() => overlay.remove(), 2000);
     }, 3000);
   };
 }
@@ -117,7 +122,7 @@ window.showUpdateModal = createUpdateModal;
 // Solo cambia CURRENT_VERSION cuando haya una nueva actualización
 // El modal aparece automáticamente una vez por versión
 
-const CURRENT_VERSION = "1.3.8";
+const CURRENT_VERSION = "1.3.9";
 
 function checkForUpdateModal() {
     const lastShown = localStorage.getItem("lastUpdateShown");
@@ -1984,4 +1989,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
-
+
