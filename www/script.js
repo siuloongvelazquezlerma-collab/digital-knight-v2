@@ -110,7 +110,7 @@ window.showUpdateModal = createUpdateModal;
 // Solo cambia CURRENT_VERSION cuando haya una nueva actualización
 // El modal aparece automáticamente una vez por versión
 
-const CURRENT_VERSION = "1.3.10";
+const CURRENT_VERSION = "1.3.11";
 
 function checkForUpdateModal() {
     const lastShown = localStorage.getItem("lastUpdateShown");
