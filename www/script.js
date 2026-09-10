@@ -111,24 +111,8 @@ function createUpdateModal() {
       btn.classList.remove('downloading');
       btnText.textContent = '✅ Descarga iniciada';
       
-      // Descargar usando fetch para controlar el tipo de archivo
-      fetch('https://od.lk/d/M18zMzU5NTc2NjRfNmxVWGg/DK-V1.3.7.apk')
-        .then(response => response.blob())
-        .then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = 'DK-V1.3.7.apk';
-          link.style.display = 'none';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
-        })
-        .catch(() => {
-          // Fallback: abrir en nueva pestaña
-          window.open('https://od.lk/d/M18zMzU5NTc2NjRfNmxVWGg/DK-V1.3.7.apk', '_blank');
-        });
+      // Abrir enlace de descarga directo
+      window.open('https://od.lk/d/M18zMzU5NTc2NjRfNmxVWGg/DK-V1.3.7.apk', '_blank');
       
       // Cerrar modal después de 2 segundos
       setTimeout(() => overlay.remove(), 2000);
