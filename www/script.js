@@ -106,19 +106,10 @@ function createUpdateModal() {
     btn.classList.add('downloading');
     btnText.textContent = '⏳ Descargando...';
     
-    // Animación de progreso
-    setTimeout(() => {
-      btn.classList.remove('downloading');
-      btnText.textContent = '⬇ Instalar APK';
-      
-      // Llamar a la función nativa de Android
-      if (window.AndroidBridge) {
-        window.AndroidBridge.downloadUpdate();
-      } else {
-        // Fallback para web (no Android)
-        window.location.href = 'actualizacion.html';
-      }
-    }, 3000);
+    // Iniciar descarga inmediatamente en Android
+    if (window.Android) {
+      window.Android.downloadUpdate();
+    }
   };
 }
 window.showUpdateModal = createUpdateModal;
@@ -127,7 +118,7 @@ window.showUpdateModal = createUpdateModal;
 // Solo cambia CURRENT_VERSION cuando haya una nueva actualización
 // El modal aparece automáticamente una vez por versión
 
-const CURRENT_VERSION = "1.3.11";
+const CURRENT_VERSION = "1.3.13";
 
 function checkForUpdateModal() {
     const lastShown = localStorage.getItem("lastUpdateShown");
