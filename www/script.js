@@ -101,7 +101,24 @@ function createUpdateModal() {
     overlay.remove();
   };
   document.getElementById('updateDownloadBtn').onclick = function() {
-    window.location.href = 'actualizacion.html';
+    const btn = this;
+    const btnText = btn.querySelector('.btn-text');
+    btn.classList.add('downloading');
+    btnText.textContent = '⏳ Descargando...';
+    
+    // Animación de progreso
+    setTimeout(() => {
+      btn.classList.remove('downloading');
+      btnText.textContent = '⬇ Instalar APK';
+      
+      // Llamar a la función nativa de Android
+      if (window.AndroidBridge) {
+        window.AndroidBridge.downloadUpdate();
+      } else {
+        // Fallback para web (no Android)
+        window.location.href = 'actualizacion.html';
+      }
+    }, 3000);
   };
 }
 window.showUpdateModal = createUpdateModal;
