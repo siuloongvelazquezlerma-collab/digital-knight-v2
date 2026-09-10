@@ -106,10 +106,26 @@ function createUpdateModal() {
     btn.classList.add('downloading');
     btnText.textContent = '⏳ Descargando...';
     
-    // Iniciar descarga inmediatamente en Android
-    if (window.Android) {
-      window.Android.downloadUpdate();
-    }
+    // Mostrar notificación al usuario
+    btnText.textContent = '⏳ Preparando descarga...';
+    
+    // Animación de 3 segundos y luego descargar
+    setTimeout(() => {
+      btn.classList.remove('downloading');
+      btnText.textContent = '✅ Descarga iniciada';
+      
+      // Crear enlace de descarga directo
+      const link = document.createElement('a');
+      link.href = 'https://od.lk/d/M18zMzU5NTc2NjRfNmxVWGg/DK-V1.3.7.apk';
+      link.download = 'DK-V1.3.7.apk';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Cerrar modal después de 2 segundos
+      setTimeout(() => overlay.remove(), 2000);
+    }, 3000);
   };
 }
 window.showUpdateModal = createUpdateModal;
