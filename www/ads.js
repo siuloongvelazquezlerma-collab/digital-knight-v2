@@ -5,7 +5,7 @@
   // Pega aqui tus links directos od.lk cuando los subas.
   // Ejemplo: "https://od.lk/s/XXXXX/video1.mp4"
   // =====================================================
-  var videos = ["https://od.lk/s/M18zMzYxODA4ODlfdzNpNnk/video1.mp4","https://od.lk/s/M18zMzYxODA4ODdfMDJrRmE/video2.mp4"];
+  var videos = ["https://od.lk/s/M18zMzYxODA4ODlfdzNpNnk/video1.mp4","https://od.lk/s/M18zMzYxODA4ODdfMDJrRmE/video2.mp4","https://od.lk/s/M18zMzU3NTA0NjNfOWxDOEw/anuncio%20TV%20r_%20m%C3%B3bil%202026.mp4"];
   var imgs = [{src:"https://od.lk/s/M18zMzYxODA4ODhfRUhpTnA/imagen1.png",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"},{src:"https://od.lk/s/M18zMzYxODA4OTBfUDlEOUU/imagen2.png",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"},{src:"https://od.lk/s/M18zMzYxODA4ODZfMTd2SW0/imagen3.png",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"}];
   var vistosV = [], vistosI = [];
   function esLinkValido(u){return typeof u==="string"&&u.indexOf("http")===0}
