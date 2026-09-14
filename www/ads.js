@@ -1,21 +1,29 @@
 ﻿(function(){
   "use strict";
-  var videos = ["/anuncios/video1.mp4","/anuncios/video2.mp4"];
-  var imgs = [{src:"/anuncios/imagen1.png",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"},{src:"/anuncios/imagen2.png",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"},{src:"/anuncios/imagen3.png",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"}];
+  // =====================================================
+  // ANUNCIOS DESDE OPENDRIVE (no consumen MB de Vercel)
+  // Pega aqui tus links directos od.lk cuando los subas.
+  // Ejemplo: "https://od.lk/s/XXXXX/video1.mp4"
+  // =====================================================
+  var videos = ["PEGA_AQUI_LINK_VIDEO1","PEGA_AQUI_LINK_VIDEO2"];
+  var imgs = [{src:"PEGA_AQUI_LINK_IMAGEN1",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"},{src:"PEGA_AQUI_LINK_IMAGEN2",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"},{src:"PEGA_AQUI_LINK_IMAGEN3",titulo:"Digital Knight Premium",desc:"Sin anuncios y contenido exclusivo",link:"/premium.html"}];
   var vistosV = [], vistosI = [];
+  function esLinkValido(u){return typeof u==="string"&&u.indexOf("http")===0}
   function getVideo(){
-    if(vistosV.length >= videos.length) vistosV = [];
-    var disp = [];
-    for(var i=0;i<videos.length;i++){if(vistosV.indexOf(i)===-1)disp.push(i)}
-    var e = disp[Math.floor(Math.random()*disp.length)];
+    var validos=[];
+    for(var i=0;i<videos.length;i++){if(esLinkValido(videos[i])&&vistosV.indexOf(i)===-1)validos.push(i)}
+    if(!validos.length){vistosV=[];for(var j=0;j<videos.length;j++){if(esLinkValido(videos[j]))validos.push(j)}}
+    if(!validos.length)return null;
+    var e = validos[Math.floor(Math.random()*validos.length)];
     vistosV.push(e);
     return videos[e];
   }
   function getImg(){
-    if(vistosI.length >= imgs.length) vistosI = [];
-    var disp = [];
-    for(var i=0;i<imgs.length;i++){if(vistosI.indexOf(i)===-1)disp.push(i)}
-    var e = disp[Math.floor(Math.random()*disp.length)];
+    var validos=[];
+    for(var i=0;i<imgs.length;i++){if(imgs[i]&&esLinkValido(imgs[i].src)&&vistosI.indexOf(i)===-1)validos.push(i)}
+    if(!validos.length){vistosI=[];for(var j=0;j<imgs.length;j++){if(imgs[j]&&esLinkValido(imgs[j].src))validos.push(j)}}
+    if(!validos.length)return null;
+    var e = validos[Math.floor(Math.random()*validos.length)];
     vistosI.push(e);
     return imgs[e];
   }
@@ -84,6 +92,7 @@
   function videoAd(){
     if(esPremium()||enReproduccion()||document.getElementById("vd"))return;
     var vs=getVideo();
+    if(!vs)return; // aun no hay links de OpenDrive pegados -> no mostrar nada roto
     var o=document.createElement("div");
     o.id="vd";
     o.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:2147483602;";
@@ -96,6 +105,7 @@
   function imgAd(){
     if(esPremium()||enReproduccion()||document.getElementById("im"))return;
     var im=getImg();
+    if(!im)return; // aun no hay links de OpenDrive pegados -> no mostrar nada roto
     var o=document.createElement("div");
     o.id="im";
     o.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(#01011d,#05051d);z-index:2147483602;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;";
