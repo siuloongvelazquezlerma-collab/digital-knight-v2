@@ -90,7 +90,7 @@
     return b;
   }
   function videoAd(){
-    if(esPremium()||enReproduccion()||document.getElementById("vd"))return;
+    if(esPremium()||enReproduccion()||document.getElementById("vd")||document.getElementById("im"))return;
     var vs=getVideo();
     if(!vs)return; // aun no hay links de OpenDrive pegados -> no mostrar nada roto
     var o=document.createElement("div");
@@ -102,8 +102,9 @@
     cb.onclick=function(){clearInterval(iv);o.remove()};
     document.querySelector("#vd video").onended=function(){clearInterval(iv);o.remove()};
   }
+  // NUNCA simultaneos: si hay uno abierto, no se abre el otro
   function imgAd(){
-    if(esPremium()||enReproduccion()||document.getElementById("im"))return;
+    if(esPremium()||enReproduccion()||document.getElementById("im")||document.getElementById("vd"))return;
     var im=getImg();
     if(!im)return; // aun no hay links de OpenDrive pegados -> no mostrar nada roto
     var o=document.createElement("div");
@@ -113,20 +114,32 @@
     document.body.appendChild(o);
     document.getElementById("imc").onclick=function(){o.remove()};
   }
-  function randomAd(){
+  // INTERCALADO: imagen (5 min) -> video (8 min) -> imagen -> video...
+  var turnoVideo=false; // false=toca imagen, true=toca video
+  function siguienteAd(){
     if(esPremium()||esExcluida())return;
-    if(enReproduccion())return; // NO mostrar video/imagen mientras se reproduce
-    var r=Math.random();
-    if(r<0.4)videoAd();
-    else if(r<0.8)imgAd();
+    if(enReproduccion()){programarSiguiente(60000);return} // si reproduce, reintenta en 1 min
+    if(document.getElementById("vd")||document.getElementById("im")){programarSiguiente(60000);return} // si hay uno abierto, reintenta en 1 min
+    if(turnoVideo){videoAd()}else{imgAd()}
+    turnoVideo=!turnoVideo; // alterna para la proxima
+    // programa el siguiente segun lo que ACABA de mostrar: video->8min, imagen->5min
+    programarSiguiente(turnoVideo?480000:300000);
+  }
+  function programarSiguiente(ms){
+    setTimeout(function(){
+      if(esPremium()||esExcluida())return;
+      siguienteAd();
+    },ms);
+  }
+  function randomAd(){
+    siguienteAd(); // compatibilidad: DK_ADS.randomAd() sigue funcionando
   }
   function init(){
     if(esPremium()||esExcluida())return;
     var bn=banner();
     if(bn)document.body.appendChild(bn);
-    // video/imagen solo ANTES de reproducir: un disparo a los 8s, luego cada 4-6 min solo si NO esta reproduciendo
-    setTimeout(randomAd,8000);
-    setInterval(function(){if(!enReproduccion())randomAd()},240000+Math.floor(Math.random()*120000));
+    // primer anuncio: imagen a los 8s, luego se intercala solo (imagen 5min / video 8min)
+    setTimeout(siguienteAd,8000);
   }
   if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
   window.DK_ADS={esPremium:esPremium,videoAd:videoAd,imgAd:imgAd,randomAd:randomAd};
