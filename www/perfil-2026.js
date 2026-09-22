@@ -625,9 +625,9 @@ if (document.getElementById("downloadsContainer")) {
   initDownloads();
 }
 
-async function updatePremiumProfileButton(){
+async function updateSupportProfileButton(){
 
-    const text = document.querySelector("#premiumProfileOption span");
+    const text = document.getElementById("premiumProfileText");
 
     const status =
     document.getElementById("premiumProfileStatus");
@@ -636,7 +636,7 @@ async function updatePremiumProfileButton(){
 
 
     // --- Refrescar el perfil desde Supabase -----------------------------
-    // La caché local (dk_profile) puede estar vieja: el premium se activa
+    // La caché local (dk_profile) puede estar vieja: el apoyo se actualiza
     // en Supabase vía webhook DESPUÉS de que el usuario inició sesión.
     // Por eso, si hay sesión, volvemos a leer el perfil real de Supabase.
     try {
@@ -680,9 +680,7 @@ async function updatePremiumProfileButton(){
     if(!profile) return;
 
 
-    // Navegación de la opción Premium:
-    //  - con Premium  -> página para administrar / cancelar la suscripción
-    //  - sin Premium  -> página para contratarlo
+    // La opción lleva a administrar o realizar un apoyo.
     const option =
     document.getElementById("premiumProfileOption");
     if(option){
@@ -693,67 +691,27 @@ async function updatePremiumProfileButton(){
     }
 
 
-    const devices =
-    document.getElementById("premiumProfileDevices");
-
-    const date =
-    document.getElementById("premiumProfileDate");
-
-    const badge =
-document.getElementById("premiumBadge");
-
-
     if(profile.premium){
 
         text.textContent =
-        "⭐ Administrar Premium";
+        "❤️ Gracias por tu apoyo";
 
         status.textContent =
-        "Tu cuenta Premium está activa";
-
-
-        if(devices){
-            devices.textContent =
-            `Dispositivos permitidos: ${profile.devices_limit || 1}`;
-        }
-
-
-        if(date && profile.premium_until){
-
-            date.textContent =
-            `Activo hasta: ${new Date(profile.premium_until).toLocaleDateString()}`;
-
-        }
-
-        if(badge){
-    badge.style.display = "block";
-}
+        "Tu apoyo ayuda a mantener Digital Knight y sus servidores en funcionamiento.";
 
 
     }else{
 
         text.textContent =
-        "⭐ Obtener Digital Knight Premium";
+        "🤍 Apoya Digital Knight";
 
         status.textContent =
-        "Disfruta más beneficios apoyando el proyecto";
-
-
-        if(devices)
-            devices.textContent = "";
-
-
-        if(date)
-            date.textContent = "";
-
-        if(badge){
-    badge.style.display = "none";
-}
+        "Tu apoyo ayuda a mantener la app y atender reportes de fallas.";
 
     }
 
     // === CONTROL DE ANUNCIOS ANDROID ===
-    // Sincroniza el estado premium con Android para quitar/mostrar anuncios
+    // Sincroniza el estado de apoyo con Android para quitar/mostrar anuncios
     if(window.Android){
         if(profile.premium){
             window.Android.ocultarAnuncios();
@@ -765,4 +723,4 @@ document.getElementById("premiumBadge");
 }
 
 
-updatePremiumProfileButton();
+updateSupportProfileButton();

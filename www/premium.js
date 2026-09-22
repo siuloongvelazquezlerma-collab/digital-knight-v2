@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 
-// Plan seleccionado. "monthly" = $40 MXN/mes, "promo3" = $15 MXN por 3 meses.
+// Referencia interna del apoyo seleccionado.
 let selectedPlan = "monthly";
 let currentUser = null;
 
@@ -89,23 +89,23 @@ console.log("BUTTON:", button);
 
 if(profile.premium){
 
-    status.textContent = "⭐ Ya eres Digital Knight Premium";
+    status.textContent = "❤️ Gracias por apoyar Digital Knight";
 
     devices.textContent =
-    `Dispositivos permitidos: ${profile.devices_limit}`;
+    "Tu apoyo ayuda a mantener la app y sus servidores en funcionamiento.";
 
-    button.textContent = "Administrar Premium";
+    button.textContent = "Administrar apoyo";
 
-    // Con Premium, el botón lleva a administrar/cancelar la suscripción
+    // El botón lleva a la pantalla de administración del apoyo.
     button.onclick = () => {
         window.location.href = "manage-premium.html";
     };
 
 }else{
 
-    status.textContent = "🚀 Apoya Digital Knight Premium";
+    status.textContent = "🤍 Apoya Digital Knight";
     devices.textContent =
-    "Administra tu suscripción desde tu perfil.";
+    "Tu apoyo ayuda a mantener la app, los servidores y la atención de reportes de fallas.";
 
     button.textContent = "Abrir perfil";
 
