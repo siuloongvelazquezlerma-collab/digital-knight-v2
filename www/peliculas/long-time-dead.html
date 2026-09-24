@@ -505,141 +505,156 @@
 
 window.movieId = "long-time-dead-27259";
 
+</script>
+
+<script src="../suggestions-library.js"></script>
+<script src="../suggested-content.js"></script>
+<script src="../player-peliculas.js"></script>
+<script src="../pip.js"></script>
+<script src="../share.js"></script>
+<script type="module" src="../player-peliculas-module.js"></script>
+<script src="../wakelock.js"></script>
+<script src="../nav.js"></script>
 
 
 
+<script>
 
 
 
-
-
-
-
-
-
-
+(function () {
   
+  const source = document.getElementById("videoSource");
+  const langBtnWrapper = document.getElementById("langBtnWrapper");
+  const langMenu = document.getElementById("langMenu");
+  const langOptions = document.querySelectorAll(".lang-option");
+  const langIcon = document.getElementById("langIcon");
+  const langConfirmBtn = document.getElementById("langConfirmBtn");
+  const overlayBg = document.getElementById("overlay");
 
+  const videos = {
+    latino: "https://od.lk/s/M18zMzY3MTM3NDNfTG9IRmk/1720x720-Compa%C3%B1era%20perfecta.mp4",
+    ingles: "https://od.lk/s/M18zMzY3MTM3MzFfektqR08/1720x720-Compa%C3%B1era%20perfecta%20sub.mp4"
+  };
 
+  let currentLang = "latino";       // idioma que está reproduciéndose
+  let selectedLang = currentLang;   // idioma elegido dentro del menú (temporal)
+  let menuOpen = false;             // 👈 bandera de estado del menú
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // ✅ Obtener instancia de Video.js
-  const player = video?.player || (videojs.getPlayer ? videojs.getPlayer("video") : null);
-
-  if (!player) {
-    alert("No se encontró el reproductor.");
-    return;
+  // helper: mostrar/ocultar modal
+  function openMenu() {
+    selectedLang = currentLang;
+    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
+    langMenu.style.display = 'flex';
+    if (overlayBg) overlayBg.style.display = 'block';
+    video.pause();
+    menuOpen = true; // 👈 marcar que el menú está abierto
   }
 
-  const currentSrc = player.currentSrc();
-  if (!currentSrc) {
-    alert("No se encontró el enlace del video.");
-    return;
-  }
-
-  // ✅ Buscar subtítulos en el <video>
-  const track = video.querySelector("track[kind='subtitles']");
-  let subtitleUrl = "";
-  let subtitleLang = "es";
-
-  if (track) {
-    subtitleUrl = track.src;
-    subtitleLang = track.srclang || "es";
-  }
-
-  // ✅ Construir link con subtítulos (si existen)
-  let appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
-
-  if (subtitleUrl) {
-  appLink +=
-    "&subtitles_url=" + encodeURIComponent(subtitleUrl) +
-    "&subtitles_lang=" + encodeURIComponent(subtitleLang) +
-    "&subtitles_label=" + encodeURIComponent("Español") +
-    "&subtitles_default=true";
-}
-
-  const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
-
-  const transmitLink = document.createElement("a");
-  transmitLink.href = appLink;
-  transmitLink.style.display = "none";
-  document.body.appendChild(transmitLink);
-
-  let appOpened = false;
-  transmitLink.click();
-
-  setTimeout(() => {
-    if (!appOpened) {
-      window.location.href = storeLink;
+  function closeMenu(hacerPlay = true) {
+    langMenu.style.display = 'none';
+    if (overlayBg) overlayBg.style.display = 'none';
+    if (hacerPlay) {
+      video.play().catch(()=>{});
     }
-    document.body.removeChild(transmitLink);
-  }, 1000);
+    menuOpen = false; // 👈 menú cerrado
+  }
 
-  window.addEventListener("blur", () => {
-    appOpened = true;
-  }, { once: true });
+  // Selección de idioma: precarga la fuente (pero no reproduce aún)
+  function selectLanguage(lang) {
+    if (!videos[lang]) return;
+    const curTime = video.currentTime || 0;
+    selectedLang = lang;
+
+    // Marcar visualmente la opción
+    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
+    langIcon.textContent = (selectedLang === 'latino') ? 'chat' : 'subtitles';
+
+    source.src = videos[selectedLang];
+    video.load();
+
+    // Preparar listener antes de cargar
+const onLoadedMeta = () => {
+  try {
+    video.currentTime = Math.min(curTime, video.duration || curTime);
+  } catch {}
+  
+  video.removeEventListener('loadedmetadata', onLoadedMeta);
+};
+
+video.addEventListener('loadedmetadata', onLoadedMeta, { once: true });
+
+source.src = videos[selectedLang];
+video.load();
+
+    console.log('Idioma seleccionado (precargando):', selectedLang);
+  }
+
+  // Confirmar selección y reanudar
+  function confirmAndPlay() {
+  if (selectedLang && selectedLang !== currentLang) {
+    currentLang = selectedLang;
+  }
+
+  closeMenu(false);
+
+  video.play()
+    .then(() => console.log("▶️ Idioma reproducido:", currentLang))
+    .catch(err => console.log("Error play idioma:", err));
 }
 
+  // Inicializar opción activa al cargar
+  document.addEventListener('DOMContentLoaded', () => {
+    langOptions.forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.lang === currentLang);
+    });
+  });
 
-const mainTitle = document.querySelector(".title").textContent.trim();
-const subTitle = document.getElementById("episodeSubtitle").textContent.trim();
-const moviePoster = document.getElementById("favoritoImagen").src;
-const movieLink = document.getElementById("favoritoEnlace").href;
+  // Abrir menú
+  langBtnWrapper.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openMenu();
+  });
+
+  // Selección de idioma
+  langOptions.forEach(option => {
+    option.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const lang = option.dataset.lang;
+      selectLanguage(lang);
+    });
+  });
+
+  // Confirmación con botón "Listo"
+  if (langConfirmBtn) {
+    langConfirmBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      console.log('Listo clicado');
+      confirmAndPlay();
+    });
+  }
+
+  // 👉 Detectar click/touch global (desktop y móvil)
+  function handleOutsideClose(e) {
+    if (!menuOpen) return; // si no está abierto, nada
+    if (!langMenu.contains(e.target) && !langBtnWrapper.contains(e.target)) {
+      console.log('Clic/touch fuera: cerrar menú');
+      e.stopPropagation(); // evitar que afecte a controles
+      e.preventDefault();
+      confirmAndPlay();
+    }
+  }
+
+  document.addEventListener('click', handleOutsideClose, true);
+  document.addEventListener('touchstart', handleOutsideClose, true);
+
+})();
 
 
-
-
-
-function descargarPelicula(url) {
-
-
-*/
 
 
 </script>
 
-
-
-<script src="/ads.js" defer></script>
 <script src="/ads.js" defer></script>
 </body>
 </html>
