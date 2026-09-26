@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <!-- Tema original (restaurar al terminar Halloween)
     <meta name="theme-color" content="#01011d">
-<meta name="msapplication-navbutton-color" content="#01011d">
+    <meta name="msapplication-navbutton-color" content="#01011d">
+    -->
+    <meta name="theme-color" content="#160306">
+    <meta name="msapplication-navbutton-color" content="#160306">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="theme-color" content="#01011d" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="dark">
@@ -56,6 +60,7 @@
 
   <body>
 
+<!-- INICIO ORIGINAL: descomenta este bloque al terminar Halloween
 <div id="opening">
 
     <canvas id="snow"></canvas>
@@ -66,6 +71,18 @@
     <div id="loader-opening"></div>
 
 </div>
+FIN ORIGINAL -->
+
+<!-- Portada con fondo tipo GIF de sangre sobre toda la pantalla -->
+<div id="opening" class="opening-halloween brutal" role="status" aria-label="Cargando Digital Knight">
+    <div class="blood-gif-bg" aria-hidden="true"></div>
+    <div class="halloween-content">
+        <span class="halloween-kicker">Especial de octubre</span>
+        <img id="logo-opening" src="new-logo-2026.png" alt="Digital Knight">
+        <p class="halloween-message">La noche acaba de comenzar</p>
+        <div id="loader-opening" aria-label="Cargando"></div>
+    </div>
+</div>
 
 
 <script type="module">
@@ -74,9 +91,10 @@ import { supabase } from './js/supabaseClient.js';
 
 window.addEventListener('load', async () => {
 
-    // duración del splash
+    // Duración original del splash: setTimeout(resolve, 4500)
+    // Halloween: dejamos la ambientación visible un poco más.
     await new Promise(resolve =>
-        setTimeout(resolve, 4500)
+        setTimeout(resolve, 8500)
     );
 
     const {
