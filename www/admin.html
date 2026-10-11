@@ -362,6 +362,16 @@ select{
     📢 Guardar notificación flotante
 </button>
 
+
+<button type="button" onclick="sendExtraNotification('telegram')">
+    ✈️ Invitar al grupo de Telegram
+</button>
+
+<button type="button" onclick="sendExtraNotification('support')">
+    ❤️ Recordar apoyo a Digital Knight
+</button>
+
+
     <div
         id="status"
         class="status">
@@ -681,8 +691,97 @@ search.value = movie.title;
 
   status.innerText = "✅ Notificación flotante guardada";
 }
+
+
+
+
+window.sendExtraNotification = async function (kind) {
+    if (sending) return;
+
+    const status = document.getElementById("status");
+
+    const validTypes = ["telegram", "support"];
+
+    if (!validTypes.includes(kind)) {
+        status.innerText = "⚠️ Tipo de notificación no válido";
+        return;
+    }
+
+    sending = true;
+    status.innerText = "⏳ Preparando notificación...";
+
+    try {
+        // Cargar la plantilla independiente de movies.json
+        const response = await fetch("notifications-extra.json", {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                "No se pudo cargar notifications-extra.json"
+            );
+        }
+
+        const templates = await response.json();
+        const notification = templates[kind];
+
+        if (
+            !notification ||
+            !notification.title?.trim() ||
+            !notification.message?.trim() ||
+            !notification.action?.trim()
+        ) {
+            throw new Error(
+                "Faltan datos en la plantilla de notificación"
+            );
+        }
+
+        status.innerText = "⏳ Guardando notificación...";
+
+        // Guardar en la misma tabla que ya utiliza tu panel
+        const { error } = await supabase
+            .from("notifications")
+            .insert([{
+                title: notification.title.trim(),
+                body: notification.message.trim(),
+                image: "",
+                action: notification.action.trim()
+            }]);
+
+        if (error) {
+            throw error;
+        }
+
+        // Utilizar el mismo sistema de envío push existente
+        const { error: pushError } =
+            await supabase.functions.invoke("quick-responder");
+
+        if (pushError) {
+            console.error("Error al enviar push:", pushError);
+
+            status.innerText =
+                "⚠️ Notificación guardada, pero hubo un error al enviar el push";
+
+            return;
+        }
+
+        status.innerText =
+            kind === "telegram"
+                ? "✅ Invitación a Telegram enviada"
+                : "✅ Recordatorio de apoyo enviado";
+
+    } catch (error) {
+        console.error("Error en notificación adicional:", error);
+
+        status.innerText =
+            "❌ " + (error.message || "Error inesperado");
+    } finally {
+        sending = false;
+    }
+};
+
 </script>
 
-<script src="/ads.js" defer></script>
+
 </body>
 </html>
