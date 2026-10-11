@@ -363,13 +363,6 @@ select{
 </button>
 
 
-<button type="button" onclick="sendExtraNotification('telegram')">
-    ✈️ Invitar al grupo de Telegram
-</button>
-
-<button type="button" onclick="sendExtraNotification('support')">
-    ❤️ Recordar apoyo a Digital Knight
-</button>
 
 
     <div
@@ -439,7 +432,7 @@ search.addEventListener("input", () => {
 
     const results = movies.filter(movie => {
 
-      if (movie.type === "extra_notification") return false;
+     
 
         if (movie.title &&
             movie.title.toLowerCase().includes(text))
@@ -527,11 +520,17 @@ document.getElementById("previewDetails").innerText =
     // Link automático
     // ==========================
 
-    let action = movie.link || "";
+    
+let action = movie.link || "";
 
-    if (!action.startsWith("/")) {
-        action = "/" + action;
-    }
+if (
+    action &&
+    !/^https?:\/\//i.test(action) &&
+    !action.startsWith("/")
+) {
+    action = "/" + action;
+}
+
 
     document.getElementById("previewAction").value =
         action;
@@ -561,17 +560,21 @@ document.getElementById("action").value =
 // Campo editable
 // ==========================
 
-if (movie.type === "update") {
 
+if (movie.id === "telegram-comunidad") {
+    document.getElementById("pushTitle").value =
+        "✈️ Únete a nuestro grupo de Telegram";
+} else if (movie.id === "apoyar-digital-knight") {
+    document.getElementById("pushTitle").value =
+        "❤️ Apoya a Digital Knight";
+} else if (movie.type === "update") {
     document.getElementById("pushTitle").value =
         "Nueva actualización disponible";
-
 } else {
-
     document.getElementById("pushTitle").value =
         "Ya disponible: " + movie.title;
-
 }
+
 
 
 // Mostrar película seleccionada
@@ -698,72 +701,6 @@ search.value = movie.title;
 
 
 
-window.sendExtraNotification = async function (kind) {
-    if (sending) return;
-
-    const status = document.getElementById("status");
-
-    if (kind !== "telegram" && kind !== "support") {
-        status.innerText = "⚠️ Tipo de notificación no válido";
-        return;
-    }
-
-    sending = true;
-    status.innerText = "⏳ Preparando notificación...";
-
-    try {
-        // Buscar exclusivamente la entrada solicitada en movies.json
-        const notification = movies.find(movie =>
-            movie.type === "extra_notification" &&
-            movie.id === kind
-        );
-
-        if (
-            !notification ||
-            !notification.title?.trim() ||
-            !notification.message?.trim() ||
-            !notification.action?.trim()
-        ) {
-            throw new Error(
-                "No se encontró la configuración en movies.json. Verifica que el catálogo esté cargado."
-            );
-        }
-
-        status.innerText = "⏳ Guardando notificación...";
-
-        const { error } = await supabase
-            .from("notifications")
-            .insert([{
-                title: notification.title.trim(),
-                body: notification.message.trim(),
-                image: "",
-                action: notification.action.trim()
-            }]);
-
-        if (error) throw error;
-
-        const { error: pushError } =
-            await supabase.functions.invoke("quick-responder");
-
-        if (pushError) {
-            console.error("Error al enviar push:", pushError);
-            status.innerText =
-                "⚠️ Notificación guardada, pero hubo un error al enviar el push";
-            return;
-        }
-
-        status.innerText = kind === "telegram"
-            ? "✅ Invitación a Telegram enviada"
-            : "✅ Recordatorio de apoyo enviado";
-
-    } catch (error) {
-        console.error("Error en notificación adicional:", error);
-        status.innerText =
-            "❌ " + (error.message || "Error inesperado");
-    } finally {
-        sending = false;
-    }
-};
 
 
 </script>
