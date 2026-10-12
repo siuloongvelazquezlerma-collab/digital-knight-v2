@@ -110,6 +110,47 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
+// Imagen que se muestra al pausar. Reemplaza esta URL por la de tu estreno o anuncio.
+// También puedes definir window.DK_PAUSE_AD_IMAGE_URL antes de cargar este script.
+const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
+  'https://image.tmdb.org/t/p/original/jPpnPUwK8yu6DDla1NBTfp0qISJ.jpg';
+
+const pauseAd = document.createElement('div');
+pauseAd.id = 'dk-pause-ad';
+pauseAd.setAttribute('aria-hidden', 'true');
+pauseAd.style.cssText = [
+  'position:absolute',
+  'inset:0',
+  'display:none',
+  'align-items:center',
+  'justify-content:center',
+  'overflow:hidden',
+  'background:#000',
+  'pointer-events:none',
+  'z-index:4'
+].join(';');
+
+const pauseAdImage = document.createElement('img');
+pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
+pauseAdImage.alt = '';
+pauseAdImage.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+pauseAd.appendChild(pauseAdImage);
+player.appendChild(pauseAd);
+
+function showPauseAd() {
+  const playerVisible = window.getComputedStyle(player).display !== 'none';
+  if (video.currentTime > 0 && !video.ended && playerVisible) {
+    pauseAd.style.display = 'flex';
+  }
+}
+
+function hidePauseAd() {
+  pauseAd.style.display = 'none';
+}
+
+video.addEventListener('pause', showPauseAd);
+video.addEventListener('play', hidePauseAd);
+
   // =========================================================
   // ⭐ ANUNCIO PREROLL (solo no premium)
   // Antes de reproducir, muestra un video de 5 segundos.
@@ -640,6 +681,8 @@ const overlayTop = document.getElementById('overlayTop');
 const overlayBottom = document.getElementById('overlayBottom');
 
 function showControls() {
+  // Al volver a tocar la pantalla, los controles reemplazan al anuncio de pausa.
+  hidePauseAd();
   controls.classList.remove('hidden');
   overlay.classList.add('visible');
   overlayTop.classList.add('visible');
@@ -658,6 +701,11 @@ function hideControls() {
   overlayTop.classList.remove('visible');
   overlayBottom.classList.remove('visible');
   controlsVisible = false;
+
+  // Si sigue pausada al desaparecer los controles, vuelve a mostrar el anuncio.
+  if (video.paused) {
+    showPauseAd();
+  }
 }
 
 
