@@ -133,12 +133,32 @@ pauseAd.style.cssText = [
 const pauseAdImage = document.createElement('img');
 pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
 pauseAdImage.alt = '';
-pauseAdImage.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+// El arte de pausa es un wallpaper 16:9.  No se debe recortar para llenar el
+// reproductor y tampoco debe ampliarse más allá de 1080p en pantallas grandes.
+pauseAdImage.style.cssText = [
+  'width:100%',
+  'height:100%',
+  'max-width:1920px',
+  'max-height:1080px',
+  'object-fit:contain',
+  'display:block'
+].join(';');
 pauseAd.appendChild(pauseAdImage);
 player.appendChild(pauseAd);
 
 function showPauseAd() {
+  // Las páginas de películas pausan el video al abrir/cambiar idioma. Esa
+  // pausa es interna: mientras el selector esté abierto no mostramos el arte
+  // de pausa para que el cambio de pista no parezca una pausa del usuario.
+  const langMenu = document.getElementById('langMenu');
+  const languageMenuOpen = langMenu &&
+    window.getComputedStyle(langMenu).display !== 'none';
   const playerVisible = window.getComputedStyle(player).display !== 'none';
+  if (languageMenuOpen) {
+    hidePauseAd();
+    return;
+  }
+
   if (video.currentTime > 0 && !video.ended && playerVisible) {
     pauseAd.style.display = 'flex';
   }
@@ -147,6 +167,14 @@ function showPauseAd() {
 function hidePauseAd() {
   pauseAd.style.display = 'none';
 }
+
+// Si el usuario abre el selector estando ya en pausa, no habrá un nuevo evento
+// `pause`; por eso también retiramos la imagen desde el propio selector.
+document.addEventListener('click', (event) => {
+  if (event.target.closest('#langBtnWrapper, #langMenu')) {
+    hidePauseAd();
+  }
+}, true);
 
 video.addEventListener('pause', showPauseAd);
 video.addEventListener('play', hidePauseAd);
