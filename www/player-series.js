@@ -96,6 +96,71 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 let hideControlsTimeout;
 
+const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
+  'https://od.lk/s/M18zMzgyOTQ2MzZfb2NsOUo/beerus%20poster.jpg';
+
+const pauseAd = document.createElement('div');
+pauseAd.id = 'dk-pause-ad';
+pauseAd.setAttribute('aria-hidden', 'true');
+pauseAd.style.cssText = [
+  'position:absolute',
+  'inset:0',
+  'display:none',
+  'align-items:center',
+  'justify-content:center',
+  'overflow:hidden',
+  'background:#000',
+  'pointer-events:none',
+  'z-index:4'
+].join(';');
+
+const pauseAdImage = document.createElement('img');
+pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
+pauseAdImage.alt = '';
+pauseAdImage.style.cssText = [
+  'width:100%',
+  'height:100%',
+  'max-width:1920px',
+  'max-height:1080px',
+  'object-fit:contain',
+  'display:block'
+].join(';');
+pauseAd.appendChild(pauseAdImage);
+if (player) {
+  player.appendChild(pauseAd);
+}
+
+function showPauseAd() {
+  const langMenu = document.getElementById('langMenu');
+  const languageMenuOpen = langMenu &&
+    window.getComputedStyle(langMenu).display !== 'none';
+  const playerVisible = player && window.getComputedStyle(player).display !== 'none';
+
+  if (languageMenuOpen) {
+    hidePauseAd();
+    return;
+  }
+
+  if (video && typeof video.currentTime === 'function' && video.currentTime() > 0 && !video.ended() && playerVisible) {
+    pauseAd.style.display = 'flex';
+  }
+}
+
+function hidePauseAd() {
+  if (pauseAd) {
+    pauseAd.style.display = 'none';
+  }
+}
+
+document.addEventListener('click', (event) => {
+  if (event.target.closest('#langBtnWrapper, #langMenu')) {
+    hidePauseAd();
+  }
+}, true);
+
+video.on('pause', showPauseAd);
+video.on('play', hidePauseAd);
+
 // =========================================================
 // ⭐ ANUNCIO PREROLL (solo no premium)
 // =========================================================
@@ -319,6 +384,10 @@ overlayTop.classList.add('visible');
 overlayBottom.classList.add('visible');
 controlsVisible = true;
 
+if (video && typeof video.paused === 'function' && video.paused()) {
+  hidePauseAd();
+}
+
 clearTimeout(hideControlsTimeout);
 hideControlsTimeout = setTimeout(() => {
   hideControls();
@@ -331,6 +400,12 @@ overlay.classList.remove('visible');
 overlayTop.classList.remove('visible');
 overlayBottom.classList.remove('visible');
 controlsVisible = false;
+
+if (video && typeof video.paused === 'function' && video.paused()) {
+  showPauseAd();
+} else {
+  hidePauseAd();
+}
 }
 
 
@@ -2521,6 +2596,7 @@ const tabs = document.querySelector('.tabs-secondary');
     langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === selectedLang));
     if (langMenu) langMenu.style.display = 'flex';
     if (overlayBg) overlayBg.style.display = 'block';
+    hidePauseAd();
     const p = getPlayer();
     if (p && typeof p.pause === 'function') p.pause();
     menuOpen = true;
@@ -2529,6 +2605,7 @@ const tabs = document.querySelector('.tabs-secondary');
   function closeMenu(hacerPlay = true) {
     if (langMenu) langMenu.style.display = 'none';
     if (overlayBg) overlayBg.style.display = 'none';
+    hidePauseAd();
     const p = getPlayer();
     if (hacerPlay && p && typeof p.play === 'function') p.play().catch(()=>{});
     menuOpen = false;
