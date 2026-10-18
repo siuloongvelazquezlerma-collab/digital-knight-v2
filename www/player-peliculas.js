@@ -113,7 +113,7 @@ const thumb = document.getElementById('thumb'); // si existe
 // Imagen que se muestra al pausar. Reemplaza esta URL por la de tu estreno o anuncio.
 // También puedes definir window.DK_PAUSE_AD_IMAGE_URL antes de cargar este script.
 const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
-  'https://od.lk/s/M18zMzgyOTQ2MzZfb2NsOUo/beerus%20poster.jpg';
+  'https://od.lk/s/M18zMzg3MDI3NDBfQkliY2w/street%20fighter%20disponible.jpg';
 
 const pauseAd = document.createElement('div');
 pauseAd.id = 'dk-pause-ad';
