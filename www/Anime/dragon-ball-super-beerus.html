@@ -403,7 +403,24 @@
   <div class="controls" id="controls">
     <div class="top-bar">
       <div class="icon-btn material-icons" onclick="goBack()">chevron_left</div>
-      <div style="display: flex; gap: 15px;">
+  
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <!-- 🌐 Botón de idioma con mini menú -->
+        <div class="icon-btn" id="langBtnWrapper" style="position:relative; display:flex; align-items:center; gap:5px;">
+          <span class="material-icons" id="langIcon">chat</span>
+  
+          <div id="langMenu" class="lang-menu">
+            <div class="lang-option" data-lang="latino">
+              <span class="check"></span> Latino
+            </div>
+            <div class="lang-option" data-lang="sub">
+              <span class="check"></span> Japones (Subtítulos)
+            </div>
+            <button id="langConfirmBtn">Listo</button>
+          </div>
+        </div>
+        <!-- 🌐 Fin menú de idioma -->
+  
         <div class="icon-btn material-icons" onclick="castCurrentVideo()">cast</div>
         <div class="icon-btn material-icons" onclick="toggleAspectRatio()">aspect_ratio</div>
       </div>
@@ -479,16 +496,20 @@ const seriesId = "dragon-ball-super-beerus-312359";
 window.seriesId = seriesId;
 
 // --- PLAYLIST ---
-const playlist = JSON.parse(`[
+window.playlist = [
   {
     "season": "Temporada 1",
     "episodes": [
+      
       {
         "title": "E1: El Dios que Destruye",
         "meta": "13+ · 23m · 2026",
         "thumbnail": "https://image.tmdb.org/t/p/original/xxAiGiQVJqJtqSbdQIAGIFPIvSD.jpg",
-        "videoUrl": "https://od.lk/s/M18zMzgyNjU5NjZfdHNHcWc/01-Beerus.mp4",
-        "downloadUrl": "https://od.lk/d/M18zMzgyNjU5NjZfdHNHcWc/01-Beerus.mp4",
+         "videos": {
+    "latino": "https://od.lk/s/M18zMzg3Nzc5MjNfSjc3QWI/Dragon%20Ball%20Super%20Beerus%20S1E1.mp4",
+    "sub": "https://od.lk/s/M18zMzgyNjU5NjZfdHNHcWc/01-Beerus.mp4"
+  },
+        "downloadUrl": "https://od.lk/s/M18zMzg3Nzc5MjNfSjc3QWI/Dragon%20Ball%20Super%20Beerus%20S1E1.mp4",
         "episodeCode": "T1 E1: El Dios que Destruye",
         "hiddenCode": "T1 E1",
         "intro": {
@@ -500,19 +521,38 @@ const playlist = JSON.parse(`[
         "title": "E2: El Dios de la Destrucción se dirige al planeta de los Kaio",
         "meta": "13+ · 23m · 2026",
         "thumbnail": "https://image.tmdb.org/t/p/original/640QJtOSo1yLduH5jvf8lYTht8Z.jpg",
-        "videoUrl": "https://od.lk/s/M18zMzg3NjgxNTBfN2pVZTQ/02.DBSB.720p_O2612.v3.mp4",
-        "downloadUrl": "https://od.lk/d/M18zMzg3NTcwMDhfb01qRHk/02-Beerus.mp4",
+         "videos": {
+    "latino": "https://od.lk/s/M18zMzg3OTkwMDNfY0kzRk8/DBSBers002MONTADO.mp4",
+    "sub": "https://od.lk/s/M18zMzg3NjgxNTBfN2pVZTQ/02.DBSB.720p_O2612.v3.mp4"
+  },
+        "downloadUrl": "https://od.lk/d/M18zMzg3OTkwMDNfY0kzRk8/DBSBers002MONTADO.mp4",
         "episodeCode": "T1 E2: El Dios de la Destrucción se dirige al planeta de los Kaio",
         "hiddenCode": "T1 E2",
         "intro": {
           "start": 0,
           "end": 0
-        }
+        },
+        isNew: true
       }
     ]
   }
-]`);
-    console.log(playlist);
+];
+
+// 🔧 Ajusta automáticamente los episodios para que tengan videoUrl inicial
+(function() {
+  const preferred = localStorage.getItem('preferredLang') || 'latino';
+
+  window.playlist.forEach(season => {
+    season.episodes.forEach(ep => {
+      // Si no tiene videoUrl pero sí videos, crea uno usando el idioma preferido
+      if (!ep.videoUrl && ep.videos) {
+        ep.videoUrl = ep.videos[preferred] || ep.videos.latino || ep.videos.sub;
+      }
+    });
+  });
+
+  console.log('[playlist] Normalizada con idioma preferido:', preferred);
+})();
 
 </script>
 <script src="../player-series.js"></script>
