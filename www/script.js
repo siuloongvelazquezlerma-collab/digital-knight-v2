@@ -14,7 +14,29 @@ if (localStorage.getItem("mainImagesLoaded") === "true") {
   });
 }
 
+function initBatOverlay() {
+  const batLayer = document.getElementById('batLayer');
+  if (!batLayer || batLayer.dataset.ready === 'true') return;
+
+  batLayer.dataset.ready = 'true';
+  const count = window.innerWidth < 768 ? 10 : 16;
+
+  for (let i = 0; i < count; i++) {
+    const bat = document.createElement('div');
+    bat.className = 'bat';
+    bat.textContent = '🦇';
+    bat.style.left = '-8%';
+    bat.style.top = `${Math.random() * 75 + 8}%`;
+    bat.style.fontSize = `${18 + Math.random() * 18}px`;
+    bat.style.setProperty('--duration', `${12 + Math.random() * 10}s`);
+    bat.style.setProperty('--delay', `${-Math.random() * 12}s`);
+    batLayer.appendChild(bat);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  initBatOverlay();
+
   const images = document.querySelectorAll("img[loading='lazy']");
   let loadedCount = 0;
 
