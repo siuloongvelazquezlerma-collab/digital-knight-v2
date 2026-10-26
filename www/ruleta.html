@@ -1,37 +1,77 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=501389d3-b78e-4682-8e24-b03633894eed
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎃 Ruleta del Terror 👻</title>
-
-<!-- ICONO DE LA PESTAÑA (Favicon) -->
-  <link rel="icon" type="image/jpeg" href="images (2).jpg">
+  <title>🎃 Halloween Spin Royale 👻</title>
+  <link rel="icon" type="image/png" href="https://od.lk/s/M18zMzkyMzE4MTFfWXVHdEE/cute-ghost-cartoon-ghost-in-white-cloak-halloween-scary-illustration-vector.jpg">
+  
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&amp;family=Montserrat:wght@400;700;900&amp;display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #0a0612;
-      --card-bg: #140d21;
-      --border-purple: #341452;
-      --pumpkin-orange: #ff7518;
-      --slime-green: #39ff14;
+      --bg-dark: #08040d;
+      --bg-deep: #140b1d;
+      --bg-glow: #261127;
+      --card-bg: rgba(20, 13, 30, 0.9);
+      --card-bg-strong: rgba(32, 19, 44, 0.96);
+      --border-purple: #4a1d5a;
+      --pumpkin-orange: #ff7b2c;
+      --pumpkin-deep: #d95e12;
+      --slime-green: #9efb4d;
       --blood-red: #d90429;
+      --blood-dark: #4c020b;
+      --moon-white: #f5f1eb;
+      --shadow-amber: rgba(255, 123, 44, 0.35);
+      --shadow-green: rgba(158, 251, 77, 0.32);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: #f1f1f1;
+      background-image:
+        linear-gradient(180deg, rgba(5, 5, 5, 0.72), rgba(3, 3, 3, 0.9)),
+        url('https://od.lk/s/M18zMzkyMzEwMzRfdlgzRFo/halloween-scene-with-pumpkins-full-moon-background_670382-370239.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      color: var(--moon-white);
       font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
       padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 52vh;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 100%);
+      z-index: 0;
+      pointer-events: none;
+      animation: riseOverlay 1.2s ease-out forwards;
+    }
+
+    @keyframes riseOverlay {
+      0% { transform: translateY(100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
     .spooky-font {
@@ -39,15 +79,78 @@
       letter-spacing: 2px;
     }
 
+    .page-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .brand-logo {
+      width: clamp(90px, 10vw, 180px);
+      max-height: 90px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 16px rgba(255, 123, 44, 0.25));
+      border-radius: 0px;
+      padding: 0.35rem 0.5rem;
+    }
+
+    .ghost-mark,
+    .skull-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.8rem, 2.8vw, 3rem);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .ghost-mark {
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
+      animation: ghostFloat 2.3s ease-in-out infinite alternate;
+    }
+
+    .skull-mark {
+      filter: drop-shadow(0 0 10px rgba(255, 123, 44, 0.22));
+      animation: skullFloat 2s ease-in-out infinite alternate;
+    }
+
     .title-halloween {
-      font-size: 2.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.7rem;
+      font-size: clamp(2.1rem, 3.5vw, 3.8rem);
       color: var(--pumpkin-orange);
+      text-shadow: 0 0 26px rgba(255, 123, 44, 0.25);
+      margin: 0;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .title-word {
+      display: inline-block;
+    }
+
+    @keyframes ghostFloat {
+      0% { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-6px) rotate(3deg); }
+    }
+
+    @keyframes skullFloat {
+      0% { transform: translateY(0) rotate(-5deg); }
+      100% { transform: translateY(-6px) rotate(5deg); }
     }
 
     .card-custom {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-purple);
+      background: linear-gradient(180deg, rgba(20, 18, 16, 0.9), rgba(10, 8, 8, 0.94));
+      border: 1px solid rgba(255, 123, 44, 0.38);
       border-radius: 0.85rem;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.02);
+      position: relative;
+      z-index: 1;
     }
 
     .btn-pumpkin {
@@ -99,17 +202,19 @@
       height: 0;
       border-left: 15px solid transparent;
       border-right: 15px solid transparent;
-      border-top: 28px solid var(--slime-green);
+      border-top: 28px solid var(--pumpkin-orange);
       z-index: 5;
+      filter: drop-shadow(0 0 10px rgba(255, 123, 44, 0.45));
     }
 
     canvas.wheel-canvas {
       border-radius: 50%;
-      background: #0f071a;
-      border: 4px solid var(--border-purple);
+      background: radial-gradient(circle at center, #1d120d 0%, #090909 48%, #000000 100%);
+      border: 4px solid rgba(255, 123, 44, 0.7);
       display: block;
       max-width: 100%;
       height: auto;
+      box-shadow: 0 0 0 4px rgba(255, 123, 44, 0.08), 0 0 30px rgba(255, 123, 44, 0.2);
     }
 
     .graveyard-list {
@@ -148,6 +253,87 @@
     .winner-announcement {
       border: 2px solid var(--slime-green);
       background-color: #101c10;
+    }
+
+    .global-announcement {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      width: min(92vw, 760px);
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 2.4rem;
+      border-radius: 1.4rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      background: rgba(10, 5, 18, 0.88);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.42);
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    }
+
+    .global-announcement.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      animation: announcementPulse 0.8s ease-out;
+    }
+
+    .global-announcement.winner {
+      border-color: rgba(57, 255, 20, 0.8);
+      background: linear-gradient(135deg, rgba(26, 64, 24, 0.9), rgba(10, 19, 12, 0.92));
+      box-shadow: 0 28px 80px rgba(57, 255, 20, 0.2);
+    }
+
+    .global-announcement.elimination {
+      border-color: rgba(255, 82, 82, 0.8);
+      background: linear-gradient(135deg, rgba(76, 0, 0, 0.85), rgba(22, 8, 8, 0.92));
+      box-shadow: 0 28px 80px rgba(255, 82, 82, 0.2);
+    }
+
+    .announcement-badge {
+      display: inline-block;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    .announcement-name {
+      font-size: clamp(2rem, 4vw, 4.2rem);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      margin: 0;
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+    }
+
+    .announcement-extra {
+      margin-top: 0.8rem;
+      font-size: clamp(1rem, 1.7vw, 1.55rem);
+      line-height: 1.4;
+      color: rgba(255,255,255,0.85);
+      font-weight: 700;
+    }
+
+    @keyframes announcementPulse {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.75); }
+      60% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
 
     #statusAlert,
@@ -242,50 +428,253 @@
       color: #fff;
       box-shadow: 0 0 0 0.25rem rgba(255, 117, 24, 0.25);
     }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-purple);
+      color: #f1f1f1;
+    }
+
+    .modal-header, .modal-footer {
+      border-color: var(--border-purple);
+    }
+
+    @media (min-width: 1500px) {
+      body {
+        padding: 1.25rem 0.9rem;
+      }
+
+      .container-fluid {
+        max-width: 980px !important;
+      }
+
+      .header-title-row {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .header-title-row {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .title-halloween {
+        white-space: normal;
+        text-align: center;
+      }
+
+      .title-side {
+        min-width: 60px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <div class="container-fluid" style="max-width: 1100px;">
+  <div id="globalAnnouncement" class="global-announcement" aria-live="polite" aria-atomic="true">
+    <div id="announcementBadge" class="announcement-badge">Winner</div>
+    <div id="announcementName" class="announcement-name">Name</div>
+    <div id="announcementExtra" class="announcement-extra">Congratulations!</div>
+  </div>
+
+  <div class="container-fluid" style="max-width: min(980px, 88vw);">
     <!-- Encabezado -->
-    <div class="text-center mb-4">
-      <h1 class="spooky-font title-halloween mb-1">🎃 Ruleta del Terror 👻</h1>
-      <p class="text-secondary mb-0">Rifa semanal: Elimina participantes y premios hasta revelar a los ganadores y su recompensa.</p>
+    <div class="page-header">
+      <img class="brand-logo" src="https://od.lk/s/M18zMzkyMTgwMTFfSXA5aVo/66cf319bf92f5b9598b0601e_Extend_logo%20%281%29.png" alt="Campaign logo">
+      <h1 class="spooky-font title-halloween">
+        <span class="skull-mark" aria-hidden="true">☠️</span>
+        <span class="title-word">Halloween</span>
+        <span class="title-word">Spin Royale</span>
+        <span class="ghost-mark" aria-hidden="true">👻</span>
+      </h1>
+      <p class="text-secondary mb-0">Weekly draw: eliminate entrants and prizes until the winners and their reward are revealed.</p>
     </div>
 
-    <!-- Pestañas -->
+    <!-- Tabs -->
     <ul class="nav nav-pills justify-content-center gap-2 mb-4" id="mainTabs" role="tablist">
-      <li class="nav-item">
-        <button class="nav-link active px-4 py-2 fw-bold text-uppercase card-custom" id="tab-agents-btn" data-bs-toggle="pill" data-bs-target="#tab-agents">
-          <i class="bi bi-people-fill text-warning me-1"></i> 1. Ruleta de Agentes
+      <li class="nav-item" role="presentation">
+        <button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom active" id="tab-agents-btn" data-bs-toggle="pill" data-bs-target="#tab-agents" aria-selected="true" role="tab">
+          <i class="bi bi-people-fill text-warning me-1"></i> 1. Agent Wheel
         </button>
       </li>
-      <li class="nav-item">
-        <button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom" id="tab-prizes-btn" data-bs-toggle="pill" data-bs-target="#tab-prizes">
-          <i class="bi bi-gift-fill text-success me-1"></i> 2. Ruleta de Premios
+      <li class="nav-item" role="presentation">
+        <button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom" id="tab-prizes-btn" data-bs-toggle="pill" data-bs-target="#tab-prizes" aria-selected="false" role="tab" tabindex="-1">
+          <i class="bi bi-gift-fill text-success me-1"></i> 2. Prize Wheel
         </button>
       </li>
     </ul>
 
     <div class="tab-content">
-      <!-- PESTAÑA 1: RULETA DE AGENTES -->
-      <div class="tab-pane fade show active" id="tab-agents">
+      <!-- TAB 1: AGENT WHEEL -->
+      <div class="tab-pane fade active show" id="tab-agents" role="tabpanel" aria-labelledby="tab-agents-btn">
         <div class="row g-4 align-items-start">
           
-          <!-- Columna Izquierda: Configuración Agentes -->
+          <!-- Left column: Agent configuration -->
           <div class="col-lg-4">
             <div class="card-custom p-3 p-md-4 mb-3">
               <h5 class="fw-bold mb-2 text-warning d-flex align-items-center justify-content-between">
-                <span><i class="bi bi-person-lines-fill me-2"></i>Agentes</span>
-                <span class="badge bg-dark border border-secondary" id="agentsCountBadge">0</span>
+                <span><i class="bi bi-person-lines-fill me-2"></i>Agents</span>
+                <span class="badge bg-dark border border-secondary" id="agentsCountBadge">20 active</span>
               </h5>
-              <div class="small text-secondary mb-2">Participantes</div>
-              <div id="agentsEditorList" class="graveyard-list mb-3" style="max-height: 240px; overflow-y: auto;"></div>
+              
+              <!-- Paste and shuffle buttons -->
+              <div class="d-flex gap-2 mb-2">
+                <button type="button" class="btn btn-outline-warning btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkAgentsModal">
+                  <i class="bi bi-clipboard-plus me-1"></i>  Paste list
+                </button>
+                <button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shuffleAgents()" title="Randomize order">
+                  <i class="bi bi-shuffle me-1"></i>  Shuffle
+                </button>
+              </div>
+
+              <div class="small text-secondary mb-1">Current participants (duplicates allowed):</div>
+              <div id="agentsEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">David Villareal</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_fqj4vm2jn_1792912263870" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Noe</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_c5ujq6ppy_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Vito</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7vc14sg9h_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Henry</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73467jxjj_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Adriana</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ky4hzn6ls_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Aida</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vwmsv5jg8_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Alex Negrete</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_mh8u56m59_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Adrian Rmz</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_43yvttagh_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Chano Villareal</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_q29v0rq9e_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Hector Avila</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_atcubtwhv_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Hector Peña</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_8rf9djaig_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Ingrid</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_zdf701xrv_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">JC</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ato2ohysi_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Kler</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_cxdhn0kg7_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Bonie</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ie1hfki99_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">David Razo</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7n3wvfnf6_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Santiago</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_5so4ctnie_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Valeria</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_o8t5ce247_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">David Trujillo</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73bdc8et4_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Siuloong</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vnbdfjtko_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      </div>
 
               <div class="mb-3">
                 <div class="d-flex gap-2">
-                  <input id="newAgentNameInput" type="text" class="form-control form-control-sm" placeholder="Agregar nombre" maxlength="60">
-                  <button id="addAgentBtn" type="button" class="btn btn-sm btn-pumpkin">Agregar</button>
+                  <input id="newAgentNameInput" type="text" class="form-control form-control-sm" placeholder="Add a name..." maxlength="60">
+                  <button id="addAgentBtn" type="button" class="btn btn-sm btn-pumpkin">Add</button>
                 </div>
               </div>
 
@@ -300,7 +689,7 @@ Adrian Rmz
 Chano Villareal
 Hector Avila
 Hector Peña
-Ingrid 
+Ingrid
 JC
 Kler
 Bonie
@@ -310,80 +699,72 @@ Valeria
 David Trujillo
 Siuloong</textarea>
 
-              <!-- PANEL DE REGLAS AGENTES -->
+              <!-- AGENT RULES PANEL -->
               <div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
-                <div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Reglas de agentes:</div>
+                <div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Agent rules:</div>
 
-                <!-- Cuántos se eliminan -->
+                <!-- How many are eliminated -->
                 <div class="mb-2">
                   <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="small text-light">1. ¿Cuántos se eliminan?</span>
+                    <span class="small text-light">1. How many are eliminated?</span>
                     <input type="number" id="numEliminatedInput" class="form-control form-control-sm text-center" style="width: 70px;" value="3" min="0">
                   </div>
-                  <small class="text-secondary d-block" style="font-size: 0.72rem;">(0 si quieres sortear ganador directo sin eliminar)</small>
+                  <small class="text-secondary d-block" style="font-size: 0.72rem;">(0 if you want a direct winner draw without elimination)</small>
                 </div>
 
-                <!-- Cuántos ganadores -->
+                <!-- How many winners -->
                 <div>
                   <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="small text-success fw-semibold">2. ¿Cuántos ganadores?</span>
+                    <span class="small text-success fw-semibold">2. How many winners?</span>
                     <input type="number" id="numWinnersInput" class="form-control form-control-sm text-center" style="width: 70px;" value="1" min="1">
                   </div>
-                  <small class="text-secondary d-block" style="font-size: 0.72rem;">Se elegirán entre los agentes que sobrevivan.</small>
+                  <small class="text-secondary d-block" style="font-size: 0.72rem;">Winners will be selected from the remaining entries.</small>
                 </div>
               </div>
 
               <button id="loadAgentsBtn" class="btn btn-pumpkin w-100 mb-2">
-                <i class="bi bi-arrow-repeat me-1"></i> Cargar a la Ruleta
+                <i class="bi bi-arrow-repeat me-1"></i> Load to wheel
               </button>
 
               <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25">
-                <span class="small text-secondary">Sonidos:</span>
+                <span class="small text-secondary">Sound:</span>
                 <button id="toggleSoundBtn" class="btn btn-sm btn-outline-warning">
-                  <i class="bi bi-volume-up-fill" id="soundIcon"></i> <span id="soundText">Activados</span>
+                  <i class="bi bi-volume-up-fill" id="soundIcon"></i> <span id="soundText">On</span>
                 </button>
               </div>
             </div>
 
-            <!-- Cementerio y Ganadores -->
+            <!-- Graveyard and Winners -->
             <div class="card-custom p-3 mb-2">
               <h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
-                <span>🪦 Cementerio (Eliminados)</span>
+                <span>🪦 Graveyard (Eliminated)</span>
                 <span class="badge bg-danger text-white" id="eliminatedCount">0</span>
               </h6>
-              <div id="graveyardList" class="graveyard-list">
-                <div class="text-secondary small text-center py-3 fst-italic">Nadie ha caído aún...</div>
-              </div>
+              <div id="graveyardList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">Nobody has fallen yet...</div></div>
             </div>
 
             <div class="card-custom p-3">
               <h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
-                <span>👑 Ganadores Seleccionados</span>
+                <span>👑 Selected Winners</span>
                 <span class="badge bg-success text-dark" id="winnersCountBadge">0</span>
               </h6>
-              <div id="winnersList" class="graveyard-list">
-                <div class="text-secondary small text-center py-3 fst-italic">Ninguno aún...</div>
-              </div>
+              <div id="winnersList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">None yet...</div></div>
             </div>
           </div>
 
-          <!-- Columna Derecha: Ruleta Agentes -->
+          <!-- Right column: Agent wheel -->
           <div class="col-lg-8 text-center">
             <div class="card-custom p-4">
-              <!-- Banner de Estado -->
+              <!-- Status banner -->
               <div id="statusAlert" class="alert alert-dark border-secondary p-3 mb-3">
-                <h5 class="mb-0 fw-bold" id="statusTitle">¡La ruleta está lista!</h5>
-                <small class="text-secondary" id="statusSubtitle">Presiona el botón para comenzar.</small>
+                <h5 class="mb-0 fw-bold" id="statusTitle">Elimination phase!</h5>
+                <small class="text-secondary" id="statusSubtitle">The selected ticket goes to the graveyard (3 left to eliminate).</small>
               </div>
 
-              <!-- Badges de Fase y Rondas -->
+              <!-- phase and round badges -->
               <div class="d-flex justify-content-center gap-2 mb-2">
-                <span id="phaseBadge" class="badge bg-danger fs-6 px-3 py-2">
-                  Fase: Eliminación
-                </span>
-                <span id="roundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">
-                  Eliminados: 0 / 3
-                </span>
+                <span id="phaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Elimination ☠️</span>
+                <span id="roundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Eliminated: 0 / 3</span>
               </div>
 
               <!-- Ruleta -->
@@ -394,21 +775,19 @@ Siuloong</textarea>
 
               <!-- Botones de Acción -->
               <div class="d-flex flex-wrap justify-content-center gap-3">
-                <button id="spinAgentBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">
-                  🎃 ¡GIRAR RULETA!
-                </button>
+                <button id="spinAgentBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">🎃 SPIN TO ELIMINATE!</button>
                 <button id="resetAllBtn" class="btn btn-outline-secondary btn-lg">
-                  <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
+                  <i class="bi bi-arrow-counterclockwise"></i> Reset
                 </button>
               </div>
 
-              <!-- Tarjeta de Ganador(es) Finales -->
+              <!-- Final winner card -->
               <div id="winnerCard" class="card-custom winner-announcement p-4 mt-4 d-none">
-                <h2 class="spooky-font text-warning mb-1" id="winnerHeadline">👑 ¡GANADORES DEL DÍA! 👑</h2>
+                <h2 class="spooky-font text-warning mb-1" id="winnerHeadline">👑 WINNERS OF THE NIGHT! 👑</h2>
                 <div id="winnerNamesBox" class="my-3"></div>
-                <p class="text-light mb-3">¡Felicidades a los campeones! Pasemos a sortear sus premios.</p>
+                <p class="text-light mb-3">Congratulations to the champions! Now let’s spin the prize wheel.</p>
                 <button id="goToPrizeBtn" class="btn btn-slime btn-lg px-4 py-2 fs-5">
-                  🎁 ¡Sortear Premios en la Ruleta 2! ➡️
+                  🎁 Spin prizes on wheel 2! ➡️
                 </button>
               </div>
             </div>
@@ -417,104 +796,155 @@ Siuloong</textarea>
         </div>
       </div>
 
-      <!-- PESTAÑA 2: RULETA DE PREMIOS -->
-      <div class="tab-pane fade" id="tab-prizes">
+      <!-- TAB 2: PRIZE WHEEL -->
+      <div class="tab-pane fade" id="tab-prizes" role="tabpanel" aria-labelledby="tab-prizes-btn">
         <div class="row g-4 align-items-start">
           
-          <!-- Columna Izquierda: Configuración Premios -->
+          <!-- Left column: Prize configuration -->
           <div class="col-lg-4">
             <div class="card-custom p-3 p-md-4 mb-3">
               <h5 class="fw-bold mb-2 text-success d-flex align-items-center justify-content-between">
-                <span><i class="bi bi-gift-fill me-2"></i>Bolsa de Premios</span>
-                <span class="badge bg-dark border border-secondary" id="prizesCountBadge">0</span>
+                <span><i class="bi bi-gift-fill me-2"></i>Prize Bag</span>
+                <span class="badge bg-dark border border-secondary" id="prizesCountBadge">7 available</span>
               </h5>
-              <div class="small text-secondary mb-2">Lista de premios</div>
-              <div id="prizesEditorList" class="graveyard-list mb-3" style="max-height: 240px; overflow-y: auto;"></div>
+
+              <!-- Paste and shuffle prize buttons -->
+              <div class="d-flex gap-2 mb-2">
+                <button type="button" class="btn btn-outline-success btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkPrizesModal">
+                  <i class="bi bi-clipboard-plus me-1"></i>  Paste list
+                </button>
+                <button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shufflePrizes()" title="Randomize order">
+                  <i class="bi bi-shuffle me-1"></i>  Shuffle
+                </button>
+              </div>
+
+              <div class="small text-secondary mb-1">Current prizes:</div>
+              <div id="prizesEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Cash Bonus 💵</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_8ry33rmet_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Paid Day Off 🏖️</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_jwv3tc86u_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Leave 2 hours early ⏰</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_oz1textzk_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Free Food / Pizza 🍕</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_vqnx0prbs_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Gift Card 🎁</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_7py7s35f3_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">VIP pass without calls 🎧</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_4016bfclw_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">Halloween sweets 🍬</span>
+          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_fp2o7gasj_1792912263894" aria-label="Remove prize" title="Remove prize">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+      </div>
 
               <div class="mb-3">
                 <div class="d-flex gap-2">
-                  <input id="newPrizeInput" type="text" class="form-control form-control-sm" placeholder="Agregar premio" maxlength="80">
-                  <button id="addPrizeBtn" type="button" class="btn btn-sm btn-slime">Agregar</button>
+                  <input id="newPrizeInput" type="text" class="form-control form-control-sm" placeholder="Add a prize..." maxlength="80">
+                  <button id="addPrizeBtn" type="button" class="btn btn-sm btn-slime">Add</button>
                 </div>
               </div>
 
-              <textarea id="prizesInput" class="d-none" aria-hidden="true">Bono en Efectivo 💵
-Día Libre Pagado 🏖️
-Salir 2 horas temprano ⏰
-Comida / Pizza Gratis 🍕
-Tarjeta de Regalo 🎁
-Pase VIP sin llamadas 🎧
-Dulces de Halloween 🍬</textarea>
+              <textarea id="prizesInput" class="d-none" aria-hidden="true">Cash Bonus 💵
+Paid Day Off 🏖️
+Leave 2 hours early ⏰
+Free Food / Pizza 🍕
+Gift Card 🎁
+VIP pass without calls 🎧
+Halloween sweets 🍬</textarea>
 
-              <!-- PANEL DE REGLAS DE PREMIOS -->
+              <!-- PRIZE RULES PANEL -->
               <div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
-                <div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Reglas de premios:</div>
+                <div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Prize rules:</div>
 
-                <!-- Cuántos premios se eliminan/descartan -->
                 <div class="mb-2">
                   <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="small text-light">1. ¿Cuántos se eliminan?</span>
+                    <span class="small text-light">1. How many are eliminated?</span>
                     <input type="number" id="numElimPrizesInput" class="form-control form-control-sm text-center" style="width: 70px;" value="2" min="0">
                   </div>
-                  <small class="text-secondary d-block" style="font-size: 0.72rem;">(Premios que se descartan antes de premiar)</small>
+                  <small class="text-secondary d-block" style="font-size: 0.72rem;">(Prizes discarded before the award)</small>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="small text-success fw-semibold">2. Premios a entregar:</span>
+                  <span class="small text-success fw-semibold">2. Prizes to award:</span>
                   <span class="badge bg-success text-dark" id="prizesToAwardBadge">1</span>
                 </div>
-                <small class="text-secondary d-block" style="font-size: 0.72rem;">Sincronizado con los ganadores elegidos en Ruleta 1.</small>
+                <small class="text-secondary d-block" style="font-size: 0.72rem;">Synced with winners chosen in wheel 1.</small>
               </div>
 
               <button id="loadPrizesBtn" class="btn btn-slime w-100 mb-3">
-                <i class="bi bi-arrow-repeat me-1"></i> Cargar Premios a la Ruleta
+                <i class="bi bi-arrow-repeat me-1"></i> Load prizes into the wheel
               </button>
 
               <div class="p-3 border border-warning border-opacity-50 rounded bg-dark mb-3">
-                <div class="small text-secondary">Turno de premiación:</div>
-                <div class="fs-5 fw-bold text-warning mt-1" id="currentWinnerToPrizeDisplay">Ninguno</div>
+                <div class="small text-secondary">Prize turn:</div>
+                <div class="fs-5 fw-bold text-warning mt-1" id="currentWinnerToPrizeDisplay">No winner selected in wheel 1</div>
               </div>
             </div>
 
-            <!-- Cementerio de Premios Descartados -->
+            <!-- Discarded prize cemetery -->
             <div class="card-custom p-3 mb-2">
               <h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
-                <span>🗑️ Premios Descartados</span>
+                <span>🗑️ Discarded Prizes</span>
                 <span class="badge bg-danger text-white" id="eliminatedPrizesCount">0</span>
               </h6>
-              <div id="discardedPrizesList" class="graveyard-list">
-                <div class="text-secondary small text-center py-2 fst-italic">Ningún premio descartado aún...</div>
-              </div>
+              <div id="discardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div></div>
             </div>
 
-            <!-- Premios Asignados -->
+            <!-- Awarded prizes -->
             <div class="card-custom p-3">
               <h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
-                <span>🎁 Premios Asignados Hoy</span>
+                <span>🎁 Rewards Awarded Today</span>
                 <span class="badge bg-success text-dark" id="awardedPrizesCount">0</span>
               </h6>
-              <div id="awardedPrizesList" class="graveyard-list">
-                <div class="text-secondary small text-center py-2 fst-italic">Ninguno todavía...</div>
-              </div>
+              <div id="awardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">None yet...</div></div>
             </div>
           </div>
 
-          <!-- Columna Derecha: Ruleta Premios -->
+          <!-- Right column: Prize wheel -->
           <div class="col-lg-8 text-center">
             <div class="card-custom p-4">
               <div id="prizeStatusAlert" class="alert alert-dark border-secondary p-3 mb-3">
-                <h5 class="mb-0 fw-bold" id="prizeStatusTitle">¡Ruleta de Premios lista!</h5>
-                <small class="text-secondary" id="prizeStatusSubtitle">Configura las reglas y presiona el botón para comenzar.</small>
+                <h5 class="mb-0 fw-bold text-warning" id="prizeStatusTitle">Prize discard phase!</h5>
+                <small class="text-secondary" id="prizeStatusSubtitle">The prize that comes up will be removed from the wheel (2 left to discard).</small>
               </div>
 
-              <!-- Badges de Fase y Rondas de Premios -->
+              <!-- Prize phase and round badges -->
               <div class="d-flex justify-content-center gap-2 mb-2">
-                <span id="prizePhaseBadge" class="badge bg-danger fs-6 px-3 py-2">
-                  Fase: Descarte de Premios ☠️
-                </span>
-                <span id="prizeRoundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">
-                  Descartados: 0 / 2
-                </span>
+                <span id="prizePhaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Prize Discard ☠️</span>
+                <span id="prizeRoundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Discarded: 0 / 2</span>
               </div>
 
               <div class="wheel-container mb-3">
@@ -523,26 +953,91 @@ Dulces de Halloween 🍬</textarea>
               </div>
 
               <div class="d-flex flex-wrap justify-content-center gap-3">
-                <button id="spinPrizeBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">
-                  ☠️ ¡GIRAR PARA DESCARTAR PREMIO!
-                </button>
+                <button id="spinPrizeBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">☠️ SPIN TO DISCARD PRIZE!</button>
                 <button id="resetPrizesBtn" class="btn btn-outline-secondary btn-lg">
-                  <i class="bi bi-arrow-counterclockwise"></i> Reiniciar Premios
+                  <i class="bi bi-arrow-counterclockwise"></i> Reset prizes
                 </button>
               </div>
 
-              <!-- Tarjeta de Premio Ganado -->
+              <!-- Winning prize card -->
               <div id="finalPrizeCard" class="card-custom winner-announcement p-4 mt-4 d-none">
-                <h3 class="spooky-font text-warning mb-1">🎉 ¡PREMIO GANADO! 🎉</h3>
-                <h2 class="fw-bold text-white" id="finalAgentName">Agente</h2>
-                <h1 class="display-6 fw-bold text-success my-3" id="finalPrizeWon">Premio</h1>
+                <h3 class="spooky-font text-warning mb-1">🎉 PRIZE WON! 🎉</h3>
+                <h2 class="fw-bold text-white" id="finalAgentName">Agent</h2>
+                <h1 class="display-6 fw-bold text-success my-3" id="finalPrizeWon">Prize</h1>
                 <button id="nextWinnerPrizeBtn" class="btn btn-outline-warning btn-sm mt-2 d-none">
-                  Siguiente Ganador ➡️
+                  Next winner ➡️
                 </button>
               </div>
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PASTE ALL AGENTS AT ONCE -->
+  <div class="modal fade" id="bulkAgentsModal" tabindex="-1" aria-labelledby="bulkAgentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold text-warning" id="bulkAgentsModalLabel">
+            <i class="bi bi-clipboard-data me-2"></i> Paste participant list
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-secondary mb-2">
+            Paste your list here (duplicate names are allowed, one entry per line):
+          </p>
+          <textarea id="bulkAgentsTextarea" class="form-control" rows="8" placeholder="Paste the names here...
+John Doe
+John Doe
+Maria Gomez"></textarea>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-warning" onclick="processBulkAgents(false)">
+              ➕ Add to current list
+            </button>
+            <button type="button" class="btn btn-pumpkin" onclick="processBulkAgents(true)">
+              🔄 Replace full list
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PASTE ALL PRIZES AT ONCE -->
+  <div class="modal fade" id="bulkPrizesModal" tabindex="-1" aria-labelledby="bulkPrizesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold text-success" id="bulkPrizesModalLabel">
+            <i class="bi bi-gift me-2"></i> Paste prize list
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-secondary mb-2">
+            Paste all the prizes you want to spin (one prize per line):
+          </p>
+          <textarea id="bulkPrizesTextarea" class="form-control" rows="8" placeholder="Paste the prizes here...
+Paid Day Off 🏖️
+Cash Bonus 💵"></textarea>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-success" onclick="processBulkPrizes(false)">
+              ➕ Add to current list
+            </button>
+            <button type="button" class="btn btn-slime" onclick="processBulkPrizes(true)">
+              🔄 Replace full list
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -619,24 +1114,33 @@ Dulces de Halloween 🍬</textarea>
     document.getElementById('toggleSoundBtn').addEventListener('click', () => {
       soundEnabled = !soundEnabled;
       document.getElementById('soundIcon').className = soundEnabled ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill';
-      document.getElementById('soundText').textContent = soundEnabled ? 'Activados' : 'Silenciado';
+      document.getElementById('soundText').textContent = soundEnabled ? 'On' : 'Muted';
     });
 
     const halloweenColors = [
-      '#ff7518', '#6a0dad', '#28a745', '#b30000',
-      '#2d1b4e', '#e67e22', '#4a154b', '#16a085'
+      '#ff7b2c', '#171717', '#ff9d4d', '#0f0f0f',
+      '#ff7b2c', '#191919', '#ffae66', '#101010'
     ];
 
+    // Algoritmo de barajado aleatorio (Fisher-Yates)
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     // ==========================================
-    // 1. ESTADO DE LA RULETA DE AGENTES
+    // 1. RULETA DE AGENTES (PERMITE REPETIDOS + SHUFFLE)
     // ==========================================
-    const AGENTS_STORAGE_KEY = 'digitalKnightRuletaParticipantes';
-    let participantNames = [];
-    let excludedAgentNames = new Set();
+    const AGENTS_STORAGE_KEY = 'digitalKnightRuletaParticipantes_v2';
+    // Cada elemento es un objeto { id, name } para permitir nombres repetidos de forma independiente
+    let participantItems = [];
     let activeAgents = [];
     let eliminatedAgents = [];
     let chosenWinners = [];
-    let currentPhase = 'elimination'; // 'elimination' | 'winner_selection' | 'finished'
+    let currentPhase = 'elimination';
     let isSpinningAgents = false;
     let agentCurrentAngle = 0;
 
@@ -661,103 +1165,105 @@ Dulces de Halloween 🍬</textarea>
     const phaseBadge = document.getElementById('phaseBadge');
     const roundsBadge = document.getElementById('roundsBadge');
 
+    const globalAnnouncement = document.getElementById('globalAnnouncement');
+    const announcementBadge = document.getElementById('announcementBadge');
+    const announcementName = document.getElementById('announcementName');
+    const announcementExtra = document.getElementById('announcementExtra');
+
+    function showGlobalAnnouncement(type, name, extraText, badgeText) {
+      if (!globalAnnouncement || !announcementBadge || !announcementName || !announcementExtra) return;
+
+      globalAnnouncement.classList.remove('winner', 'elimination');
+      globalAnnouncement.classList.add(type);
+      announcementBadge.textContent = badgeText || (type === 'winner' ? 'Winner' : 'Eliminated');
+      announcementName.textContent = name || '—';
+      announcementExtra.textContent = extraText || (type === 'winner' ? 'Congratulations!' : 'Better luck next time.');
+      globalAnnouncement.classList.add('show');
+
+      clearTimeout(showGlobalAnnouncement.timer);
+      showGlobalAnnouncement.timer = setTimeout(() => {
+        globalAnnouncement.classList.remove('show');
+      }, 3200);
+    }
+
     const numEliminatedInput = document.getElementById('numEliminatedInput');
     const numWinnersInput = document.getElementById('numWinnersInput');
-
-    const PRIZES_STORAGE_KEY = 'digitalKnightRuletaPremios';
-    let prizeNames = [];
-    let activePrizes = [];
-    let eliminatedPrizes = [];
-    let awardedHistory = [];
-    let prizeCurrentPhase = 'elimination';
-    let isSpinningPrizes = false;
-    let prizeCurrentAngle = 0;
-    let winnerPrizeIndex = 0;
-
-    const prizesCanvas = document.getElementById('prizesWheel');
-    const prizesCtx = prizesCanvas.getContext('2d');
-    const prizesInput = document.getElementById('prizesInput');
-    const prizesEditorList = document.getElementById('prizesEditorList');
-    const newPrizeInput = document.getElementById('newPrizeInput');
-    const addPrizeBtn = document.getElementById('addPrizeBtn');
-    const loadPrizesBtn = document.getElementById('loadPrizesBtn');
-    const prizesCountBadge = document.getElementById('prizesCountBadge');
-    const numElimPrizesInput = document.getElementById('numElimPrizesInput');
-    const spinPrizeBtn = document.getElementById('spinPrizeBtn');
-    const resetPrizesBtn = document.getElementById('resetPrizesBtn');
-    const finalPrizeCard = document.getElementById('finalPrizeCard');
-    const finalAgentName = document.getElementById('finalAgentName');
-    const finalPrizeWon = document.getElementById('finalPrizeWon');
-    const nextWinnerPrizeBtn = document.getElementById('nextWinnerPrizeBtn');
-    const prizeStatusTitle = document.getElementById('prizeStatusTitle');
-    const prizeStatusSubtitle = document.getElementById('prizeStatusSubtitle');
-    const prizePhaseBadge = document.getElementById('prizePhaseBadge');
-    const prizeRoundsBadge = document.getElementById('prizeRoundsBadge');
-    const currentWinnerToPrizeDisplay = document.getElementById('currentWinnerToPrizeDisplay');
-    const discardedPrizesList = document.getElementById('discardedPrizesList');
-    const eliminatedPrizesCount = document.getElementById('eliminatedPrizesCount');
-    const awardedPrizesList = document.getElementById('awardedPrizesList');
-    const awardedPrizesCount = document.getElementById('awardedPrizesCount');
 
     function getNormalizedName(value) {
       return String(value || '').trim().replace(/\s+/g, ' ');
     }
 
-    function normalizeParticipantList(values) {
-      if (!Array.isArray(values)) return [];
-
-      const names = values.flatMap(item => {
-        if (typeof item === 'string') return [getNormalizedName(item)];
-        if (item && typeof item === 'object') {
-          const candidate = item.name ?? item.value ?? item.label ?? item.text ?? '';
-          if (typeof candidate === 'string') return [getNormalizedName(candidate)];
-          if (Array.isArray(candidate)) return candidate.map(v => getNormalizedName(v));
-        }
-        return [];
-      }).filter(Boolean);
-
-      return [...new Set(names)];
+    function createAgentItem(name) {
+      return {
+        id: 'ag_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
+        name: getNormalizedName(name)
+      };
     }
 
-    function persistParticipants() {
+    async function persistParticipants() {
+      const safeList = participantItems.map(item => ({
+        id: item.id,
+        name: getNormalizedName(item.name)
+      }));
+
       try {
-        localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(participantNames));
+        if (window.supabase) {
+          await saveSharedList('participants', safeList);
+          return;
+        }
       } catch (error) {
-        console.warn('No se pudo guardar la lista de participantes:', error);
+        console.warn('Supabase participants save failed, using localStorage fallback:', error);
+      }
+
+      try {
+        localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(safeList));
+      } catch (error) {
+        console.warn('Error al guardar participantes:', error);
       }
     }
 
-    function loadParticipantsFromStorage() {
+    async function loadParticipantsFromStorage() {
+      try {
+        if (window.supabase) {
+          const shared = await readSharedList('participants');
+          if (shared && shared.length) {
+            return shared.map(item => typeof item === 'string' ? createAgentItem(item) : ({
+              ...item,
+              name: getNormalizedName(item.name)
+            }));
+          }
+        }
+      } catch (error) {
+        console.warn('Supabase participants load failed, using localStorage fallback:', error);
+      }
+
       try {
         const raw = localStorage.getItem(AGENTS_STORAGE_KEY);
         if (!raw) return null;
         const parsed = JSON.parse(raw);
         if (!Array.isArray(parsed)) return null;
-
-        return normalizeParticipantList(parsed);
+        return parsed.map(item => typeof item === 'string' ? createAgentItem(item) : item);
       } catch (error) {
-        console.warn('No se pudo leer la lista de participantes guardada:', error);
         return null;
       }
     }
 
     function renderParticipantsEditor() {
       if (!agentsEditorList) return;
-
-      if (!participantNames.length) {
-        agentsEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Sin participantes agregados.</div>';
+      if (!participantItems.length) {
+        agentsEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">No participants added.</div>';
         return;
       }
 
-      agentsEditorList.innerHTML = participantNames.map(name => `
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary ${excludedAgentNames.has(name.toLowerCase()) ? 'opacity-50' : ''}">
-          <span class="text-light ${excludedAgentNames.has(name.toLowerCase()) ? 'text-decoration-line-through' : ''}">${String(name)}</span>
+      agentsEditorList.innerHTML = participantItems.map(item => `
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+          <span class="text-light">${String(item.name)}</span>
           <button
             type="button"
             class="btn btn-link p-0 text-danger remove-agent-btn"
-            data-name="${String(name).replace(/"/g, '&quot;')}"
-            aria-label="Quitar del sorteo"
-            title="Quitar del sorteo"
+            data-id="${item.id}"
+            aria-label="Quitar una entrada"
+            title="Quitar esta entrada"
           >
             <i class="bi bi-x-circle-fill"></i>
           </button>
@@ -765,19 +1271,51 @@ Dulces de Halloween 🍬</textarea>
       `).join('');
     }
 
-    function syncParticipantsFromTextarea() {
-      const names = agentsInput.value
+    function syncTextareaFromParticipants() {
+      agentsInput.value = participantItems.map(i => i.name).join('\n');
+    }
+
+    // BOTÓN SHUFFLE (REVOLVER NOMBRES)
+    function shuffleAgents() {
+      if (participantItems.length <= 1) return;
+      participantItems = shuffleArray([...participantItems]);
+      activeAgents = [...participantItems];
+      persistParticipants();
+      syncTextareaFromParticipants();
+      renderParticipantsEditor();
+      drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
+    }
+
+    // PEGAR LISTA COMPLETA (PERMITE DUPLICADOS)
+    function processBulkAgents(replaceWholeList) {
+      const textarea = document.getElementById('bulkAgentsTextarea');
+      const lines = textarea.value
         .split('\n')
         .map(s => getNormalizedName(s))
         .filter(s => s.length > 0);
 
-      participantNames = normalizeParticipantList(names);
-      persistParticipants();
-      renderParticipantsEditor();
-    }
+      if (lines.length === 0) {
+        alert('Please paste at least one name.');
+        return;
+      }
 
-    function syncTextareaFromParticipants() {
-      agentsInput.value = participantNames.join('\n');
+      const newItems = lines.map(name => createAgentItem(name));
+
+      if (replaceWholeList) {
+        participantItems = newItems;
+      } else {
+        participantItems = [...participantItems, ...newItems];
+      }
+
+      persistParticipants();
+      syncTextareaFromParticipants();
+      renderParticipantsEditor();
+      parseAgents();
+
+      textarea.value = '';
+      const modalEl = document.getElementById('bulkAgentsModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
     }
 
     function addAgentToList() {
@@ -787,13 +1325,9 @@ Dulces de Halloween 🍬</textarea>
         return;
       }
 
-      const exists = participantNames.some(item => item.toLowerCase() === normalizedName.toLowerCase());
-      if (!exists) {
-        participantNames.push(normalizedName);
-        persistParticipants();
-      }
-
-      excludedAgentNames.delete(normalizedName.toLowerCase());
+      // Se permite agregar nombres repetidos
+      participantItems.push(createAgentItem(normalizedName));
+      persistParticipants();
       syncTextareaFromParticipants();
       renderParticipantsEditor();
       parseAgents();
@@ -801,17 +1335,24 @@ Dulces de Halloween 🍬</textarea>
       newAgentNameInput.focus();
     }
 
-    function parseAgents() {
-      const savedParticipants = loadParticipantsFromStorage();
-      if (savedParticipants && savedParticipants.length) {
-        participantNames = normalizeParticipantList(savedParticipants);
-      } else if (!participantNames.length) {
+    function removeAgentItem(id) {
+      participantItems = participantItems.filter(i => i.id !== id);
+      persistParticipants();
+      syncTextareaFromParticipants();
+      renderParticipantsEditor();
+      parseAgents();
+    }
+
+    async function parseAgents() {
+      const saved = await loadParticipantsFromStorage();
+      if (saved && saved.length) {
+        participantItems = saved;
+      } else if (!participantItems.length) {
         const defaultNames = agentsInput.value.split('\n').map(s => getNormalizedName(s)).filter(Boolean);
-        participantNames = normalizeParticipantList(defaultNames);
+        participantItems = defaultNames.map(name => createAgentItem(name));
       }
 
-      activeAgents = participantNames.filter(name => !excludedAgentNames.has(name.toLowerCase()));
-
+      activeAgents = [...participantItems];
       eliminatedAgents = [];
       chosenWinners = [];
       winnerCard.classList.add('d-none');
@@ -834,15 +1375,6 @@ Dulces de Halloween 🍬</textarea>
       syncWinnersWithPrizes();
     }
 
-    function excludeAgent(name) {
-      const normalizedName = getNormalizedName(name);
-      if (!normalizedName) return;
-
-      excludedAgentNames.add(normalizedName.toLowerCase());
-      renderParticipantsEditor();
-      parseAgents();
-    }
-
     addAgentBtn.addEventListener('click', addAgentToList);
     newAgentNameInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
@@ -854,70 +1386,66 @@ Dulces de Halloween 🍬</textarea>
     agentsEditorList.addEventListener('click', (event) => {
       const button = event.target.closest('.remove-agent-btn');
       if (!button) return;
-
-      const name = getNormalizedName(button.dataset.name);
-      if (!name) return;
-
-      excludeAgent(name);
+      const id = button.dataset.id;
+      if (!id) return;
+      removeAgentItem(id);
     });
-
-    parseAgents();
 
     function updatePhaseUI() {
       const elimTarget = parseInt(numEliminatedInput.value, 10) || 0;
       const winTarget = parseInt(numWinnersInput.value, 10) || 1;
 
       if (currentPhase === 'elimination') {
-        phaseBadge.textContent = 'Fase: Eliminación ☠️';
+        phaseBadge.textContent = 'Phase: Elimination ☠️';
         phaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
-        roundsBadge.textContent = `Eliminados: ${eliminatedAgents.length} / ${elimTarget}`;
+        roundsBadge.textContent = `Eliminated: ${eliminatedAgents.length} / ${elimTarget}`;
         roundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
         spinAgentBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
-        spinAgentBtn.innerHTML = '🎃 ¡GIRAR PARA ELIMINAR!';
+        spinAgentBtn.innerHTML = '🎃 SPIN TO ELIMINATE!';
         spinAgentBtn.disabled = activeAgents.length <= 1;
-        statusTitle.textContent = '¡Fase de Eliminación!';
-        statusSubtitle.textContent = `El agente seleccionado irá al cementerio (${elimTarget - eliminatedAgents.length} restantes por eliminar).`;
+        statusTitle.textContent = 'Elimination phase!';
+        statusSubtitle.textContent = `The selected ticket goes to the graveyard (${elimTarget - eliminatedAgents.length} left to eliminate).`;
       } else if (currentPhase === 'winner_selection') {
-        phaseBadge.textContent = 'Fase: Elegir Ganador 👑';
+        phaseBadge.textContent = 'Phase: Choose Winner 👑';
         phaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
-        roundsBadge.textContent = `Ganadores: ${chosenWinners.length} / ${winTarget}`;
+        roundsBadge.textContent = `Winners: ${chosenWinners.length} / ${winTarget}`;
         roundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
         spinAgentBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
-        spinAgentBtn.innerHTML = '👑 ¡GIRAR PARA ELEGIR GANADOR!';
+        spinAgentBtn.innerHTML = '👑 SPIN TO CHOOSE WINNER!';
         spinAgentBtn.disabled = activeAgents.length === 0;
-        statusTitle.textContent = '¡Fase de Ganadores!';
-        statusSubtitle.textContent = `¡Gira para elegir a un ganador entre los sobrevivientes! (Faltan ${winTarget - chosenWinners.length})`;
+        statusTitle.textContent = 'Winner phase!';
+        statusSubtitle.textContent = `Spin to choose a winner from the surviving entries! (${winTarget - chosenWinners.length} left)`;
       } else {
-        phaseBadge.textContent = 'Sorteo Finalizado 🎉';
+        phaseBadge.textContent = 'Draw Finished 🎉';
         phaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
-        roundsBadge.textContent = `Ganadores totales: ${chosenWinners.length}`;
+        roundsBadge.textContent = `Total winners: ${chosenWinners.length}`;
         spinAgentBtn.disabled = true;
       }
     }
 
     function updateAgentCounters() {
-      agentsCountBadge.textContent = `${activeAgents.length} activos`;
+      agentsCountBadge.textContent = `${activeAgents.length} active`;
       eliminatedCount.textContent = `${eliminatedAgents.length}`;
       winnersCountBadge.textContent = `${chosenWinners.length}`;
 
       if (eliminatedAgents.length === 0) {
-        graveyardList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Nadie ha caído aún...</div>';
+        graveyardList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Nobody has fallen yet...</div>';
       } else {
-        graveyardList.innerHTML = eliminatedAgents.map((name, i) => `
+        graveyardList.innerHTML = eliminatedAgents.map((ag, i) => `
           <div class="graveyard-item">
-            <span>🪦 #${i + 1} ${name}</span>
-            <span class="text-secondary">Eliminado</span>
+            <span>🪦 #${i + 1} ${ag.name}</span>
+            <span class="text-secondary">Eliminated</span>
           </div>
         `).join('');
       }
 
       if (chosenWinners.length === 0) {
-        winnersList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Ninguno aún...</div>';
+        winnersList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">None yet...</div>';
       } else {
-        winnersList.innerHTML = chosenWinners.map((name, i) => `
+        winnersList.innerHTML = chosenWinners.map((ag, i) => `
           <div class="winner-item">
-            <span>👑 #${i + 1} ${name}</span>
-            <span class="text-success fw-bold">Ganador</span>
+            <span>👑 #${i + 1} ${ag.name}</span>
+            <span class="text-success fw-bold">Winner</span>
           </div>
         `).join('');
       }
@@ -939,13 +1467,14 @@ Dulces de Halloween 🍬</textarea>
         ctx.fillStyle = '#8e79a8';
         ctx.font = '16px Montserrat';
         ctx.textAlign = 'center';
-        ctx.fillText('Sin elementos', cx, cy);
+        ctx.fillText('No items', cx, cy);
         return;
       }
 
       const sliceAngle = (Math.PI * 2) / items.length;
 
       items.forEach((item, index) => {
+        const label = typeof item === 'object' ? item.name : item;
         const startAngle = currentAngle + index * sliceAngle;
         const endAngle = startAngle + sliceAngle;
         const color = halloweenColors[index % halloweenColors.length];
@@ -967,7 +1496,7 @@ Dulces de Halloween 🍬</textarea>
         ctx.font = items.length > 14 ? 'bold 11px Montserrat' : 'bold 14px Montserrat';
         
         const maxLen = 16;
-        const textToDraw = item.length > maxLen ? item.substring(0, maxLen) + '...' : item;
+        const textToDraw = label.length > maxLen ? label.substring(0, maxLen) + '...' : label;
         ctx.fillText(textToDraw, radius - 24, 5);
         ctx.restore();
       });
@@ -995,9 +1524,9 @@ Dulces de Halloween 🍬</textarea>
       isSpinningAgents = true;
       spinAgentBtn.disabled = true;
 
-      statusTitle.innerHTML = '🔮 Girando la ruleta...';
+      statusTitle.innerHTML = '🔮 Spinning the wheel...';
       statusTitle.className = 'mb-0 fw-bold text-warning';
-      statusSubtitle.textContent = currentPhase === 'elimination' ? '¿Quién será eliminado?' : '¿Quién será el afortunado ganador?';
+      statusSubtitle.textContent = currentPhase === 'elimination' ? 'Who will be eliminated?' : 'Who will be the lucky winner?';
 
       const totalSlices = activeAgents.length;
       const sliceRad = (Math.PI * 2) / totalSlices;
@@ -1046,12 +1575,13 @@ Dulces de Halloween 🍬</textarea>
         const eliminated = activeAgents.splice(index, 1)[0];
         eliminatedAgents.push(eliminated);
         playEliminationSound();
+        showGlobalAnnouncement('elimination', eliminated.name, 'Has been eliminated from the draw.', 'Eliminated');
 
         updateAgentCounters();
 
         if (eliminatedAgents.length >= elimTarget || activeAgents.length <= winTarget) {
           setStatusAlertMode('elimination');
-          statusTitle.innerHTML = `☠️ ¡${eliminated} HA SIDO ELIMINADO! 🪦`;
+          statusTitle.innerHTML = `☠️ ${eliminated.name} HAS BEEN ELIMINATED! 🪦`;
           statusTitle.className = 'mb-0 fw-bold text-danger';
 
           if (activeAgents.length === winTarget) {
@@ -1066,9 +1596,9 @@ Dulces de Halloween 🍬</textarea>
           }
         } else {
           setStatusAlertMode('elimination');
-          statusTitle.innerHTML = `☠️ ¡${eliminated} HA SIDO ELIMINADO! 🪦`;
+          statusTitle.innerHTML = `☠️ ${eliminated.name} HAS BEEN ELIMINATED! 🪦`;
           statusTitle.className = 'mb-0 fw-bold text-danger';
-          statusSubtitle.textContent = `Quedan ${activeAgents.length} agentes. Faltan ${elimTarget - eliminatedAgents.length} por eliminar.`;
+          statusSubtitle.textContent = `${activeAgents.length} entries left. ${elimTarget - eliminatedAgents.length} more to eliminate.`;
           spinAgentBtn.disabled = false;
           updatePhaseUI();
         }
@@ -1077,6 +1607,7 @@ Dulces de Halloween 🍬</textarea>
         const winner = activeAgents.splice(index, 1)[0];
         chosenWinners.push(winner);
         playVictoryFanfare();
+        showGlobalAnnouncement('winner', winner.name, 'Congratulations! You are a winner.', 'Winner');
         setStatusAlertMode('winner');
 
         updateAgentCounters();
@@ -1086,9 +1617,9 @@ Dulces de Halloween 🍬</textarea>
           finishGame();
         } else {
           setStatusAlertMode('winner');
-          statusTitle.innerHTML = `🎉 ¡${winner} ES UN GANADOR! 👑`;
+          statusTitle.innerHTML = `🎉 ${winner.name} IS A WINNER! 👑`;
           statusTitle.className = 'mb-0 fw-bold text-success';
-          statusSubtitle.textContent = `¡Faltan ${winTarget - chosenWinners.length} ganador(es) por elegir!`;
+          statusSubtitle.textContent = `${winTarget - chosenWinners.length} winner(s) left to be chosen!`;
           spinAgentBtn.disabled = false;
           updatePhaseUI();
         }
@@ -1126,12 +1657,12 @@ Dulces de Halloween 🍬</textarea>
       setStatusAlertMode('winner');
       setWinnerCardLightning(true);
 
-      statusTitle.innerHTML = `👑 ¡SORTEO TERMINADO! ¡TENEMOS GANADORES!`;
+      statusTitle.innerHTML = `👑 DRAW COMPLETE! WINNERS FOUND!`;
       statusTitle.className = 'mb-0 fw-bold text-success';
-      statusSubtitle.textContent = 'Pasa a la Ruleta de Premios para entregar las recompensas.';
+      statusSubtitle.textContent = 'Move to the prize wheel to award the rewards.';
 
-      winnerHeadline.textContent = chosenWinners.length === 1 ? '👑 ¡EL GRAN GANADOR! 👑' : `👑 ¡LOS ${chosenWinners.length} GANADORES! 👑`;
-      winnerNamesBox.innerHTML = chosenWinners.map(n => `<span class="badge bg-success fs-4 m-1 p-2">👑 ${n}</span>`).join(' ');
+      winnerHeadline.textContent = chosenWinners.length === 1 ? '👑 THE GRAND WINNER! 👑' : `👑 THE ${chosenWinners.length} WINNERS! 👑`;
+      winnerNamesBox.innerHTML = chosenWinners.map(w => `<span class="badge bg-success fs-4 m-1 p-2">👑 ${w.name}</span>`).join(' ');
 
       winnerCard.classList.remove('d-none');
       updatePhaseUI();
@@ -1149,62 +1680,112 @@ Dulces de Halloween 🍬</textarea>
     });
 
     // ==========================================
-    // 2. ESTADO DE LA RULETA DE PREMIOS (CON ELIMINACIÓN)
+    // 2. RULETA DE PREMIOS (PERMITE REPETIDOS + SHUFFLE)
     // ==========================================
-    function normalizePrizeList(values) {
-      if (!Array.isArray(values)) return [];
+    const PRIZES_STORAGE_KEY = 'digitalKnightRuletaPremios_v2';
+    let prizeItems = [];
+    let activePrizes = [];
+    let eliminatedPrizes = [];
+    let awardedHistory = [];
+    let prizeCurrentPhase = 'elimination';
+    let isSpinningPrizes = false;
+    let prizeCurrentAngle = 0;
+    let winnerPrizeIndex = 0;
 
-      const names = values
-        .flatMap(item => {
-          if (typeof item === 'string') return [getNormalizedName(item)];
-          if (item && typeof item === 'object') {
-            const candidate = item.name ?? item.value ?? item.label ?? item.text ?? '';
-            if (typeof candidate === 'string') return [getNormalizedName(candidate)];
-            if (Array.isArray(candidate)) return candidate.map(v => getNormalizedName(v));
-          }
-          return [];
-        })
-        .filter(Boolean);
+    const prizesCanvas = document.getElementById('prizesWheel');
+    const prizesCtx = prizesCanvas.getContext('2d');
+    const prizesInput = document.getElementById('prizesInput');
+    const prizesEditorList = document.getElementById('prizesEditorList');
+    const newPrizeInput = document.getElementById('newPrizeInput');
+    const addPrizeBtn = document.getElementById('addPrizeBtn');
+    const loadPrizesBtn = document.getElementById('loadPrizesBtn');
+    const prizesCountBadge = document.getElementById('prizesCountBadge');
+    const numElimPrizesInput = document.getElementById('numElimPrizesInput');
+    const spinPrizeBtn = document.getElementById('spinPrizeBtn');
+    const resetPrizesBtn = document.getElementById('resetPrizesBtn');
+    const finalPrizeCard = document.getElementById('finalPrizeCard');
+    const finalAgentName = document.getElementById('finalAgentName');
+    const finalPrizeWon = document.getElementById('finalPrizeWon');
+    const nextWinnerPrizeBtn = document.getElementById('nextWinnerPrizeBtn');
+    const prizeStatusTitle = document.getElementById('prizeStatusTitle');
+    const prizeStatusSubtitle = document.getElementById('prizeStatusSubtitle');
+    const prizePhaseBadge = document.getElementById('prizePhaseBadge');
+    const prizeRoundsBadge = document.getElementById('prizeRoundsBadge');
+    const currentWinnerToPrizeDisplay = document.getElementById('currentWinnerToPrizeDisplay');
+    const discardedPrizesList = document.getElementById('discardedPrizesList');
+    const eliminatedPrizesCount = document.getElementById('eliminatedPrizesCount');
+    const awardedPrizesList = document.getElementById('awardedPrizesList');
+    const awardedPrizesCount = document.getElementById('awardedPrizesCount');
 
-      return [...new Set(names)];
+    function createPrizeItem(name) {
+      return {
+        id: 'prz_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
+        name: getNormalizedName(name)
+      };
     }
 
-    function persistPrizes() {
+    async function persistPrizes() {
+      const safeList = prizeItems.map(item => ({
+        id: item.id,
+        name: getNormalizedName(item.name)
+      }));
+
       try {
-        localStorage.setItem(PRIZES_STORAGE_KEY, JSON.stringify(prizeNames));
+        if (window.supabase) {
+          await saveSharedList('prizes', safeList);
+          return;
+        }
       } catch (error) {
-        console.warn('No se pudo guardar la lista de premios:', error);
+        console.warn('Supabase prizes save failed, using localStorage fallback:', error);
+      }
+
+      try {
+        localStorage.setItem(PRIZES_STORAGE_KEY, JSON.stringify(safeList));
+      } catch (error) {
+        console.warn('Error al guardar premios:', error);
       }
     }
 
-    function loadPrizesFromStorage() {
+    async function loadPrizesFromStorage() {
+      try {
+        if (window.supabase) {
+          const shared = await readSharedList('prizes');
+          if (shared && shared.length) {
+            return shared.map(item => typeof item === 'string' ? createPrizeItem(item) : ({
+              ...item,
+              name: getNormalizedName(item.name)
+            }));
+          }
+        }
+      } catch (error) {
+        console.warn('Supabase prizes load failed, using localStorage fallback:', error);
+      }
+
       try {
         const raw = localStorage.getItem(PRIZES_STORAGE_KEY);
         if (!raw) return null;
         const parsed = JSON.parse(raw);
         if (!Array.isArray(parsed)) return null;
-        return normalizePrizeList(parsed);
+        return parsed.map(item => typeof item === 'string' ? createPrizeItem(item) : item);
       } catch (error) {
-        console.warn('No se pudo leer la lista de premios guardada:', error);
         return null;
       }
     }
 
     function renderPrizesEditor() {
       if (!prizesEditorList) return;
-
-      if (!prizeNames.length) {
-        prizesEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Sin premios agregados.</div>';
+      if (!prizeItems.length) {
+        prizesEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">No prizes added.</div>';
         return;
       }
 
-      prizesEditorList.innerHTML = prizeNames.map(prize => `
+      prizesEditorList.innerHTML = prizeItems.map(item => `
         <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">${String(prize)}</span>
+          <span class="text-light">${String(item.name)}</span>
           <button
             type="button"
             class="btn btn-link p-0 text-danger remove-prize-btn"
-            data-name="${String(prize).replace(/"/g, '&quot;')}"
+            data-id="${item.id}"
             aria-label="Quitar premio"
             title="Quitar premio"
           >
@@ -1214,19 +1795,49 @@ Dulces de Halloween 🍬</textarea>
       `).join('');
     }
 
-    function syncPrizesFromTextarea() {
-      const lines = prizesInput.value
+    function syncTextareaFromPrizes() {
+      prizesInput.value = prizeItems.map(i => i.name).join('\n');
+    }
+
+    function shufflePrizes() {
+      if (prizeItems.length <= 1) return;
+      prizeItems = shuffleArray([...prizeItems]);
+      activePrizes = [...prizeItems];
+      persistPrizes();
+      syncTextareaFromPrizes();
+      renderPrizesEditor();
+      drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
+    }
+
+    function processBulkPrizes(replaceWholeList) {
+      const textarea = document.getElementById('bulkPrizesTextarea');
+      const lines = textarea.value
         .split('\n')
         .map(s => getNormalizedName(s))
         .filter(s => s.length > 0);
 
-      prizeNames = normalizePrizeList(lines);
-      persistPrizes();
-      renderPrizesEditor();
-    }
+      if (lines.length === 0) {
+        alert('Please paste at least one prize.');
+        return;
+      }
 
-    function syncTextareaFromPrizes() {
-      prizesInput.value = prizeNames.join('\n');
+      const newItems = lines.map(name => createPrizeItem(name));
+
+      if (replaceWholeList) {
+        prizeItems = newItems;
+      } else {
+        prizeItems = [...prizeItems, ...newItems];
+      }
+
+      persistPrizes();
+      syncTextareaFromPrizes();
+      renderPrizesEditor();
+      parsePrizes();
+
+      textarea.value = '';
+      const modalEl = document.getElementById('bulkPrizesModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
     }
 
     function addPrizeToList() {
@@ -1236,12 +1847,8 @@ Dulces de Halloween 🍬</textarea>
         return;
       }
 
-      const exists = prizeNames.some(item => item.toLowerCase() === normalizedPrize.toLowerCase());
-      if (!exists) {
-        prizeNames.push(normalizedPrize);
-        persistPrizes();
-      }
-
+      prizeItems.push(createPrizeItem(normalizedPrize));
+      persistPrizes();
       syncTextareaFromPrizes();
       renderPrizesEditor();
       parsePrizes();
@@ -1249,27 +1856,24 @@ Dulces de Halloween 🍬</textarea>
       newPrizeInput.focus();
     }
 
-    function removePrizeFromList(name) {
-      const normalizedPrize = getNormalizedName(name);
-      if (!normalizedPrize) return;
-
-      prizeNames = prizeNames.filter(item => item.toLowerCase() !== normalizedPrize.toLowerCase());
+    function removePrizeItem(id) {
+      prizeItems = prizeItems.filter(i => i.id !== id);
       persistPrizes();
       syncTextareaFromPrizes();
       renderPrizesEditor();
       parsePrizes();
     }
 
-    function parsePrizes() {
-      const storedPrizes = loadPrizesFromStorage();
-      if (storedPrizes !== null) {
-        prizeNames = storedPrizes;
-      } else if (!prizeNames.length) {
+    async function parsePrizes() {
+      const stored = await loadPrizesFromStorage();
+      if (stored !== null && stored.length) {
+        prizeItems = stored;
+      } else if (!prizeItems.length) {
         const lines = prizesInput.value.split('\n').map(s => getNormalizedName(s)).filter(s => s.length > 0);
-        prizeNames = normalizePrizeList(lines);
+        prizeItems = lines.map(name => createPrizeItem(name));
       }
 
-      activePrizes = [...prizeNames];
+      activePrizes = [...prizeItems];
       eliminatedPrizes = [];
       awardedHistory = [];
       winnerPrizeIndex = 0;
@@ -1278,7 +1882,6 @@ Dulces de Halloween 🍬</textarea>
       let elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
       const neededWinners = chosenWinners.length || 1;
 
-      // Asegurar que queden suficientes premios para todos los ganadores
       if (elimTarget + neededWinners > activePrizes.length) {
         elimTarget = Math.max(0, activePrizes.length - neededWinners);
         numElimPrizesInput.value = elimTarget;
@@ -1304,11 +1907,9 @@ Dulces de Halloween 🍬</textarea>
     prizesEditorList.addEventListener('click', (event) => {
       const button = event.target.closest('.remove-prize-btn');
       if (!button) return;
-
-      const prize = getNormalizedName(button.dataset.name);
-      if (!prize) return;
-
-      removePrizeFromList(prize);
+      const id = button.dataset.id;
+      if (!id) return;
+      removePrizeItem(id);
     });
 
     function setupPrizeQueue() {
@@ -1322,21 +1923,19 @@ Dulces de Halloween 🍬</textarea>
       eliminatedPrizesCount.textContent = `${eliminatedPrizes.length}`;
       awardedPrizesCount.textContent = `${awardedHistory.length}`;
 
-      // Lista de premios eliminados/descartados
       if (eliminatedPrizes.length === 0) {
-        discardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">Ningún premio descartado aún...</div>';
+        discardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div>';
       } else {
         discardedPrizesList.innerHTML = eliminatedPrizes.map((p, i) => `
           <div class="graveyard-item">
-            <span>🗑️ #${i + 1} ${p}</span>
-            <span class="text-secondary">Descartado</span>
+            <span>🗑️ #${i + 1} ${p.name}</span>
+            <span class="text-secondary">Discarded</span>
           </div>
         `).join('');
       }
 
-      // Lista de premios otorgados
       if (awardedHistory.length === 0) {
-        awardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">Ninguno todavía...</div>';
+        awardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">None yet...</div>';
       } else {
         awardedPrizesList.innerHTML = awardedHistory.map(item => `
           <div class="winner-item">
@@ -1346,13 +1945,12 @@ Dulces de Halloween 🍬</textarea>
         `).join('');
       }
 
-      // Nombre del agente en turno
       if (chosenWinners.length === 0) {
-        currentWinnerToPrizeDisplay.textContent = 'Ningún ganador seleccionado en Ruleta 1';
+        currentWinnerToPrizeDisplay.textContent = 'No winner selected in wheel 1';
       } else if (winnerPrizeIndex < chosenWinners.length) {
-        currentWinnerToPrizeDisplay.textContent = `${chosenWinners[winnerPrizeIndex]} (${winnerPrizeIndex + 1} de ${chosenWinners.length})`;
+        currentWinnerToPrizeDisplay.textContent = `${chosenWinners[winnerPrizeIndex].name} (${winnerPrizeIndex + 1} of ${chosenWinners.length})`;
       } else {
-        currentWinnerToPrizeDisplay.textContent = '¡Todos los premios entregados! 🎉';
+        currentWinnerToPrizeDisplay.textContent = 'All prizes awarded! 🎉';
       }
     }
 
@@ -1361,44 +1959,43 @@ Dulces de Halloween 🍬</textarea>
       const totalWinners = chosenWinners.length || 1;
 
       if (prizeCurrentPhase === 'elimination') {
-        prizePhaseBadge.textContent = 'Fase: Descarte de Premios ☠️';
+        prizePhaseBadge.textContent = 'Phase: Prize Discard ☠️';
         prizePhaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
-        prizeRoundsBadge.textContent = `Descartados: ${eliminatedPrizes.length} / ${elimTarget}`;
+        prizeRoundsBadge.textContent = `Discarded: ${eliminatedPrizes.length} / ${elimTarget}`;
         prizeRoundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
 
         spinPrizeBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
-        spinPrizeBtn.innerHTML = '☠️ ¡GIRAR PARA DESCARTAR PREMIO!';
+        spinPrizeBtn.innerHTML = '☠️ SPIN TO DISCARD A PRIZE!';
         spinPrizeBtn.disabled = activePrizes.length <= totalWinners;
 
-        prizeStatusTitle.textContent = '¡Fase de Descarte de Premios!';
+        prizeStatusTitle.textContent = 'Prize discard phase!';
         prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
-        prizeStatusSubtitle.textContent = `El premio que salga se eliminará de la ruleta (${elimTarget - eliminatedPrizes.length} restantes por descartar).`;
+        prizeStatusSubtitle.textContent = `The prize that comes up will be removed from the wheel (${elimTarget - eliminatedPrizes.length} left to discard).`;
 
       } else if (prizeCurrentPhase === 'awarding') {
-        prizePhaseBadge.textContent = 'Fase: Premio Ganador 🎁';
+        prizePhaseBadge.textContent = 'Phase: Winner Prize 🎁';
         prizePhaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
-        prizeRoundsBadge.textContent = `Premios: ${awardedHistory.length} / ${totalWinners}`;
+        prizeRoundsBadge.textContent = `Prizes: ${awardedHistory.length} / ${totalWinners}`;
         prizeRoundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
 
-        const currentAgent = chosenWinners[winnerPrizeIndex] || 'el ganador';
+        const currentAgent = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'the winner';
         spinPrizeBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
-        spinPrizeBtn.innerHTML = `🎁 ¡GIRAR POR EL PREMIO PARA ${currentAgent.toUpperCase()}!`;
+        spinPrizeBtn.innerHTML = `🎁 SPIN FOR THE PRIZE FOR ${currentAgent.toUpperCase()}!`;
         spinPrizeBtn.disabled = activePrizes.length === 0 || (chosenWinners.length > 0 && winnerPrizeIndex >= chosenWinners.length);
 
-        prizeStatusTitle.textContent = `¡Gira por el premio de ${currentAgent}!`;
+        prizeStatusTitle.textContent = `Spin for ${currentAgent}'s prize!`;
         prizeStatusTitle.className = 'mb-0 fw-bold text-success';
-        prizeStatusSubtitle.textContent = 'Solo quedan los premios sobrevivientes. ¡Mucha suerte!';
+        prizeStatusSubtitle.textContent = 'Only the surviving prizes remain. Good luck!';
 
       } else {
-        // finished
-        prizePhaseBadge.textContent = 'Premiación Finalizada 🎉';
+        prizePhaseBadge.textContent = 'Awarding Complete 🎉';
         prizePhaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
-        prizeRoundsBadge.textContent = `Total entregados: ${awardedHistory.length}`;
+        prizeRoundsBadge.textContent = `Total awarded: ${awardedHistory.length}`;
         spinPrizeBtn.disabled = true;
 
-        prizeStatusTitle.textContent = '¡Todos los premios han sido asignados!';
+        prizeStatusTitle.textContent = 'All prizes have been awarded!';
         prizeStatusTitle.className = 'mb-0 fw-bold text-success';
-        prizeStatusSubtitle.textContent = 'Felicidades a todos los participantes y ganadores.';
+        prizeStatusSubtitle.textContent = 'Congratulations to all participants and winners.';
       }
     }
 
@@ -1409,16 +2006,16 @@ Dulces de Halloween 🍬</textarea>
       finalPrizeCard.classList.add('d-none');
       nextWinnerPrizeBtn.classList.add('d-none');
 
-      const currentWinner = chosenWinners[winnerPrizeIndex] || 'Ganador';
+      const currentWinner = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'Winner';
 
       if (prizeCurrentPhase === 'elimination') {
-        prizeStatusTitle.innerHTML = '☠️ Girando para descartar un premio...';
+        prizeStatusTitle.innerHTML = '☠️ Spinning to discard a prize...';
         prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
-        prizeStatusSubtitle.textContent = '¿Cuál premio no se entregará hoy?';
+        prizeStatusSubtitle.textContent = 'Which prize will not be awarded today?';
       } else {
-        prizeStatusTitle.innerHTML = `🎁 ¡Girando la ruleta para ${currentWinner}!`;
+        prizeStatusTitle.innerHTML = `🎁 Spinning the wheel for ${currentWinner}!`;
         prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
-        prizeStatusSubtitle.textContent = '¡Mucha suerte!';
+        prizeStatusSubtitle.textContent = 'Good luck!';
       }
 
       const totalSlices = activePrizes.length;
@@ -1468,19 +2065,20 @@ Dulces de Halloween 🍬</textarea>
         const discarded = activePrizes.splice(index, 1)[0];
         eliminatedPrizes.push(discarded);
         playEliminationSound();
+        showGlobalAnnouncement('elimination', discarded.name, 'This prize has been discarded.', 'Discarded Prize');
 
         updatePrizeCounters();
 
         if (eliminatedPrizes.length >= elimTarget || activePrizes.length <= neededWinners) {
-          prizeStatusTitle.innerHTML = `🗑️ ¡SE DESCARTÓ: ${discarded}!`;
+          prizeStatusTitle.innerHTML = `🗑️ DISCARDED: ${discarded.name}!`;
           prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
 
           prizeCurrentPhase = 'awarding';
           updatePrizePhaseUI();
         } else {
-          prizeStatusTitle.innerHTML = `🗑️ ¡SE DESCARTÓ: ${discarded}!`;
+          prizeStatusTitle.innerHTML = `🗑️ DISCARDED: ${discarded.name}!`;
           prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
-          prizeStatusSubtitle.textContent = `Quedan ${activePrizes.length} premios. Faltan ${elimTarget - eliminatedPrizes.length} por descartar.`;
+          prizeStatusSubtitle.textContent = `${activePrizes.length} prizes left. ${elimTarget - eliminatedPrizes.length} more to discard.`;
           spinPrizeBtn.disabled = false;
           updatePrizePhaseUI();
         }
@@ -1488,25 +2086,26 @@ Dulces de Halloween 🍬</textarea>
       } else if (prizeCurrentPhase === 'awarding') {
         const prizeWon = activePrizes.splice(index, 1)[0];
         playVictoryFanfare();
+        showGlobalAnnouncement('winner', prizeWon.name, `${currentWinner} wins this prize!`, 'Prize Won');
 
-        prizeStatusTitle.innerHTML = '🎉 ¡PREMIO ASIGNADO!';
+        prizeStatusTitle.innerHTML = '🎉 PRIZE AWARDED!';
         prizeStatusTitle.className = 'mb-0 fw-bold text-success';
-        prizeStatusSubtitle.textContent = `¡Felicidades a ${currentWinner}!`;
+        prizeStatusSubtitle.textContent = `Congratulations to ${currentWinner}!`;
 
         finalAgentName.textContent = currentWinner;
-        finalPrizeWon.textContent = prizeWon;
+        finalPrizeWon.textContent = prizeWon.name;
         finalPrizeCard.classList.remove('d-none');
 
-        awardedHistory.push({ agent: currentWinner, prize: prizeWon });
+        awardedHistory.push({ agent: currentWinner, prize: prizeWon.name });
         winnerPrizeIndex++;
 
         updatePrizeCounters();
 
         const totalWinners = chosenWinners.length || 1;
         if (winnerPrizeIndex < totalWinners && activePrizes.length > 0) {
-          const nextAgent = chosenWinners[winnerPrizeIndex];
+          const nextAgent = chosenWinners[winnerPrizeIndex].name;
           nextWinnerPrizeBtn.classList.remove('d-none');
-          nextWinnerPrizeBtn.textContent = `Sortear premio para ${nextAgent} ➡️`;
+          nextWinnerPrizeBtn.textContent = `Draw prize for ${nextAgent} ➡️`;
         } else {
           prizeCurrentPhase = 'finished';
           updatePrizePhaseUI();
@@ -1530,22 +2129,218 @@ Dulces de Halloween 🍬</textarea>
     spinPrizeBtn.addEventListener('click', spinPrize);
 
     document.getElementById('resetAllBtn').addEventListener('click', () => {
-      if (confirm('¿Deseas reiniciar todo el sorteo de agentes?')) {
+      if (confirm('Do you want to restart the full agent draw?')) {
         parseAgents();
-        statusTitle.textContent = '¡La ruleta está lista!';
+        statusTitle.textContent = 'The wheel is ready!';
         statusTitle.className = 'mb-0 fw-bold';
-        statusSubtitle.textContent = 'Presiona el botón para comenzar.';
+        statusSubtitle.textContent = 'Press the button to begin.';
       }
     });
 
     resetPrizesBtn.addEventListener('click', () => {
-      if (confirm('¿Deseas reiniciar la ruleta de premios y restaurar los premios descartados?')) {
+      if (confirm('Do you want to restart the prize wheel and restore discarded prizes?')) {
         parsePrizes();
       }
     });
 
-    parseAgents();
-    parsePrizes();
+    window.addEventListener('load', () => {
+      parseAgents().catch(console.error);
+      parsePrizes().catch(console.error);
+    });
   </script>
-</body>
-</html>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://aowyrmwzuteqjawmpygt.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd3lybXd6dXRlcWphd21weWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4OTQ1MTksImV4cCI6MjEwODQ3MDUxOX0.GVkmAUHlO62dcChk5uHbYYUbQEsrdaPSMbQmyFVe7hM';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function saveSharedList(kind, value) {
+      if (!supabase) {
+        throw new Error('Supabase is not available');
+      }
+
+      const { data: rows, error: selectError } = await supabase
+        .from('roulette_data')
+        .select('kind')
+        .eq('kind', kind)
+        .limit(1);
+
+      if (selectError) throw selectError;
+
+      if (rows && rows.length > 0) {
+        const { error } = await supabase
+          .from('roulette_data')
+          .update({ value, updated_at: new Date().toISOString() })
+          .eq('kind', kind);
+
+        if (error) throw error;
+        return;
+      }
+
+      const { error } = await supabase
+        .from('roulette_data')
+        .insert({ kind, value, updated_at: new Date().toISOString() });
+
+      if (error) throw error;
+    }
+
+    async function readSharedList(kind) {
+      if (!supabase) {
+        throw new Error('Supabase is not available');
+      }
+
+      const { data, error } = await supabase
+        .from('roulette_data')
+        .select('value')
+        .eq('kind', kind)
+        .limit(1);
+
+      if (error) throw error;
+
+      const row = Array.isArray(data) && data.length > 0 ? data[0] : null;
+      return Array.isArray(row?.value) ? row.value : [];
+    }
+  </script>
+
+<script async="" src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="501389d3-b78e-4682-8e24-b03633894eed" data-app-host="app.netlify.com" data-account-tier="free"></script>
+<iframe id="nl-badge-frame" title="Powered by Netlify" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;color-scheme&quot; content=&quot;dark&quot;&gt;&lt;style&gt;
+    :root{--nl-vw:1256px;--nl-vh:858px}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+    body{display:flex;align-items:flex-end;justify-content:flex-end;height:100vh;
+      padding:8px 18px 18px 8px;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:#f4f9f9;-webkit-font-smoothing:antialiased}
+    .nl-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:10px;width:max-content;max-width:calc(var(--nl-vw,100vw) - 26px)}
+    button{font-family:inherit;cursor:pointer}
+    :focus-visible{outline:2px solid #32e6e2;outline-offset:2px;border-radius:6px}
+    .nl-icon-btn{position:relative;flex:none;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid transparent;background:transparent;color:#d5e3e6;transition:background .15s ease,color .15s ease}
+    .nl-icon-btn:hover{background:rgba(255,255,255,0.08);color:#f4f9f9}
+    .nl-tap::after{content:&quot;&quot;;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:max(100%,44px);height:max(100%,44px)}
+    @keyframes nl-rise{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
+  
+      .nl-card{position:relative;display:none;width:min(340px,calc(var(--nl-vw,100vw) - 26px));max-height:calc(var(--nl-vh,100vh) - 84px);overflow-y:auto;background:linear-gradient(180deg,#132832 0%,#0e1e25 100%);border:1px solid rgba(255,255,255,0.09);border-radius:18px;padding:18px;transform-origin:bottom right;animation:nl-rise .3s cubic-bezier(.34,1.4,.4,1) both}
+      .nl-card.open{display:block}
+      .nl-card-close{position:absolute;top:10px;right:10px}
+      .nl-card h2{margin:0;padding-right:30px;font-size:16px;font-weight:750;letter-spacing:-0.015em;line-height:1.35}
+      .nl-card h2 em{font-style:normal;background:linear-gradient(90deg,#32e6e2,#4d7cfe,#9a6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+      .nl-card p{margin:8px 0 0;font-size:12.5px;color:#d5e3e6}
+      .nl-prompt{position:relative;margin-top:14px;background:#10222b;border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:10px 12px;transition:border-color .15s ease,box-shadow .15s ease}
+      .nl-prompt:focus-within{border-color:#05bdba;box-shadow:0 0 0 3px rgba(5,189,186,0.18)}
+      .nl-prompt textarea{display:block;width:100%;height:38px;resize:none;border:0;outline:none;background:transparent;color:#f4f9f9;font:inherit;font-size:13px;line-height:19px;padding:0 28px 0 0}
+      .nl-prompt textarea::placeholder{color:#a9bdc2}
+      .nl-send{position:absolute;right:9px;bottom:9px;width:24px;height:24px;flex:none;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:#05bdba;color:#02191b;transition:background .15s ease}
+      .nl-send:hover{background:#32e6e2}
+      @media (pointer: coarse){
+        .nl-prompt textarea{font-size:16px;line-height:21px;height:42px}
+      }
+      .nl-or{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#a9bdc2}
+      .nl-or::before,.nl-or::after{content:&quot;&quot;;flex:1;height:1px;background:rgba(255,255,255,0.09)}
+      .nl-drop{display:flex;align-items:center;justify-content:space-between;gap:6px;text-decoration:none;background:#1b3a45;border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#cfe0e3;transition:background .15s ease,color .15s ease,border-color .15s ease}
+      .nl-drop:hover{background:#224753;color:#f4f9f9;border-color:rgba(50,230,226,0.3)}
+      .nl-drop .nl-arrow{transition:transform .18s cubic-bezier(.34,1.4,.4,1)}
+      .nl-drop:hover .nl-arrow{transform:translateX(3px)}
+      .nl-badge{display:flex;align-items:center;gap:9px;white-space:nowrap;border:1px solid rgba(255,255,255,0.09);background:linear-gradient(180deg,#142b34,#0e1e25);color:#f4f9f9;border-radius:999px;padding:9px 14px 9px 11px;font-size:13px;font-weight:600;letter-spacing:0.01em;transition:border-color .2s ease}
+      .nl-badge:hover{border-color:rgba(50,230,226,0.26)}
+      .nl-hide{display:block;width:100%;margin-top:10px;border:0;background:transparent;color:#a9bdc2;font-size:11.5px;font-weight:600;padding:4px;border-radius:8px;transition:color .15s ease}
+      .nl-hide:hover{color:#d5e3e6;text-decoration:underline}
+      .nl-badge-label{color:#d5e3e6;font-weight:500}
+      .nl-badge-brand{font-weight:750}
+    &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+      &lt;div class=&quot;nl-wrap&quot;&gt;
+        &lt;section class=&quot;nl-card&quot; id=&quot;nl-card&quot; aria-label=&quot;Build your own site on Netlify&quot;&gt;
+          &lt;button type=&quot;button&quot; class=&quot;nl-icon-btn nl-tap nl-card-close&quot; id=&quot;nl-card-close&quot; aria-label=&quot;Close&quot;&gt;&lt;svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+          &lt;h2&gt;&lt;em&gt;Build your own site with Netlify&lt;/em&gt;&lt;/h2&gt;
+          &lt;p&gt;Describe what you want, and an AI agent designs, builds and deploys it in minutes.&lt;/p&gt;
+          &lt;form class=&quot;nl-prompt&quot; action=&quot;https://app.netlify.com/start&quot; method=&quot;get&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+            &lt;textarea name=&quot;prompt&quot; rows=&quot;2&quot; required maxlength=&quot;300&quot; autocomplete=&quot;off&quot;
+                      enterkeyhint=&quot;go&quot;
+                      placeholder=&quot;A shop for my handmade surfboards&amp;hellip;&quot;
+                      aria-label=&quot;Describe the site you want to build&quot;&gt;&lt;/textarea&gt;
+            &lt;button type=&quot;submit&quot; class=&quot;nl-send nl-tap&quot; aria-label=&quot;Build this site&quot;&gt;&lt;svg width=&quot;13&quot; height=&quot;13&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M8 12.75v-9.5M3.9 7.35 8 3.25l4.1 4.1&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_source&quot; value=&quot;netlify_badge&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_campaign&quot; value=&quot;loops&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_medium&quot; value=&quot;owned&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_content&quot; value=&quot;prompt&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_id&quot; value=&quot;501389d3-b78e-4682-8e24-b03633894eed&quot;&gt;
+            
+          &lt;/form&gt;
+          &lt;div class=&quot;nl-or&quot;&gt;&lt;span&gt;or&lt;/span&gt;&lt;/div&gt;
+          &lt;a class=&quot;nl-drop&quot; href=&quot;https://app.netlify.com/drop?utm_source=netlify_badge&amp;utm_campaign=loops&amp;utm_medium=owned&amp;utm_content=drop&amp;utm_id=501389d3-b78e-4682-8e24-b03633894eed&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+            &lt;span&gt;Drop a site you already have&lt;/span&gt;&lt;span class=&quot;nl-arrow&quot; aria-hidden=&quot;true&quot;&gt;&amp;rarr;&lt;/span&gt;
+          &lt;/a&gt;
+          
+        &lt;/section&gt;
+        &lt;button type=&quot;button&quot; class=&quot;nl-badge&quot; id=&quot;nl-badge&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;nl-card&quot;
+                aria-label=&quot;Powered by Netlify — build your own site&quot;&gt;
+          &lt;svg width=&quot;18&quot; height=&quot;18&quot; viewBox=&quot;0 0 32 32&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;&gt;
+    &lt;path fill=&quot;#fff&quot; d=&quot;M17.9922 18.3225H14.005L13.6746 17.9921V14.005L14.005 13.6746H17.9922L18.3226 14.005V17.9921L17.9922 18.3225Z&quot;/&gt;
+    &lt;g fill=&quot;#05BDBA&quot;&gt;
+      &lt;path d=&quot;M9.6958 24.3311H9.35705L7.6661 22.6401V22.3041L10.2511 19.7164L12.042 19.7191L12.2808 19.9552V21.7461L9.6958 24.3311Z&quot;/&gt;
+      &lt;path d=&quot;M7.6661 9.69576V9.35701L9.35705 7.66606H9.6958L12.2808 10.2511V12.0392L12.042 12.2808H10.2511L7.6661 9.69576Z&quot;/&gt;
+      &lt;path d=&quot;M10.0457 17.4369H0.205466L0 17.2314V14.7658L0.205466 14.5603H10.0457L10.2511 14.7658V17.2314L10.0457 17.4369Z&quot;/&gt;
+      &lt;path d=&quot;M31.7945 17.4369H21.9544L21.7489 17.2314V14.7658L21.9544 14.5603H31.7945L32 14.7658V17.2314L31.7945 17.4369Z&quot;/&gt;
+      &lt;path d=&quot;M14.5631 10.0456V2.66547L14.7686 2.46001H17.2343L17.4396 2.66547V10.0456L17.2343 10.2511H14.7686L14.5631 10.0456Z&quot;/&gt;
+      &lt;path d=&quot;M14.5631 29.3316V21.9515L14.7686 21.746H17.2343L17.4396 21.9515V29.3316L17.2343 29.5371H14.7686L14.5631 29.3316Z&quot;/&gt;
+    &lt;/g&gt;&lt;/svg&gt;
+          &lt;span&gt;&lt;span class=&quot;nl-badge-label&quot;&gt;Powered by&lt;/span&gt; &lt;span class=&quot;nl-badge-brand&quot;&gt;Netlify&lt;/span&gt;&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;script&gt;
+        
+    function nlSend(){
+      var wrap=document.querySelector('.nl-wrap'),boxes=[];
+      for(var i=0;i&lt;wrap.children.length;i++){
+        var c=wrap.children[i];
+        if(!c.offsetWidth||!c.offsetHeight)continue;
+        boxes.push({x:c.offsetLeft-wrap.offsetLeft+8,
+                    y:c.offsetTop-wrap.offsetTop+8,
+                    w:c.offsetWidth,h:c.offsetHeight});
+      }
+      parent.postMessage({nlHud:'resize',
+        width:wrap.offsetWidth+26,
+        height:wrap.offsetHeight+26,
+        boxes:boxes},'*');
+    }
+    function nlSendSoon(){requestAnimationFrame(nlSend);}
+    window.addEventListener('load',nlSend);
+    window.addEventListener('message',function(e){
+      if(e.source!==parent||!e.data||e.data.nlHud!=='viewport')return;
+      var s=document.documentElement.style;
+      s.setProperty('--nl-vw',e.data.w+'px');
+      s.setProperty('--nl-vh',e.data.h+'px');
+      document.documentElement.classList.toggle('nl-narrow',e.data.w&lt;600);
+      nlSendSoon();
+    });
+    var nlCoarse=window.matchMedia('(pointer: coarse)').matches;
+    function nlSubmit(form){
+      if(form.requestSubmit)return form.requestSubmit();
+      if(form.checkValidity&amp;&amp;!form.checkValidity())
+        return form.reportValidity&amp;&amp;form.reportValidity();
+      form.submit();
+    }
+  
+        var badge=document.getElementById('nl-badge'),card=document.getElementById('nl-card'),
+            box=card.querySelector('textarea');
+        function setOpen(open){
+          card.classList.toggle('open',open);
+          badge.setAttribute('aria-expanded',open?'true':'false');
+          nlSendSoon();
+          if(open&amp;&amp;!nlCoarse)box.focus();
+        }
+        box.addEventListener('keydown',function(e){
+          if(e.key==='Enter'&amp;&amp;!e.shiftKey){e.preventDefault();nlSubmit(box.form);}
+        });
+        badge.addEventListener('click',function(){setOpen(!card.classList.contains('open'));});
+        document.getElementById('nl-card-close').addEventListener('click',function(){setOpen(false);badge.focus();});
+        document.addEventListener('keydown',function(e){
+          if(e.key==='Escape'&amp;&amp;card.classList.contains('open')){setOpen(false);badge.focus();}
+        });
+        card.addEventListener('click',function(e){
+          if(e.target.closest('#nl-hide'))parent.postMessage({nlHud:'state',value:'hidden'},'*');
+        });
+      &lt;/script&gt;
+    &lt;/body&gt;&lt;/html&gt;" style="position: fixed; bottom: 0px; right: 0px; border: 0px; margin: 0px; padding: 0px; background: transparent; color-scheme: dark; z-index: 2147483645; width: 197px; height: 64px; clip-path: path(&quot;M 3 3 H 184 V 51 H 3 Z&quot;);" data-nl-ready="1"></iframe></body></html>

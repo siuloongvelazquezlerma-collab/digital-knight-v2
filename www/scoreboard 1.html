@@ -1,0 +1,999 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoreboard TV - Métricas de Rendimiento</title>
+  <style>
+    :root {
+      --bg-dark: #0b111a;
+      --bg-card: #131c2a;
+      --bg-input: #0a0f17;
+      --border: #23344d;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+
+      --header-blue: #5bcefa;
+      --header-text: #051d2d;
+      --row-bg-light: #ffffff;
+      --row-text-dark: #111827;
+      --border-grid: #d9d9d9;
+
+      /* Escala de Semáforo */
+      --color-green: #00b050;
+      --color-lime: #92d050;
+      --color-yellow: #ffff00;
+      --color-orange: #ffc000;
+      --color-red: #ff0000;
+
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      padding: 24px;
+      line-height: 1.3;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .controls-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 850px) {
+      .controls-panel { grid-template-columns: 1fr; }
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      color: var(--header-blue);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    textarea, input, select {
+      background: var(--bg-input);
+      color: var(--text-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--header-blue);
+      box-shadow: 0 0 0 2px rgba(91, 206, 250, 0.25);
+    }
+
+    textarea {
+      font-family: 'Consolas', monospace;
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .report-presets {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .btn-preset {
+      background: #1e293b;
+      color: var(--text-white);
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-preset:hover {
+      background: #334155;
+      border-color: var(--header-blue);
+    }
+
+    .btn-preset.active {
+      background: var(--header-blue);
+      color: var(--header-text);
+      border-color: var(--header-blue);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: #0284c7; color: white; }
+    .btn-primary:hover { background: #0369a1; }
+
+    .btn-capture { background: #059669; color: white; }
+    .btn-capture:hover { background: #047857; }
+
+    .btn-copy { background: #2563eb; color: white; }
+    .btn-copy:hover { background: #1d4ed8; }
+
+    .btn-all { background: #7c3aed; color: white; }
+    .btn-all:hover { background: #6d28d9; }
+
+    /* =========================================
+       DISEÑO DE LA DIAPOSITIVA (COMPACTO Y CERCANO)
+       ========================================= */
+    .tv-slide-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    #tvSlide {
+      width: fit-content;
+      min-width: 460px;
+      max-width: 530px;
+      background: #0f172a;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s ease;
+    }
+
+    #tvSlide.aht-layout {
+      min-width: 330px;
+      max-width: 370px;
+    }
+
+    .slide-header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .slide-title-area h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--header-blue);
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+
+    .slide-title-area .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .table-container {
+      background: #ffffff;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 12.5px;
+      font-family: Arial, sans-serif;
+    }
+
+    th {
+      background-color: #56cbf9;
+      color: #000000;
+      font-weight: bold;
+      padding: 4px 6px;
+      border: 1px solid #7f9db9;
+      white-space: nowrap;
+      height: 23px;
+    }
+
+    th.center, td.center { text-align: center; }
+
+    /* FILAS COMPACTAS (NOMBRES Y RESULTADOS CERCA) */
+    td {
+      padding: 2.5px 6px;
+      font-size: 12.5px;
+      color: #000000;
+      border: 1px solid var(--border-grid);
+      background: #ffffff;
+      white-space: nowrap;
+      height: 20px;
+      line-height: 1.15;
+    }
+
+    .agent-name {
+      font-weight: normal;
+      color: #000000;
+    }
+
+    .status-cell {
+      text-align: center;
+      font-weight: bold;
+      font-size: 12.5px;
+      color: #000000;
+      border: 1px solid var(--border-grid);
+    }
+
+    .c-green { background-color: var(--color-green) !important; color: #000000 !important; }
+    .c-lime { background-color: var(--color-lime) !important; color: #000000 !important; }
+    .c-yellow { background-color: var(--color-yellow) !important; color: #000000 !important; }
+    .c-orange { background-color: var(--color-orange) !important; color: #000000 !important; }
+    .c-red { background-color: var(--color-red) !important; color: #000000 !important; }
+    .c-blue-avg { background-color: #56cbf9 !important; color: #000000 !important; font-weight: bold; }
+
+    tr.total-row td {
+      background: #ffffff;
+      font-weight: bold;
+      font-size: 12.5px;
+      color: #000000;
+      border-top: 1px solid #000000;
+      border-bottom: 2px solid #000000;
+      padding: 4px 6px;
+      height: 22px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: var(--header-blue);
+      border: 1px solid var(--header-blue);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- PANEL DE CONTROL CON LAS 4 TABS ORIGINALES -->
+    <div class="controls-panel">
+      <div>
+        <h2>⚙️ Seleccionar Vista de Reporte</h2>
+        <div class="report-presets">
+          <button class="btn-preset active" id="btnPresetOverall" onclick="setReportMode('overall')">📊 CSAT OVERALL</button>
+          <button class="btn-preset" id="btnPresetDaily" onclick="setReportMode('daily')">📅 CSAT DEL DÍA</button>
+          <button class="btn-preset" id="btnPresetSpanish" onclick="setReportMode('spanish')">🌐 CSAT SPANISH</button>
+          <button class="btn-preset" id="btnPresetAht" onclick="setReportMode('aht')">⏱️ AHT</button>
+        </div>
+
+        <label>Pega aquí tus datos copiados de Excel:</label>
+        <textarea id="excelInput" placeholder="Pega aquí tus datos..."></textarea>
+
+        <div class="btn-group">
+          <button class="btn-primary" onclick="processExcelData()">⚡ Generar Tabla</button>
+          <button class="btn-capture" onclick="downloadSlideImage()">📸 Descargar Imagen</button>
+          <button class="btn-copy" onclick="copyImageToClipboard()">📋 Copiar Imagen</button>
+          <button class="btn-all" onclick="downloadAllImages()">📦 Descargar Todas las Imágenes</button>
+        </div>
+      </div>
+
+      <div>
+        <h2>📝 Configuración de Textos</h2>
+        <div style="margin-bottom: 10px;">
+          <label>Título Superior del Slide:</label>
+          <input type="text" id="slideTitle" value="CSAT OVERALL" oninput="updateHeaders()">
+        </div>
+        <div style="margin-bottom: 10px;">
+          <label>Subtítulo / Período:</label>
+          <input type="text" id="slideSubtitle" value="Resultados Semanales - Extended Operations" oninput="updateHeaders()">
+        </div>
+        <div>
+          <label>Ordenar Por:</label>
+          <select id="sortBy" onchange="processExcelData()">
+            <option value="none">Orden original de Excel</option>
+            <option value="score">Mejor Puntuación / Menor Tiempo ⭐</option>
+            <option value="name">Alfabético por Nombre</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIAPOSITIVA SLIDE CON TÍTULO Y TABLA COMPACTA -->
+    <div class="tv-slide-wrapper">
+      <div id="tvSlide">
+        <div class="slide-header">
+          <div class="slide-title-area">
+            <h1 id="displayTitle">CSAT OVERALL</h1>
+            <div class="subtitle" id="displaySubtitle">Resultados Semanales - Extended Operations</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table id="mainTable">
+            <thead id="tableHeader"></thead>
+            <tbody id="leaderboardBody"></tbody>
+            <tfoot id="tableFooter"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Notificación</div>
+
+  <script>
+    const AGENTS_ROSTER = {
+      "ag.ioyervides@gtcx.com": "Ingrid Itati Oyervides Ochoa",
+      "ag.furodriguez@gtcx.com": "Ingrid Itati Oyervides Ochoa",
+      "ag.nohernandez@gtcx.com": "Noe Alberto Hernandez Martinez",
+      "ag.scordova@gtcx.com": "Santiago Cordova Guerrero",
+      "ag.jparedes@gtcx.com": "Juan Carlos Paredes Vargas",
+      "ag.mperez@gtcx.com": "Jose Mauricio Perez Morales",
+      "ag.hzuniga@gtcx.com": "Henry Antonio Zuñiga Castro",
+      "ag.hpena@gtcx.com": "Hector Leonardo Peña Ramirez",
+      "ag.anegrete@gtcx.com": "Alejandro Negrete Pasaye",
+      "ag.havila@gtcx.com": "Hector Manuel Avila Garduño",
+      "ag.vdeleon@gtcx.com": "Valeria De Leon Urrutia",
+      "ag.davillarreal@gtcx.com": "David Alejandro Villarreal Navarro",
+      "ag.asoyer@gtcx.com": "Aida Zeida Royer Gómez",
+      "ag.igarcia@gtcx.com": "Ivonne Maria Garcia De La Rosa",
+      "ag.kgonzalez@gtcx.com": "Kler Gonzalez Campos",
+      "ag.salfonso@gtcx.com": "Siuloong Jose Alfonso Velazquez Lerma",
+      "ag.drazo@gtcx.com": "David Arturo Razo Mandujano",
+      "ag.adrodriguez@gtcx.com": "Adriana Rodriguez Moreno",
+      "ag.paguayo@gtcx.com": "Paola Jazmin Aguayo Garza",
+      "ag.jgonzalez@gtcx.com": "Jose Vito Gonzalez Martinez",
+      "ag.acantu@gtcx.com": "Anakaren Cantu Morales",
+      "ag.eovalle@gtcx.com": "Emilio Ovalle Lira",
+      "ag.dtrujillo@gtcx.com": "David Trujillo Leal",
+      "ag.digarcia@gtcx.com": "Diego Garcia Rios",
+      "ag.fvillareal@gtcx.com": "Feliciano Villareal Nanez",
+      "ag.aramirez@gtcx.com": "Adrian Ramirez Arredondo",
+      "ag.mquilantan@gtcx.com": "Mario Héctor Quilantán García"
+    };
+
+    const MODE_STORAGE = {
+      overall: {
+        title: 'CSAT OVERALL',
+        subtitle: 'Resultados Semanales - Extended Operations',
+        data: `Santiago Cordova Guerrero\t26\t26\t5
+Noe Alberto Hernandez Martinez\t21\t21\t5
+Jose Mauricio Perez Morales\t24\t24\t5
+Hector Manuel Avila Garduño\t18\t18\t5
+Mario Héctor Quilantán García\t7\t7\t5
+Henry Antonio Zuñiga Castro\t29\t29\t5
+Alejandro Negrete Pasaye\t18\t18\t5
+Valeria De Leon Urrutia\t5\t5\t5
+Hector Leonardo Peña Ramirez\t13\t13\t4.91
+Juan Carlos Paredes Vargas\t30\t30\t4.9
+Aida Zeida Royer Gómez\t20\t20\t4.88
+David Alejandro Villarreal Navarro\t12\t12\t4.86
+Ingrid Itati Oyervides Ochoa\t26\t26\t4.81
+Siuloong Jose Alfonso Velazquez Lerma\t22\t22\t4.73
+David Arturo Razo Mandujano\t25\t25\t4.73
+Adriana Rodriguez Moreno\t25\t25\t4.7
+Kler Gonzalez Campos\t10\t10\t4.6
+Paola Jazmin Aguayo Garza\t20\t20\t4.33
+Ivonne Maria Garcia De La Rosa\t20\t20\t4.31
+Jose Vito Gonzalez Martinez\t17\t17\t4
+Adrian Ramirez Arredondo\t18\t18\t3.78`
+      },
+      daily: {
+        title: 'DAILY CSAT',
+        subtitle: `Reporte Diario - ${new Date().toLocaleDateString('es-MX', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+        data: `Juan Carlos Paredes Vargas\t1\t1\t5
+Adriana Rodriguez Moreno\t1\t1\t5
+Adrian Ramirez Arredondo\t3\t3\t4.5
+Jose Mauricio Perez Morales\t1\t1\t1
+Ivonne Maria Garcia De La Rosa\t1\t1\t1
+Noe Alberto Hernandez Martinez\t1\t1\t1
+Siuloong Jose Alfonso Velazquez Lerma\t1\t1\t1`
+      },
+      spanish: {
+        title: 'CSAT SPANISH',
+        subtitle: 'Spanish Queue Performance',
+        data: `Henry Antonio Zuñiga Castro\t12\t12\t5
+Adriana Rodriguez Moreno\t11\t11\t5
+Noe Alberto Hernandez Martinez\t10\t10\t5
+David Arturo Razo Mandujano\t10\t10\t5
+Santiago Cordova Guerrero\t9\t9\t5
+Siuloong Jose Alfonso Velazquez Lerma\t9\t9\t5
+Jose Mauricio Perez Morales\t9\t9\t5
+Hector Manuel Avila Garduño\t9\t9\t5
+Mario Héctor Quilantán García\t7\t7\t5
+Aida Zeida Royer Gómez\t5\t5\t5
+Valeria De Leon Urrutia\t1\t1\t5
+Juan Carlos Paredes Vargas\t15\t15\t4.8
+Ingrid Itati Oyervides Ochoa\t14\t14\t4.57
+Hector Leonardo Peña Ramirez\t3\t3\t4.5
+Paola Jazmin Aguayo Garza\t6\t6\t4.33
+Ivonne Maria Garcia De La Rosa\t8\t8\t3.8
+Adrian Ramirez Arredondo\t15\t15\t3.57
+Alejandro Negrete Pasaye\t4\t4\t`
+      },
+      aht: {
+        title: 'AHT OVERALL',
+        subtitle: 'Average Handle Time',
+        data: `Adriana Rodriguez Moreno\t0:07:25
+Alejandro Negrete Pasaye\t0:07:27
+Adrian Ramirez Arredondo\t0:06:50
+Aida Zeida Royer Gómez\t0:06:11
+David Alejandro Villarreal Navarro\t0:08:07
+David Arturo Razo Mandujano\t0:07:23
+Hector Manuel Avila Garduño\t0:08:21
+Hector Leonardo Peña Ramirez\t0:08:30
+Henry Antonio Zuñiga Castro\t0:07:39
+Ivonne Maria Garcia De La Rosa\t0:08:13
+Ingrid Itati Oyervides Ochoa\t0:07:37
+Jose Vito Gonzalez Martinez\t0:08:30
+Jose Mauricio Perez Morales\t0:08:04
+Juan Carlos Paredes Vargas\t0:09:52
+Kler Gonzalez Campos\t0:07:49
+Mario Héctor Quilantán García\t0:06:50
+Noe Alberto Hernandez Martinez\t0:10:50
+Paola Jazmin Aguayo Garza\t0:06:34
+Siuloong Jose Alfonso Velazquez Lerma\t0:08:51
+Santiago Cordova Guerrero\t0:06:35
+Valeria De Leon Urrutia\t0:07:54`
+      }
+    };
+
+    let currentMode = 'overall';
+    let currentParsedData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadModeData('overall');
+    });
+
+    function saveCurrentModeState() {
+      if (MODE_STORAGE[currentMode]) {
+        MODE_STORAGE[currentMode].data = document.getElementById('excelInput').value;
+        MODE_STORAGE[currentMode].title = document.getElementById('slideTitle').value;
+        MODE_STORAGE[currentMode].subtitle = document.getElementById('slideSubtitle').value;
+      }
+    }
+
+    function loadModeData(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      const tvSlideElem = document.getElementById('tvSlide');
+
+      if (mode === 'overall') {
+        document.getElementById('btnPresetOverall').classList.add('active');
+        tvSlideElem.classList.remove('aht-layout');
+      } else if (mode === 'daily') {
+        document.getElementById('btnPresetDaily').classList.add('active');
+        tvSlideElem.classList.remove('aht-layout');
+      } else if (mode === 'spanish') {
+        document.getElementById('btnPresetSpanish').classList.add('active');
+        tvSlideElem.classList.remove('aht-layout');
+      } else if (mode === 'aht') {
+        document.getElementById('btnPresetAht').classList.add('active');
+        tvSlideElem.classList.add('aht-layout');
+      }
+
+      const conf = MODE_STORAGE[mode];
+      document.getElementById('slideTitle').value = conf.title;
+      document.getElementById('slideSubtitle').value = conf.subtitle;
+      document.getElementById('excelInput').value = conf.data;
+
+      updateHeaders();
+      processExcelData();
+    }
+
+    function setReportMode(mode) {
+      saveCurrentModeState();
+      loadModeData(mode);
+    }
+
+    function updateHeaders() {
+      document.getElementById('displayTitle').innerText = document.getElementById('slideTitle').value || 'SCOREBOARD';
+      document.getElementById('displaySubtitle').innerText = document.getElementById('slideSubtitle').value || '';
+    }
+
+    function resolveAgentName(rawInput) {
+      if (!rawInput) return '';
+      const cleanKey = rawInput.toLowerCase().trim();
+      if (AGENTS_ROSTER[cleanKey]) return AGENTS_ROSTER[cleanKey];
+      return rawInput.replace(/@.*$/, '').replace(/^ag\./, '').replace(/\./g, ' ').trim();
+    }
+
+    function parseTimeToSeconds(timeStr) {
+      if (!timeStr) return 0;
+      const parts = timeStr.toString().trim().split(':').map(p => parseInt(p, 10) || 0);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return parseFloat(timeStr) || 0;
+    }
+
+    function formatSecondsToTime(totalSec) {
+      const sec = Math.round(totalSec);
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      const mStr = m < 10 ? `0${m}` : `${m}`;
+      const sStr = s < 10 ? `0${s}` : `${s}`;
+      return `0:${mStr}:${sStr}`;
+    }
+
+    function getStatusColor(mode, val, rawStr) {
+      if (val === null || val === undefined || rawStr === '' || rawStr === undefined) {
+        return { class: '', hex: '#ffffff' };
+      }
+
+      if (mode === 'aht') {
+        if (val <= 420) return { class: 'c-green', hex: '#00b050' };
+        if (val <= 465) return { class: 'c-lime', hex: '#92d050' };
+        if (val <= 487) return { class: 'c-yellow', hex: '#ffff00' };
+        if (val <= 535) return { class: 'c-orange', hex: '#ffc000' };
+        return { class: 'c-red', hex: '#ff0000' };
+      } else {
+        if (val >= 4.80) return { class: 'c-green', hex: '#00b050' };
+        if (val >= 4.70) return { class: 'c-lime', hex: '#92d050' };
+        if (val >= 4.50) return { class: 'c-yellow', hex: '#ffff00' };
+        return { class: 'c-red', hex: '#ff0000' };
+      }
+    }
+
+    function parseRawData(text, mode) {
+      const parsed = [];
+      if (!text) return parsed;
+      const lines = text.trim().split('\n');
+
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+
+        const low = trimmed.toLowerCase();
+        if (low.includes('agent name') || low.includes('total volume') || low.includes('avg aht') || low.startsWith('total\t')) return;
+
+        const cols = trimmed.split(/\t|,|;/).map(c => c.trim());
+        if (cols.length >= 2) {
+          const name = resolveAgentName(cols[0]);
+
+          if (mode === 'aht') {
+            const rawTime = cols[cols.length - 1];
+            const seconds = parseTimeToSeconds(rawTime);
+            parsed.push({
+              name,
+              score: seconds,
+              displayTime: rawTime || formatSecondsToTime(seconds)
+            });
+          } else {
+            const totalVol = parseInt(cols[1], 10) || 0;
+            const handled = parseInt(cols[2] || cols[1], 10) || 0;
+            const rawRating = cols[3] !== undefined ? cols[3] : (cols[2] !== undefined ? cols[2] : '');
+            const score = (rawRating !== '' && !isNaN(parseFloat(rawRating))) ? parseFloat(rawRating) : null;
+            parsed.push({
+              name,
+              totalVol,
+              handled,
+              score,
+              rawRating
+            });
+          }
+        }
+      });
+      return parsed;
+    }
+
+    function processExcelData() {
+      const rawText = document.getElementById('excelInput').value.trim();
+      currentParsedData = parseRawData(rawText, currentMode);
+
+      const sortCriteria = document.getElementById('sortBy').value;
+      if (sortCriteria === 'score') {
+        if (currentMode === 'aht') {
+          currentParsedData.sort((a, b) => a.score - b.score);
+        } else {
+          currentParsedData.sort((a, b) => (b.score || 0) - (a.score || 0) || b.handled - a.handled);
+        }
+      } else if (sortCriteria === 'name') {
+        currentParsedData.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      renderTable();
+    }
+
+    function renderTable() {
+      const thead = document.getElementById('tableHeader');
+      const tbody = document.getElementById('leaderboardBody');
+      const tfoot = document.getElementById('tableFooter');
+
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+      tfoot.innerHTML = '';
+
+      if (currentMode === 'aht') {
+        // ENCABEZADOS SIN FLECHAS
+        thead.innerHTML = `
+          <tr>
+            <th style="min-width: 200px;">Agent Name</th>
+            <th class="center" style="width: 75px;">AHT</th>
+          </tr>
+        `;
+
+        let sumSeconds = 0;
+        currentParsedData.forEach(item => {
+          sumSeconds += item.score;
+          const colorObj = getStatusColor('aht', item.score, item.displayTime);
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><span class="agent-name">${item.name}</span></td>
+            <td class="status-cell ${colorObj.class}">${item.displayTime}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        const avgSec = currentParsedData.length > 0 ? (sumSeconds / currentParsedData.length) : 0;
+        const avgTimeStr = formatSecondsToTime(avgSec);
+
+        tfoot.innerHTML = `
+          <tr class="total-row">
+            <td>AVG AHT</td>
+            <td class="status-cell c-blue-avg">${avgTimeStr}</td>
+          </tr>
+        `;
+      } else {
+        // ENCABEZADOS SIN FLECHAS
+        thead.innerHTML = `
+          <tr>
+            <th style="min-width: 210px;">Agent Name</th>
+            <th class="center" style="width: 70px;">Total Vol</th>
+            <th class="center" style="width: 65px;">Handled</th>
+            <th class="center" style="width: 75px;">CSAT</th>
+          </tr>
+        `;
+
+        let sumVol = 0;
+        let sumHandled = 0;
+        let sumScore = 0;
+        let validScoresCount = 0;
+
+        currentParsedData.forEach(item => {
+          sumVol += item.totalVol;
+          sumHandled += item.handled;
+          if (item.score !== null && !isNaN(item.score)) {
+            sumScore += item.score;
+            validScoresCount++;
+          }
+
+          const colorObj = getStatusColor('csat', item.score, item.rawRating);
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><span class="agent-name">${item.name}</span></td>
+            <td class="center">${item.totalVol}</td>
+            <td class="center">${item.handled}</td>
+            <td class="status-cell ${colorObj.class}">${item.rawRating || ''}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        const avgScore = validScoresCount > 0 ? (sumScore / validScoresCount) : 5.0;
+        const avgColor = getStatusColor('csat', avgScore, avgScore.toString());
+
+        tfoot.innerHTML = `
+          <tr class="total-row">
+            <td>TOTAL</td>
+            <td class="center">${sumVol}</td>
+            <td class="center">${sumHandled}</td>
+            <td class="status-cell ${avgColor.class}">${avgScore.toFixed(2)}</td>
+          </tr>
+        `;
+      }
+
+      showToast(`✅ Vista actualizada: ${document.getElementById('displayTitle').innerText}`);
+    }
+
+    // =========================================================================
+    // GENERADOR CANVAS HD COMPACTO (SIN FLECHAS, TÍTULOS LIMPIOS Y CENTRADOS)
+    // =========================================================================
+    function generateCanvasForMode(mode, title, subtitle, dataRows) {
+      const isAht = (mode === 'aht');
+
+      // Anchos compactos exactos
+      const colWidths = isAht ? [205, 75] : [215, 68, 62, 72];
+      const tableWidth = colWidths.reduce((a, b) => a + b, 0);
+
+      const padding = 16;
+      const cardWidth = tableWidth + (padding * 2);
+
+      const headerHeight = 64; 
+      const tableHeaderHeight = 22;
+      const rowHeight = 19;
+      const totalRowHeight = 21;
+
+      const cardHeight = headerHeight + tableHeaderHeight + (dataRows.length * rowHeight) + totalRowHeight + (padding * 2);
+
+      const scale = 2; // HD 2x
+      const canvas = document.createElement('canvas');
+      canvas.width = cardWidth * scale;
+      canvas.height = cardHeight * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      // Fondo Card Oscura
+      ctx.fillStyle = '#0f172a';
+      roundRect(ctx, 0, 0, cardWidth, cardHeight, 10, true, false);
+
+      // Borde del Slide
+      ctx.strokeStyle = '#23344d';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, 1, 1, cardWidth - 2, cardHeight - 2, 10, false, true);
+
+      // Título Superior
+      ctx.fillStyle = '#5bcefa';
+      ctx.font = 'bold 18px Arial, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(title, padding, 30);
+
+      // Subtítulo
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11.5px Arial, sans-serif';
+      ctx.fillText(subtitle, padding, 48);
+
+      // Línea divisoria
+      ctx.strokeStyle = '#23344d';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(padding, 56);
+      ctx.lineTo(cardWidth - padding, 56);
+      ctx.stroke();
+
+      // DIBUJAR TABLA
+      const tableX = padding;
+      const tableY = headerHeight;
+      const headers = isAht ? ['Agent Name', 'AHT'] : ['Agent Name', 'Total Vol', 'Handled', 'CSAT'];
+
+      // 1. Encabezados (SIN FLECHAS, CENTRADOS LIMPIAMENTE)
+      let currX = tableX;
+      headers.forEach((hText, i) => {
+        const w = colWidths[i];
+
+        ctx.fillStyle = '#56cbf9';
+        ctx.fillRect(currX, tableY, w, tableHeaderHeight);
+
+        ctx.strokeStyle = '#7f9db9';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(currX, tableY, w, tableHeaderHeight);
+
+        ctx.fillStyle = '#000000';
+        ctx.font = 'bold 11px Arial, sans-serif';
+        ctx.textAlign = (i === 0) ? 'left' : 'center';
+        const tx = (i === 0) ? (currX + 8) : (currX + w / 2);
+        ctx.fillText(hText, tx, tableY + 15);
+
+        currX += w;
+      });
+
+      // 2. Filas de Datos
+      let currY = tableY + tableHeaderHeight;
+      let totalSec = 0;
+      let sumVol = 0;
+      let sumHandled = 0;
+      let sumScore = 0;
+      let validScoresCount = 0;
+
+      dataRows.forEach((r) => {
+        currX = tableX;
+
+        if (isAht) {
+          totalSec += r.score;
+          const colorObj = getStatusColor('aht', r.score, r.displayTime);
+
+          drawCell(ctx, currX, currY, colWidths[0], rowHeight, r.name, '#ffffff', '#000000', 'left', false);
+          currX += colWidths[0];
+          drawCell(ctx, currX, currY, colWidths[1], rowHeight, r.displayTime, colorObj.hex, '#000000', 'center', true);
+
+        } else {
+          sumVol += r.totalVol;
+          sumHandled += r.handled;
+          if (r.score !== null && !isNaN(r.score)) {
+            sumScore += r.score;
+            validScoresCount++;
+          }
+          const colorObj = getStatusColor('csat', r.score, r.rawRating);
+
+          drawCell(ctx, currX, currY, colWidths[0], rowHeight, r.name, '#ffffff', '#000000', 'left', false);
+          currX += colWidths[0];
+
+          drawCell(ctx, currX, currY, colWidths[1], rowHeight, `${r.totalVol}`, '#ffffff', '#000000', 'center', false);
+          currX += colWidths[1];
+
+          drawCell(ctx, currX, currY, colWidths[2], rowHeight, `${r.handled}`, '#ffffff', '#000000', 'center', false);
+          currX += colWidths[2];
+
+          drawCell(ctx, currX, currY, colWidths[3], rowHeight, r.rawRating || '', colorObj.hex, '#000000', 'center', true);
+        }
+
+        currY += rowHeight;
+      });
+
+      // 3. Fila de Totales
+      currX = tableX;
+      if (isAht) {
+        const avgSec = dataRows.length > 0 ? (totalSec / dataRows.length) : 0;
+        const avgTime = formatSecondsToTime(avgSec);
+
+        drawCell(ctx, currX, currY, colWidths[0], totalRowHeight, 'AVG AHT', '#ffffff', '#000000', 'left', true);
+        currX += colWidths[0];
+        drawCell(ctx, currX, currY, colWidths[1], totalRowHeight, avgTime, '#56cbf9', '#000000', 'center', true);
+      } else {
+        const avgScore = validScoresCount > 0 ? (sumScore / validScoresCount) : 5.0;
+        const totalColorInfo = getStatusColor('csat', avgScore, avgScore.toString());
+
+        drawCell(ctx, currX, currY, colWidths[0], totalRowHeight, 'TOTAL', '#ffffff', '#000000', 'left', true);
+        currX += colWidths[0];
+
+        drawCell(ctx, currX, currY, colWidths[1], totalRowHeight, `${sumVol}`, '#ffffff', '#000000', 'center', true);
+        currX += colWidths[1];
+
+        drawCell(ctx, currX, currY, colWidths[2], totalRowHeight, `${sumHandled}`, '#ffffff', '#000000', 'center', true);
+        currX += colWidths[2];
+
+        drawCell(ctx, currX, currY, colWidths[3], totalRowHeight, avgScore.toFixed(2), totalColorInfo.hex, '#000000', 'center', true);
+      }
+
+      // Líneas negras en totales
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(tableX, currY);
+      ctx.lineTo(tableX + tableWidth, currY);
+      ctx.moveTo(tableX, currY + totalRowHeight);
+      ctx.lineTo(tableX + tableWidth, currY + totalRowHeight);
+      ctx.stroke();
+
+      return canvas;
+    }
+
+    function generateCurrentCanvas() {
+      const title = document.getElementById('displayTitle').innerText;
+      const subtitle = document.getElementById('displaySubtitle').innerText;
+      return generateCanvasForMode(currentMode, title, subtitle, currentParsedData);
+    }
+
+    function drawCell(ctx, x, y, w, h, text, bgColor, textColor, align, isBold) {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(x, y, w, h);
+
+      ctx.strokeStyle = '#d9d9d9';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x, y, w, h);
+
+      if (text !== undefined && text !== null && text !== '') {
+        ctx.fillStyle = textColor;
+        ctx.font = (isBold ? 'bold ' : '') + '11px Arial, sans-serif';
+        ctx.textAlign = align;
+
+        const textX = (align === 'left') ? (x + 6) : (x + w / 2);
+        const textY = y + (h / 2) + 3.5;
+        ctx.fillText(text, textX, textY);
+      }
+    }
+
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function downloadSlideImage() {
+      showToast('📸 Descargando imagen...');
+      const canvas = generateCurrentCanvas();
+      const link = document.createElement('a');
+      const filenameDate = new Date().toISOString().split('T')[0];
+      const titleTag = document.getElementById('displayTitle').innerText.replace(/\s+/g, '_');
+      link.download = `Slide_${titleTag}_${filenameDate}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('🎉 ¡Imagen descargada correctamente!');
+    }
+
+    function copyImageToClipboard() {
+      showToast('⏳ Copiando imagen...');
+      const canvas = generateCurrentCanvas();
+      canvas.toBlob(blob => {
+        if (!blob) {
+          showToast('❌ Error al generar imagen');
+          return;
+        }
+        navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob })
+        ]).then(() => {
+          showToast('📋 ¡Slide copiado! Pégalo con Ctrl+V');
+        }).catch(() => {
+          downloadSlideImage();
+        });
+      });
+    }
+
+    async function downloadAllImages() {
+      saveCurrentModeState();
+      showToast('📦 Generando y descargando todas las imágenes...');
+
+      const modes = ['overall', 'daily', 'spanish', 'aht'];
+      const dateStr = new Date().toISOString().split('T')[0];
+
+      for (let i = 0; i < modes.length; i++) {
+        const m = modes[i];
+        const conf = MODE_STORAGE[m];
+        const rows = parseRawData(conf.data, m);
+
+        const canvas = generateCanvasForMode(m, conf.title, conf.subtitle, rows);
+        const link = document.createElement('a');
+        link.download = `Slide_${conf.title.replace(/\s+/g, '_')}_${dateStr}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        await new Promise(r => setTimeout(r, 450));
+      }
+
+      showToast('🎉 ¡Las 4 imágenes se han descargado con éxito!');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2600);
+    }
+  </script>
+</body>
+</html>
