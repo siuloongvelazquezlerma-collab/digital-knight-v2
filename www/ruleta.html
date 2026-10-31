@@ -1,684 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-<!-- This site is hosted on Netlify. Anyone can build and deploy a site
-     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=501389d3-b78e-4682-8e24-b03633894eed
-     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎃 Halloween Spin Royale 👻</title>
-  <link rel="icon" type="image/png" href="https://od.lk/s/M18zMzkyMzE4MTFfWXVHdEE/cute-ghost-cartoon-ghost-in-white-cloak-halloween-scary-illustration-vector.jpg">
-  
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&amp;family=Montserrat:wght@400;700;900&amp;display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Día de Muertos · Spin Royale</title>
+ <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMzkzODc5OTBfWHlvcnU/Designer%20%283%29.png">
+<link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/marigold_1f3f5-fe0f.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&amp;family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+--bg-dark: #080817;
+--bg-deep: #130d29;
+--bg-glow: #29133e;
+--card-bg: rgba(22, 15, 43, 0.94);
+--card-bg-strong: rgba(35, 20, 59, 0.97);
+--border-purple: #633b85;
+--pumpkin-orange: #ff9f1c;
+--pumpkin-deep: #e66b16;
+--slime-green: #d8a1ff;
+--blood-red: #d94b87;
+--blood-dark: #471d50;
+--moon-white: #fff4e6;
+--shadow-amber: rgba(255, 159, 28, 0.35);
+--shadow-green: rgba(216, 161, 255, 0.32);
+--cempasuchil: #ff9f1c;
+--purple-flower: #a855f7;
+--pink-flower: #f472b6;
+--gold: #facc15;
+}
+html, body {
+margin: 0;
+padding: 0;
+}
+body {
+background-image:
+linear-gradient(180deg, rgba(8, 8, 23, 0.48), rgba(8, 8, 23, 0.78)),
+url('https://od.lk/s/M18zMzkzODc0ODZfbTJYQ3Y/Altar%20de%20cempas%C3%BAchil%20bajo%20la%20luna.png');
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-color: #080817;
+color: var(--moon-white);
+font-family: 'Montserrat', sans-serif;
+min-height: 100vh;
+padding: 1.5rem;
+position: relative;
+overflow-x: hidden;
+}
+body::before {
+content: "";
+position: fixed;
+left: 0;
+right: 0;
+bottom: 0;
+height: 52vh;
+background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 100%);
+z-index: 0;
+pointer-events: none;
+animation: riseOverlay 1.2s ease-out forwards;
+}
+@keyframes riseOverlay {
+0% { transform: translateY(100%); opacity: 0; }
+100% { transform: translateY(0); opacity: 1; }
+}
+.spooky-font { font-family: 'Cinzel', serif; font-weight: 800; letter-spacing: 1.5px; }
+.page-header {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 0.75rem;
+margin-bottom: 1.4rem;
+}
+.brand-logo {
+width: clamp(90px, 10vw, 180px);
+max-height: 90px;
+object-fit: contain;
+filter: drop-shadow(0 0 16px rgba(255, 123, 44, 0.25));
+border-radius: 0px;
+padding: 0.35rem 0.5rem;
+}
+.ghost-mark,
+.skull-mark {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+font-size: clamp(1.8rem, 2.8vw, 3rem);
+line-height: 1;
+flex-shrink: 0;
+}
+.ghost-mark {
+filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
+animation: ghostFloat 2.3s ease-in-out infinite alternate;
+}
+.skull-mark {
+filter: drop-shadow(0 0 10px rgba(255, 123, 44, 0.22));
+animation: skullFloat 2s ease-in-out infinite alternate;
+}
+.title-halloween {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap; /* IMPORTANTE */
+    gap: 0.7rem;
+    font-size: clamp(2.1rem, 3.5vw, 3.8rem);
+    color: #ffad35;
+    text-shadow: 0 3px 0 rgba(67,25,28,.85),
+                 0 0 24px rgba(255,138,24,.38);
+    margin: 0;
+    line-height: 1.1;
+    text-align: center;
+}
+.title-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+/* Keep the floral ornaments close to the title's letter height */
+.title-flank {
+    width: clamp(50px, 4vw, 80px);
+    height: auto;
+    flex-shrink: 0;
+    object-fit: contain;
+}
 
-  <style>
-    :root {
-      --bg-dark: #08040d;
-      --bg-deep: #140b1d;
-      --bg-glow: #261127;
-      --card-bg: rgba(20, 13, 30, 0.9);
-      --card-bg-strong: rgba(32, 19, 44, 0.96);
-      --border-purple: #4a1d5a;
-      --pumpkin-orange: #ff7b2c;
-      --pumpkin-deep: #d95e12;
-      --slime-green: #9efb4d;
-      --blood-red: #d90429;
-      --blood-dark: #4c020b;
-      --moon-white: #f5f1eb;
-      --shadow-amber: rgba(255, 123, 44, 0.35);
-      --shadow-green: rgba(158, 251, 77, 0.32);
-    }
+@keyframes ghostFloat {
+0% { transform: translateY(0) rotate(-3deg); }
+100% { transform: translateY(-6px) rotate(3deg); }
+}
+@keyframes skullFloat {
+0% { transform: translateY(0) rotate(-5deg); }
+100% { transform: translateY(-6px) rotate(5deg); }
+}
+.card-custom {
+background: linear-gradient(180deg, rgba(20, 18, 16, 0.9), rgba(10, 8, 8, 0.94));
+border: 1px solid rgba(255, 123, 44, 0.38);
+border-radius: 0.85rem;
+box-shadow: 0 12px 24px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.02);
+position: relative;
+z-index: 1;
+}
+.btn-pumpkin {
+background-color: var(--pumpkin-orange);
+color: #000;
+font-weight: 800;
+border: none;
+}
+.btn-pumpkin:hover:not(:disabled) {
+background-color: #ff8c3b;
+color: #000;
+}
+.btn-pumpkin:disabled {
+background-color: #382516;
+color: #7d6553;
+}
+.btn-slime {
+background-color: var(--slime-green);
+color: #000;
+font-weight: 800;
+border: none;
+}
+.btn-slime:hover:not(:disabled) {
+background-color: #5eff3d;
+color: #000;
+}
+.btn-slime:disabled {
+background-color: #173814;
+color: #567d53;
+}
+.wheel-container {
+position: relative;
+display: inline-block;
+margin: 10px auto;
+}
+.wheel-pointer {
+position: absolute;
+top: -12px;
+left: 50%;
+transform: translateX(-50%);
+width: 0;
+height: 0;
+border-left: 15px solid transparent;
+border-right: 15px solid transparent;
+border-top: 28px solid var(--pumpkin-orange);
+z-index: 5;
+filter: drop-shadow(0 0 10px rgba(255, 123, 44, 0.45));
+}
+canvas.wheel-canvas {
+border-radius: 50%;
+background: radial-gradient(circle at center, #1d120d 0%, #090909 48%, #000000 100%);
+border: 4px solid rgba(255, 123, 44, 0.7);
+display: block;
+max-width: 100%;
+height: auto;
+box-shadow: 0 0 0 4px rgba(255, 123, 44, 0.08), 0 0 30px rgba(255, 123, 44, 0.2);
+}
+.graveyard-list {
+max-height: 170px;
+overflow-y: auto;
+border: 1px dashed var(--border-purple);
+border-radius: 0.5rem;
+padding: 0.5rem;
+background: #0a0512;
+}
+.graveyard-item {
+font-size: 0.85rem;
+padding: 5px 8px;
+margin-bottom: 4px;
+background: rgba(217, 4, 41, 0.2);
+border-left: 3px solid var(--blood-red);
+color: #ff9da9;
+border-radius: 3px;
+display: flex;
+justify-content: space-between;
+}
+.winner-item {
+font-size: 0.85rem;
+padding: 5px 8px;
+margin-bottom: 4px;
+background: rgba(57, 255, 20, 0.15);
+border-left: 3px solid var(--slime-green);
+color: #b9ffaa;
+border-radius: 3px;
+display: flex;
+justify-content: space-between;
+}
+.winner-announcement {
+border: 2px solid var(--slime-green);
+background-color: #101c10;
+}
+.global-announcement {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) scale(0.92);
+width: min(92vw, 760px);
+min-height: 210px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 2rem 2.4rem;
+border-radius: 1.4rem;
+border: 2px solid rgba(255,255,255,0.1);
+background: rgba(10, 5, 18, 0.88);
+backdrop-filter: blur(8px);
+box-shadow: 0 24px 70px rgba(0,0,0,0.42);
+z-index: 9999;
+pointer-events: none;
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+.global-announcement.show {
+opacity: 1;
+visibility: visible;
+transform: translate(-50%, -50%) scale(1);
+animation: announcementPulse 0.8s ease-out;
+}
+.global-announcement.winner {
+border-color: rgba(57, 255, 20, 0.8);
+background: linear-gradient(135deg, rgba(26, 64, 24, 0.9), rgba(10, 19, 12, 0.92));
+box-shadow: 0 28px 80px rgba(57, 255, 20, 0.2);
+}
+.global-announcement.elimination {
+border-color: rgba(255, 82, 82, 0.8);
+background: linear-gradient(135deg, rgba(76, 0, 0, 0.85), rgba(22, 8, 8, 0.92));
+box-shadow: 0 28px 80px rgba(255, 82, 82, 0.2);
+}
+.announcement-badge {
+display: inline-block;
+padding: 0.45rem 1rem;
+border-radius: 999px;
+font-size: 0.8rem;
+font-weight: 800;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+margin-bottom: 0.8rem;
+background: rgba(255,255,255,0.08);
+border: 1px solid rgba(255,255,255,0.15);
+color: #fff;
+}
+.announcement-name {
+font-size: clamp(2rem, 4vw, 4.2rem);
+line-height: 1.05;
+font-weight: 900;
+letter-spacing: 0.02em;
+margin: 0;
+text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+}
+.announcement-extra {
+margin-top: 0.8rem;
+font-size: clamp(1rem, 1.7vw, 1.55rem);
+line-height: 1.4;
+color: rgba(255,255,255,0.85);
+font-weight: 700;
+}
+@keyframes announcementPulse {
+0% { opacity: 0; transform: translate(-50%, -50%) scale(0.75); }
+60% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+#statusAlert,
+#winnerCard,
+#finalPrizeCard {
+position: relative;
+overflow: hidden;
+transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+#statusAlert.elimination-mode {
+background: linear-gradient(135deg, rgba(76, 0, 0, 0.65), rgba(29, 12, 12, 0.9));
+border-color: rgba(255, 82, 82, 0.95);
+box-shadow: 0 0 20px rgba(255, 82, 82, 0.35), inset 0 0 18px rgba(255, 82, 82, 0.18);
+animation: skullPulse 0.8s ease-in-out 2;
+}
+#statusAlert.winner-mode {
+background: linear-gradient(135deg, rgba(0, 78, 36, 0.7), rgba(14, 29, 17, 0.88));
+border-color: rgba(57, 255, 20, 0.95);
+box-shadow: 0 0 20px rgba(57, 255, 20, 0.38), inset 0 0 18px rgba(57, 255, 20, 0.14);
+animation: lightningPulse 0.75s ease-in-out 2;
+}
+#statusAlert.elimination-mode::after {
+content: '🌺';
+position: absolute;
+right: 14px;
+top: 10px;
+font-size: 2rem;
+opacity: 0.8;
+animation: skullFloat 1s ease-in-out infinite alternate;
+}
+#statusAlert.winner-mode::after {
+content: '⚡';
+position: absolute;
+right: 14px;
+top: 10px;
+font-size: 2rem;
+opacity: 0.9;
+animation: lightningFlash 0.6s ease-in-out infinite alternate;
+}
+#winnerCard.lightning {
+background: linear-gradient(135deg, rgba(42, 91, 17, 0.8), rgba(12, 24, 7, 0.9));
+border-color: rgba(57, 255, 20, 0.95);
+box-shadow: 0 0 24px rgba(57, 255, 20, 0.35), inset 0 0 18px rgba(57, 255, 20, 0.12);
+animation: lightningBurst 0.9s ease-in-out 2;
+}
+@keyframes skullPulse {
+0% { transform: scale(1); }
+25% { transform: scale(1.01); }
+50% { transform: scale(1.02); }
+100% { transform: scale(1); }
+}
+@keyframes lightningPulse {
+0% { transform: scale(1); filter: brightness(1); }
+30% { transform: scale(1.015); filter: brightness(1.25); }
+60% { transform: scale(1.02); filter: brightness(1.4); }
+100% { transform: scale(1); filter: brightness(1); }
+}
+@keyframes lightningFlash {
+0% { opacity: 0.35; transform: translateY(0) scale(1); }
+50% { opacity: 1; transform: translateY(-2px) scale(1.12); }
+100% { opacity: 0.5; transform: translateY(0) scale(1); }
+}
+@keyframes skullFloat {
+0% { transform: translateY(0) rotate(0deg); }
+100% { transform: translateY(-4px) rotate(8deg); }
+}
+@keyframes lightningBurst {
+0% { box-shadow: 0 0 0 rgba(57, 255, 20, 0); }
+50% { box-shadow: 0 0 30px rgba(57, 255, 20, 0.75), 0 0 50px rgba(57, 255, 20, 0.5); }
+100% { box-shadow: 0 0 0 rgba(57, 255, 20, 0); }
+}
+.form-select, .form-control {
+background-color: #0a0512;
+border-color: var(--border-purple);
+color: #f1f1f1;
+}
+.form-select:focus, .form-control:focus {
+background-color: #0f071a;
+border-color: var(--pumpkin-orange);
+color: #fff;
+box-shadow: 0 0 0 0.25rem rgba(255, 117, 24, 0.25);
+}
+.modal-content {
+background-color: var(--card-bg);
+border: 1px solid var(--border-purple);
+color: #f1f1f1;
+}
+.modal-header, .modal-footer {
+border-color: var(--border-purple);
+}
+@media (min-width: 1500px) {
+body {
+padding: 1.25rem 0.9rem;
+}
+.container-fluid {
+max-width: 980px !important;
+}
+.header-title-row {
+gap: 1rem;
+}
+}
+@media (max-width: 767px) {
+.header-title-row {
+flex-wrap: wrap;
+gap: 0.5rem;
+}
+.title-halloween {
+white-space: normal;
+text-align: center;
+}
+.title-side {
+min-width: 60px;
+}
+}
+body::before, body::after {
+position: fixed; z-index: 0; pointer-events: none; opacity: .13;
+font-size: clamp(42px, 6vw, 76px); animation: flowerFloat 5s ease-in-out infinite alternate;
+}
+body::before { content: "🌼"; top: 4%; left: 2%; }
+body::after { content: "🌼"; bottom: 4%; right: 3%; }
+@keyframes flowerFloat { from { transform: translateY(0) rotate(-8deg); } to { transform: translateY(-12px) rotate(8deg); } }
+.title-halloween { color: #ffbd4a; text-shadow: 0 0 26px rgba(255,159,28,.28); }
+.brand-logo { filter: drop-shadow(0 0 16px rgba(255,159,28,.32)); }
+.card-custom { background: linear-gradient(145deg,rgba(30,19,55,.96),rgba(12,10,32,.97)); border: 1px solid rgba(255,159,28,.35); border-radius: 1rem; box-shadow: 0 12px 30px rgba(0,0,0,.35), inset 0 0 20px rgba(168,85,247,.04); }
+.btn-pumpkin { background: linear-gradient(135deg,#ff9f1c,#e87513); color:#180b20; font-weight:900; border:0; box-shadow:0 0 18px rgba(255,159,28,.22); }
+.btn-pumpkin:hover:not(:disabled) { background:linear-gradient(135deg,#ffbd4a,#ff8c1a); color:#180b20; transform:translateY(-2px); }
+.btn-pumpkin:disabled { background:#453044; color:#a78a9c; }
+.btn-slime { background:linear-gradient(135deg,#d8a1ff,#a855f7); color:#190b27; font-weight:900; border:0; box-shadow:0 0 18px rgba(168,85,247,.25); }
+.btn-slime:hover:not(:disabled) { background:linear-gradient(135deg,#edc8ff,#c084fc); color:#190b27; transform:translateY(-2px); }
+.btn-slime:disabled { background:#392746; color:#9b83aa; }
+.wheel-pointer { border-top-color:#ff9f1c; filter:drop-shadow(0 0 12px rgba(255,159,28,.65)); }
+canvas.wheel-canvas { background:radial-gradient(circle at center,#30184a 0%,#160d2b 55%,#080817 100%); border:5px solid #ff9f1c; box-shadow:0 0 0 5px rgba(168,85,247,.18),0 0 35px rgba(255,159,28,.30),0 0 65px rgba(168,85,247,.18); }
+.graveyard-list { border:1px dashed #8052a7; background:rgba(10,7,26,.9); border-radius:.7rem; }
+.graveyard-item { background:rgba(217,75,135,.16); border-left:3px solid #d94b87; color:#ffc0dc; border-radius:5px; }
+.winner-item { background:rgba(255,159,28,.15); border-left:3px solid #ffbd4a; color:#ffe2a3; border-radius:5px; }
+.winner-announcement { border:2px solid #ffbd4a; background:linear-gradient(135deg,#321c49,#17102e); }
+.global-announcement { border-color:rgba(255,189,74,.4); background:rgba(18,10,35,.94); }
+.global-announcement.winner { border-color:#ffbd4a; background:linear-gradient(135deg,rgba(92,54,20,.94),rgba(30,15,48,.96)); box-shadow:0 28px 80px rgba(255,159,28,.2); }
+.global-announcement.elimination { border-color:#d94b87; background:linear-gradient(135deg,rgba(76,20,65,.92),rgba(22,8,30,.96)); box-shadow:0 28px 80px rgba(217,75,135,.2); }
+#statusAlert.elimination-mode { background:linear-gradient(135deg,rgba(217,75,135,.22),rgba(35,15,48,.92)); border-color:#d94b87; box-shadow:0 0 20px rgba(217,75,135,.28),inset 0 0 18px rgba(217,75,135,.12); }
+#statusAlert.winner-mode { background:linear-gradient(135deg,rgba(255,159,28,.22),rgba(55,27,70,.92)); border-color:#ffbd4a; box-shadow:0 0 20px rgba(255,159,28,.35),inset 0 0 18px rgba(255,159,28,.12); }
+#statusAlert.elimination-mode::after { content:'🌸'; }
+#statusAlert.winner-mode::after { content:'🏵️'; }
+#winnerCard.lightning { background:linear-gradient(135deg,rgba(255,159,28,.22),rgba(75,35,100,.92)); border-color:#ffbd4a; box-shadow:0 0 28px rgba(255,159,28,.35); }
+.form-select,.form-control { background-color:#100b23; border-color:#633b85; color:#fff4e6; }
+.form-select:focus,.form-control:focus { background-color:#17102e; border-color:#ff9f1c; color:#fff; box-shadow:0 0 0 .25rem rgba(255,159,28,.20); }
+.modal-content { background-color:#17102e; border:1px solid #633b85; color:#fff4e6; }
+.modal-header,.modal-footer { border-color:#633b85; }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-    }
+/* === PALETA CEMPASÚCHIL: naranja, coral, magenta y morado === */
+:root {
+ --bg-dark:#1b0b18; --bg-deep:#29101e; --bg-glow:#481b2a;
+ --card-bg:rgba(38,16,29,.96); --card-bg-strong:rgba(52,20,34,.98);
+ --border-purple:#a94d55; --pumpkin-orange:#ff8a18; --pumpkin-deep:#e85d0b;
+ --slime-green:#ffb347; --blood-red:#e34f70; --blood-dark:#5b1838;
+ --moon-white:#fff1d6; --shadow-amber:rgba(255,138,24,.32);
+ --shadow-green:rgba(255,179,71,.24); --cempasuchil:#ff8a18;
+ --purple-flower:#9b3f83; --pink-flower:#ed668c; --gold:#ffd166;
+}
+body { background-color:#1b0b18; color:#fff1d6; }
+.title-halloween { color:#ffad35; text-shadow:0 3px 0 rgba(67,25,28,.85),0 0 24px rgba(255,138,24,.38); }
+.btn-pumpkin { background:linear-gradient(135deg,#ffb13b,#ed6b12); color:#35151a; font-weight:900; border:1px solid rgba(255,230,180,.4); box-shadow:0 5px 18px rgba(255,112,15,.2); }
+.btn-pumpkin:hover:not(:disabled) { background:linear-gradient(135deg,#ffd06a,#ff8a18); color:#35151a; }
+.btn-slime { background:linear-gradient(135deg,#f06b91,#a83b79); color:#fff4e7; }
+.btn-slime:hover:not(:disabled) { background:linear-gradient(135deg,#ff91a9,#c34c91); color:#fff; }
+.wheel-pointer { border-top-color:#ff9b22; filter:drop-shadow(0 0 10px rgba(255,138,24,.75)); }
+canvas.wheel-canvas { background:radial-gradient(circle at center,#ffbd59 0%,#d95a23 45%,#351326 100%); border:6px solid #ff9b22; box-shadow:0 0 0 5px rgba(237,102,140,.22),0 0 32px rgba(255,138,24,.3); }
+.graveyard-list { border:1px dashed #d97845; background:rgba(35,12,27,.94); }
+.graveyard-item { background:rgba(227,79,112,.18); border-left:3px solid #ed668c; color:#ffd0d6; }
+.winner-item { background:rgba(255,138,24,.17); border-left:3px solid #ff9b22; color:#ffe3ae; }
+.winner-announcement { border:2px solid #ff9b22; background:linear-gradient(135deg,#65263a,#301426); }
+.global-announcement.winner { border-color:#ffb347; background:linear-gradient(135deg,rgba(119,57,26,.96),rgba(48,17,37,.97)); box-shadow:0 28px 80px rgba(255,138,24,.2); }
+.global-announcement.elimination { border-color:#ed668c; background:linear-gradient(135deg,rgba(105,27,65,.95),rgba(38,12,29,.97)); }
+#statusAlert.elimination-mode { background:linear-gradient(135deg,rgba(227,79,112,.22),rgba(45,13,33,.95)); border-color:#ed668c; }
+#statusAlert.winner-mode { background:linear-gradient(135deg,rgba(255,138,24,.24),rgba(65,24,37,.94)); border-color:#ff9b22; }
+.form-select:focus,.form-control:focus { background-color:#3b1728; border-color:#ff9b22; color:#fff1d6; box-shadow:0 0 0 .25rem rgba(255,138,24,.22); }
+.modal-content { background-color:#301426; border:1px solid #bd6847; color:#fff1d6; }
+.modal-header,.modal-footer { border-color:#a94d55; }
+.nav-pills .nav-link.active { background:linear-gradient(135deg,#ffad35,#e85d36)!important; color:#35151a!important; }
+.nav-pills .nav-link { color:#ffe4c2; }
 
-    body {
-      background-image:
-        linear-gradient(180deg, rgba(5, 5, 5, 0.72), rgba(3, 3, 3, 0.9)),
-        url('https://od.lk/s/M18zMzkyMzEwMzRfdlgzRFo/halloween-scene-with-pumpkins-full-moon-background_670382-370239.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-      color: var(--moon-white);
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
-      padding: 1.5rem;
-      position: relative;
-      overflow-x: hidden;
-    }
+/* Fondo ilustrado cuadrado detrás de cada ruleta */
+.wheel-container {
+  width: min(100%, 480px);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  isolation: isolate;
+  margin: 14px auto 18px;
+  padding: 22px;
+  box-sizing: border-box;
+  border-radius: 22px;
+  overflow: visible;
+  background: #321426;
+  box-shadow: 0 0 0 2px rgba(255, 177, 59, 0),
+              0 0 28px rgba(255, 139, 24, 0);
+}
+.wheel-center-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 22px;
+  z-index: 0;
+  opacity: .96;
+  pointer-events: none;
+}
+canvas.wheel-canvas {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.wheel-pointer {
+  z-index: 3;
+}
+@media (max-width: 520px) {
+  .wheel-container {
+    width: min(100%, 390px);
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .wheel-center-art { border-radius: 16px; }
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 52vh;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 100%);
-      z-index: 0;
-      pointer-events: none;
-      animation: riseOverlay 1.2s ease-out forwards;
-    }
 
-    @keyframes riseOverlay {
-      0% { transform: translateY(100%); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
+/* Día de Muertos artwork behind the entire roulette display */
+#tab-agents .col-lg-8 > .card-custom,
+#tab-prizes .col-lg-8 > .card-custom {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(25, 8, 22, .48), rgba(25, 8, 22, .66)),
+    url("https://od.lk/s/M18zMzkzODc0ODhfWGJHRmU/jpeg.jpeg") center / cover no-repeat;
+  border: 1px solid rgba(255, 177, 59, .72);
+  box-shadow: 0 12px 34px rgba(0,0,0,.42), 0 0 28px rgba(255,138,24,.18);
+}
+#tab-agents .col-lg-8 > .card-custom > *,
+#tab-prizes .col-lg-8 > .card-custom > * {
+  position: relative;
+  z-index: 1;
+}
+/* Keep the wheel transparent around its circular canvas so the panel artwork remains visible */
+#tab-agents .wheel-container,
+#tab-prizes .wheel-container {
+  background: transparent;
+}
 
-    .spooky-font {
-      font-family: 'Creepster', cursive;
-      letter-spacing: 2px;
-    }
-
-    .page-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .brand-logo {
-      width: clamp(90px, 10vw, 180px);
-      max-height: 90px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 16px rgba(255, 123, 44, 0.25));
-      border-radius: 0px;
-      padding: 0.35rem 0.5rem;
-    }
-
-    .ghost-mark,
-    .skull-mark {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(1.8rem, 2.8vw, 3rem);
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .ghost-mark {
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
-      animation: ghostFloat 2.3s ease-in-out infinite alternate;
-    }
-
-    .skull-mark {
-      filter: drop-shadow(0 0 10px rgba(255, 123, 44, 0.22));
-      animation: skullFloat 2s ease-in-out infinite alternate;
-    }
-
-    .title-halloween {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.25rem 0.7rem;
-      font-size: clamp(2.1rem, 3.5vw, 3.8rem);
-      color: var(--pumpkin-orange);
-      text-shadow: 0 0 26px rgba(255, 123, 44, 0.25);
-      margin: 0;
-      line-height: 1.1;
-      text-align: center;
-    }
-
-    .title-word {
-      display: inline-block;
-    }
-
-    @keyframes ghostFloat {
-      0% { transform: translateY(0) rotate(-3deg); }
-      100% { transform: translateY(-6px) rotate(3deg); }
-    }
-
-    @keyframes skullFloat {
-      0% { transform: translateY(0) rotate(-5deg); }
-      100% { transform: translateY(-6px) rotate(5deg); }
-    }
-
-    .card-custom {
-      background: linear-gradient(180deg, rgba(20, 18, 16, 0.9), rgba(10, 8, 8, 0.94));
-      border: 1px solid rgba(255, 123, 44, 0.38);
-      border-radius: 0.85rem;
-      box-shadow: 0 12px 24px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.02);
-      position: relative;
-      z-index: 1;
-    }
-
-    .btn-pumpkin {
-      background-color: var(--pumpkin-orange);
-      color: #000;
-      font-weight: 800;
-      border: none;
-    }
-
-    .btn-pumpkin:hover:not(:disabled) {
-      background-color: #ff8c3b;
-      color: #000;
-    }
-
-    .btn-pumpkin:disabled {
-      background-color: #382516;
-      color: #7d6553;
-    }
-
-    .btn-slime {
-      background-color: var(--slime-green);
-      color: #000;
-      font-weight: 800;
-      border: none;
-    }
-
-    .btn-slime:hover:not(:disabled) {
-      background-color: #5eff3d;
-      color: #000;
-    }
-
-    .btn-slime:disabled {
-      background-color: #173814;
-      color: #567d53;
-    }
-
-    .wheel-container {
-      position: relative;
-      display: inline-block;
-      margin: 10px auto;
-    }
-
-    .wheel-pointer {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 28px solid var(--pumpkin-orange);
-      z-index: 5;
-      filter: drop-shadow(0 0 10px rgba(255, 123, 44, 0.45));
-    }
-
-    canvas.wheel-canvas {
-      border-radius: 50%;
-      background: radial-gradient(circle at center, #1d120d 0%, #090909 48%, #000000 100%);
-      border: 4px solid rgba(255, 123, 44, 0.7);
-      display: block;
-      max-width: 100%;
-      height: auto;
-      box-shadow: 0 0 0 4px rgba(255, 123, 44, 0.08), 0 0 30px rgba(255, 123, 44, 0.2);
-    }
-
-    .graveyard-list {
-      max-height: 170px;
-      overflow-y: auto;
-      border: 1px dashed var(--border-purple);
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-      background: #0a0512;
-    }
-
-    .graveyard-item {
-      font-size: 0.85rem;
-      padding: 5px 8px;
-      margin-bottom: 4px;
-      background: rgba(217, 4, 41, 0.2);
-      border-left: 3px solid var(--blood-red);
-      color: #ff9da9;
-      border-radius: 3px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .winner-item {
-      font-size: 0.85rem;
-      padding: 5px 8px;
-      margin-bottom: 4px;
-      background: rgba(57, 255, 20, 0.15);
-      border-left: 3px solid var(--slime-green);
-      color: #b9ffaa;
-      border-radius: 3px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .winner-announcement {
-      border: 2px solid var(--slime-green);
-      background-color: #101c10;
-    }
-
-    .global-announcement {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.92);
-      width: min(92vw, 760px);
-      min-height: 210px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem 2.4rem;
-      border-radius: 1.4rem;
-      border: 2px solid rgba(255,255,255,0.1);
-      background: rgba(10, 5, 18, 0.88);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 24px 70px rgba(0,0,0,0.42);
-      z-index: 9999;
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-    }
-
-    .global-announcement.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translate(-50%, -50%) scale(1);
-      animation: announcementPulse 0.8s ease-out;
-    }
-
-    .global-announcement.winner {
-      border-color: rgba(57, 255, 20, 0.8);
-      background: linear-gradient(135deg, rgba(26, 64, 24, 0.9), rgba(10, 19, 12, 0.92));
-      box-shadow: 0 28px 80px rgba(57, 255, 20, 0.2);
-    }
-
-    .global-announcement.elimination {
-      border-color: rgba(255, 82, 82, 0.8);
-      background: linear-gradient(135deg, rgba(76, 0, 0, 0.85), rgba(22, 8, 8, 0.92));
-      box-shadow: 0 28px 80px rgba(255, 82, 82, 0.2);
-    }
-
-    .announcement-badge {
-      display: inline-block;
-      padding: 0.45rem 1rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-    }
-
-    .announcement-name {
-      font-size: clamp(2rem, 4vw, 4.2rem);
-      line-height: 1.05;
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      margin: 0;
-      text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
-    }
-
-    .announcement-extra {
-      margin-top: 0.8rem;
-      font-size: clamp(1rem, 1.7vw, 1.55rem);
-      line-height: 1.4;
-      color: rgba(255,255,255,0.85);
-      font-weight: 700;
-    }
-
-    @keyframes announcementPulse {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.75); }
-      60% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    #statusAlert,
-    #winnerCard,
-    #finalPrizeCard {
-      position: relative;
-      overflow: hidden;
-      transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-    }
-
-    #statusAlert.elimination-mode {
-      background: linear-gradient(135deg, rgba(76, 0, 0, 0.65), rgba(29, 12, 12, 0.9));
-      border-color: rgba(255, 82, 82, 0.95);
-      box-shadow: 0 0 20px rgba(255, 82, 82, 0.35), inset 0 0 18px rgba(255, 82, 82, 0.18);
-      animation: skullPulse 0.8s ease-in-out 2;
-    }
-
-    #statusAlert.winner-mode {
-      background: linear-gradient(135deg, rgba(0, 78, 36, 0.7), rgba(14, 29, 17, 0.88));
-      border-color: rgba(57, 255, 20, 0.95);
-      box-shadow: 0 0 20px rgba(57, 255, 20, 0.38), inset 0 0 18px rgba(57, 255, 20, 0.14);
-      animation: lightningPulse 0.75s ease-in-out 2;
-    }
-
-    #statusAlert.elimination-mode::after {
-      content: '☠️';
-      position: absolute;
-      right: 14px;
-      top: 10px;
-      font-size: 2rem;
-      opacity: 0.8;
-      animation: skullFloat 1s ease-in-out infinite alternate;
-    }
-
-    #statusAlert.winner-mode::after {
-      content: '⚡';
-      position: absolute;
-      right: 14px;
-      top: 10px;
-      font-size: 2rem;
-      opacity: 0.9;
-      animation: lightningFlash 0.6s ease-in-out infinite alternate;
-    }
-
-    #winnerCard.lightning {
-      background: linear-gradient(135deg, rgba(42, 91, 17, 0.8), rgba(12, 24, 7, 0.9));
-      border-color: rgba(57, 255, 20, 0.95);
-      box-shadow: 0 0 24px rgba(57, 255, 20, 0.35), inset 0 0 18px rgba(57, 255, 20, 0.12);
-      animation: lightningBurst 0.9s ease-in-out 2;
-    }
-
-    @keyframes skullPulse {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.01); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes lightningPulse {
-      0% { transform: scale(1); filter: brightness(1); }
-      30% { transform: scale(1.015); filter: brightness(1.25); }
-      60% { transform: scale(1.02); filter: brightness(1.4); }
-      100% { transform: scale(1); filter: brightness(1); }
-    }
-
-    @keyframes lightningFlash {
-      0% { opacity: 0.35; transform: translateY(0) scale(1); }
-      50% { opacity: 1; transform: translateY(-2px) scale(1.12); }
-      100% { opacity: 0.5; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes skullFloat {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(-4px) rotate(8deg); }
-    }
-
-    @keyframes lightningBurst {
-      0% { box-shadow: 0 0 0 rgba(57, 255, 20, 0); }
-      50% { box-shadow: 0 0 30px rgba(57, 255, 20, 0.75), 0 0 50px rgba(57, 255, 20, 0.5); }
-      100% { box-shadow: 0 0 0 rgba(57, 255, 20, 0); }
-    }
-
-    .form-select, .form-control {
-      background-color: #0a0512;
-      border-color: var(--border-purple);
-      color: #f1f1f1;
-    }
-
-    .form-select:focus, .form-control:focus {
-      background-color: #0f071a;
-      border-color: var(--pumpkin-orange);
-      color: #fff;
-      box-shadow: 0 0 0 0.25rem rgba(255, 117, 24, 0.25);
-    }
-
-    .modal-content {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-purple);
-      color: #f1f1f1;
-    }
-
-    .modal-header, .modal-footer {
-      border-color: var(--border-purple);
-    }
-
-    @media (min-width: 1500px) {
-      body {
-        padding: 1.25rem 0.9rem;
-      }
-
-      .container-fluid {
-        max-width: 980px !important;
-      }
-
-      .header-title-row {
-        gap: 1rem;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .header-title-row {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .title-halloween {
-        white-space: normal;
-        text-align: center;
-      }
-
-      .title-side {
-        min-width: 60px;
-      }
-    }
-  </style>
+</style>
 </head>
 <body>
-
-  <div id="globalAnnouncement" class="global-announcement" aria-live="polite" aria-atomic="true">
-    <div id="announcementBadge" class="announcement-badge">Winner</div>
-    <div id="announcementName" class="announcement-name">Name</div>
-    <div id="announcementExtra" class="announcement-extra">Congratulations!</div>
-  </div>
-
-  <div class="container-fluid" style="max-width: min(980px, 88vw);">
-    <!-- Encabezado -->
-    <div class="page-header">
-      <img class="brand-logo" src="https://od.lk/s/M18zMzkyMTgwMTFfSXA5aVo/66cf319bf92f5b9598b0601e_Extend_logo%20%281%29.png" alt="Campaign logo">
-      <h1 class="spooky-font title-halloween">
-        <span class="skull-mark" aria-hidden="true">☠️</span>
-        <span class="title-word">Halloween</span>
-        <span class="title-word">Spin Royale</span>
-        <span class="ghost-mark" aria-hidden="true">👻</span>
-      </h1>
-      <p class="text-secondary mb-0">Weekly draw: eliminate entrants and prizes until the winners and their reward are revealed.</p>
-    </div>
-
-    <!-- Tabs -->
-    <ul class="nav nav-pills justify-content-center gap-2 mb-4" id="mainTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom active" id="tab-agents-btn" data-bs-toggle="pill" data-bs-target="#tab-agents" aria-selected="true" role="tab">
-          <i class="bi bi-people-fill text-warning me-1"></i> 1. Agent Wheel
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom" id="tab-prizes-btn" data-bs-toggle="pill" data-bs-target="#tab-prizes" aria-selected="false" role="tab" tabindex="-1">
-          <i class="bi bi-gift-fill text-success me-1"></i> 2. Prize Wheel
-        </button>
-      </li>
-    </ul>
-
-    <div class="tab-content">
-      <!-- TAB 1: AGENT WHEEL -->
-      <div class="tab-pane fade active show" id="tab-agents" role="tabpanel" aria-labelledby="tab-agents-btn">
-        <div class="row g-4 align-items-start">
-          
-          <!-- Left column: Agent configuration -->
-          <div class="col-lg-4">
-            <div class="card-custom p-3 p-md-4 mb-3">
-              <h5 class="fw-bold mb-2 text-warning d-flex align-items-center justify-content-between">
-                <span><i class="bi bi-person-lines-fill me-2"></i>Agents</span>
-                <span class="badge bg-dark border border-secondary" id="agentsCountBadge">20 active</span>
-              </h5>
-              
-              <!-- Paste and shuffle buttons -->
-              <div class="d-flex gap-2 mb-2">
-                <button type="button" class="btn btn-outline-warning btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkAgentsModal">
-                  <i class="bi bi-clipboard-plus me-1"></i>  Paste list
-                </button>
-                <button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shuffleAgents()" title="Randomize order">
-                  <i class="bi bi-shuffle me-1"></i>  Shuffle
-                </button>
-              </div>
-
-              <div class="small text-secondary mb-1">Current participants (duplicates allowed):</div>
-              <div id="agentsEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">David Villareal</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_fqj4vm2jn_1792912263870" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Noe</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_c5ujq6ppy_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Vito</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7vc14sg9h_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Henry</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73467jxjj_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Adriana</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ky4hzn6ls_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Aida</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vwmsv5jg8_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Alex Negrete</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_mh8u56m59_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Adrian Rmz</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_43yvttagh_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Chano Villareal</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_q29v0rq9e_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Hector Avila</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_atcubtwhv_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Hector Peña</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_8rf9djaig_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Ingrid</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_zdf701xrv_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">JC</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ato2ohysi_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Kler</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_cxdhn0kg7_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Bonie</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ie1hfki99_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">David Razo</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7n3wvfnf6_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Santiago</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_5so4ctnie_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Valeria</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_o8t5ce247_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">David Trujillo</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73bdc8et4_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Siuloong</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vnbdfjtko_1792912263871" aria-label="Quitar una entrada" title="Quitar esta entrada">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      </div>
-
-              <div class="mb-3">
-                <div class="d-flex gap-2">
-                  <input id="newAgentNameInput" type="text" class="form-control form-control-sm" placeholder="Add a name..." maxlength="60">
-                  <button id="addAgentBtn" type="button" class="btn btn-sm btn-pumpkin">Add</button>
-                </div>
-              </div>
-
-              <textarea id="agentsInput" class="d-none" aria-hidden="true">David Villareal
+<div id="globalAnnouncement" class="global-announcement" aria-live="polite" aria-atomic="true">
+<div id="announcementBadge" class="announcement-badge">Winner</div>
+<div id="announcementName" class="announcement-name">Name</div>
+<div id="announcementExtra" class="announcement-extra">Congratulations!</div>
+</div>
+<div class="container-fluid" style="max-width: min(980px, 88vw);">
+<div class="page-header">
+<img class="brand-logo" src="https://od.lk/s/M18zMzkyMTgwMTFfSXA5aVo/66cf319bf92f5b9598b0601e_Extend_logo%20%281%29.png" alt="Campaign logo">
+<h1 class="spooky-font title-halloween">
+<img class="title-flank title-flank-left" src="https://od.lk/s/M18zMzkzODc5OTBfWHlvcnU/Designer%20%283%29.png" alt="Left floral decoration">
+<span class="title-word">Día de Muertos</span>
+<span class="title-word">Spin Royale</span>
+<img class="title-flank title-flank-right" src="https://od.lk/s/M18zMzkzODc5OTFfeWwyMVk/Designer%20%284%29.png" alt="Right floral decoration">
+</h1>
+<p class="text-secondary mb-0">Celebrate our traditions and discover the winners and their rewards in this special spin event.</p>
+</div>
+<ul class="nav nav-pills justify-content-center gap-2 mb-4" id="mainTabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom active" id="tab-agents-btn" data-bs-toggle="pill" data-bs-target="#tab-agents" aria-selected="true" role="tab">
+<i class="bi bi-people-fill text-warning me-1"></i> 1. Agent Wheel
+</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link px-4 py-2 fw-bold text-uppercase card-custom" id="tab-prizes-btn" data-bs-toggle="pill" data-bs-target="#tab-prizes" aria-selected="false" role="tab" tabindex="-1">
+<i class="bi bi-gift-fill text-success me-1"></i> 2. Prize Wheel
+</button>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade active show" id="tab-agents" role="tabpanel" aria-labelledby="tab-agents-btn">
+<div class="row g-4 align-items-start">
+<div class="col-lg-4">
+<div class="card-custom p-3 p-md-4 mb-3">
+<h5 class="fw-bold mb-2 text-warning d-flex align-items-center justify-content-between">
+<span><i class="bi bi-person-lines-fill me-2"></i>Agents</span>
+<span class="badge bg-dark border border-secondary" id="agentsCountBadge">20 active</span>
+</h5>
+<div class="d-flex gap-2 mb-2">
+<button type="button" class="btn btn-outline-warning btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkAgentsModal">
+<i class="bi bi-clipboard-plus me-1"></i>  Paste list
+</button>
+<button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shuffleAgents()" title="Randomize order">
+<i class="bi bi-shuffle me-1"></i>  Shuffle
+</button>
+</div>
+<div class="small text-secondary mb-1">Current participants (duplicates allowed):</div>
+<div id="agentsEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">David Villareal</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_fqj4vm2jn_1792912263870" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Noe</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_c5ujq6ppy_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Vito</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7vc14sg9h_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Henry</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73467jxjj_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Adriana</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ky4hzn6ls_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Aida</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vwmsv5jg8_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Alex Negrete</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_mh8u56m59_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Adrian Rmz</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_43yvttagh_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Chano Villareal</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_q29v0rq9e_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Hector Avila</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_atcubtwhv_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Hector Peña</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_8rf9djaig_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Ingrid</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_zdf701xrv_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">JC</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ato2ohysi_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Kler</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_cxdhn0kg7_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Bonie</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ie1hfki99_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">David Razo</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7n3wvfnf6_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Santiago</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_5so4ctnie_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Valeria</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_o8t5ce247_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">David Trujillo</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73bdc8et4_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Siuloong</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vnbdfjtko_1792912263871" aria-label="Remove entry" title="Remove this entry">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+</div>
+<div class="mb-3">
+<div class="d-flex gap-2">
+<input id="newAgentNameInput" type="text" class="form-control form-control-sm" placeholder="Add a name..." maxlength="60">
+<button id="addAgentBtn" type="button" class="btn btn-sm btn-pumpkin">Add</button>
+</div>
+</div>
+<textarea id="agentsInput" class="d-none" aria-hidden="true">David Villareal
 Noe
 Vito
 Henry
@@ -698,1649 +753,1259 @@ Santiago
 Valeria
 David Trujillo
 Siuloong</textarea>
-
-              <!-- AGENT RULES PANEL -->
-              <div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
-                <div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Agent rules:</div>
-
-                <!-- How many are eliminated -->
-                <div class="mb-2">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="small text-light">1. How many are eliminated?</span>
-                    <input type="number" id="numEliminatedInput" class="form-control form-control-sm text-center" style="width: 70px;" value="3" min="0">
-                  </div>
-                  <small class="text-secondary d-block" style="font-size: 0.72rem;">(0 if you want a direct winner draw without elimination)</small>
-                </div>
-
-                <!-- How many winners -->
-                <div>
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="small text-success fw-semibold">2. How many winners?</span>
-                    <input type="number" id="numWinnersInput" class="form-control form-control-sm text-center" style="width: 70px;" value="1" min="1">
-                  </div>
-                  <small class="text-secondary d-block" style="font-size: 0.72rem;">Winners will be selected from the remaining entries.</small>
-                </div>
-              </div>
-
-              <button id="loadAgentsBtn" class="btn btn-pumpkin w-100 mb-2">
-                <i class="bi bi-arrow-repeat me-1"></i> Load to wheel
-              </button>
-
-              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25">
-                <span class="small text-secondary">Sound:</span>
-                <button id="toggleSoundBtn" class="btn btn-sm btn-outline-warning">
-                  <i class="bi bi-volume-up-fill" id="soundIcon"></i> <span id="soundText">On</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Graveyard and Winners -->
-            <div class="card-custom p-3 mb-2">
-              <h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
-                <span>🪦 Graveyard (Eliminated)</span>
-                <span class="badge bg-danger text-white" id="eliminatedCount">0</span>
-              </h6>
-              <div id="graveyardList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">Nobody has fallen yet...</div></div>
-            </div>
-
-            <div class="card-custom p-3">
-              <h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
-                <span>👑 Selected Winners</span>
-                <span class="badge bg-success text-dark" id="winnersCountBadge">0</span>
-              </h6>
-              <div id="winnersList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">None yet...</div></div>
-            </div>
-          </div>
-
-          <!-- Right column: Agent wheel -->
-          <div class="col-lg-8 text-center">
-            <div class="card-custom p-4">
-              <!-- Status banner -->
-              <div id="statusAlert" class="alert alert-dark border-secondary p-3 mb-3">
-                <h5 class="mb-0 fw-bold" id="statusTitle">Elimination phase!</h5>
-                <small class="text-secondary" id="statusSubtitle">The selected ticket goes to the graveyard (3 left to eliminate).</small>
-              </div>
-
-              <!-- phase and round badges -->
-              <div class="d-flex justify-content-center gap-2 mb-2">
-                <span id="phaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Elimination ☠️</span>
-                <span id="roundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Eliminated: 0 / 3</span>
-              </div>
-
-              <!-- Ruleta -->
-              <div class="wheel-container mb-3">
-                <div class="wheel-pointer"></div>
-                <canvas id="agentsWheel" class="wheel-canvas" width="420" height="420"></canvas>
-              </div>
-
-              <!-- Botones de Acción -->
-              <div class="d-flex flex-wrap justify-content-center gap-3">
-                <button id="spinAgentBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">🎃 SPIN TO ELIMINATE!</button>
-                <button id="resetAllBtn" class="btn btn-outline-secondary btn-lg">
-                  <i class="bi bi-arrow-counterclockwise"></i> Reset
-                </button>
-              </div>
-
-              <!-- Final winner card -->
-              <div id="winnerCard" class="card-custom winner-announcement p-4 mt-4 d-none">
-                <h2 class="spooky-font text-warning mb-1" id="winnerHeadline">👑 WINNERS OF THE NIGHT! 👑</h2>
-                <div id="winnerNamesBox" class="my-3"></div>
-                <p class="text-light mb-3">Congratulations to the champions! Now let’s spin the prize wheel.</p>
-                <button id="goToPrizeBtn" class="btn btn-slime btn-lg px-4 py-2 fs-5">
-                  🎁 Spin prizes on wheel 2! ➡️
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- TAB 2: PRIZE WHEEL -->
-      <div class="tab-pane fade" id="tab-prizes" role="tabpanel" aria-labelledby="tab-prizes-btn">
-        <div class="row g-4 align-items-start">
-          
-          <!-- Left column: Prize configuration -->
-          <div class="col-lg-4">
-            <div class="card-custom p-3 p-md-4 mb-3">
-              <h5 class="fw-bold mb-2 text-success d-flex align-items-center justify-content-between">
-                <span><i class="bi bi-gift-fill me-2"></i>Prize Bag</span>
-                <span class="badge bg-dark border border-secondary" id="prizesCountBadge">7 available</span>
-              </h5>
-
-              <!-- Paste and shuffle prize buttons -->
-              <div class="d-flex gap-2 mb-2">
-                <button type="button" class="btn btn-outline-success btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkPrizesModal">
-                  <i class="bi bi-clipboard-plus me-1"></i>  Paste list
-                </button>
-                <button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shufflePrizes()" title="Randomize order">
-                  <i class="bi bi-shuffle me-1"></i>  Shuffle
-                </button>
-              </div>
-
-              <div class="small text-secondary mb-1">Current prizes:</div>
-              <div id="prizesEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Cash Bonus 💵</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_8ry33rmet_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Paid Day Off 🏖️</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_jwv3tc86u_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Leave 2 hours early ⏰</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_oz1textzk_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Free Food / Pizza 🍕</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_vqnx0prbs_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Gift Card 🎁</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_7py7s35f3_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">VIP pass without calls 🎧</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_4016bfclw_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">Halloween sweets 🍬</span>
-          <button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_fp2o7gasj_1792912263894" aria-label="Remove prize" title="Remove prize">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      </div>
-
-              <div class="mb-3">
-                <div class="d-flex gap-2">
-                  <input id="newPrizeInput" type="text" class="form-control form-control-sm" placeholder="Add a prize..." maxlength="80">
-                  <button id="addPrizeBtn" type="button" class="btn btn-sm btn-slime">Add</button>
-                </div>
-              </div>
-
-              <textarea id="prizesInput" class="d-none" aria-hidden="true">Cash Bonus 💵
+<div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
+<div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Agent rules:</div>
+<div class="mb-2">
+<div class="d-flex justify-content-between align-items-center mb-1">
+<span class="small text-light">1. How many are eliminated?</span>
+<input type="number" id="numEliminatedInput" class="form-control form-control-sm text-center" style="width: 70px;" value="3" min="0">
+</div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">(0 if you want a direct winner draw without elimination)</small>
+</div>
+<div>
+<div class="d-flex justify-content-between align-items-center mb-1">
+<span class="small text-success fw-semibold">2. How many winners?</span>
+<input type="number" id="numWinnersInput" class="form-control form-control-sm text-center" style="width: 70px;" value="1" min="1">
+</div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">Winners will be selected from the remaining entries.</small>
+</div>
+</div>
+<button id="loadAgentsBtn" class="btn btn-pumpkin w-100 mb-2">
+<i class="bi bi-arrow-repeat me-1"></i> Load to wheel
+</button>
+<div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25">
+<span class="small text-secondary">Sound:</span>
+<button id="toggleSoundBtn" class="btn btn-sm btn-outline-warning">
+<i class="bi bi-volume-up-fill" id="soundIcon"></i> <span id="soundText">On</span>
+</button>
+</div>
+</div>
+<div class="card-custom p-3 mb-2">
+<h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
+<span>🌼 Eliminated Participants Altar</span>
+<span class="badge bg-danger text-white" id="eliminatedCount">0</span>
+</h6>
+<div id="graveyardList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">Eliminated participants will appear here...</div></div>
+</div>
+<div class="card-custom p-3">
+<h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
+<span>👑 Selected Winners</span>
+<span class="badge bg-success text-dark" id="winnersCountBadge">0</span>
+</h6>
+<div id="winnersList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">None yet...</div></div>
+</div>
+</div>
+<div class="col-lg-8 text-center">
+<div class="card-custom p-4">
+<div id="statusAlert" class="alert alert-dark border-secondary p-3 mb-3">
+<h5 class="mb-0 fw-bold" id="statusTitle">Elimination phase!</h5>
+<small class="text-secondary" id="statusSubtitle">The selected participant will be added to the altar (3 left to eliminate).</small>
+</div>
+<div class="d-flex justify-content-center gap-2 mb-2">
+<span id="phaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Elimination 🌺</span>
+<span id="roundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Eliminated: 0 / 3</span>
+</div>
+<div class="wheel-container mb-3">
+<div class="wheel-pointer"></div>
+<canvas id="agentsWheel" class="wheel-canvas" width="420" height="420"></canvas>
+</div>
+<div class="d-flex flex-wrap justify-content-center gap-3">
+<button id="spinAgentBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">🏵️ SPIN TO REVEAL</button>
+<button id="resetAllBtn" class="btn btn-outline-secondary btn-lg">
+<i class="bi bi-arrow-counterclockwise"></i> Reset
+</button>
+</div>
+<div id="winnerCard" class="card-custom winner-announcement p-4 mt-4 d-none">
+<h2 class="spooky-font text-warning mb-1" id="winnerHeadline">👑 CELEBRATION WINNERS! 👑</h2>
+<div id="winnerNamesBox" class="my-3"></div>
+<p class="text-light mb-3">Congratulations to the champions! Now let’s spin the prize wheel.</p>
+<button id="goToPrizeBtn" class="btn btn-slime btn-lg px-4 py-2 fs-5">
+🎁 Spin prizes on wheel 2! ➡️
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="tab-prizes" role="tabpanel" aria-labelledby="tab-prizes-btn">
+<div class="row g-4 align-items-start">
+<div class="col-lg-4">
+<div class="card-custom p-3 p-md-4 mb-3">
+<h5 class="fw-bold mb-2 text-success d-flex align-items-center justify-content-between">
+<span><i class="bi bi-gift-fill me-2"></i>Prize Bag</span>
+<span class="badge bg-dark border border-secondary" id="prizesCountBadge">7 available</span>
+</h5>
+<div class="d-flex gap-2 mb-2">
+<button type="button" class="btn btn-outline-success btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkPrizesModal">
+<i class="bi bi-clipboard-plus me-1"></i>  Paste list
+</button>
+<button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shufflePrizes()" title="Randomize order">
+<i class="bi bi-shuffle me-1"></i>  Shuffle
+</button>
+</div>
+<div class="small text-secondary mb-1">Current prizes:</div>
+<div id="prizesEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Cash Bonus 💵</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_8ry33rmet_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Paid Day Off 🏖️</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_jwv3tc86u_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Leave 2 hours early ⏰</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_oz1textzk_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Free Food / Pizza 🍕</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_vqnx0prbs_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Gift Card 🎁</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_7py7s35f3_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">VIP pass without calls 🎧</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_4016bfclw_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">Día de Muertos sweets 🍬</span>
+<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_fp2o7gasj_1792912263894" aria-label="Remove prize" title="Remove prize">
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+</div>
+<div class="mb-3">
+<div class="d-flex gap-2">
+<input id="newPrizeInput" type="text" class="form-control form-control-sm" placeholder="Add a prize..." maxlength="80">
+<button id="addPrizeBtn" type="button" class="btn btn-sm btn-slime">Add</button>
+</div>
+</div>
+<textarea id="prizesInput" class="d-none" aria-hidden="true">Cash Bonus 💵
 Paid Day Off 🏖️
 Leave 2 hours early ⏰
 Free Food / Pizza 🍕
 Gift Card 🎁
 VIP pass without calls 🎧
-Halloween sweets 🍬</textarea>
-
-              <!-- PRIZE RULES PANEL -->
-              <div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
-                <div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Prize rules:</div>
-
-                <div class="mb-2">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="small text-light">1. How many are eliminated?</span>
-                    <input type="number" id="numElimPrizesInput" class="form-control form-control-sm text-center" style="width: 70px;" value="2" min="0">
-                  </div>
-                  <small class="text-secondary d-block" style="font-size: 0.72rem;">(Prizes discarded before the award)</small>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="small text-success fw-semibold">2. Prizes to award:</span>
-                  <span class="badge bg-success text-dark" id="prizesToAwardBadge">1</span>
-                </div>
-                <small class="text-secondary d-block" style="font-size: 0.72rem;">Synced with winners chosen in wheel 1.</small>
-              </div>
-
-              <button id="loadPrizesBtn" class="btn btn-slime w-100 mb-3">
-                <i class="bi bi-arrow-repeat me-1"></i> Load prizes into the wheel
-              </button>
-
-              <div class="p-3 border border-warning border-opacity-50 rounded bg-dark mb-3">
-                <div class="small text-secondary">Prize turn:</div>
-                <div class="fs-5 fw-bold text-warning mt-1" id="currentWinnerToPrizeDisplay">No winner selected in wheel 1</div>
-              </div>
-            </div>
-
-            <!-- Discarded prize cemetery -->
-            <div class="card-custom p-3 mb-2">
-              <h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
-                <span>🗑️ Discarded Prizes</span>
-                <span class="badge bg-danger text-white" id="eliminatedPrizesCount">0</span>
-              </h6>
-              <div id="discardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div></div>
-            </div>
-
-            <!-- Awarded prizes -->
-            <div class="card-custom p-3">
-              <h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
-                <span>🎁 Rewards Awarded Today</span>
-                <span class="badge bg-success text-dark" id="awardedPrizesCount">0</span>
-              </h6>
-              <div id="awardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">None yet...</div></div>
-            </div>
-          </div>
-
-          <!-- Right column: Prize wheel -->
-          <div class="col-lg-8 text-center">
-            <div class="card-custom p-4">
-              <div id="prizeStatusAlert" class="alert alert-dark border-secondary p-3 mb-3">
-                <h5 class="mb-0 fw-bold text-warning" id="prizeStatusTitle">Prize discard phase!</h5>
-                <small class="text-secondary" id="prizeStatusSubtitle">The prize that comes up will be removed from the wheel (2 left to discard).</small>
-              </div>
-
-              <!-- Prize phase and round badges -->
-              <div class="d-flex justify-content-center gap-2 mb-2">
-                <span id="prizePhaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Prize Discard ☠️</span>
-                <span id="prizeRoundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Discarded: 0 / 2</span>
-              </div>
-
-              <div class="wheel-container mb-3">
-                <div class="wheel-pointer"></div>
-                <canvas id="prizesWheel" class="wheel-canvas" width="420" height="420"></canvas>
-              </div>
-
-              <div class="d-flex flex-wrap justify-content-center gap-3">
-                <button id="spinPrizeBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">☠️ SPIN TO DISCARD PRIZE!</button>
-                <button id="resetPrizesBtn" class="btn btn-outline-secondary btn-lg">
-                  <i class="bi bi-arrow-counterclockwise"></i> Reset prizes
-                </button>
-              </div>
-
-              <!-- Winning prize card -->
-              <div id="finalPrizeCard" class="card-custom winner-announcement p-4 mt-4 d-none">
-                <h3 class="spooky-font text-warning mb-1">🎉 PRIZE WON! 🎉</h3>
-                <h2 class="fw-bold text-white" id="finalAgentName">Agent</h2>
-                <h1 class="display-6 fw-bold text-success my-3" id="finalPrizeWon">Prize</h1>
-                <button id="nextWinnerPrizeBtn" class="btn btn-outline-warning btn-sm mt-2 d-none">
-                  Next winner ➡️
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: PASTE ALL AGENTS AT ONCE -->
-  <div class="modal fade" id="bulkAgentsModal" tabindex="-1" aria-labelledby="bulkAgentsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold text-warning" id="bulkAgentsModalLabel">
-            <i class="bi bi-clipboard-data me-2"></i> Paste participant list
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p class="small text-secondary mb-2">
-            Paste your list here (duplicate names are allowed, one entry per line):
-          </p>
-          <textarea id="bulkAgentsTextarea" class="form-control" rows="8" placeholder="Paste the names here...
+Día de Muertos sweets 🍬</textarea>
+<div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
+<div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Prize rules:</div>
+<div class="mb-2">
+<div class="d-flex justify-content-between align-items-center mb-1">
+<span class="small text-light">1. How many are eliminated?</span>
+<input type="number" id="numElimPrizesInput" class="form-control form-control-sm text-center" style="width: 70px;" value="2" min="0">
+</div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">(Prizes discarded before the award)</small>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+<span class="small text-success fw-semibold">2. Prizes to award:</span>
+<span class="badge bg-success text-dark" id="prizesToAwardBadge">1</span>
+</div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">Synced with winners chosen in wheel 1.</small>
+</div>
+<button id="loadPrizesBtn" class="btn btn-slime w-100 mb-3">
+<i class="bi bi-arrow-repeat me-1"></i> Load prizes into the wheel
+</button>
+<div class="p-3 border border-warning border-opacity-50 rounded bg-dark mb-3">
+<div class="small text-secondary">Prize turn:</div>
+<div class="fs-5 fw-bold text-warning mt-1" id="currentWinnerToPrizeDisplay">No winner selected in wheel 1</div>
+</div>
+</div>
+<div class="card-custom p-3 mb-2">
+<h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
+<span>🗑️ Discarded Prizes</span>
+<span class="badge bg-danger text-white" id="eliminatedPrizesCount">0</span>
+</h6>
+<div id="discardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div></div>
+</div>
+<div class="card-custom p-3">
+<h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
+<span>🎁 Rewards Awarded Today</span>
+<span class="badge bg-success text-dark" id="awardedPrizesCount">0</span>
+</h6>
+<div id="awardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">None yet...</div></div>
+</div>
+</div>
+<div class="col-lg-8 text-center">
+<div class="card-custom p-4">
+<div id="prizeStatusAlert" class="alert alert-dark border-secondary p-3 mb-3">
+<h5 class="mb-0 fw-bold text-warning" id="prizeStatusTitle">Prize discard phase!</h5>
+<small class="text-secondary" id="prizeStatusSubtitle">The prize that comes up will be removed from the wheel (2 left to discard).</small>
+</div>
+<div class="d-flex justify-content-center gap-2 mb-2">
+<span id="prizePhaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Prize Discard 🌺</span>
+<span id="prizeRoundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Discarded: 0 / 2</span>
+</div>
+<div class="wheel-container mb-3">
+<div class="wheel-pointer"></div>
+<canvas id="prizesWheel" class="wheel-canvas" width="420" height="420"></canvas>
+</div>
+<div class="d-flex flex-wrap justify-content-center gap-3">
+<button id="spinPrizeBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">🌺 SPIN TO ELIMINATE PRIZE</button>
+<button id="resetPrizesBtn" class="btn btn-outline-secondary btn-lg">
+<i class="bi bi-arrow-counterclockwise"></i> Reset prizes
+</button>
+</div>
+<div id="finalPrizeCard" class="card-custom winner-announcement p-4 mt-4 d-none">
+<h3 class="spooky-font text-warning mb-1">🎉 PRIZE WON! 🎉</h3>
+<h2 class="fw-bold text-white" id="finalAgentName">Agent</h2>
+<h1 class="display-6 fw-bold text-success my-3" id="finalPrizeWon">Prize</h1>
+<button id="nextWinnerPrizeBtn" class="btn btn-outline-warning btn-sm mt-2 d-none">
+Next winner ➡️
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="bulkAgentsModal" tabindex="-1" aria-labelledby="bulkAgentsModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title fw-bold text-warning" id="bulkAgentsModalLabel">
+<i class="bi bi-clipboard-data me-2"></i> Paste participant list
+</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<p class="small text-secondary mb-2">
+Paste your list here (duplicate names are allowed, one entry per line):
+</p>
+<textarea id="bulkAgentsTextarea" class="form-control" rows="8" placeholder="Paste the names here...
 John Doe
 John Doe
 Maria Gomez"></textarea>
-        </div>
-        <div class="modal-footer d-flex justify-content-between">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-warning" onclick="processBulkAgents(false)">
-              ➕ Add to current list
-            </button>
-            <button type="button" class="btn btn-pumpkin" onclick="processBulkAgents(true)">
-              🔄 Replace full list
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: PASTE ALL PRIZES AT ONCE -->
-  <div class="modal fade" id="bulkPrizesModal" tabindex="-1" aria-labelledby="bulkPrizesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold text-success" id="bulkPrizesModalLabel">
-            <i class="bi bi-gift me-2"></i> Paste prize list
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p class="small text-secondary mb-2">
-            Paste all the prizes you want to spin (one prize per line):
-          </p>
-          <textarea id="bulkPrizesTextarea" class="form-control" rows="8" placeholder="Paste the prizes here...
+</div>
+<div class="modal-footer d-flex justify-content-between">
+<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+<div class="d-flex gap-2">
+<button type="button" class="btn btn-outline-warning" onclick="processBulkAgents(false)">
+➕ Add to current list
+</button>
+<button type="button" class="btn btn-pumpkin" onclick="processBulkAgents(true)">
+🔄 Replace full list
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="bulkPrizesModal" tabindex="-1" aria-labelledby="bulkPrizesModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title fw-bold text-success" id="bulkPrizesModalLabel">
+<i class="bi bi-gift me-2"></i> Paste prize list
+</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<p class="small text-secondary mb-2">
+Paste all the prizes you want to spin (one prize per line):
+</p>
+<textarea id="bulkPrizesTextarea" class="form-control" rows="8" placeholder="Paste the prizes here...
 Paid Day Off 🏖️
 Cash Bonus 💵"></textarea>
-        </div>
-        <div class="modal-footer d-flex justify-content-between">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-success" onclick="processBulkPrizes(false)">
-              ➕ Add to current list
-            </button>
-            <button type="button" class="btn btn-slime" onclick="processBulkPrizes(true)">
-              🔄 Replace full list
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    // Audio nativo Web Audio API
-    let soundEnabled = true;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    let audioCtx = null;
-
-    function initAudio() {
-      if (!audioCtx) audioCtx = new AudioContext();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-    }
-
-    function playTickSound() {
-      if (!soundEnabled) return;
-      try {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(320 + Math.random() * 60, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.04);
-      } catch(e){}
-    }
-
-    function playEliminationSound() {
-      if (!soundEnabled) return;
-      try {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.9);
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.9);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.9);
-      } catch(e){}
-    }
-
-    function playVictoryFanfare() {
-      if (!soundEnabled) return;
-      try {
-        initAudio();
-        const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
-        notes.forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.12);
-          gain.gain.setValueAtTime(0.18, audioCtx.currentTime + idx * 0.12);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.12 + 0.35);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(audioCtx.currentTime + idx * 0.12);
-          osc.stop(audioCtx.currentTime + idx * 0.12 + 0.35);
-        });
-      } catch(e){}
-    }
-
-    document.getElementById('toggleSoundBtn').addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      document.getElementById('soundIcon').className = soundEnabled ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill';
-      document.getElementById('soundText').textContent = soundEnabled ? 'On' : 'Muted';
-    });
-
-    const halloweenColors = [
-      '#ff7b2c', '#171717', '#ff9d4d', '#0f0f0f',
-      '#ff7b2c', '#191919', '#ffae66', '#101010'
-    ];
-
-    // Algoritmo de barajado aleatorio (Fisher-Yates)
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    // ==========================================
-    // 1. RULETA DE AGENTES (PERMITE REPETIDOS + SHUFFLE)
-    // ==========================================
-    const AGENTS_STORAGE_KEY = 'digitalKnightRuletaParticipantes_v2';
-    // Cada elemento es un objeto { id, name } para permitir nombres repetidos de forma independiente
-    let participantItems = [];
-    let activeAgents = [];
-    let eliminatedAgents = [];
-    let chosenWinners = [];
-    let currentPhase = 'elimination';
-    let isSpinningAgents = false;
-    let agentCurrentAngle = 0;
-
-    const agentsCanvas = document.getElementById('agentsWheel');
-    const agentsCtx = agentsCanvas.getContext('2d');
-    const spinAgentBtn = document.getElementById('spinAgentBtn');
-    const agentsInput = document.getElementById('agentsInput');
-    const agentsEditorList = document.getElementById('agentsEditorList');
-    const loadAgentsBtn = document.getElementById('loadAgentsBtn');
-    const addAgentBtn = document.getElementById('addAgentBtn');
-    const newAgentNameInput = document.getElementById('newAgentNameInput');
-    const agentsCountBadge = document.getElementById('agentsCountBadge');
-    const graveyardList = document.getElementById('graveyardList');
-    const winnersList = document.getElementById('winnersList');
-    const eliminatedCount = document.getElementById('eliminatedCount');
-    const winnersCountBadge = document.getElementById('winnersCountBadge');
-    const winnerCard = document.getElementById('winnerCard');
-    const winnerHeadline = document.getElementById('winnerHeadline');
-    const winnerNamesBox = document.getElementById('winnerNamesBox');
-    const statusTitle = document.getElementById('statusTitle');
-    const statusSubtitle = document.getElementById('statusSubtitle');
-    const phaseBadge = document.getElementById('phaseBadge');
-    const roundsBadge = document.getElementById('roundsBadge');
-
-    const globalAnnouncement = document.getElementById('globalAnnouncement');
-    const announcementBadge = document.getElementById('announcementBadge');
-    const announcementName = document.getElementById('announcementName');
-    const announcementExtra = document.getElementById('announcementExtra');
-
-    function showGlobalAnnouncement(type, name, extraText, badgeText) {
-      if (!globalAnnouncement || !announcementBadge || !announcementName || !announcementExtra) return;
-
-      globalAnnouncement.classList.remove('winner', 'elimination');
-      globalAnnouncement.classList.add(type);
-      announcementBadge.textContent = badgeText || (type === 'winner' ? 'Winner' : 'Eliminated');
-      announcementName.textContent = name || '—';
-      announcementExtra.textContent = extraText || (type === 'winner' ? 'Congratulations!' : 'Better luck next time.');
-      globalAnnouncement.classList.add('show');
-
-      clearTimeout(showGlobalAnnouncement.timer);
-      showGlobalAnnouncement.timer = setTimeout(() => {
-        globalAnnouncement.classList.remove('show');
-      }, 3200);
-    }
-
-    const numEliminatedInput = document.getElementById('numEliminatedInput');
-    const numWinnersInput = document.getElementById('numWinnersInput');
-
-    function getNormalizedName(value) {
-      return String(value || '').trim().replace(/\s+/g, ' ');
-    }
-
-    function createAgentItem(name) {
-      return {
-        id: 'ag_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
-        name: getNormalizedName(name)
-      };
-    }
-
-    async function persistParticipants() {
-      const safeList = participantItems.map(item => ({
-        id: item.id,
-        name: getNormalizedName(item.name)
-      }));
-
-      try {
-        if (window.supabase) {
-          await saveSharedList('participants', safeList);
-          return;
-        }
-      } catch (error) {
-        console.warn('Supabase participants save failed, using localStorage fallback:', error);
-      }
-
-      try {
-        localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(safeList));
-      } catch (error) {
-        console.warn('Error al guardar participantes:', error);
-      }
-    }
-
-    async function loadParticipantsFromStorage() {
-      try {
-        if (window.supabase) {
-          const shared = await readSharedList('participants');
-          if (shared && shared.length) {
-            return shared.map(item => typeof item === 'string' ? createAgentItem(item) : ({
-              ...item,
-              name: getNormalizedName(item.name)
-            }));
-          }
-        }
-      } catch (error) {
-        console.warn('Supabase participants load failed, using localStorage fallback:', error);
-      }
-
-      try {
-        const raw = localStorage.getItem(AGENTS_STORAGE_KEY);
-        if (!raw) return null;
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return null;
-        return parsed.map(item => typeof item === 'string' ? createAgentItem(item) : item);
-      } catch (error) {
-        return null;
-      }
-    }
-
-    function renderParticipantsEditor() {
-      if (!agentsEditorList) return;
-      if (!participantItems.length) {
-        agentsEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">No participants added.</div>';
-        return;
-      }
-
-      agentsEditorList.innerHTML = participantItems.map(item => `
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">${String(item.name)}</span>
-          <button
-            type="button"
-            class="btn btn-link p-0 text-danger remove-agent-btn"
-            data-id="${item.id}"
-            aria-label="Quitar una entrada"
-            title="Quitar esta entrada"
-          >
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      `).join('');
-    }
-
-    function syncTextareaFromParticipants() {
-      agentsInput.value = participantItems.map(i => i.name).join('\n');
-    }
-
-    // BOTÓN SHUFFLE (REVOLVER NOMBRES)
-    function shuffleAgents() {
-      if (participantItems.length <= 1) return;
-      participantItems = shuffleArray([...participantItems]);
-      activeAgents = [...participantItems];
-      persistParticipants();
-      syncTextareaFromParticipants();
-      renderParticipantsEditor();
-      drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
-    }
-
-    // PEGAR LISTA COMPLETA (PERMITE DUPLICADOS)
-    function processBulkAgents(replaceWholeList) {
-      const textarea = document.getElementById('bulkAgentsTextarea');
-      const lines = textarea.value
-        .split('\n')
-        .map(s => getNormalizedName(s))
-        .filter(s => s.length > 0);
-
-      if (lines.length === 0) {
-        alert('Please paste at least one name.');
-        return;
-      }
-
-      const newItems = lines.map(name => createAgentItem(name));
-
-      if (replaceWholeList) {
-        participantItems = newItems;
-      } else {
-        participantItems = [...participantItems, ...newItems];
-      }
-
-      persistParticipants();
-      syncTextareaFromParticipants();
-      renderParticipantsEditor();
-      parseAgents();
-
-      textarea.value = '';
-      const modalEl = document.getElementById('bulkAgentsModal');
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      if (modal) modal.hide();
-    }
-
-    function addAgentToList() {
-      const normalizedName = getNormalizedName(newAgentNameInput.value);
-      if (!normalizedName) {
-        newAgentNameInput.focus();
-        return;
-      }
-
-      // Se permite agregar nombres repetidos
-      participantItems.push(createAgentItem(normalizedName));
-      persistParticipants();
-      syncTextareaFromParticipants();
-      renderParticipantsEditor();
-      parseAgents();
-      newAgentNameInput.value = '';
-      newAgentNameInput.focus();
-    }
-
-    function removeAgentItem(id) {
-      participantItems = participantItems.filter(i => i.id !== id);
-      persistParticipants();
-      syncTextareaFromParticipants();
-      renderParticipantsEditor();
-      parseAgents();
-    }
-
-    async function parseAgents() {
-      const saved = await loadParticipantsFromStorage();
-      if (saved && saved.length) {
-        participantItems = saved;
-      } else if (!participantItems.length) {
-        const defaultNames = agentsInput.value.split('\n').map(s => getNormalizedName(s)).filter(Boolean);
-        participantItems = defaultNames.map(name => createAgentItem(name));
-      }
-
-      activeAgents = [...participantItems];
-      eliminatedAgents = [];
-      chosenWinners = [];
-      winnerCard.classList.add('d-none');
-
-      let elimCount = parseInt(numEliminatedInput.value, 10) || 0;
-      let winCount = parseInt(numWinnersInput.value, 10) || 1;
-
-      if (elimCount + winCount > activeAgents.length) {
-        elimCount = Math.max(0, activeAgents.length - winCount);
-        numEliminatedInput.value = elimCount;
-      }
-
-      currentPhase = elimCount > 0 ? 'elimination' : 'winner_selection';
-
-      syncTextareaFromParticipants();
-      renderParticipantsEditor();
-      updateAgentCounters();
-      updatePhaseUI();
-      drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
-      syncWinnersWithPrizes();
-    }
-
-    addAgentBtn.addEventListener('click', addAgentToList);
-    newAgentNameInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        addAgentToList();
-      }
-    });
-
-    agentsEditorList.addEventListener('click', (event) => {
-      const button = event.target.closest('.remove-agent-btn');
-      if (!button) return;
-      const id = button.dataset.id;
-      if (!id) return;
-      removeAgentItem(id);
-    });
-
-    function updatePhaseUI() {
-      const elimTarget = parseInt(numEliminatedInput.value, 10) || 0;
-      const winTarget = parseInt(numWinnersInput.value, 10) || 1;
-
-      if (currentPhase === 'elimination') {
-        phaseBadge.textContent = 'Phase: Elimination ☠️';
-        phaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
-        roundsBadge.textContent = `Eliminated: ${eliminatedAgents.length} / ${elimTarget}`;
-        roundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
-        spinAgentBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
-        spinAgentBtn.innerHTML = '🎃 SPIN TO ELIMINATE!';
-        spinAgentBtn.disabled = activeAgents.length <= 1;
-        statusTitle.textContent = 'Elimination phase!';
-        statusSubtitle.textContent = `The selected ticket goes to the graveyard (${elimTarget - eliminatedAgents.length} left to eliminate).`;
-      } else if (currentPhase === 'winner_selection') {
-        phaseBadge.textContent = 'Phase: Choose Winner 👑';
-        phaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
-        roundsBadge.textContent = `Winners: ${chosenWinners.length} / ${winTarget}`;
-        roundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
-        spinAgentBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
-        spinAgentBtn.innerHTML = '👑 SPIN TO CHOOSE WINNER!';
-        spinAgentBtn.disabled = activeAgents.length === 0;
-        statusTitle.textContent = 'Winner phase!';
-        statusSubtitle.textContent = `Spin to choose a winner from the surviving entries! (${winTarget - chosenWinners.length} left)`;
-      } else {
-        phaseBadge.textContent = 'Draw Finished 🎉';
-        phaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
-        roundsBadge.textContent = `Total winners: ${chosenWinners.length}`;
-        spinAgentBtn.disabled = true;
-      }
-    }
-
-    function updateAgentCounters() {
-      agentsCountBadge.textContent = `${activeAgents.length} active`;
-      eliminatedCount.textContent = `${eliminatedAgents.length}`;
-      winnersCountBadge.textContent = `${chosenWinners.length}`;
-
-      if (eliminatedAgents.length === 0) {
-        graveyardList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Nobody has fallen yet...</div>';
-      } else {
-        graveyardList.innerHTML = eliminatedAgents.map((ag, i) => `
-          <div class="graveyard-item">
-            <span>🪦 #${i + 1} ${ag.name}</span>
-            <span class="text-secondary">Eliminated</span>
-          </div>
-        `).join('');
-      }
-
-      if (chosenWinners.length === 0) {
-        winnersList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">None yet...</div>';
-      } else {
-        winnersList.innerHTML = chosenWinners.map((ag, i) => `
-          <div class="winner-item">
-            <span>👑 #${i + 1} ${ag.name}</span>
-            <span class="text-success fw-bold">Winner</span>
-          </div>
-        `).join('');
-      }
-    }
-
-    function drawWheel(ctx, canvas, items, currentAngle, isPrizeWheel = false) {
-      const width = canvas.width;
-      const height = canvas.height;
-      const radius = width / 2;
-      const cx = radius;
-      const cy = radius;
-      ctx.clearRect(0, 0, width, height);
-
-      if (items.length === 0) {
-        ctx.fillStyle = '#1c102b';
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius - 8, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#8e79a8';
-        ctx.font = '16px Montserrat';
-        ctx.textAlign = 'center';
-        ctx.fillText('No items', cx, cy);
-        return;
-      }
-
-      const sliceAngle = (Math.PI * 2) / items.length;
-
-      items.forEach((item, index) => {
-        const label = typeof item === 'object' ? item.name : item;
-        const startAngle = currentAngle + index * sliceAngle;
-        const endAngle = startAngle + sliceAngle;
-        const color = halloweenColors[index % halloweenColors.length];
-
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, radius - 6, startAngle, endAngle);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#0a0512';
-        ctx.stroke();
-
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(startAngle + sliceAngle / 2);
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#ffffff';
-        ctx.font = items.length > 14 ? 'bold 11px Montserrat' : 'bold 14px Montserrat';
-        
-        const maxLen = 16;
-        const textToDraw = label.length > maxLen ? label.substring(0, maxLen) + '...' : label;
-        ctx.fillText(textToDraw, radius - 24, 5);
-        ctx.restore();
-      });
-
-      // Centro
-      ctx.beginPath();
-      ctx.arc(cx, cy, 32, 0, Math.PI * 2);
-      ctx.fillStyle = '#0a0512';
-      ctx.fill();
-      ctx.lineWidth = 3;
-      
-      const isGreen = isPrizeWheel ? (prizeCurrentPhase === 'awarding') : (currentPhase === 'winner_selection');
-      ctx.strokeStyle = isGreen ? '#39ff14' : '#ff7518';
-      ctx.stroke();
-
-      ctx.fillStyle = '#ff7518';
-      ctx.font = '20px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(isPrizeWheel ? (prizeCurrentPhase === 'awarding' ? '🎁' : '☠️') : (currentPhase === 'winner_selection' ? '👑' : '🎃'), cx, cy);
-    }
-
-    function spinAgent() {
-      if (isSpinningAgents || activeAgents.length === 0) return;
-      isSpinningAgents = true;
-      spinAgentBtn.disabled = true;
-
-      statusTitle.innerHTML = '🔮 Spinning the wheel...';
-      statusTitle.className = 'mb-0 fw-bold text-warning';
-      statusSubtitle.textContent = currentPhase === 'elimination' ? 'Who will be eliminated?' : 'Who will be the lucky winner?';
-
-      const totalSlices = activeAgents.length;
-      const sliceRad = (Math.PI * 2) / totalSlices;
-      const chosenIndex = Math.floor(Math.random() * totalSlices);
-      
-      const fullRotations = 5 + Math.floor(Math.random() * 3);
-      const targetSegmentCenter = chosenIndex * sliceRad + sliceRad / 2;
-      const finalAngle = (fullRotations * Math.PI * 2) + ((3 * Math.PI / 2) - targetSegmentCenter);
-
-      const duration = 3800;
-      const start = performance.now();
-      const initialAngle = agentCurrentAngle % (Math.PI * 2);
-      let lastTickSegment = -1;
-
-      function animate(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        agentCurrentAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
-
-        const normAngle = (agentCurrentAngle + Math.PI / 2) % (Math.PI * 2);
-        const currSegment = Math.floor((normAngle >= 0 ? normAngle : normAngle + Math.PI * 2) / sliceRad);
-        if (currSegment !== lastTickSegment) {
-          playTickSound();
-          lastTickSegment = currSegment;
-        }
-
-        drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          isSpinningAgents = false;
-          handleSpinResult(chosenIndex);
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    function handleSpinResult(index) {
-      const elimTarget = parseInt(numEliminatedInput.value, 10) || 0;
-      const winTarget = parseInt(numWinnersInput.value, 10) || 1;
-
-      if (currentPhase === 'elimination') {
-        const eliminated = activeAgents.splice(index, 1)[0];
-        eliminatedAgents.push(eliminated);
-        playEliminationSound();
-        showGlobalAnnouncement('elimination', eliminated.name, 'Has been eliminated from the draw.', 'Eliminated');
-
-        updateAgentCounters();
-
-        if (eliminatedAgents.length >= elimTarget || activeAgents.length <= winTarget) {
-          setStatusAlertMode('elimination');
-          statusTitle.innerHTML = `☠️ ${eliminated.name} HAS BEEN ELIMINATED! 🪦`;
-          statusTitle.className = 'mb-0 fw-bold text-danger';
-
-          if (activeAgents.length === winTarget) {
-            chosenWinners = [...activeAgents];
-            activeAgents = [];
-            currentPhase = 'finished';
-            updateAgentCounters();
-            finishGame();
-          } else {
-            currentPhase = 'winner_selection';
-            updatePhaseUI();
-          }
-        } else {
-          setStatusAlertMode('elimination');
-          statusTitle.innerHTML = `☠️ ${eliminated.name} HAS BEEN ELIMINATED! 🪦`;
-          statusTitle.className = 'mb-0 fw-bold text-danger';
-          statusSubtitle.textContent = `${activeAgents.length} entries left. ${elimTarget - eliminatedAgents.length} more to eliminate.`;
-          spinAgentBtn.disabled = false;
-          updatePhaseUI();
-        }
-
-      } else if (currentPhase === 'winner_selection') {
-        const winner = activeAgents.splice(index, 1)[0];
-        chosenWinners.push(winner);
-        playVictoryFanfare();
-        showGlobalAnnouncement('winner', winner.name, 'Congratulations! You are a winner.', 'Winner');
-        setStatusAlertMode('winner');
-
-        updateAgentCounters();
-
-        if (chosenWinners.length >= winTarget || activeAgents.length === 0) {
-          currentPhase = 'finished';
-          finishGame();
-        } else {
-          setStatusAlertMode('winner');
-          statusTitle.innerHTML = `🎉 ${winner.name} IS A WINNER! 👑`;
-          statusTitle.className = 'mb-0 fw-bold text-success';
-          statusSubtitle.textContent = `${winTarget - chosenWinners.length} winner(s) left to be chosen!`;
-          spinAgentBtn.disabled = false;
-          updatePhaseUI();
-        }
-      }
-
-      drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
-      syncWinnersWithPrizes();
-    }
-
-    function setStatusAlertMode(mode) {
-      const statusAlert = document.getElementById('statusAlert');
-      if (!statusAlert) return;
-      statusAlert.classList.remove('elimination-mode', 'winner-mode');
-
-      if (mode === 'elimination') {
-        statusAlert.classList.add('elimination-mode');
-      } else if (mode === 'winner') {
-        statusAlert.classList.add('winner-mode');
-      }
-    }
-
-    function setWinnerCardLightning(active) {
-      if (!winnerCard) return;
-      winnerCard.classList.remove('lightning');
-      if (active) {
-        winnerCard.classList.add('lightning');
-        setTimeout(() => winnerCard.classList.remove('lightning'), 1200);
-      }
-    }
-
-    function finishGame() {
-      spinAgentBtn.disabled = true;
-      playVictoryFanfare();
-
-      setStatusAlertMode('winner');
-      setWinnerCardLightning(true);
-
-      statusTitle.innerHTML = `👑 DRAW COMPLETE! WINNERS FOUND!`;
-      statusTitle.className = 'mb-0 fw-bold text-success';
-      statusSubtitle.textContent = 'Move to the prize wheel to award the rewards.';
-
-      winnerHeadline.textContent = chosenWinners.length === 1 ? '👑 THE GRAND WINNER! 👑' : `👑 THE ${chosenWinners.length} WINNERS! 👑`;
-      winnerNamesBox.innerHTML = chosenWinners.map(w => `<span class="badge bg-success fs-4 m-1 p-2">👑 ${w.name}</span>`).join(' ');
-
-      winnerCard.classList.remove('d-none');
-      updatePhaseUI();
-      syncWinnersWithPrizes();
-    }
-
-    function syncWinnersWithPrizes() {
-      document.getElementById('prizesToAwardBadge').textContent = chosenWinners.length || 1;
-      setupPrizeQueue();
-    }
-
-    document.getElementById('goToPrizeBtn').addEventListener('click', () => {
-      const prizeTab = new bootstrap.Tab(document.getElementById('tab-prizes-btn'));
-      prizeTab.show();
-    });
-
-    // ==========================================
-    // 2. RULETA DE PREMIOS (PERMITE REPETIDOS + SHUFFLE)
-    // ==========================================
-    const PRIZES_STORAGE_KEY = 'digitalKnightRuletaPremios_v2';
-    let prizeItems = [];
-    let activePrizes = [];
-    let eliminatedPrizes = [];
-    let awardedHistory = [];
-    let prizeCurrentPhase = 'elimination';
-    let isSpinningPrizes = false;
-    let prizeCurrentAngle = 0;
-    let winnerPrizeIndex = 0;
-
-    const prizesCanvas = document.getElementById('prizesWheel');
-    const prizesCtx = prizesCanvas.getContext('2d');
-    const prizesInput = document.getElementById('prizesInput');
-    const prizesEditorList = document.getElementById('prizesEditorList');
-    const newPrizeInput = document.getElementById('newPrizeInput');
-    const addPrizeBtn = document.getElementById('addPrizeBtn');
-    const loadPrizesBtn = document.getElementById('loadPrizesBtn');
-    const prizesCountBadge = document.getElementById('prizesCountBadge');
-    const numElimPrizesInput = document.getElementById('numElimPrizesInput');
-    const spinPrizeBtn = document.getElementById('spinPrizeBtn');
-    const resetPrizesBtn = document.getElementById('resetPrizesBtn');
-    const finalPrizeCard = document.getElementById('finalPrizeCard');
-    const finalAgentName = document.getElementById('finalAgentName');
-    const finalPrizeWon = document.getElementById('finalPrizeWon');
-    const nextWinnerPrizeBtn = document.getElementById('nextWinnerPrizeBtn');
-    const prizeStatusTitle = document.getElementById('prizeStatusTitle');
-    const prizeStatusSubtitle = document.getElementById('prizeStatusSubtitle');
-    const prizePhaseBadge = document.getElementById('prizePhaseBadge');
-    const prizeRoundsBadge = document.getElementById('prizeRoundsBadge');
-    const currentWinnerToPrizeDisplay = document.getElementById('currentWinnerToPrizeDisplay');
-    const discardedPrizesList = document.getElementById('discardedPrizesList');
-    const eliminatedPrizesCount = document.getElementById('eliminatedPrizesCount');
-    const awardedPrizesList = document.getElementById('awardedPrizesList');
-    const awardedPrizesCount = document.getElementById('awardedPrizesCount');
-
-    function createPrizeItem(name) {
-      return {
-        id: 'prz_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
-        name: getNormalizedName(name)
-      };
-    }
-
-    async function persistPrizes() {
-      const safeList = prizeItems.map(item => ({
-        id: item.id,
-        name: getNormalizedName(item.name)
-      }));
-
-      try {
-        if (window.supabase) {
-          await saveSharedList('prizes', safeList);
-          return;
-        }
-      } catch (error) {
-        console.warn('Supabase prizes save failed, using localStorage fallback:', error);
-      }
-
-      try {
-        localStorage.setItem(PRIZES_STORAGE_KEY, JSON.stringify(safeList));
-      } catch (error) {
-        console.warn('Error al guardar premios:', error);
-      }
-    }
-
-    async function loadPrizesFromStorage() {
-      try {
-        if (window.supabase) {
-          const shared = await readSharedList('prizes');
-          if (shared && shared.length) {
-            return shared.map(item => typeof item === 'string' ? createPrizeItem(item) : ({
-              ...item,
-              name: getNormalizedName(item.name)
-            }));
-          }
-        }
-      } catch (error) {
-        console.warn('Supabase prizes load failed, using localStorage fallback:', error);
-      }
-
-      try {
-        const raw = localStorage.getItem(PRIZES_STORAGE_KEY);
-        if (!raw) return null;
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return null;
-        return parsed.map(item => typeof item === 'string' ? createPrizeItem(item) : item);
-      } catch (error) {
-        return null;
-      }
-    }
-
-    function renderPrizesEditor() {
-      if (!prizesEditorList) return;
-      if (!prizeItems.length) {
-        prizesEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">No prizes added.</div>';
-        return;
-      }
-
-      prizesEditorList.innerHTML = prizeItems.map(item => `
-        <div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-          <span class="text-light">${String(item.name)}</span>
-          <button
-            type="button"
-            class="btn btn-link p-0 text-danger remove-prize-btn"
-            data-id="${item.id}"
-            aria-label="Quitar premio"
-            title="Quitar premio"
-          >
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      `).join('');
-    }
-
-    function syncTextareaFromPrizes() {
-      prizesInput.value = prizeItems.map(i => i.name).join('\n');
-    }
-
-    function shufflePrizes() {
-      if (prizeItems.length <= 1) return;
-      prizeItems = shuffleArray([...prizeItems]);
-      activePrizes = [...prizeItems];
-      persistPrizes();
-      syncTextareaFromPrizes();
-      renderPrizesEditor();
-      drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
-    }
-
-    function processBulkPrizes(replaceWholeList) {
-      const textarea = document.getElementById('bulkPrizesTextarea');
-      const lines = textarea.value
-        .split('\n')
-        .map(s => getNormalizedName(s))
-        .filter(s => s.length > 0);
-
-      if (lines.length === 0) {
-        alert('Please paste at least one prize.');
-        return;
-      }
-
-      const newItems = lines.map(name => createPrizeItem(name));
-
-      if (replaceWholeList) {
-        prizeItems = newItems;
-      } else {
-        prizeItems = [...prizeItems, ...newItems];
-      }
-
-      persistPrizes();
-      syncTextareaFromPrizes();
-      renderPrizesEditor();
-      parsePrizes();
-
-      textarea.value = '';
-      const modalEl = document.getElementById('bulkPrizesModal');
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      if (modal) modal.hide();
-    }
-
-    function addPrizeToList() {
-      const normalizedPrize = getNormalizedName(newPrizeInput.value);
-      if (!normalizedPrize) {
-        newPrizeInput.focus();
-        return;
-      }
-
-      prizeItems.push(createPrizeItem(normalizedPrize));
-      persistPrizes();
-      syncTextareaFromPrizes();
-      renderPrizesEditor();
-      parsePrizes();
-      newPrizeInput.value = '';
-      newPrizeInput.focus();
-    }
-
-    function removePrizeItem(id) {
-      prizeItems = prizeItems.filter(i => i.id !== id);
-      persistPrizes();
-      syncTextareaFromPrizes();
-      renderPrizesEditor();
-      parsePrizes();
-    }
-
-    async function parsePrizes() {
-      const stored = await loadPrizesFromStorage();
-      if (stored !== null && stored.length) {
-        prizeItems = stored;
-      } else if (!prizeItems.length) {
-        const lines = prizesInput.value.split('\n').map(s => getNormalizedName(s)).filter(s => s.length > 0);
-        prizeItems = lines.map(name => createPrizeItem(name));
-      }
-
-      activePrizes = [...prizeItems];
-      eliminatedPrizes = [];
-      awardedHistory = [];
-      winnerPrizeIndex = 0;
-      finalPrizeCard.classList.add('d-none');
-
-      let elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
-      const neededWinners = chosenWinners.length || 1;
-
-      if (elimTarget + neededWinners > activePrizes.length) {
-        elimTarget = Math.max(0, activePrizes.length - neededWinners);
-        numElimPrizesInput.value = elimTarget;
-      }
-
-      prizeCurrentPhase = elimTarget > 0 ? 'elimination' : 'awarding';
-
-      syncTextareaFromPrizes();
-      renderPrizesEditor();
-      updatePrizeCounters();
-      updatePrizePhaseUI();
-      drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
-    }
-
-    addPrizeBtn.addEventListener('click', addPrizeToList);
-    newPrizeInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        addPrizeToList();
-      }
-    });
-
-    prizesEditorList.addEventListener('click', (event) => {
-      const button = event.target.closest('.remove-prize-btn');
-      if (!button) return;
-      const id = button.dataset.id;
-      if (!id) return;
-      removePrizeItem(id);
-    });
-
-    function setupPrizeQueue() {
-      winnerPrizeIndex = 0;
-      updatePrizeCounters();
-      updatePrizePhaseUI();
-    }
-
-    function updatePrizeCounters() {
-      prizesCountBadge.textContent = `${activePrizes.length} disponibles`;
-      eliminatedPrizesCount.textContent = `${eliminatedPrizes.length}`;
-      awardedPrizesCount.textContent = `${awardedHistory.length}`;
-
-      if (eliminatedPrizes.length === 0) {
-        discardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div>';
-      } else {
-        discardedPrizesList.innerHTML = eliminatedPrizes.map((p, i) => `
-          <div class="graveyard-item">
-            <span>🗑️ #${i + 1} ${p.name}</span>
-            <span class="text-secondary">Discarded</span>
-          </div>
-        `).join('');
-      }
-
-      if (awardedHistory.length === 0) {
-        awardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">None yet...</div>';
-      } else {
-        awardedPrizesList.innerHTML = awardedHistory.map(item => `
-          <div class="winner-item">
-            <span>👑 ${item.agent}</span>
-            <span class="text-warning fw-bold">${item.prize}</span>
-          </div>
-        `).join('');
-      }
-
-      if (chosenWinners.length === 0) {
-        currentWinnerToPrizeDisplay.textContent = 'No winner selected in wheel 1';
-      } else if (winnerPrizeIndex < chosenWinners.length) {
-        currentWinnerToPrizeDisplay.textContent = `${chosenWinners[winnerPrizeIndex].name} (${winnerPrizeIndex + 1} of ${chosenWinners.length})`;
-      } else {
-        currentWinnerToPrizeDisplay.textContent = 'All prizes awarded! 🎉';
-      }
-    }
-
-    function updatePrizePhaseUI() {
-      const elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
-      const totalWinners = chosenWinners.length || 1;
-
-      if (prizeCurrentPhase === 'elimination') {
-        prizePhaseBadge.textContent = 'Phase: Prize Discard ☠️';
-        prizePhaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
-        prizeRoundsBadge.textContent = `Discarded: ${eliminatedPrizes.length} / ${elimTarget}`;
-        prizeRoundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
-
-        spinPrizeBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
-        spinPrizeBtn.innerHTML = '☠️ SPIN TO DISCARD A PRIZE!';
-        spinPrizeBtn.disabled = activePrizes.length <= totalWinners;
-
-        prizeStatusTitle.textContent = 'Prize discard phase!';
-        prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
-        prizeStatusSubtitle.textContent = `The prize that comes up will be removed from the wheel (${elimTarget - eliminatedPrizes.length} left to discard).`;
-
-      } else if (prizeCurrentPhase === 'awarding') {
-        prizePhaseBadge.textContent = 'Phase: Winner Prize 🎁';
-        prizePhaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
-        prizeRoundsBadge.textContent = `Prizes: ${awardedHistory.length} / ${totalWinners}`;
-        prizeRoundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
-
-        const currentAgent = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'the winner';
-        spinPrizeBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
-        spinPrizeBtn.innerHTML = `🎁 SPIN FOR THE PRIZE FOR ${currentAgent.toUpperCase()}!`;
-        spinPrizeBtn.disabled = activePrizes.length === 0 || (chosenWinners.length > 0 && winnerPrizeIndex >= chosenWinners.length);
-
-        prizeStatusTitle.textContent = `Spin for ${currentAgent}'s prize!`;
-        prizeStatusTitle.className = 'mb-0 fw-bold text-success';
-        prizeStatusSubtitle.textContent = 'Only the surviving prizes remain. Good luck!';
-
-      } else {
-        prizePhaseBadge.textContent = 'Awarding Complete 🎉';
-        prizePhaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
-        prizeRoundsBadge.textContent = `Total awarded: ${awardedHistory.length}`;
-        spinPrizeBtn.disabled = true;
-
-        prizeStatusTitle.textContent = 'All prizes have been awarded!';
-        prizeStatusTitle.className = 'mb-0 fw-bold text-success';
-        prizeStatusSubtitle.textContent = 'Congratulations to all participants and winners.';
-      }
-    }
-
-    function spinPrize() {
-      if (isSpinningPrizes || activePrizes.length === 0) return;
-      isSpinningPrizes = true;
-      spinPrizeBtn.disabled = true;
-      finalPrizeCard.classList.add('d-none');
-      nextWinnerPrizeBtn.classList.add('d-none');
-
-      const currentWinner = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'Winner';
-
-      if (prizeCurrentPhase === 'elimination') {
-        prizeStatusTitle.innerHTML = '☠️ Spinning to discard a prize...';
-        prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
-        prizeStatusSubtitle.textContent = 'Which prize will not be awarded today?';
-      } else {
-        prizeStatusTitle.innerHTML = `🎁 Spinning the wheel for ${currentWinner}!`;
-        prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
-        prizeStatusSubtitle.textContent = 'Good luck!';
-      }
-
-      const totalSlices = activePrizes.length;
-      const sliceRad = (Math.PI * 2) / totalSlices;
-      const chosenIndex = Math.floor(Math.random() * totalSlices);
-
-      const fullRotations = 6 + Math.floor(Math.random() * 3);
-      const targetSegmentCenter = chosenIndex * sliceRad + sliceRad / 2;
-      const finalAngle = (fullRotations * Math.PI * 2) + ((3 * Math.PI / 2) - targetSegmentCenter);
-
-      const duration = 3800;
-      const start = performance.now();
-      const initialAngle = prizeCurrentAngle % (Math.PI * 2);
-      let lastTick = -1;
-
-      function animate(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        prizeCurrentAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
-
-        const normAngle = (prizeCurrentAngle + Math.PI / 2) % (Math.PI * 2);
-        const currSegment = Math.floor((normAngle >= 0 ? normAngle : normAngle + Math.PI * 2) / sliceRad);
-        if (currSegment !== lastTick) {
-          playTickSound();
-          lastTick = currSegment;
-        }
-
-        drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          isSpinningPrizes = false;
-          handlePrizeSpinResult(chosenIndex, currentWinner);
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    function handlePrizeSpinResult(index, currentWinner) {
-      const elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
-      const neededWinners = chosenWinners.length || 1;
-
-      if (prizeCurrentPhase === 'elimination') {
-        const discarded = activePrizes.splice(index, 1)[0];
-        eliminatedPrizes.push(discarded);
-        playEliminationSound();
-        showGlobalAnnouncement('elimination', discarded.name, 'This prize has been discarded.', 'Discarded Prize');
-
-        updatePrizeCounters();
-
-        if (eliminatedPrizes.length >= elimTarget || activePrizes.length <= neededWinners) {
-          prizeStatusTitle.innerHTML = `🗑️ DISCARDED: ${discarded.name}!`;
-          prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
-
-          prizeCurrentPhase = 'awarding';
-          updatePrizePhaseUI();
-        } else {
-          prizeStatusTitle.innerHTML = `🗑️ DISCARDED: ${discarded.name}!`;
-          prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
-          prizeStatusSubtitle.textContent = `${activePrizes.length} prizes left. ${elimTarget - eliminatedPrizes.length} more to discard.`;
-          spinPrizeBtn.disabled = false;
-          updatePrizePhaseUI();
-        }
-
-      } else if (prizeCurrentPhase === 'awarding') {
-        const prizeWon = activePrizes.splice(index, 1)[0];
-        playVictoryFanfare();
-        showGlobalAnnouncement('winner', prizeWon.name, `${currentWinner} wins this prize!`, 'Prize Won');
-
-        prizeStatusTitle.innerHTML = '🎉 PRIZE AWARDED!';
-        prizeStatusTitle.className = 'mb-0 fw-bold text-success';
-        prizeStatusSubtitle.textContent = `Congratulations to ${currentWinner}!`;
-
-        finalAgentName.textContent = currentWinner;
-        finalPrizeWon.textContent = prizeWon.name;
-        finalPrizeCard.classList.remove('d-none');
-
-        awardedHistory.push({ agent: currentWinner, prize: prizeWon.name });
-        winnerPrizeIndex++;
-
-        updatePrizeCounters();
-
-        const totalWinners = chosenWinners.length || 1;
-        if (winnerPrizeIndex < totalWinners && activePrizes.length > 0) {
-          const nextAgent = chosenWinners[winnerPrizeIndex].name;
-          nextWinnerPrizeBtn.classList.remove('d-none');
-          nextWinnerPrizeBtn.textContent = `Draw prize for ${nextAgent} ➡️`;
-        } else {
-          prizeCurrentPhase = 'finished';
-          updatePrizePhaseUI();
-        }
-      }
-
-      drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
-    }
-
-    nextWinnerPrizeBtn.addEventListener('click', () => {
-      finalPrizeCard.classList.add('d-none');
-      updatePrizeCounters();
-      updatePrizePhaseUI();
-      spinPrize();
-    });
-
-    loadAgentsBtn.addEventListener('click', parseAgents);
-    spinAgentBtn.addEventListener('click', spinAgent);
-
-    loadPrizesBtn.addEventListener('click', parsePrizes);
-    spinPrizeBtn.addEventListener('click', spinPrize);
-
-    document.getElementById('resetAllBtn').addEventListener('click', () => {
-      if (confirm('Do you want to restart the full agent draw?')) {
-        parseAgents();
-        statusTitle.textContent = 'The wheel is ready!';
-        statusTitle.className = 'mb-0 fw-bold';
-        statusSubtitle.textContent = 'Press the button to begin.';
-      }
-    });
-
-    resetPrizesBtn.addEventListener('click', () => {
-      if (confirm('Do you want to restart the prize wheel and restore discarded prizes?')) {
-        parsePrizes();
-      }
-    });
-
-    window.addEventListener('load', () => {
-      parseAgents().catch(console.error);
-      parsePrizes().catch(console.error);
-    });
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = 'https://aowyrmwzuteqjawmpygt.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd3lybXd6dXRlcWphd21weWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4OTQ1MTksImV4cCI6MjEwODQ3MDUxOX0.GVkmAUHlO62dcChk5uHbYYUbQEsrdaPSMbQmyFVe7hM';
-
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function saveSharedList(kind, value) {
-      if (!supabase) {
-        throw new Error('Supabase is not available');
-      }
-
-      const { data: rows, error: selectError } = await supabase
-        .from('roulette_data')
-        .select('kind')
-        .eq('kind', kind)
-        .limit(1);
-
-      if (selectError) throw selectError;
-
-      if (rows && rows.length > 0) {
-        const { error } = await supabase
-          .from('roulette_data')
-          .update({ value, updated_at: new Date().toISOString() })
-          .eq('kind', kind);
-
-        if (error) throw error;
-        return;
-      }
-
-      const { error } = await supabase
-        .from('roulette_data')
-        .insert({ kind, value, updated_at: new Date().toISOString() });
-
-      if (error) throw error;
-    }
-
-    async function readSharedList(kind) {
-      if (!supabase) {
-        throw new Error('Supabase is not available');
-      }
-
-      const { data, error } = await supabase
-        .from('roulette_data')
-        .select('value')
-        .eq('kind', kind)
-        .limit(1);
-
-      if (error) throw error;
-
-      const row = Array.isArray(data) && data.length > 0 ? data[0] : null;
-      return Array.isArray(row?.value) ? row.value : [];
-    }
-  </script>
-
-<script async="" src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="501389d3-b78e-4682-8e24-b03633894eed" data-app-host="app.netlify.com" data-account-tier="free"></script>
-<iframe id="nl-badge-frame" title="Powered by Netlify" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;color-scheme&quot; content=&quot;dark&quot;&gt;&lt;style&gt;
-    :root{--nl-vw:1256px;--nl-vh:858px}
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:transparent;overflow:hidden}
-    body{display:flex;align-items:flex-end;justify-content:flex-end;height:100vh;
-      padding:8px 18px 18px 8px;
-      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:#f4f9f9;-webkit-font-smoothing:antialiased}
-    .nl-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:10px;width:max-content;max-width:calc(var(--nl-vw,100vw) - 26px)}
-    button{font-family:inherit;cursor:pointer}
-    :focus-visible{outline:2px solid #32e6e2;outline-offset:2px;border-radius:6px}
-    .nl-icon-btn{position:relative;flex:none;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid transparent;background:transparent;color:#d5e3e6;transition:background .15s ease,color .15s ease}
-    .nl-icon-btn:hover{background:rgba(255,255,255,0.08);color:#f4f9f9}
-    .nl-tap::after{content:&quot;&quot;;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-      width:max(100%,44px);height:max(100%,44px)}
-    @keyframes nl-rise{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
-    @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
-  
-      .nl-card{position:relative;display:none;width:min(340px,calc(var(--nl-vw,100vw) - 26px));max-height:calc(var(--nl-vh,100vh) - 84px);overflow-y:auto;background:linear-gradient(180deg,#132832 0%,#0e1e25 100%);border:1px solid rgba(255,255,255,0.09);border-radius:18px;padding:18px;transform-origin:bottom right;animation:nl-rise .3s cubic-bezier(.34,1.4,.4,1) both}
-      .nl-card.open{display:block}
-      .nl-card-close{position:absolute;top:10px;right:10px}
-      .nl-card h2{margin:0;padding-right:30px;font-size:16px;font-weight:750;letter-spacing:-0.015em;line-height:1.35}
-      .nl-card h2 em{font-style:normal;background:linear-gradient(90deg,#32e6e2,#4d7cfe,#9a6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-      .nl-card p{margin:8px 0 0;font-size:12.5px;color:#d5e3e6}
-      .nl-prompt{position:relative;margin-top:14px;background:#10222b;border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:10px 12px;transition:border-color .15s ease,box-shadow .15s ease}
-      .nl-prompt:focus-within{border-color:#05bdba;box-shadow:0 0 0 3px rgba(5,189,186,0.18)}
-      .nl-prompt textarea{display:block;width:100%;height:38px;resize:none;border:0;outline:none;background:transparent;color:#f4f9f9;font:inherit;font-size:13px;line-height:19px;padding:0 28px 0 0}
-      .nl-prompt textarea::placeholder{color:#a9bdc2}
-      .nl-send{position:absolute;right:9px;bottom:9px;width:24px;height:24px;flex:none;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:#05bdba;color:#02191b;transition:background .15s ease}
-      .nl-send:hover{background:#32e6e2}
-      @media (pointer: coarse){
-        .nl-prompt textarea{font-size:16px;line-height:21px;height:42px}
-      }
-      .nl-or{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#a9bdc2}
-      .nl-or::before,.nl-or::after{content:&quot;&quot;;flex:1;height:1px;background:rgba(255,255,255,0.09)}
-      .nl-drop{display:flex;align-items:center;justify-content:space-between;gap:6px;text-decoration:none;background:#1b3a45;border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#cfe0e3;transition:background .15s ease,color .15s ease,border-color .15s ease}
-      .nl-drop:hover{background:#224753;color:#f4f9f9;border-color:rgba(50,230,226,0.3)}
-      .nl-drop .nl-arrow{transition:transform .18s cubic-bezier(.34,1.4,.4,1)}
-      .nl-drop:hover .nl-arrow{transform:translateX(3px)}
-      .nl-badge{display:flex;align-items:center;gap:9px;white-space:nowrap;border:1px solid rgba(255,255,255,0.09);background:linear-gradient(180deg,#142b34,#0e1e25);color:#f4f9f9;border-radius:999px;padding:9px 14px 9px 11px;font-size:13px;font-weight:600;letter-spacing:0.01em;transition:border-color .2s ease}
-      .nl-badge:hover{border-color:rgba(50,230,226,0.26)}
-      .nl-hide{display:block;width:100%;margin-top:10px;border:0;background:transparent;color:#a9bdc2;font-size:11.5px;font-weight:600;padding:4px;border-radius:8px;transition:color .15s ease}
-      .nl-hide:hover{color:#d5e3e6;text-decoration:underline}
-      .nl-badge-label{color:#d5e3e6;font-weight:500}
-      .nl-badge-brand{font-weight:750}
-    &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-      &lt;div class=&quot;nl-wrap&quot;&gt;
-        &lt;section class=&quot;nl-card&quot; id=&quot;nl-card&quot; aria-label=&quot;Build your own site on Netlify&quot;&gt;
-          &lt;button type=&quot;button&quot; class=&quot;nl-icon-btn nl-tap nl-card-close&quot; id=&quot;nl-card-close&quot; aria-label=&quot;Close&quot;&gt;&lt;svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
-          &lt;h2&gt;&lt;em&gt;Build your own site with Netlify&lt;/em&gt;&lt;/h2&gt;
-          &lt;p&gt;Describe what you want, and an AI agent designs, builds and deploys it in minutes.&lt;/p&gt;
-          &lt;form class=&quot;nl-prompt&quot; action=&quot;https://app.netlify.com/start&quot; method=&quot;get&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
-            &lt;textarea name=&quot;prompt&quot; rows=&quot;2&quot; required maxlength=&quot;300&quot; autocomplete=&quot;off&quot;
-                      enterkeyhint=&quot;go&quot;
-                      placeholder=&quot;A shop for my handmade surfboards&amp;hellip;&quot;
-                      aria-label=&quot;Describe the site you want to build&quot;&gt;&lt;/textarea&gt;
-            &lt;button type=&quot;submit&quot; class=&quot;nl-send nl-tap&quot; aria-label=&quot;Build this site&quot;&gt;&lt;svg width=&quot;13&quot; height=&quot;13&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M8 12.75v-9.5M3.9 7.35 8 3.25l4.1 4.1&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
-            &lt;input type=&quot;hidden&quot; name=&quot;utm_source&quot; value=&quot;netlify_badge&quot;&gt;
-            &lt;input type=&quot;hidden&quot; name=&quot;utm_campaign&quot; value=&quot;loops&quot;&gt;
-            &lt;input type=&quot;hidden&quot; name=&quot;utm_medium&quot; value=&quot;owned&quot;&gt;
-            &lt;input type=&quot;hidden&quot; name=&quot;utm_content&quot; value=&quot;prompt&quot;&gt;
-            &lt;input type=&quot;hidden&quot; name=&quot;utm_id&quot; value=&quot;501389d3-b78e-4682-8e24-b03633894eed&quot;&gt;
-            
-          &lt;/form&gt;
-          &lt;div class=&quot;nl-or&quot;&gt;&lt;span&gt;or&lt;/span&gt;&lt;/div&gt;
-          &lt;a class=&quot;nl-drop&quot; href=&quot;https://app.netlify.com/drop?utm_source=netlify_badge&amp;utm_campaign=loops&amp;utm_medium=owned&amp;utm_content=drop&amp;utm_id=501389d3-b78e-4682-8e24-b03633894eed&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
-            &lt;span&gt;Drop a site you already have&lt;/span&gt;&lt;span class=&quot;nl-arrow&quot; aria-hidden=&quot;true&quot;&gt;&amp;rarr;&lt;/span&gt;
-          &lt;/a&gt;
-          
-        &lt;/section&gt;
-        &lt;button type=&quot;button&quot; class=&quot;nl-badge&quot; id=&quot;nl-badge&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;nl-card&quot;
-                aria-label=&quot;Powered by Netlify — build your own site&quot;&gt;
-          &lt;svg width=&quot;18&quot; height=&quot;18&quot; viewBox=&quot;0 0 32 32&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;&gt;
-    &lt;path fill=&quot;#fff&quot; d=&quot;M17.9922 18.3225H14.005L13.6746 17.9921V14.005L14.005 13.6746H17.9922L18.3226 14.005V17.9921L17.9922 18.3225Z&quot;/&gt;
-    &lt;g fill=&quot;#05BDBA&quot;&gt;
-      &lt;path d=&quot;M9.6958 24.3311H9.35705L7.6661 22.6401V22.3041L10.2511 19.7164L12.042 19.7191L12.2808 19.9552V21.7461L9.6958 24.3311Z&quot;/&gt;
-      &lt;path d=&quot;M7.6661 9.69576V9.35701L9.35705 7.66606H9.6958L12.2808 10.2511V12.0392L12.042 12.2808H10.2511L7.6661 9.69576Z&quot;/&gt;
-      &lt;path d=&quot;M10.0457 17.4369H0.205466L0 17.2314V14.7658L0.205466 14.5603H10.0457L10.2511 14.7658V17.2314L10.0457 17.4369Z&quot;/&gt;
-      &lt;path d=&quot;M31.7945 17.4369H21.9544L21.7489 17.2314V14.7658L21.9544 14.5603H31.7945L32 14.7658V17.2314L31.7945 17.4369Z&quot;/&gt;
-      &lt;path d=&quot;M14.5631 10.0456V2.66547L14.7686 2.46001H17.2343L17.4396 2.66547V10.0456L17.2343 10.2511H14.7686L14.5631 10.0456Z&quot;/&gt;
-      &lt;path d=&quot;M14.5631 29.3316V21.9515L14.7686 21.746H17.2343L17.4396 21.9515V29.3316L17.2343 29.5371H14.7686L14.5631 29.3316Z&quot;/&gt;
-    &lt;/g&gt;&lt;/svg&gt;
-          &lt;span&gt;&lt;span class=&quot;nl-badge-label&quot;&gt;Powered by&lt;/span&gt; &lt;span class=&quot;nl-badge-brand&quot;&gt;Netlify&lt;/span&gt;&lt;/span&gt;
-        &lt;/button&gt;
-      &lt;/div&gt;
-      &lt;script&gt;
-        
-    function nlSend(){
-      var wrap=document.querySelector('.nl-wrap'),boxes=[];
-      for(var i=0;i&lt;wrap.children.length;i++){
-        var c=wrap.children[i];
-        if(!c.offsetWidth||!c.offsetHeight)continue;
-        boxes.push({x:c.offsetLeft-wrap.offsetLeft+8,
-                    y:c.offsetTop-wrap.offsetTop+8,
-                    w:c.offsetWidth,h:c.offsetHeight});
-      }
-      parent.postMessage({nlHud:'resize',
-        width:wrap.offsetWidth+26,
-        height:wrap.offsetHeight+26,
-        boxes:boxes},'*');
-    }
-    function nlSendSoon(){requestAnimationFrame(nlSend);}
-    window.addEventListener('load',nlSend);
-    window.addEventListener('message',function(e){
-      if(e.source!==parent||!e.data||e.data.nlHud!=='viewport')return;
-      var s=document.documentElement.style;
-      s.setProperty('--nl-vw',e.data.w+'px');
-      s.setProperty('--nl-vh',e.data.h+'px');
-      document.documentElement.classList.toggle('nl-narrow',e.data.w&lt;600);
-      nlSendSoon();
-    });
-    var nlCoarse=window.matchMedia('(pointer: coarse)').matches;
-    function nlSubmit(form){
-      if(form.requestSubmit)return form.requestSubmit();
-      if(form.checkValidity&amp;&amp;!form.checkValidity())
-        return form.reportValidity&amp;&amp;form.reportValidity();
-      form.submit();
-    }
-  
-        var badge=document.getElementById('nl-badge'),card=document.getElementById('nl-card'),
-            box=card.querySelector('textarea');
-        function setOpen(open){
-          card.classList.toggle('open',open);
-          badge.setAttribute('aria-expanded',open?'true':'false');
-          nlSendSoon();
-          if(open&amp;&amp;!nlCoarse)box.focus();
-        }
-        box.addEventListener('keydown',function(e){
-          if(e.key==='Enter'&amp;&amp;!e.shiftKey){e.preventDefault();nlSubmit(box.form);}
-        });
-        badge.addEventListener('click',function(){setOpen(!card.classList.contains('open'));});
-        document.getElementById('nl-card-close').addEventListener('click',function(){setOpen(false);badge.focus();});
-        document.addEventListener('keydown',function(e){
-          if(e.key==='Escape'&amp;&amp;card.classList.contains('open')){setOpen(false);badge.focus();}
-        });
-        card.addEventListener('click',function(e){
-          if(e.target.closest('#nl-hide'))parent.postMessage({nlHud:'state',value:'hidden'},'*');
-        });
-      &lt;/script&gt;
-    &lt;/body&gt;&lt;/html&gt;" style="position: fixed; bottom: 0px; right: 0px; border: 0px; margin: 0px; padding: 0px; background: transparent; color-scheme: dark; z-index: 2147483645; width: 197px; height: 64px; clip-path: path(&quot;M 3 3 H 184 V 51 H 3 Z&quot;);" data-nl-ready="1"></iframe></body></html>
+</div>
+<div class="modal-footer d-flex justify-content-between">
+<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+<div class="d-flex gap-2">
+<button type="button" class="btn btn-outline-success" onclick="processBulkPrizes(false)">
+➕ Add to current list
+</button>
+<button type="button" class="btn btn-slime" onclick="processBulkPrizes(true)">
+🔄 Replace full list
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let soundEnabled = true;
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+function initAudio() {
+if (!audioCtx) audioCtx = new AudioContext();
+if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playTickSound() {
+if (!soundEnabled) return;
+try {
+initAudio();
+const osc = audioCtx.createOscillator();
+const gain = audioCtx.createGain();
+osc.type = 'triangle';
+osc.frequency.setValueAtTime(320 + Math.random() * 60, audioCtx.currentTime);
+gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start();
+osc.stop(audioCtx.currentTime + 0.04);
+} catch(e){}
+}
+function playEliminationSound() {
+if (!soundEnabled) return;
+try {
+initAudio();
+const osc = audioCtx.createOscillator();
+const gain = audioCtx.createGain();
+osc.type = 'sawtooth';
+osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.9);
+gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.9);
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start();
+osc.stop(audioCtx.currentTime + 0.9);
+} catch(e){}
+}
+function playVictoryFanfare() {
+if (!soundEnabled) return;
+try {
+initAudio();
+const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
+notes.forEach((freq, idx) => {
+const osc = audioCtx.createOscillator();
+const gain = audioCtx.createGain();
+osc.type = 'sine';
+osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.12);
+gain.gain.setValueAtTime(0.18, audioCtx.currentTime + idx * 0.12);
+gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.12 + 0.35);
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start(audioCtx.currentTime + idx * 0.12);
+osc.stop(audioCtx.currentTime + idx * 0.12 + 0.35);
+});
+} catch(e){}
+}
+document.getElementById('toggleSoundBtn').addEventListener('click', () => {
+soundEnabled = !soundEnabled;
+document.getElementById('soundIcon').className = soundEnabled ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill';
+document.getElementById('soundText').textContent = soundEnabled ? 'On' : 'Muted';
+});
+const diaDeMuertosColors = ['#ff8a18','#e85d0b','#ffb347','#ed668c','#9b3f83','#ffd166','#d94b36','#f06b91','#c94c24','#7e285e'];
+function shuffleArray(arr) {
+for (let i = arr.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[arr[i], arr[j]] = [arr[j], arr[i]];
+}
+return arr;
+}
+const AGENTS_STORAGE_KEY = 'digitalKnightRuletaParticipantes_v2';
+let participantItems = [];
+let activeAgents = [];
+let eliminatedAgents = [];
+let chosenWinners = [];
+let currentPhase = 'elimination';
+let isSpinningAgents = false;
+let agentCurrentAngle = 0;
+const agentsCanvas = document.getElementById('agentsWheel');
+const agentsCtx = agentsCanvas.getContext('2d');
+const spinAgentBtn = document.getElementById('spinAgentBtn');
+const agentsInput = document.getElementById('agentsInput');
+const agentsEditorList = document.getElementById('agentsEditorList');
+const loadAgentsBtn = document.getElementById('loadAgentsBtn');
+const addAgentBtn = document.getElementById('addAgentBtn');
+const newAgentNameInput = document.getElementById('newAgentNameInput');
+const agentsCountBadge = document.getElementById('agentsCountBadge');
+const graveyardList = document.getElementById('graveyardList');
+const winnersList = document.getElementById('winnersList');
+const eliminatedCount = document.getElementById('eliminatedCount');
+const winnersCountBadge = document.getElementById('winnersCountBadge');
+const winnerCard = document.getElementById('winnerCard');
+const winnerHeadline = document.getElementById('winnerHeadline');
+const winnerNamesBox = document.getElementById('winnerNamesBox');
+const statusTitle = document.getElementById('statusTitle');
+const statusSubtitle = document.getElementById('statusSubtitle');
+const phaseBadge = document.getElementById('phaseBadge');
+const roundsBadge = document.getElementById('roundsBadge');
+const globalAnnouncement = document.getElementById('globalAnnouncement');
+const announcementBadge = document.getElementById('announcementBadge');
+const announcementName = document.getElementById('announcementName');
+const announcementExtra = document.getElementById('announcementExtra');
+function showGlobalAnnouncement(type, name, extraText, badgeText) {
+if (!globalAnnouncement || !announcementBadge || !announcementName || !announcementExtra) return;
+globalAnnouncement.classList.remove('winner', 'elimination');
+globalAnnouncement.classList.add(type);
+announcementBadge.textContent = badgeText || (type === 'winner' ? 'Winner' : 'Eliminated');
+announcementName.textContent = name || '—';
+announcementExtra.textContent = extraText || (type === 'winner' ? 'Congratulations!' : 'Better luck next time.');
+globalAnnouncement.classList.add('show');
+clearTimeout(showGlobalAnnouncement.timer);
+showGlobalAnnouncement.timer = setTimeout(() => {
+globalAnnouncement.classList.remove('show');
+}, 3200);
+}
+const numEliminatedInput = document.getElementById('numEliminatedInput');
+const numWinnersInput = document.getElementById('numWinnersInput');
+function getNormalizedName(value) {
+return String(value || '').trim().replace(/\s+/g, ' ');
+}
+function createAgentItem(name) {
+return {
+id: 'ag_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
+name: getNormalizedName(name)
+};
+}
+async function persistParticipants() {
+const safeList = participantItems.map(item => ({
+id: item.id,
+name: getNormalizedName(item.name)
+}));
+try {
+if (window.supabase) {
+await saveSharedList('participants', safeList);
+return;
+}
+} catch (error) {
+console.warn('Supabase participants save failed, using localStorage fallback:', error);
+}
+try {
+localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(safeList));
+} catch (error) {
+console.warn('Error al guardar participantes:', error);
+}
+}
+async function loadParticipantsFromStorage() {
+try {
+if (window.supabase) {
+const shared = await readSharedList('participants');
+if (shared && shared.length) {
+return shared.map(item => typeof item === 'string' ? createAgentItem(item) : ({
+...item,
+name: getNormalizedName(item.name)
+}));
+}
+}
+} catch (error) {
+console.warn('Supabase participants load failed, using localStorage fallback:', error);
+}
+try {
+const raw = localStorage.getItem(AGENTS_STORAGE_KEY);
+if (!raw) return null;
+const parsed = JSON.parse(raw);
+if (!Array.isArray(parsed)) return null;
+return parsed.map(item => typeof item === 'string' ? createAgentItem(item) : item);
+} catch (error) {
+return null;
+}
+}
+function renderParticipantsEditor() {
+if (!agentsEditorList) return;
+if (!participantItems.length) {
+agentsEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">No participants added.</div>';
+return;
+}
+agentsEditorList.innerHTML = participantItems.map(item => `
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">${String(item.name)}</span>
+<button
+type="button"
+class="btn btn-link p-0 text-danger remove-agent-btn"
+data-id="${item.id}"
+aria-label="Remove entry"
+title="Remove this entry"
+>
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+`).join('');
+}
+function syncTextareaFromParticipants() {
+agentsInput.value = participantItems.map(i => i.name).join('\n');
+}
+function shuffleAgents() {
+if (participantItems.length <= 1) return;
+participantItems = shuffleArray([...participantItems]);
+activeAgents = [...participantItems];
+persistParticipants();
+syncTextareaFromParticipants();
+renderParticipantsEditor();
+drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
+}
+function processBulkAgents(replaceWholeList) {
+const textarea = document.getElementById('bulkAgentsTextarea');
+const lines = textarea.value
+.split('\n')
+.map(s => getNormalizedName(s))
+.filter(s => s.length > 0);
+if (lines.length === 0) {
+alert('Please paste at least one name.');
+return;
+}
+const newItems = lines.map(name => createAgentItem(name));
+if (replaceWholeList) {
+participantItems = newItems;
+} else {
+participantItems = [...participantItems, ...newItems];
+}
+persistParticipants();
+syncTextareaFromParticipants();
+renderParticipantsEditor();
+parseAgents();
+textarea.value = '';
+const modalEl = document.getElementById('bulkAgentsModal');
+const modal = bootstrap.Modal.getInstance(modalEl);
+if (modal) modal.hide();
+}
+function addAgentToList() {
+const normalizedName = getNormalizedName(newAgentNameInput.value);
+if (!normalizedName) {
+newAgentNameInput.focus();
+return;
+}
+participantItems.push(createAgentItem(normalizedName));
+persistParticipants();
+syncTextareaFromParticipants();
+renderParticipantsEditor();
+parseAgents();
+newAgentNameInput.value = '';
+newAgentNameInput.focus();
+}
+function removeAgentItem(id) {
+participantItems = participantItems.filter(i => i.id !== id);
+persistParticipants();
+syncTextareaFromParticipants();
+renderParticipantsEditor();
+parseAgents();
+}
+async function parseAgents() {
+const saved = await loadParticipantsFromStorage();
+if (saved && saved.length) {
+participantItems = saved;
+} else if (!participantItems.length) {
+const defaultNames = agentsInput.value.split('\n').map(s => getNormalizedName(s)).filter(Boolean);
+participantItems = defaultNames.map(name => createAgentItem(name));
+}
+activeAgents = [...participantItems];
+eliminatedAgents = [];
+chosenWinners = [];
+winnerCard.classList.add('d-none');
+let elimCount = parseInt(numEliminatedInput.value, 10) || 0;
+let winCount = parseInt(numWinnersInput.value, 10) || 1;
+if (elimCount + winCount > activeAgents.length) {
+elimCount = Math.max(0, activeAgents.length - winCount);
+numEliminatedInput.value = elimCount;
+}
+currentPhase = elimCount > 0 ? 'elimination' : 'winner_selection';
+syncTextareaFromParticipants();
+renderParticipantsEditor();
+updateAgentCounters();
+updatePhaseUI();
+drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
+syncWinnersWithPrizes();
+}
+addAgentBtn.addEventListener('click', addAgentToList);
+newAgentNameInput.addEventListener('keydown', (event) => {
+if (event.key === 'Enter') {
+event.preventDefault();
+addAgentToList();
+}
+});
+agentsEditorList.addEventListener('click', (event) => {
+const button = event.target.closest('.remove-agent-btn');
+if (!button) return;
+const id = button.dataset.id;
+if (!id) return;
+removeAgentItem(id);
+});
+function updatePhaseUI() {
+const elimTarget = parseInt(numEliminatedInput.value, 10) || 0;
+const winTarget = parseInt(numWinnersInput.value, 10) || 1;
+if (currentPhase === 'elimination') {
+phaseBadge.textContent = 'Phase: Elimination 🌺';
+phaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
+roundsBadge.textContent = `Eliminated: ${eliminatedAgents.length} / ${elimTarget}`;
+roundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
+spinAgentBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
+spinAgentBtn.innerHTML = '🏵️ SPIN TO REVEAL';
+spinAgentBtn.disabled = activeAgents.length <= 1;
+statusTitle.textContent = 'Elimination phase!';
+statusSubtitle.textContent = `The selected participant will be added to the altar (${elimTarget - eliminatedAgents.length} left to eliminate).`;
+} else if (currentPhase === 'winner_selection') {
+phaseBadge.textContent = 'Phase: Choose Winner 👑';
+phaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
+roundsBadge.textContent = `Winners: ${chosenWinners.length} / ${winTarget}`;
+roundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
+spinAgentBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
+spinAgentBtn.innerHTML = '👑 SPIN TO PICK WINNER';
+spinAgentBtn.disabled = activeAgents.length === 0;
+statusTitle.textContent = 'Winner phase!';
+statusSubtitle.textContent = `Spin to choose a winner from the surviving entries! (${winTarget - chosenWinners.length} left)`;
+} else {
+phaseBadge.textContent = 'Draw Finished 🎉';
+phaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
+roundsBadge.textContent = `Total winners: ${chosenWinners.length}`;
+spinAgentBtn.disabled = true;
+}
+}
+function updateAgentCounters() {
+agentsCountBadge.textContent = `${activeAgents.length} active`;
+eliminatedCount.textContent = `${eliminatedAgents.length}`;
+winnersCountBadge.textContent = `${chosenWinners.length}`;
+if (eliminatedAgents.length === 0) {
+graveyardList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">Eliminated participants will appear here...</div>';
+} else {
+graveyardList.innerHTML = eliminatedAgents.map((ag, i) => `
+<div class="graveyard-item">
+<span>🌼 #${i + 1} ${ag.name}</span>
+<span class="text-secondary">Eliminated</span>
+</div>
+`).join('');
+}
+if (chosenWinners.length === 0) {
+winnersList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">None yet...</div>';
+} else {
+winnersList.innerHTML = chosenWinners.map((ag, i) => `
+<div class="winner-item">
+<span>👑 #${i + 1} ${ag.name}</span>
+<span class="text-success fw-bold">Winner</span>
+</div>
+`).join('');
+}
+}
+function drawWheel(ctx, canvas, items, currentAngle, isPrizeWheel = false) {
+const width = canvas.width;
+const height = canvas.height;
+const radius = width / 2;
+const cx = radius;
+const cy = radius;
+ctx.clearRect(0, 0, width, height);
+if (items.length === 0) {
+ctx.fillStyle = '#1c102b';
+ctx.beginPath();
+ctx.arc(cx, cy, radius - 8, 0, Math.PI * 2);
+ctx.fill();
+ctx.fillStyle = '#8e79a8';
+ctx.font = '16px Montserrat';
+ctx.textAlign = 'center';
+ctx.fillText('No items', cx, cy);
+return;
+}
+const sliceAngle = (Math.PI * 2) / items.length;
+items.forEach((item, index) => {
+const label = typeof item === 'object' ? item.name : item;
+const startAngle = currentAngle + index * sliceAngle;
+const endAngle = startAngle + sliceAngle;
+const color = diaDeMuertosColors[index % diaDeMuertosColors.length];
+ctx.beginPath();
+ctx.moveTo(cx, cy);
+ctx.arc(cx, cy, radius - 6, startAngle, endAngle);
+ctx.fillStyle = color;
+ctx.fill();
+ctx.lineWidth = 2;
+ctx.strokeStyle = '#0a0512';
+ctx.stroke();
+ctx.save();
+ctx.translate(cx, cy);
+ctx.rotate(startAngle + sliceAngle / 2);
+ctx.textAlign = 'right';
+ctx.fillStyle = '#ffffff';
+ctx.font = items.length > 14 ? 'bold 11px Montserrat' : 'bold 14px Montserrat';
+const maxLen = 16;
+const textToDraw = label.length > maxLen ? label.substring(0, maxLen) + '...' : label;
+ctx.fillText(textToDraw, radius - 24, 5);
+ctx.restore();
+});
+ctx.beginPath();
+ctx.arc(cx, cy, 32, 0, Math.PI * 2);
+ctx.fillStyle = '#0a0512';
+ctx.fill();
+ctx.lineWidth = 3;
+const isGreen = isPrizeWheel ? (prizeCurrentPhase === 'awarding') : (currentPhase === 'winner_selection');
+ctx.strokeStyle = isGreen ? '#d8a1ff' : '#ff9f1c';
+ctx.stroke();
+ctx.fillStyle = '#ffbd4a';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(isPrizeWheel ? (prizeCurrentPhase === 'awarding' ? '🎁' : '🌺') : (currentPhase === 'winner_selection' ? '👑' : '🏵️'), cx, cy);
+}
+function spinAgent() {
+if (isSpinningAgents || activeAgents.length === 0) return;
+isSpinningAgents = true;
+spinAgentBtn.disabled = true;
+statusTitle.innerHTML = '🔮 Spinning the wheel...';
+statusTitle.className = 'mb-0 fw-bold text-warning';
+statusSubtitle.textContent = currentPhase === 'elimination' ? 'Who will be eliminated?' : 'Who will be the lucky winner?';
+const totalSlices = activeAgents.length;
+const sliceRad = (Math.PI * 2) / totalSlices;
+const chosenIndex = Math.floor(Math.random() * totalSlices);
+const fullRotations = 5 + Math.floor(Math.random() * 3);
+const targetSegmentCenter = chosenIndex * sliceRad + sliceRad / 2;
+const finalAngle = (fullRotations * Math.PI * 2) + ((3 * Math.PI / 2) - targetSegmentCenter);
+const duration = 3800;
+const start = performance.now();
+const initialAngle = agentCurrentAngle % (Math.PI * 2);
+let lastTickSegment = -1;
+function animate(now) {
+const elapsed = now - start;
+const progress = Math.min(elapsed / duration, 1);
+const easeOut = 1 - Math.pow(1 - progress, 3);
+agentCurrentAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
+const normAngle = (agentCurrentAngle + Math.PI / 2) % (Math.PI * 2);
+const currSegment = Math.floor((normAngle >= 0 ? normAngle : normAngle + Math.PI * 2) / sliceRad);
+if (currSegment !== lastTickSegment) {
+playTickSound();
+lastTickSegment = currSegment;
+}
+drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
+if (progress < 1) {
+requestAnimationFrame(animate);
+} else {
+isSpinningAgents = false;
+handleSpinResult(chosenIndex);
+}
+}
+requestAnimationFrame(animate);
+}
+function handleSpinResult(index) {
+const elimTarget = parseInt(numEliminatedInput.value, 10) || 0;
+const winTarget = parseInt(numWinnersInput.value, 10) || 1;
+if (currentPhase === 'elimination') {
+const eliminated = activeAgents.splice(index, 1)[0];
+eliminatedAgents.push(eliminated);
+playEliminationSound();
+showGlobalAnnouncement('elimination', eliminated.name, 'Has been eliminated from the draw.', 'Eliminated');
+updateAgentCounters();
+if (eliminatedAgents.length >= elimTarget || activeAgents.length <= winTarget) {
+setStatusAlertMode('elimination');
+statusTitle.innerHTML = `🌺 ${eliminated.name} HAS BEEN ELIMINATED! 🌼`;
+statusTitle.className = 'mb-0 fw-bold text-danger';
+if (activeAgents.length === winTarget) {
+chosenWinners = [...activeAgents];
+activeAgents = [];
+currentPhase = 'finished';
+updateAgentCounters();
+finishGame();
+} else {
+currentPhase = 'winner_selection';
+updatePhaseUI();
+}
+} else {
+setStatusAlertMode('elimination');
+statusTitle.innerHTML = `🌺 ${eliminated.name} HAS BEEN ELIMINATED! 🌼`;
+statusTitle.className = 'mb-0 fw-bold text-danger';
+statusSubtitle.textContent = `${activeAgents.length} entries left. ${elimTarget - eliminatedAgents.length} more to eliminate.`;
+spinAgentBtn.disabled = false;
+updatePhaseUI();
+}
+} else if (currentPhase === 'winner_selection') {
+const winner = activeAgents.splice(index, 1)[0];
+chosenWinners.push(winner);
+playVictoryFanfare();
+showGlobalAnnouncement('winner', winner.name, 'Congratulations! You are a winner.', 'Winner');
+setStatusAlertMode('winner');
+updateAgentCounters();
+if (chosenWinners.length >= winTarget || activeAgents.length === 0) {
+currentPhase = 'finished';
+finishGame();
+} else {
+setStatusAlertMode('winner');
+statusTitle.innerHTML = `🎉 ${winner.name} IS A WINNER! 👑`;
+statusTitle.className = 'mb-0 fw-bold text-success';
+statusSubtitle.textContent = `${winTarget - chosenWinners.length} winner(s) left to be chosen!`;
+spinAgentBtn.disabled = false;
+updatePhaseUI();
+}
+}
+drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
+syncWinnersWithPrizes();
+}
+function setStatusAlertMode(mode) {
+const statusAlert = document.getElementById('statusAlert');
+if (!statusAlert) return;
+statusAlert.classList.remove('elimination-mode', 'winner-mode');
+if (mode === 'elimination') {
+statusAlert.classList.add('elimination-mode');
+} else if (mode === 'winner') {
+statusAlert.classList.add('winner-mode');
+}
+}
+function setWinnerCardLightning(active) {
+if (!winnerCard) return;
+winnerCard.classList.remove('lightning');
+if (active) {
+winnerCard.classList.add('lightning');
+setTimeout(() => winnerCard.classList.remove('lightning'), 1200);
+}
+}
+function finishGame() {
+spinAgentBtn.disabled = true;
+playVictoryFanfare();
+setStatusAlertMode('winner');
+setWinnerCardLightning(true);
+statusTitle.innerHTML = `👑 DRAW COMPLETE! WINNERS FOUND!`;
+statusTitle.className = 'mb-0 fw-bold text-success';
+statusSubtitle.textContent = 'Move to the prize wheel to award the rewards.';
+winnerHeadline.textContent = chosenWinners.length === 1 ? '👑 THE GRAND WINNER! 👑' : `👑 ${chosenWinners.length} WINNERS! 👑`;
+winnerNamesBox.innerHTML = chosenWinners.map(w => `<span class="badge bg-success fs-4 m-1 p-2">👑 ${w.name}</span>`).join(' ');
+winnerCard.classList.remove('d-none');
+updatePhaseUI();
+syncWinnersWithPrizes();
+}
+function syncWinnersWithPrizes() {
+document.getElementById('prizesToAwardBadge').textContent = chosenWinners.length || 1;
+setupPrizeQueue();
+}
+document.getElementById('goToPrizeBtn').addEventListener('click', () => {
+const prizeTab = new bootstrap.Tab(document.getElementById('tab-prizes-btn'));
+prizeTab.show();
+});
+const PRIZES_STORAGE_KEY = 'digitalKnightRuletaPremios_v2';
+let prizeItems = [];
+let activePrizes = [];
+let eliminatedPrizes = [];
+let awardedHistory = [];
+let prizeCurrentPhase = 'elimination';
+let isSpinningPrizes = false;
+let prizeCurrentAngle = 0;
+let winnerPrizeIndex = 0;
+const prizesCanvas = document.getElementById('prizesWheel');
+const prizesCtx = prizesCanvas.getContext('2d');
+const prizesInput = document.getElementById('prizesInput');
+const prizesEditorList = document.getElementById('prizesEditorList');
+const newPrizeInput = document.getElementById('newPrizeInput');
+const addPrizeBtn = document.getElementById('addPrizeBtn');
+const loadPrizesBtn = document.getElementById('loadPrizesBtn');
+const prizesCountBadge = document.getElementById('prizesCountBadge');
+const numElimPrizesInput = document.getElementById('numElimPrizesInput');
+const spinPrizeBtn = document.getElementById('spinPrizeBtn');
+const resetPrizesBtn = document.getElementById('resetPrizesBtn');
+const finalPrizeCard = document.getElementById('finalPrizeCard');
+const finalAgentName = document.getElementById('finalAgentName');
+const finalPrizeWon = document.getElementById('finalPrizeWon');
+const nextWinnerPrizeBtn = document.getElementById('nextWinnerPrizeBtn');
+const prizeStatusTitle = document.getElementById('prizeStatusTitle');
+const prizeStatusSubtitle = document.getElementById('prizeStatusSubtitle');
+const prizePhaseBadge = document.getElementById('prizePhaseBadge');
+const prizeRoundsBadge = document.getElementById('prizeRoundsBadge');
+const currentWinnerToPrizeDisplay = document.getElementById('currentWinnerToPrizeDisplay');
+const discardedPrizesList = document.getElementById('discardedPrizesList');
+const eliminatedPrizesCount = document.getElementById('eliminatedPrizesCount');
+const awardedPrizesList = document.getElementById('awardedPrizesList');
+const awardedPrizesCount = document.getElementById('awardedPrizesCount');
+function createPrizeItem(name) {
+return {
+id: 'prz_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
+name: getNormalizedName(name)
+};
+}
+async function persistPrizes() {
+const safeList = prizeItems.map(item => ({
+id: item.id,
+name: getNormalizedName(item.name)
+}));
+try {
+if (window.supabase) {
+await saveSharedList('prizes', safeList);
+return;
+}
+} catch (error) {
+console.warn('Supabase prizes save failed, using localStorage fallback:', error);
+}
+try {
+localStorage.setItem(PRIZES_STORAGE_KEY, JSON.stringify(safeList));
+} catch (error) {
+console.warn('Error al guardar premios:', error);
+}
+}
+async function loadPrizesFromStorage() {
+try {
+if (window.supabase) {
+const shared = await readSharedList('prizes');
+if (shared && shared.length) {
+return shared.map(item => typeof item === 'string' ? createPrizeItem(item) : ({
+...item,
+name: getNormalizedName(item.name)
+}));
+}
+}
+} catch (error) {
+console.warn('Supabase prizes load failed, using localStorage fallback:', error);
+}
+try {
+const raw = localStorage.getItem(PRIZES_STORAGE_KEY);
+if (!raw) return null;
+const parsed = JSON.parse(raw);
+if (!Array.isArray(parsed)) return null;
+return parsed.map(item => typeof item === 'string' ? createPrizeItem(item) : item);
+} catch (error) {
+return null;
+}
+}
+function renderPrizesEditor() {
+if (!prizesEditorList) return;
+if (!prizeItems.length) {
+prizesEditorList.innerHTML = '<div class="text-secondary small text-center py-3 fst-italic">No prizes added.</div>';
+return;
+}
+prizesEditorList.innerHTML = prizeItems.map(item => `
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
+<span class="text-light">${String(item.name)}</span>
+<button
+type="button"
+class="btn btn-link p-0 text-danger remove-prize-btn"
+data-id="${item.id}"
+aria-label="Remove prize"
+title="Remove prize"
+>
+<i class="bi bi-x-circle-fill"></i>
+</button>
+</div>
+`).join('');
+}
+function syncTextareaFromPrizes() {
+prizesInput.value = prizeItems.map(i => i.name).join('\n');
+}
+function shufflePrizes() {
+if (prizeItems.length <= 1) return;
+prizeItems = shuffleArray([...prizeItems]);
+activePrizes = [...prizeItems];
+persistPrizes();
+syncTextareaFromPrizes();
+renderPrizesEditor();
+drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
+}
+function processBulkPrizes(replaceWholeList) {
+const textarea = document.getElementById('bulkPrizesTextarea');
+const lines = textarea.value
+.split('\n')
+.map(s => getNormalizedName(s))
+.filter(s => s.length > 0);
+if (lines.length === 0) {
+alert('Please paste at least one prize.');
+return;
+}
+const newItems = lines.map(name => createPrizeItem(name));
+if (replaceWholeList) {
+prizeItems = newItems;
+} else {
+prizeItems = [...prizeItems, ...newItems];
+}
+persistPrizes();
+syncTextareaFromPrizes();
+renderPrizesEditor();
+parsePrizes();
+textarea.value = '';
+const modalEl = document.getElementById('bulkPrizesModal');
+const modal = bootstrap.Modal.getInstance(modalEl);
+if (modal) modal.hide();
+}
+function addPrizeToList() {
+const normalizedPrize = getNormalizedName(newPrizeInput.value);
+if (!normalizedPrize) {
+newPrizeInput.focus();
+return;
+}
+prizeItems.push(createPrizeItem(normalizedPrize));
+persistPrizes();
+syncTextareaFromPrizes();
+renderPrizesEditor();
+parsePrizes();
+newPrizeInput.value = '';
+newPrizeInput.focus();
+}
+function removePrizeItem(id) {
+prizeItems = prizeItems.filter(i => i.id !== id);
+persistPrizes();
+syncTextareaFromPrizes();
+renderPrizesEditor();
+parsePrizes();
+}
+async function parsePrizes() {
+const stored = await loadPrizesFromStorage();
+if (stored !== null && stored.length) {
+prizeItems = stored;
+} else if (!prizeItems.length) {
+const lines = prizesInput.value.split('\n').map(s => getNormalizedName(s)).filter(s => s.length > 0);
+prizeItems = lines.map(name => createPrizeItem(name));
+}
+activePrizes = [...prizeItems];
+eliminatedPrizes = [];
+awardedHistory = [];
+winnerPrizeIndex = 0;
+finalPrizeCard.classList.add('d-none');
+let elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
+const neededWinners = chosenWinners.length || 1;
+if (elimTarget + neededWinners > activePrizes.length) {
+elimTarget = Math.max(0, activePrizes.length - neededWinners);
+numElimPrizesInput.value = elimTarget;
+}
+prizeCurrentPhase = elimTarget > 0 ? 'elimination' : 'awarding';
+syncTextareaFromPrizes();
+renderPrizesEditor();
+updatePrizeCounters();
+updatePrizePhaseUI();
+drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
+}
+addPrizeBtn.addEventListener('click', addPrizeToList);
+newPrizeInput.addEventListener('keydown', (event) => {
+if (event.key === 'Enter') {
+event.preventDefault();
+addPrizeToList();
+}
+});
+prizesEditorList.addEventListener('click', (event) => {
+const button = event.target.closest('.remove-prize-btn');
+if (!button) return;
+const id = button.dataset.id;
+if (!id) return;
+removePrizeItem(id);
+});
+function setupPrizeQueue() {
+winnerPrizeIndex = 0;
+updatePrizeCounters();
+updatePrizePhaseUI();
+}
+function updatePrizeCounters() {
+prizesCountBadge.textContent = `${activePrizes.length} disponibles`;
+eliminatedPrizesCount.textContent = `${eliminatedPrizes.length}`;
+awardedPrizesCount.textContent = `${awardedHistory.length}`;
+if (eliminatedPrizes.length === 0) {
+discardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div>';
+} else {
+discardedPrizesList.innerHTML = eliminatedPrizes.map((p, i) => `
+<div class="graveyard-item">
+<span>🗑️ #${i + 1} ${p.name}</span>
+<span class="text-secondary">Discarded</span>
+</div>
+`).join('');
+}
+if (awardedHistory.length === 0) {
+awardedPrizesList.innerHTML = '<div class="text-secondary small text-center py-2 fst-italic">None yet...</div>';
+} else {
+awardedPrizesList.innerHTML = awardedHistory.map(item => `
+<div class="winner-item">
+<span>👑 ${item.agent}</span>
+<span class="text-warning fw-bold">${item.prize}</span>
+</div>
+`).join('');
+}
+if (chosenWinners.length === 0) {
+currentWinnerToPrizeDisplay.textContent = 'No winner selected in wheel 1';
+} else if (winnerPrizeIndex < chosenWinners.length) {
+currentWinnerToPrizeDisplay.textContent = `${chosenWinners[winnerPrizeIndex].name} (${winnerPrizeIndex + 1} of ${chosenWinners.length})`;
+} else {
+currentWinnerToPrizeDisplay.textContent = 'All prizes awarded! 🎉';
+}
+}
+function updatePrizePhaseUI() {
+const elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
+const totalWinners = chosenWinners.length || 1;
+if (prizeCurrentPhase === 'elimination') {
+prizePhaseBadge.textContent = 'Phase: Prize Discard 🌺';
+prizePhaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
+prizeRoundsBadge.textContent = `Discarded: ${eliminatedPrizes.length} / ${elimTarget}`;
+prizeRoundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
+spinPrizeBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
+spinPrizeBtn.innerHTML = '🌺 SPIN TO ELIMINATE PRIZE';
+spinPrizeBtn.disabled = activePrizes.length <= totalWinners;
+prizeStatusTitle.textContent = 'Prize discard phase!';
+prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
+prizeStatusSubtitle.textContent = `The prize that comes up will be removed from the wheel (${elimTarget - eliminatedPrizes.length} left to discard).`;
+} else if (prizeCurrentPhase === 'awarding') {
+prizePhaseBadge.textContent = 'Phase: Winner Prize 🎁';
+prizePhaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
+prizeRoundsBadge.textContent = `Prizes: ${awardedHistory.length} / ${totalWinners}`;
+prizeRoundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
+const currentAgent = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'the winner';
+spinPrizeBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
+spinPrizeBtn.innerHTML = `🎁 SPIN FOR LOS PRIZE FOR ${currentAgent.toUpperCase()}!`;
+spinPrizeBtn.disabled = activePrizes.length === 0 || (chosenWinners.length > 0 && winnerPrizeIndex >= chosenWinners.length);
+prizeStatusTitle.textContent = `Spin for ${currentAgent}'s prize!`;
+prizeStatusTitle.className = 'mb-0 fw-bold text-success';
+prizeStatusSubtitle.textContent = 'Only the surviving prizes remain. Good luck!';
+} else {
+prizePhaseBadge.textContent = 'Awarding Complete 🎉';
+prizePhaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
+prizeRoundsBadge.textContent = `Total awarded: ${awardedHistory.length}`;
+spinPrizeBtn.disabled = true;
+prizeStatusTitle.textContent = 'All prizes have been awarded!';
+prizeStatusTitle.className = 'mb-0 fw-bold text-success';
+prizeStatusSubtitle.textContent = 'Congratulations to all participants and winners.';
+}
+}
+function spinPrize() {
+if (isSpinningPrizes || activePrizes.length === 0) return;
+isSpinningPrizes = true;
+spinPrizeBtn.disabled = true;
+finalPrizeCard.classList.add('d-none');
+nextWinnerPrizeBtn.classList.add('d-none');
+const currentWinner = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'Winner';
+if (prizeCurrentPhase === 'elimination') {
+prizeStatusTitle.innerHTML = '🌺 Spinning to discard a prize...';
+prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
+prizeStatusSubtitle.textContent = 'Which prize will not be awarded today?';
+} else {
+prizeStatusTitle.innerHTML = `🎁 Spinning the wheel for ${currentWinner}!`;
+prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
+prizeStatusSubtitle.textContent = 'Good luck!';
+}
+const totalSlices = activePrizes.length;
+const sliceRad = (Math.PI * 2) / totalSlices;
+const chosenIndex = Math.floor(Math.random() * totalSlices);
+const fullRotations = 6 + Math.floor(Math.random() * 3);
+const targetSegmentCenter = chosenIndex * sliceRad + sliceRad / 2;
+const finalAngle = (fullRotations * Math.PI * 2) + ((3 * Math.PI / 2) - targetSegmentCenter);
+const duration = 3800;
+const start = performance.now();
+const initialAngle = prizeCurrentAngle % (Math.PI * 2);
+let lastTick = -1;
+function animate(now) {
+const elapsed = now - start;
+const progress = Math.min(elapsed / duration, 1);
+const easeOut = 1 - Math.pow(1 - progress, 3);
+prizeCurrentAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
+const normAngle = (prizeCurrentAngle + Math.PI / 2) % (Math.PI * 2);
+const currSegment = Math.floor((normAngle >= 0 ? normAngle : normAngle + Math.PI * 2) / sliceRad);
+if (currSegment !== lastTick) {
+playTickSound();
+lastTick = currSegment;
+}
+drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
+if (progress < 1) {
+requestAnimationFrame(animate);
+} else {
+isSpinningPrizes = false;
+handlePrizeSpinResult(chosenIndex, currentWinner);
+}
+}
+requestAnimationFrame(animate);
+}
+function handlePrizeSpinResult(index, currentWinner) {
+const elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
+const neededWinners = chosenWinners.length || 1;
+if (prizeCurrentPhase === 'elimination') {
+const discarded = activePrizes.splice(index, 1)[0];
+eliminatedPrizes.push(discarded);
+playEliminationSound();
+showGlobalAnnouncement('elimination', discarded.name, 'This prize has been eliminated from the selection.', 'Discarded Prize');
+updatePrizeCounters();
+if (eliminatedPrizes.length >= elimTarget || activePrizes.length <= neededWinners) {
+prizeStatusTitle.innerHTML = `🗑️ DISCARDED: ${discarded.name}!`;
+prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
+prizeCurrentPhase = 'awarding';
+updatePrizePhaseUI();
+} else {
+prizeStatusTitle.innerHTML = `🗑️ DISCARDED: ${discarded.name}!`;
+prizeStatusTitle.className = 'mb-0 fw-bold text-danger';
+prizeStatusSubtitle.textContent = `${activePrizes.length} prizes left. ${elimTarget - eliminatedPrizes.length} more to discard.`;
+spinPrizeBtn.disabled = false;
+updatePrizePhaseUI();
+}
+} else if (prizeCurrentPhase === 'awarding') {
+const prizeWon = activePrizes.splice(index, 1)[0];
+playVictoryFanfare();
+showGlobalAnnouncement('winner', prizeWon.name, `${currentWinner} wins this prize!`, 'Prize Won');
+prizeStatusTitle.innerHTML = '🎉 PRIZE AWARDED!';
+prizeStatusTitle.className = 'mb-0 fw-bold text-success';
+prizeStatusSubtitle.textContent = `Congratulations to ${currentWinner}!`;
+finalAgentName.textContent = currentWinner;
+finalPrizeWon.textContent = prizeWon.name;
+finalPrizeCard.classList.remove('d-none');
+awardedHistory.push({ agent: currentWinner, prize: prizeWon.name });
+winnerPrizeIndex++;
+updatePrizeCounters();
+const totalWinners = chosenWinners.length || 1;
+if (winnerPrizeIndex < totalWinners && activePrizes.length > 0) {
+const nextAgent = chosenWinners[winnerPrizeIndex].name;
+nextWinnerPrizeBtn.classList.remove('d-none');
+nextWinnerPrizeBtn.textContent = `Draw prize for ${nextAgent} ➡️`;
+} else {
+prizeCurrentPhase = 'finished';
+updatePrizePhaseUI();
+}
+}
+drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
+}
+nextWinnerPrizeBtn.addEventListener('click', () => {
+finalPrizeCard.classList.add('d-none');
+updatePrizeCounters();
+updatePrizePhaseUI();
+spinPrize();
+});
+loadAgentsBtn.addEventListener('click', parseAgents);
+spinAgentBtn.addEventListener('click', spinAgent);
+loadPrizesBtn.addEventListener('click', parsePrizes);
+spinPrizeBtn.addEventListener('click', spinPrize);
+document.getElementById('resetAllBtn').addEventListener('click', () => {
+if (confirm('Do you want to restart the full agent draw?')) {
+parseAgents();
+statusTitle.textContent = 'The wheel is ready!';
+statusTitle.className = 'mb-0 fw-bold';
+statusSubtitle.textContent = 'Press the button to begin.';
+}
+});
+resetPrizesBtn.addEventListener('click', () => {
+if (confirm('Do you want to restart the prize wheel and restore discarded prizes?')) {
+parsePrizes();
+}
+});
+window.addEventListener('load', () => {
+parseAgents().catch(console.error);
+parsePrizes().catch(console.error);
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://aowyrmwzuteqjawmpygt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd3lybXd6dXRlcWphd21weWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4OTQ1MTksImV4cCI6MjEwODQ3MDUxOX0.GVkmAUHlO62dcChk5uHbYYUbQEsrdaPSMbQmyFVe7hM';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+async function saveSharedList(kind, value) {
+if (!supabase) {
+throw new Error('Supabase is not available');
+}
+const { data: rows, error: selectError } = await supabase
+.from('roulette_data')
+.select('kind')
+.eq('kind', kind)
+.limit(1);
+if (selectError) throw selectError;
+if (rows && rows.length > 0) {
+const { error } = await supabase
+.from('roulette_data')
+.update({ value, updated_at: new Date().toISOString() })
+.eq('kind', kind);
+if (error) throw error;
+return;
+}
+const { error } = await supabase
+.from('roulette_data')
+.insert({ kind, value, updated_at: new Date().toISOString() });
+if (error) throw error;
+}
+async function readSharedList(kind) {
+if (!supabase) {
+throw new Error('Supabase is not available');
+}
+const { data, error } = await supabase
+.from('roulette_data')
+.select('value')
+.eq('kind', kind)
+.limit(1);
+if (error) throw error;
+const row = Array.isArray(data) && data.length > 0 ? data[0] : null;
+return Array.isArray(row?.value) ? row.value : [];
+}
+</script>
+</body></html>
