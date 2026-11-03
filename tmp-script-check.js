@@ -285,16 +285,41 @@ var require_script = __commonJS({
     var sectionContents = document.querySelectorAll(".section-content");
     var menuToggles = document.querySelectorAll(".menu-toggle");
     var mobileMenuBackdrop = document.getElementById("mobileMenuBackdrop");
+    var menuAutoCloseTimer = null;
+    var swipeStartX = null;
+    var swipeStartY = null;
+    var swipeCurrentOffset = 0;
+    function clearMenuAutoCloseTimer() {
+      if (menuAutoCloseTimer) {
+        clearTimeout(menuAutoCloseTimer);
+        menuAutoCloseTimer = null;
+      }
+    }
+    function scheduleMenuAutoClose() {
+      clearMenuAutoCloseTimer();
+      const tabsContainer2 = document.querySelector(".tabs");
+      if (!tabsContainer2 || !tabsContainer2.classList.contains("open")) return;
+      menuAutoCloseTimer = setTimeout(() => {
+        if (document.querySelector(".tabs")?.classList.contains("open")) {
+          setMobileMenuState(false);
+        }
+      }, 5e3);
+    }
     function setMobileMenuState(isOpen) {
       const tabsContainer2 = document.querySelector(".tabs");
       if (!tabsContainer2) return;
+      clearMenuAutoCloseTimer();
       if (isOpen) {
         tabsContainer2.classList.remove("hidden");
+        tabsContainer2.style.transition = "";
+        tabsContainer2.style.transform = "";
         requestAnimationFrame(() => {
           tabsContainer2.classList.add("open");
         });
+        scheduleMenuAutoClose();
       } else {
         tabsContainer2.classList.remove("open");
+        tabsContainer2.style.transform = "";
         requestAnimationFrame(() => {
           tabsContainer2.classList.add("hidden");
         });
@@ -308,6 +333,45 @@ var require_script = __commonJS({
       });
     }
     setMobileMenuState(false);
+    var isDrawerMenuMode = () => window.matchMedia("(max-width: 1024px), (orientation: landscape)").matches;
+    function attachSwipeToMenu() {
+      const tabsContainer2 = document.querySelector(".tabs");
+      if (!tabsContainer2) return;
+      tabsContainer2.addEventListener("touchstart", (event) => {
+        if (!tabsContainer2.classList.contains("open") || !isDrawerMenuMode()) return;
+        const touch = event.touches[0];
+        swipeStartX = touch.clientX;
+        swipeStartY = touch.clientY;
+        swipeCurrentOffset = 0;
+        tabsContainer2.style.transition = "none";
+        scheduleMenuAutoClose();
+      }, { passive: true });
+      tabsContainer2.addEventListener("touchmove", (event) => {
+        if (swipeStartX === null || !tabsContainer2.classList.contains("open") || !isDrawerMenuMode()) return;
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - swipeStartX;
+        const deltaY = Math.abs(touch.clientY - swipeStartY);
+        if (deltaY > 22 && Math.abs(deltaX) < 20) return;
+        if (deltaX < 0) {
+          swipeCurrentOffset = Math.max(deltaX, -tabsContainer2.offsetWidth);
+          tabsContainer2.style.transform = `translateX(${swipeCurrentOffset}px)`;
+          scheduleMenuAutoClose();
+        }
+      }, { passive: true });
+      tabsContainer2.addEventListener("touchend", () => {
+        if (swipeCurrentOffset < -80) {
+          setMobileMenuState(false);
+        } else {
+          tabsContainer2.style.transition = "";
+          tabsContainer2.style.transform = "";
+        }
+        swipeStartX = null;
+        swipeStartY = null;
+        swipeCurrentOffset = 0;
+        scheduleMenuAutoClose();
+      }, { passive: true });
+    }
+    attachSwipeToMenu();
     function openComingSoonModal(featureName) {
       const existing = document.querySelector(".coming-soon-overlay");
       if (existing) existing.remove();

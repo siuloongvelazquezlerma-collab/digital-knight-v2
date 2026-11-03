@@ -204,18 +204,48 @@ const overlay = document.getElementById('transitionOverlay');
 const sectionContents = document.querySelectorAll('.section-content');
 const menuToggles = document.querySelectorAll('.menu-toggle');
 const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+let menuAutoCloseTimer = null;
+let swipeStartX = null;
+let swipeStartY = null;
+let swipeCurrentOffset = 0;
+
+function clearMenuAutoCloseTimer() {
+  if (menuAutoCloseTimer) {
+    clearTimeout(menuAutoCloseTimer);
+    menuAutoCloseTimer = null;
+  }
+}
+
+function scheduleMenuAutoClose() {
+  clearMenuAutoCloseTimer();
+
+  const tabsContainer = document.querySelector('.tabs');
+  if (!tabsContainer || !tabsContainer.classList.contains('open')) return;
+
+  menuAutoCloseTimer = setTimeout(() => {
+    if (document.querySelector('.tabs')?.classList.contains('open')) {
+      setMobileMenuState(false);
+    }
+  }, 5000);
+}
 
 function setMobileMenuState(isOpen) {
   const tabsContainer = document.querySelector('.tabs');
   if (!tabsContainer) return;
 
+  clearMenuAutoCloseTimer();
+
   if (isOpen) {
     tabsContainer.classList.remove('hidden');
+    tabsContainer.style.transition = '';
+    tabsContainer.style.transform = '';
     requestAnimationFrame(() => {
       tabsContainer.classList.add('open');
     });
+    scheduleMenuAutoClose();
   } else {
     tabsContainer.classList.remove('open');
+    tabsContainer.style.transform = '';
     requestAnimationFrame(() => {
       tabsContainer.classList.add('hidden');
     });
@@ -232,6 +262,56 @@ function setMobileMenuState(isOpen) {
 }
 
 setMobileMenuState(false);
+
+const isDrawerMenuMode = () => window.matchMedia('(max-width: 1024px), (orientation: landscape)').matches;
+
+function attachSwipeToMenu() {
+  const tabsContainer = document.querySelector('.tabs');
+  if (!tabsContainer) return;
+
+  tabsContainer.addEventListener('touchstart', (event) => {
+    if (!tabsContainer.classList.contains('open') || !isDrawerMenuMode()) return;
+
+    const touch = event.touches[0];
+    swipeStartX = touch.clientX;
+    swipeStartY = touch.clientY;
+    swipeCurrentOffset = 0;
+    tabsContainer.style.transition = 'none';
+    scheduleMenuAutoClose();
+  }, { passive: true });
+
+  tabsContainer.addEventListener('touchmove', (event) => {
+    if (swipeStartX === null || !tabsContainer.classList.contains('open') || !isDrawerMenuMode()) return;
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - swipeStartX;
+    const deltaY = Math.abs(touch.clientY - swipeStartY);
+
+    if (deltaY > 22 && Math.abs(deltaX) < 20) return;
+
+    if (deltaX < 0) {
+      swipeCurrentOffset = Math.max(deltaX, -tabsContainer.offsetWidth);
+      tabsContainer.style.transform = `translateX(${swipeCurrentOffset}px)`;
+      scheduleMenuAutoClose();
+    }
+  }, { passive: true });
+
+  tabsContainer.addEventListener('touchend', () => {
+    if (swipeCurrentOffset < -80) {
+      setMobileMenuState(false);
+    } else {
+      tabsContainer.style.transition = '';
+      tabsContainer.style.transform = '';
+    }
+
+    swipeStartX = null;
+    swipeStartY = null;
+    swipeCurrentOffset = 0;
+    scheduleMenuAutoClose();
+  }, { passive: true });
+}
+
+attachSwipeToMenu();
 
 function openComingSoonModal(featureName) {
   const existing = document.querySelector('.coming-soon-overlay');
