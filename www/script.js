@@ -201,7 +201,99 @@ const swiperInstances = {};
 const tabs = document.querySelectorAll('.tab');
 const sections = document.querySelectorAll('.mySwiper');
 const overlay = document.getElementById('transitionOverlay');
-const sectionContents = document.querySelectorAll('.section-content'); 
+const sectionContents = document.querySelectorAll('.section-content');
+const menuToggles = document.querySelectorAll('.menu-toggle');
+const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+function setMobileMenuState(isOpen) {
+  const tabsContainer = document.querySelector('.tabs');
+  if (!tabsContainer) return;
+
+  if (isOpen) {
+    tabsContainer.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      tabsContainer.classList.add('open');
+    });
+  } else {
+    tabsContainer.classList.remove('open');
+    requestAnimationFrame(() => {
+      tabsContainer.classList.add('hidden');
+    });
+  }
+
+  document.body.classList.toggle('menu-open', isOpen);
+  mobileMenuBackdrop?.classList.toggle('visible', isOpen);
+
+  menuToggles.forEach((toggle) => {
+    toggle.classList.toggle('is-open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  });
+}
+
+setMobileMenuState(false);
+
+function openComingSoonModal(featureName) {
+  const existing = document.querySelector('.coming-soon-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'coming-soon-overlay';
+
+  const title = featureName === 'deportes' ? 'Deportes' : 'Canales';
+  const emoji = featureName === 'deportes' ? '🏆' : '📺';
+  const message = featureName === 'deportes'
+    ? 'Estamos preparando una experiencia única para partidos, resúmenes y contenido deportivo para que llegue muy pronto.'
+    : 'La guía de canales está en construcción. Estamos afinando la experiencia para que llegue con más estilo y más contenido.';
+
+  overlay.innerHTML = `
+    <div class="coming-soon-modal" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle">
+      <button type="button" class="coming-soon-close-btn" aria-label="Cerrar">×</button>
+      <div class="coming-soon-badge">Próximamente</div>
+      <div class="coming-soon-icon">${emoji}</div>
+      <h3 id="comingSoonTitle">${title}</h3>
+      <p>${message}</p>
+    </div>
+  `;
+
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) overlay.remove();
+  });
+
+  const closeButton = overlay.querySelector('.coming-soon-close-btn');
+  closeButton.addEventListener('click', () => overlay.remove());
+
+  document.body.appendChild(overlay);
+  setMobileMenuState(false);
+}
+
+mobileMenuBackdrop?.addEventListener('click', () => setMobileMenuState(false));
+menuToggles.forEach((toggle) => {
+  toggle.addEventListener('click', () => {
+    const isOpen = !document.querySelector('.tabs')?.classList.contains('open');
+    setMobileMenuState(isOpen);
+  });
+});
+document.querySelectorAll('.menu-category').forEach(item => {
+  item.addEventListener('click', (event) => {
+    const feature = item.dataset.feature;
+    const href = item.getAttribute('href');
+
+    if (feature) {
+      event.preventDefault();
+      openComingSoonModal(feature);
+      return;
+    }
+
+    if (href) {
+      setMobileMenuState(false);
+      return;
+    }
+
+    setMobileMenuState(false);
+  });
+});
+
 async function cargarSwiperInicio() {
 
     console.log("🔵 Cargando swiper-data.json...");
@@ -901,8 +993,9 @@ lastTabId = targetId;
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     const targetId = tab.dataset.tab;
-    if (targetId === lastTabId) return; 
+    if (targetId === lastTabId) return;
     activateTab(targetId);
+    setMobileMenuState(false);
   });
 });
 
@@ -1548,26 +1641,58 @@ const tabsContainer = document.querySelector('.tabs');
 let headerTicking = false;
 
 window.addEventListener('scroll', () => {
+  const isDrawerViewport = window.matchMedia('(max-width: 1024px), (orientation: landscape)').matches;
+
+  if (isDrawerViewport) {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll + 5) {
+      header?.classList.add('hidden');
+    } else if (currentScroll < lastScroll - 5) {
+      header?.classList.remove('hidden');
+    }
+
+    if (tabsContainer) {
+      tabsContainer.classList.remove('open');
+      tabsContainer.classList.add('hidden');
+    }
+
+    lastScroll = currentScroll;
+    return;
+  }
+
   if (headerTicking) return;
   headerTicking = true;
+
   requestAnimationFrame(() => {
     const currentScroll = window.pageYOffset;
 
-    // Umbral de 5px: evita parpadeo con micro-scrolls y trabajo innecesario
     if (currentScroll > lastScroll + 5) {
-      // Scroll hacia abajo
-      header.classList.add('hidden');
-      tabsContainer.classList.add('hidden');
+      header?.classList.add('hidden');
+      if (tabsContainer) {
+        tabsContainer.classList.add('hidden');
+        tabsContainer.classList.remove('open');
+      }
     } else if (currentScroll < lastScroll - 5) {
-      // Scroll hacia arriba
-      header.classList.remove('hidden');
-      tabsContainer.classList.remove('hidden');
+      header?.classList.remove('hidden');
+      if (tabsContainer) {
+        tabsContainer.classList.remove('hidden');
+        tabsContainer.classList.remove('open');
+      }
     }
 
     lastScroll = currentScroll;
     headerTicking = false;
   });
 }, { passive: true });
+
+if (window.matchMedia('(max-width: 1024px), (orientation: landscape)').matches) {
+  if (header) header.classList.remove('hidden');
+  if (tabsContainer) {
+    tabsContainer.classList.add('hidden');
+    tabsContainer.classList.remove('open');
+  }
+}
 
 
 // ==== Movie sections con flechas ====
