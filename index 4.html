@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Las Aventuras Legendarias de Vito - Comic Reader</title>
+  <meta name="theme-color" content="#facc15">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Vito Comics">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #120d17;
+      --bg-deep: #1b1323;
+      --card-bg: #1d1827;
+      --comic-yellow: #ffd23f;
+      --comic-red: #ff3c3c;
+      --comic-blue: #49d2ff;
+      --comic-orange: #ff7b2c;
+      --comic-pink: #ff5ca8;
+      --comic-green: #36d399;
+      --text-main: #f8fafc;
+      --text-muted: #dfe7f5;
+      --border-black: #130d14;
+      --hero-shadow: rgba(0, 0, 0, 0.38);
+    }
+
+    /* OCULTAR COMPLETAMENTE TODAS LAS BARRAS DE SCROLL */
+    html, body, * {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: radial-gradient(rgba(255, 210, 63, 0.10) 1.5px, transparent 1.5px);
+      background-size: 18px 18px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--comic-yellow) 0%, #ffb703 100%);
+      color: #000;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 4px solid var(--border-black);
+      box-shadow: 0 5px 0 var(--border-black);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 0 #000;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      display: block;
+    }
+
+    .hero-media {
+      position: relative;
+      min-height: 420px;
+      height: min(72vh, 760px);
+      border: 4px solid #000;
+      border-radius: 0;
+      overflow: hidden;
+      background-image:
+        linear-gradient(180deg, rgba(18, 13, 23, 0.08) 0%, rgba(18, 13, 23, 0.22) 30%, rgba(18, 13, 23, 0.9) 100%),
+        url('https://od.lk/s/M18zMzk1MjA5NjlfS1ZuWHc/Ilustraci%C3%B3n%20sin%20t%C3%ADtulo%20%E2%80%93%204%20Nov%202026%2C%201.06%20am_20261104_010701_0000.png');
+      background-size: cover;
+      background-position: center 18%;
+      background-repeat: no-repeat;
+      box-shadow: 0 14px 0 rgba(0,0,0,0.55), 0 30px 35px rgba(0,0,0,0.2);
+    }
+
+    .hero-media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 45%, rgba(0,0,0,0.72) 100%);
+      z-index: 0;
+    }
+
+    .hero-logo {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(58vw, 250px);
+      max-width: 75%;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .hero-logo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.8));
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 18px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 62%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-self: flex-start;
+      background: rgba(255, 60, 60, 0.92);
+      color: white;
+      border: 3px solid #000;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    .hero-copy h1 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.2rem, 7vw, 5.5rem);
+      line-height: 0.9;
+      letter-spacing: 1px;
+      text-shadow: 4px 4px 0 rgba(0,0,0,0.8);
+      color: #fff8e1;
+      max-width: 440px;
+    }
+
+    .hero-copy p {
+      max-width: 420px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.9);
+      font-weight: 700;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, var(--comic-red), #ff7b2c);
+      color: #fff;
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      padding: 8px 18px;
+      border: 3px solid var(--border-black);
+      border-radius: 10px;
+      box-shadow: 4px 4px 0 var(--border-black);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.1s ease;
+      width: fit-content;
+    }
+
+    .btn-action:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--border-black);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px 10px;
+      overflow-x: auto;
+      width: min(1200px, calc(100% - 24px));
+      margin: 0 auto;
+      scrollbar-width: none;
+    }
+
+    .chip {
+      background: linear-gradient(180deg, #2d2433 0%, #1a1721 100%);
+      color: var(--text-muted);
+      border: 2px solid #000;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.8);
+    }
+
+    .chip.active {
+      background: linear-gradient(135deg, var(--comic-blue), var(--comic-yellow));
+      color: #0b0b0d;
+      border-color: #000;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.8);
+    }
+
+    .comic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+      padding: 10px 16px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .comic-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-black);
+      border-radius: 12px;
+      box-shadow: 5px 5px 0 var(--border-black);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .comic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 0 var(--comic-yellow);
+    }
+
+    .comic-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--border-black);
+    }
+
+    .badge-number {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--comic-red);
+      color: #fff;
+      font-family: 'Bangers', cursive;
+      font-size: 0.95rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+      z-index: 2;
+    }
+
+    .badge-format {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--comic-yellow);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 2px solid #000;
+      z-index: 2;
+    }
+
+    .cover-wrapper {
+      width: 100%;
+      height: 220px;
+      background: #0f1015;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 3px solid #000;
+    }
+
+    .cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-info {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--comic-yellow);
+      font-weight: 700;
+    }
+
+    @media (orientation: landscape) and (max-width: 980px),
+           (min-width: 980px) {
+      .hero {
+        width: 100%;
+        margin: 0;
+      }
+
+      .hero-media {
+        min-height: 560px;
+        height: 78vh;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        background-position: center 12%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image:
+          linear-gradient(180deg, rgba(18, 13, 23, 0.10) 0%, rgba(18, 13, 23, 0.25) 35%, rgba(18, 13, 23, 0.9) 100%),
+          url('https://od.lk/s/M18zMzk1MjA5NDFfbjlqTnA/photo_2026-11-04_00-44-19.jpg');
+      }
+
+      .hero-copy {
+        position: absolute;
+        left: 26px;
+        right: auto;
+        top: 26px;
+        max-width: 42%;
+        background: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        min-height: auto;
+      }
+
+      .hero-logo {
+        left: 28px;
+        bottom: 28px;
+        transform: none;
+        width: min(44vw, 420px);
+      }
+
+      .hero-copy h1,
+      .hero-copy p {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-copy {
+        max-width: 72%;
+      }
+
+      .hero-media {
+        min-height: 440px;
+      }
+
+      .comic-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+
+    .reader-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.96);
+      z-index: 100;
+      flex-direction: column;
+    }
+
+    .reader-modal.active { display: flex; }
+
+    .reader-header {
+      background: #111;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #222;
+      color: #fff;
+    }
+
+    .reader-title {
+      font-size: 1rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 65%;
+    }
+
+    .btn-close {
+      background: var(--comic-red);
+      color: white;
+      border: 2px solid #000;
+      border-radius: 6px;
+      font-weight: 900;
+      padding: 4px 12px;
+      cursor: pointer;
+    }
+
+    .reader-canvas {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      padding: 10px;
+    }
+
+    .page-display {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border: 3px solid #fff;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8);
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .pdf-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+      border-radius: 8px;
+    }
+
+    .reader-nav {
+      background: #111;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 2px solid #222;
+    }
+
+    .btn-nav {
+      background: var(--comic-yellow);
+      color: #000;
+      border: 2px solid #000;
+      padding: 8px 16px;
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .page-counter {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    .upload-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .upload-modal.active { display: flex; }
+
+    .upload-box {
+      background: var(--card-bg);
+      border: 4px solid #000;
+      border-radius: 12px;
+      box-shadow: 6px 6px 0 var(--comic-yellow);
+      padding: 20px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .upload-box h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.6rem;
+      color: var(--comic-yellow);
+      margin-bottom: 12px;
+    }
+
+    .input-group {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .input-group input, .input-group textarea, .input-group select {
+      background: #0f1015;
+      border: 2px solid #333;
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .input-group input:focus, .input-group textarea:focus {
+      outline: none;
+      border-color: var(--comic-yellow);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero" aria-label="Portada principal de Vito Comics">
+    <div class="hero-media">
+      <div class="hero-copy">
+        <span class="eyebrow">Rock / aventura / caos</span>
+      </div>
+
+      <div class="hero-logo" aria-label="Logo de Vito Comics">
+        <img id="heroLogoImage" alt="Logo de Vito Comics" src="https://od.lk/s/M18zMzk1MjA5NjJfT1Vld24/Dise%C3%B1o%20sin%20t%C3%ADtulo_20261104_005107_0000.png">
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <button class="chip active" onclick="filterComics('all', this)">⭐ Todos</button>
+    <button class="chip" onclick="filterComics('metal', this)">🤘 Conciertos</button>
+    <button class="chip" onclick="filterComics('kueros', this)">🧥 Kueros</button>
+    <button class="chip" onclick="filterComics('metallica', this)">⚡ Vs Metallica</button>
+  </div>
+
+  <main class="comic-grid" id="comicGrid"></main>
+
+  <div class="reader-modal" id="readerModal">
+    <div class="reader-header">
+      <div class="reader-title" id="readerTitle">Cargando...</div>
+      <button class="btn-close" onclick="closeReader()">✕ SALIR</button>
+    </div>
+
+    <div class="reader-canvas" id="readerCanvas">
+      <img id="readerImg" class="page-display" src="" alt="Página de Cómic">
+      <iframe id="readerPdf" class="pdf-frame" style="display:none;" src=""></iframe>
+    </div>
+
+    <div class="reader-nav" id="readerNav">
+      <button class="btn-nav" id="prevBtn" onclick="prevPage()">◀ Anterior</button>
+      <div class="page-counter" id="pageIndicator">Página 1 / 1</div>
+      <button class="btn-nav" id="nextBtn" onclick="nextPage()">Siguiente ▶</button>
+    </div>
+  </div>
+
+  <div class="upload-modal" id="uploadModal">
+    <div class="upload-box">
+      <h3>➕ AGREGAR NUEVA HISTORIA DE VITO</h3>
+      <div class="input-group">
+        <label>Título del Cómic</label>
+        <input type="text" id="newTitle" placeholder="Ej: La nueva hazaña de Vito">
+      </div>
+      <div class="input-group">
+        <label>Categoría</label>
+        <select id="newCategory">
+          <option value="metal">Conciertos</option>
+          <option value="kueros">Kueros</option>
+          <option value="metallica">Vs Metallica</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Descripción cómica</label>
+        <textarea id="newDesc" rows="2" placeholder="Resumen de la anécdota de Vito..."></textarea>
+      </div>
+      <div class="input-group">
+        <label>URL de la portada del cómic</label>
+        <input type="url" id="newCoverUrl" placeholder="https://.../portada.jpg">
+      </div>
+      <div class="input-group">
+        <label>Archivo (Imagen o PDF)</label>
+        <input type="file" id="newFile" accept="image/*,application/pdf">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-action" style="flex:1; background:#475569;" onclick="closeUploadModal()">Cancelar</button>
+        <button class="btn-action" style="flex:1; background:var(--comic-yellow); color:#000;" onclick="saveNewComic()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function generateComicSVG(title, subtitle, bgColor, accentColor, iconText) {
+      const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="600" height="850" viewBox="0 0 600 850">
+        <defs>
+          <pattern id="halftone_${bgColor.replace('#','')}" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="2" fill="#000" opacity="0.18"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="850" fill="${bgColor}"/>
+        <rect width="600" height="850" fill="url(#halftone_${bgColor.replace('#','')})"/>
+        
+        <rect x="15" y="15" width="570" height="820" fill="none" stroke="#000" stroke-width="8"/>
+        
+        <rect x="30" y="35" width="540" height="70" fill="${accentColor}" stroke="#000" stroke-width="5"/>
+        <text x="300" y="82" font-family="'Impact', 'Bangers', sans-serif" font-size="34" fill="#000" text-anchor="middle" font-weight="900" letter-spacing="2">
+          LAS AVENTURAS DE VITO
+        </text>
+
+        <circle cx="300" cy="380" r="160" fill="#fff" stroke="#000" stroke-width="7"/>
+        <text x="300" y="380" font-family="'Impact', sans-serif" font-size="60" fill="#000" text-anchor="middle" dominant-baseline="middle">
+          ${iconText}
+        </text>
+
+        <g transform="rotate(-3 300 620)">
+          <rect x="40" y="580" width="520" height="110" fill="#facc15" stroke="#000" stroke-width="6"/>
+          <text x="300" y="645" font-family="'Impact', sans-serif" font-size="36" fill="#000" text-anchor="middle" font-weight="900">
+            ${title.toUpperCase()}
+          </text>
+        </g>
+
+        <rect x="60" y="725" width="480" height="50" fill="#fff" stroke="#000" stroke-width="4"/>
+        <text x="300" y="758" font-family="sans-serif" font-size="18" fill="#000" text-anchor="middle" font-weight="bold">
+          ${subtitle}
+        </text>
+      </svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    const portadaBase = 'https://od.lk/s/M18zMzk1MjA5MzdfVDltWks/photo_2026-11-04_00-30-52.jpg';
+
+    let comics = [
+      {
+        id: "comic-1",
+        num: "#01",
+        title: "Vito: El Fantasma de los Conciertos",
+        desc: "La técnica maestra de Vito para colarse gratis en los festivales de metal y terminar en zona VIP.",
+        category: "metal",
+        type: "image",
+        cover: portadaBase,
+        pages: [
+          portadaBase,
+          portadaBase,
+          portadaBase
+        ],
+        date: "2026-10-10"
+      },
+      {
+        id: "comic-2",
+        num: "#02",
+        title: "Vito y la Chamarra de 'Kueros'",
+        desc: "La legendaria hazaña en la tienda Kueros: cómo Vito renovó su guardarropa a toda velocidad.",
+        category: "kueros",
+        type: "image",
+        cover: portadaBase,
+        pages: [
+          portadaBase,
+          portadaBase,
+          portadaBase
+        ],
+        date: "2026-10-18"
+      },
+      {
+        id: "comic-3",
+        num: "#03",
+        title: "Vito vs 'Metallica': Guerra Sonora",
+        desc: "La discusión sin fin en el pasillo: Vito defendiendo sus gustos contra 'Metallica'.",
+        category: "metallica",
+        type: "image",
+        cover: portadaBase,
+        pages: [
+          portadaBase,
+          portadaBase,
+          portadaBase
+        ],
+        date: "2026-10-25"
+      }
+    ];
+
+    let currentComic = null;
+    let currentPageIndex = 0;
+    let currentFilter = 'all';
+
+    function renderComics() {
+      const grid = document.getElementById('comicGrid');
+      grid.innerHTML = '';
+
+      const filtered = currentFilter === 'all' 
+        ? comics 
+        : comics.filter(c => c.category === currentFilter);
+
+      filtered.forEach(comic => {
+        const card = document.createElement('div');
+        card.className = 'comic-card';
+        card.onclick = () => openComic(comic.id);
+
+        card.innerHTML = `
+          <div class="badge-number">${comic.num}</div>
+          <div class="badge-format">${comic.type.toUpperCase()}</div>
+          <div class="cover-wrapper">
+            <img class="cover-img" src="${comic.cover}" alt="${comic.title}" loading="lazy">
+          </div>
+          <div class="card-info">
+            <div class="card-title">${comic.title}</div>
+            <div class="card-desc">${comic.desc}</div>
+            <div class="card-footer">
+              <span>📅 ${comic.date}</span>
+              <span>${comic.type === 'image' ? (comic.pages ? comic.pages.length + ' Pág' : '1 Pág') : 'PDF'}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterComics(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderComics();
+    }
+
+    function openComic(id) {
+      currentComic = comics.find(c => c.id === id);
+      if (!currentComic) return;
+
+      document.getElementById('readerTitle').textContent = `${currentComic.num} - ${currentComic.title}`;
+      const modal = document.getElementById('readerModal');
+      const img = document.getElementById('readerImg');
+      const pdf = document.getElementById('readerPdf');
+      const nav = document.getElementById('readerNav');
+
+      modal.classList.add('active');
+
+      if (currentComic.type === 'pdf') {
+        img.style.display = 'none';
+        pdf.style.display = 'block';
+        pdf.src = currentComic.url;
+        nav.style.display = 'none';
+      } else {
+        pdf.style.display = 'none';
+        img.style.display = 'block';
+        nav.style.display = 'flex';
+        currentPageIndex = 0;
+        updatePageDisplay();
+      }
+    }
+
+    function updatePageDisplay() {
+      if (!currentComic || !currentComic.pages) return;
+      const img = document.getElementById('readerImg');
+      img.src = currentComic.pages[currentPageIndex];
+      
+      document.getElementById('pageIndicator').textContent = 
+        `Página ${currentPageIndex + 1} de ${currentComic.pages.length}`;
+      
+      document.getElementById('prevBtn').disabled = (currentPageIndex === 0);
+      document.getElementById('nextBtn').disabled = (currentPageIndex === currentComic.pages.length - 1);
+    }
+
+    function prevPage() {
+      if (currentPageIndex > 0) {
+        currentPageIndex--;
+        updatePageDisplay();
+      }
+    }
+
+    function nextPage() {
+      if (currentComic && currentComic.pages && currentPageIndex < currentComic.pages.length - 1) {
+        currentPageIndex++;
+        updatePageDisplay();
+      }
+    }
+
+    function closeReader() {
+      document.getElementById('readerModal').classList.remove('active');
+      document.getElementById('readerPdf').src = '';
+    }
+
+    function openUploadModal() {
+      document.getElementById('uploadModal').classList.add('active');
+    }
+
+    function closeUploadModal() {
+      document.getElementById('uploadModal').classList.remove('active');
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+      document.getElementById('newFile').value = '';
+      document.getElementById('newCoverUrl').value = '';
+    }
+
+    function saveNewComic() {
+      const title = document.getElementById('newTitle').value.trim();
+      const cat = document.getElementById('newCategory').value;
+      const desc = document.getElementById('newDesc').value.trim() || 'Sin descripción';
+      const fileInput = document.getElementById('newFile');
+      const coverUrl = document.getElementById('newCoverUrl').value.trim();
+
+      if (!title) {
+        alert('Por favor ingresa un título para la historia');
+        return;
+      }
+
+      const hasFile = fileInput.files && fileInput.files.length > 0;
+      const hasUrl = !!coverUrl;
+
+      if (!hasFile && !hasUrl) {
+        alert('Selecciona una imagen local o pon una URL de portada');
+        return;
+      }
+
+      const file = hasFile ? fileInput.files[0] : null;
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const fileData = e.target.result;
+          const isPdf = file.type === 'application/pdf';
+          const newId = 'comic-' + (comics.length + 1);
+          const newNum = '#' + String(comics.length + 1).padStart(2, '0');
+
+          const newEntry = {
+            id: newId,
+            num: newNum,
+            title: title,
+            desc: desc,
+            category: cat,
+            type: isPdf ? 'pdf' : 'image',
+            cover: isPdf ? generateComicSVG(title, "Documento PDF", "#334155", "#38bdf8", "📄 PDF") : fileData,
+            pages: isPdf ? null : [fileData],
+            url: isPdf ? fileData : null,
+            date: new Date().toISOString().split('T')[0]
+          };
+
+          comics.unshift(newEntry);
+          renderComics();
+          closeUploadModal();
+          alert('¡Historia de Vito agregada con éxito!');
+        };
+
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      const urlCover = coverUrl;
+      const newId = 'comic-' + (comics.length + 1);
+      const newNum = '#' + String(comics.length + 1).padStart(2, '0');
+
+      const newEntry = {
+        id: newId,
+        num: newNum,
+        title: title,
+        desc: desc,
+        category: cat,
+        type: 'image',
+        cover: urlCover,
+        pages: [urlCover],
+        url: null,
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      comics.unshift(newEntry);
+      renderComics();
+      closeUploadModal();
+      alert('¡Historia de Vito agregada con éxito!');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('readerModal');
+      if (modal.classList.contains('active')) {
+        if (e.key === 'ArrowRight') nextPage();
+        if (e.key === 'ArrowLeft') prevPage();
+        if (e.key === 'Escape') closeReader();
+      }
+    });
+
+    renderComics();
+  </script>
+</body>
+</html>
