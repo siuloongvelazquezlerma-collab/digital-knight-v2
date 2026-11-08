@@ -36,38 +36,7 @@ function initBatOverlay() {
 }
 */
 
-function initDiaDeMuertosOverlay() {
-  let ofrendaLayer = document.getElementById('ofrendaLayer');
-  if (!ofrendaLayer) {
-    ofrendaLayer = document.createElement('div');
-    ofrendaLayer.id = 'ofrendaLayer';
-    ofrendaLayer.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(ofrendaLayer);
-  }
-
-  if (ofrendaLayer.dataset.ready === 'true') return;
-  ofrendaLayer.dataset.ready = 'true';
-
-  const count = window.innerWidth < 768 ? 14 : 22;
-  const colors = ['#f4b942', '#f28c28', '#d95b2b', '#f5d67d', '#f7e7a1'];
-
-  for (let i = 0; i < count; i++) {
-    const petal = document.createElement('div');
-    petal.className = 'ofrenda-petal';
-    petal.textContent = '✦';
-    petal.style.left = `${Math.random() * 100}%`;
-    petal.style.top = `${Math.random() * 100}%`;
-    petal.style.fontSize = `${12 + Math.random() * 16}px`;
-    petal.style.color = colors[Math.floor(Math.random() * colors.length)];
-    petal.style.setProperty('--duration', `${9 + Math.random() * 12}s`);
-    petal.style.setProperty('--delay', `${-Math.random() * 16}s`);
-    ofrendaLayer.appendChild(petal);
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  initDiaDeMuertosOverlay();
-
   const images = document.querySelectorAll("img[loading='lazy']");
   let loadedCount = 0;
 
