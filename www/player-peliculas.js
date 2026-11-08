@@ -110,10 +110,17 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
-// Imagen que se muestra al pausar. Reemplaza esta URL por la de tu estreno o anuncio.
-// También puedes definir window.DK_PAUSE_AD_IMAGE_URL antes de cargar este script.
+// Imagen que se muestra al pausar. Puedes definir 3 URLs en
+// window.DK_PAUSE_AD_IMAGES para que cambien aleatoriamente cada vez que pauses.
 const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
-  'https://od.lk/s/M18zMzg3MDI3NDBfQkliY2w/street%20fighter%20disponible.jpg';
+  'https://od.lk/s/M18zMzk3MTAxODFfTkVja2c/derry.jpg';
+const DK_PAUSE_AD_IMAGES = Array.isArray(window.DK_PAUSE_AD_IMAGES)
+  ? window.DK_PAUSE_AD_IMAGES.filter(Boolean)
+  : [
+      DK_PAUSE_AD_IMAGE_URL,
+      'https://od.lk/s/M18zMzk3MTA2MDdfbTFnd1Q/Emperatriz.jpg',
+      'https://od.lk/s/M18zMzk3MTE3ODJfZUQyM3E/premium.jpg'
+    ];
 
 const pauseAd = document.createElement('div');
 pauseAd.id = 'dk-pause-ad';
@@ -131,7 +138,6 @@ pauseAd.style.cssText = [
 ].join(';');
 
 const pauseAdImage = document.createElement('img');
-pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
 pauseAdImage.alt = '';
 // El arte de pausa es un wallpaper 16:9.  No se debe recortar para llenar el
 // reproductor y tampoco debe ampliarse más allá de 1080p en pantallas grandes.
@@ -145,6 +151,13 @@ pauseAdImage.style.cssText = [
 ].join(';');
 pauseAd.appendChild(pauseAdImage);
 player.appendChild(pauseAd);
+
+function getRandomPauseAdImage() {
+  const images = DK_PAUSE_AD_IMAGES.filter(Boolean);
+  if (!images.length) return '';
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
 
 function showPauseAd() {
   // Las páginas de películas pausan el video al abrir/cambiar idioma. Esa
@@ -160,6 +173,7 @@ function showPauseAd() {
   }
 
   if (video.currentTime > 0 && !video.ended && playerVisible) {
+    pauseAdImage.src = getRandomPauseAdImage();
     pauseAd.style.display = 'flex';
   }
 }

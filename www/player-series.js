@@ -97,7 +97,14 @@ const cover = document.getElementById('cover');
 let hideControlsTimeout;
 
 const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
-  'https://od.lk/s/M18zMzg3MDI3NDBfQkliY2w/street%20fighter%20disponible.jpg';
+  'https://od.lk/s/M18zMzk3MTAxODFfTkVja2c/derry.jpg';
+const DK_PAUSE_AD_IMAGES = Array.isArray(window.DK_PAUSE_AD_IMAGES)
+  ? window.DK_PAUSE_AD_IMAGES.filter(Boolean)
+  : [
+      DK_PAUSE_AD_IMAGE_URL,
+      'https://od.lk/s/M18zMzk3MTA2MDdfbTFnd1Q/Emperatriz.jpg',
+      'https://od.lk/s/M18zMzk3MTE3ODJfZUQyM3E/premium.jpg'
+    ];
 
 const pauseAd = document.createElement('div');
 pauseAd.id = 'dk-pause-ad';
@@ -115,7 +122,6 @@ pauseAd.style.cssText = [
 ].join(';');
 
 const pauseAdImage = document.createElement('img');
-pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
 pauseAdImage.alt = '';
 pauseAdImage.style.cssText = [
   'width:100%',
@@ -130,6 +136,13 @@ if (player) {
   player.appendChild(pauseAd);
 }
 
+function getRandomPauseAdImage() {
+  const images = DK_PAUSE_AD_IMAGES.filter(Boolean);
+  if (!images.length) return '';
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
+
 function showPauseAd() {
   const langMenu = document.getElementById('langMenu');
   const languageMenuOpen = langMenu &&
@@ -142,6 +155,7 @@ function showPauseAd() {
   }
 
   if (video && typeof video.currentTime === 'function' && video.currentTime() > 0 && !video.ended() && playerVisible) {
+    pauseAdImage.src = getRandomPauseAdImage();
     pauseAd.style.display = 'flex';
   }
 }
