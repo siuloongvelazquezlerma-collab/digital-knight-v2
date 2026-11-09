@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Día de Muertos · Spin Royale</title>
- <link rel="icon" type="image/png" sizes="32x32" href="https://od.lk/s/M18zMzkzODc5OTBfWHlvcnU/Designer%20%283%29.png">
-<link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/marigold_1f3f5-fe0f.png">
+<title>Spin Royale</title>
+<link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='26' fill='%23060b14'/%3E%3Cpath d='M64 18 L86 42 L74 42 L74 94 L54 94 L54 42 L42 42 Z' fill='%2367e8f9'/%3E%3Ccircle cx='64' cy='64' r='12' fill='%230b1626'/%3E%3C/svg%3E" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,24 +12,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&amp;family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
 <style>
 :root {
---bg-dark: #080817;
---bg-deep: #130d29;
---bg-glow: #29133e;
---card-bg: rgba(22, 15, 43, 0.94);
---card-bg-strong: rgba(35, 20, 59, 0.97);
---border-purple: #633b85;
---pumpkin-orange: #ff9f1c;
---pumpkin-deep: #e66b16;
---slime-green: #d8a1ff;
---blood-red: #d94b87;
---blood-dark: #471d50;
---moon-white: #fff4e6;
---shadow-amber: rgba(255, 159, 28, 0.35);
---shadow-green: rgba(216, 161, 255, 0.32);
---cempasuchil: #ff9f1c;
---purple-flower: #a855f7;
---pink-flower: #f472b6;
---gold: #facc15;
+  --page-bg-image: url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1600&q=80');
+  --bg-dark: #080817;
+  --bg-deep: #130d29;
+  --bg-glow: #29133e;
+  --card-bg: rgba(22, 15, 43, 0.94);
+  --card-bg-strong: rgba(35, 20, 59, 0.97);
+  --border-purple: #633b85;
+  --pumpkin-orange: #ff9f1c;
+  --pumpkin-deep: #e66b16;
+  --slime-green: #d8a1ff;
+  --blood-red: #d94b87;
+  --blood-dark: #471d50;
+  --moon-white: #fff4e6;
+  --shadow-amber: rgba(255, 159, 28, 0.35);
+  --shadow-green: rgba(216, 161, 255, 0.32);
+  --cempasuchil: #ff9f1c;
+  --purple-flower: #a855f7;
+  --pink-flower: #f472b6;
+  --gold: #facc15;
 }
 html, body {
 margin: 0;
@@ -38,11 +38,12 @@ padding: 0;
 }
 body {
 background-image:
-linear-gradient(180deg, rgba(8, 8, 23, 0.48), rgba(8, 8, 23, 0.78)),
-url('https://od.lk/s/M18zMzkzODc0ODZfbTJYQ3Y/Altar%20de%20cempas%C3%BAchil%20bajo%20la%20luna.png');
-background-size: cover;
-background-position: center center;
-background-repeat: no-repeat;
+  linear-gradient(180deg, rgba(2, 6, 23, 0.46), rgba(2, 6, 23, 0.72)),
+  linear-gradient(120deg, rgba(8, 15, 28, 0.35), rgba(4, 8, 16, 0.68)),
+  var(--page-bg-image);
+background-size: cover, cover, cover;
+background-position: center center, center center, center center;
+background-repeat: no-repeat, no-repeat, no-repeat;
 background-attachment: fixed;
 background-color: #080817;
 color: var(--moon-white);
@@ -229,8 +230,22 @@ display: flex;
 justify-content: space-between;
 }
 .winner-announcement {
-border: 2px solid var(--slime-green);
-background-color: #101c10;
+position: relative;
+border: 2px solid rgba(103, 232, 249, 0.8);
+background: linear-gradient(135deg, rgba(9, 17, 26, 0.94), rgba(15, 23, 35, 0.96));
+box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.18), 0 0 22px rgba(103, 232, 249, 0.25), 0 0 42px rgba(52, 211, 153, 0.18), 0 18px 38px rgba(2, 8, 17, 0.6);
+}
+.winner-announcement::before {
+content: "";
+position: absolute;
+inset: -10% -8%;
+background: radial-gradient(circle at center, rgba(103, 232, 249, 0.32), rgba(96, 165, 250, 0.14) 22%, rgba(8, 15, 24, 0) 62%);
+filter: blur(18px);
+z-index: 0;
+}
+.winner-announcement > * {
+position: relative;
+z-index: 1;
 }
 .global-announcement {
 position: fixed;
@@ -342,10 +357,11 @@ font-size: 2rem;
 opacity: 0.9;
 animation: lightningFlash 0.6s ease-in-out infinite alternate;
 }
-#winnerCard.lightning {
-background: linear-gradient(135deg, rgba(42, 91, 17, 0.8), rgba(12, 24, 7, 0.9));
-border-color: rgba(57, 255, 20, 0.95);
-box-shadow: 0 0 24px rgba(57, 255, 20, 0.35), inset 0 0 18px rgba(57, 255, 20, 0.12);
+#winnerCard.lightning,
+#finalPrizeCard {
+background: linear-gradient(135deg, rgba(7, 20, 31, 0.94), rgba(15, 23, 35, 0.98));
+border-color: rgba(103, 232, 249, 0.9);
+box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.22), 0 0 24px rgba(103, 232, 249, 0.28), 0 0 52px rgba(59, 130, 246, 0.18), 0 18px 40px rgba(2, 8, 17, 0.64);
 animation: lightningBurst 0.9s ease-in-out 2;
 }
 @keyframes skullPulse {
@@ -557,6 +573,275 @@ canvas.wheel-canvas {
 }
 
 </style>
+<style>
+body {
+  background: radial-gradient(circle at top, rgba(103, 232, 249, 0.12), transparent 25%), #060b14;
+  color: #e6edf8;
+  min-height: 100vh;
+  padding: 1.25rem 0.75rem;
+}
+body::before,
+body::after {
+  content: "" !important;
+  display: none !important;
+}
+.container-fluid {
+  max-width: 1380px !important;
+}
+.page-header {
+  margin-bottom: 1.4rem;
+}
+.brand-logo {
+  width: clamp(80px, 8vw, 138px);
+  filter: drop-shadow(0 0 18px rgba(103, 232, 249, 0.28));
+}
+.title-halloween {
+  color: #e6edf8;
+  text-shadow: 0 0 24px rgba(103, 232, 249, 0.22);
+  letter-spacing: 0.12em;
+}
+.card-custom {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(11, 18, 32, 0.96));
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.52), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.nav-pills .nav-link {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.5);
+  color: #e6edf8;
+}
+.nav-pills .nav-link.active {
+  background: linear-gradient(135deg, #67e8f9, #38bdf8) !important;
+  color: #05141f !important;
+  box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.18), 0 0 24px rgba(56, 189, 248, 0.18);
+}
+.btn-pumpkin {
+  background: linear-gradient(135deg, #67e8f9, #38bdf8);
+  color: #05141f;
+  font-weight: 800;
+  border: none;
+  box-shadow: 0 0 18px rgba(103, 232, 249, 0.15);
+}
+.btn-slime {
+  background: linear-gradient(135deg, #c4b5fd, #8b5cf6);
+  color: #0b1120;
+  font-weight: 800;
+  border: none;
+}
+.wheel-container {
+  width: min(100%, 460px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 1rem;
+  padding: 18px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.82), rgba(8, 15, 24, 0.92));
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 0 24px rgba(56, 189, 248, 0.12);
+}
+.wheel-pointer {
+  border-top-color: #fbbf24;
+  filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.45));
+}
+canvas.wheel-canvas {
+  background: radial-gradient(circle at center, #111827 0%, #0b1220 40%, #020617 100%);
+  border: 4px solid rgba(103, 232, 249, 0.42);
+  box-shadow: 0 0 0 4px rgba(103, 232, 249, 0.08), 0 0 30px rgba(56, 189, 248, 0.14);
+}
+.graveyard-list {
+  background: rgba(8, 11, 17, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+.graveyard-item,
+.winner-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.global-announcement {
+  border-color: rgba(103, 232, 249, 0.35);
+  background: rgba(8, 15, 24, 0.96);
+  box-shadow: 0 30px 60px rgba(2, 6, 23, 0.7);
+}
+#statusAlert.elimination-mode::after,
+#statusAlert.winner-mode::after {
+  content: "" !important;
+}
+.desktop-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 1200px) {
+  .desktop-layout {
+    grid-template-columns: minmax(250px, 320px) minmax(430px, 1fr) minmax(220px, 280px);
+    align-items: start;
+  }
+}
+
+/* Final neon glass override */
+:root {
+  --bg-page: #050b14;
+  --bg-page-2: #0b1220;
+  --bg-panel: rgba(8, 15, 24, 0.7);
+  --bg-panel-strong: rgba(12, 20, 29, 0.88);
+  --panel-border: rgba(103, 232, 249, 0.25);
+  --panel-glow: rgba(56, 189, 248, 0.22);
+  --neon-cyan: #67e8f9;
+  --neon-blue: #38bdf8;
+  --neon-violet: #8b5cf6;
+  --neon-emerald: #34d399;
+  --neon-slate: #e2e8f0;
+  --text-main: #f8fafc;
+  --text-muted: rgba(226, 232, 240, 0.78);
+}
+html, body {
+  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.15), transparent 32%),
+              radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.12), transparent 30%),
+              linear-gradient(180deg, var(--bg-page) 0%, var(--bg-page-2) 100%);
+  color: var(--text-main);
+}
+body::before,
+body::after {
+  content: none !important;
+  display: none !important;
+}
+.title-halloween {
+  color: var(--neon-slate);
+  text-shadow: 0 0 22px rgba(103, 232, 249, 0.20), 0 0 42px rgba(139, 92, 246, 0.12);
+}
+.card-custom {
+  background: linear-gradient(180deg, rgba(10, 18, 28, 0.76), rgba(10, 18, 28, 0.92));
+  border: 1px solid var(--panel-border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 28px rgba(2, 8, 17, 0.55);
+  backdrop-filter: blur(12px);
+}
+.graveyard-list,
+.form-select,
+.form-control,
+.modal-content {
+  background: rgba(7, 12, 20, 0.8) !important;
+  color: var(--text-main);
+  border-color: rgba(148, 163, 184, 0.2) !important;
+}
+.wheel-container {
+  background: linear-gradient(180deg, rgba(13, 20, 31, 0.8), rgba(5, 11, 20, 0.9));
+  border: 1px solid rgba(103, 232, 249, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 0 28px rgba(56, 189, 248, 0.08);
+}
+canvas.wheel-canvas {
+  background: radial-gradient(circle at center, #0f172a 0%, #08141f 38%, #030b14 100%);
+  border-color: rgba(103, 232, 249, 0.4);
+  box-shadow: 0 0 0 4px rgba(103, 232, 249, 0.08), 0 0 28px rgba(56, 189, 248, 0.14);
+}
+.wheel-pointer {
+  border-top-color: var(--neon-cyan);
+  filter: drop-shadow(0 0 12px rgba(103, 232, 249, 0.35));
+}
+.btn-pumpkin {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+  color: #03131d;
+  box-shadow: 0 0 20px rgba(103, 232, 249, 0.18);
+}
+.btn-pumpkin:hover:not(:disabled) {
+  background: linear-gradient(135deg, #b8f5ff, var(--neon-cyan));
+}
+.btn-slime {
+  background: linear-gradient(135deg, #8b5cf6, #60a5fa);
+  color: #eff6ff;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.18);
+}
+.btn-slime:hover:not(:disabled) {
+  background: linear-gradient(135deg, #a78bfa, #93c5fd);
+  color: #eef9ff;
+}
+#statusAlert,
+#winnerCard,
+#finalPrizeCard,
+#prizeStatusAlert {
+  background: linear-gradient(135deg, rgba(9, 15, 22, 0.78), rgba(14, 22, 32, 0.9));
+  border: 1px solid rgba(103, 232, 249, 0.18);
+  color: var(--text-main);
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 30px rgba(2, 8, 17, 0.4);
+}
+#statusAlert.elimination-mode,
+#statusAlert.winner-mode,
+#winnerCard.lightning,
+#prizeStatusAlert.elimination-mode,
+#prizeStatusAlert.awarding-mode,
+#prizeStatusAlert.finished-mode {
+  background: linear-gradient(135deg, rgba(8, 16, 24, 0.82), rgba(14, 20, 31, 0.92));
+  border-color: rgba(103, 232, 249, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 18px rgba(56, 189, 248, 0.16), 0 0 30px rgba(56, 189, 248, 0.08);
+}
+#winnerCard.lightning,
+#finalPrizeCard {
+  box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.22), 0 0 24px rgba(103, 232, 249, 0.28), 0 0 48px rgba(52, 211, 153, 0.16), 0 18px 38px rgba(2, 8, 17, 0.62);
+}
+#statusAlert.elimination-mode::after,
+#statusAlert.winner-mode::after,
+#statusAlert::after,
+#prizeStatusAlert::after {
+  content: '' !important;
+  display: none !important;
+}
+#prizeStatusAlert.elimination-mode {
+  border-color: rgba(96, 165, 250, 0.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 20px rgba(96, 165, 250, 0.18), 0 0 32px rgba(56, 189, 248, 0.10);
+}
+#prizeStatusAlert.awarding-mode {
+  border-color: rgba(52, 211, 153, 0.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 20px rgba(52, 211, 153, 0.18), 0 0 32px rgba(52, 211, 153, 0.10);
+}
+#prizeStatusAlert.finished-mode {
+  border-color: rgba(167, 139, 250, 0.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 20px rgba(167, 139, 250, 0.18), 0 0 32px rgba(167, 139, 250, 0.10);
+}
+.global-announcement {
+  background: linear-gradient(135deg, rgba(7, 12, 20, 0.92), rgba(13, 19, 31, 0.96));
+  border: 1px solid rgba(103, 232, 249, 0.22);
+  box-shadow: 0 22px 60px rgba(2, 8, 17, 0.7);
+  backdrop-filter: blur(16px);
+}
+.global-announcement.winner {
+  border-color: rgba(103, 232, 249, 0.4);
+  background: linear-gradient(135deg, rgba(7, 25, 35, 0.96), rgba(11, 17, 27, 0.98));
+}
+.global-announcement.elimination {
+  border-color: rgba(148, 163, 184, 0.35);
+  background: linear-gradient(135deg, rgba(12, 19, 29, 0.96), rgba(9, 13, 20, 0.98));
+}
+.nav-pills .nav-link.active {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue)) !important;
+  color: #04141d !important;
+  border-color: rgba(103, 232, 249, 0.4);
+}
+.nav-pills .nav-link {
+  color: var(--text-main);
+  background: rgba(8, 16, 24, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+.graveyard-item,
+.winner-item {
+  background: rgba(10, 17, 27, 0.86) !important;
+  border-left: 3px solid var(--neon-cyan) !important;
+  color: var(--text-main) !important;
+}
+.winner-item {
+  border-left-color: var(--neon-emerald) !important;
+}
+.announcement-badge,
+.announcement-name,
+.announcement-extra {
+  color: var(--text-main);
+}
+.status-badge,
+.phase-badge,
+.round-badge {
+  color: var(--text-main);
+}
+</style>
 </head>
 <body>
 <div id="globalAnnouncement" class="global-announcement" aria-live="polite" aria-atomic="true">
@@ -566,14 +851,11 @@ canvas.wheel-canvas {
 </div>
 <div class="container-fluid" style="max-width: min(980px, 88vw);">
 <div class="page-header">
-<img class="brand-logo" src="https://od.lk/s/M18zMzkyMTgwMTFfSXA5aVo/66cf319bf92f5b9598b0601e_Extend_logo%20%281%29.png" alt="Campaign logo">
+<img class="brand-logo" src="https://od.lk/s/M18zMzkyMTgwMTFfSXA5aVo/66cf319bf92f5b9598b0601e_Extend_logo%20%281%29.png" alt="Digital Knight logo">
 <h1 class="spooky-font title-halloween">
-<img class="title-flank title-flank-left" src="https://od.lk/s/M18zMzkzODc5OTBfWHlvcnU/Designer%20%283%29.png" alt="Left floral decoration">
-<span class="title-word">Día de Muertos</span>
-<span class="title-word">Spin Royale</span>
-<img class="title-flank title-flank-right" src="https://od.lk/s/M18zMzkzODc5OTFfeWwyMVk/Designer%20%284%29.png" alt="Right floral decoration">
+<span>Spin Royale</span>
 </h1>
-<p class="text-secondary mb-0">Celebrate our traditions and discover the winners and their rewards in this special spin event.</p>
+<p class="text-secondary mb-0"></p>
 </div>
 <ul class="nav nav-pills justify-content-center gap-2 mb-4" id="mainTabs" role="tablist">
 <li class="nav-item" role="presentation">
@@ -589,150 +871,45 @@ canvas.wheel-canvas {
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade active show" id="tab-agents" role="tabpanel" aria-labelledby="tab-agents-btn">
-<div class="row g-4 align-items-start">
-<div class="col-lg-4">
+<div class="desktop-layout">
+<div class="left-panel">
 <div class="card-custom p-3 p-md-4 mb-3">
-<h5 class="fw-bold mb-2 text-warning d-flex align-items-center justify-content-between">
-<span><i class="bi bi-person-lines-fill me-2"></i>Agents</span>
+<h5 class="fw-bold mb-2 text-info d-flex align-items-center justify-content-between">
+<span><i class="bi bi-people-fill me-2"></i>Participants</span>
 <span class="badge bg-dark border border-secondary" id="agentsCountBadge">20 active</span>
 </h5>
 <div class="d-flex gap-2 mb-2">
-<button type="button" class="btn btn-outline-warning btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkAgentsModal">
-<i class="bi bi-clipboard-plus me-1"></i>  Paste list
+<button type="button" class="btn btn-outline-info btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkAgentsModal">
+<i class="bi bi-clipboard-plus me-1"></i> Paste list
 </button>
-<button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shuffleAgents()" title="Randomize order">
-<i class="bi bi-shuffle me-1"></i>  Shuffle
+<button type="button" class="btn btn-outline-light btn-sm fw-bold" onclick="shuffleAgents()" title="Randomize order">
+<i class="bi bi-shuffle me-1"></i> Shuffle
 </button>
 </div>
-<div class="small text-secondary mb-1">Current participants (duplicates allowed):</div>
+<div class="small text-secondary mb-1">Current participants:</div>
 <div id="agentsEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">David Villareal</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_fqj4vm2jn_1792912263870" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">David Villareal</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_fqj4vm2jn_1792912263870" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Noe</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_c5ujq6ppy_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Vito</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7vc14sg9h_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Henry</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73467jxjj_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Adriana</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ky4hzn6ls_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Aida</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vwmsv5jg8_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Alex Negrete</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_mh8u56m59_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Adrian Rmz</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_43yvttagh_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Chano Villareal</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_q29v0rq9e_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Hector Avila</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_atcubtwhv_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Hector Peña</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_8rf9djaig_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Ingrid</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_zdf701xrv_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">JC</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ato2ohysi_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Kler</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_cxdhn0kg7_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Bonie</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ie1hfki99_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">David Razo</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7n3wvfnf6_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Santiago</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_5so4ctnie_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Valeria</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_o8t5ce247_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">David Trujillo</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73bdc8et4_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Siuloong</span><button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vnbdfjtko_1792912263871" aria-label="Remove entry" title="Remove this entry"><i class="bi bi-x-circle-fill"></i></button></div>
 </div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Noe</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_c5ujq6ppy_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Vito</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7vc14sg9h_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Henry</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73467jxjj_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Adriana</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ky4hzn6ls_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Aida</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vwmsv5jg8_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Alex Negrete</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_mh8u56m59_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Adrian Rmz</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_43yvttagh_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Chano Villareal</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_q29v0rq9e_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Hector Avila</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_atcubtwhv_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Hector Peña</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_8rf9djaig_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Ingrid</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_zdf701xrv_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">JC</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ato2ohysi_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Kler</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_cxdhn0kg7_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Bonie</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_ie1hfki99_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">David Razo</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_7n3wvfnf6_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Santiago</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_5so4ctnie_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Valeria</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_o8t5ce247_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">David Trujillo</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_73bdc8et4_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Siuloong</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-agent-btn" data-id="ag_vnbdfjtko_1792912263871" aria-label="Remove entry" title="Remove this entry">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-</div>
-<div class="mb-3">
-<div class="d-flex gap-2">
-<input id="newAgentNameInput" type="text" class="form-control form-control-sm" placeholder="Add a name..." maxlength="60">
-<button id="addAgentBtn" type="button" class="btn btn-sm btn-pumpkin">Add</button>
-</div>
-</div>
+<div class="mb-3"><div class="d-flex gap-2"><input id="newAgentNameInput" type="text" class="form-control form-control-sm" placeholder="Add a name..." maxlength="60"><button id="addAgentBtn" type="button" class="btn btn-sm btn-pumpkin">Add</button></div></div>
 <textarea id="agentsInput" class="d-none" aria-hidden="true">David Villareal
 Noe
 Vito
@@ -754,55 +931,28 @@ Valeria
 David Trujillo
 Siuloong</textarea>
 <div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
-<div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Agent rules:</div>
+<div class="fw-bold text-info small mb-2"><i class="bi bi-sliders me-1"></i>Participant rules</div>
 <div class="mb-2">
-<div class="d-flex justify-content-between align-items-center mb-1">
-<span class="small text-light">1. How many are eliminated?</span>
-<input type="number" id="numEliminatedInput" class="form-control form-control-sm text-center" style="width: 70px;" value="3" min="0">
-</div>
-<small class="text-secondary d-block" style="font-size: 0.72rem;">(0 if you want a direct winner draw without elimination)</small>
+<div class="d-flex justify-content-between align-items-center mb-1"><span class="small text-light">1. How many are eliminated?</span><input type="number" id="numEliminatedInput" class="form-control form-control-sm text-center" style="width: 70px;" value="3" min="0"></div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">(0 for a direct winner draw)</small>
 </div>
 <div>
-<div class="d-flex justify-content-between align-items-center mb-1">
-<span class="small text-success fw-semibold">2. How many winners?</span>
-<input type="number" id="numWinnersInput" class="form-control form-control-sm text-center" style="width: 70px;" value="1" min="1">
-</div>
-<small class="text-secondary d-block" style="font-size: 0.72rem;">Winners will be selected from the remaining entries.</small>
+<div class="d-flex justify-content-between align-items-center mb-1"><span class="small text-success fw-semibold">2. How many winners?</span><input type="number" id="numWinnersInput" class="form-control form-control-sm text-center" style="width: 70px;" value="1" min="1"></div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">Winners are selected from the remaining entries.</small>
 </div>
 </div>
-<button id="loadAgentsBtn" class="btn btn-pumpkin w-100 mb-2">
-<i class="bi bi-arrow-repeat me-1"></i> Load to wheel
-</button>
-<div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25">
-<span class="small text-secondary">Sound:</span>
-<button id="toggleSoundBtn" class="btn btn-sm btn-outline-warning">
-<i class="bi bi-volume-up-fill" id="soundIcon"></i> <span id="soundText">On</span>
-</button>
+<button id="loadAgentsBtn" class="btn btn-pumpkin w-100 mb-2"><i class="bi bi-arrow-repeat me-1"></i> Load to wheel</button>
+<div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25"><span class="small text-secondary">Sound:</span><button id="toggleSoundBtn" class="btn btn-sm btn-outline-warning"><i class="bi bi-volume-up-fill" id="soundIcon"></i> <span id="soundText">On</span></button></div>
 </div>
 </div>
-<div class="card-custom p-3 mb-2">
-<h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
-<span>🌼 Eliminated Participants Altar</span>
-<span class="badge bg-danger text-white" id="eliminatedCount">0</span>
-</h6>
-<div id="graveyardList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">Eliminated participants will appear here...</div></div>
-</div>
-<div class="card-custom p-3">
-<h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
-<span>👑 Selected Winners</span>
-<span class="badge bg-success text-dark" id="winnersCountBadge">0</span>
-</h6>
-<div id="winnersList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">None yet...</div></div>
-</div>
-</div>
-<div class="col-lg-8 text-center">
+<div class="wheel-panel text-center">
 <div class="card-custom p-4">
 <div id="statusAlert" class="alert alert-dark border-secondary p-3 mb-3">
 <h5 class="mb-0 fw-bold" id="statusTitle">Elimination phase!</h5>
-<small class="text-secondary" id="statusSubtitle">The selected participant will be added to the altar (3 left to eliminate).</small>
+<small class="text-secondary" id="statusSubtitle">The selected participant will be removed from the round.</small>
 </div>
 <div class="d-flex justify-content-center gap-2 mb-2">
-<span id="phaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Elimination 🌺</span>
+<span id="phaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Elimination</span>
 <span id="roundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Eliminated: 0 / 3</span>
 </div>
 <div class="wheel-container mb-3">
@@ -810,164 +960,79 @@ Siuloong</textarea>
 <canvas id="agentsWheel" class="wheel-canvas" width="420" height="420"></canvas>
 </div>
 <div class="d-flex flex-wrap justify-content-center gap-3">
-<button id="spinAgentBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">🏵️ SPIN TO REVEAL</button>
-<button id="resetAllBtn" class="btn btn-outline-secondary btn-lg">
-<i class="bi bi-arrow-counterclockwise"></i> Reset
-</button>
+<button id="spinAgentBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">Spin to reveal</button>
+<button id="resetAllBtn" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
 </div>
 <div id="winnerCard" class="card-custom winner-announcement p-4 mt-4 d-none">
-<h2 class="spooky-font text-warning mb-1" id="winnerHeadline">👑 CELEBRATION WINNERS! 👑</h2>
+<h2 class="spooky-font text-info mb-1" id="winnerHeadline">Selected winners</h2>
 <div id="winnerNamesBox" class="my-3"></div>
-<p class="text-light mb-3">Congratulations to the champions! Now let’s spin the prize wheel.</p>
-<button id="goToPrizeBtn" class="btn btn-slime btn-lg px-4 py-2 fs-5">
-🎁 Spin prizes on wheel 2! ➡️
-</button>
+<p class="text-light mb-3">The round is ready. Continue to the prize wheel.</p>
+<button id="goToPrizeBtn" class="btn btn-slime btn-lg px-4 py-2 fs-5">Spin prize wheel</button>
+</div>
+</div>
+</div>
+<div class="right-panel">
+<div class="card-custom p-3 mb-2">
+<h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center"><span>Eliminated</span><span class="badge bg-danger text-white" id="eliminatedCount">0</span></h6>
+<div id="graveyardList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">No eliminations yet...</div></div>
+</div>
+<div class="card-custom p-3">
+<h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center"><span>Winners</span><span class="badge bg-success text-dark" id="winnersCountBadge">0</span></h6>
+<div id="winnersList" class="graveyard-list"><div class="text-secondary small text-center py-3 fst-italic">None yet...</div></div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="tab-pane fade" id="tab-prizes" role="tabpanel" aria-labelledby="tab-prizes-btn">
-<div class="row g-4 align-items-start">
-<div class="col-lg-4">
+<div class="desktop-layout">
+<div class="left-panel">
 <div class="card-custom p-3 p-md-4 mb-3">
-<h5 class="fw-bold mb-2 text-success d-flex align-items-center justify-content-between">
-<span><i class="bi bi-gift-fill me-2"></i>Prize Bag</span>
-<span class="badge bg-dark border border-secondary" id="prizesCountBadge">7 available</span>
-</h5>
+<h5 class="fw-bold mb-2 text-success d-flex align-items-center justify-content-between"><span><i class="bi bi-gift-fill me-2"></i>Prize bag</span><span class="badge bg-dark border border-secondary" id="prizesCountBadge">7 available</span></h5>
 <div class="d-flex gap-2 mb-2">
-<button type="button" class="btn btn-outline-success btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkPrizesModal">
-<i class="bi bi-clipboard-plus me-1"></i>  Paste list
-</button>
-<button type="button" class="btn btn-outline-info btn-sm fw-bold" onclick="shufflePrizes()" title="Randomize order">
-<i class="bi bi-shuffle me-1"></i>  Shuffle
-</button>
+<button type="button" class="btn btn-outline-success btn-sm flex-grow-1 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkPrizesModal"><i class="bi bi-clipboard-plus me-1"></i> Paste list</button>
+<button type="button" class="btn btn-outline-light btn-sm fw-bold" onclick="shufflePrizes()" title="Randomize order"><i class="bi bi-shuffle me-1"></i> Shuffle</button>
 </div>
 <div class="small text-secondary mb-1">Current prizes:</div>
 <div id="prizesEditorList" class="graveyard-list mb-3" style="max-height: 220px; overflow-y: auto;">
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Cash Bonus 💵</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_8ry33rmet_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Cash bonus</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_8ry33rmet_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Paid day off</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_jwv3tc86u_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Leave 2 hours early</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_oz1textzk_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Free food / pizza</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_vqnx0prbs_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Gift card</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_7py7s35f3_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">VIP pass without calls</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_4016bfclw_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
+<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary"><span class="text-light">Sweet snack pack</span><button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_fp2o7gasj_1792912263894" aria-label="Remove prize" title="Remove prize"><i class="bi bi-x-circle-fill"></i></button></div>
 </div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Paid Day Off 🏖️</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_jwv3tc86u_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Leave 2 hours early ⏰</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_oz1textzk_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Free Food / Pizza 🍕</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_vqnx0prbs_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Gift Card 🎁</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_7py7s35f3_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">VIP pass without calls 🎧</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_4016bfclw_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div class="d-flex justify-content-between align-items-center px-2 py-2 border-bottom border-secondary">
-<span class="text-light">Día de Muertos sweets 🍬</span>
-<button type="button" class="btn btn-link p-0 text-danger remove-prize-btn" data-id="prz_fp2o7gasj_1792912263894" aria-label="Remove prize" title="Remove prize">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-</div>
-<div class="mb-3">
-<div class="d-flex gap-2">
-<input id="newPrizeInput" type="text" class="form-control form-control-sm" placeholder="Add a prize..." maxlength="80">
-<button id="addPrizeBtn" type="button" class="btn btn-sm btn-slime">Add</button>
-</div>
-</div>
-<textarea id="prizesInput" class="d-none" aria-hidden="true">Cash Bonus 💵
-Paid Day Off 🏖️
-Leave 2 hours early ⏰
-Free Food / Pizza 🍕
-Gift Card 🎁
-VIP pass without calls 🎧
-Día de Muertos sweets 🍬</textarea>
+<div class="mb-3"><div class="d-flex gap-2"><input id="newPrizeInput" type="text" class="form-control form-control-sm" placeholder="Add a prize..." maxlength="80"><button id="addPrizeBtn" type="button" class="btn btn-sm btn-slime">Add</button></div></div>
+<textarea id="prizesInput" class="d-none" aria-hidden="true">Cash bonus
+Paid day off
+Leave 2 hours early
+Free food / pizza
+Gift card
+VIP pass without calls
+Sweet snack pack</textarea>
 <div class="p-2 mb-3 rounded bg-dark border border-secondary border-opacity-50">
-<div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Prize rules:</div>
-<div class="mb-2">
-<div class="d-flex justify-content-between align-items-center mb-1">
-<span class="small text-light">1. How many are eliminated?</span>
-<input type="number" id="numElimPrizesInput" class="form-control form-control-sm text-center" style="width: 70px;" value="2" min="0">
+<div class="fw-bold text-warning small mb-2"><i class="bi bi-sliders me-1"></i>Prize rules</div>
+<div class="mb-2"><div class="d-flex justify-content-between align-items-center mb-1"><span class="small text-light">1. How many are eliminated?</span><input type="number" id="numElimPrizesInput" class="form-control form-control-sm text-center" style="width: 70px;" value="2" min="0"></div><small class="text-secondary d-block" style="font-size: 0.72rem;">(Prizes discarded before the award)</small></div>
+<div class="d-flex justify-content-between align-items-center"><span class="small text-success fw-semibold">2. Prizes to award:</span><span class="badge bg-success text-dark" id="prizesToAwardBadge">1</span></div>
+<small class="text-secondary d-block" style="font-size: 0.72rem;">Synced with winners selected in wheel 1.</small>
 </div>
-<small class="text-secondary d-block" style="font-size: 0.72rem;">(Prizes discarded before the award)</small>
-</div>
-<div class="d-flex justify-content-between align-items-center">
-<span class="small text-success fw-semibold">2. Prizes to award:</span>
-<span class="badge bg-success text-dark" id="prizesToAwardBadge">1</span>
-</div>
-<small class="text-secondary d-block" style="font-size: 0.72rem;">Synced with winners chosen in wheel 1.</small>
-</div>
-<button id="loadPrizesBtn" class="btn btn-slime w-100 mb-3">
-<i class="bi bi-arrow-repeat me-1"></i> Load prizes into the wheel
-</button>
-<div class="p-3 border border-warning border-opacity-50 rounded bg-dark mb-3">
-<div class="small text-secondary">Prize turn:</div>
-<div class="fs-5 fw-bold text-warning mt-1" id="currentWinnerToPrizeDisplay">No winner selected in wheel 1</div>
+<button id="loadPrizesBtn" class="btn btn-slime w-100 mb-3"><i class="bi bi-arrow-repeat me-1"></i> Load prizes into the wheel</button>
+<div class="p-3 border border-warning border-opacity-50 rounded bg-dark mb-3"><div class="small text-secondary">Prize turn:</div><div class="fs-5 fw-bold text-warning mt-1" id="currentWinnerToPrizeDisplay">No winner selected in wheel 1</div></div>
 </div>
 </div>
-<div class="card-custom p-3 mb-2">
-<h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center">
-<span>🗑️ Discarded Prizes</span>
-<span class="badge bg-danger text-white" id="eliminatedPrizesCount">0</span>
-</h6>
-<div id="discardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div></div>
-</div>
-<div class="card-custom p-3">
-<h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center">
-<span>🎁 Rewards Awarded Today</span>
-<span class="badge bg-success text-dark" id="awardedPrizesCount">0</span>
-</h6>
-<div id="awardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">None yet...</div></div>
-</div>
-</div>
-<div class="col-lg-8 text-center">
+<div class="wheel-panel text-center">
 <div class="card-custom p-4">
-<div id="prizeStatusAlert" class="alert alert-dark border-secondary p-3 mb-3">
-<h5 class="mb-0 fw-bold text-warning" id="prizeStatusTitle">Prize discard phase!</h5>
-<small class="text-secondary" id="prizeStatusSubtitle">The prize that comes up will be removed from the wheel (2 left to discard).</small>
-</div>
-<div class="d-flex justify-content-center gap-2 mb-2">
-<span id="prizePhaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Prize Discard 🌺</span>
-<span id="prizeRoundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Discarded: 0 / 2</span>
-</div>
-<div class="wheel-container mb-3">
-<div class="wheel-pointer"></div>
-<canvas id="prizesWheel" class="wheel-canvas" width="420" height="420"></canvas>
-</div>
-<div class="d-flex flex-wrap justify-content-center gap-3">
-<button id="spinPrizeBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">🌺 SPIN TO ELIMINATE PRIZE</button>
-<button id="resetPrizesBtn" class="btn btn-outline-secondary btn-lg">
-<i class="bi bi-arrow-counterclockwise"></i> Reset prizes
-</button>
-</div>
-<div id="finalPrizeCard" class="card-custom winner-announcement p-4 mt-4 d-none">
-<h3 class="spooky-font text-warning mb-1">🎉 PRIZE WON! 🎉</h3>
-<h2 class="fw-bold text-white" id="finalAgentName">Agent</h2>
-<h1 class="display-6 fw-bold text-success my-3" id="finalPrizeWon">Prize</h1>
-<button id="nextWinnerPrizeBtn" class="btn btn-outline-warning btn-sm mt-2 d-none">
-Next winner ➡️
-</button>
+<div id="prizeStatusAlert" class="alert alert-dark border-secondary p-3 mb-3"><h5 class="mb-0 fw-bold text-warning" id="prizeStatusTitle">Prize discard phase!</h5><small class="text-secondary" id="prizeStatusSubtitle">The prize that lands will be removed from the wheel.</small></div>
+<div class="d-flex justify-content-center gap-2 mb-2"><span id="prizePhaseBadge" class="badge bg-danger fs-6 px-3 py-2">Phase: Prize discard</span><span id="prizeRoundsBadge" class="badge bg-warning text-dark fs-6 px-3 py-2">Discarded: 0 / 2</span></div>
+<div class="wheel-container mb-3"><div class="wheel-pointer"></div><canvas id="prizesWheel" class="wheel-canvas" width="420" height="420"></canvas></div>
+<div class="d-flex flex-wrap justify-content-center gap-3"><button id="spinPrizeBtn" class="btn btn-pumpkin btn-lg px-5 py-3 fs-5">Spin to discard</button><button id="resetPrizesBtn" class="btn btn-outline-secondary btn-lg"><i class="bi bi-arrow-counterclockwise"></i> Reset prizes</button></div>
+<div id="finalPrizeCard" class="card-custom winner-announcement p-4 mt-4 d-none"><h3 class="spooky-font text-warning mb-1">Prize awarded</h3><h2 class="fw-bold text-white" id="finalAgentName">Agent</h2><h1 class="display-6 fw-bold text-success my-3" id="finalPrizeWon">Prize</h1><button id="nextWinnerPrizeBtn" class="btn btn-outline-warning btn-sm mt-2 d-none">Next winner</button></div>
 </div>
 </div>
+<div class="right-panel">
+<div class="card-custom p-3 mb-2"><h6 class="fw-bold text-danger mb-2 d-flex justify-content-between align-items-center"><span>Discarded</span><span class="badge bg-danger text-white" id="eliminatedPrizesCount">0</span></h6><div id="discardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">No prize discarded yet...</div></div></div>
+<div class="card-custom p-3"><h6 class="fw-bold text-success mb-2 d-flex justify-content-between align-items-center"><span>Awarded</span><span class="badge bg-success text-dark" id="awardedPrizesCount">0</span></h6><div id="awardedPrizesList" class="graveyard-list"><div class="text-secondary small text-center py-2 fst-italic">None yet...</div></div></div>
 </div>
 </div>
 </div>
@@ -1102,7 +1167,7 @@ soundEnabled = !soundEnabled;
 document.getElementById('soundIcon').className = soundEnabled ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill';
 document.getElementById('soundText').textContent = soundEnabled ? 'On' : 'Muted';
 });
-const diaDeMuertosColors = ['#ff8a18','#e85d0b','#ffb347','#ed668c','#9b3f83','#ffd166','#d94b36','#f06b91','#c94c24','#7e285e'];
+const diaDeMuertosColors = ['#67e8f9','#38bdf8','#60a5fa','#8b5cf6','#34d399','#a78bfa','#22d3ee','#93c5fd','#2dd4bf','#cbd5e1'];
 function shuffleArray(arr) {
 for (let i = arr.length - 1; i > 0; i--) {
 const j = Math.floor(Math.random() * (i + 1));
@@ -1234,12 +1299,8 @@ function syncTextareaFromParticipants() {
 agentsInput.value = participantItems.map(i => i.name).join('\n');
 }
 function shuffleAgents() {
-if (participantItems.length <= 1) return;
-participantItems = shuffleArray([...participantItems]);
-activeAgents = [...participantItems];
-persistParticipants();
-syncTextareaFromParticipants();
-renderParticipantsEditor();
+if (activeAgents.length <= 1) return;
+activeAgents = shuffleArray([...activeAgents]);
 drawWheel(agentsCtx, agentsCanvas, activeAgents, agentCurrentAngle);
 }
 function processBulkAgents(replaceWholeList) {
@@ -1332,27 +1393,27 @@ function updatePhaseUI() {
 const elimTarget = parseInt(numEliminatedInput.value, 10) || 0;
 const winTarget = parseInt(numWinnersInput.value, 10) || 1;
 if (currentPhase === 'elimination') {
-phaseBadge.textContent = 'Phase: Elimination 🌺';
+phaseBadge.textContent = 'Phase: Elimination';
 phaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
 roundsBadge.textContent = `Eliminated: ${eliminatedAgents.length} / ${elimTarget}`;
 roundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
 spinAgentBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
-spinAgentBtn.innerHTML = '🏵️ SPIN TO REVEAL';
+spinAgentBtn.innerHTML = 'SPIN TO REVEAL';
 spinAgentBtn.disabled = activeAgents.length <= 1;
-statusTitle.textContent = 'Elimination phase!';
-statusSubtitle.textContent = `The selected participant will be added to the altar (${elimTarget - eliminatedAgents.length} left to eliminate).`;
+statusTitle.textContent = 'Elimination phase';
+statusSubtitle.textContent = `The selected participant will be removed from the round (${elimTarget - eliminatedAgents.length} left to eliminate).`;
 } else if (currentPhase === 'winner_selection') {
-phaseBadge.textContent = 'Phase: Choose Winner 👑';
+phaseBadge.textContent = 'Phase: Winner';
 phaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
 roundsBadge.textContent = `Winners: ${chosenWinners.length} / ${winTarget}`;
 roundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
 spinAgentBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
-spinAgentBtn.innerHTML = '👑 SPIN TO PICK WINNER';
+spinAgentBtn.innerHTML = 'SPIN TO PICK WINNER';
 spinAgentBtn.disabled = activeAgents.length === 0;
-statusTitle.textContent = 'Winner phase!';
+statusTitle.textContent = 'Winner phase';
 statusSubtitle.textContent = `Spin to choose a winner from the surviving entries! (${winTarget - chosenWinners.length} left)`;
 } else {
-phaseBadge.textContent = 'Draw Finished 🎉';
+phaseBadge.textContent = 'Draw complete';
 phaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
 roundsBadge.textContent = `Total winners: ${chosenWinners.length}`;
 spinAgentBtn.disabled = true;
@@ -1407,38 +1468,53 @@ const label = typeof item === 'object' ? item.name : item;
 const startAngle = currentAngle + index * sliceAngle;
 const endAngle = startAngle + sliceAngle;
 const color = diaDeMuertosColors[index % diaDeMuertosColors.length];
+
+const sliceGradient = ctx.createRadialGradient(cx, cy, 10, cx, cy, radius);
+sliceGradient.addColorStop(0, 'rgba(255,255,255,0.32)');
+sliceGradient.addColorStop(0.28, color);
+sliceGradient.addColorStop(0.7, color);
+sliceGradient.addColorStop(1, 'rgba(2, 6, 23, 0.24)');
+
 ctx.beginPath();
 ctx.moveTo(cx, cy);
 ctx.arc(cx, cy, radius - 6, startAngle, endAngle);
-ctx.fillStyle = color;
+ctx.closePath();
+ctx.fillStyle = sliceGradient;
 ctx.fill();
 ctx.lineWidth = 2;
-ctx.strokeStyle = '#0a0512';
+ctx.strokeStyle = 'rgba(15, 23, 42, 0.9)';
 ctx.stroke();
+
 ctx.save();
 ctx.translate(cx, cy);
 ctx.rotate(startAngle + sliceAngle / 2);
 ctx.textAlign = 'right';
-ctx.fillStyle = '#ffffff';
-ctx.font = items.length > 14 ? 'bold 11px Montserrat' : 'bold 14px Montserrat';
+ctx.textBaseline = 'middle';
+ctx.fillStyle = '#f8fafc';
+ctx.font = items.length > 14 ? '700 11px Montserrat' : '700 13px Montserrat';
+ctx.shadowColor = 'rgba(2, 6, 23, 0.9)';
+ctx.shadowBlur = 10;
+ctx.strokeStyle = 'rgba(2, 6, 23, 0.8)';
+ctx.lineWidth = 2.5;
 const maxLen = 16;
 const textToDraw = label.length > maxLen ? label.substring(0, maxLen) + '...' : label;
-ctx.fillText(textToDraw, radius - 24, 5);
+ctx.strokeText(textToDraw, radius - 26, 4);
+ctx.fillText(textToDraw, radius - 26, 4);
 ctx.restore();
 });
 ctx.beginPath();
 ctx.arc(cx, cy, 32, 0, Math.PI * 2);
-ctx.fillStyle = '#0a0512';
+ctx.fillStyle = '#07131d';
 ctx.fill();
 ctx.lineWidth = 3;
 const isGreen = isPrizeWheel ? (prizeCurrentPhase === 'awarding') : (currentPhase === 'winner_selection');
-ctx.strokeStyle = isGreen ? '#d8a1ff' : '#ff9f1c';
+ctx.strokeStyle = isGreen ? '#34d399' : '#67e8f9';
 ctx.stroke();
-ctx.fillStyle = '#ffbd4a';
+ctx.fillStyle = '#e2e8f0';
 ctx.font = '20px Arial';
 ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
-ctx.fillText(isPrizeWheel ? (prizeCurrentPhase === 'awarding' ? '🎁' : '🌺') : (currentPhase === 'winner_selection' ? '👑' : '🏵️'), cx, cy);
+ctx.fillText(isPrizeWheel ? (prizeCurrentPhase === 'awarding' ? '✦' : '◎') : (currentPhase === 'winner_selection' ? '✦' : '◎'), cx, cy);
 }
 function spinAgent() {
 if (isSpinningAgents || activeAgents.length === 0) return;
@@ -1484,12 +1560,16 @@ const winTarget = parseInt(numWinnersInput.value, 10) || 1;
 if (currentPhase === 'elimination') {
 const eliminated = activeAgents.splice(index, 1)[0];
 eliminatedAgents.push(eliminated);
+participantItems = participantItems.filter(item => item.id !== eliminated.id);
+persistParticipants();
+syncTextareaFromParticipants();
+renderParticipantsEditor();
 playEliminationSound();
 showGlobalAnnouncement('elimination', eliminated.name, 'Has been eliminated from the draw.', 'Eliminated');
 updateAgentCounters();
 if (eliminatedAgents.length >= elimTarget || activeAgents.length <= winTarget) {
 setStatusAlertMode('elimination');
-statusTitle.innerHTML = `🌺 ${eliminated.name} HAS BEEN ELIMINATED! 🌼`;
+statusTitle.innerHTML = `${eliminated.name} has been eliminated.`;
 statusTitle.className = 'mb-0 fw-bold text-danger';
 if (activeAgents.length === winTarget) {
 chosenWinners = [...activeAgents];
@@ -1503,7 +1583,7 @@ updatePhaseUI();
 }
 } else {
 setStatusAlertMode('elimination');
-statusTitle.innerHTML = `🌺 ${eliminated.name} HAS BEEN ELIMINATED! 🌼`;
+statusTitle.innerHTML = `${eliminated.name} has been eliminated.`;
 statusTitle.className = 'mb-0 fw-bold text-danger';
 statusSubtitle.textContent = `${activeAgents.length} entries left. ${elimTarget - eliminatedAgents.length} more to eliminate.`;
 spinAgentBtn.disabled = false;
@@ -1521,7 +1601,7 @@ currentPhase = 'finished';
 finishGame();
 } else {
 setStatusAlertMode('winner');
-statusTitle.innerHTML = `🎉 ${winner.name} IS A WINNER! 👑`;
+statusTitle.innerHTML = `${winner.name} is a winner.`;
 statusTitle.className = 'mb-0 fw-bold text-success';
 statusSubtitle.textContent = `${winTarget - chosenWinners.length} winner(s) left to be chosen!`;
 spinAgentBtn.disabled = false;
@@ -1554,14 +1634,21 @@ spinAgentBtn.disabled = true;
 playVictoryFanfare();
 setStatusAlertMode('winner');
 setWinnerCardLightning(true);
-statusTitle.innerHTML = `👑 DRAW COMPLETE! WINNERS FOUND!`;
-statusTitle.className = 'mb-0 fw-bold text-success';
+statusTitle.innerHTML = 'DRAW COMPLETE';
+statusTitle.className = 'mb-0 fw-bold text-light';
 statusSubtitle.textContent = 'Move to the prize wheel to award the rewards.';
-winnerHeadline.textContent = chosenWinners.length === 1 ? '👑 THE GRAND WINNER! 👑' : `👑 ${chosenWinners.length} WINNERS! 👑`;
-winnerNamesBox.innerHTML = chosenWinners.map(w => `<span class="badge bg-success fs-4 m-1 p-2">👑 ${w.name}</span>`).join(' ');
+winnerHeadline.textContent = chosenWinners.length === 1 ? 'THE GRAND WINNER' : `${chosenWinners.length} WINNERS`;
+winnerNamesBox.innerHTML = chosenWinners.map(w => `<span class="badge bg-success fs-4 m-1 p-2">${w.name}</span>`).join(' ');
 winnerCard.classList.remove('d-none');
 updatePhaseUI();
 syncWinnersWithPrizes();
+setTimeout(() => {
+  const prizeTabBtn = document.getElementById('tab-prizes-btn');
+  if (prizeTabBtn) {
+    const prizeTab = new bootstrap.Tab(prizeTabBtn);
+    prizeTab.show();
+  }
+}, 1200);
 }
 function syncWinnersWithPrizes() {
 document.getElementById('prizesToAwardBadge').textContent = chosenWinners.length || 1;
@@ -1678,12 +1765,8 @@ function syncTextareaFromPrizes() {
 prizesInput.value = prizeItems.map(i => i.name).join('\n');
 }
 function shufflePrizes() {
-if (prizeItems.length <= 1) return;
-prizeItems = shuffleArray([...prizeItems]);
-activePrizes = [...prizeItems];
-persistPrizes();
-syncTextareaFromPrizes();
-renderPrizesEditor();
+if (activePrizes.length <= 1) return;
+activePrizes = shuffleArray([...activePrizes]);
 drawWheel(prizesCtx, prizesCanvas, activePrizes, prizeCurrentAngle, true);
 }
 function processBulkPrizes(replaceWholeList) {
@@ -1812,37 +1895,44 @@ currentWinnerToPrizeDisplay.textContent = 'All prizes awarded! 🎉';
 function updatePrizePhaseUI() {
 const elimTarget = parseInt(numElimPrizesInput.value, 10) || 0;
 const totalWinners = chosenWinners.length || 1;
+const prizeStatusAlert = document.getElementById('prizeStatusAlert');
+if (prizeStatusAlert) {
+  prizeStatusAlert.classList.remove('elimination-mode', 'awarding-mode', 'finished-mode');
+}
 if (prizeCurrentPhase === 'elimination') {
-prizePhaseBadge.textContent = 'Phase: Prize Discard 🌺';
+prizePhaseBadge.textContent = 'Phase: Prize Discard';
 prizePhaseBadge.className = 'badge bg-danger fs-6 px-3 py-2';
 prizeRoundsBadge.textContent = `Discarded: ${eliminatedPrizes.length} / ${elimTarget}`;
 prizeRoundsBadge.className = 'badge bg-warning text-dark fs-6 px-3 py-2';
 spinPrizeBtn.className = 'btn btn-pumpkin btn-lg px-5 py-3 fs-5';
-spinPrizeBtn.innerHTML = '🌺 SPIN TO ELIMINATE PRIZE';
+spinPrizeBtn.innerHTML = 'SPIN TO ELIMINATE PRIZE';
 spinPrizeBtn.disabled = activePrizes.length <= totalWinners;
-prizeStatusTitle.textContent = 'Prize discard phase!';
+prizeStatusTitle.textContent = 'Prize discard phase';
 prizeStatusTitle.className = 'mb-0 fw-bold text-warning';
 prizeStatusSubtitle.textContent = `The prize that comes up will be removed from the wheel (${elimTarget - eliminatedPrizes.length} left to discard).`;
+if (prizeStatusAlert) prizeStatusAlert.classList.add('elimination-mode');
 } else if (prizeCurrentPhase === 'awarding') {
-prizePhaseBadge.textContent = 'Phase: Winner Prize 🎁';
+prizePhaseBadge.textContent = 'Phase: Winner Prize';
 prizePhaseBadge.className = 'badge bg-success fs-6 px-3 py-2';
 prizeRoundsBadge.textContent = `Prizes: ${awardedHistory.length} / ${totalWinners}`;
 prizeRoundsBadge.className = 'badge bg-info text-dark fs-6 px-3 py-2';
 const currentAgent = chosenWinners[winnerPrizeIndex] ? chosenWinners[winnerPrizeIndex].name : 'the winner';
 spinPrizeBtn.className = 'btn btn-slime btn-lg px-5 py-3 fs-5';
-spinPrizeBtn.innerHTML = `🎁 SPIN FOR LOS PRIZE FOR ${currentAgent.toUpperCase()}!`;
+spinPrizeBtn.innerHTML = `SPIN FOR ${currentAgent.toUpperCase()}!`;
 spinPrizeBtn.disabled = activePrizes.length === 0 || (chosenWinners.length > 0 && winnerPrizeIndex >= chosenWinners.length);
 prizeStatusTitle.textContent = `Spin for ${currentAgent}'s prize!`;
 prizeStatusTitle.className = 'mb-0 fw-bold text-success';
 prizeStatusSubtitle.textContent = 'Only the surviving prizes remain. Good luck!';
+if (prizeStatusAlert) prizeStatusAlert.classList.add('awarding-mode');
 } else {
-prizePhaseBadge.textContent = 'Awarding Complete 🎉';
+prizePhaseBadge.textContent = 'Awarding complete';
 prizePhaseBadge.className = 'badge bg-secondary fs-6 px-3 py-2';
 prizeRoundsBadge.textContent = `Total awarded: ${awardedHistory.length}`;
 spinPrizeBtn.disabled = true;
 prizeStatusTitle.textContent = 'All prizes have been awarded!';
 prizeStatusTitle.className = 'mb-0 fw-bold text-success';
 prizeStatusSubtitle.textContent = 'Congratulations to all participants and winners.';
+if (prizeStatusAlert) prizeStatusAlert.classList.add('finished-mode');
 }
 }
 function spinPrize() {
@@ -1898,6 +1988,10 @@ const neededWinners = chosenWinners.length || 1;
 if (prizeCurrentPhase === 'elimination') {
 const discarded = activePrizes.splice(index, 1)[0];
 eliminatedPrizes.push(discarded);
+prizeItems = prizeItems.filter(item => item.id !== discarded.id);
+persistPrizes();
+syncTextareaFromPrizes();
+renderPrizesEditor();
 playEliminationSound();
 showGlobalAnnouncement('elimination', discarded.name, 'This prize has been eliminated from the selection.', 'Discarded Prize');
 updatePrizeCounters();
