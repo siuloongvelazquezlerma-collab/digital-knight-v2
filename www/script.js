@@ -349,7 +349,7 @@ async function cargarSwiperInicio() {
 
     try {
 
-        const respuesta = await fetch('swiper-data.json');
+        const respuesta = await fetch('swiper-data.json?v=' + Date.now());
 
         if (!respuesta.ok) {
             throw new Error('No se pudo cargar swiper-data.json');
