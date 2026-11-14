@@ -1179,24 +1179,12 @@ function castCurrentVideo() {
   const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
   const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-  let appOpened = false;
-
-  // Detectar cuando la app se abre (la página pasa a segundo plano)
-  const markAppOpened = () => { appOpened = true; };
-  window.addEventListener("blur", markAppOpened, { once: true });
-  window.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === 'hidden') markAppOpened();
-  }, { once: true });
-
   // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
+  // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
+  // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
+  // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
+  // ir a Play Store manualmente si lo desea.
   location.href = appLink;
-
-  // Si tras un momento no se abrió la app, llevar a Play Store en pestaña nueva
-  setTimeout(() => {
-    if (!appOpened && document.visibilityState !== 'hidden') {
-      window.open(storeLink, '_blank');
-    }
-  }, 3500);
 }
 // Blindar para que el HTML no sobrescriba esta función
 Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
