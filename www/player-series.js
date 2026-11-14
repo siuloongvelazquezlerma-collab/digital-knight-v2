@@ -1517,6 +1517,58 @@ function updateEpisodeUI(videoUrl) {
 }
 
 
+// =========================================================
+// 📺 CAST / WEB VIDEO CASTER – transmitir episodio a TV
+// =========================================================
+function castCurrentVideo() {
+  const currentSrc = video.currentSrc(); // usa método
+
+  let videoUrl = null;
+
+  // Buscar el episodio actual en el playlist
+  outerLoop:
+  for (const season of playlist) {
+    for (const episode of season.episodes) {
+      if (episode.videoUrl === currentSrc) {
+        videoUrl = episode.videoUrl;
+        break outerLoop;
+      }
+    }
+  }
+
+  if (videoUrl) {
+    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl);
+    const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
+
+    // Crear enlace temporal invisible
+    const transmitLink = document.createElement('a');
+    transmitLink.href = appLink;
+    transmitLink.style.display = 'none';
+    document.body.appendChild(transmitLink);
+
+    let appOpened = false;
+    transmitLink.click();
+
+    // Si la app no se abre, redirige a la Play Store
+    setTimeout(() => {
+      if (!appOpened) {
+        window.location.href = storeLink;
+      }
+      document.body.removeChild(transmitLink);
+    }, 1000);
+
+    // Si se pierde el foco, asumimos que se abrió la app
+    window.addEventListener("blur", () => {
+      appOpened = true;
+    }, { once: true });
+
+  } else {
+    alert("No se pudo obtener el enlace del episodio actual.");
+  }
+}
+// =========================================================
+
+
 // Mostrar/ocultar el botón durante el tiempo del intro
 // Variables de control
 let skipIntroTimeoutId = null;

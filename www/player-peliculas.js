@@ -1133,3 +1133,46 @@ async function toggleFavorito() {
     throttledSyncData(movieId);
   }
 }
+
+// =========================================================
+// 📺 CAST / WEB VIDEO CASTER – transmitir película a TV
+// =========================================================
+function castCurrentVideo() {
+  const videoEl = document.getElementById('video') || document.getElementById('video_html5_api');
+  if (!videoEl) {
+    alert('No se encontró el reproductor.');
+    return;
+  }
+  const currentSrc = videoEl.currentSrc || videoEl.src;
+  if (!currentSrc) {
+    alert('No se encontró el enlace del video.');
+    return;
+  }
+
+  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
+  const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
+
+  // Crear enlace temporal invisible
+  const transmitLink = document.createElement('a');
+  transmitLink.href = appLink;
+  transmitLink.style.display = 'none';
+  document.body.appendChild(transmitLink);
+
+  let appOpened = false;
+  transmitLink.click();
+
+  // Si la app no se abre, redirige a la Play Store
+  setTimeout(() => {
+    if (!appOpened) {
+      window.location.href = storeLink;
+    }
+    document.body.removeChild(transmitLink);
+  }, 1000);
+
+  // Si se pierde el foco, asumimos que se abrió la app
+  window.addEventListener("blur", () => {
+    appOpened = true;
+  }, { once: true });
+}
+// =========================================================
+
