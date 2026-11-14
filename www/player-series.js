@@ -1,5 +1,5 @@
 // 🔄 Restaurar página tras volver de Web Video Caster (si la pestaña se perdió)
-(function(){
+function restaurarDespuesDeCast() {
   try {
     const r = sessionStorage.getItem('dk_cast_return');
     const t = sessionStorage.getItem('dk_cast_type');
@@ -13,7 +13,15 @@
       }
     }
   } catch(e){ /* sessionStorage no disponible */ }
-})();
+}
+// Ejecutar al cargar
+restaurarDespuesDeCast();
+// Ejecutar cuando la página vuelve al primer plano (al cerrar WVC y regresar)
+window.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    restaurarDespuesDeCast();
+  }
+});
 
 // =========================================================
 // ⭐ DESCARGAS EXCLUSIVAS PREMIUM (series)
