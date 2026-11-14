@@ -1537,30 +1537,36 @@ function castCurrentVideo() {
   }
 
   if (videoUrl) {
-    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
+    // 🔒 Guardar estado antes de salir
+    sessionStorage.setItem('dk_cast_return', window.location.href);
+    sessionStorage.setItem('dk_cast_type', 'series');
+    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
+    sessionStorage.setItem('dk_cast_url', videoUrl);
+
+    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl) + "&secure_uri=true";
     const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-    // Crear enlace temporal invisible
-    const transmitLink = document.createElement('a');
-    transmitLink.href = appLink;
-    transmitLink.style.display = 'none';
-    document.body.appendChild(transmitLink);
+    // Abrir WVC en pestaña nueva para NO perder la página actual
+    const a = document.createElement('a');
+    a.href = appLink;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
     let appOpened = false;
-    transmitLink.click();
-
-    // Si la app no se abre, redirige a la Play Store
-    setTimeout(() => {
-      if (!appOpened) {
-        window.location.href = storeLink;
-      }
-      document.body.removeChild(transmitLink);
-    }, 1000);
-
-    // Si se pierde el foco, asumimos que se abrió la app
     window.addEventListener("blur", () => {
       appOpened = true;
     }, { once: true });
+
+    // Si la app no se abre, ir a Play Store en pestaña nueva (sin tocar la actual)
+    setTimeout(() => {
+      if (!appOpened) {
+        window.open(storeLink, '_blank');
+      }
+    }, 1500);
 
   } else {
     alert("No se pudo obtener el enlace del episodio actual.");
@@ -2464,7 +2470,7 @@ function castCurrentVideo() {
   }
 
   if (videoUrl) {
-    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl);
+    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
     const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
     // Crear enlace temporal invisible
