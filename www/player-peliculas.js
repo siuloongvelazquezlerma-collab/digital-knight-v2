@@ -1154,7 +1154,7 @@ function castCurrentVideo() {
     return;
   }
 
-  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
+  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
   const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
   // Crear enlace temporal invisible
