@@ -2465,58 +2465,6 @@ const episodeId =
 }
 
 
-function castCurrentVideo() {
-  const currentSrc = video.currentSrc(); // usa método
-
-  let videoUrl = null;
-
-  // Buscar el episodio actual en el playlist
-  outerLoop:
-  for (const season of playlist) {
-    for (const episode of season.episodes) {
-      if (episode.videoUrl === currentSrc) {
-        videoUrl = episode.videoUrl;
-        break outerLoop;
-      }
-    }
-  }
-
- if (videoUrl) {
-    // 🔒 Guardar estado antes de salir
-    sessionStorage.setItem('dk_cast_return', window.location.href);
-    sessionStorage.setItem('dk_cast_type', 'series');
-    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
-    sessionStorage.setItem('dk_cast_url', videoUrl);
-    
-    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
-    const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
-
-    // Crear enlace temporal invisible
-    const transmitLink = document.createElement('a');
-    transmitLink.href = appLink;
-    transmitLink.style.display = 'none';
-    document.body.appendChild(transmitLink);
-
-    let appOpened = false;
-    transmitLink.click();
-
-    // Si la app no se abre, redirige a la Play Store
-    setTimeout(() => {
-      if (!appOpened) {
-        window.location.href = storeLink;
-      }
-      document.body.removeChild(transmitLink);
-    }, 1000);
-
-    // Si se pierde el foco, asumimos que se abrió la app
-    window.addEventListener("blur", () => {
-      appOpened = true;
-    }, { once: true });
-
-  } else {
-    alert("No se pudo obtener el enlace del episodio actual.");
-  }
-}
 
 
 const loader = document.getElementById('videoLoader');
