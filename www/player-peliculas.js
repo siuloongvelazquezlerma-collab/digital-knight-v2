@@ -1138,14 +1138,19 @@ async function toggleFavorito() {
 // 📺 CAST / WEB VIDEO CASTER – transmitir película a TV
 // =========================================================
 function castCurrentVideo() {
-  const videoEl = document.getElementById('video') || document.getElementById('video_html5_api');
+  const videoEl = document.getElementById("video");
   if (!videoEl) {
-    alert('No se encontró el reproductor.');
+    alert("No se encontró el reproductor.");
     return;
   }
-  const currentSrc = videoEl.currentSrc || videoEl.src;
+  const player = videoEl.player || (typeof videojs !== 'undefined' && videojs.getPlayer ? videojs.getPlayer("video") : null);
+  if (!player) {
+    alert("No se encontró el reproductor.");
+    return;
+  }
+  const currentSrc = player.currentSrc();
   if (!currentSrc) {
-    alert('No se encontró el enlace del video.');
+    alert("No se encontró el enlace del video.");
     return;
   }
 
