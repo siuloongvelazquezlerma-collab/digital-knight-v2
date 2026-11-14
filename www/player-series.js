@@ -2462,7 +2462,13 @@ function castCurrentVideo() {
     }
   }
 
-  if (videoUrl) {
+ if (videoUrl) {
+    // 🔒 Guardar estado antes de salir
+    sessionStorage.setItem('dk_cast_return', window.location.href);
+    sessionStorage.setItem('dk_cast_type', 'series');
+    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
+    sessionStorage.setItem('dk_cast_url', videoUrl);
+    
     const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
     const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
