@@ -1162,22 +1162,15 @@ function castCurrentVideo() {
   const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
   const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-  // Abrir WVC en pestaña nueva para NO perder la página actual
-  const a = document.createElement('a');
-  a.href = appLink;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
   let appOpened = false;
   window.addEventListener("blur", () => {
     appOpened = true;
   }, { once: true });
 
-  // Si la app no se abre, ir a Play Store en pestaña nueva (sin tocar la actual)
+  // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
+  location.href = appLink;
+
+  // Si tras un momento no se abrió la app, llevar a Play Store en pestaña nueva
   setTimeout(() => {
     if (!appOpened) {
       window.open(storeLink, '_blank');
