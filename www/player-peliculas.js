@@ -1,6 +1,23 @@
 // 🆔 Asegura que tengas el ID de la película global
 const movieId = window.movieId || 'unknown-id';
 
+// 🔄 Restaurar página tras volver de Web Video Caster (si la pestaña se perdió)
+(function(){
+  try {
+    const r = sessionStorage.getItem('dk_cast_return');
+    const t = sessionStorage.getItem('dk_cast_type');
+    if (r && t) {
+      sessionStorage.removeItem('dk_cast_return');
+      sessionStorage.removeItem('dk_cast_type');
+      sessionStorage.removeItem('dk_cast_id');
+      if (t === 'movie') sessionStorage.removeItem('dk_cast_id');
+      if (window.location.href !== r) {
+        window.location.href = r;
+      }
+    }
+  } catch(e){ /* sessionStorage no disponible */ }
+})();
+
 // =========================================================
 // ⭐ DESCARGAS EXCLUSIVAS PREMIUM
 // El botón de descarga solo se muestra a usuarios Premium.
@@ -1163,8 +1180,12 @@ function castCurrentVideo() {
   const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
   let appOpened = false;
-  window.addEventListener("blur", () => {
-    appOpened = true;
+
+  // Detectar cuando la app se abre (la página pasa a segundo plano)
+  const markAppOpened = () => { appOpened = true; };
+  window.addEventListener("blur", markAppOpened, { once: true });
+  window.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === 'hidden') markAppOpened();
   }, { once: true });
 
   // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
@@ -1172,10 +1193,12 @@ function castCurrentVideo() {
 
   // Si tras un momento no se abrió la app, llevar a Play Store en pestaña nueva
   setTimeout(() => {
-    if (!appOpened) {
+    if (!appOpened && document.visibilityState !== 'hidden') {
       window.open(storeLink, '_blank');
     }
-  }, 1500);
+  }, 3500);
 }
+// Blindar para que el HTML no sobrescriba esta función
+Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
 // =========================================================
 
