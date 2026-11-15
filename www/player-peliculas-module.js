@@ -255,3 +255,112 @@ video.addEventListener('ended', async () => {
     console.error('❌ Error al finalizar película:', err);
   }
 });
+
+// =========================================================
+// 🔊 CONTROL DE VOLUMEN – botón + slider debajo de la barra de progreso
+// =========================================================
+(function initVolumeControl() {
+  console.log('[DK-VOLUME] Iniciando control de volumen...');
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #dk-volume-control { display:flex !important; align-items:center; gap:8px; padding:8px 0; z-index:9999; }
+    #dk-volume-icon { cursor:pointer; font-size:22px; user-select:none; color:#fff; }
+    #dk-volume-slider-wrap { position:relative; display:none; align-items:center; gap:6px; padding:6px 8px; background:rgba(0,0,0,0.75); border-radius:8px; backdrop-filter:blur(4px); z-index:10000; }
+    #dk-volume-slider { width:110px; height:4px; accent-color:#fff; cursor:pointer; }
+    #dk-volume-slider-wrap:hover { display:flex !important; }
+    #dk-volume-control:hover #dk-volume-slider-wrap { display:flex !important; }
+    #dk-player-actions-row { position:relative; display:flex; align-items:center; justify-content:flex-start; min-height:40px; width:100%; pointer-events:auto; }
+    #dk-player-actions-row #dk-volume-control { flex:0 0 auto; }
+    #dk-player-actions-row .extra-controls { position:absolute; left:50%; transform:translateX(-50%); width:auto; justify-content:center; gap:clamp(18px, 8vw, 150px); margin:0; white-space:nowrap; }
+  `;
+  document.head.appendChild(style);
+
+  let volWrapper, slider, sliderWrap, volIcon, lastVolume = 1, isDragging = false;
+
+  function getVideoEl() {
+    return document.getElementById('video_html5_api') || document.querySelector('#video video') || document.querySelector('video');
+  }
+
+  function updateIcon(vol) {
+    if (!volIcon) return;
+    if (vol <= 0) volIcon.textContent = 'volume_off';
+    else if (vol < 0.5) volIcon.textContent = 'volume_down';
+    else volIcon.textContent = 'volume_up';
+  }
+
+  function syncSlider() {
+    const v = getVideoEl();
+    if (!v || !slider) return;
+    const val = Math.round((v.muted ? 0 : v.volume) * 100);
+    slider.value = val;
+    updateIcon(v.muted ? 0 : v.volume);
+  }
+
+  function toggleVolume() {
+    const v = getVideoEl();
+    if (!v) return;
+    if (v.muted) { v.muted = false; if (lastVolume && lastVolume > 0) v.volume = lastVolume; if (slider) slider.value = Math.round(lastVolume * 100); updateIcon(lastVolume); }
+    else { lastVolume = v.volume; v.muted = true; if (slider) slider.value = '0'; updateIcon(0); }
+  }
+
+  function createVolumeUI(container) {
+    if (document.getElementById('dk-volume-control')) return true;
+    volWrapper = document.createElement('div');
+    volWrapper.id = 'dk-volume-control';
+    volWrapper.style.cssText = 'display:flex !important; align-items:center; gap:8px; padding:8px 0; z-index:9999;';
+    volIcon = document.createElement('span');
+    volIcon.className = 'material-icons';
+    volIcon.id = 'dk-volume-icon';
+    volIcon.textContent = 'volume_up';
+    volIcon.style.cssText = 'cursor:pointer; font-size:22px; user-select:none;';
+    sliderWrap = document.createElement('div');
+    sliderWrap.id = 'dk-volume-slider-wrap';
+    slider = document.createElement('input');
+    slider.type = 'range';
+    slider.id = 'dk-volume-slider';
+    slider.min = '0';
+    slider.max = '100';
+    slider.value = '100';
+    slider.step = '1';
+    sliderWrap.appendChild(slider);
+    volWrapper.appendChild(volIcon);
+    volWrapper.appendChild(sliderWrap);
+    const progressContainer = container.querySelector('.progress-container');
+    const extraControls = container.querySelector('.extra-controls');
+    const actionsRow = document.createElement('div');
+    actionsRow.id = 'dk-player-actions-row';
+    actionsRow.appendChild(volWrapper);
+    if (extraControls) actionsRow.appendChild(extraControls);
+    if (progressContainer) progressContainer.insertAdjacentElement('afterend', actionsRow);
+    else container.appendChild(actionsRow);
+    slider.addEventListener('input', (e) => { const v = getVideoEl(); if (!v) return; isDragging = true; const val = parseInt(e.target.value, 10) / 100; v.muted = false; v.volume = val; lastVolume = val; updateIcon(val); });
+    slider.addEventListener('change', () => { isDragging = false; });
+    volIcon.addEventListener('click', toggleVolume);
+    const v = getVideoEl();
+    if (v) { v.addEventListener('volumechange', syncSlider); }
+    volWrapper.addEventListener('mouseenter', () => { if (sliderWrap) sliderWrap.style.display = 'flex'; });
+    volWrapper.addEventListener('mouseleave', () => { if (!isDragging && sliderWrap) sliderWrap.style.display = 'none'; });
+    const cur = getVideoEl();
+    if (cur) updateIcon(cur.muted ? 0 : cur.volume);
+    console.log('[DK-VOLUME] UI creado e insertado');
+    return true;
+  }
+
+  function tryCreate() {
+    if (document.getElementById('dk-volume-control')) return true;
+    let container = document.querySelector('#controls .bottom-bar');
+    if (!container) container = document.querySelector('.bottom-bar');
+    if (!container) container = document.body;
+    if (!container) return false;
+    return createVolumeUI(container);
+  }
+
+  if (tryCreate()) return;
+
+  const observer = new MutationObserver(() => { if (tryCreate()) { observer.disconnect(); } });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  setTimeout(() => { if (!document.getElementById('dk-volume-control')) { tryCreate(); } }, 1500);
+})();
+// =========================================================

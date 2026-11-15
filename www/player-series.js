@@ -121,6 +121,158 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 let hideControlsTimeout;
 
+// Footer móvil: se oculta al avanzar por la página y vuelve al regresar.
+// Se inicializa temprano para que no dependa de scripts de perfil/favoritos.
+(function initFooterAutoHide() {
+  const footer = document.querySelector('.footer');
+  if (!footer) return;
+
+  let lastScrollY = Math.max(0, window.scrollY);
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const currentScrollY = Math.max(0, window.scrollY);
+      const delta = currentScrollY - lastScrollY;
+
+      if (Math.abs(delta) >= 6) {
+        footer.classList.toggle('hidden', delta > 0 && currentScrollY > 16);
+        lastScrollY = currentScrollY;
+      }
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+// Encabezado de series: muestra el nombre al avanzar sobre la portada.
+// Se instala junto al footer para no depender del código opcional al final.
+(function initSeriesHeaderOnScroll() {
+  const header = document.getElementById('header');
+  const pageTitle = document.getElementById('page-title');
+  if (!header || !pageTitle) return;
+
+  let ticking = false;
+  function updateHeader() {
+    const scrollY = Math.max(0, window.scrollY);
+    const maxScroll = 300;
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const titleOpacity = scrollY > 150 ? opacity : 0;
+
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageTitle.style.opacity = titleOpacity;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(updateHeader);
+  }, { passive: true });
+  updateHeader();
+})();
+
+// Control de volumen debajo de la barra de progreso, igual al reproductor
+// de películas. Se monta aquí (antes de la lógica opcional de temporadas)
+// para que esté disponible en todas las plantillas de series.
+(function mountVolumeBelowProgress() {
+  const style = document.createElement('style');
+  style.textContent = `
+    #dk-volume-control { display:flex !important; align-items:center; gap:8px; padding:8px 0; pointer-events:auto; z-index:9999; }
+    #dk-volume-icon { cursor:pointer; font-size:22px; user-select:none; color:#fff; }
+    #dk-volume-slider-wrap { position:relative; display:none; align-items:center; padding:6px 8px; background:rgba(0,0,0,.75); border-radius:8px; backdrop-filter:blur(4px); }
+    #dk-volume-slider { width:110px; height:4px; accent-color:#fff; cursor:pointer; }
+    #dk-volume-control:hover #dk-volume-slider-wrap, #dk-volume-control:focus-within #dk-volume-slider-wrap { display:flex !important; }
+    #dk-player-actions-row { position:relative; display:flex; align-items:center; justify-content:flex-start; min-height:40px; width:100%; pointer-events:auto; }
+    #dk-player-actions-row #dk-volume-control { flex:0 0 auto; }
+    #dk-player-actions-row .extra-controls { position:absolute; left:50%; transform:translateX(-50%); width:auto; justify-content:center; gap:clamp(18px, 8vw, 150px); margin:0; white-space:nowrap; }
+  `;
+  document.head.appendChild(style);
+
+  let slider, volumeIcon, sliderWrap, lastVolume = 1;
+
+  function createControl() {
+    if (document.getElementById('dk-volume-control')) return true;
+    const bottomBar = document.querySelector('#controls .bottom-bar') || document.querySelector('.bottom-bar');
+    if (!bottomBar) return false;
+
+    const volumeControl = document.createElement('div');
+    volumeControl.id = 'dk-volume-control';
+
+    volumeIcon = document.createElement('span');
+    volumeIcon.id = 'dk-volume-icon';
+    volumeIcon.className = 'material-icons';
+    volumeIcon.textContent = 'volume_up';
+    volumeIcon.setAttribute('role', 'button');
+    volumeIcon.setAttribute('tabindex', '0');
+    volumeIcon.setAttribute('aria-label', 'Silenciar o activar volumen');
+
+    sliderWrap = document.createElement('div');
+    sliderWrap.id = 'dk-volume-slider-wrap';
+    slider = document.createElement('input');
+    slider.id = 'dk-volume-slider';
+    slider.type = 'range';
+    slider.min = '0';
+    slider.max = '100';
+    slider.step = '1';
+    slider.value = Math.round(video.volume() * 100);
+    slider.setAttribute('aria-label', 'Volumen');
+    sliderWrap.appendChild(slider);
+    volumeControl.append(volumeIcon, sliderWrap);
+
+    const progressContainer = bottomBar.querySelector('.progress-container');
+    const extraControls = bottomBar.querySelector('.extra-controls');
+    const actionsRow = document.createElement('div');
+    actionsRow.id = 'dk-player-actions-row';
+    actionsRow.appendChild(volumeControl);
+    if (extraControls) actionsRow.appendChild(extraControls);
+    if (progressContainer) progressContainer.insertAdjacentElement('afterend', actionsRow);
+    else bottomBar.appendChild(actionsRow);
+
+    function syncVolume() {
+      const volume = video.muted() ? 0 : video.volume();
+      slider.value = Math.round(volume * 100);
+      volumeIcon.textContent = volume <= 0 ? 'volume_off' : volume < .5 ? 'volume_down' : 'volume_up';
+    }
+
+    function toggleMute() {
+      if (video.muted()) {
+        video.muted(false);
+        video.volume(lastVolume || 1);
+      } else {
+        lastVolume = video.volume();
+        video.muted(true);
+      }
+      syncVolume();
+    }
+
+    slider.addEventListener('input', () => {
+      const volume = Number(slider.value) / 100;
+      video.muted(volume === 0);
+      video.volume(volume);
+      if (volume > 0) lastVolume = volume;
+      syncVolume();
+    });
+    volumeIcon.addEventListener('click', toggleMute);
+    volumeIcon.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleMute();
+      }
+    });
+    video.on('volumechange', syncVolume);
+    syncVolume();
+    return true;
+  }
+
+  if (createControl()) return;
+  const retry = setInterval(() => {
+    if (createControl()) clearInterval(retry);
+  }, 200);
+  setTimeout(() => clearInterval(retry), 5000);
+})();
+
 const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
   'https://od.lk/s/M18zMzk3MTAxODFfTkVja2c/derry.jpg';
 const DK_PAUSE_AD_IMAGES = Array.isArray(window.DK_PAUSE_AD_IMAGES)
@@ -314,20 +466,41 @@ window.pipRewind = function () {
   skip(-10);
 };
 
-function goBack() {
-
+function restorePageAfterPlayer() {
+  clearTimeout(hideControlsTimeout);
   document.body.classList.remove('video-active');
 
-  player.style.display = 'none';
-  cover.style.display = 'flex';
+  // Quitamos los estilos temporales del player en vez de forzar `flex`.
+  // Así cada página recupera su portada y sus reglas responsive originales.
+  player.style.removeProperty('display');
+  cover.style.removeProperty('display');
+  controls.classList.remove('visible');
+  overlay.classList.remove('visible');
+  overlayTop?.classList.remove('visible');
+  overlayBottom?.classList.remove('visible');
+  controlsVisible = false;
+
+  // La orientación cambia de forma asíncrona en Android. Recalcular después
+  // del siguiente frame evita una portada recortada o con fondo landscape.
+  requestAnimationFrame(() => {
+    cover.style.removeProperty('display');
+    window.dispatchEvent(new Event('resize'));
+  });
+}
+
+function goBack() {
+  video.pause();
+  playPauseBtn.textContent = 'play_arrow';
+  restorePageAfterPlayer();
+
+  if (document.fullscreenElement) {
+    exitFullscreen();
+  }
 
   // 🔥 Detener la notificación
   if (window.AndroidMedia) {
     AndroidMedia.stopNotification();
   }
-
-  video.pause();
-  playPauseBtn.textContent = 'play_arrow';
 
   if (window.Android) {
     Android.setPortrait();
@@ -635,8 +808,11 @@ video.pause();
 }
 
 playPauseBtn.textContent = 'play_arrow';
-player.style.display = 'none';
-cover.style.display = 'flex';
+restorePageAfterPlayer();
+
+if (window.Android) {
+  Android.setPortrait();
+}
 
 // 💡 GUARDAR PROGRESO ACTUAL
 const videoUrl = video.currentSrc();
@@ -1586,6 +1762,117 @@ function castCurrentVideo() {
 Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
 // =========================================================
 
+// =========================================================
+// CONTROL DE VOLUMEN
+// Se monta en la barra superior: esa zona es consistente en todas las
+// plantillas de series y no puede quedar oculta por la barra de progreso.
+// =========================================================
+(function () {
+  // El control principal se monta al cargar el player, antes de la lógica de
+  // temporadas. Este bloque queda solo como respaldo para plantillas antiguas.
+  if (document.getElementById('dk-volume-control')) return;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #dk-volume-control { position:relative; display:flex; align-items:center; z-index:20; }
+    #dk-volume-button { width:40px; height:40px; display:grid; place-items:center; border:0; border-radius:50%; background:rgba(0,0,0,.58); color:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+    #dk-volume-button .material-icons { font-size:24px; }
+    #dk-volume-button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+    #dk-volume-panel { position:absolute; top:calc(100% + 8px); right:0; display:none; align-items:center; padding:12px; background:rgba(10,10,10,.9); border:1px solid rgba(255,255,255,.2); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.45); }
+    #dk-volume-control.is-open #dk-volume-panel { display:flex; }
+    #dk-volume-slider { width:120px; accent-color:#fff; cursor:pointer; }
+  `;
+  document.head.appendChild(style);
+
+  let slider, icon, wrapper;
+
+  function getVideoElement() {
+    return document.getElementById('video_html5_api') || document.querySelector('#video video') || document.querySelector('video');
+  }
+
+  function updateIcon(volume) {
+    if (!icon) return;
+    icon.textContent = volume <= 0 ? 'volume_off' : volume < 0.5 ? 'volume_down' : 'volume_up';
+  }
+
+  function syncVolume() {
+    const playerVideo = getVideoElement();
+    if (!playerVideo || !slider) return;
+    const volume = playerVideo.muted ? 0 : playerVideo.volume;
+    slider.value = Math.round(volume * 100);
+    updateIcon(volume);
+  }
+
+  function mountVolumeControl() {
+    if (document.getElementById('dk-volume-control')) return true;
+
+    const topBar = document.querySelector('#controls .top-bar') || document.querySelector('.top-bar');
+    if (!topBar) return false;
+
+    wrapper = document.createElement('div');
+    wrapper.id = 'dk-volume-control';
+
+    const button = document.createElement('button');
+    button.id = 'dk-volume-button';
+    button.type = 'button';
+    button.setAttribute('aria-label', 'Control de volumen');
+    button.setAttribute('aria-expanded', 'false');
+
+    icon = document.createElement('span');
+    icon.className = 'material-icons';
+    icon.textContent = 'volume_up';
+    button.appendChild(icon);
+
+    const panel = document.createElement('div');
+    panel.id = 'dk-volume-panel';
+    slider = document.createElement('input');
+    slider.id = 'dk-volume-slider';
+    slider.type = 'range';
+    slider.min = '0';
+    slider.max = '100';
+    slider.step = '1';
+    slider.value = '100';
+    slider.setAttribute('aria-label', 'Volumen');
+    panel.appendChild(slider);
+    wrapper.append(button, panel);
+
+    const actions = topBar.lastElementChild;
+    if (actions && actions !== topBar && getComputedStyle(actions).display.includes('flex')) {
+      actions.appendChild(wrapper);
+    } else {
+      topBar.appendChild(wrapper);
+    }
+
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = wrapper.classList.toggle('is-open');
+      button.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) slider.focus();
+    });
+
+    slider.addEventListener('input', () => {
+      const playerVideo = getVideoElement();
+      if (!playerVideo) return;
+      const volume = Number(slider.value) / 100;
+      playerVideo.muted = volume === 0;
+      playerVideo.volume = volume;
+      updateIcon(volume);
+    });
+
+    const playerVideo = getVideoElement();
+    if (playerVideo) playerVideo.addEventListener('volumechange', syncVolume);
+    syncVolume();
+    return true;
+  }
+
+  if (mountVolumeControl()) return;
+  const retry = setInterval(() => {
+    if (mountVolumeControl()) clearInterval(retry);
+  }, 200);
+  setTimeout(() => clearInterval(retry), 5000);
+})();
+// =========================================================
+
 
 // Mostrar/ocultar el botón durante el tiempo del intro
 // Variables de control
@@ -2212,24 +2499,6 @@ function stopCircleAnimation() {
   document.getElementById('circleProgress').setAttribute('stroke-dasharray', '0, 100');
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const header = document.getElementById('header');
-  const pageTitle = document.getElementById('page-title');
-
-  if (!header || !pageTitle) return;
-
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const maxScroll = 300;
-
-    const opacity = Math.min(scrollY / maxScroll, 1);
-    const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0;
-
-    // Usamos #01011d con transparencia
-    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
-    pageTitle.style.opacity = titleOpacity;
-  });
-});
 // ================================
 // 👤 PERFIL – sincronizar imágenes
 // ================================
@@ -2306,23 +2575,6 @@ window.addEventListener("load", () => {
   }
 });
 
-
-var lastScrollTop = 0;
-    var footer = document.querySelector(".footer");
-
-    window.addEventListener("scroll", function () {
-        var currentScroll = window.scrollY;
-
-        if (currentScroll > lastScrollTop) {
-            // Desliza hacia abajo -> Ocultar footer
-            footer.classList.add("hidden");
-        } else {
-            // Desliza hacia arriba -> Mostrar footer
-            footer.classList.remove("hidden");
-        }
-
-        lastScrollTop = currentScroll;
-    });
 
 const favoritoBtn = document.getElementById('favoritoBtn');
 const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
