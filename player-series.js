@@ -1,3 +1,74 @@
+// 🔄 Restaurar página tras volver de Web Video Caster (si la pestaña se perdió)
+function restaurarDespuesDeCast() {
+  try {
+    const r = sessionStorage.getItem('dk_cast_return');
+    const t = sessionStorage.getItem('dk_cast_type');
+    if (r && t) {
+      sessionStorage.removeItem('dk_cast_return');
+      sessionStorage.removeItem('dk_cast_type');
+      sessionStorage.removeItem('dk_cast_id');
+      if (t === 'series') sessionStorage.removeItem('dk_cast_url');
+      if (window.location.href !== r) {
+        window.location.href = r;
+      }
+    }
+  } catch(e){ /* sessionStorage no disponible */ }
+}
+// Ejecutar al cargar
+restaurarDespuesDeCast();
+// Ejecutar cuando la página vuelve al primer plano (al cerrar WVC y regresar)
+window.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    restaurarDespuesDeCast();
+  }
+});
+
+// =========================================================
+// ⭐ DESCARGAS EXCLUSIVAS PREMIUM (series)
+// El botón de descarga por episodio solo se muestra a Premium.
+// =========================================================
+const DK_SB_URL = 'https://wplyrhcszuoordgaphax.supabase.co';
+const DK_SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwbHlyaGNzenVvb3JkZ2FwaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDg5NzAsImV4cCI6MjA4MTgyNDk3MH0.VctFmTaBMHkhbqDhezAvFoAT_QcC-bk7A3gH1MoMScU';
+
+function dkEsPremium(){
+  const p = JSON.parse(localStorage.getItem('dk_profile') || '{}');
+  if(!p.premium) return false;
+  if(p.premium_until && new Date(p.premium_until) < new Date()) return false;
+  return true;
+}
+
+// Refresca la caché del perfil desde Supabase (si hay sesión)
+async function dkRefrescarPerfil(){
+  try{
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+    const sb = createClient(DK_SB_URL, DK_SB_KEY);
+    const { data } = await sb.auth.getSession();
+    if(data.session){
+      const { data: fresh } = await sb.from('profiles')
+        .select('premium, premium_until, devices_limit')
+        .eq('id', data.session.user.id).maybeSingle();
+      if(fresh){
+        const old = JSON.parse(localStorage.getItem('dk_profile') || '{}');
+        localStorage.setItem('dk_profile', JSON.stringify({ ...old, ...fresh }));
+      }
+    }
+  }catch(e){ console.warn('No se pudo refrescar el perfil premium:', e); }
+}
+
+// Refrescar contra Supabase apenas carga (activa premium recién pagado)
+dkRefrescarPerfil();
+
+// Blindaje: interceptar clicks sobre botones de descarga ANTES del onclick
+document.addEventListener('click', function(e){
+  const el = e.target.closest('.episode-download, [onclick*="descargarEpisodio"]');
+  if(el && !dkEsPremium()){
+    e.preventDefault();
+    e.stopPropagation();
+    alert('⭐ Las descargas son exclusivas de Digital Knight Premium.\nHazte Premium para descargar episodios.');
+    window.location.href = '../premium.html';
+  }
+}, true);
+// =========================================================
 
 // Prevenir gestos táctiles no deseados
 document.addEventListener('touchmove', function (event) {
@@ -10,14 +81,15 @@ window.addEventListener('load', function () {
 const overlay = document.querySelector('.overlay-loader-page');
 const loader = document.getElementById('loader');
 
-// Se mantiene el loader visible por 1 segundo
+// El loader se sujeta un momento y luego hace fade SUAVE,
+// revelando la animación de entrada sin blink ni salto
 setTimeout(() => {
-loader.style.opacity = '0'; // Corrige esto: '2' no tiene efecto visual
-setTimeout(() => {
-loader.style.display = 'none';
-overlay.classList.add('hidden');
-}, 300);
-}, 1000);
+  loader.style.opacity = '0';
+  overlay.style.opacity = '0'; // fade del overlay (0.6s en CSS)
+  setTimeout(() => {
+    overlay.classList.add('hidden'); // display:none DESPUÉS del fade
+  }, 650);
+}, 500);
 });
 
 // 🛡️ Respaldo por si 'load' nunca se dispara
@@ -26,12 +98,17 @@ const overlay = document.querySelector('.overlay-loader-page');
 const loader = document.getElementById('loader');
 
 if (loader && overlay && !overlay.classList.contains('hidden')) {
-loader.style.display = 'none';
-overlay.classList.add('hidden');
-console.warn("Loader forzado a ocultarse después de 8 segundos.");
+  overlay.style.opacity = '0';
+  setTimeout(() => {
+    loader.style.display = 'none';
+    overlay.classList.add('hidden');
+  }, 650);
+  console.warn("Loader forzado a ocultarse después de 8 segundos.");
 }
 }, 8000);
 
+console.log("🚀 player-series.js cargado");
+const video = videojs('video'); // Video.js instance
 
 const video = videojs('video'); // Video.js instance
 const videoElement = video.el().getElementsByTagName('video')[0];

@@ -1,23 +1,6 @@
 // 🆔 Asegura que tengas el ID de la película global
 const movieId = window.movieId || 'unknown-id';
 
-// 🔄 Restaurar página tras volver de Web Video Caster (si la pestaña se perdió)
-(function(){
-  try {
-    const r = sessionStorage.getItem('dk_cast_return');
-    const t = sessionStorage.getItem('dk_cast_type');
-    if (r && t) {
-      sessionStorage.removeItem('dk_cast_return');
-      sessionStorage.removeItem('dk_cast_type');
-      sessionStorage.removeItem('dk_cast_id');
-      if (t === 'movie') sessionStorage.removeItem('dk_cast_id');
-      if (window.location.href !== r) {
-        window.location.href = r;
-      }
-    }
-  } catch(e){ /* sessionStorage no disponible */ }
-})();
-
 // =========================================================
 // ⭐ DESCARGAS EXCLUSIVAS PREMIUM
 // El botón de descarga solo se muestra a usuarios Premium.
@@ -374,30 +357,6 @@ const restartButton = document.getElementById('restartButton');
 const progressBar = document.getElementById('watchProgressBar');
 
 let hideControlsTimeout;
-
-// Footer móvil: se oculta al avanzar por la página y vuelve al regresar.
-(function initFooterAutoHide() {
-  const footer = document.querySelector('.footer');
-  if (!footer) return;
-
-  let lastScrollY = Math.max(0, window.scrollY);
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      const currentScrollY = Math.max(0, window.scrollY);
-      const delta = currentScrollY - lastScrollY;
-
-      if (Math.abs(delta) >= 6) {
-        footer.classList.toggle('hidden', delta > 0 && currentScrollY > 16);
-        lastScrollY = currentScrollY;
-      }
-      ticking = false;
-    });
-  }, { passive: true });
-})();
 
 // Reanudar desde donde se dejó
 // Reanudar desde donde se dejó
@@ -1175,43 +1134,300 @@ async function toggleFavorito() {
   }
 }
 
-// =========================================================
-// 📺 CAST / WEB VIDEO CASTER – transmitir película a TV
-// =========================================================
-function castCurrentVideo() {
-  const videoEl = document.getElementById("video");
-  if (!videoEl) {
-    alert("No se encontró el reproductor.");
-    return;
+
+// Función para cargar el estado inicial del botón de favoritos
+function cargarEstadoFavorito() {
+    const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+    const encontrado = favoritos.some(favorito => favorito.identificador === identificador);
+
+    if (encontrado) {
+        // Si está en favoritos, cambia solo el ícono
+        favoritoIcon.innerText = 'check';
+    } else {
+        // Si no está en favoritos, deja el ícono por defecto
+        favoritoIcon.innerText = 'add';
+    }
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', cargarEstadoFavorito);
+
+function mostrarNotificacion(mensaje) {
+  const notificacion = document.getElementById('notificacion');
+  const notificacionTexto = document.getElementById('notificacionTexto');
+
+  notificacionTexto.innerText = mensaje;
+  notificacion.style.bottom = "80px"; // Justo encima del footer
+
+  setTimeout(() => {
+    notificacion.style.bottom = "-200px"; // Oculta fuera del viewport
+  }, 3000);
+}
+
+// ================================
+// 👤 PERFIL – sincronizar imágenes
+// ================================
+function updateProfileImage(src) {
+  if (!src) return;
+
+  const ids = [
+    "footerIconImg",
+    "profileImage",
+    "profilePageImage",
+    "headerProfileIcon",
+    "editableProfile",
+    "editableProfileInModal"
+  ];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.tagName === "IMG") {
+      el.src = src;
+    }
+  });
+
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar imagen
+  localStorage.setItem("profileImage", src);
+}
+
+// Restaurar al cargar página
+document.addEventListener("DOMContentLoaded", () => {
+  const savedProfileImage = localStorage.getItem("profileImage");
+  if (savedProfileImage) {
+    updateProfileImage(savedProfileImage);
   }
-  const player = videoEl.player || (typeof videojs !== 'undefined' && videojs.getPlayer ? videojs.getPlayer("video") : null);
+});
+// Función para cambiar todas las imágenes de perfil
+function updateProfileImage(src) {
+  const ids = [
+    "footerIconImg",
+    "footerProfileImage",
+    "profileImage",
+    "profilePageImage",
+    "editableProfile",
+    "editableProfileInModal",
+    "headerProfileIcon"
+  ];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.src = src;
+  });
+
+  // Ocultar iconos por defecto si existen
+  const defaultIcon = document.getElementById("defaultProfileIcon");
+  if (defaultIcon) defaultIcon.style.display = "none";
+
+  const defaultIconAlt = document.getElementById("defaultProfileIconAlt");
+  if (defaultIconAlt) defaultIconAlt.style.display = "none";
+
+  // Guardar en localStorage
+  localStorage.setItem("profileImage", src);
+}
+
+// Restaurar la imagen de perfil guardada al cargar la página
+window.addEventListener("load", () => {
+  const storedProfileImage = localStorage.getItem("profileImage");
+  if (storedProfileImage) {
+    updateProfileImage(storedProfileImage); // Reutilizamos la función
+  }
+});
+
+
+var lastScrollTop = 0;
+    var footer = document.querySelector(".footer");
+
+    window.addEventListener("scroll", function () {
+        var currentScroll = window.scrollY;
+
+        if (currentScroll > lastScrollTop) {
+            // Desliza hacia abajo -> Ocultar footer
+            footer.classList.add("hidden");
+        } else {
+            // Desliza hacia arriba -> Mostrar footer
+            footer.classList.remove("hidden");
+        }
+
+        lastScrollTop = currentScroll;
+    });
+
+const aspectModes = ['cover', 'fill', 'contain', 'fit-height', 'fit-width', 'scale-down'];
+let currentAspectIndex = 0;
+
+function toggleAspectRatio() {
+  currentAspectIndex = (currentAspectIndex + 1) % aspectModes.length;
+  const mode = aspectModes[currentAspectIndex];
+
+  // Aplica el modo al video
+  video.style.objectFit = mode.includes('fit-') ? 'contain' : mode;
+
+  // Controla altura y ancho según modo
+  switch (mode) {
+    case 'fit-height':
+      video.style.width = 'auto';
+      video.style.height = '100%';
+      break;
+    case 'fit-width':
+      video.style.width = '100%';
+      video.style.height = 'auto';
+      break;
+    default:
+      video.style.width = '100%';
+      video.style.height = '100%';
+      break;
+  }
+
+  // Muestra etiqueta en pantalla
+  const label = document.getElementById('aspectLabel');
+  label.textContent = mode;
+  label.style.display = 'block';
+
+  clearTimeout(label._hideTimeout);
+  label._hideTimeout = setTimeout(() => {
+    label.style.display = 'none';
+  }, 1500);
+}
+
+const loader = document.getElementById('videoLoader');
+
+// Mostrar loader mientras se carga o busca
+video.addEventListener('waiting', () => {
+  loader.classList.remove('hidden');
+});
+
+// Ocultar loader cuando comience a reproducirse
+video.addEventListener('playing', () => {
+  loader.classList.add('hidden');
+});
+
+// También al cambiar manualmente de episodio o al adelantar
+video.addEventListener('seeking', () => {
+  loader.classList.remove('hidden');
+});
+
+video.addEventListener('seeked', () => {
+  loader.classList.add('hidden');
+});
+
+// Bloquear teclas comunes de desarrollo
+document.addEventListener('keydown', function(e) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+    (e.ctrlKey && e.key === 'U')
+  ) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+
+function castCurrentVideo() {
+  const video = document.getElementById("video");
+
+  // ✅ Obtener instancia de Video.js
+  const player = video?.player || videojs.getPlayer ? videojs.getPlayer("video") : null;
+
   if (!player) {
     alert("No se encontró el reproductor.");
     return;
   }
+
   const currentSrc = player.currentSrc();
+
   if (!currentSrc) {
     alert("No se encontró el enlace del video.");
     return;
   }
 
-  // 🔒 Guardar estado antes de salir (por si la página se recarga al volver)
-  sessionStorage.setItem('dk_cast_return', window.location.href);
-  sessionStorage.setItem('dk_cast_type', 'movie');
-  sessionStorage.setItem('dk_cast_id', window.movieId || '');
-
-  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
+  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
   const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-  // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
-  // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
-  // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
-  // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
-  // ir a Play Store manualmente si lo desea.
-  location.href = appLink;
+  const transmitLink = document.createElement('a');
+  transmitLink.href = appLink;
+  transmitLink.style.display = 'none';
+  document.body.appendChild(transmitLink);
+
+  let appOpened = false;
+  transmitLink.click();
+
+  setTimeout(() => {
+    if (!appOpened) {
+      window.location.href = storeLink;
+    }
+    document.body.removeChild(transmitLink);
+  }, 1000);
+
+  window.addEventListener("blur", () => {
+    appOpened = true;
+  }, { once: true });
 }
-// Blindar para que el HTML no sobrescriba esta función
-Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
+
+
+// Detectar teclas y mover el foco
+document.addEventListener('keydown', function(e) {
+  const focusable = Array.from(document.querySelectorAll('[tabindex]:not([disabled])'));
+
+  const current = document.activeElement;
+  const currentIndex = focusable.indexOf(current);
+
+  switch(e.key) {
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      if (currentIndex > 0) {
+        focusable[currentIndex - 1].focus();
+      }
+      e.preventDefault();
+      break;
+    case 'ArrowRight':
+    case 'ArrowDown':
+      if (currentIndex < focusable.length - 1) {
+        focusable[currentIndex + 1].focus();
+      }
+      e.preventDefault();
+      break;
+    case 'Enter':
+    case 'OK':
+      if (document.activeElement) {
+        document.activeElement.click();
+      }
+      e.preventDefault();
+      break;
+  }
+});
+
+// Botón Backspace / Back
+window.addEventListener('keydown', function(e) {
+  if(e.key === 'Backspace' || e.key === 'BrowserBack') {
+    history.back();
+    e.preventDefault();
+  }
+});
+
+function descargarPelicula(url) {
+
+const nombre = document.getElementById("nombre")?.innerText.trim() || "Película";
+const img = document.getElementById("favoritoImagen")?.src || "";
+
+if (typeof Android !== "undefined") {
+
+  // 🔥 importante: tipo = movie
+  const data = "Película|" + nombre + "|" + img + "|movie";
+
+  Android.downloadFile(url, data);
+
+} else {
+  window.open(url, "_blank");
+}
+}
+
+
 // =========================================================
 
 // =========================================================

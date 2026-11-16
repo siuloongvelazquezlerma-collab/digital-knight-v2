@@ -1,28 +1,3 @@
-// 🔄 Restaurar página tras volver de Web Video Caster (si la pestaña se perdió)
-function restaurarDespuesDeCast() {
-  try {
-    const r = sessionStorage.getItem('dk_cast_return');
-    const t = sessionStorage.getItem('dk_cast_type');
-    if (r && t) {
-      sessionStorage.removeItem('dk_cast_return');
-      sessionStorage.removeItem('dk_cast_type');
-      sessionStorage.removeItem('dk_cast_id');
-      if (t === 'series') sessionStorage.removeItem('dk_cast_url');
-      if (window.location.href !== r) {
-        window.location.href = r;
-      }
-    }
-  } catch(e){ /* sessionStorage no disponible */ }
-}
-// Ejecutar al cargar
-restaurarDespuesDeCast();
-// Ejecutar cuando la página vuelve al primer plano (al cerrar WVC y regresar)
-window.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') {
-    restaurarDespuesDeCast();
-  }
-});
-
 // =========================================================
 // ⭐ DESCARGAS EXCLUSIVAS PREMIUM (series)
 // El botón de descarga por episodio solo se muestra a Premium.
@@ -120,58 +95,6 @@ const duration = document.getElementById('duration');
 const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.material-icons');
 const cover = document.getElementById('cover');
 let hideControlsTimeout;
-
-// Footer móvil: se oculta al avanzar por la página y vuelve al regresar.
-// Se inicializa temprano para que no dependa de scripts de perfil/favoritos.
-(function initFooterAutoHide() {
-  const footer = document.querySelector('.footer');
-  if (!footer) return;
-
-  let lastScrollY = Math.max(0, window.scrollY);
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      const currentScrollY = Math.max(0, window.scrollY);
-      const delta = currentScrollY - lastScrollY;
-
-      if (Math.abs(delta) >= 6) {
-        footer.classList.toggle('hidden', delta > 0 && currentScrollY > 16);
-        lastScrollY = currentScrollY;
-      }
-      ticking = false;
-    });
-  }, { passive: true });
-})();
-
-// Encabezado de series: muestra el nombre al avanzar sobre la portada.
-// Se instala junto al footer para no depender del código opcional al final.
-(function initSeriesHeaderOnScroll() {
-  const header = document.getElementById('header');
-  const pageTitle = document.getElementById('page-title');
-  if (!header || !pageTitle) return;
-
-  let ticking = false;
-  function updateHeader() {
-    const scrollY = Math.max(0, window.scrollY);
-    const maxScroll = 300;
-    const opacity = Math.min(scrollY / maxScroll, 1);
-    const titleOpacity = scrollY > 150 ? opacity : 0;
-
-    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
-    pageTitle.style.opacity = titleOpacity;
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(updateHeader);
-  }, { passive: true });
-  updateHeader();
-})();
 
 // Control de volumen debajo de la barra de progreso, igual al reproductor
 // de películas. Se monta aquí (antes de la lógica opcional de temporadas)
@@ -502,6 +425,9 @@ function goBack() {
     AndroidMedia.stopNotification();
   }
 
+  video.pause();
+  playPauseBtn.textContent = 'play_arrow';
+
   if (window.Android) {
     Android.setPortrait();
   }
@@ -590,34 +516,43 @@ let controlsVisible = false;
 
 
 function showControls() {
-controls.classList.add('visible');
-overlay.classList.add('visible');
-overlayTop.classList.add('visible');
-overlayBottom.classList.add('visible');
-controlsVisible = true;
+  controls.classList.add('visible');
+  overlay.classList.add('visible');
+  overlayTop.classList.add('visible');
+  overlayBottom.classList.add('visible');
 
-if (video && typeof video.paused === 'function' && video.paused()) {
-  hidePauseAd();
-}
+  // Mostrar el puntero
+  player.classList.remove('cursor-hidden');
 
-clearTimeout(hideControlsTimeout);
-hideControlsTimeout = setTimeout(() => {
-  hideControls();
-}, 5000);
+  controlsVisible = true;
+
+  if (video && typeof video.paused === 'function' && video.paused()) {
+    hidePauseAd();
+  }
+
+  clearTimeout(hideControlsTimeout);
+
+  hideControlsTimeout = setTimeout(() => {
+    hideControls();
+  }, 5000);
 }
 
 function hideControls() {
-controls.classList.remove('visible');
-overlay.classList.remove('visible');
-overlayTop.classList.remove('visible');
-overlayBottom.classList.remove('visible');
-controlsVisible = false;
+  controls.classList.remove('visible');
+  overlay.classList.remove('visible');
+  overlayTop.classList.remove('visible');
+  overlayBottom.classList.remove('visible');
 
-if (video && typeof video.paused === 'function' && video.paused()) {
-  showPauseAd();
-} else {
-  hidePauseAd();
-}
+  // Ocultar el puntero
+  player.classList.add('cursor-hidden');
+
+  controlsVisible = false;
+
+  if (video && typeof video.paused === 'function' && video.paused()) {
+    showPauseAd();
+  } else {
+    hidePauseAd();
+  }
 }
 
 
@@ -813,6 +748,7 @@ restorePageAfterPlayer();
 if (window.Android) {
   Android.setPortrait();
 }
+
 
 // 💡 GUARDAR PROGRESO ACTUAL
 const videoUrl = video.currentSrc();
@@ -1718,162 +1654,6 @@ function updateEpisodeUI(videoUrl) {
 }
 
 
-// =========================================================
-// 📺 CAST / WEB VIDEO CASTER – transmitir episodio a TV
-// =========================================================
-function castCurrentVideo() {
-  const currentSrc = video.currentSrc(); // usa método
-
-  let videoUrl = null;
-
-  // Buscar el episodio actual en el playlist
-  outerLoop:
-  for (const season of playlist) {
-    for (const episode of season.episodes) {
-      if (episode.videoUrl === currentSrc) {
-        videoUrl = episode.videoUrl;
-        break outerLoop;
-      }
-    }
-  }
-
-  if (videoUrl) {
-    // 🔒 Guardar estado antes de salir
-    sessionStorage.setItem('dk_cast_return', window.location.href);
-    sessionStorage.setItem('dk_cast_type', 'series');
-    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
-    sessionStorage.setItem('dk_cast_url', videoUrl);
-
-    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl) + "&secure_uri=true";
-    const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
-
-    // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
-    // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
-    // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
-    // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
-    // ir a Play Store manualmente si lo desea.
-    location.href = appLink;
-
-  } else {
-    alert("No se pudo obtener el enlace del episodio actual.");
-  }
-}
-// Blindar para que el HTML no sobrescriba esta función
-Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
-// =========================================================
-
-// =========================================================
-// CONTROL DE VOLUMEN
-// Se monta en la barra superior: esa zona es consistente en todas las
-// plantillas de series y no puede quedar oculta por la barra de progreso.
-// =========================================================
-(function () {
-  // El control principal se monta al cargar el player, antes de la lógica de
-  // temporadas. Este bloque queda solo como respaldo para plantillas antiguas.
-  if (document.getElementById('dk-volume-control')) return;
-
-  const style = document.createElement('style');
-  style.textContent = `
-    #dk-volume-control { position:relative; display:flex; align-items:center; z-index:20; }
-    #dk-volume-button { width:40px; height:40px; display:grid; place-items:center; border:0; border-radius:50%; background:rgba(0,0,0,.58); color:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-    #dk-volume-button .material-icons { font-size:24px; }
-    #dk-volume-button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
-    #dk-volume-panel { position:absolute; top:calc(100% + 8px); right:0; display:none; align-items:center; padding:12px; background:rgba(10,10,10,.9); border:1px solid rgba(255,255,255,.2); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.45); }
-    #dk-volume-control.is-open #dk-volume-panel { display:flex; }
-    #dk-volume-slider { width:120px; accent-color:#fff; cursor:pointer; }
-  `;
-  document.head.appendChild(style);
-
-  let slider, icon, wrapper;
-
-  function getVideoElement() {
-    return document.getElementById('video_html5_api') || document.querySelector('#video video') || document.querySelector('video');
-  }
-
-  function updateIcon(volume) {
-    if (!icon) return;
-    icon.textContent = volume <= 0 ? 'volume_off' : volume < 0.5 ? 'volume_down' : 'volume_up';
-  }
-
-  function syncVolume() {
-    const playerVideo = getVideoElement();
-    if (!playerVideo || !slider) return;
-    const volume = playerVideo.muted ? 0 : playerVideo.volume;
-    slider.value = Math.round(volume * 100);
-    updateIcon(volume);
-  }
-
-  function mountVolumeControl() {
-    if (document.getElementById('dk-volume-control')) return true;
-
-    const topBar = document.querySelector('#controls .top-bar') || document.querySelector('.top-bar');
-    if (!topBar) return false;
-
-    wrapper = document.createElement('div');
-    wrapper.id = 'dk-volume-control';
-
-    const button = document.createElement('button');
-    button.id = 'dk-volume-button';
-    button.type = 'button';
-    button.setAttribute('aria-label', 'Control de volumen');
-    button.setAttribute('aria-expanded', 'false');
-
-    icon = document.createElement('span');
-    icon.className = 'material-icons';
-    icon.textContent = 'volume_up';
-    button.appendChild(icon);
-
-    const panel = document.createElement('div');
-    panel.id = 'dk-volume-panel';
-    slider = document.createElement('input');
-    slider.id = 'dk-volume-slider';
-    slider.type = 'range';
-    slider.min = '0';
-    slider.max = '100';
-    slider.step = '1';
-    slider.value = '100';
-    slider.setAttribute('aria-label', 'Volumen');
-    panel.appendChild(slider);
-    wrapper.append(button, panel);
-
-    const actions = topBar.lastElementChild;
-    if (actions && actions !== topBar && getComputedStyle(actions).display.includes('flex')) {
-      actions.appendChild(wrapper);
-    } else {
-      topBar.appendChild(wrapper);
-    }
-
-    button.addEventListener('click', (event) => {
-      event.stopPropagation();
-      const isOpen = wrapper.classList.toggle('is-open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) slider.focus();
-    });
-
-    slider.addEventListener('input', () => {
-      const playerVideo = getVideoElement();
-      if (!playerVideo) return;
-      const volume = Number(slider.value) / 100;
-      playerVideo.muted = volume === 0;
-      playerVideo.volume = volume;
-      updateIcon(volume);
-    });
-
-    const playerVideo = getVideoElement();
-    if (playerVideo) playerVideo.addEventListener('volumechange', syncVolume);
-    syncVolume();
-    return true;
-  }
-
-  if (mountVolumeControl()) return;
-  const retry = setInterval(() => {
-    if (mountVolumeControl()) clearInterval(retry);
-  }, 200);
-  setTimeout(() => clearInterval(retry), 5000);
-})();
-// =========================================================
-
-
 // Mostrar/ocultar el botón durante el tiempo del intro
 // Variables de control
 let skipIntroTimeoutId = null;
@@ -2499,6 +2279,24 @@ function stopCircleAnimation() {
   document.getElementById('circleProgress').setAttribute('stroke-dasharray', '0, 100');
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const header = document.getElementById('header');
+  const pageTitle = document.getElementById('page-title');
+
+  if (!header || !pageTitle) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+
+    const opacity = Math.min(scrollY / maxScroll, 1);
+    const titleOpacity = scrollY > 150 ? Math.min(scrollY / maxScroll, 1) : 0;
+
+    // Usamos #01011d con transparencia
+    header.style.backgroundColor = `rgba(1, 1, 29, ${opacity})`;
+    pageTitle.style.opacity = titleOpacity;
+  });
+});
 // ================================
 // 👤 PERFIL – sincronizar imágenes
 // ================================
@@ -2575,6 +2373,23 @@ window.addEventListener("load", () => {
   }
 });
 
+
+var lastScrollTop = 0;
+    var footer = document.querySelector(".footer");
+
+    window.addEventListener("scroll", function () {
+        var currentScroll = window.scrollY;
+
+        if (currentScroll > lastScrollTop) {
+            // Desliza hacia abajo -> Ocultar footer
+            footer.classList.add("hidden");
+        } else {
+            // Desliza hacia arriba -> Mostrar footer
+            footer.classList.remove("hidden");
+        }
+
+        lastScrollTop = currentScroll;
+    });
 
 const favoritoBtn = document.getElementById('favoritoBtn');
 const favoritoIcon = document.getElementById('favoritoIcon'); // Ícono
@@ -2717,6 +2532,52 @@ const episodeId =
 }
 
 
+function castCurrentVideo() {
+  const currentSrc = video.currentSrc(); // usa método
+
+  let videoUrl = null;
+
+  // Buscar el episodio actual en el playlist
+  outerLoop:
+  for (const season of playlist) {
+    for (const episode of season.episodes) {
+      if (episode.videoUrl === currentSrc) {
+        videoUrl = episode.videoUrl;
+        break outerLoop;
+      }
+    }
+  }
+
+  if (videoUrl) {
+    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl);
+    const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
+
+    // Crear enlace temporal invisible
+    const transmitLink = document.createElement('a');
+    transmitLink.href = appLink;
+    transmitLink.style.display = 'none';
+    document.body.appendChild(transmitLink);
+
+    let appOpened = false;
+    transmitLink.click();
+
+    // Si la app no se abre, redirige a la Play Store
+    setTimeout(() => {
+      if (!appOpened) {
+        window.location.href = storeLink;
+      }
+      document.body.removeChild(transmitLink);
+    }, 1000);
+
+    // Si se pierde el foco, asumimos que se abrió la app
+    window.addEventListener("blur", () => {
+      appOpened = true;
+    }, { once: true });
+
+  } else {
+    alert("No se pudo obtener el enlace del episodio actual.");
+  }
+}
 
 
 const loader = document.getElementById('videoLoader');
