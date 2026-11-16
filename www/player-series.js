@@ -2565,35 +2565,28 @@ function castCurrentVideo() {
   }
 
   if (videoUrl) {
+    // 🔒 Guardar estado antes de salir
+    sessionStorage.setItem('dk_cast_return', window.location.href);
+    sessionStorage.setItem('dk_cast_type', 'series');
+    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
+    sessionStorage.setItem('dk_cast_url', videoUrl);
+
     const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl) + "&secure_uri=true";
     const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-    // Crear enlace temporal invisible
-    const transmitLink = document.createElement('a');
-    transmitLink.href = appLink;
-    transmitLink.style.display = 'none';
-    document.body.appendChild(transmitLink);
-
-    let appOpened = false;
-    transmitLink.click();
-
-    // Si la app no se abre, redirige a la Play Store
-    setTimeout(() => {
-      if (!appOpened) {
-        window.location.href = storeLink;
-      }
-      document.body.removeChild(transmitLink);
-    }, 1000);
-
-    // Si se pierde el foco, asumimos que se abrió la app
-    window.addEventListener("blur", () => {
-      appOpened = true;
-    }, { once: true });
+    // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
+    // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
+    // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
+    // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
+    // ir a Play Store manualmente si lo desea.
+    location.href = appLink;
 
   } else {
     alert("No se pudo obtener el enlace del episodio actual.");
   }
 }
+
+// =========================================================
 
 
 const loader = document.getElementById('videoLoader');
