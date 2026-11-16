@@ -1,4 +1,3 @@
-// 🔄 Restaurar página tras volver de Web Video Caster (si la pestaña se perdió)
 function restaurarDespuesDeCast() {
   try {
     const r = sessionStorage.getItem('dk_cast_return');
@@ -450,9 +449,6 @@ function goBack() {
     AndroidMedia.stopNotification();
   }
 
-  video.pause();
-  playPauseBtn.textContent = 'play_arrow';
-
   if (window.Android) {
     Android.setPortrait();
   }
@@ -541,43 +537,39 @@ let controlsVisible = false;
 
 
 function showControls() {
-  controls.classList.add('visible');
-  overlay.classList.add('visible');
-  overlayTop.classList.add('visible');
-  overlayBottom.classList.add('visible');
+controls.classList.add('visible');
+overlay.classList.add('visible');
+overlayTop.classList.add('visible');
+overlayBottom.classList.add('visible');
 
-  // Mostrar el puntero
+ // Mostrar el puntero
   player.classList.remove('cursor-hidden');
+controlsVisible = true;
 
-  controlsVisible = true;
+if (video && typeof video.paused === 'function' && video.paused()) {
+  hidePauseAd();
+}
 
-  if (video && typeof video.paused === 'function' && video.paused()) {
-    hidePauseAd();
-  }
-
-  clearTimeout(hideControlsTimeout);
-
-  hideControlsTimeout = setTimeout(() => {
-    hideControls();
-  }, 5000);
+clearTimeout(hideControlsTimeout);
+hideControlsTimeout = setTimeout(() => {
+  hideControls();
+}, 5000);
 }
 
 function hideControls() {
-  controls.classList.remove('visible');
-  overlay.classList.remove('visible');
-  overlayTop.classList.remove('visible');
-  overlayBottom.classList.remove('visible');
+controls.classList.remove('visible');
+overlay.classList.remove('visible');
+overlayTop.classList.remove('visible');
+overlayBottom.classList.remove('visible');
 
-  // Ocultar el puntero
   player.classList.add('cursor-hidden');
+controlsVisible = false;
 
-  controlsVisible = false;
-
-  if (video && typeof video.paused === 'function' && video.paused()) {
-    showPauseAd();
-  } else {
-    hidePauseAd();
-  }
+if (video && typeof video.paused === 'function' && video.paused()) {
+  showPauseAd();
+} else {
+  hidePauseAd();
+}
 }
 
 
@@ -773,7 +765,6 @@ restorePageAfterPlayer();
 if (window.Android) {
   Android.setPortrait();
 }
-
 
 // 💡 GUARDAR PROGRESO ACTUAL
 const videoUrl = video.currentSrc();
@@ -2515,85 +2506,46 @@ function mostrarNotificacion(mensaje) {
   }, 3000);
 }
 
-// =========================================================
-// 📐 ASPECT RATIO – AJUSTE DE PANTALLA
-// =========================================================
-
-const aspectModes = [
-  'cover',
-  'fill',
-  'contain',
-  'fit-height',
-  'fit-width',
-  'scale-down'
-];
-
+const aspectModes = ['cover', 'fill', 'contain', 'fit-height', 'fit-width', 'scale-down'];
 let currentAspectIndex = 0;
 
 function toggleAspectRatio() {
-  const videoEl = document.getElementById('video_html5_api');
-  const label = document.getElementById('aspectLabel');
-
-  if (!videoEl) {
-    console.warn('[Aspect Ratio] No se encontró #video_html5_api');
-    return;
-  }
-
   currentAspectIndex = (currentAspectIndex + 1) % aspectModes.length;
-
   const mode = aspectModes[currentAspectIndex];
 
-  // Restablecer dimensiones antes de aplicar el modo
-  videoEl.style.width = '';
-  videoEl.style.height = '';
-  videoEl.style.objectFit = '';
+  // Asegura que usamos el elemento de video real
+  const videoElement = video.el().getElementsByTagName('video')[0];
+const episodeId =
+  videoElement?.getAttribute('data-episode-code') ||
+  video.currentSrc();
+
+  // Aplica el modo
+  videoElement.style.objectFit = mode.includes('fit-') ? 'contain' : mode;
 
   switch (mode) {
-    case 'cover':
-      videoEl.style.objectFit = 'cover';
-      break;
-
-    case 'fill':
-      videoEl.style.objectFit = 'fill';
-      break;
-
-    case 'contain':
-      videoEl.style.objectFit = 'contain';
-      break;
-
     case 'fit-height':
-      videoEl.style.objectFit = 'contain';
-      videoEl.style.width = 'auto';
-      videoEl.style.height = '100%';
+      videoElement.style.width = 'auto';
+      videoElement.style.height = '100%';
       break;
-
     case 'fit-width':
-      videoEl.style.objectFit = 'contain';
-      videoEl.style.width = '100%';
-      videoEl.style.height = 'auto';
+      videoElement.style.width = '100%';
+      videoElement.style.height = 'auto';
       break;
-
-    case 'scale-down':
-      videoEl.style.objectFit = 'scale-down';
+    default:
+      videoElement.style.width = '100%';
+      videoElement.style.height = '100%';
       break;
   }
 
-  if (label) {
-    label.textContent = mode;
-    label.style.display = 'block';
+  const label = document.getElementById('aspectLabel');
+  label.textContent = mode;
+  label.style.display = 'block';
 
-    clearTimeout(label._hideTimeout);
-    label._hideTimeout = setTimeout(() => {
-      label.style.display = 'none';
-    }, 1500);
-  }
-
-  console.log('[Aspect Ratio] Modo aplicado:', mode);
+  clearTimeout(label._hideTimeout);
+  label._hideTimeout = setTimeout(() => {
+    label.style.display = 'none';
+  }, 1500);
 }
-
-window.toggleAspectRatio = toggleAspectRatio;
-
-// =========================================================
 
 
 function castCurrentVideo() {
@@ -2612,29 +2564,36 @@ function castCurrentVideo() {
     }
   }
 
-   if (videoUrl) {
-    // 🔒 Guardar estado antes de salir
-    sessionStorage.setItem('dk_cast_return', window.location.href);
-    sessionStorage.setItem('dk_cast_type', 'series');
-    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
-    sessionStorage.setItem('dk_cast_url', videoUrl);
-
+  if (videoUrl) {
     const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl) + "&secure_uri=true";
     const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-    // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
-    // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
-    // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
-    // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
-    // ir a Play Store manualmente si lo desea.
-    location.href = appLink;
+    // Crear enlace temporal invisible
+    const transmitLink = document.createElement('a');
+    transmitLink.href = appLink;
+    transmitLink.style.display = 'none';
+    document.body.appendChild(transmitLink);
+
+    let appOpened = false;
+    transmitLink.click();
+
+    // Si la app no se abre, redirige a la Play Store
+    setTimeout(() => {
+      if (!appOpened) {
+        window.location.href = storeLink;
+      }
+      document.body.removeChild(transmitLink);
+    }, 1000);
+
+    // Si se pierde el foco, asumimos que se abrió la app
+    window.addEventListener("blur", () => {
+      appOpened = true;
+    }, { once: true });
 
   } else {
     alert("No se pudo obtener el enlace del episodio actual.");
   }
 }
-// Blindar para que el HTML no sobrescriba esta función
-Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
 
 
 const loader = document.getElementById('videoLoader');
