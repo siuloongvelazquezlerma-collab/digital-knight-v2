@@ -157,132 +157,141 @@ if(payStatus){
 }
 
 
+
 const tarjetaBtn = document.getElementById("tarjetaBtn");
+const promo2Btn = document.getElementById("promo2Btn");
 
+// =====================================================
+// PROCESAR PAGOS DE MERCADO PAGO
+// =====================================================
 
-if(tarjetaBtn){
+async function iniciarPago(plan, boton) {
 
-    tarjetaBtn.onclick = async()=>{
+    if (boton.disabled) return;
 
-        console.log("💳 Pago con tarjeta iniciado (vía Mercado Pago)");
+    console.log("Pago iniciado:", plan);
 
-        // El botón se guarda para evitar doble click
-        tarjetaBtn.disabled = true;
+    boton.disabled = true;
 
-        try{
+    try {
 
-            let userId = null;
+        // Obtener la sesión real de Supabase.
+        const { data: sessionData, error: sessionError } =
+            await supabase.auth.getSession();
 
-            // Leer la sesión actual de Supabase
-            const { data: sessionData } = await supabase.auth.getSession();
-            const session = sessionData.session;
+        if (sessionError) throw sessionError;
 
-            if(session){
-                userId = session.user.id;
-            }else{
-                // Fallback a la caché local
-                const profile = JSON.parse(
-                    localStorage.getItem("dk_profile") || "{}"
-                );
-                userId = profile.id || null;
-            }
+        const session = sessionData.session;
 
-            if(!userId){
-                window.location.href = "login.html";
-                return;
-            }
+        // Comprobar que el usuario inició sesión.
+        if (!session || !session.user || !session.access_token) {
+            window.location.href = "login.html";
+            return;
+        }
 
-            const response = await fetch(
-                "/api/create-subscription",
-                {
-                    method:"POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        userId: userId,
-                        email: session?.user?.email || "",
-                        plan: selectedPlan
-                    })
-                }
+        // Seleccionar el endpoint según el plan.
+        const endpoint = plan === "promo2"
+            ? "/api/create-payment"
+            : "/api/create-subscription";
+
+        // Enviar solicitud al servidor.
+        const response = await fetch(endpoint, {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.access_token}`
+            },
+
+            body: JSON.stringify({
+                userId: session.user.id,
+                email: session.user.email || "",
+                plan: plan
+            })
+        });
+
+        const rawText = await response.text();
+
+        console.log(
+            "Respuesta del servidor:",
+            response.status,
+            rawText
+        );
+
+        let data;
+
+        try {
+            data = JSON.parse(rawText);
+        } catch {
+            throw new Error(
+                "El servidor no devolvió JSON: " +
+                rawText.slice(0, 200)
             );
+        }
 
-            // Leer la respuesta como texto y convertir a JSON de forma segura
-            const rawText = await response.text();
+        // Comprobar errores del servidor.
+        if (!response.ok) {
 
-            console.log(
-                "Respuesta cruda del servidor:",
-                response.status,
-                rawText
+            const detail = data.details ||
+                data.error ||
+                data.message ||
+                JSON.stringify(data);
+
+            throw new Error(
+                typeof detail === "string"
+                    ? detail
+                    : JSON.stringify(detail)
             );
+        }
 
-            let data = {};
-            try {
-                data = JSON.parse(rawText);
-            } catch(e) {
-                data = { error: { message: "El servidor no devolvió JSON (status " + response.status + "): " + rawText.slice(0,200) } };
-            }
-
-            tarjetaBtn.disabled = false;
-
-
-            if(!response.ok){
-
-                const errObj = data.error || data;
-
-                // Si Mercado Pago devolvió un body completo, mostrarlo entero
-                let detalle = errObj && errObj.mercado_pago_raw
-                    ? JSON.stringify(errObj.mercado_pago_raw)
-                    : (errObj && errObj.message ? errObj.message : JSON.stringify(errObj));
-
-                alert(
-                    "Error del servidor: " + detalle +
-                    (data.__src ? " [src=" + data.__src + "]" : "")
-                );
-                return;
-
-            }
-
-
-            console.log(
-                "Respuesta Mercado Pago:",
-                data
+        // Comprobar que Mercado Pago devolvió el enlace.
+        if (!data.init_point) {
+            throw new Error(
+                "Mercado Pago no devolvió el enlace de pago."
             );
+        }
 
+        console.log("Redirigiendo a Mercado Pago:", data);
 
-            if(data.init_point){
+        // Redirigir al checkout.
+        window.location.href = data.init_point;
 
-    window.location.href = data.init_point;
+    } catch (error) {
 
-}else{
+        console.error("ERROR EN EL PAGO:", error);
 
-    console.error("Respuesta sin init_point:", data);
+        alert(
+            "No se pudo iniciar el pago:\n" +
+            error.message
+        );
 
-    alert(
-        "No se pudo iniciar el pago: " + JSON.stringify(data)
-    );
+    } finally {
+
+        boton.disabled = false;
+
+    }
+}
+
+// =====================================================
+// BOTÓN DE $15 MXN - PREMIUM POR 2 MESES
+// =====================================================
+
+if (promo2Btn) {
+
+    promo2Btn.addEventListener("click", () => {
+        iniciarPago("promo2", promo2Btn);
+    });
 
 }
 
+// =====================================================
+// BOTÓN DE $40 MXN - SUSCRIPCIÓN MENSUAL
+// =====================================================
 
-        }catch(error){
+if (tarjetaBtn) {
 
-            tarjetaBtn.disabled = false;
-
-            console.error(
-                "Error en el pago:",
-                error
-            );
-
-
-            alert(
-                "Error conectando con Mercado Pago: " +
-                (error && error.message ? error.message : error)
-            );
-
-        }
-
-
-    };
+    tarjetaBtn.addEventListener("click", () => {
+        iniciarPago("monthly", tarjetaBtn);
+    });
 
 }
