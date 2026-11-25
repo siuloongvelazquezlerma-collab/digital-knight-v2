@@ -24,7 +24,10 @@ function validateSignature(req, dataId) {
 
   signature.split(",").forEach((part) => {
     const [key, value] = part.trim().split("=");
-    if (key && value) parts[key] = value;
+
+    if (key && value) {
+      parts[key] = value;
+    }
   });
 
   if (!parts.ts || !parts.v1) return false;
@@ -43,9 +46,16 @@ function validateSignature(req, dataId) {
     return false;
   }
 
+  const expectedBuffer = Buffer.from(expected, "hex");
+  const receivedBuffer = Buffer.from(parts.v1, "hex");
+
+  if (expectedBuffer.length !== receivedBuffer.length) {
+    return false;
+  }
+
   return crypto.timingSafeEqual(
-    Buffer.from(expected, "hex"),
-    Buffer.from(parts.v1, "hex")
+    expectedBuffer,
+    receivedBuffer
   );
 }
 
@@ -55,12 +65,23 @@ function validateSignature(req, dataId) {
 
 async function mpGet(path) {
   const response = await fetch(`${MP_API}${path}`, {
+    method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`,
     },
   });
 
-  const data = await response.json();
+  const text = await response.text();
+
+  let data;
+
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    throw new Error(
+      `Mercado Pago devolvió una respuesta no JSON. HTTP ${response.status}`
+    );
+  }
 
   if (!response.ok) {
     throw new Error(
@@ -72,11 +93,12 @@ async function mpGet(path) {
 }
 
 // =====================================================
-// ACTUALIZAR PERFIL EN SUPABASE
+// ACTUALIZAR PERFIL
 // =====================================================
 
 async function supabasePatch(userId, fields) {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   const response = await fetch(
     `${SUPABASE_URL}/rest/v1/profiles?id=eq.${encodeURIComponent(userId)}`,
@@ -92,16 +114,20 @@ async function supabasePatch(userId, fields) {
     }
   );
 
+  const text = await response.text();
+
   if (!response.ok) {
     throw new Error(
-      `Error actualizando perfil: ${await response.text()}`
+      `Error actualizando perfil: ${text}`
     );
   }
 
-  const rows = await response.json();
+  const rows = text ? JSON.parse(text) : [];
 
   if (!Array.isArray(rows) || rows.length === 0) {
-    throw new Error("No se encontró el perfil del usuario.");
+    throw new Error(
+      "No se encontró el perfil del usuario."
+    );
   }
 
   return rows[0];
@@ -116,6 +142,7 @@ async function processApprovedPayment(payment) {
     return {
       ignored: true,
       reason: "El pago todavía no está aprobado.",
+      status: payment.status || null,
     };
   }
 
@@ -138,9 +165,7 @@ async function processApprovedPayment(payment) {
   let planId = "";
   let subscriptionId = null;
 
-  // -------------------------------------------------
-  // SUSCRIPCIÓN MENSUAL DE $40
-  // -------------------------------------------------
+  // PLAN MENSUAL DE $40
 
   if (payment.preapproval_id) {
     subscriptionId = String(payment.preapproval_id);
@@ -153,8 +178,6 @@ async function processApprovedPayment(payment) {
       subscription.external_reference || ""
     ).trim();
 
-    // La cuenta del pago y la de la suscripción
-    // deben coincidir.
     if (
       userId &&
       subscriptionUserId &&
@@ -187,9 +210,7 @@ async function processApprovedPayment(payment) {
     planId = "monthly";
 
   } else {
-    // -------------------------------------------------
-    // PROMOCIÓN DE $15 POR DOS MESES
-    // -------------------------------------------------
+    // PLAN DE $15 POR DOS MESES
 
     if (amount !== 15) {
       throw new Error(
@@ -200,17 +221,16 @@ async function processApprovedPayment(payment) {
     planId = "promo2";
   }
 
-  if (!userId || !paymentId) {
+  if (!userId) {
     throw new Error(
       "El pago no tiene una referencia de usuario válida."
     );
   }
 
-  // -------------------------------------------------
-  // REGISTRAR Y ACTIVAR MEDIANTE RPC
-  // -------------------------------------------------
+  // ACTIVAR MEDIANTE LA RPC DE SUPABASE
 
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   const response = await fetch(
     `${SUPABASE_URL}/rest/v1/rpc/process_dk_payment`,
@@ -232,7 +252,15 @@ async function processApprovedPayment(payment) {
     }
   );
 
-  const result = await response.json();
+  const text = await response.text();
+
+  let result;
+
+  try {
+    result = text ? JSON.parse(text) : null;
+  } catch {
+    result = text;
+  }
 
   if (!response.ok) {
     throw new Error(
@@ -240,12 +268,16 @@ async function processApprovedPayment(payment) {
     );
   }
 
-  console.log("Resultado de activación:", result);
+  console.log("PAGO PROCESADO:", {
+    paymentId,
+    planId,
+    userId,
+    result,
+  });
 
   return {
     ok: true,
     payment_id: paymentId,
-    user_id: userId,
     plan: planId,
     result,
   };
@@ -256,19 +288,14 @@ async function processApprovedPayment(payment) {
 // =====================================================
 
 async function processAuthorizedPayment(invoiceId) {
-  // El ID recibido es el ID de la factura.
   const invoice = await mpGet(
     `/authorized_payments/${encodeURIComponent(invoiceId)}`
   );
 
-  console.log("Factura de suscripción:", invoice);
-
-  // La factura puede estar pendiente aunque ya exista.
   if (invoice.payment?.status !== "approved") {
     return {
       ignored: true,
       reason: "La renovación todavía no está aprobada.",
-      invoice_status: invoice.status,
       payment_status: invoice.payment?.status || null,
     };
   }
@@ -281,13 +308,10 @@ async function processAuthorizedPayment(invoiceId) {
     );
   }
 
-  // Consultar el pago real para comprobar todos sus datos.
   const payment = await mpGet(
     `/v1/payments/${encodeURIComponent(actualPaymentId)}`
   );
 
-  // Usar también los datos de la factura si algún campo
-  // no aparece en el objeto del pago.
   payment.preapproval_id =
     payment.preapproval_id || invoice.preapproval_id;
 
@@ -302,17 +326,33 @@ async function processAuthorizedPayment(invoiceId) {
 // =====================================================
 
 export default async function handler(req, res) {
+
+  // COMPROBACIÓN DE LA URL
+  // Abrir la dirección en un navegador no procesa pagos.
+
+  if (req.method === "GET") {
+    return res.status(200).json({
+      ok: true,
+      service: "DigitalKnight Webhook",
+      message: "Webhook funcionando. Esperando notificaciones.",
+    });
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Método no permitido.",
     });
   }
 
+  // VARIABLES NECESARIAS
+
   if (
     !process.env.MP_ACCESS_TOKEN ||
     !process.env.MP_WEBHOOK_SECRET ||
     !process.env.SUPABASE_SERVICE_ROLE_KEY
   ) {
+    console.error("Faltan variables de entorno.");
+
     return res.status(500).json({
       error: "Faltan variables de entorno necesarias.",
     });
@@ -324,6 +364,7 @@ export default async function handler(req, res) {
 
     const dataId = String(
       query["data.id"] ||
+      query.data?.id ||
       query.id ||
       body.data?.id ||
       ""
@@ -343,27 +384,26 @@ export default async function handler(req, res) {
       });
     }
 
-    // -------------------------------------------------
-    // VALIDACIÓN DE FIRMA
-    // -------------------------------------------------
+    console.log("NOTIFICACIÓN RECIBIDA:", {
+      method: req.method,
+      topic,
+      dataId,
+      action: body.action || null,
+    });
+
+    // VALIDAR FIRMA
 
     if (!validateSignature(req, dataId)) {
-      console.warn("Webhook rechazado: firma no válida.");
+      console.warn(
+        "Notificación rechazada: firma no válida."
+      );
 
       return res.status(401).json({
         error: "Firma no válida.",
       });
     }
 
-    console.log("=================================");
-    console.log("WEBHOOK MERCADO PAGO");
-    console.log("Evento:", topic);
-    console.log("ID:", dataId);
-    console.log("=================================");
-
-    // -------------------------------------------------
-    // 1. PAGO NORMAL O PAGO DE SUSCRIPCIÓN
-    // -------------------------------------------------
+    // PAGOS
 
     if (topic === "payment") {
       const payment = await mpGet(
@@ -379,9 +419,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // -------------------------------------------------
-    // 2. RENOVACIÓN AUTOMÁTICA
-    // -------------------------------------------------
+    // RENOVACIONES AUTOMÁTICAS
 
     if (topic === "subscription_authorized_payment") {
       const result = await processAuthorizedPayment(dataId);
@@ -393,9 +431,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // -------------------------------------------------
-    // 3. CREACIÓN O ACTUALIZACIÓN DE SUSCRIPCIÓN
-    // -------------------------------------------------
+    // ACTUALIZACIONES DE SUSCRIPCIÓN
 
     if (topic === "subscription_preapproval") {
       const subscription = await mpGet(
@@ -413,19 +449,9 @@ export default async function handler(req, res) {
         });
       }
 
-      // Guardamos el ID de la suscripción.
-      // No activamos Premium hasta confirmar el cobro.
       await supabasePatch(userId, {
         subscription_id: dataId,
       });
-
-      console.log(
-        "Suscripción actualizada:",
-        subscription.status
-      );
-
-      // Una cancelación no elimina los días ya pagados.
-      // El vencimiento existente se conserva.
 
       return res.status(200).json({
         received: true,
@@ -434,9 +460,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // -------------------------------------------------
-    // 4. EVENTOS NO UTILIZADOS
-    // -------------------------------------------------
+    // OTROS EVENTOS
 
     console.log("Evento ignorado:", topic);
 
@@ -451,6 +475,7 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       error: "Error procesando la notificación.",
+      detail: error.message || "Error desconocido.",
     });
   }
 }
