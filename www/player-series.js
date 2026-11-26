@@ -1,3 +1,27 @@
+function restaurarDespuesDeCast() {
+  try {
+    const r = sessionStorage.getItem('dk_cast_return');
+    const t = sessionStorage.getItem('dk_cast_type');
+    if (r && t) {
+      sessionStorage.removeItem('dk_cast_return');
+      sessionStorage.removeItem('dk_cast_type');
+      sessionStorage.removeItem('dk_cast_id');
+      if (t === 'series') sessionStorage.removeItem('dk_cast_url');
+      if (window.location.href !== r) {
+        window.location.href = r;
+      }
+    }
+  } catch(e){ /* sessionStorage no disponible */ }
+}
+// Ejecutar al cargar
+restaurarDespuesDeCast();
+// Ejecutar cuando la página vuelve al primer plano (al cerrar WVC y regresar)
+window.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    restaurarDespuesDeCast();
+  }
+});
+
 // =========================================================
 // ⭐ DESCARGAS EXCLUSIVAS PREMIUM (series)
 // El botón de descarga por episodio solo se muestra a Premium.
@@ -96,8 +120,115 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 let hideControlsTimeout;
 
+// Control de volumen debajo de la barra de progreso, igual al reproductor
+// de películas. Se monta aquí (antes de la lógica opcional de temporadas)
+// para que esté disponible en todas las plantillas de series.
+(function mountVolumeBelowProgress() {
+  const style = document.createElement('style');
+  style.textContent = `
+    #dk-volume-control { display:flex !important; align-items:center; gap:8px; padding:8px 0; pointer-events:auto; z-index:9999; }
+    #dk-volume-icon { cursor:pointer; font-size:22px; user-select:none; color:#fff; }
+    #dk-volume-slider-wrap { position:relative; display:none; align-items:center; padding:6px 8px; background:rgba(0,0,0,.75); border-radius:8px; backdrop-filter:blur(4px); }
+    #dk-volume-slider { width:110px; height:4px; accent-color:#fff; cursor:pointer; }
+    #dk-volume-control:hover #dk-volume-slider-wrap, #dk-volume-control:focus-within #dk-volume-slider-wrap { display:flex !important; }
+    #dk-player-actions-row { position:relative; display:flex; align-items:center; justify-content:flex-start; min-height:40px; width:100%; pointer-events:auto; }
+    #dk-player-actions-row #dk-volume-control { flex:0 0 auto; }
+    #dk-player-actions-row .extra-controls { position:absolute; left:50%; transform:translateX(-50%); width:auto; justify-content:center; gap:clamp(18px, 8vw, 150px); margin:0; white-space:nowrap; }
+  `;
+  document.head.appendChild(style);
+
+  let slider, volumeIcon, sliderWrap, lastVolume = 1;
+
+  function createControl() {
+    if (document.getElementById('dk-volume-control')) return true;
+    const bottomBar = document.querySelector('#controls .bottom-bar') || document.querySelector('.bottom-bar');
+    if (!bottomBar) return false;
+
+    const volumeControl = document.createElement('div');
+    volumeControl.id = 'dk-volume-control';
+
+    volumeIcon = document.createElement('span');
+    volumeIcon.id = 'dk-volume-icon';
+    volumeIcon.className = 'material-icons';
+    volumeIcon.textContent = 'volume_up';
+    volumeIcon.setAttribute('role', 'button');
+    volumeIcon.setAttribute('tabindex', '0');
+    volumeIcon.setAttribute('aria-label', 'Silenciar o activar volumen');
+
+    sliderWrap = document.createElement('div');
+    sliderWrap.id = 'dk-volume-slider-wrap';
+    slider = document.createElement('input');
+    slider.id = 'dk-volume-slider';
+    slider.type = 'range';
+    slider.min = '0';
+    slider.max = '100';
+    slider.step = '1';
+    slider.value = Math.round(video.volume() * 100);
+    slider.setAttribute('aria-label', 'Volumen');
+    sliderWrap.appendChild(slider);
+    volumeControl.append(volumeIcon, sliderWrap);
+
+    const progressContainer = bottomBar.querySelector('.progress-container');
+    const extraControls = bottomBar.querySelector('.extra-controls');
+    const actionsRow = document.createElement('div');
+    actionsRow.id = 'dk-player-actions-row';
+    actionsRow.appendChild(volumeControl);
+    if (extraControls) actionsRow.appendChild(extraControls);
+    if (progressContainer) progressContainer.insertAdjacentElement('afterend', actionsRow);
+    else bottomBar.appendChild(actionsRow);
+
+    function syncVolume() {
+      const volume = video.muted() ? 0 : video.volume();
+      slider.value = Math.round(volume * 100);
+      volumeIcon.textContent = volume <= 0 ? 'volume_off' : volume < .5 ? 'volume_down' : 'volume_up';
+    }
+
+    function toggleMute() {
+      if (video.muted()) {
+        video.muted(false);
+        video.volume(lastVolume || 1);
+      } else {
+        lastVolume = video.volume();
+        video.muted(true);
+      }
+      syncVolume();
+    }
+
+    slider.addEventListener('input', () => {
+      const volume = Number(slider.value) / 100;
+      video.muted(volume === 0);
+      video.volume(volume);
+      if (volume > 0) lastVolume = volume;
+      syncVolume();
+    });
+    volumeIcon.addEventListener('click', toggleMute);
+    volumeIcon.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleMute();
+      }
+    });
+    video.on('volumechange', syncVolume);
+    syncVolume();
+    return true;
+  }
+
+  if (createControl()) return;
+  const retry = setInterval(() => {
+    if (createControl()) clearInterval(retry);
+  }, 200);
+  setTimeout(() => clearInterval(retry), 5000);
+})();
+
 const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
-  'https://od.lk/s/M18zMzg3MDI3NDBfQkliY2w/street%20fighter%20disponible.jpg';
+  'https://od.lk/s/M18zMzk3MTAxODFfTkVja2c/derry.jpg';
+const DK_PAUSE_AD_IMAGES = Array.isArray(window.DK_PAUSE_AD_IMAGES)
+  ? window.DK_PAUSE_AD_IMAGES.filter(Boolean)
+  : [
+      DK_PAUSE_AD_IMAGE_URL,
+      'https://od.lk/s/M18zMzk3MTA2MDdfbTFnd1Q/Emperatriz.jpg',
+      'https://od.lk/s/M18zMzk3MTE3ODJfZUQyM3E/premium.jpg'
+    ];
 
 const pauseAd = document.createElement('div');
 pauseAd.id = 'dk-pause-ad';
@@ -115,7 +246,6 @@ pauseAd.style.cssText = [
 ].join(';');
 
 const pauseAdImage = document.createElement('img');
-pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
 pauseAdImage.alt = '';
 pauseAdImage.style.cssText = [
   'width:100%',
@@ -130,6 +260,13 @@ if (player) {
   player.appendChild(pauseAd);
 }
 
+function getRandomPauseAdImage() {
+  const images = DK_PAUSE_AD_IMAGES.filter(Boolean);
+  if (!images.length) return '';
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
+
 function showPauseAd() {
   const langMenu = document.getElementById('langMenu');
   const languageMenuOpen = langMenu &&
@@ -142,6 +279,7 @@ function showPauseAd() {
   }
 
   if (video && typeof video.currentTime === 'function' && video.currentTime() > 0 && !video.ended() && playerVisible) {
+    pauseAdImage.src = getRandomPauseAdImage();
     pauseAd.style.display = 'flex';
   }
 }
@@ -275,20 +413,41 @@ window.pipRewind = function () {
   skip(-10);
 };
 
-function goBack() {
-
+function restorePageAfterPlayer() {
+  clearTimeout(hideControlsTimeout);
   document.body.classList.remove('video-active');
 
-  player.style.display = 'none';
-  cover.style.display = 'flex';
+  // Quitamos los estilos temporales del player en vez de forzar `flex`.
+  // Así cada página recupera su portada y sus reglas responsive originales.
+  player.style.removeProperty('display');
+  cover.style.removeProperty('display');
+  controls.classList.remove('visible');
+  overlay.classList.remove('visible');
+  overlayTop?.classList.remove('visible');
+  overlayBottom?.classList.remove('visible');
+  controlsVisible = false;
+
+  // La orientación cambia de forma asíncrona en Android. Recalcular después
+  // del siguiente frame evita una portada recortada o con fondo landscape.
+  requestAnimationFrame(() => {
+    cover.style.removeProperty('display');
+    window.dispatchEvent(new Event('resize'));
+  });
+}
+
+function goBack() {
+  video.pause();
+  playPauseBtn.textContent = 'play_arrow';
+  restorePageAfterPlayer();
+
+  if (document.fullscreenElement) {
+    exitFullscreen();
+  }
 
   // 🔥 Detener la notificación
   if (window.AndroidMedia) {
     AndroidMedia.stopNotification();
   }
-
-  video.pause();
-  playPauseBtn.textContent = 'play_arrow';
 
   if (window.Android) {
     Android.setPortrait();
@@ -382,6 +541,9 @@ controls.classList.add('visible');
 overlay.classList.add('visible');
 overlayTop.classList.add('visible');
 overlayBottom.classList.add('visible');
+
+ // Mostrar el puntero
+  player.classList.remove('cursor-hidden');
 controlsVisible = true;
 
 if (video && typeof video.paused === 'function' && video.paused()) {
@@ -399,6 +561,8 @@ controls.classList.remove('visible');
 overlay.classList.remove('visible');
 overlayTop.classList.remove('visible');
 overlayBottom.classList.remove('visible');
+
+  player.classList.add('cursor-hidden');
 controlsVisible = false;
 
 if (video && typeof video.paused === 'function' && video.paused()) {
@@ -596,8 +760,11 @@ video.pause();
 }
 
 playPauseBtn.textContent = 'play_arrow';
-player.style.display = 'none';
-cover.style.display = 'flex';
+restorePageAfterPlayer();
+
+if (window.Android) {
+  Android.setPortrait();
+}
 
 // 💡 GUARDAR PROGRESO ACTUAL
 const videoUrl = video.currentSrc();
@@ -2398,35 +2565,28 @@ function castCurrentVideo() {
   }
 
   if (videoUrl) {
-    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl);
+    // 🔒 Guardar estado antes de salir
+    sessionStorage.setItem('dk_cast_return', window.location.href);
+    sessionStorage.setItem('dk_cast_type', 'series');
+    sessionStorage.setItem('dk_cast_id', window.seriesId || '');
+    sessionStorage.setItem('dk_cast_url', videoUrl);
+
+    const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(videoUrl) + "&secure_uri=true";
     const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-    // Crear enlace temporal invisible
-    const transmitLink = document.createElement('a');
-    transmitLink.href = appLink;
-    transmitLink.style.display = 'none';
-    document.body.appendChild(transmitLink);
-
-    let appOpened = false;
-    transmitLink.click();
-
-    // Si la app no se abre, redirige a la Play Store
-    setTimeout(() => {
-      if (!appOpened) {
-        window.location.href = storeLink;
-      }
-      document.body.removeChild(transmitLink);
-    }, 1000);
-
-    // Si se pierde el foco, asumimos que se abrió la app
-    window.addEventListener("blur", () => {
-      appOpened = true;
-    }, { once: true });
+    // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
+    // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
+    // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
+    // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
+    // ir a Play Store manualmente si lo desea.
+    location.href = appLink;
 
   } else {
     alert("No se pudo obtener el enlace del episodio actual.");
   }
 }
+
+// =========================================================
 
 
 const loader = document.getElementById('videoLoader');

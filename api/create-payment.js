@@ -1,75 +1,93 @@
-// ---------------------------------------------------------------------------
-// Vercel Serverless Function: crea una preferencia de pago en Mercado Pago.
-// ---------------------------------------------------------------------------
-// Variable de entorno necesaria en Vercel:
-//   MP_ACCESS_TOKEN -> Access Token de Mercado Pago
-//                       - Produccion: empieza con "APP_USR-"
-//                       - Prueba:      empieza con "TEST-"
-//
-// Este endpoint SOLO crea la preferencia. La confirmación del pago y la
-// activación del premium las hace webhook.js
-// (ruta: /api/webhook).
-// ---------------------------------------------------------------------------
 
-// Planes disponibles (montos en MXN). Aquí defines los precios oficiales.
-const PLANS = {
-  promo3: { title: "Digital Knight Premium - Promo 3 meses", amount: 15 },
-  monthly: { title: "Digital Knight Premium - 1 mes", amount: 40 },
+const SITE_URL = "https://digitalknightapp.com";
+const MP_API = "https://api.mercadopago.com";
+
+const PLAN = {
+  id: "promo2",
+  title: "Digital Knight Premium - 2 meses",
+  amount: 15,
+  currency: "MXN",
 };
 
-// URL pública de tu sitio (sin barra final). Ajusta si cambia tu dominio.
-const SITE_URL = "https://digitalknightapp.com";
+async function getAuthenticatedUser(req) {
+  const authorization = req.headers.authorization || "";
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+
+  if (!match) {
+    return null;
+  }
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error("Falta SUPABASE_URL o SUPABASE_ANON_KEY en Vercel");
+  }
+
+  const response = await fetch(
+    `${supabaseUrl}/auth/v1/user`,
+    {
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${match[1]}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  return await response.json();
+}
 
 export default async function handler(req, res) {
   console.log("API CREATE PAYMENT FUNCIONANDO");
 
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método no permitido" });
+    return res.status(405).json({
+      error: "Método no permitido",
+    });
   }
 
   if (!process.env.MP_ACCESS_TOKEN) {
     return res.status(500).json({
-      error:
-        "Falta la variable de entorno MP_ACCESS_TOKEN en Vercel",
+      error: "Falta MP_ACCESS_TOKEN en Vercel",
     });
   }
 
   try {
-    // --- Leer datos que envía premium.js -------------------------------
-    let body = {};
-    if (req.body && typeof req.body === "object") {
-      body = req.body;
-    } else if (req.body) {
-      try {
-        body = typeof req.body === "string" ? JSON.parse(req.body) : {};
-      } catch (e) {
-        /* body inválido: se usan los valores por defecto */
-      }
+    // Verificar la sesión directamente con Supabase.
+    const user = await getAuthenticatedUser(req);
+
+    if (!user || !user.id) {
+      return res.status(401).json({
+        error: "Sesión no válida. Inicia sesión nuevamente.",
+      });
     }
 
-    const userId = String(body.userId || body.external_reference || "").trim();
-    const planId = body.plan && PLANS[body.plan] ? body.plan : "monthly";
-    const plan = PLANS[planId];
+    const body = req.body || {};
 
-    // Un cliente premium o sin sesión no debe crear pagos
-    if (!userId) {
-      return res
-        .status(400)
-        .json({ error: "Falta el id de usuario (userId)" });
+    if (body.plan !== PLAN.id) {
+      return res.status(400).json({
+        error: "Este endpoint solamente acepta el plan promo2.",
+      });
     }
+
+    // El ID se obtiene de la sesión verificada, no del body.
+    const userId = user.id;
 
     const paymentData = {
       items: [
         {
-          id: "digital-knight-premium",
-          title: plan.title,
+          id: "digital-knight-premium-promo2",
+          title: PLAN.title,
           quantity: 1,
-          unit_price: plan.amount,
-          currency_id: "MXN",
+          unit_price: PLAN.amount,
+          currency_id: PLAN.currency,
         },
       ],
 
-      // Identifica al usuario que pagó. webhook.js la usará para activarlo.
       external_reference: userId,
 
       back_urls: {
@@ -80,16 +98,17 @@ export default async function handler(req, res) {
 
       auto_return: "approved",
 
-      // Webhook que recibe la notificación del pago y activa el premium.
       notification_url: `${SITE_URL}/api/webhook`,
 
       metadata: {
-        plan: planId,
+        plan: PLAN.id,
+        duration_months: 2,
+        user_id: userId,
       },
     };
 
     const response = await fetch(
-      "https://api.mercadopago.com/checkout/preferences",
+      `${MP_API}/checkout/preferences`,
       {
         method: "POST",
         headers: {
@@ -105,27 +124,30 @@ export default async function handler(req, res) {
     console.log("RESPUESTA MERCADO PAGO:", data);
 
     if (!response.ok) {
-      // Se devuelve TODO el body que Mercado Pago envió, para diagnosticar
       return res.status(response.status).json({
-        error: {
-          status: response.status,
-          mercado_pago_raw: data,        // body completo de Mercado Pago
-          message:
-            (data && (data.message || data.error || JSON.stringify(data))) ||
-            ("HTTP " + response.status),
-        },
-        __src: "V2-NO-SUPABASE", // ← marca de versión para debug
+        error: "Mercado Pago rechazó la creación del pago",
+        details: data,
       });
+    }
+
+    if (!data.init_point) {
+      throw new Error("Mercado Pago no devolvió el enlace de pago");
     }
 
     return res.status(200).json({
       init_point: data.init_point,
-      sandbox_init_point: data.sandbox_init_point,
       id: data.id,
-      __src: "V2-NO-SUPABASE", // ← marca de versión para debug
+      plan: PLAN.id,
+      amount: PLAN.amount,
+      currency: PLAN.currency,
     });
+
   } catch (error) {
-    console.error("ERROR MERCADO PAGO:", error);
-    return res.status(500).json({ error: error.message });
+    console.error("ERROR CREATE PAYMENT:", error);
+
+    return res.status(500).json({
+      error: "Error creando la preferencia de pago",
+      details: error.message,
+    });
   }
 }

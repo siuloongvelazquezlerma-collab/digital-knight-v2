@@ -142,7 +142,7 @@ async function activateTab(targetId, options = {}) {
 async function cargarSwiperInicio() {
     console.log("🔵 Cargando swiper-data.json...");
     try {
-        const respuesta = await fetch('swiper-data.json');
+        const respuesta = await fetch('swiper-data.json?v=' + Date.now());
         if (!respuesta.ok) throw new Error('No se pudo cargar swiper-data.json');
         const datos = await respuesta.json();
         console.log("🟢 JSON cargado:", datos);

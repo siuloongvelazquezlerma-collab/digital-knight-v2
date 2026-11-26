@@ -14,6 +14,28 @@ if (localStorage.getItem("mainImagesLoaded") === "true") {
   });
 }
 
+/* ORIGINAL HALLOWEEN: conservar como respaldo
+function initBatOverlay() {
+  const batLayer = document.getElementById('batLayer');
+  if (!batLayer || batLayer.dataset.ready === 'true') return;
+
+  batLayer.dataset.ready = 'true';
+  const count = window.innerWidth < 768 ? 10 : 16;
+
+  for (let i = 0; i < count; i++) {
+    const bat = document.createElement('div');
+    bat.className = 'bat';
+    bat.textContent = '🦇';
+    bat.style.left = '-8%';
+    bat.style.top = `${Math.random() * 75 + 8}%`;
+    bat.style.fontSize = `${18 + Math.random() * 18}px`;
+    bat.style.setProperty('--duration', `${12 + Math.random() * 10}s`);
+    bat.style.setProperty('--delay', `${-Math.random() * 12}s`);
+    batLayer.appendChild(bat);
+  }
+}
+*/
+
 document.addEventListener("DOMContentLoaded", () => {
   const images = document.querySelectorAll("img[loading='lazy']");
   let loadedCount = 0;
@@ -148,14 +170,186 @@ const swiperInstances = {};
 const tabs = document.querySelectorAll('.tab');
 const sections = document.querySelectorAll('.mySwiper');
 const overlay = document.getElementById('transitionOverlay');
-const sectionContents = document.querySelectorAll('.section-content'); 
+const sectionContents = document.querySelectorAll('.section-content');
+const menuToggles = document.querySelectorAll('.menu-toggle');
+const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+let menuAutoCloseTimer = null;
+let swipeStartX = null;
+let swipeStartY = null;
+let swipeCurrentOffset = 0;
+
+function clearMenuAutoCloseTimer() {
+  if (menuAutoCloseTimer) {
+    clearTimeout(menuAutoCloseTimer);
+    menuAutoCloseTimer = null;
+  }
+}
+
+function scheduleMenuAutoClose() {
+  clearMenuAutoCloseTimer();
+
+  const tabsContainer = document.querySelector('.tabs');
+  if (!tabsContainer || !tabsContainer.classList.contains('open')) return;
+
+  menuAutoCloseTimer = setTimeout(() => {
+    if (document.querySelector('.tabs')?.classList.contains('open')) {
+      setMobileMenuState(false);
+    }
+  }, 5000);
+}
+
+function setMobileMenuState(isOpen) {
+  const tabsContainer = document.querySelector('.tabs');
+  if (!tabsContainer) return;
+
+  clearMenuAutoCloseTimer();
+
+  if (isOpen) {
+    tabsContainer.classList.remove('hidden');
+    tabsContainer.style.transition = '';
+    tabsContainer.style.transform = '';
+    requestAnimationFrame(() => {
+      tabsContainer.classList.add('open');
+    });
+    scheduleMenuAutoClose();
+  } else {
+    tabsContainer.classList.remove('open');
+    tabsContainer.style.transform = '';
+    requestAnimationFrame(() => {
+      tabsContainer.classList.add('hidden');
+    });
+  }
+
+  document.body.classList.toggle('menu-open', isOpen);
+  mobileMenuBackdrop?.classList.toggle('visible', isOpen);
+
+  menuToggles.forEach((toggle) => {
+    toggle.classList.toggle('is-open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  });
+}
+
+setMobileMenuState(false);
+
+const isDrawerMenuMode = () => window.matchMedia('(max-width: 1024px), (orientation: landscape)').matches;
+
+function attachSwipeToMenu() {
+  const tabsContainer = document.querySelector('.tabs');
+  if (!tabsContainer) return;
+
+  tabsContainer.addEventListener('touchstart', (event) => {
+    if (!tabsContainer.classList.contains('open') || !isDrawerMenuMode()) return;
+
+    const touch = event.touches[0];
+    swipeStartX = touch.clientX;
+    swipeStartY = touch.clientY;
+    swipeCurrentOffset = 0;
+    tabsContainer.style.transition = 'none';
+    scheduleMenuAutoClose();
+  }, { passive: true });
+
+  tabsContainer.addEventListener('touchmove', (event) => {
+    if (swipeStartX === null || !tabsContainer.classList.contains('open') || !isDrawerMenuMode()) return;
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - swipeStartX;
+    const deltaY = Math.abs(touch.clientY - swipeStartY);
+
+    if (deltaY > 22 && Math.abs(deltaX) < 20) return;
+
+    if (deltaX < 0) {
+      swipeCurrentOffset = Math.max(deltaX, -tabsContainer.offsetWidth);
+      tabsContainer.style.transform = `translateX(${swipeCurrentOffset}px)`;
+      scheduleMenuAutoClose();
+    }
+  }, { passive: true });
+
+  tabsContainer.addEventListener('touchend', () => {
+    if (swipeCurrentOffset < -80) {
+      setMobileMenuState(false);
+    } else {
+      tabsContainer.style.transition = '';
+      tabsContainer.style.transform = '';
+    }
+
+    swipeStartX = null;
+    swipeStartY = null;
+    swipeCurrentOffset = 0;
+    scheduleMenuAutoClose();
+  }, { passive: true });
+}
+
+attachSwipeToMenu();
+
+function openComingSoonModal(featureName) {
+  const existing = document.querySelector('.coming-soon-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'coming-soon-overlay';
+
+  const title = featureName === 'deportes' ? 'Deportes' : 'Canales';
+  const emoji = featureName === 'deportes' ? '🏆' : '📺';
+  const message = featureName === 'deportes'
+    ? 'Estamos preparando una experiencia única para partidos, resúmenes y contenido deportivo para que llegue muy pronto.'
+    : 'La guía de canales está en construcción. Estamos afinando la experiencia para que llegue con más estilo y más contenido.';
+
+  overlay.innerHTML = `
+    <div class="coming-soon-modal" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle">
+      <button type="button" class="coming-soon-close-btn" aria-label="Cerrar">×</button>
+      <div class="coming-soon-badge">Próximamente</div>
+      <div class="coming-soon-icon">${emoji}</div>
+      <h3 id="comingSoonTitle">${title}</h3>
+      <p>${message}</p>
+    </div>
+  `;
+
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) overlay.remove();
+  });
+
+  const closeButton = overlay.querySelector('.coming-soon-close-btn');
+  closeButton.addEventListener('click', () => overlay.remove());
+
+  document.body.appendChild(overlay);
+  setMobileMenuState(false);
+}
+
+mobileMenuBackdrop?.addEventListener('click', () => setMobileMenuState(false));
+menuToggles.forEach((toggle) => {
+  toggle.addEventListener('click', () => {
+    const isOpen = !document.querySelector('.tabs')?.classList.contains('open');
+    setMobileMenuState(isOpen);
+  });
+});
+document.querySelectorAll('.menu-category').forEach(item => {
+  item.addEventListener('click', (event) => {
+    const feature = item.dataset.feature;
+    const href = item.getAttribute('href');
+
+    if (feature) {
+      event.preventDefault();
+      openComingSoonModal(feature);
+      return;
+    }
+
+    if (href) {
+      setMobileMenuState(false);
+      return;
+    }
+
+    setMobileMenuState(false);
+  });
+});
+
 async function cargarSwiperInicio() {
 
     console.log("🔵 Cargando swiper-data.json...");
 
     try {
 
-        const respuesta = await fetch('swiper-data.json');
+        const respuesta = await fetch('swiper-data.json?v=' + Date.now());
 
         if (!respuesta.ok) {
             throw new Error('No se pudo cargar swiper-data.json');
@@ -848,8 +1042,9 @@ lastTabId = targetId;
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     const targetId = tab.dataset.tab;
-    if (targetId === lastTabId) return; 
+    if (targetId === lastTabId) return;
     activateTab(targetId);
+    setMobileMenuState(false);
   });
 });
 
@@ -1495,26 +1690,58 @@ const tabsContainer = document.querySelector('.tabs');
 let headerTicking = false;
 
 window.addEventListener('scroll', () => {
+  const isDrawerViewport = window.matchMedia('(max-width: 1024px), (orientation: landscape)').matches;
+
+  if (isDrawerViewport) {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll + 5) {
+      header?.classList.add('hidden');
+    } else if (currentScroll < lastScroll - 5) {
+      header?.classList.remove('hidden');
+    }
+
+    if (tabsContainer) {
+      tabsContainer.classList.remove('open');
+      tabsContainer.classList.add('hidden');
+    }
+
+    lastScroll = currentScroll;
+    return;
+  }
+
   if (headerTicking) return;
   headerTicking = true;
+
   requestAnimationFrame(() => {
     const currentScroll = window.pageYOffset;
 
-    // Umbral de 5px: evita parpadeo con micro-scrolls y trabajo innecesario
     if (currentScroll > lastScroll + 5) {
-      // Scroll hacia abajo
-      header.classList.add('hidden');
-      tabsContainer.classList.add('hidden');
+      header?.classList.add('hidden');
+      if (tabsContainer) {
+        tabsContainer.classList.add('hidden');
+        tabsContainer.classList.remove('open');
+      }
     } else if (currentScroll < lastScroll - 5) {
-      // Scroll hacia arriba
-      header.classList.remove('hidden');
-      tabsContainer.classList.remove('hidden');
+      header?.classList.remove('hidden');
+      if (tabsContainer) {
+        tabsContainer.classList.remove('hidden');
+        tabsContainer.classList.remove('open');
+      }
     }
 
     lastScroll = currentScroll;
     headerTicking = false;
   });
 }, { passive: true });
+
+if (window.matchMedia('(max-width: 1024px), (orientation: landscape)').matches) {
+  if (header) header.classList.remove('hidden');
+  if (tabsContainer) {
+    tabsContainer.classList.add('hidden');
+    tabsContainer.classList.remove('open');
+  }
+}
 
 
 // ==== Movie sections con flechas ====

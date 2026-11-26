@@ -110,10 +110,17 @@ const playPauseBtn = document.getElementById('playPauseBtn').querySelector('.mat
 const cover = document.getElementById('cover');
 const thumb = document.getElementById('thumb'); // si existe
 
-// Imagen que se muestra al pausar. Reemplaza esta URL por la de tu estreno o anuncio.
-// También puedes definir window.DK_PAUSE_AD_IMAGE_URL antes de cargar este script.
+// Imagen que se muestra al pausar. Puedes definir 3 URLs en
+// window.DK_PAUSE_AD_IMAGES para que cambien aleatoriamente cada vez que pauses.
 const DK_PAUSE_AD_IMAGE_URL = window.DK_PAUSE_AD_IMAGE_URL ||
-  'https://od.lk/s/M18zMzg3MDI3NDBfQkliY2w/street%20fighter%20disponible.jpg';
+  'https://od.lk/s/M18zMzk3MTAxODFfTkVja2c/derry.jpg';
+const DK_PAUSE_AD_IMAGES = Array.isArray(window.DK_PAUSE_AD_IMAGES)
+  ? window.DK_PAUSE_AD_IMAGES.filter(Boolean)
+  : [
+      DK_PAUSE_AD_IMAGE_URL,
+      'https://od.lk/s/M18zMzk3MTA2MDdfbTFnd1Q/Emperatriz.jpg',
+      'https://od.lk/s/M18zMzk3MTE3ODJfZUQyM3E/premium.jpg'
+    ];
 
 const pauseAd = document.createElement('div');
 pauseAd.id = 'dk-pause-ad';
@@ -131,7 +138,6 @@ pauseAd.style.cssText = [
 ].join(';');
 
 const pauseAdImage = document.createElement('img');
-pauseAdImage.src = DK_PAUSE_AD_IMAGE_URL;
 pauseAdImage.alt = '';
 // El arte de pausa es un wallpaper 16:9.  No se debe recortar para llenar el
 // reproductor y tampoco debe ampliarse más allá de 1080p en pantallas grandes.
@@ -145,6 +151,13 @@ pauseAdImage.style.cssText = [
 ].join(';');
 pauseAd.appendChild(pauseAdImage);
 player.appendChild(pauseAd);
+
+function getRandomPauseAdImage() {
+  const images = DK_PAUSE_AD_IMAGES.filter(Boolean);
+  if (!images.length) return '';
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
 
 function showPauseAd() {
   // Las páginas de películas pausan el video al abrir/cambiar idioma. Esa
@@ -160,6 +173,7 @@ function showPauseAd() {
   }
 
   if (video.currentTime > 0 && !video.ended && playerVisible) {
+    pauseAdImage.src = getRandomPauseAdImage();
     pauseAd.style.display = 'flex';
   }
 }
@@ -1120,6 +1134,116 @@ async function toggleFavorito() {
   }
 }
 
+// =========================================================
+
+// =========================================================
+// 🔊 CONTROL DE VOLUMEN – botón + slider debajo de la barra de progreso
+// =========================================================
+(function() {
+  console.log('[DK-VOL] start');
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #dk-volume-control { display:flex !important; align-items:center; gap:8px; padding:8px 0; z-index:99999; }
+    #dk-volume-icon { cursor:pointer; font-size:22px; user-select:none; color:#fff; }
+    #dk-volume-slider-wrap { position:relative; display:none; align-items:center; gap:6px; padding:6px 8px; background:rgba(0,0,0,0.75); border-radius:8px; backdrop-filter:blur(4px); z-index:100000; }
+    #dk-volume-slider { width:110px; height:4px; accent-color:#fff; cursor:pointer; }
+    #dk-volume-slider-wrap:hover { display:flex !important; }
+    #dk-volume-control:hover #dk-volume-slider-wrap { display:flex !important; }
+    #dk-player-actions-row { position:relative; display:flex; align-items:center; justify-content:flex-start; min-height:40px; width:100%; pointer-events:auto; }
+    #dk-player-actions-row #dk-volume-control { flex:0 0 auto; }
+    #dk-player-actions-row .extra-controls { position:absolute; left:50%; transform:translateX(-50%); width:auto; justify-content:center; gap:clamp(18px, 8vw, 150px); margin:0; white-space:nowrap; }
+  `;
+  document.head.appendChild(style);
+
+  let created = false;
+  let slider, volIcon, sliderWrap, volWrapper, lastVolume = 1, isDragging = false;
+
+  function getVideoEl() {
+    return document.getElementById('video_html5_api') || document.querySelector('#video video') || document.querySelector('video');
+  }
+
+  function updateIcon(vol) {
+    if (!volIcon) return;
+    if (vol <= 0) volIcon.textContent = 'volume_off';
+    else if (vol < 0.5) volIcon.textContent = 'volume_down';
+    else volIcon.textContent = 'volume_up';
+  }
+
+  function toggleVolume() {
+    const v = getVideoEl();
+    if (!v) return;
+    if (v.muted) { v.muted = false; if (lastVolume && lastVolume > 0) v.volume = lastVolume; if (slider) slider.value = Math.round(lastVolume * 100); updateIcon(lastVolume); }
+    else { lastVolume = v.volume; v.muted = true; if (slider) slider.value = '0'; updateIcon(0); }
+  }
+
+  function create() {
+    if (created) return true;
+    let container = document.querySelector('#controls .bottom-bar');
+    if (!container) container = document.querySelector('.bottom-bar');
+    if (!container) container = document.body;
+    if (!container) return false;
+
+    volWrapper = document.createElement('div');
+    volWrapper.id = 'dk-volume-control';
+    volWrapper.style.cssText = 'display:flex !important; align-items:center; gap:8px; padding:8px 0; z-index:99999;';
+
+    volIcon = document.createElement('span');
+    volIcon.className = 'material-icons';
+    volIcon.id = 'dk-volume-icon';
+    volIcon.textContent = 'volume_up';
+    volIcon.style.cssText = 'cursor:pointer; font-size:22px; user-select:none;';
+
+    sliderWrap = document.createElement('div');
+    sliderWrap.id = 'dk-volume-slider-wrap';
+
+    slider = document.createElement('input');
+    slider.type = 'range';
+    slider.id = 'dk-volume-slider';
+    slider.min = '0';
+    slider.max = '100';
+    slider.value = '100';
+    slider.step = '1';
+
+    sliderWrap.appendChild(slider);
+    volWrapper.appendChild(volIcon);
+    volWrapper.appendChild(sliderWrap);
+
+    const pc = container.querySelector('.progress-container');
+    const extraControls = container.querySelector('.extra-controls');
+    const actionsRow = document.createElement('div');
+    actionsRow.id = 'dk-player-actions-row';
+    actionsRow.appendChild(volWrapper);
+    if (extraControls) actionsRow.appendChild(extraControls);
+    if (pc) { pc.insertAdjacentElement('afterend', actionsRow); }
+    else { container.appendChild(actionsRow); }
+
+    slider.addEventListener('input', (e) => { const v = getVideoEl(); if (!v) return; isDragging = true; const val = parseInt(e.target.value, 10) / 100; v.muted = false; v.volume = val; lastVolume = val; updateIcon(val); });
+    slider.addEventListener('change', () => { isDragging = false; });
+    volIcon.addEventListener('click', toggleVolume);
+    const v = getVideoEl();
+    if (v) { v.addEventListener('volumechange', () => { const val = Math.round((v.muted ? 0 : v.volume) * 100); slider.value = val; updateIcon(v.muted ? 0 : v.volume); }); }
+    volWrapper.addEventListener('mouseenter', () => { if (sliderWrap) sliderWrap.style.display = 'flex'; });
+    volWrapper.addEventListener('mouseleave', () => { if (!isDragging && sliderWrap) sliderWrap.style.display = 'none'; });
+    const cur = getVideoEl();
+    if (cur) updateIcon(cur.muted ? 0 : cur.volume);
+
+    created = true;
+    console.log('[DK-VOL] creado');
+    return true;
+  }
+
+  if (create()) return;
+
+  let attempts = 0;
+  const interval = setInterval(() => {
+    attempts++;
+    if (create()) { clearInterval(interval); return; }
+    if (attempts > 25) { clearInterval(interval); console.log('[DK-VOL] falló 25 intentos'); }
+  }, 400);
+})();
+// =========================================================
+
 
 // Función para cargar el estado inicial del botón de favoritos
 function cargarEstadoFavorito() {
@@ -1244,42 +1368,72 @@ var lastScrollTop = 0;
         lastScrollTop = currentScroll;
     });
 
-const aspectModes = ['cover', 'fill', 'contain', 'fit-height', 'fit-width', 'scale-down'];
+
+const aspectModes = [
+  'cover',
+  'fill',
+  'contain',
+  'fit-height',
+  'fit-width',
+  'scale-down'
+];
+
 let currentAspectIndex = 0;
 
 function toggleAspectRatio() {
-  currentAspectIndex = (currentAspectIndex + 1) % aspectModes.length;
+  // Obtener el elemento de video real de Video.js
+  const videoEl = document.querySelector('#video_html5_api') ||
+                  document.querySelector('#video video');
+
+  const label = document.getElementById('aspectLabel');
+
+  if (!videoEl) {
+    console.warn('[Aspect Ratio] No se encontró el video.');
+    return;
+  }
+
+  currentAspectIndex =
+    (currentAspectIndex + 1) % aspectModes.length;
+
   const mode = aspectModes[currentAspectIndex];
 
-  // Aplica el modo al video
-  video.style.objectFit = mode.includes('fit-') ? 'contain' : mode;
+  videoEl.style.objectFit =
+    mode.startsWith('fit-') ? 'contain' : mode;
 
-  // Controla altura y ancho según modo
   switch (mode) {
     case 'fit-height':
-      video.style.width = 'auto';
-      video.style.height = '100%';
+      videoEl.style.width = 'auto';
+      videoEl.style.height = '100%';
       break;
+
     case 'fit-width':
-      video.style.width = '100%';
-      video.style.height = 'auto';
+      videoEl.style.width = '100%';
+      videoEl.style.height = 'auto';
       break;
+
     default:
-      video.style.width = '100%';
-      video.style.height = '100%';
+      videoEl.style.width = '100%';
+      videoEl.style.height = '100%';
       break;
   }
 
-  // Muestra etiqueta en pantalla
-  const label = document.getElementById('aspectLabel');
-  label.textContent = mode;
-  label.style.display = 'block';
+  if (label) {
+    label.textContent = mode;
+    label.style.display = 'block';
 
-  clearTimeout(label._hideTimeout);
-  label._hideTimeout = setTimeout(() => {
-    label.style.display = 'none';
-  }, 1500);
+    clearTimeout(label._hideTimeout);
+
+    label._hideTimeout = setTimeout(() => {
+      label.style.display = 'none';
+    }, 1500);
+  }
+
+  console.log('[Aspect Ratio] Modo aplicado:', mode);
 }
+
+// Permitir que el HTML pueda llamar a la función
+window.toggleAspectRatio = toggleAspectRatio;
+
 
 const loader = document.getElementById('videoLoader');
 
@@ -1314,46 +1468,153 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+
+// =========================================================
+// 📺 CAST / WEB VIDEO CASTER – transmitir película a TV
+// =========================================================
 function castCurrentVideo() {
-  const video = document.getElementById("video");
-
-  // ✅ Obtener instancia de Video.js
-  const player = video?.player || videojs.getPlayer ? videojs.getPlayer("video") : null;
-
+  const videoEl = document.getElementById("video");
+  if (!videoEl) {
+    alert("No se encontró el reproductor.");
+    return;
+  }
+  const player = videoEl.player || (typeof videojs !== 'undefined' && videojs.getPlayer ? videojs.getPlayer("video") : null);
   if (!player) {
     alert("No se encontró el reproductor.");
     return;
   }
-
   const currentSrc = player.currentSrc();
-
   if (!currentSrc) {
     alert("No se encontró el enlace del video.");
     return;
   }
 
-  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc);
+  // 🔒 Guardar estado antes de salir (por si la página se recarga al volver)
+  sessionStorage.setItem('dk_cast_return', window.location.href);
+  sessionStorage.setItem('dk_cast_type', 'movie');
+  sessionStorage.setItem('dk_cast_id', window.movieId || '');
+
+  const appLink = "wvc-x-callback://open?url=" + encodeURIComponent(currentSrc) + "&secure_uri=true";
   const storeLink = "https://play.google.com/store/apps/details?id=com.instantbits.cast.webvideo";
 
-  const transmitLink = document.createElement('a');
-  transmitLink.href = appLink;
-  transmitLink.style.display = 'none';
-  document.body.appendChild(transmitLink);
-
-  let appOpened = false;
-  transmitLink.click();
-
-  setTimeout(() => {
-    if (!appOpened) {
-      window.location.href = storeLink;
-    }
-    document.body.removeChild(transmitLink);
-  }, 1000);
-
-  window.addEventListener("blur", () => {
-    appOpened = true;
-  }, { once: true });
+  // Intentar abrir la app Web Video Caster (misma pestaña para lanzar el intent de Android)
+  // Nota: desde JavaScript no se puede detectar con certeza si una app externa se abrió,
+  // por lo que NO se abre Play Store automáticamente tras un temporizador (evita que se
+  // abran ambas al mismo tiempo). Si WVC no está instalada, nada ocurre; el usuario puede
+  // ir a Play Store manualmente si lo desea.
+  location.href = appLink;
 }
+// Blindar para que el HTML no sobrescriba esta función
+Object.defineProperty(window, 'castCurrentVideo', { value: castCurrentVideo, writable: false, configurable: true });
+// =========================================================
+
+// =========================================================
+// 🔊 CONTROL DE VOLUMEN – botón + slider debajo de la barra de progreso
+// =========================================================
+(function() {
+  console.log('[DK-VOL] start');
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #dk-volume-control { display:flex !important; align-items:center; gap:8px; padding:8px 0; z-index:99999; }
+    #dk-volume-icon { cursor:pointer; font-size:22px; user-select:none; color:#fff; }
+    #dk-volume-slider-wrap { position:relative; display:none; align-items:center; gap:6px; padding:6px 8px; background:rgba(0,0,0,0.75); border-radius:8px; backdrop-filter:blur(4px); z-index:100000; }
+    #dk-volume-slider { width:110px; height:4px; accent-color:#fff; cursor:pointer; }
+    #dk-volume-slider-wrap:hover { display:flex !important; }
+    #dk-volume-control:hover #dk-volume-slider-wrap { display:flex !important; }
+    #dk-player-actions-row { position:relative; display:flex; align-items:center; justify-content:flex-start; min-height:40px; width:100%; pointer-events:auto; }
+    #dk-player-actions-row #dk-volume-control { flex:0 0 auto; }
+    #dk-player-actions-row .extra-controls { position:absolute; left:50%; transform:translateX(-50%); width:auto; justify-content:center; gap:clamp(18px, 8vw, 150px); margin:0; white-space:nowrap; }
+  `;
+  document.head.appendChild(style);
+
+  let created = false;
+  let slider, volIcon, sliderWrap, volWrapper, lastVolume = 1, isDragging = false;
+
+  function getVideoEl() {
+    return document.getElementById('video_html5_api') || document.querySelector('#video video') || document.querySelector('video');
+  }
+
+  function updateIcon(vol) {
+    if (!volIcon) return;
+    if (vol <= 0) volIcon.textContent = 'volume_off';
+    else if (vol < 0.5) volIcon.textContent = 'volume_down';
+    else volIcon.textContent = 'volume_up';
+  }
+
+  function toggleVolume() {
+    const v = getVideoEl();
+    if (!v) return;
+    if (v.muted) { v.muted = false; if (lastVolume && lastVolume > 0) v.volume = lastVolume; if (slider) slider.value = Math.round(lastVolume * 100); updateIcon(lastVolume); }
+    else { lastVolume = v.volume; v.muted = true; if (slider) slider.value = '0'; updateIcon(0); }
+  }
+
+  function create() {
+    if (created) return true;
+    let container = document.querySelector('#controls .bottom-bar');
+    if (!container) container = document.querySelector('.bottom-bar');
+    if (!container) container = document.body;
+    if (!container) return false;
+
+    volWrapper = document.createElement('div');
+    volWrapper.id = 'dk-volume-control';
+    volWrapper.style.cssText = 'display:flex !important; align-items:center; gap:8px; padding:8px 0; z-index:99999;';
+
+    volIcon = document.createElement('span');
+    volIcon.className = 'material-icons';
+    volIcon.id = 'dk-volume-icon';
+    volIcon.textContent = 'volume_up';
+    volIcon.style.cssText = 'cursor:pointer; font-size:22px; user-select:none;';
+
+    sliderWrap = document.createElement('div');
+    sliderWrap.id = 'dk-volume-slider-wrap';
+
+    slider = document.createElement('input');
+    slider.type = 'range';
+    slider.id = 'dk-volume-slider';
+    slider.min = '0';
+    slider.max = '100';
+    slider.value = '100';
+    slider.step = '1';
+
+    sliderWrap.appendChild(slider);
+    volWrapper.appendChild(volIcon);
+    volWrapper.appendChild(sliderWrap);
+
+    const pc = container.querySelector('.progress-container');
+    const extraControls = container.querySelector('.extra-controls');
+    const actionsRow = document.createElement('div');
+    actionsRow.id = 'dk-player-actions-row';
+    actionsRow.appendChild(volWrapper);
+    if (extraControls) actionsRow.appendChild(extraControls);
+    if (pc) { pc.insertAdjacentElement('afterend', actionsRow); }
+    else { container.appendChild(actionsRow); }
+
+    slider.addEventListener('input', (e) => { const v = getVideoEl(); if (!v) return; isDragging = true; const val = parseInt(e.target.value, 10) / 100; v.muted = false; v.volume = val; lastVolume = val; updateIcon(val); });
+    slider.addEventListener('change', () => { isDragging = false; });
+    volIcon.addEventListener('click', toggleVolume);
+    const v = getVideoEl();
+    if (v) { v.addEventListener('volumechange', () => { const val = Math.round((v.muted ? 0 : v.volume) * 100); slider.value = val; updateIcon(v.muted ? 0 : v.volume); }); }
+    volWrapper.addEventListener('mouseenter', () => { if (sliderWrap) sliderWrap.style.display = 'flex'; });
+    volWrapper.addEventListener('mouseleave', () => { if (!isDragging && sliderWrap) sliderWrap.style.display = 'none'; });
+    const cur = getVideoEl();
+    if (cur) updateIcon(cur.muted ? 0 : cur.volume);
+
+    created = true;
+    console.log('[DK-VOL] creado');
+    return true;
+  }
+
+  if (create()) return;
+
+  let attempts = 0;
+  const interval = setInterval(() => {
+    attempts++;
+    if (create()) { clearInterval(interval); return; }
+    if (attempts > 25) { clearInterval(interval); console.log('[DK-VOL] falló 25 intentos'); }
+  }, 400);
+})();
+// =========================================================
 
 
 // Detectar teclas y mover el foco

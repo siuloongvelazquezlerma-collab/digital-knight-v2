@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim Tracking - Daily Log</title>
+  <style>
+    :root {
+      --bg-dark: #0f141c;
+      --bg-card: #182232;
+      --bg-card-subtle: #222f44;
+      --bg-input: #121a27;
+      --border: #2c3e58;
+      --border-focus: #3b82f6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-blue-hover: #2563eb;
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --accent-green-hover: #059669;
+      --accent-red: #ef4444;
+      --accent-red-hover: #dc2626;
+
+      --badge-shipping-bg: #1e3a5f;
+      --badge-shipping-text: #93c5fd;
+      --badge-product-bg: #2e264f;
+      --badge-product-text: #c4b5fd;
+
+      --radius: 10px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    header {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 18px 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .backup-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 880px) {
+      .split-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .badge-shipping { background: var(--badge-shipping-bg); color: var(--badge-shipping-text); }
+    .badge-product { background: var(--badge-product-bg); color: var(--badge-product-text); }
+
+    input, select, textarea {
+      background: var(--bg-input);
+      color: var(--text-main);
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    }
+
+    .teams-preview-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .teams-preview-header {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .teams-output-text {
+      background: #090d13;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 14px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #38bdf8;
+      white-space: pre-wrap;
+      word-break: break-all;
+      flex-grow: 1;
+      min-height: 160px;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary { background: var(--accent-blue); color: white; }
+    .btn-primary:hover { background: var(--accent-blue-hover); }
+
+    .btn-success { background: var(--accent-green); color: white; }
+    .btn-success:hover { background: var(--accent-green-hover); }
+
+    .btn-danger { background: var(--accent-red); color: white; }
+    .btn-danger:hover { background: var(--accent-red-hover); }
+
+    .btn-secondary { background: var(--bg-card-subtle); color: var(--text-main); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #2d3e5a; }
+
+    .btn-sm { padding: 6px 12px; font-size: 0.82rem; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .metric-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-blue);
+    }
+    .metric-card.shipping { border-left-color: #60a5fa; }
+    .metric-card.product { border-left-color: #a78bfa; }
+    .metric-card.days { border-left-color: var(--accent-green); }
+
+    .metric-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .filters-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quick-filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover td {
+      background: #1c2738;
+    }
+
+    .uuid-cell {
+      font-family: 'Consolas', monospace;
+      font-size: 0.82rem;
+      background: #0d131c;
+      color: #7dd3fc;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #1e293b;
+      word-break: break-all;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  
+    .claim-row { display:grid; grid-template-columns: 1fr 150px auto; gap:10px; align-items:end; margin-bottom:12px; }
+    .claim-row .form-group { margin-bottom:0; }
+    .claim-row button { height:42px; }
+    .section-note { color:var(--text-muted); font-size:.84rem; margin:-8px 0 16px; }
+    .ticket-layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .ticket-list { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
+    .ticket-item { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; background:var(--bg-input); border:1px solid var(--border); border-radius:7px; }
+    .ticket-item code { color:#7dd3fc; overflow-wrap:anywhere; }
+    .metric-card.tickets { border-left-color:#f59e0b; }
+    .empty-state { color:var(--text-dim); text-align:center; padding:22px; }
+    .table-responsive table { min-width:760px; }
+    @media(max-width:650px) {
+      body { padding:12px; }
+      .card { padding:16px; }
+      .claim-row { grid-template-columns:1fr 115px; }
+      .claim-row button { grid-column:2; }
+      .ticket-layout { grid-template-columns:1fr; }
+      header { padding:16px; }
+    }
+
+  
+    .header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .title-tools{display:inline-flex;align-items:center;gap:8px}
+    .supervisor-entry{width:auto;height:auto;padding:0;background:transparent;color:inherit;border:0;border-radius:0;font-size:inherit;line-height:1;cursor:pointer;box-shadow:none}
+    .supervisor-entry:hover,.supervisor-entry:focus{background:transparent;border:0;outline:none;box-shadow:none;filter:brightness(1.12)}
+    .agent-chip{background:var(--bg-input);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text-muted);font-size:.85rem}
+    .agent-chip strong{color:var(--accent-cyan);margin-left:4px}
+    .tabs-nav{display:flex;gap:8px;border-bottom:1px solid var(--border);padding-bottom:10px}
+    .tab-button{background:var(--bg-card);color:var(--text-muted);border:1px solid var(--border);padding:12px 20px}
+    .tab-button.active{background:var(--accent-blue);color:#fff;border-color:var(--accent-blue)}
+    .tab-panel{display:block}
+    .export-toolbar{display:flex;align-items:end;gap:9px;flex-wrap:wrap;background:var(--bg-card);border:1px solid var(--border);padding:12px 14px;border-radius:var(--radius);margin-bottom:4px}
+    .export-toolbar .form-group{margin:0;min-width:150px}
+    .import-label,.import-agent-label{display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+    .supervisor-toolbar{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin:18px 0}
+    .supervisor-toolbar .form-group{margin:0;min-width:170px}
+    .supervisor-agents-list{display:grid;gap:12px}
+    .agent-card{background:var(--bg-input);border:1px solid var(--border);border-radius:9px;padding:16px}
+    .agent-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .agent-card h3{color:var(--accent-cyan);font-size:1rem}
+    .agent-card small{color:var(--text-muted)}
+    .agent-card-details{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;color:var(--text-muted);font-size:.86rem}
+    .agent-card-details strong{color:var(--text-main)}
+    .supervisor-toolbar .form-group input[type="date"]{min-width:150px}
+    .supervisor-chart{display:grid;gap:12px;margin-top:16px}
+    .supervisor-chart-row{display:grid;grid-template-columns:minmax(160px,220px) minmax(200px,1fr) 60px;align-items:center;gap:12px;font-size:.9rem}
+    .supervisor-chart-agent{color:var(--text-main);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .supervisor-chart-track{position:relative;width:100%;height:18px;border-radius:999px;background:rgba(148,163,184,0.18);border:1px solid var(--border);overflow:hidden}
+    .supervisor-chart-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#38bdf8,#10b981)}
+    .supervisor-chart-total{text-align:right;color:var(--accent-cyan);font-weight:700}
+    .security-note{font-size:.8rem;color:var(--text-dim);border-top:1px solid var(--border);padding-top:14px;margin-top:18px}
+    .entry-modal{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:18px}
+    .entry-modal.open{display:flex}
+    .entry-dialog{width:min(420px,100%);background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:var(--shadow)}
+    .entry-dialog h2{font-size:1.15rem;color:var(--accent-cyan);margin-bottom:8px}
+    .entry-dialog p{color:var(--text-muted);font-size:.9rem;margin-bottom:16px}
+    .entry-dialog input{margin-bottom:16px}
+    .entry-dialog .btn-group{justify-content:flex-end}
+    @media(max-width:700px){body{padding:12px}.card{padding:16px}.header-right{width:100%;justify-content:space-between}.export-toolbar{align-items:stretch}.export-toolbar>*{flex:1}.tabs-nav .tab-button{flex:1;padding:10px 8px}}
+
+
+    /* History lists stay compact; expansion is manual and scrolling stays inside the panel. */
+    .history-panel-wrap {
+      height: 290px;
+      max-height: 290px;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+    .history-panel-wrap.expanded {
+      height: min(70vh, 700px);
+      max-height: min(70vh, 700px);
+    }
+    .history-panel-wrap table { margin: 0; }
+    .history-panel-wrap thead th { position: sticky; top: 0; z-index: 2; }
+    .history-expand-row { display:flex; justify-content:flex-end; margin:8px 0 0; }
+    .history-expand-btn { display:none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-tools">
+        <h1><button class="supervisor-entry" type="button" onclick="openSupervisor()" aria-label="Access" title="" tabindex="0">📋</button><span>Claim Tracking & Daily Report</span></h1>
+      </div>
+      <div class="header-right">
+        <div class="agent-chip" id="identityChip">Agent: <strong id="agentNameDisplay">Not registered</strong></div>
+      </div>
+    </header>
+
+    <nav class="tabs-nav" aria-label="Sections">
+      <button class="tab-button active" id="claimsTabButton" onclick="showTab('claims')">📋 Claims</button>
+      <button class="tab-button" id="ticketsTabButton" onclick="showTab('tickets')">🎫 Tickets / CID</button>
+    </nav>
+
+
+      <div class="export-toolbar">
+        <div class="form-group"><label for="agentExportPeriod">Export period</label><select id="agentExportPeriod"><option value="day">Today</option><option value="week">This week</option><option value="month">This month</option><option value="all" selected>All</option></select></div>
+        <button class="btn-secondary btn-sm" onclick="exportClaims()">💾 Export Claims</button>
+        <button class="btn-secondary btn-sm" onclick="exportTickets()">🎫 Export Tickets</button>
+        <label class="btn-secondary btn-sm import-label">📂 Import Claims<input type="file" id="importClaimsFile" accept=".json" onchange="importClaims(event)" hidden></label>
+        <label class="btn-secondary btn-sm import-label">📂 Import Tickets<input type="file" id="importTicketsFile" accept=".json" onchange="importTickets(event)" hidden></label>
+      </div>
+
+    <div id="claimsTab" class="tab-panel active">
+    <section class="card">
+      <div class="split-layout">
+        <div>
+          <h2 class="card-title">
+            <span>Claim Entry</span>
+            <span id="formStatusBadge" style="font-size:.75rem;color:var(--accent-cyan);font-weight:normal;"></span>
+          </h2>
+          <div class="form-group">
+            <label for="claimDate">Record Date <span style="font-size:.72rem;color:var(--accent-green);text-transform:none;">● Today</span></label>
+            <input type="date" id="claimDate" onchange="onClaimDateChanged()">
+          </div>
+          <p class="section-note">Add as many claims as needed and select whether each one is Shipping or Product.</p>
+          <div id="claimsContainer"></div>
+          <div class="btn-group" style="margin-top:12px;">
+            <button class="btn-secondary" onclick="addClaimRow()">➕ Add Claim</button>
+            <button class="btn-primary" onclick="saveClaimRecord(true)">💾 Save Record</button>
+            <button class="btn-secondary" onclick="clearClaimForm()">🔄 Clear Form</button>
+          </div>
+        </div>
+        <div>
+          <div class="teams-preview-box">
+            <div class="teams-preview-header"><span>💬 Microsoft Teams-Ready Format</span></div>
+            <div class="teams-output-text" id="teamsPreviewText"></div>
+            <button class="btn-success" style="width:100%;padding:14px;font-size:.95rem;" onclick="copyAndSaveClaims()">📋 Copy and Save for Teams</button>
+            <span style="display:block;text-align:center;font-size:.75rem;color:var(--text-dim);margin-top:8px;">It is saved on this computer and copied to the clipboard.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title"><span>Claim History</span></div>
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="metric-title">TOTAL CLAIMS</div><div class="metric-value" id="totalClaimsCount">0</div></div>
+        <div class="metric-card shipping"><div class="metric-title">TOTAL SHIPPING</div><div class="metric-value" id="totalShippingCount">0</div></div>
+        <div class="metric-card product"><div class="metric-title">TOTAL PRODUCT</div><div class="metric-value" id="totalProductCount">0</div></div>
+        <div class="metric-card days"><div class="metric-title">DAYS RECORDED</div><div class="metric-value" id="totalDaysCount">0</div></div>
+      </div>
+      <div class="filters-bar">
+        <div class="form-group" style="flex:2;min-width:240px;margin-bottom:0;">
+          <label>🔍 Search Claim ID or Date</label>
+          <input type="text" id="filterSearch" placeholder="Enter a UUID or date (YYYY-MM-DD)..." oninput="renderClaimsHistory()">
+        </div>
+        <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;"><label>From</label><input type="date" id="filterFrom" onchange="renderClaimsHistory()"></div>
+        <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;"><label>To</label><input type="date" id="filterTo" onchange="renderClaimsHistory()"></div>
+        <button class="btn-secondary" style="height:44px;" onclick="clearClaimFilters()">Reset Filters</button>
+      </div>
+      <div class="quick-filters">
+        <button class="btn-secondary btn-sm" onclick="setQuickFilter('today')">Today</button>
+        <button class="btn-secondary btn-sm" onclick="setQuickFilter('this_week')">This Week</button>
+        <button class="btn-secondary btn-sm" onclick="setQuickFilter('last_week')">Last Week</button>
+        <button class="btn-secondary btn-sm" onclick="setQuickFilter('this_month')">This Month</button>
+        <button class="btn-secondary btn-sm" onclick="setQuickFilter('all')">View All</button>
+      </div>
+      <div class="history-panel-wrap" id="claimsHistoryPanel">
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Date</th><th>Shipping</th><th>Product</th><th>Total</th><th style="text-align:right;">Actions</th></tr></thead>
+            <tbody id="claimsHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="history-expand-row"><button type="button" class="btn-secondary btn-sm history-expand-btn" id="claimsHistoryExpand" onclick="toggleHistoryPanel('claims')">Show all claims</button></div>
+    </section>
+
+    </div>
+    <div id="ticketsTab" class="tab-panel">
+    <section class="card">
+      <h2 class="card-title"><span>🎫 Ticket / Conversation ID (CID) Entry</span><span id="ticketStatusBadge" style="font-size:.75rem;color:var(--accent-cyan);font-weight:normal;"></span></h2>
+      <div class="ticket-layout">
+        <div>
+          <div class="form-group">
+            <label for="ticketDate">Ticket Date</label>
+            <input type="date" id="ticketDate" onchange="loadTicketsForDate()">
+          </div>
+          <div class="form-group">
+            <label for="ticketInput">Conversation ID (CID)</label>
+            <input type="text" id="ticketInput" placeholder="Paste or enter the Conversation ID" onkeydown="if(event.key==='Enter'){event.preventDefault();addTicket();}">
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" onclick="addTicket()">➕ Add Ticket</button>
+            <button class="btn-secondary" onclick="saveTickets(true)">💾 Save Tickets</button>
+            <button class="btn-secondary" onclick="clearTicketInput()">Clear</button>
+          </div>
+          <div class="ticket-list" id="ticketDraftList"></div>
+          <p class="section-note">Tickets are saved by date in storage separate from Claims.</p>
+        </div>
+        <div class="teams-preview-box">
+          <div class="teams-preview-header">📊 Daily Ticket Summary</div>
+          <div class="metric-card tickets" style="margin-bottom:12px;">
+            <div class="metric-title">TICKETS TODAY</div>
+            <div class="metric-value" id="ticketsTodayCount">0</div>
+          </div>
+          <div class="teams-output-text" id="ticketsPreviewText" style="min-height:110px;"></div>
+          <button class="btn-success" style="width:100%;" onclick="copyTicketsSummary()">📋 Copy Ticket Summary</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title"><span>Ticket / CID History</span></div>
+      <div class="metrics-grid">
+        <div class="metric-card tickets"><div class="metric-title">TOTAL TICKETS</div><div class="metric-value" id="totalTicketsCount">0</div></div>
+        <div class="metric-card days"><div class="metric-title">DAYS WITH TICKETS</div><div class="metric-value" id="ticketDaysCount">0</div></div>
+      </div>
+      <div class="filters-bar">
+        <div class="form-group" style="flex:2;min-width:220px;margin-bottom:0;"><label>🔍 Search CID or Date</label><input id="ticketSearch" type="text" placeholder="Search Conversation ID or date..." oninput="renderTicketsHistory()"></div>
+        <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;"><label>From</label><input type="date" id="ticketFrom" onchange="renderTicketsHistory()"></div>
+        <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;"><label>To</label><input type="date" id="ticketTo" onchange="renderTicketsHistory()"></div>
+        <button class="btn-secondary" style="height:44px;" onclick="clearTicketFilters()">Reset Filters</button>
+      </div>
+      <div class="history-panel-wrap" id="ticketsHistoryPanel">
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Date</th><th>Conversation IDs (CID)</th><th>Daily Total</th><th style="text-align:right;">Actions</th></tr></thead>
+            <tbody id="ticketsHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="history-expand-row"><button type="button" class="btn-secondary btn-sm history-expand-btn" id="ticketsHistoryExpand" onclick="toggleHistoryPanel('tickets')">Show all tickets</button></div>
+    </section>
+    </div>
+    <section id="supervisorPanel" class="card supervisor-panel" style="display:none;">
+      <div class="card-title"><span>🛡️ Supervisor Panel</span><button class="btn-secondary btn-sm" onclick="returnToAgentPanel()">← Back to Agent Panel</button></div>
+      <p class="section-note">Import the JSON backups for Claims and Tickets separately. Then review results by agent and export consolidated reports.</p>
+      <div class="supervisor-toolbar">
+        <label class="btn-primary import-agent-label">📥 Import Claims<input id="supervisorClaimsFile" type="file" accept=".json,application/json" multiple onchange="importSupervisorFiles(event,'claims')" hidden></label>
+        <label class="btn-primary import-agent-label">🎫 Import Tickets<input id="supervisorTicketsFile" type="file" accept=".json,application/json" multiple onchange="importSupervisorFiles(event,'tickets')" hidden></label>
+        <div class="form-group"><label for="supervisorViewMode">View</label><select id="supervisorViewMode" onchange="toggleSupervisorDateFilter(); renderSupervisorPanel();"><option value="all">All imported</option><option value="new">Only new</option><option value="date">By date</option></select></div>
+        <div class="form-group" id="supervisorDateGroup" style="display:none;"><label for="supervisorImportDate">Import date</label><input id="supervisorImportDate" type="date" onchange="renderSupervisorPanel()"></div>
+        <div class="form-group"><label for="supervisorPeriod">Report Period</label><select id="supervisorPeriod" onchange="renderSupervisorPanel()"><option value="day">Today</option><option value="week">This week</option><option value="month">This month</option><option value="all" selected>All history</option></select></div>
+        <div class="form-group"><label for="supervisorAgentSearch">Search agent</label><input id="supervisorAgentSearch" type="text" placeholder="Name of agent" oninput="renderSupervisorPanel()"></div>
+        <div class="form-group"><label for="supervisorFormat">Format</label><select id="supervisorFormat"><option value="json">JSON</option><option value="excel">Excel-friendly report</option><option value="txt">Text (TXT)</option><option value="tickets-image">Tickets chart image</option></select></div>
+        <button class="btn-success" onclick="exportSupervisorAll()">⬇️ Export Report</button>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="metric-title">IMPORTED AGENTS</div><div class="metric-value" id="supervisorAgentCount">0</div></div>
+        <div class="metric-card shipping"><div class="metric-title">IMPORTED CLAIMS</div><div class="metric-value" id="supervisorClaimsCount">0</div></div>
+        <div class="metric-card tickets"><div class="metric-title">IMPORTED TICKETS</div><div class="metric-value" id="supervisorTicketsCount">0</div></div>
+      </div>
+      <div class="card-title"><span>Ticket Performance by Agent</span><button class="btn-secondary btn-sm" type="button" onclick="toggleSupervisorTicketPreview()">📊 Preview</button></div>
+      <div id="supervisorTicketPreview" style="display:none;">
+        <div id="supervisorTicketChart" class="supervisor-chart"></div>
+        <div class="btn-group" style="margin-top:12px;">
+          <button class="btn-success btn-sm" type="button" onclick="downloadSupervisorTicketChartImage()">⬇️ Download image</button>
+        </div>
+      </div>
+      <div class="card-title"><span>Data Received by Agent</span></div>
+      <div id="supervisorAgentsList" class="supervisor-agents-list"><div class="empty-state">You have not imported any agent files yet.</div></div>
+      <p class="security-note">The supervisor identity is stored in this browser. This local access does not replace a password or server permissions. Agents must send their files to the supervisor for consolidation.</p>
+    </section>
+  </div>
+  <div id="toast">Notification</div>
+
+  <div id="entryModal" class="entry-modal" role="dialog" aria-modal="true" aria-labelledby="entryModalTitle">
+    <div class="entry-dialog">
+      <h2 id="entryModalTitle">Identification</h2>
+      <p id="entryModalMessage">Enter your name to continue.</p>
+      <input id="entryNameInput" type="text" autocomplete="name" maxlength="80" placeholder="Enter your name">
+      <div class="btn-group">
+        <button id="entryCancelButton" class="btn-secondary" type="button" onclick="closeEntryModal()">Cancel</button>
+        <button class="btn-primary" type="button" onclick="submitEntryModal()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CLAIMS_STORAGE_KEY = 'claims_tracker_data_v1';
+    const TICKETS_STORAGE_KEY = 'conversation_tickets_data_v1';
+    const CLAIMS_DRAFT_KEY = 'claims_tracker_draft_v1';
+    const TICKETS_DRAFT_KEY = 'conversation_tickets_draft_v1';
+    const AGENT_STORAGE_KEY = 'claims_tracker_agent_name_v1';
+    const SUPERVISOR_CLAIMS_KEY = 'claims_tracker_supervisor_claims_v1';
+    const SUPERVISOR_TICKETS_KEY = 'claims_tracker_supervisor_tickets_v1';
+    const SUPERVISOR_NAME_KEY = 'claims_tracker_supervisor_name_v1';
+    let ticketDrafts = [];
+    let supervisorName = '';
+
+    function getTodayIso() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+    function safeRead(key) {
+      try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; }
+      catch (e) { console.error('Error leyendo', key, e); return []; }
+    }
+    function safeWrite(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+      catch (e) { console.error('Error guardando', key, e); showToast('❌ Could not save in this browser.'); return false; }
+    }
+    function toggleHistoryPanel(kind){
+      const panel=document.getElementById(kind==='claims'?'claimsHistoryPanel':'ticketsHistoryPanel');
+      const button=document.getElementById(kind==='claims'?'claimsHistoryExpand':'ticketsHistoryExpand');
+      const expanded=panel.classList.toggle('expanded');
+      button.innerText=expanded?(kind==='claims'?'Show less':'Show less'):(kind==='claims'?'Show all claims':'Show all tickets');
+    }
+    function updateHistoryPanel(kind){
+      const panel=document.getElementById(kind==='claims'?'claimsHistoryPanel':'ticketsHistoryPanel');
+      const button=document.getElementById(kind==='claims'?'claimsHistoryExpand':'ticketsHistoryExpand');
+      const rows=[...panel.querySelectorAll('tbody tr')];
+      const count=rows.reduce((total,row)=>{
+        if(row.querySelector('.empty-state'))return total;
+        // Count each rendered UUID item; one history row may contain multiple claims/tickets.
+        const ids=row.querySelectorAll('.uuid-cell');
+        return total+(ids.length||1);
+      },0);
+      const hasMany=count>5;
+      button.style.display=hasMany?'inline-flex':'none';
+      if(!hasMany){
+        panel.classList.remove('expanded');
+        button.innerText=kind==='claims'?'Show all claims':'Show all tickets';
+      }else{
+        button.innerText=panel.classList.contains('expanded')?'Show less':(kind==='claims'?'Expand claims':'Expand tickets');
+      }
+    }
+    function getClaimsRecords(){ return safeRead(CLAIMS_STORAGE_KEY); }
+    function getTicketRecords(){ return safeRead(TICKETS_STORAGE_KEY); }
+    function getAgentName(){ return localStorage.getItem(AGENT_STORAGE_KEY) || 'Unnamed Agent'; }
+    function escapeHtml(v){ return String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function formatDateDisplay(date){
+      if(!date) return 'MM/DD/YYYY';
+      const p=date.split('-'); return p.length===3?`${p[1]}/${p[2]}/${p[0]}`:date;
+    }
+    function extractUuid(value){
+      if(!value) return '';
+      const m=String(value).match(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/);
+      return m?m[0]:String(value).trim();
+    }
+    function showToast(message){
+      const t=document.getElementById('toast'); t.innerText=message; t.style.display='block';
+      clearTimeout(window.__toastTimer); window.__toastTimer=setTimeout(()=>t.style.display='none',2600);
+    }
+    function showTab(which){
+      const identity=document.getElementById('identityChip');
+      identity.innerHTML='Agent: <strong id="agentNameDisplay">'+escapeHtml(getAgentName())+'</strong>';
+      document.getElementById('agentNameDisplay').title='Click to change your name';
+      document.getElementById('agentNameDisplay').style.cursor='pointer';
+      document.getElementById('agentNameDisplay').addEventListener('click',changeAgentName);
+      document.getElementById('supervisorPanel').style.display='none';
+      document.querySelector('.tabs-nav').style.display='flex';
+      document.querySelector('.export-toolbar').style.display='flex';
+      document.getElementById('claimsTab').style.display=which==='claims'?'block':'none';
+      document.getElementById('ticketsTab').style.display=which==='tickets'?'block':'none';
+      document.getElementById('claimsTabButton').classList.toggle('active',which==='claims');
+      document.getElementById('ticketsTabButton').classList.toggle('active',which==='tickets');
+    }
+    function showSupervisorView(){
+      const identity=document.getElementById('identityChip');
+      identity.innerHTML='Supervisor: <strong>'+escapeHtml(supervisorName)+'</strong>';
+      document.querySelector('.tabs-nav').style.display='none';
+      document.querySelector('.export-toolbar').style.display='none';
+      document.getElementById('claimsTab').style.display='none';
+      document.getElementById('ticketsTab').style.display='none';
+      document.getElementById('claimsTabButton').classList.remove('active');
+      document.getElementById('ticketsTabButton').classList.remove('active');
+      document.getElementById('supervisorPanel').style.display='block';
+      renderSupervisorPanel();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function returnToAgentPanel(){
+      document.getElementById('supervisorPanel').style.display='none';
+      showTab('claims');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    let entryMode = '';
+    let entryCallback = null;
+
+    function openEntryModal(mode, currentValue='', callback=null){
+      entryMode=mode;
+      entryCallback=callback;
+      const modal=document.getElementById('entryModal');
+      const title=document.getElementById('entryModalTitle');
+      const message=document.getElementById('entryModalMessage');
+      const input=document.getElementById('entryNameInput');
+      const cancel=document.getElementById('entryCancelButton');
+
+      if(mode==='agent'){
+        title.innerText='Agent Registration';
+        message.innerText='Enter your name to identify your Claims and Tickets.';
+        cancel.style.display='none';
+      }else if(mode==='changeAgent'){
+        title.innerText='Change Agent Name';
+        message.innerText='Previous records will keep the original name.';
+        cancel.style.display='inline-flex';
+      }else{
+        title.innerText='Supervisor Access';
+        message.innerText='Enter your name to open the supervisor tools.';
+        cancel.style.display='inline-flex';
+      }
+
+      input.value=currentValue;
+      modal.classList.add('open');
+      setTimeout(()=>{input.focus();input.select();},50);
+    }
+
+    function closeEntryModal(){
+      if(entryMode==='agent'&&!localStorage.getItem(AGENT_STORAGE_KEY)){
+        showToast('⚠️ You must register a name to continue.');
+        return;
+      }
+      document.getElementById('entryModal').classList.remove('open');
+      entryMode='';
+      entryCallback=null;
+    }
+
+    function submitEntryModal(){
+      const input=document.getElementById('entryNameInput');
+      const name=input.value.trim();
+      if(!name){
+        showToast('⚠️ Enter a valid name.');
+        input.focus();
+        return;
+      }
+
+      const mode=entryMode;
+      const callback=entryCallback;
+      document.getElementById('entryModal').classList.remove('open');
+      entryMode='';
+      entryCallback=null;
+
+      if(mode==='agent'){
+        localStorage.setItem(AGENT_STORAGE_KEY,name);
+        updateAgentDisplay();
+        showToast('✅ Agent registered');
+      }else if(mode==='changeAgent'){
+        const old=getAgentName();
+        if(!confirm(`Change the agent from "${old}" a "${name}"?\\nNew records will be saved under the new name. Previous records will keep their original agent.`)){
+          return;
+        }
+        localStorage.setItem(AGENT_STORAGE_KEY,name);
+        updateAgentDisplay();
+        showToast('✅ Agent name updated');
+      }else if(mode==='supervisor'){
+        supervisorName=name;
+        localStorage.setItem(SUPERVISOR_NAME_KEY,name);
+        showSupervisorView();
+        showToast('✅ Supervisor Access');
+      }
+      if(callback)callback(name);
+    }
+
+    function registerAgent(){
+      const name=localStorage.getItem(AGENT_STORAGE_KEY)||'';
+      if(!name){
+        openEntryModal('agent');
+      }else{
+        updateAgentDisplay();
+      }
+    }
+
+    function updateAgentDisplay(){
+      const el=document.getElementById('agentNameDisplay');
+      if(el) el.innerText=getAgentName();
+    }
+
+    function changeAgentName(){
+      openEntryModal('changeAgent',getAgentName());
+    }
+    function addClaimRow(type='product',value=''){
+      const container=document.getElementById('claimsContainer');
+      const row=document.createElement('div'); row.className='claim-row';
+      row.innerHTML=`<div class="form-group"><label>Claim ID</label><input class="claim-value" type="text" placeholder="Paste the Claim ID or URL" value="${escapeHtml(value)}"></div>
+        <div class="form-group"><label>Claim Type</label><select class="claim-type"><option value="shipping" ${type==='shipping'?'selected':''}>Shipping</option><option value="product" ${type==='product'?'selected':''}>Product</option></select></div>
+        <button class="btn-danger btn-sm" type="button" title="Eliminar claim">✕</button>`;
+      const input=row.querySelector('.claim-value');
+      input.addEventListener('input',()=>{input.value=extractUuid(input.value);updateClaimsPreview();saveClaimsDraft();});
+      row.querySelector('.claim-type').addEventListener('change',()=>{updateClaimsPreview();saveClaimsDraft();});
+      row.querySelector('button').addEventListener('click',()=>{row.remove();if(!container.children.length)addClaimRow();updateClaimsPreview();saveClaimsDraft();});
+      container.appendChild(row); updateClaimsPreview(); saveClaimsDraft();
+    }
+    function saveClaimsDraft(){
+      // Do not persist unfinished claim drafts. Only confirmed saved records should survive a page refresh.
+      const date=document.getElementById('claimDate').value||getTodayIso();
+      const draft=[...document.querySelectorAll('#claimsContainer .claim-row')].map(r=>({
+        type:r.querySelector('.claim-type').value,
+        value:extractUuid(r.querySelector('.claim-value').value)
+      })).filter(c=>c.value);
+      if(!draft.length){
+        localStorage.removeItem(CLAIMS_DRAFT_KEY);
+        return;
+      }
+      safeWrite(CLAIMS_DRAFT_KEY,{date,claims:draft});
+    }
+    function getFormClaims(){
+      return [...document.querySelectorAll('#claimsContainer .claim-row')].map(r=>({type:r.querySelector('.claim-type').value,value:extractUuid(r.querySelector('.claim-value').value)})).filter(c=>c.value);
+    }
+    function normalizeClaims(r){
+      if(Array.isArray(r.claims))return r.claims.map(c=>({type:c.type==='shipping'?'shipping':'product',value:extractUuid(c.value)})).filter(c=>c.value);
+      return [{type:'shipping',value:r.claim1},{type:'product',value:r.claim2},{type:'product',value:r.claim3}].filter(c=>c.value).map(c=>({...c,value:extractUuid(c.value)}));
+    }
+    function generateTeamsText(date,claims){
+      const lines=claims.map((c,i)=>`**${i+1}.-** ${c.value} — **${c.type==='shipping'?'Shipping':'Product'}**`);
+      return `**Daily claims - ${formatDateDisplay(date)}**\n\n${lines.length?lines.join('\n\n'):'No claims recorded.'}`;
+    }
+    function updateClaimsPreview(){
+      const date=document.getElementById('claimDate').value||getTodayIso();
+      document.getElementById('teamsPreviewText').innerText=generateTeamsText(date,getFormClaims());
+    }
+    function loadClaimRecordForDate(date){
+      const record=getClaimsRecords().find(r=>r.date===date);
+      const container=document.getElementById('claimsContainer'); container.innerHTML='';
+      if(record){
+        normalizeClaims(record).forEach(c=>addClaimRow(c.type,c.value));
+        document.getElementById('formStatusBadge').innerText=`● Saved: ${formatDateDisplay(date)} · ${record.agent||getAgentName()}`;
+      }else{
+        addClaimRow('shipping');addClaimRow('product');addClaimRow('product');
+        document.getElementById('formStatusBadge').innerText=`● New record: ${formatDateDisplay(date)}`;
+      }
+      updateClaimsPreview();
+    }
+    function onClaimDateChanged(){loadClaimRecordForDate(document.getElementById('claimDate').value);}
+    function saveClaimRecord(feedback=true){
+      const date=document.getElementById('claimDate').value||getTodayIso();
+      document.getElementById('claimDate').value=date;
+      const incoming=getFormClaims(),records=getClaimsRecords();
+      const idx=records.findIndex(r=>r.date===date);
+      if(!incoming.length){
+        if(feedback)showToast('⚠️ Enter at least one Claim ID');
+        return false;
+      }
+      // Saving after Clear appends new claims to that day's history instead of replacing it.
+      const prior=idx>=0?normalizeClaims(records[idx]):[];
+      const seen=new Set(prior.map(c=>`${c.type}|${c.value.toLowerCase()}`));
+      const merged=[...prior];
+      incoming.forEach(c=>{
+        const key=`${c.type}|${c.value.toLowerCase()}`;
+        if(!seen.has(key)){merged.push(c);seen.add(key);}
+      });
+      const rec={id:idx>=0?records[idx].id:Date.now(),date,agent:idx>=0?(records[idx].agent||getAgentName()):getAgentName(),claims:merged};
+      if(idx>=0)records[idx]=rec;else records.push(rec);
+      records.sort((a,b)=>b.date.localeCompare(a.date));
+      if(!safeWrite(CLAIMS_STORAGE_KEY,records))return false;
+      renderClaimsHistory();
+      if(feedback)showToast('✅ Claims saved');
+      return true;
+    }
+    function clearClaimForm(){
+      document.getElementById('claimsContainer').innerHTML='';
+      addClaimRow('shipping');addClaimRow('product');addClaimRow('product');
+      [...document.querySelectorAll('#claimsContainer .claim-value')].forEach(input=>input.value='');
+      localStorage.removeItem(CLAIMS_DRAFT_KEY);
+      document.getElementById('formStatusBadge').innerText=`● New record: ${formatDateDisplay(document.getElementById('claimDate').value||getTodayIso())}`;
+      updateClaimsPreview();
+      showToast('Entry form cleared. Saved history was kept.');
+    }
+    async function copyAndSaveClaims(){
+      const date=document.getElementById('claimDate').value||getTodayIso();
+      if(!saveClaimRecord(false)){showToast('⚠️ Enter at least one Claim ID');return;}
+      try{await navigator.clipboard.writeText(generateTeamsText(date,getFormClaims()));showToast('📋 Claims copied and saved');}
+      catch{showToast('💾 Saved; allow clipboard access to copy');}
+    }
+    async function copyClaimsRow(date){
+      const r=getClaimsRecords().find(x=>x.date===date);if(!r)return;
+      try{await navigator.clipboard.writeText(generateTeamsText(date,normalizeClaims(r)));showToast('📋 Report copied');}
+      catch{showToast('Could not copy');}
+    }
+    function editClaimRecord(date){document.getElementById('claimDate').value=date;loadClaimRecordForDate(date);showTab('claims');window.scrollTo({top:0,behavior:'smooth'});}
+    function deleteClaimRecord(id){
+      if(!confirm('Delete this Claims record?'))return;
+      safeWrite(CLAIMS_STORAGE_KEY,getClaimsRecords().filter(r=>r.id!==id));
+      renderClaimsHistory();loadClaimRecordForDate(document.getElementById('claimDate').value||getTodayIso());showToast('🗑️ Claims deleted');
+    }
+    function renderClaimsHistory(){
+      const from=document.getElementById('filterFrom').value,to=document.getElementById('filterTo').value,search=document.getElementById('filterSearch').value.toLowerCase().trim();
+      const filtered=getClaimsRecords().filter(r=>{
+        const cs=normalizeClaims(r),match=!search||r.date.includes(search)||formatDateDisplay(r.date).toLowerCase().includes(search)||cs.some(c=>c.value.toLowerCase().includes(search));
+        return match&&(!from||r.date>=from)&&(!to||r.date<=to);
+      }).sort((a,b)=>b.date.localeCompare(a.date));
+      let sh=0,pr=0;filtered.forEach(r=>normalizeClaims(r).forEach(c=>c.type==='shipping'?sh++:pr++));
+      document.getElementById('totalClaimsCount').innerText=sh+pr;document.getElementById('totalShippingCount').innerText=sh;document.getElementById('totalProductCount').innerText=pr;document.getElementById('totalDaysCount').innerText=filtered.length;
+      const tb=document.getElementById('claimsHistoryBody');
+      if(!filtered.length){tb.innerHTML='<tr><td colspan="5" class="empty-state">No records found.</td></tr>';updateHistoryPanel('claims');return;}
+      tb.innerHTML=filtered.map(r=>{
+        const cs=normalizeClaims(r),ships=cs.filter(c=>c.type==='shipping'),products=cs.filter(c=>c.type==='product');
+        return `<tr><td><strong>${formatDateDisplay(r.date)}</strong><br><small>${escapeHtml(r.agent||'Unidentified')}</small></td>
+          <td>${ships.map(c=>`<span class="uuid-cell">${escapeHtml(c.value)}</span>`).join('<br><br>')||'-'}</td>
+          <td>${products.map(c=>`<span class="uuid-cell">${escapeHtml(c.value)}</span>`).join('<br><br>')||'-'}</td><td><strong>${cs.length}</strong></td>
+          <td style="text-align:right;white-space:nowrap"><button class="btn-secondary btn-sm" onclick="editClaimRecord('${r.date}')">✏️</button><button class="btn-secondary btn-sm" onclick="copyClaimsRow('${r.date}')">📋</button><button class="btn-danger btn-sm" onclick="deleteClaimRecord(${Number(r.id)})">🗑️</button></td></tr>`;
+      }).join('');
+      updateHistoryPanel('claims');
+    }
+    function clearClaimFilters(){['filterSearch','filterFrom','filterTo'].forEach(id=>document.getElementById(id).value='');renderClaimsHistory();}
+    function setQuickFilter(type){
+      document.getElementById('filterSearch').value='';
+      const now=new Date(),fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      let from='',to='';
+      if(type==='today')from=to=fmt(now);
+      if(type==='this_week'||type==='last_week'){const d=new Date(now),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day+(type==='last_week'?-7:0));const e=new Date(d);e.setDate(d.getDate()+6);from=fmt(d);to=fmt(e);}
+      if(type==='this_month'){from=fmt(new Date(now.getFullYear(),now.getMonth(),1));to=fmt(new Date(now.getFullYear(),now.getMonth()+1,0));}
+      document.getElementById('filterFrom').value=from;document.getElementById('filterTo').value=to;renderClaimsHistory();
+    }
+
+    // Tickets / CID
+    function getTicketDate(){return document.getElementById('ticketDate').value||getTodayIso();}
+    function loadTicketsForDate(){
+      const date=getTicketDate(),r=getTicketRecords().find(x=>x.date===date);
+      const savedDraft=(()=>{try{return JSON.parse(localStorage.getItem(TICKETS_DRAFT_KEY)||'null')}catch{return null}})();
+      ticketDrafts=savedDraft&&savedDraft.date===date&&Array.isArray(savedDraft.cids)?[...savedDraft.cids]:(r&&Array.isArray(r.cids)?[...r.cids]:[]);
+      saveTicketsDraft();
+      document.getElementById('ticketStatusBadge').innerText=r?`● Saved: ${formatDateDisplay(date)} · ${r.agent||getAgentName()}`:`● New: ${formatDateDisplay(date)}`;
+      renderTicketDrafts();
+    }
+    function saveTicketsDraft(){
+      safeWrite(TICKETS_DRAFT_KEY,{date:getTicketDate(),cids:[...ticketDrafts]});
+    }
+    function renderTicketDrafts(){
+      saveTicketsDraft();
+      const list=document.getElementById('ticketDraftList');
+      list.innerHTML=ticketDrafts.length?ticketDrafts.map((cid,i)=>`<div class="ticket-item"><code>${escapeHtml(cid)}</code><button class="btn-danger btn-sm" onclick="removeTicketDraft(${i})">✕</button></div>`).join(''):'<div class="empty-state">You have not added any tickets for this date.</div>';
+      document.getElementById('ticketsTodayCount').innerText=ticketDrafts.length;
+      document.getElementById('ticketsPreviewText').innerText=`Daily tickets - ${formatDateDisplay(getTicketDate())}\nAgent: ${getAgentName()}\nTotal: ${ticketDrafts.length}\n\n${ticketDrafts.map((x,i)=>`${i+1}.- ${x}`).join('\n')}`;
+    }
+    function addTicket(){
+      const input=document.getElementById('ticketInput'),cid=input.value.trim();
+      if(!cid){showToast('⚠️ Enter a CID');input.focus();return;}
+      if(ticketDrafts.includes(cid)){showToast('⚠️ This CID already exists for this date');return;}
+      ticketDrafts.push(cid);input.value='';renderTicketDrafts();saveTickets(false);
+    }
+    function removeTicketDraft(i){ticketDrafts.splice(i,1);renderTicketDrafts();}
+    function clearTicketInput(){document.getElementById('ticketInput').value='';}
+    function saveTickets(feedback=true){
+      const date=getTicketDate(),records=getTicketRecords(),idx=records.findIndex(r=>r.date===date);
+      if(!ticketDrafts.length){
+        if(feedback)showToast('⚠️ Add at least one ticket');
+        return false;
+      }
+      const prior=idx>=0&&Array.isArray(records[idx].cids)?records[idx].cids:[];
+      const merged=[...prior];
+      ticketDrafts.forEach(cid=>{if(!merged.includes(cid))merged.push(cid);});
+      const rec={id:idx>=0?records[idx].id:Date.now(),date,agent:idx>=0?(records[idx].agent||getAgentName()):getAgentName(),cids:merged};
+      if(idx>=0)records[idx]=rec;else records.push(rec);
+      records.sort((a,b)=>b.date.localeCompare(a.date));
+      if(!safeWrite(TICKETS_STORAGE_KEY,records))return false;
+      renderTicketsHistory();renderTicketDrafts();if(feedback)showToast('🎫 Tickets saved');return true;
+    }
+    async function copyTicketsSummary(){try{await navigator.clipboard.writeText(document.getElementById('ticketsPreviewText').innerText);showToast('📋 Summary copied');}catch{showToast('Could not copy');}}
+    function editTicketRecord(date){document.getElementById('ticketDate').value=date;loadTicketsForDate();showTab('tickets');}
+    function deleteTicketRecord(id){if(!confirm('Delete this Ticket record?'))return;safeWrite(TICKETS_STORAGE_KEY,getTicketRecords().filter(r=>r.id!==id));renderTicketsHistory();loadTicketsForDate();showToast('🗑️ Tickets deleted');}
+    function renderTicketsHistory(){
+      const search=document.getElementById('ticketSearch').value.toLowerCase().trim(),from=document.getElementById('ticketFrom').value,to=document.getElementById('ticketTo').value;
+      const filtered=getTicketRecords().filter(r=>{const c=Array.isArray(r.cids)?r.cids:[];return(!search||r.date.includes(search)||formatDateDisplay(r.date).toLowerCase().includes(search)||c.some(x=>String(x).toLowerCase().includes(search)))&&(!from||r.date>=from)&&(!to||r.date<=to);}).sort((a,b)=>b.date.localeCompare(a.date));
+      document.getElementById('totalTicketsCount').innerText=filtered.reduce((s,r)=>s+(r.cids||[]).length,0);document.getElementById('ticketDaysCount').innerText=filtered.length;
+      const tb=document.getElementById('ticketsHistoryBody');if(!filtered.length){tb.innerHTML='<tr><td colspan="4" class="empty-state">No tickets found.</td></tr>';updateHistoryPanel('tickets');return;}
+      tb.innerHTML=filtered.map(r=>`<tr><td><strong>${formatDateDisplay(r.date)}</strong><br><small>${escapeHtml(r.agent||'Unidentified')}</small></td><td>${(r.cids||[]).map(c=>`<span class="uuid-cell">${escapeHtml(c)}</span>`).join('<br><br>')}</td><td><strong>${(r.cids||[]).length}</strong></td><td style="text-align:right;white-space:nowrap"><button class="btn-secondary btn-sm" onclick="editTicketRecord('${r.date}')">✏️</button><button class="btn-danger btn-sm" onclick="deleteTicketRecord(${Number(r.id)})">🗑️</button></td></tr>`).join('');
+      updateHistoryPanel('tickets');
+    }
+    function clearTicketFilters(){['ticketSearch','ticketFrom','ticketTo'].forEach(id=>document.getElementById(id).value='');renderTicketsHistory();}
+
+    // Periods: current week (Monday-Sunday), current month, or all history.
+    function getPeriodBounds(period){
+      if(period==='all')return {from:'0000-01-01',to:'9999-12-31'};
+      const now=new Date(),fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      if(period==='day')return {from:fmt(now),to:fmt(now)};
+      if(period==='month')return {from:fmt(new Date(now.getFullYear(),now.getMonth(),1)),to:fmt(new Date(now.getFullYear(),now.getMonth()+1,0))};
+      const start=new Date(now),day=(start.getDay()+6)%7;start.setDate(start.getDate()-day);const end=new Date(start);end.setDate(start.getDate()+6);return {from:fmt(start),to:fmt(end)};
+    }
+    function filterPeriod(records,period){const b=getPeriodBounds(period);return records.filter(r=>r.date>=b.from&&r.date<=b.to);}
+    function downloadFile(content,filename,mime='application/json;charset=utf-8'){
+      const blob=new Blob(['\ufeff',content],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+    }
+    function exportClaims(){
+      const period=document.getElementById('agentExportPeriod').value,records=filterPeriod(getClaimsRecords(),period);
+      const payload={kind:'claims',agent:getAgentName(),period,exportedAt:new Date().toISOString(),records};
+      downloadFile(JSON.stringify(payload,null,2),`claims_${safeFileName(getAgentName())}_${period}_${getTodayIso()}.json`);
+      showToast(`💾 ${records.length} Claims records exported`);
+    }
+    function exportTickets(){
+      const period=document.getElementById('agentExportPeriod').value,records=filterPeriod(getTicketRecords(),period);
+      const payload={kind:'tickets',agent:getAgentName(),period,exportedAt:new Date().toISOString(),records};
+      downloadFile(JSON.stringify(payload,null,2),`tickets_CID_${safeFileName(getAgentName())}_${period}_${getTodayIso()}.json`);
+      showToast(`🎫 ${records.length} Ticket records exported`);
+    }
+    function safeFileName(s){return String(s||'agent').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'')||'agent';}
+
+
+    async function importAgentFile(event,kind){
+      const file=event.target.files&&event.target.files[0];
+      if(!file)return;
+      try{
+        const payload=JSON.parse(await file.text());
+        const raw=Array.isArray(payload)?payload:(payload&&Array.isArray(payload.records)?payload.records:null);
+        if(!raw)throw new Error('Format incorrecto');
+        const fallback=(!Array.isArray(payload)&&payload.agent)?payload.agent:getAgentName();
+        const imported=raw.map(r=>({...r,agent:String(r.agent||fallback)}))
+          .filter(r=>typeof r.date==='string'&&(kind==='claims'?normalizeClaims(r).length>0:Array.isArray(r.cids)));
+        const key=kind==='claims'?CLAIMS_STORAGE_KEY:TICKETS_STORAGE_KEY;
+        const current=safeRead(key),map=new Map(current.map(r=>[r.date,r]));
+        imported.forEach(r=>map.set(r.date,r));
+        const merged=[...map.values()].sort((a,b)=>b.date.localeCompare(a.date));
+        if(!safeWrite(key,merged))return;
+        if(kind==='claims'){renderClaimsHistory();loadClaimRecordForDate(document.getElementById('claimDate').value||getTodayIso());}
+        else{renderTicketsHistory();loadTicketsForDate();}
+        showToast(`✅ ${imported.length} record(s) of ${kind==='claims'?'Claims':'Tickets'} imported`);
+      }catch(e){console.error(e);showToast('❌ The JSON file is not in the expected format');}
+      event.target.value='';
+    }
+    function importClaims(event){importAgentFile(event,'claims');}
+    function importTickets(event){importAgentFile(event,'tickets');}
+
+    // Supervisor panel: name requested on entry; imported data is stored separately.
+    function openSupervisor(){
+      const savedName=(localStorage.getItem(SUPERVISOR_NAME_KEY)||'').trim();
+      if(savedName){
+        supervisorName=savedName;
+        showSupervisorView();
+      }else{
+        openEntryModal('supervisor');
+      }
+    }
+    function closeSupervisor(){returnToAgentPanel();}
+    function getSupervisorClaims(){return safeRead(SUPERVISOR_CLAIMS_KEY);}
+    function getSupervisorTickets(){return safeRead(SUPERVISOR_TICKETS_KEY);}
+    function normalizeImportedRecords(kind,payload){
+      const list=Array.isArray(payload)?payload:(payload&&Array.isArray(payload.records)?payload.records:null);
+      if(!list)return null;
+      const fallback=(payload&&!Array.isArray(payload)&&payload.agent)?payload.agent:'Unidentified Agent';
+      return list.map(r=>({
+        ...r,
+        agent:String(r.agent||fallback||'Unidentified Agent').trim()||'Unidentified Agent',
+        importedAt: r.importedAt || new Date().toISOString(),
+      })).filter(r=>typeof r.date==='string'&&(kind==='claims'?normalizeClaims(r).length>0:Array.isArray(r.cids)));
+    }
+    function dedupeClaimList(list){
+      const seen=new Set();
+      return (list||[]).filter(item=>{
+        const key=`${String(item.type||'product').toLowerCase()}|${String(item.value||'').trim().toLowerCase()}`;
+        if(!item.value||seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+    function dedupeCidList(list){
+      const seen=new Set();
+      return (list||[]).filter(item=>{
+        const key=String(item||'').trim().toLowerCase();
+        if(!key||seen.has(key)) return false;
+        seen.add(key); return true;
+      });
+    }
+    function mergeByAgentDate(existing,incoming,kind){
+      const map=new Map();
+      const upsertRecord=(record)=>{
+        const agent=String(record.agent||'Unidentified Agent').trim()||'Unidentified Agent';
+        const date=String(record.date||'').slice(0,10);
+        const key=`${agent}|${date}`;
+        const current=map.get(key)||{agent,date,claims:[],tickets:[]};
+        if((kind==='claims'||Array.isArray(record.claims)||normalizeClaims(record).length>0) && Array.isArray(record.claims)){ 
+          current.claims.push({date,agent,claims:dedupeClaimList(record.claims)});
+        }else if(kind==='claims'||normalizeClaims(record).length>0){
+          const parsed=normalizeClaims(record);
+          if(parsed.length){
+            current.claims.push({date,agent,claims:dedupeClaimList(parsed)});
+          }
+        }
+        if((kind==='tickets'||Array.isArray(record.cids)) && Array.isArray(record.cids) && record.cids.length){
+          current.tickets.push({date,agent,cids:dedupeCidList(record.cids)});
+        }
+        if(!current.importedAt && (record.importedAt||record.date)) current.importedAt=record.importedAt||record.date;
+        if(record.importedAt) current.importedAt=record.importedAt;
+        map.set(key,current);
+      };
+      existing.forEach(upsertRecord);
+      incoming.forEach(upsertRecord);
+      return [...map.values()].map(r=>({
+        agent:r.agent,
+        date:r.date,
+        importedAt:r.importedAt||r.date,
+        claims: (r.claims||[]).filter(Boolean),
+        tickets: (r.tickets||[]).filter(Boolean)
+      })).sort((a,b)=>b.date.localeCompare(a.date)||String(a.agent).localeCompare(String(b.agent)));
+    }
+    function getSupervisorViewMode(){
+      return document.getElementById('supervisorViewMode') ? document.getElementById('supervisorViewMode').value : 'all';
+    }
+    function getSupervisorSelectedDate(){
+      return document.getElementById('supervisorImportDate') ? (document.getElementById('supervisorImportDate').value || '') : '';
+    }
+    function getSupervisorAgentSearch(){
+      const input=document.getElementById('supervisorAgentSearch');
+      return input ? input.value.trim().toLowerCase() : '';
+    }
+    function toggleSupervisorDateFilter(){
+      const dateGroup=document.getElementById('supervisorDateGroup');
+      const dateInput=document.getElementById('supervisorImportDate');
+      const isVisible=getSupervisorViewMode()==='date';
+      if(dateGroup) dateGroup.style.display=isVisible?'block':'none';
+      if(!isVisible && dateInput) dateInput.value='';
+    }
+    function filterSupervisorRecords(records,period,mode,selectedDate){
+      const filtered=filterPeriod(records,period);
+      if(mode==='new'){
+        return filtered.filter(r=>{
+          const imported = (r.importedAt || r.date || '').slice(0,10);
+          return imported===getTodayIso();
+        });
+      }
+      if(mode==='date' && selectedDate){
+        return filtered.filter(r=>{
+          const imported = (r.importedAt || r.date || '').slice(0,10);
+          return r.date===selectedDate || imported===selectedDate;
+        });
+      }
+      return filtered;
+    }
+    function getSupervisorGrouped(period,mode=getSupervisorViewMode(),selectedDate=getSupervisorSelectedDate()){
+      const claims=filterSupervisorRecords(getSupervisorClaims(),period,mode,selectedDate),tickets=filterSupervisorRecords(getSupervisorTickets(),period,mode,selectedDate),groups={};
+      const ensure=name=>groups[name]||(groups[name]={agent:name,claims:[],tickets:[]});
+      claims.forEach(r=>ensure(r.agent||'Unidentified Agent').claims.push(r));
+      tickets.forEach(r=>ensure(r.agent||'Unidentified Agent').tickets.push(r));
+      return Object.values(groups).sort((a,b)=>a.agent.localeCompare(b.agent));
+    }
+    async function importSupervisorFiles(event,expectedKind=null){
+      const files=[...(event.target.files||[])];if(!files.length)return;
+      let addedClaims=0,addedTickets=0,errors=0;
+      for(const file of files){
+        try{
+          const payload=JSON.parse(await file.text());
+          let kind=expectedKind||(payload&&payload.kind);
+          if(expectedKind && payload && payload.kind && payload.kind!==expectedKind){errors++;continue;}
+          if(kind!=='claims'&&kind!=='tickets'){
+            if(Array.isArray(payload)){kind=payload.some(r=>Array.isArray(r.cids))?'tickets':'claims';}
+            else{errors++;continue;}
+          }
+          const records=normalizeImportedRecords(kind,payload);
+          if(!records){errors++;continue;}
+          if(kind==='claims'){addedClaims+=records.length;safeWrite(SUPERVISOR_CLAIMS_KEY,mergeByAgentDate(getSupervisorClaims(),records,'claims'));}
+          else{addedTickets+=records.length;safeWrite(SUPERVISOR_TICKETS_KEY,mergeByAgentDate(getSupervisorTickets(),records,'tickets'));}
+        }catch(e){errors++;console.error(e);}
+      }
+      event.target.value='';renderSupervisorPanel();
+      showToast(`Import complete: ${addedClaims} Claims, ${addedTickets} Tickets${errors?`, ${errors} unrecognized file(s)`:''}`);
+    }
+    function getSupervisorTicketScaleLimit(period){
+      if(period==='day') return 15;
+      if(period==='week') return 105;
+      if(period==='month') return 15 * 30;
+      return 15 * 30;
+    }
+    function toggleSupervisorTicketPreview(){
+      const panel=document.getElementById('supervisorTicketPreview');
+      if(!panel) return;
+      const isOpen=panel.style.display==='block';
+      panel.style.display=isOpen ? 'none' : 'block';
+      if(!isOpen){ renderSupervisorTicketChart(); }
+    }
+    function buildSupervisorTicketChartRows(period,mode,selectedDate){
+      const groups=getSupervisorGrouped(period,mode,selectedDate)
+        .map(g=>({
+          agent:g.agent,
+          total:g.tickets.reduce((sum,r)=>(sum+(r.cids||[]).length),0)
+        }))
+        .filter(r=>r.total>0)
+        .sort((a,b)=>b.total-a.total);
+      if(!groups.length){return [];}
+      const max=Math.max(getSupervisorTicketScaleLimit(period), ...groups.map(r=>r.total));
+      return groups.map(r=>({...r,width:Math.max(8,(r.total/max)*100)}));
+    }
+    function renderSupervisorTicketChart(){
+      const container=document.getElementById('supervisorTicketChart');
+      const mode=getSupervisorViewMode();
+      const date=getSupervisorSelectedDate();
+      const period=document.getElementById('supervisorPeriod').value;
+      const rows=buildSupervisorTicketChartRows(period,mode,date);
+      if(!rows.length){container.innerHTML='<div class="empty-state">No ticket data for this view.</div>';return;}
+      const max=Math.max(getSupervisorTicketScaleLimit(period), ...rows.map(r=>r.total));
+      container.innerHTML=rows.map(row=>`<div class="supervisor-chart-row"><span class="supervisor-chart-agent">${escapeHtml(row.agent)}</span><div class="supervisor-chart-track"><div class="supervisor-chart-bar" style="width:${Math.max(8,(row.total/max)*100)}%;"></div></div><span class="supervisor-chart-total">${row.total}</span></div>`).join('');
+    }
+    function renderSupervisorPanel(){
+      toggleSupervisorDateFilter();
+      const viewMode=getSupervisorViewMode();
+      const selectedDate=getSupervisorSelectedDate();
+      const period=document.getElementById('supervisorPeriod').value;
+      const search=getSupervisorAgentSearch();
+      const groups=getSupervisorGrouped(period,viewMode,selectedDate),claims=getSupervisorClaims(),tickets=getSupervisorTickets();
+      const visibleClaims=filterSupervisorRecords(claims,period,viewMode,selectedDate);
+      const visibleTickets=filterSupervisorRecords(tickets,period,viewMode,selectedDate);
+      const filteredGroups = !search ? groups : groups.filter(g=>g.agent.toLowerCase().includes(search));
+      document.getElementById('supervisorAgentCount').innerText=filteredGroups.length;
+      document.getElementById('supervisorClaimsCount').innerText=filteredGroups.reduce((s,g)=>s+g.claims.reduce((sum,r)=>sum+normalizeClaims(r).length,0),0);
+      document.getElementById('supervisorTicketsCount').innerText=filteredGroups.reduce((s,g)=>s+g.tickets.reduce((sum,r)=>sum+(r.cids||[]).length,0),0);
+      const previewPanel=document.getElementById('supervisorTicketPreview');
+      if(previewPanel && previewPanel.style.display==='block'){ renderSupervisorTicketChart(); }
+      const root=document.getElementById('supervisorAgentsList');
+      if(!filteredGroups.length){root.innerHTML='<div class="empty-state">No agent matches this search or there are no imported files yet.</div>';return;}
+      root.innerHTML=filteredGroups.map((g,i)=>`<article class="agent-card"><div class="agent-card-head"><div><h3>${escapeHtml(g.agent)}</h3><small>${g.claims.length} day(s) with Claims · ${g.tickets.reduce((s,r)=>s+(r.cids||[]).length,0)} Tickets/CID</small></div><button class="btn-primary btn-sm" onclick="exportOneAgent(${i})">⬇️ Export Agent</button></div><div class="agent-card-details"><span>Claims: <strong>${g.claims.reduce((s,r)=>s+normalizeClaims(r).length,0)}</strong></span><span>Shipping: <strong>${g.claims.reduce((s,r)=>s+normalizeClaims(r).filter(c=>c.type==='shipping').length,0)}</strong></span><span>Product: <strong>${g.claims.reduce((s,r)=>s+normalizeClaims(r).filter(c=>c.type==='product').length,0)}</strong></span><span>Tickets: <strong>${g.tickets.reduce((s,r)=>s+(r.cids||[]).length,0)}</strong></span></div></article>`).join('');
+    }
+    function rowsForExport(groups){
+      const rows=[['Agent','Type','Date','Category','ID / CID']];
+      groups.forEach(g=>{
+        g.claims.forEach(r=>normalizeClaims(r).forEach(c=>rows.push([g.agent,'Claim',r.date,c.type==='shipping'?'Shipping':'Product',c.value])));
+        g.tickets.forEach(r=>(r.cids||[]).forEach(cid=>rows.push([g.agent,'Ticket',r.date,'CID',cid])));
+      });
+      return rows;
+    }
+    function csvEscape(v){return `"${String(v??'').replace(/"/g,'""')}"`;}
+    function buildTicketChartCsv(groups){
+      const csvRows=[['Agent','Total Tickets','Bar']];
+      const period=document.getElementById('supervisorPeriod').value;
+      const max=Math.max(getSupervisorTicketScaleLimit(period), ...groups.map(g=>g.tickets.reduce((s,r)=>s+(r.cids||[]).length,0)), 1);
+      groups.forEach(g=>{
+        const total=g.tickets.reduce((s,r)=>s+(r.cids||[]).length,0);
+        const width=Math.max(1,Math.round((total/max)*100));
+        const bar='█'.repeat(width);
+        csvRows.push([g.agent,total,bar]);
+      });
+      return csvRows.map(row=>row.map(csvEscape).join(',')).join('\r\n');
+    }
+    function downloadSupervisorTicketChartImage(){
+      const period=document.getElementById('supervisorPeriod').value;
+      const mode=getSupervisorViewMode();
+      const selectedDate=getSupervisorSelectedDate();
+      const groups=getSupervisorGrouped(period,mode,selectedDate).filter(g=>g.tickets.some(r=>(r.cids||[]).length));
+      if(!groups.length){showToast('⚠️ There is no ticket data to generate the image');return;}
+      const canvas=document.createElement('canvas');
+      const ctx=canvas.getContext('2d');
+      const rows=groups.map(g=>({agent:g.agent,total:g.tickets.reduce((s,r)=>s+(r.cids||[]).length,0)})).sort((a,b)=>b.total-a.total);
+      const max=Math.max(getSupervisorTicketScaleLimit(period), ...rows.map(r=>r.total));
+      const margin={top:40,left:24,right:24,bottom:24};
+      const rowHeight=54; const width=1200; const height=margin.top+rows.length*rowHeight+margin.bottom;
+      canvas.width=width; canvas.height=height;
+      ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,width,height);
+      ctx.fillStyle='#f8fafc'; ctx.font='700 24px Segoe UI'; ctx.fillText('Ticket distribution by agent', margin.left, 28);
+      rows.forEach((row,index)=>{
+        const y=margin.top + index*rowHeight + 18;
+        const xName=margin.left;
+        const xBar=260; const barWidth=620; const trackW=barWidth*(row.total/max);
+        ctx.fillStyle='#e2e8f0'; ctx.font='600 20px Segoe UI'; ctx.fillText(row.agent, xName, y);
+        ctx.fillStyle='#1e293b'; ctx.fillRect(xBar, y-14, barWidth, 20);
+        ctx.fillStyle='#38bdf8'; ctx.fillRect(xBar, y-14, trackW, 20);
+        ctx.fillStyle='#f8fafc'; ctx.font='700 19px Segoe UI'; ctx.fillText(String(row.total), xBar + barWidth + 18, y);
+      });
+      const link=document.createElement('a'); link.download=`tickets_chart_${getTodayIso()}.png`; link.href=canvas.toDataURL('image/png'); link.click();
+      showToast('🖼️ Ticket chart image generated');
+    }
+    function exportTicketsChartImage(){
+      downloadSupervisorTicketChartImage();
+    }
+    function exportSupervisorAll(){
+      const period=document.getElementById('supervisorPeriod').value;
+      const mode=getSupervisorViewMode();
+      const selectedDate=getSupervisorSelectedDate();
+      const format=document.getElementById('supervisorFormat').value;
+      const groups=getSupervisorGrouped(period,mode,selectedDate);
+      if(!groups.length){showToast('⚠️ There is no imported data to export');return;}
+      const stamp=getTodayIso();
+      if(format==='tickets-image'){
+        exportTicketsChartImage();
+        return;
+      }
+      if(format==='json'){
+        downloadFile(JSON.stringify({kind:'supervisor_consolidated',supervisor:supervisorName,period,viewMode:mode,date:selectedDate,exportedAt:new Date().toISOString(),agents:groups},null,2),`supervisor_report_${period}_${stamp}.json`);
+      }else if(format==='excel'){
+        const chartCsv=buildTicketChartCsv(groups);
+        downloadFile(chartCsv,`supervisor_tickets_chart_${period}_${stamp}.csv`,'text/csv;charset=utf-8');
+      }else{
+        const lines=[`CONSOLIDATED REPORT · ${period.toUpperCase()}`,`Supervisor: ${supervisorName}`,''];
+        groups.forEach(g=>{
+          lines.push(`AGENT: ${g.agent}`,'  CLAIMS:');
+          g.claims.forEach(r=>normalizeClaims(r).forEach(c=>lines.push(`    ${r.date} | ${c.type.toUpperCase()} | ${c.value}`)));
+          lines.push('  TICKETS / CID:');
+          g.tickets.forEach(r=>(r.cids||[]).forEach(cid=>lines.push(`    ${r.date} | ${cid}`)));
+          lines.push('');
+        });
+        downloadFile(lines.join('\r\n'),`supervisor_report_${period}_${stamp}.txt`,'text/plain;charset=utf-8');
+      }
+      showToast(`⬇️ Report exported as ${format.toUpperCase()}`);
+    }
+    function exportOneAgent(index){
+      const period=document.getElementById('supervisorPeriod').value,format=document.getElementById('supervisorFormat').value;
+      const allGroups=getSupervisorGrouped('all'),agentName=allGroups[index]&&allGroups[index].agent;
+      const g=getSupervisorGrouped(period).find(item=>item.agent===agentName);
+      if(!g){showToast('No records for this agent in the selected period');return;}
+      const stamp=getTodayIso(),base=`${safeFileName(g.agent)}_${period}_${stamp}`;
+      if(format==='json')downloadFile(JSON.stringify({kind:'agent_consolidated',agent:g.agent,period,claims:g.claims,tickets:g.tickets},null,2),`agente_${base}.json`);
+      else if(format==='excel')downloadFile(buildTicketChartCsv([g]).replace(/"/g,''),`agente_${base}.csv`,'text/csv;charset=utf-8');
+      else{
+        const lines=[`AGENT: ${g.agent}`,`PERIOD: ${period}`,'','CLAIMS:'];
+        g.claims.forEach(r=>normalizeClaims(r).forEach(c=>lines.push(`${r.date} | ${c.type.toUpperCase()} | ${c.value}`)));
+        lines.push('','TICKETS / CID:');g.tickets.forEach(r=>(r.cids||[]).forEach(cid=>lines.push(`${r.date} | ${cid}`)));
+        downloadFile(lines.join('\r\n'),`agente_${base}.txt`,'text/plain;charset=utf-8');
+      }
+      showToast(`Exporting data for ${g.agent}`);
+    }
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      document.getElementById('entryNameInput').addEventListener('keydown',event=>{
+        if(event.key==='Enter'){event.preventDefault();submitEntryModal();}
+        if(event.key==='Escape'&&entryMode!=='agent')closeEntryModal();
+      });
+      registerAgent();
+      supervisorName=(localStorage.getItem(SUPERVISOR_NAME_KEY)||'').trim();
+      const today=getTodayIso();
+      document.getElementById('claimDate').value=today;document.getElementById('ticketDate').value=today;
+      localStorage.removeItem(CLAIMS_DRAFT_KEY);
+      document.getElementById('claimsContainer').innerHTML='';
+      addClaimRow('shipping');addClaimRow('product');addClaimRow('product');
+      document.getElementById('formStatusBadge').innerText=`● New record: ${formatDateDisplay(today)}`;
+      updateClaimsPreview();
+      loadTicketsForDate();setQuickFilter('this_week');renderTicketsHistory();showTab('claims');
+      document.getElementById('agentNameDisplay').title='Click to change your name';
+      document.getElementById('agentNameDisplay').style.cursor='pointer';
+      document.getElementById('agentNameDisplay').addEventListener('click',changeAgentName);
+    });
+  </script>
+</body>
+</html>
