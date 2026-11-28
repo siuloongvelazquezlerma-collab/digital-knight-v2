@@ -359,7 +359,6 @@ const progressBar = document.getElementById('watchProgressBar');
 let hideControlsTimeout;
 
 // Reanudar desde donde se dejó
-// Reanudar desde donde se dejó
 video.addEventListener('loadedmetadata', () => {
   const savedTime = localStorage.getItem(`progress_${movieId}`);
   if (savedTime) {
@@ -367,12 +366,8 @@ video.addEventListener('loadedmetadata', () => {
   }
   updateMovieProgress();
 
-  // ✅ Mostrar barra y botón si aplica
-  if (video.currentTime > 5 && video.currentTime < video.duration - 5) {
-    progressBar.style.display = "block";
-    showRestartButton();
-    watchButtonText.textContent = "Continuar viendo";
-  }
+  // ✅ Actualizar estado del botón basado en progreso guardado
+  updateWatchButtonInitialState();
 
   // 🛰️ Sincronizar con Supabase al cargar metadata
   if (typeof throttledSyncData === 'function') {
@@ -417,7 +412,7 @@ video.addEventListener('timeupdate', () => {
 
 if (watchButtonText.textContent === "Volver a ver") {
     hideRestartButton();
-} else if (currentTime > 5 && percentPlayed < 0.8) {
+} else if (currentTime > 5 && percentPlayed < 0.9) {
     showRestartButton();
     localStorage.setItem(`hasStarted_${movieId}`, 'true');
 } else {
@@ -425,7 +420,7 @@ if (watchButtonText.textContent === "Volver a ver") {
 }
 
 // Cambiar texto del botón
-if (percentPlayed >= 0.8) {
+if (percentPlayed >= 0.9) {
     watchButtonText.textContent = "Volver a ver";
 } else if (currentTime > 10) {
     watchButtonText.textContent = "Continuar viendo";
@@ -513,7 +508,7 @@ function updateWatchButton() {
 
   const effectiveTime = Math.max(savedTime, currentTime);
 
-  if (effectiveTime >= totalDuration * 0.8) {
+  if (effectiveTime >= totalDuration * 0.9) {
     // Caso: Volver a ver
     watchButtonIcon.textContent = "replay";   // 👈 Cambié restart_alt por replay
     watchButtonText.textContent = "Volver a ver";
@@ -553,7 +548,7 @@ function updateWatchButtonFromStorage() {
 
   if (savedTime > 10) {
     const percentPlayed = savedTime / savedDuration;
-    if (percentPlayed >= 0.8) {
+    if (percentPlayed >= 0.9) {
       // Caso: Volver a ver
       watchButtonIcon.textContent = "replay";   // 👈 Cambiado
       watchButtonText.textContent = "Volver a ver";
@@ -981,7 +976,7 @@ function showRestartButton() {
   const percentPlayed = currentTime / totalDuration;
 
   // Solo mostrar si la película NO terminó (menos de 90%)
-  if (percentPlayed < 0.8 &&
+  if (percentPlayed < 0.9 &&
     watchButtonText.textContent !== "Volver a ver") {
 
     restartButton.style.display = "flex";
@@ -1047,7 +1042,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const hasStartedFlag = localStorage.getItem(`hasStarted_${movieId}`);
 
   // Solo mostrar el botón si ya empezó pero NO terminó
-  if (percentPlayed < 0.8 && savedTime > 0 && hasStartedFlag === 'true') {
+  if (percentPlayed < 0.9 && savedTime > 0 && hasStartedFlag === 'true') {
     showRestartButton();
   } else {
     hideRestartButton();
